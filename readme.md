@@ -21,17 +21,5 @@ SuperMap Earth是基于Supermap iClient 3D for WebGL的一款轻量级的在线�
  * 场景元素管理；
  * 范例展示；
 
-# 硬件环境
-
- * 主频要求：Intel Pentium P4 2.4GHz 
- * 内存要求：2 GB 
- * 显存要求：128 MB 
-
-# 软件环境：
-
- * 1、IE11、 Chrome43及其以上、Firefox2.0及其以上、Opera9.5及其以上、Safari3.0及其以上。
- * 2、Linux；
- * 3、安卓。
- * 4、IOS
 
 
