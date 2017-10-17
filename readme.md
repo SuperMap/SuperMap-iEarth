@@ -1,9 +1,11 @@
 #软件名称： SuperMap Earth
 <p align="center">
-<img src="../images/interf.jpg" />
+<img src="./images/interf.jpg" />
 </p>
 #软件简介：
 SuperMap Earth是基于Supermap iClient 3D for WebGL的一款轻量级的在线三维应用，能快速展示多种二维及三维数据。
+ *网站：https://www.supermapol.com/earth/
+ *源码：http://support.supermap.com.cn:8090/webgl/downloads.html
 
 #功能特点：
 *支持天地图、Bingmap、OpenStreetMap、STK地形等在线公用服务；
@@ -30,5 +32,3 @@ SuperMap Earth是基于Supermap iClient 3D for WebGL的一款轻量级的在线�
 
 #产品架构：
  B/S
-
-#许可：
