@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DrawHandler - Cesium Documentation</title>
+
+    <!--[if lt IE 9]>
+      <script src="javascript/html5.js"></script>
+    <![endif]-->
+    <link href="styles/jsdoc-default.css" rel="stylesheet">
+    <link href="styles/prism.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">
+        <a href="index.html"><img src="images/SuperMapLogo.png" class="SuperMapLogo"></a>
+        DrawHandler
+        <div class="titleCenterer"></div>
+    </h1>
+
+    
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="DrawHandler">
+        <a href="#DrawHandler" class="doc-link"></a>
+        new Cesium.DrawHandler<span class="signature">(viewer, mode)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        绘制处理器。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>viewer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Viewer.html">Viewer</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定用于绘制的视图。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="DrawMode.html">DrawMode</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定的绘图模式，包括绘制点Point、线Line、面Polygon和标记Marker。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var handler = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line);//激活处理器handler.activate();</code></pre>
+
+    
+
+    
+
+    
+
+    
+    <h5>See:</h5>
+    <ul class="see-list">
+        <li><a href="DrawMode.html">DrawMode</a></li>
+    </ul>
+    
+
+    
+</dl>
+
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="activeEvt">
+        <a href="#activeEvt" class="doc-link"></a>
+        activeEvt<span class="type-signature"> : Event</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        激活事件，监听当前事件以获取当前的绘图状态。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="drawEvt">
+        <a href="#drawEvt" class="doc-link"></a>
+        drawEvt<span class="type-signature"> : Event</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        绘图事件，监听当前绘图事件以获取当前绘图结果。<br/><br/>当绘制模式为DrawMode.Point，绘制回调事件的结果是{object : point}；<br/><br/>当绘制模式为DrawMode.Polygon，绘制回调事件的结果是{object : polygon}；<br/><br/>当绘制模式为DrawMode.Line，绘制回调事件的结果是{object : polyline}；<br/><br/>当绘制模式为DrawMode.Marker，绘制回调事件的结果是{object : marker}；
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">handler.drawEvt.addEventListener(function(result){    console.log(result);});</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="activate">
+        <a href="#activate" class="doc-link"></a>
+        activate<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        激活绘图处理器。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="clear">
+        <a href="#clear" class="doc-link"></a>
+        clear<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        清除所有绘制的要素。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="deactivate">
+        <a href="#deactivate" class="doc-link"></a>
+        deactivate<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        关闭绘图处理器。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+    </footer>
+</div>
+
+<div class="nav">
+    <div class="menu">
+        <input type="text" class="classFilter" id="ClassFilter" placeholder="Search">
+        <ul id="ClassList"><li data-name="BingMapsImageryProvider"><a href="BingMapsImageryProvider.html">BingMapsImageryProvider</a></li><li data-name="Camera"><a href="Camera.html">Camera</a></li><li data-name="Cartesian3"><a href="Cartesian3.html">Cartesian3</a></li><li data-name="Cartographic"><a href="Cartographic.html">Cartographic</a></li><li data-name="CesiumTerrainProvider"><a href="CesiumTerrainProvider.html">CesiumTerrainProvider</a></li><li data-name="ColorTable"><a href="ColorTable.html">ColorTable</a></li><li data-name="Credential"><a href="Credential.html">Credential</a></li><li data-name="DataSource"><a href="DataSource.html">DataSource</a></li><li data-name="DataSourceCollection"><a href="DataSourceCollection.html">DataSourceCollection</a></li><li data-name="DrawHandler"><a href="DrawHandler.html">DrawHandler</a></li><li data-name="DrawMode"><a href="DrawMode.html">DrawMode</a></li><li data-name="Ellipsoid"><a href="Ellipsoid.html">Ellipsoid</a></li><li data-name="Entity"><a href="Entity.html">Entity</a></li><li data-name="EntityCollection"><a href="EntityCollection.html">EntityCollection</a></li><li data-name="FlyManager"><a href="FlyManager.html">FlyManager</a></li><li data-name="Globe"><a href="Globe.html">Globe</a></li><li data-name="HypsometricSetting"><a href="HypsometricSetting.html">HypsometricSetting</a></li><li data-name="ImageryLayer"><a href="ImageryLayer.html">ImageryLayer</a></li><li data-name="ImageryLayerCollection"><a href="ImageryLayerCollection.html">ImageryLayerCollection</a></li><li data-name="ImagerySplitDirection"><a href="ImagerySplitDirection.html">ImagerySplitDirection</a></li><li data-name="KmlDataSource"><a href="KmlDataSource.html">KmlDataSource</a></li><li data-name="Layers"><a href="Layers.html">Layers</a></li><li data-name="MeasureHandler"><a href="MeasureHandler.html">MeasureHandler</a></li><li data-name="MeasureMode"><a href="MeasureMode.html">MeasureMode</a></li><li data-name="MultiViewportMode"><a href="MultiViewportMode.html">MultiViewportMode</a></li><li data-name="Profile"><a href="Profile.html">Profile</a></li><li data-name="ProjectionImage"><a href="ProjectionImage.html">ProjectionImage</a></li><li data-name="Route"><a href="Route.html">Route</a></li><li data-name="RouteCollection"><a href="RouteCollection.html">RouteCollection</a></li><li data-name="RouteStop"><a href="RouteStop.html">RouteStop</a></li><li data-name="S3MInstanceCollection"><a href="S3MInstanceCollection.html">S3MInstanceCollection</a></li><li data-name="S3MTilesLayer"><a href="S3MTilesLayer.html">S3MTilesLayer</a></li><li data-name="Scene"><a href="Scene.html">Scene</a></li><li data-name="ShadowQueryPoints"><a href="ShadowQueryPoints.html">ShadowQueryPoints</a></li><li data-name="SHADOWTYPE"><a href="SHADOWTYPE.html">SHADOWTYPE</a></li><li data-name="Sightline"><a href="Sightline.html">Sightline</a></li><li data-name="Skyline"><a href="Skyline.html">Skyline</a></li><li data-name="StopPlayMode"><a href="StopPlayMode.html">StopPlayMode</a></li><li data-name="Style3D"><a href="Style3D.html">Style3D</a></li><li data-name="SuperMapImageryProvider"><a href="SuperMapImageryProvider.html">SuperMapImageryProvider</a></li><li data-name="TiandituImageryProvider"><a href="TiandituImageryProvider.html">TiandituImageryProvider</a></li><li data-name="TiandituMapsStyle"><a href="TiandituMapsStyle.html">TiandituMapsStyle</a></li><li data-name="Viewer"><a href="Viewer.html">Viewer</a></li><li data-name="ViewShed3D"><a href="ViewShed3D.html">ViewShed3D</a></li></ul>
+    </div>
+</div>
+
+<script>
+if (window.frameElement) {
+    document.body.className = 'embedded';
+
+    var ele = document.createElement('a');
+    ele.className = 'popout';
+    ele.target = '_blank';
+    ele.href = window.location.href;
+    ele.title = 'Pop out';
+    document.getElementById('main').appendChild(ele);
+}
+
+// Set targets on external links.  Sandcastle and GitHub shouldn't be embedded in any iframe.
+Array.prototype.forEach.call(document.getElementsByTagName('a'), function(a) {
+    if (/^https?:/i.test(a.getAttribute('href'))) {
+        a.target='_blank';
+    }
+});
+</script>
+
+<script src="javascript/prism.js"></script>
+<script src="javascript/cesiumDoc.js"></script>
+
+</body>
+</html>

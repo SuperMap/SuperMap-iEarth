@@ -1,0 +1,3549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>S3MTilesLayer - Cesium Documentation</title>
+
+    <!--[if lt IE 9]>
+      <script src="javascript/html5.js"></script>
+    <![endif]-->
+    <link href="styles/jsdoc-default.css" rel="stylesheet">
+    <link href="styles/prism.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">
+        <a href="index.html"><img src="images/SuperMapLogo.png" class="SuperMapLogo"></a>
+        S3MTilesLayer
+        <div class="titleCenterer"></div>
+    </h1>
+
+    
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="S3MTilesLayer">
+        <a href="#S3MTilesLayer" class="doc-link"></a>
+        new Cesium.S3MTilesLayer<span class="signature">(<span class="optional">options</span>)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        S3M(Spatial 3D Model)图层类，通过该图层实现加载各类三维模型，包括倾斜摄影模型、BIM模型、点云数据、精细模型等。
+<br></br>
+通过Scene.addS3MTilesLayerByScp(url, options)的方式将发布的*.s3m格式的三维服务添加到场景中。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                对象具有以下属性:
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>gl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WebGLRenderingContext</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                webgl上下文。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>servers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                包含服务器地址的数组。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>urls</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                包含xml地址的数组。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                图层的经纬度位置信息,数组第1个元素表示经度，第2个元素表示纬度，第3个元素表示高度。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                图层名称.。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bReleaseColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">true</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                是否释放颜色所占内存,默认为true,表示释放。如选中BIM模型、矢量数据，取消选中后将释放颜色导致颜色消失，此时可将此值设为false。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//new S3MTilesLayer instance
+var S3MTilesLayer = new S3MTilesLayer({
+ gl : gl,
+ servers : ["http://localhost:8090"],
+ urls : ["http://localhost:8090/data/tile_001.xml","http://localhost:8090/data/tile_002.xml"],
+ position : [10,20],
+ name : ["S3MTilesLayer"]
+});</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="clipLineColor">
+        <a href="#clipLineColor" class="doc-link"></a>
+        clipLineColor<span class="type-signature"> : Color</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置对S3M图层进行BOX裁剪时裁剪线的颜色。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="dataMaxValue">
+        <a href="#dataMaxValue" class="doc-link"></a>
+        dataMaxValue<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取数据的最大高度值或最大强度值。
+对点云数据而言，该属性为高度值或强度值（默认为强度值）；对其他三维数据而言，该属性为高度值。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//获取数据最大值
+var dataMaxValue = S3MTilesLayer.DataMaxValue;</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="dataMinValue">
+        <a href="#dataMinValue" class="doc-link"></a>
+        dataMinValue<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取数据的最小高度值或最小强度值。
+对点云数据而言，该属性为高度值或强度值（默认为强度值）；对其他三维数据而言，该属性为高度值。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//获取数据最小值
+var dataMinValue = S3MTilesLayer.DataMinValue;</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="hypsometricSetting">
+        <a href="#hypsometricSetting" class="doc-link"></a>
+        hypsometricSetting<span class="type-signature"> : AnalysisRegionMode</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置图层的分层设色表达。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//设置图层分层设色属性
+var hypsometricSetting = new Cesium.HypsometricSetting();
+hypsometricSetting.MinVisibleValue = 30;
+hypsometricSetting.MaxVisibleValue = 150;
+var colorTable = new Cesium.ColorTable();
+colorTable.insert(150, new Cesium.Color(1, 0, 0));
+colorTable.insert(30, new Cesium.Color(0, 0, 1));
+hypsometricSetting.ColorTable= colorTable;
+S3MTilesLayer.HypsometricSetting = {
+hypsometricSetting : hypsometricSetting,
+analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
+}
+//获取图层分层设色属性
+var hyp = S3MTilesLayer.HypsometricSetting ;</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="layerBounds">
+        <a href="#layerBounds" class="doc-link"></a>
+        layerBounds<span class="type-signature"> : Rectangle</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置图层范围。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="lodRangeScale">
+        <a href="#lodRangeScale" class="doc-link"></a>
+        lodRangeScale<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置图层的LOD层级切换距离缩放系数。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="shadowType">
+        <a href="#shadowType" class="doc-link"></a>
+        shadowType<span class="type-signature"> : <a href="SHADOWTYPE.html">SHADOWTYPE</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置图层中模型参与显示阴影的范围类型。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="style3D">
+        <a href="#style3D" class="doc-link"></a>
+        style3D<span class="type-signature"> : <a href="Style3D.html">Style3D</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置图层风格。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//获取图层风格
+var style = S3MTilesLayer.style3D;
+//设置图层风格
+var style3D = new Cesium.Style3D();
+var color = new Cesium.Color(1.0, 0.0, 0.0);
+style3D.fillForeColor = color;
+S3MTilesLayer.style3D = style3D;
+//设置后需刷新图层
+S3MTilesLayer.refresh();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="visible">
+        <a href="#visible" class="doc-link"></a>
+        visible<span class="type-signature"> : Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置图层可见性。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//获取可见性
+var isVisible = S3MTilesLayer.visible;
+//设置不可见
+S3MTilesLayer.visible = false;</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="visibleDistanceMax">
+        <a href="#visibleDistanceMax" class="doc-link"></a>
+        visibleDistanceMax<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置该图层的最大可见距离值，单位为米。该距离值用于距离过滤功能，当相机与图层的距离大于该距离值时，该图层将不可见。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="visibleDistanceMin">
+        <a href="#visibleDistanceMin" class="doc-link"></a>
+        visibleDistanceMin<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置该图层的最小可见距离值，单位为米。该距离值用于距离过滤功能，当相机与图层的距离小于该距离值时，该图层将不可见。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="addFlattenRegion">
+        <a href="#addFlattenRegion" class="doc-link"></a>
+        addFlattenRegion<span class="signature">(options)</span> &rarr; <span class="type-signature returnType">Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        添加压平面，用于压平模型表面。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                压平区域参数：
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定压平区域位置信息。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                压平区域名称。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    成功返回true,失败返回false。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer.addFlattenRegion({
+    position : [13.0500640714, 47.8279189759, 400.0,
+                13.0500640714, 47.8230189759, 400.0,
+                13.0530640714, 47.8260189759, 400.0,
+                13.0538640714, 47.8230189759, 400.0,
+                13.0538640714, 47.8279189759, 400.0],
+       name : 'flatten2'});</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="clearCustomClipBox">
+        <a href="#clearCustomClipBox" class="doc-link"></a>
+        clearCustomClipBox<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        清除自定义裁剪面。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer.clearCustomClipBox();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="getObjsColor">
+        <a href="#getObjsColor" class="doc-link"></a>
+        getObjsColor<span class="signature">()</span> &rarr; <span class="type-signature returnType">Object</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        获取对象颜色表。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    对象颜色表：Key为对象ID，Value为对象颜色。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var objectsColor = S3MTilesLayer.getObjectsColor();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="getObjsVisible">
+        <a href="#getObjsVisible" class="doc-link"></a>
+        getObjsVisible<span class="signature">(id)</span> &rarr; <span class="type-signature returnType">Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        获得指定ID的对象可见性。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定的对象ID。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    对象是否可见。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var  id = 12;
+S3MTilesLayer. getObjsVisible (id);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="getSelection">
+        <a href="#getSelection" class="doc-link"></a>
+        getSelection<span class="signature">()</span> &rarr; <span class="type-signature returnType">Array</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        获取选择集。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    包含所有被选中对象的ID数组。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer. getSelection();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="refresh">
+        <a href="#refresh" class="doc-link"></a>
+        refresh<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        刷新图层
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="releaseSelection">
+        <a href="#releaseSelection" class="doc-link"></a>
+        releaseSelection<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        释放选择集。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer. releaseSelection();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="removeAllFlattenRegion">
+        <a href="#removeAllFlattenRegion" class="doc-link"></a>
+        removeAllFlattenRegion<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        移除所有压平面。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer. removeAllFlattenRegion();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="removeAllObjsColor">
+        <a href="#removeAllObjsColor" class="doc-link"></a>
+        removeAllObjsColor<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        移除所有对象的颜色。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer.removeAllObjsColor();</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="removeFlattenRegion">
+        <a href="#removeFlattenRegion" class="doc-link"></a>
+        removeFlattenRegion<span class="signature">(name)</span> &rarr; <span class="type-signature returnType">Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        移除指定名称的压平面。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                待移除压平面的名称。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    移除成功返回true,失败返回false。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">S3MTilesLayer. removeFlattenRegion(regionName);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="removeObjsColor">
+        <a href="#removeObjsColor" class="doc-link"></a>
+        removeObjsColor<span class="signature">(ids)</span> &rarr; <span class="type-signature returnType">Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        移除指定ID对象列表的颜色。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ids</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                要移除颜色的对象ID列表。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    移除成功返回true，否则返回false。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var  ids = [12, 22, 65, 98];
+S3MTilesLayer.removeObjsColor(ids);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="SetBound3D">
+        <a href="#SetBound3D" class="doc-link"></a>
+        SetBound3D<span class="signature">(left, bottom, right, top, minHeight, maxHeight)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        为图层设置一个包围盒，盒子区域内模型具有体渲染效果，区域外模型保持原样。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>left</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                包围盒左侧的经度，以度为范围。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bottom</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                包围盒下方的纬度，以度为范围。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>right</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                包围盒右侧的经度，以度为范围。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>top</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                包围盒的上方的纬度，以度为范围。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minHeight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                包围盒的高度最小值，以米为范围。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxHeight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                包围盒的高度最大值，以米为范围。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="setCustomClipBox">
+        <a href="#setCustomClipBox" class="doc-link"></a>
+        setCustomClipBox<span class="signature">(options)</span> &rarr; <span class="type-signature returnType">Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        添加自定义裁剪面。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                裁剪面参数：
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dimensions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cartesian3.html">Cartesian3</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定裁剪box的长宽高。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>position</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cartesian3.html">Cartesian3</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定裁剪面位置。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clipMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定裁剪模式。
+裁剪模式包括以下几类：
+<br/><br/>
+  clip_behind_any_plane：裁剪掉位于任何裁剪面后面的部分。
+<br/><br/>
+  clip_behind_all_plane：裁剪掉位于所有裁剪面后面的部分。
+<br/><br/>
+  only_keep_line：只保留裁剪线，裁剪掉其他部分。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    添加成功返回true,失败返回false。
+</div>
+
+
+        
+
+    
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type">DeveloperError</span>
+
+: options and options.dimensions and options.position are required.
+    </div>
+
+</li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var boxOptions = {
+      dimensions : new Cesium.Cartesian3(10, 10, 10)
+      position : Cesium.Cartesian3.fromDegrees(120, 40, 20),
+      clipMode : "clip_behind_all_plane"
+};
+S3MTilesLayer.setCustomClipBox(boxOptions);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="setObjsColor">
+        <a href="#setObjsColor" class="doc-link"></a>
+        setObjsColor<span class="signature">(ids, color)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        设置对象颜色信息。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ids</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                要设置颜色的对象ID列表。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Color</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                要设置的颜色。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var color = new Cesium.Color(1.0, 0.0, 0.0, 1.0);
+var  ids = [12, 22, 65, 98];
+S3MTilesLayer.setObjectsColor(ids, color);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="setObjsVisible">
+        <a href="#setObjsVisible" class="doc-link"></a>
+        setObjsVisible<span class="signature">(ids, visible)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        设置对象可见性。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ids</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                待设置可见性的对象ID数组。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>visible</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                指定对象是否可见。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var ids = [12, 33, 44 , 65];
+S3MTilesLayer. setObjsVisible (ids,false);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="setQueryParameter">
+        <a href="#setQueryParameter" class="doc-link"></a>
+        setQueryParameter<span class="signature">(options)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        设置属性查询参数。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                属性查询参数对象
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                数据服务的url地址。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dataSourceName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                用于属性查询的数据源名称。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dataSetName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                用于属性查询的数据集名称。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyWord</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                查询关键字,通常可采用'SmID'作为查询关键字。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">layer.setQueryParameter({
+                    url: 'localhost:8090/services/realspace/services/xxx/rest/data',
+                    dataSourceName: 'xxx',
+                    dataSetName: 'xxx',
+                    keyWord: 'SmID'
+});</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="setSelection">
+        <a href="#setSelection" class="doc-link"></a>
+        setSelection<span class="signature">(ids)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        设置选择集，即选中指定ID数组的对象。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ids</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                待选中的对象ID数组。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">var  ids = [12, 22, 65, 98];
+S3MTilesLayer. setSelection(ids);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+    </footer>
+</div>
+
+<div class="nav">
+    <div class="menu">
+        <input type="text" class="classFilter" id="ClassFilter" placeholder="Search">
+        <ul id="ClassList"><li data-name="BingMapsImageryProvider"><a href="BingMapsImageryProvider.html">BingMapsImageryProvider</a></li><li data-name="Camera"><a href="Camera.html">Camera</a></li><li data-name="Cartesian3"><a href="Cartesian3.html">Cartesian3</a></li><li data-name="Cartographic"><a href="Cartographic.html">Cartographic</a></li><li data-name="CesiumTerrainProvider"><a href="CesiumTerrainProvider.html">CesiumTerrainProvider</a></li><li data-name="ColorTable"><a href="ColorTable.html">ColorTable</a></li><li data-name="Credential"><a href="Credential.html">Credential</a></li><li data-name="DataSource"><a href="DataSource.html">DataSource</a></li><li data-name="DataSourceCollection"><a href="DataSourceCollection.html">DataSourceCollection</a></li><li data-name="DrawHandler"><a href="DrawHandler.html">DrawHandler</a></li><li data-name="DrawMode"><a href="DrawMode.html">DrawMode</a></li><li data-name="Ellipsoid"><a href="Ellipsoid.html">Ellipsoid</a></li><li data-name="Entity"><a href="Entity.html">Entity</a></li><li data-name="EntityCollection"><a href="EntityCollection.html">EntityCollection</a></li><li data-name="FlyManager"><a href="FlyManager.html">FlyManager</a></li><li data-name="Globe"><a href="Globe.html">Globe</a></li><li data-name="HypsometricSetting"><a href="HypsometricSetting.html">HypsometricSetting</a></li><li data-name="ImageryLayer"><a href="ImageryLayer.html">ImageryLayer</a></li><li data-name="ImageryLayerCollection"><a href="ImageryLayerCollection.html">ImageryLayerCollection</a></li><li data-name="ImagerySplitDirection"><a href="ImagerySplitDirection.html">ImagerySplitDirection</a></li><li data-name="KmlDataSource"><a href="KmlDataSource.html">KmlDataSource</a></li><li data-name="Layers"><a href="Layers.html">Layers</a></li><li data-name="MeasureHandler"><a href="MeasureHandler.html">MeasureHandler</a></li><li data-name="MeasureMode"><a href="MeasureMode.html">MeasureMode</a></li><li data-name="MultiViewportMode"><a href="MultiViewportMode.html">MultiViewportMode</a></li><li data-name="Profile"><a href="Profile.html">Profile</a></li><li data-name="ProjectionImage"><a href="ProjectionImage.html">ProjectionImage</a></li><li data-name="Route"><a href="Route.html">Route</a></li><li data-name="RouteCollection"><a href="RouteCollection.html">RouteCollection</a></li><li data-name="RouteStop"><a href="RouteStop.html">RouteStop</a></li><li data-name="S3MInstanceCollection"><a href="S3MInstanceCollection.html">S3MInstanceCollection</a></li><li data-name="S3MTilesLayer"><a href="S3MTilesLayer.html">S3MTilesLayer</a></li><li data-name="Scene"><a href="Scene.html">Scene</a></li><li data-name="ShadowQueryPoints"><a href="ShadowQueryPoints.html">ShadowQueryPoints</a></li><li data-name="SHADOWTYPE"><a href="SHADOWTYPE.html">SHADOWTYPE</a></li><li data-name="Sightline"><a href="Sightline.html">Sightline</a></li><li data-name="Skyline"><a href="Skyline.html">Skyline</a></li><li data-name="StopPlayMode"><a href="StopPlayMode.html">StopPlayMode</a></li><li data-name="Style3D"><a href="Style3D.html">Style3D</a></li><li data-name="SuperMapImageryProvider"><a href="SuperMapImageryProvider.html">SuperMapImageryProvider</a></li><li data-name="TiandituImageryProvider"><a href="TiandituImageryProvider.html">TiandituImageryProvider</a></li><li data-name="TiandituMapsStyle"><a href="TiandituMapsStyle.html">TiandituMapsStyle</a></li><li data-name="Viewer"><a href="Viewer.html">Viewer</a></li><li data-name="ViewShed3D"><a href="ViewShed3D.html">ViewShed3D</a></li></ul>
+    </div>
+</div>
+
+<script>
+if (window.frameElement) {
+    document.body.className = 'embedded';
+
+    var ele = document.createElement('a');
+    ele.className = 'popout';
+    ele.target = '_blank';
+    ele.href = window.location.href;
+    ele.title = 'Pop out';
+    document.getElementById('main').appendChild(ele);
+}
+
+// Set targets on external links.  Sandcastle and GitHub shouldn't be embedded in any iframe.
+Array.prototype.forEach.call(document.getElementsByTagName('a'), function(a) {
+    if (/^https?:/i.test(a.getAttribute('href'))) {
+        a.target='_blank';
+    }
+});
+</script>
+
+<script src="javascript/prism.js"></script>
+<script src="javascript/cesiumDoc.js"></script>
+
+</body>
+</html>

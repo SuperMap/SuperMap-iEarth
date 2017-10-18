@@ -1,8 +1,8 @@
 requirejs.config({
     waitSeconds : 60,
     paths : {
-        Cesium : 'https://www.supermapol.com/earth/Build/Cesium/Cesium',
-        Zlib : 'https://www.supermapol.com/earth/Build/Cesium/Workers/zlib.min',
+        Cesium : '../Build/Cesium/Cesium',
+        Zlib : '../Build/Cesium/Workers/zlib.min',
         jquery : "lib/jquery.min",
         underscore : "lib/underscore-min.1.4.4",
         backbone : "lib/backbone-min",

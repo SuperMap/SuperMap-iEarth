@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Camera - Cesium Documentation</title>
+
+    <!--[if lt IE 9]>
+      <script src="javascript/html5.js"></script>
+    <![endif]-->
+    <link href="styles/jsdoc-default.css" rel="stylesheet">
+    <link href="styles/prism.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">
+        <a href="index.html"><img src="images/SuperMapLogo.png" class="SuperMapLogo"></a>
+        Camera
+        <div class="titleCenterer"></div>
+    </h1>
+
+    
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="Camera">
+        <a href="#Camera" class="doc-link"></a>
+        new Cesium.Camera<span class="signature">(scene)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        相机类，它由位置、方向和视锥体定义。视锥体(viewing frustum)由6个(上、下、左、右、近、远)平面限定，每个平面可由<code>Cartesian4</code>对象表示，其中x，y和z分量定义垂直于平面的单位向量，w分量是平面距原点/相机位置的距离。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>scene</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Scene.html">Scene</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                场景对象。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">// 创建相机对象。var camera = new Cesium.Camera(scene);</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="changed">
+        <a href="#changed" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>changed<span class="type-signature"> : Event</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Gets the event that will be raised when the camera has changed by <code>percentageChanged</code>.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="direction">
+        <a href="#direction" class="doc-link"></a>
+        direction<span class="type-signature"> : <a href="Cartesian3.html">Cartesian3</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        相机视图方向。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="frustum">
+        <a href="#frustum" class="doc-link"></a>
+        frustum<span class="type-signature"> : Frustum</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        视野中的空间区域，即视锥体。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <span class="details-header">Default Value:</span>
+    <code class="language-javascript">PerspectiveFrustum()</code>
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>See:</h5>
+    <ul class="see-list">
+        <li>PerspectiveFrustum</li>
+    
+        <li>PerspectiveOffCenterFrustum</li>
+    
+        <li>OrthographicFrustum</li>
+    </ul>
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="heading">
+        <a href="#heading" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>heading<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取相机方位角，单位为弧度。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="pitch">
+        <a href="#pitch" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>pitch<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取相机的俯仰角，单位为弧度。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="position">
+        <a href="#position" class="doc-link"></a>
+        position<span class="type-signature"> : <a href="Cartesian3.html">Cartesian3</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        相机对象的位置。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="right">
+        <a href="#right" class="doc-link"></a>
+        right<span class="type-signature"> : <a href="Cartesian3.html">Cartesian3</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        相机的右(right)方向。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="roll">
+        <a href="#roll" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>roll<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取相机旋转角度，单位为弧度。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="up">
+        <a href="#up" class="doc-link"></a>
+        up<span class="type-signature"> : <a href="Cartesian3.html">Cartesian3</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        相机的上(up)方向。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="flyTo">
+        <a href="#flyTo" class="doc-link"></a>
+        flyTo<span class="signature">(options)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        相机从当前位置飞行到新的空间位置。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                对象具有以下属性:
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>destination</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cartesian3.html">Cartesian3</a></span>
+|
+
+<span class="param-type">Rectangle</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                
+
+                
+            
+                相机在WGS84世界坐标系中的最终位置，或是自顶向下视图中可见的矩形区域。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>orientation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                包含了方位(direction)、上方向(up)以及方位角(heading)、俯仰角(pitch)、滚动角(roll)属性的对象。默认情况下，3D中方位(direction)指向框架中心，在Columbus视图中指向负z方向。在3D中上方向(up)指向本地北方向，而在Columbus视图中指向正y方向。在无限滚动模式下，二维视图不使用方向(orientation)。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行持续时间（以秒为单位）。如果省略，由飞行距离计算合理的持续时间。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>complete</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Camera~FlightCompleteCallback</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行完成时执行的功能。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cancel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Camera~FlightCancelledCallback</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行取消时执行的功能。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>endTransform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Matrix4</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行完成时相机将处于的参考系的变换矩阵。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maximumHeight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行中的最大高度。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>easingFunction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">EasingFunction</span>
+|
+
+<span class="param-type">EasingFunction~Callback</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                释放时调用功能。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type">DeveloperError</span>
+
+: 若提供了方向(direction )、上方向(up)两者之一，则两者都需要提供。
+    </div>
+
+</li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">// 1. 飞向通过top-down视图表示的位置viewer.camera.flyTo({    destination : Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0)});// 2. 飞向通过top-down视图表示的矩形viewer.camera.flyTo({    destination : Cesium.Rectangle.fromDegrees(west, south, east, north)});// 3. 飞向利用单位向量表示方向(orientatin)的位置viewer.camera.flyTo({    destination : Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),    orientation : {        direction : new Cesium.Cartesian3(-0.04231243104240401, -0.20123236049443421, -0.97862924300734),        up : new Cesium.Cartesian3(-0.47934589305293746, -0.8553216253114552, 0.1966022179118339)    }});// 4. 飞向利用方位角(heading)、俯仰角(pitch)、滚动角(roll)表示方向(orientatin)的位置viewer.camera.flyTo({    destination : Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),    orientation : {        heading : Cesium.Math.toRadians(175.0),        pitch : Cesium.Math.toRadians(-35.0),        roll : 0.0    }});</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="lookAt">
+        <a href="#lookAt" class="doc-link"></a>
+        lookAt<span class="signature">(target, offset)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        通过目标(target)和偏移(offset)设置相机位置、方向。<br></br>目标(target)以世界坐标方式表示；偏移(offset)是在以目标为中心的本地“东-北-上”参考系中的笛卡尔坐标或“方位角/俯仰角/范围（heading/pitch/range）”。<br></br>如果偏移(offset)由笛卡尔坐标表示，它表示距离由变换矩阵定义的参考系中心的偏移量。如果偏移(offset)由“heading/pitch/range”表示，方位角(heading)和俯仰角(pitch)的角度由根据变换矩阵定义的参考系确定，方位角(heading)从y轴开始朝向x轴增加，俯仰角(pitch)为从xy平面的旋转角度，正的俯仰角位于平面下方，负的俯仰角位于平面上方。 <br></br> 范围(range)为距中心点的距离。在2D中必须为自上而下视图，相机位于俯视目标的上方，目标上方的高度值是偏移量的大小。方位角根据偏移确定，如果不能从偏移确定方位角，则方位角为北方向。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cartesian3.html">Cartesian3</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                目标在世界坐标中的空间位置。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cartesian3.html">Cartesian3</a></span>
+|
+
+<span class="param-type">HeadingPitchRange</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                距以目标为中心的本地“东-北-上”参考系的偏移。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type">DeveloperError</span>
+
+: 变形时不支持lookAt方法。
+    </div>
+
+</li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">// 1. 利用笛卡尔坐标设置偏移var center = Cesium.Cartesian3.fromDegrees(-98.0, 40.0);viewer.camera.lookAt(center, new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0));// 2. 利用HeadingPitchRange设置偏移var center = Cesium.Cartesian3.fromDegrees(-72.0, 40.0);var heading = Cesium.Math.toRadians(50.0);var pitch = Cesium.Math.toRadians(-20.0);var range = 5000.0;viewer.camera.lookAt(center, new Cesium.HeadingPitchRange(heading, pitch, range));</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="setView">
+        <a href="#setView" class="doc-link"></a>
+        setView<span class="signature">(options)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        设置相机位置、方向和变换。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                对象具有以下属性:
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>destination</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Cartesian3.html">Cartesian3</a></span>
+|
+
+<span class="param-type">Rectangle</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                相机在WGS84世界坐标系中的最终位置，或是自顶向下视图中可见的矩形区域。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>orientation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                包含了方位(direction)、上方向(up)以及方位角(heading)、俯仰角(pitch)、滚动角(roll)属性的对象。默认情况下，3D中方位(direction)指向框架中心，在Columbus视图中指向负z方向。在3D中上方向(up)指向本地北方向，而在Columbus视图中指向正y方向。在无限滚动模式下，二维视图不使用方向(orientation)。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>endTransform</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Matrix4</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                表示相机参考坐标系的变换矩阵。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">// 1. 通过top-down视图设置位置。viewer.camera.setView({    destination : Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0)});// 2. 通过方位角、俯仰角、滚动角设置视图。viewer.camera.setView({    destination : cartesianPosition,    orientation: {        heading : Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)        pitch : Cesium.Math.toRadians(-90),    // default value (looking down)        roll : 0.0                             // default value    }});// 3. 相机空间位置不变，改变方位角、俯仰角和滚动角。viewer.camera.setView({    orientation: {        heading : Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)        pitch : Cesium.Math.toRadians(-90),    // default value (looking down)        roll : 0.0                             // default value    }});// 4. 通过自顶向下视图查看矩形。viewer.camera.setView({    destination : Cesium.Rectangle.fromDegrees(west, south, east, north)});// 5. 通过使用单位向量的方向(orientation)设置相机位置。viewer.camera.setView({    destination : Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),    orientation : {        direction : new Cesium.Cartesian3(-0.04231243104240401, -0.20123236049443421, -0.97862924300734),        up : new Cesium.Cartesian3(-0.47934589305293746, -0.8553216253114552, 0.1966022179118339)    }});</code></pre>
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+    </footer>
+</div>
+
+<div class="nav">
+    <div class="menu">
+        <input type="text" class="classFilter" id="ClassFilter" placeholder="Search">
+        <ul id="ClassList"><li data-name="BingMapsImageryProvider"><a href="BingMapsImageryProvider.html">BingMapsImageryProvider</a></li><li data-name="Camera"><a href="Camera.html">Camera</a></li><li data-name="Cartesian3"><a href="Cartesian3.html">Cartesian3</a></li><li data-name="Cartographic"><a href="Cartographic.html">Cartographic</a></li><li data-name="CesiumTerrainProvider"><a href="CesiumTerrainProvider.html">CesiumTerrainProvider</a></li><li data-name="ColorTable"><a href="ColorTable.html">ColorTable</a></li><li data-name="Credential"><a href="Credential.html">Credential</a></li><li data-name="DataSource"><a href="DataSource.html">DataSource</a></li><li data-name="DataSourceCollection"><a href="DataSourceCollection.html">DataSourceCollection</a></li><li data-name="DrawHandler"><a href="DrawHandler.html">DrawHandler</a></li><li data-name="DrawMode"><a href="DrawMode.html">DrawMode</a></li><li data-name="Ellipsoid"><a href="Ellipsoid.html">Ellipsoid</a></li><li data-name="Entity"><a href="Entity.html">Entity</a></li><li data-name="EntityCollection"><a href="EntityCollection.html">EntityCollection</a></li><li data-name="FlyManager"><a href="FlyManager.html">FlyManager</a></li><li data-name="Globe"><a href="Globe.html">Globe</a></li><li data-name="HypsometricSetting"><a href="HypsometricSetting.html">HypsometricSetting</a></li><li data-name="ImageryLayer"><a href="ImageryLayer.html">ImageryLayer</a></li><li data-name="ImageryLayerCollection"><a href="ImageryLayerCollection.html">ImageryLayerCollection</a></li><li data-name="ImagerySplitDirection"><a href="ImagerySplitDirection.html">ImagerySplitDirection</a></li><li data-name="KmlDataSource"><a href="KmlDataSource.html">KmlDataSource</a></li><li data-name="Layers"><a href="Layers.html">Layers</a></li><li data-name="MeasureHandler"><a href="MeasureHandler.html">MeasureHandler</a></li><li data-name="MeasureMode"><a href="MeasureMode.html">MeasureMode</a></li><li data-name="MultiViewportMode"><a href="MultiViewportMode.html">MultiViewportMode</a></li><li data-name="Profile"><a href="Profile.html">Profile</a></li><li data-name="ProjectionImage"><a href="ProjectionImage.html">ProjectionImage</a></li><li data-name="Route"><a href="Route.html">Route</a></li><li data-name="RouteCollection"><a href="RouteCollection.html">RouteCollection</a></li><li data-name="RouteStop"><a href="RouteStop.html">RouteStop</a></li><li data-name="S3MInstanceCollection"><a href="S3MInstanceCollection.html">S3MInstanceCollection</a></li><li data-name="S3MTilesLayer"><a href="S3MTilesLayer.html">S3MTilesLayer</a></li><li data-name="Scene"><a href="Scene.html">Scene</a></li><li data-name="ShadowQueryPoints"><a href="ShadowQueryPoints.html">ShadowQueryPoints</a></li><li data-name="SHADOWTYPE"><a href="SHADOWTYPE.html">SHADOWTYPE</a></li><li data-name="Sightline"><a href="Sightline.html">Sightline</a></li><li data-name="Skyline"><a href="Skyline.html">Skyline</a></li><li data-name="StopPlayMode"><a href="StopPlayMode.html">StopPlayMode</a></li><li data-name="Style3D"><a href="Style3D.html">Style3D</a></li><li data-name="SuperMapImageryProvider"><a href="SuperMapImageryProvider.html">SuperMapImageryProvider</a></li><li data-name="TiandituImageryProvider"><a href="TiandituImageryProvider.html">TiandituImageryProvider</a></li><li data-name="TiandituMapsStyle"><a href="TiandituMapsStyle.html">TiandituMapsStyle</a></li><li data-name="Viewer"><a href="Viewer.html">Viewer</a></li><li data-name="ViewShed3D"><a href="ViewShed3D.html">ViewShed3D</a></li></ul>
+    </div>
+</div>
+
+<script>
+if (window.frameElement) {
+    document.body.className = 'embedded';
+
+    var ele = document.createElement('a');
+    ele.className = 'popout';
+    ele.target = '_blank';
+    ele.href = window.location.href;
+    ele.title = 'Pop out';
+    document.getElementById('main').appendChild(ele);
+}
+
+// Set targets on external links.  Sandcastle and GitHub shouldn't be embedded in any iframe.
+Array.prototype.forEach.call(document.getElementsByTagName('a'), function(a) {
+    if (/^https?:/i.test(a.getAttribute('href'))) {
+        a.target='_blank';
+    }
+});
+</script>
+
+<script src="javascript/prism.js"></script>
+<script src="javascript/cesiumDoc.js"></script>
+
+</body>
+</html>
