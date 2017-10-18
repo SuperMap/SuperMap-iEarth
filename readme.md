@@ -8,7 +8,7 @@
 # 简介：
 SuperMap Earth是基于Supermap iClient 3D for WebGL的一款轻量级的在线三维应用，能快速展示多种二维及三维数据。
 
- * 网站：https://supermap.github.io/Supermap_Earth/
+ * 网站：https://supermap.github.io/SuperMap-Earth/
 
 # 功能特点：
 
