@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>航班尾迹线效果图</title>
+    <link rel="stylesheet" href="../../Build/Cesium/Widgets/widgets.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/pretty.css">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/lib/bootstrap.min.js"></script>
+    <script src="../../js/lib/bootstrap-select.min.js"></script>
+    <script src="./js/config.js"></script>
+    <script type="text/javascript" src="../../js/lib/require.min.js" data-main="./js/main"></script>
+    <style>
+        html, body, #cesiumContainer {
+            width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+<div id="cesiumContainer"></div>
+<div id='loadingbar' class="spinner">
+    <div class="spinner-container container1">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container2">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container3">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+</div>
+<div id="toolbar" style="position: absolute;left: 5px;top: 5px;display: none;">
+    <select id="airlineOptions" class="selectpicker show-tick form-control">
+        <option selected value="Air China" selected>中国国际航空（Air China）</option>
+        <option value="China Eastern Airlines">中国东方航空（China Eastern Airlines）</option>
+        <option value="China Southern Airlines">中国南方航空（China Southern Airlines）</option>
+        <option value="American Airlines">美国航空公司（American Airlines）</option>
+        <option value="Southwest Airlines">美国西南航空（Southwest Airlines）</option>
+        <option value="Delta Air Lines">美国达美航空（Delta Air Lines）</option>
+        <option value="US Airways">美国全美航空（US Airways）</option>
+        <option value="United Airlines">美国联合航空（United Airlines）</option>
+        <option value="easyJet">英国易捷航空（easyJet）</option>
+        <option value="Ryanair">爱尔兰瑞安航空（Ryanair）</option>
+    </select>
+</div>
+<script type="text/javascript">
+    /* 示范代码说明：
+     * 本示范程序用“尾迹线”描述管线中液体的流动。
+     *
+     * 主要涉及接口：
+     *  Cesium.PolylineTrailMaterialProperty 尾迹线材质
+     * 用法：
+     *    new Cesium.PolylineTrailMaterialProperty({
+     *      color: new Cesium.Color(1.0, 0.0, 0.0, 1.0), // 颜色
+     *      trailLength : 0.2, // 尾迹线占所在线段的长度比例（0.0-1.0）
+     *      period : 8.0 // 轨迹从起点到终点运行一次的时间，单位秒
+     *    })
+     *
+     * 示范代码：
+     */
+    function onload(Cesium) {
+        try{
+            let viewer = new Cesium.Viewer('cesiumContainer', {
+                infoBox: false
+            });
+            let scene = viewer.scene;
+            scene.globe.show = false;
+            scene.skyBox.show = false;
+            let promiseBaseLayer = scene.addS3MTilesLayerByScp(URL_CONFIG.SCP_WORLD_COUNTRY_VECTOR, {
+                name: "baseLayer"
+            });
+            promiseBaseLayer.then(function(layer){
+                scene.camera.setView({
+                    destination : new Cesium.Cartesian3(-4511826.162646529, 16838364.473915376, 10064576.385825634),
+                    orientation : {
+                        heading : 6.283185307179586,
+                        pitch : -1.5707963267948966,
+                        roll : 0
+                    }
+                });
+
+                Cesium.loadJson("./json/flights.json").then(function(jsonData){
+
+                    function getAirportCoord(idx){ // 获得具体机场的坐标
+                        return Cesium.Cartesian3.fromDegrees(jsonData.airports[idx][3], jsonData.airports[idx][4]);
+                    }
+                    let routesGroupByAirline = {}; // 包含每一个航空公司的所有航线
+                    jsonData.routes.forEach(function(route){
+                        let airline = jsonData.airlines[route[0]];
+                        let airlineName = airline[0]; // 航空公司的名称
+                        if(!routesGroupByAirline[airlineName]){
+                            routesGroupByAirline[airlineName] = [];
+                        }
+                        let start = getAirportCoord(route[1]);
+                        let end = getAirportCoord(route[2]);
+                        routesGroupByAirline[airlineName].push([start, end]);
+                    });
+
+                    $("#airlineOptions").change(function(e){
+                        let airlineName = $("#airlineOptions").val();
+
+                        switch(airlineName){
+                            case "Air China":
+                            case "China Eastern Airlines":
+                            case "China Southern Airlines":
+                                scene.camera.flyTo({
+                                    destination : new Cesium.Cartesian3(-4511826.162646529, 16838364.473915376, 10064576.385825634),
+                                    orientation : {
+                                        heading : 6.283185307179586,
+                                        pitch : -1.5707963267948966,
+                                        roll : 0
+                                    }
+                                });
+                                break;
+                            case "American Airlines":
+                            case "Southwest Airlines":
+                            case "Delta Air Lines":
+                            case "US Airways":
+                            case "United Airlines":
+                                scene.camera.flyTo({
+                                    destination : new Cesium.Cartesian3(-1027827.1490632605, -16765160.375307877, 10382141.027765635),
+                                    orientation : {
+                                        heading : 6.076454193121397,
+                                        pitch : -1.5670024568705059,
+                                        roll : 0
+                                    }
+                                });
+                                break;
+                            case "easyJet":
+                            case "Ryanair":
+                                scene.camera.flyTo({
+                                    destination : new Cesium.Cartesian3(14446265.13308438, 1417618.1947955855, 13386996.143159749),
+                                    orientation : {
+                                        heading : 5.944835562437463,
+                                        pitch : -1.5670024568705059,
+                                        roll : 0
+                                    }
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                        drawLines(airlineName);
+                    });
+
+                    drawLines("Air China");
+
+                    function drawLines(airlineName){
+                        viewer.entities.removeAll();
+                        drawPoints();
+                        for(let line of routesGroupByAirline[airlineName]){
+                            viewer.entities.add({ // 用于打底的线
+                                polyline : {
+                                    positions : [line[0], line[1]],
+                                    width : 2, // 线的宽度，像素为单位
+                                    material : Cesium.Color.fromCssColorString("rgba(118, 233, 241, 0.1)")
+                                }
+                            });
+
+                            viewer.entities.add({ // 尾迹线
+                                polyline : {
+                                    positions : [line[0], line[1]],
+                                    width : 2, // 线的宽度，像素为单位
+                                    material : new Cesium.PolylineTrailMaterialProperty({ // 尾迹线材质
+                                        color: Cesium.Color.fromCssColorString("rgba(118, 233, 241, 1.0)"),
+                                        trailLength : 0.2,
+                                        period : 5.0
+                                    })
+                                }
+                            });
+                        }
+                    }
+
+                    function drawPoints(){
+                        jsonData.airports.forEach(function(item){ // 绘制表示每一个机场的点
+                            if(item[3] && item[4]){
+                                viewer.entities.add({
+                                    position: Cesium.Cartesian3.fromDegrees(item[3], item[4]),
+                                    point: {
+                                        pixelSize: 2
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    $('#toolbar').show();
+                    $('#loadingbar').remove();
+
+                });
+            });
+        }catch(e){
+            console.log(e);
+        }
+    }
+</script>
+</body>
+</html>
