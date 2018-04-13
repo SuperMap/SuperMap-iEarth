@@ -28,7 +28,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 Util.S3M_CACHE[scpUrl] = name;
                 if(me.get('realName') == 'srsb'){
                 	layer.setQueryParameter({
-                        url: 'http://www.supermapol.com/iserver/services/data-srsb/rest/data',
+                        url: 'https://www.supermapol.com/iserver/services/data-srsb/rest/data',
                         dataSourceName: 'vector',
                         dataSetName: '房屋面',
                         keyWorld: 'SmID'
@@ -114,9 +114,15 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             	camera.flyToBoundingSphere(bd);
             }
         },
-        setVisible : function(isVisible){
-            this.layer.visible = isVisible;
-            this.set('isVisible',isVisible);
+        setVisible : function(isVisible,ids){
+            if(ids.length>0)
+			{
+				this.layer.setOnlyObjsVisible(ids,isVisible);
+			}
+			else{
+                this.layer.visible = isVisible;
+				this.set('isVisible',isVisible);
+			}
         },
         getJsonObj : function(){
         	var obj = {

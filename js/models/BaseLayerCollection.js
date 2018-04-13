@@ -22,7 +22,7 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                     serviceType : Resource.bingServiceType
                 }),
                 new BaseLayerModel({
-                    url : 'http://[subdomain].tianditu.com/img_w/wmts',
+                    url : 'https://[subdomain].tianditu.com/img_w/wmts',
                     name : Resource.tianditu,
                     thumbnail : 'images/tianditu.png',
                     title : Resource.tianditu,

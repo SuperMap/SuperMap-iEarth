@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+<open>1</open>
+<visibility>1</visibility>
+<name><![CDATA[test]]></name>
+<Style id="29b2e2f7-9af4-4c68-baa1-26ca080d3a57" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[North China Institute of Aerospace, Langfang (廊坊市北华航天学院)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#29b2e2f7-9af4-4c68-baa1-26ca080d3a57</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.73700000000001,39.534,0</coordinates>
+</Point>
+</Placemark>
+<Style id="21f7ffc8-e32e-4a2e-bdb7-e14ce3c54876" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[BDA, Beijing (北京亦庄开发区)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#21f7ffc8-e32e-4a2e-bdb7-e14ce3c54876</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.50600000000004,39.79500000000001,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c3314aed-f8d0-461c-b975-2fa837d42ee4" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABR0lEQVRIS72W4VmDMBCG3+sEbiC4gHUC6QTWCdQRnKC4Sd1AJ2g6gXQBYYROwPmEhEoriIpJ/obcm/u43HfCyNKEOTNuUDIgQUiaI0oFVAiGmlepKL4LJUObmpAhrJAGML4Ug/IkFabv416QpqwR7saj936xlnceTneOQJpwhrBBmP8R4o657G6lYt/GOQalFAiXkyDtYcVIyeILaKJcQ3c7yNhk1Pz4GZt/yeQ0SM3CFogDpRiE6yAgL6H4d/IWBNIGrbkSvSAHVkFB8ChBZfuswK0F2TZyHjQjpbDSaVCIDx4RFEe6XcRiiFbeztjCP9gILWgrJVncpuqzmuKq/U9ReZaSe7sZ0vgayfod1lm5tYxpLqtsUZaDVn7ogVOGk45cXT3Hxq38x4bossh/NW51b+KNcekHSCutk1XZAXuEF2rM2AD5AcmMf7p1/L2JAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Huairou town, Beijing (北京怀柔镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>161</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c3314aed-f8d0-461c-b975-2fa837d42ee4</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.628,40.328,0</coordinates>
+</Point>
+</Placemark>
+<Style id="cdc3dae3-9362-4867-8c35-359dcf30cf14" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABT0lEQVRIS72WwVHDQAxFnw7c0wE5xGdCBTgVECoASqCChE5CB1ABTgVJzvbBJVBAZsSsHDtOYmPA3tWMZw+7q299SasvdJhGTFHugRhhDPY5y1FyIEH4kJTtT66kbVMnxMACsbXblAR4lczWC2sE0ogV8NjtvfHESlKez3dOgHTMiCs+gek/QYprLro9D5LzVfo5BYqM55teIOVlJZGM2QVQT7ra/q2i0SKyxItRNrwpM1cgJZAr0bvhUYp8OQrF+gQ2XkCOTm9FJywRFl6BlBcH5I+2YwWuHVCOcO01Iti6HKlnEHMfECgMdbugxRCovEM17OGt89dLyloy4rCPqkXVb6q2teKbpDxZH9VP6LCDzyhrnrDFKHfiot+UVdbsmbeO8uoN7EdjRVedrS655XrsdwPRRQHLP8mts7w5ATk/CMhRjdYdairnHSHpEpDfSlx33GkyrQwAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[YongYang Xidao, Tianjin (天津雍阳西道)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>160</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#cdc3dae3-9362-4867-8c35-359dcf30cf14</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.04264,39.38405499999998,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="99ffa6af-a48c-442a-8a66-9016a86e4399" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTElEQVRIS72W7U3DMBCGn6MSav6xAWxAmYB2AtoJgBGYgLJJ2QAmqDNB0w0YgV+NhISMzrGjfiSkkNqRokh2co/95s7vCR2X/WLEN3fAGLjyt3714W/DgHc5p/gtlLRN2tIFfvaArvXovAFeJHPPg6sRZEsWwP0x0RveWUjG4/74DshaLihZIoz+CQmfGYbMRPgMA7ugDQXCdU9IDZOMyQGop1xta6tldDvyP355op3sh5loggSQZsptJJBRCcXXySoSpAo74EZsydzXSzyW8KSgmLKFxecK0qPkMt52NNsoFGSjQnzwpKAU0q2TJkOi9K6MLX7B+rMuZi3lkjFOe6j6XfVx1bZSfJWMB52MaXxOsmaHrazcnMBlc4ZMW6080Hu6bS3Xtp5d7ZbW2LGGmAPzP7Vb2yvxxjh1/Z1KG5oXyxrtcoQ3zjBdDeQP8n12Gt1KKQIAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Qinjian street, Tianjin (天津勤俭道)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>78</td></tr><tr><th>质量</th><td>二级（良）</td></tr><tr><th>影响</th><td>空气质量可接受，但某些污染物可能对极少数异常敏感人群健康有较弱影响</td></tr><tr><th>建议</th><td>心脏病和肺病患者症状显著加剧，运动耐受力降低，健康人群普遍出现症状</td></tr></tbody></table>]]></description>
+<styleUrl>#99ffa6af-a48c-442a-8a66-9016a86e4399</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.14463330000001,39.16543332999999,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="87e7ab39-f6db-472c-8a0a-4ca0dae2c747" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABR0lEQVRIS72W4VmDMBCG3+sEbiC4gHUC6QTWCdQRnKC4Sd1AJ2g6gXQBYYROwPmEhEoriIpJ/obcm/u43HfCyNKEOTNuUDIgQUiaI0oFVAiGmlepKL4LJUObmpAhrJAGML4Ug/IkFabv416QpqwR7saj936xlnceTneOQJpwhrBBmP8R4o657G6lYt/GOQalFAiXkyDtYcVIyeILaKJcQ3c7yNhk1Pz4GZt/yeQ0SM3CFogDpRiE6yAgL6H4d/IWBNIGrbkSvSAHVkFB8ChBZfuswK0F2TZyHjQjpbDSaVCIDx4RFEe6XcRiiFbeztjCP9gILWgrJVncpuqzmuKq/U9ReZaSe7sZ0vgayfod1lm5tYxpLqtsUZaDVn7ogVOGk45cXT3Hxq38x4bossh/NW51b+KNcekHSCutk1XZAXuEF2rM2AD5AcmMf7p1/L2JAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Qianmen E St, Dongcheng, Beijing (北京前门东大街)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>161</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#87e7ab39-f6db-472c-8a0a-4ca0dae2c747</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.39500000000001,39.898999999999994,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="b28a00ec-900a-4b35-a5ee-9d9afdee1b13" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Chaoyang Agricultural Exhibition Hall, Beijing (北京朝阳农展馆)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#b28a00ec-900a-4b35-a5ee-9d9afdee1b13</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.461,39.936999999999976,0</coordinates>
+</Point>
+</Placemark>
+<Style id="be54efc1-d32f-474e-abca-a5ffce3248c9" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72W7VHCQBCGnx0sgP86hA7ECgwViBWoJViBsRPsQCswqUDoABj9TwFm1rlNImCIAZLcztyfy90+ufc+3hVqQs8Z0eMGIQSGeXOzFtaUmJQ3+WL2Xyqp+qgXhPR4AgMcEg74LJ/E+wbvBemAKcLdIdlLY5SprHj4278D0iF9lHdgdBJkMylGuJUF66JrFxSYzpcNIcX0WJaMS6BGclVu9EZGW1G+8U6y9iNl7A5IBgrspFy3T7GMJqHYPTnjoyNIlvabK9EBEWL3pbtQHqVj2YqfTxzIPSVBd8uxzDMH0o4hlt4ryId0c4+Hwdvx9nVhPTxBiSwJ/T6qtqomrlptEy+y4t7u0fYYbdf4TLKS8dmqMit3ltHUZROESaWVF/RGMiq/cm2rVVduRUcYYkJKdFS5tbNvWQE5yQvI/pasc2CN8kpKXFdA/gCz4XWafav/EgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Haidian Wanliu, Beijing (北京海淀万柳)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>162</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#be54efc1-d32f-474e-abca-a5ffce3248c9</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.28700000000002,39.986999999999995,0</coordinates>
+</Point>
+</Placemark>
+<Style id="14e423ee-23a1-44f0-b503-8a9e9b943842" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUElEQVRIS72WsVnDQAyFf9FBlQ3IBsAEOBNgOkwDjMAECZuEJqYME2BPgLNBRqBLh/hOdoJNbAyxz2rvTu/07qT3hJbQW86BK5QAGCOM7YiyBtYICfAqC7LfUknTot4QIEwRA2gPJUF5khcD3otaII2YI9y1Z6/dMZcFDz9XKkAaMuKENzC6Dg9X3YZrWfKxTVIFisgQzg5HKJ1UEomZ7AF1pKvpbjsarSJ7+COjrP/4ZOI+SA4UkSBc9o9ibWAUStEn715AvpNeOKAZMPUKpDyKV9q2t1dSV5EbJadeK4LMAalnEEs/KJB/6pTVoJ9hoO+dC5v/hh1gBKUSEww7VIuquqhqfSsqzxJzb31U3qH9Cp9RVq+wTsqPTTK6qaySsiFslPLdDOxiTkp0ldlqs1uzPwuiq0KZ/ctuVd4t77OwMJCjHa3KCszlLJ2JbDOQX7AHfu2jZEoXAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[No.4 street, Tianjin (天津第四大街)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>139</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#14e423ee-23a1-44f0-b503-8a9e9b943842</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.70715000000001,39.034316669999995,0</coordinates>
+</Point>
+</Placemark>
+<Style id="53900270-5c7f-4423-bc92-117d24acd083" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABWklEQVRIS72W0VGDQBCGvx3HCQ8hkw5MB8YKJBUYK1BLsAJjJ7EDrSBQgaSDlJAJebgZJ55zcCgkQaJw3AszHLv/7s/u/ivUnC3nY83ZDRBoGAmMjImGlcAKCIXdW5+P+DdXUnWZ4AXAkwGoC8beh8CzjzLPg3MUaIM3F7g7EaD0mYb5APWwb1sC0jDc0luAjP8DUrAJ+6hbgXX+rgSU0ItBLhuC5Oahj5ocADWhqyqwIo1pRvbHL1rKZN/NxBRIDmQq5doRUEqh2D55dwSSuhV2V5LgzWy/OMMS9KMBcklbHnwkGzwzSi6cpZM61rHJSLsFybx3B9QRdcvuiqGz8u6sYe2sc9lLkY8Kuh2qJitHMvEyQN1n865wWha+lLKjCmulPGxBZaM+alop5Tl6Exo1fNNVZKtu3TIScqogRsDsT+tWMRLbZ9Nsv9PDH1r1EmQt6Ff4DOsWyC/L5nlAUYKouwAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Liulihezhen, Fangshan, Beijing (北京京西南琉璃河)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>183</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#53900270-5c7f-4423-bc92-117d24acd083</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.00000000000001,39.58,0</coordinates>
+</Point>
+</Placemark>
+<Style id="5b782611-7457-4857-87d5-25b9ea9472ac" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUElEQVRIS72WzVHDMBCFv+XMwXecgQ4IFeBUQKgAKIEKEjoJHUAFsSvA6cAzMXcfcmYZKbbJj40BIe2MR4e19mmfdvVWGDA9Y4xwAyQIF2A/YwVKAaQor/JO/l0o6XNqTALMELsOm5ICT1La9cg6gXTEArgbjt75x0LWPBx69oA0IuKUJcL4jyDbbSa7DbdSUTVx9oFicoRLJ5Bms5JKyeQIyJGuvrO1NNqM7MULy3/J5DCIMjEF0gClCNeegCyFYvvkhDcvIE3QD65EY+YIM89AjwbIH21fFZgZoALh3GtGSi46Qr2C1MEDAoWhbhW0GAKVd6iGrd86f72kZFKShH1UbVZuqtrXis+y5t44fQqfpaxbYbdSbu7LTWWVjA3TXilv30A3Glu6dvkcGrdMj/1MEE0WMP/VuLV7knqAnNoBEqKWVmUFVCgvZogcGiA/AZeqe4QTE4xkAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Yuejin Road, Tianjin (天津跃进路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>163</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#5b782611-7457-4857-87d5-25b9ea9472ac</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.31450000000001,39.08714,0</coordinates>
+</Point>
+</Placemark>
+<Style id="afaabf21-3813-4527-b151-ecb7afe2b73b" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUElEQVRIS72WzVHDMBCFv+XMwXecgQ4IFeBUQKgAKIEKEjoJHUAFsSvA6cAzMXcfcmYZKbbJj40BIe2MR4e19mmfdvVWGDA9Y4xwAyQIF2A/YwVKAaQor/JO/l0o6XNqTALMELsOm5ICT1La9cg6gXTEArgbjt75x0LWPBx69oA0IuKUJcL4jyDbbSa7DbdSUTVx9oFicoRLJ5Bms5JKyeQIyJGuvrO1NNqM7MULy3/J5DCIMjEF0gClCNeegCyFYvvkhDcvIE3QD65EY+YIM89AjwbIH21fFZgZoALh3GtGSi46Qr2C1MEDAoWhbhW0GAKVd6iGrd86f72kZFKShH1UbVZuqtrXis+y5t44fQqfpaxbYbdSbu7LTWWVjA3TXilv30A3Glu6dvkcGrdMj/1MEE0WMP/VuLV7knqAnNoBEqKWVmUFVCgvZogcGiA/AZeqe4QTE4xkAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Qianjin street, Tianjin (天津前进道)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>163</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#afaabf21-3813-4527-b151-ecb7afe2b73b</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.2016833,39.09270000000001,0</coordinates>
+</Point>
+</Placemark>
+<Style id="356ac69c-2a5f-42b2-93e2-a90cbdffa498" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABQklEQVRIS72W0VHDMBBE33ZAB6QD7ApIKiBUAJRABQmdhA6ggtgVoHRACXRwjC524iQ2Bhv5Zjz6kHWrW0m3K3rCMjLgDpgDM8TMlxif4F8BvCsQfkqlrknLPPEK+dgf5oAvCj5eRCuQZWwQD/3ZW/4wNgo8nc+cAFnGFbBFTtfw2Fd3r8BXneQUKHeeb4YjNFYahQKLC6BRdHUe9JFGr8gPXmz/pZLzJMYiXpAaqEDcJgJyCuXvRHwkAamTGnkEWiNWiYGeI1A62o4VlbLc28h14opCBLKkIFXySYHSUwe7CS/DhNd7mgdb9bp0b8koFZhP21SrqoarardMvCrwGKdTCp9T1q6wUcrlMjxOZY0SWHZK+aEHjjMnB7qajPbZrSghvxPEfRXrP9mt5k4qA7l0Ayl3STWtO8xdzls0kX0G8hu3KntRmykulwAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Donggaocun Zhen, Pinggu, Beijing (北京京东东高村)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>155</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#356ac69c-2a5f-42b2-93e2-a90cbdffa498</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.12000000000002,40.09999999999999,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="2b8444fe-35a8-4ffd-bd3c-a30de23c8da9" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUUlEQVRIS72WwVHDMBBF33KAazqADggV4FRAqAAogaPDAXEgbiPpACqIUgFJBymBKxyyjGQ54yR2HDCyZjSesex92m+t/woNQ1/pc8INkAAXYbq3VmFa1rzLE4tDoaRuUTMf+DkAmvbj1i3wIqm/7o1KkI6ZINwdE73imYmkPOze3wKpoccpM4T+HyHFa5YvbsXwWdzYBmVe58uWkA1MUgZ7oJZy1e1tI6PPKHz42T9lshtm4A5IDhpjEa4jgayTUEKdfESC5GHXXIlmmFAv8VjKo0SWLd+8MnegFcJ5vHQ8aOGk06iQELxDUBfSwbLDw9DZ8c6NLX7BRv8FuRoakXT7Uw1ZtXHV6lJUpjLi3i3GM74gWbXDOis/881FO5dV5nwzrLXygt7KbUtylfU83G4p5mhDdFkI5lftVnknwRiHKAlCryTrEvVdzhuKbWogfwABRHureF9IUwAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Hexi Yijing road, Tianjin (天津河西一经路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>122</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#2b8444fe-35a8-4ffd-bd3c-a30de23c8da9</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.7917667,39.24735,-1.3969838619232178e-9</coordinates>
+</Point>
+</Placemark>
+<Style id="0c823b22-05c8-4d9b-92e7-accd01879437" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABOElEQVRIS72W0VHDMBBE33aQDkgHQAUkFRAqAEqggoROQgdQQewKcDpICengGEm2Y5wYgY10Mx5/yLr1re60KyJhcAPcAwtgjpj7LcYB/FMAH4Lqp1QaWrSQeI38Ox7mAV8VgM/iIpDBFvEYz37hC2MreO6vfAMymAE75OkaH6G6B8GxSdIHqhDX4xE6O41CsDwDmkTX8EG3NPqK/MGL3b9U0k9iLF2DNEAF4i4RkKdQfk7EZxKQJqlx64A2iHVioBcHlI62U0WlAzogrhJXVMnkmi59ZATKQ90+azNka+88A1vfdelmySgFi7yXal3VeFUdlok3wZNbTil8nrIhhXVS7s5rmsoaJbAalPLTHTjJnLR0dRmN2S03Y78TxFDF5k92q/sntYFc1QZy1tJq7Aku593RHTOQXxhBanA54DapAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Fengtai Yungang, Beijing (北京丰台云岗)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>174</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#0c823b22-05c8-4d9b-92e7-accd01879437</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.14600000000002,39.823999999999984,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="71a8a3dd-2211-4f9a-8035-3ae92fed2516" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Wanshou Temple, Beijing (北京西城万寿西宫)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#71a8a3dd-2211-4f9a-8035-3ae92fed2516</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.352,39.878,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c87e6882-9df2-43e3-a1bd-9b10d0581e34" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Temple of Heaven, Dongcheng, Beijing (北京东城天坛)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c87e6882-9df2-43e3-a1bd-9b10d0581e34</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.40700000000001,39.885999999999996,0</coordinates>
+</Point>
+</Placemark>
+<Style id="d0b8d4aa-2d76-4f0d-8969-e23856554b58" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABOElEQVRIS72W0VHDMBBE33aQDkgHQAUkFRAqAEqggoROQgdQQewKcDpICengGEm2Y5wYgY10Mx5/yLr1re60KyJhcAPcAwtgjpj7LcYB/FMAH4Lqp1QaWrSQeI38Ox7mAV8VgM/iIpDBFvEYz37hC2MreO6vfAMymAE75OkaH6G6B8GxSdIHqhDX4xE6O41CsDwDmkTX8EG3NPqK/MGL3b9U0k9iLF2DNEAF4i4RkKdQfk7EZxKQJqlx64A2iHVioBcHlI62U0WlAzogrhJXVMnkmi59ZATKQ90+azNka+88A1vfdelmySgFi7yXal3VeFUdlok3wZNbTil8nrIhhXVS7s5rmsoaJbAalPLTHTjJnLR0dRmN2S03Y78TxFDF5k92q/sntYFc1QZy1tJq7Aku593RHTOQXxhBanA54DapAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Yanqing town, Beijing (北京延庆镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>174</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#d0b8d4aa-2d76-4f0d-8969-e23856554b58</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>115.97200000000001,40.45299999999998,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="42d0c1b9-0bd7-4934-baa8-545c79ef043d" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUElEQVRIS72WzVHDMBCFv+XMwXecgQ4IFeBUQKgAKIEKEjoJHUAFsSvA6cAzMXcfcmYZKbbJj40BIe2MR4e19mmfdvVWGDA9Y4xwAyQIF2A/YwVKAaQor/JO/l0o6XNqTALMELsOm5ICT1La9cg6gXTEArgbjt75x0LWPBx69oA0IuKUJcL4jyDbbSa7DbdSUTVx9oFicoRLJ5Bms5JKyeQIyJGuvrO1NNqM7MULy3/J5DCIMjEF0gClCNeegCyFYvvkhDcvIE3QD65EY+YIM89AjwbIH21fFZgZoALh3GtGSi46Qr2C1MEDAoWhbhW0GAKVd6iGrd86f72kZFKShH1UbVZuqtrXis+y5t44fQqfpaxbYbdSbu7LTWWVjA3TXilv30A3Glu6dvkcGrdMj/1MEE0WMP/VuLV7knqAnNoBEqKWVmUFVCgvZogcGiA/AZeqe4QTE4xkAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Shunyi New Town , Beijing (北京顺义新城)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>163</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#42d0c1b9-0bd7-4934-baa8-545c79ef043d</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.655,40.126999999999995,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c1e74323-46e5-49fc-bc15-b4ccca19a711" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72Wu1nDQBCE/3VI5A5QiE2AqQC5AkwFQAlUYNGJ6QAqQKoAOwARqgQyZyzf3fkhgYTA0t2lutvRzj5mhJajp0xQLlFiIEKI7BOlAAqEFOFJXln+FkqaPuoJMcIcsQDtR0lR7uWdtO5yLZCOWCBct0evvbGQN26/f6kAacSQI56ByYEg7pnJbs2VFHxs41SBxpbns04g28dKKjnTH0Ad6Wr6tx2NNiNb+IGlrP/zydQ0iAMa2Ra96B/F1ctQKJs5efECsi/QueiYBJh7BVLuxCtt+w7MDJBZI8deM4KloU49g9jwAYHCULcK2AzB2tsJm/+BDbCCMsmJwy7VTVZdVLV+FJUHybmxc1S+of0Kn6WsXmGdlBtz0U1llYw1s0Yp3+3ALuakRFeZrTa7lfxZEE0WSvIvu1Wpm5uzmTWQwrBE6wq1LueRAWmbgfwCxEKAEGGhMdUAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Langfang (廊坊)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>158</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c1e74323-46e5-49fc-bc15-b4ccca19a711</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.683752,39.538047000000006,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c4ceece5-2be3-46c0-a4c6-cb5d7e2e9d47" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABWElEQVRIS72W7VGDQBCGnzXghH/pQDswViCpwFiBWoIVJHYSO9AKAhVIOkgJ+SUzgrPO8TX5AEHxuBmGH8ftc/tye+8KLeMTpl84t4APcgmYx4wt6BYIRqRv5xD9FEqaJmMcH1iAmHeHoQHw7JGa98moBcW4K+C+Q/S6T1YeyePxxAFIYRLjrgWmf4QUyzQYk94J7Mo4B6AP3Ejgqh+kXK2BRzo7AfWUq2lvlYxZRvmPl/X/ZHIcRWfmgJSgAOTGEiiTUPI6cd/tQPKoI5JriXGWIAubIIEnA7IoW3UCQ4lxzTVyYTMjhciA1CakqqMhQUNItxnyMAx0vAcr2OKus1hLGnqk/rCXap5VL1dtKsUXj+TBTNo0vkyyWoctrNx4R0+X1XBMOm+08pLeU8ZKrn0929otYyEdDVFDYPmrdmt/J0UDOTcNpCKTUlaFjaA7QV7PSIK2BvIbI3h8Sv5Z630AAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Badaling Northwest, Beijing (北京京西北八达岭)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>180</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c4ceece5-2be3-46c0-a4c6-cb5d7e2e9d47</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>115.98799999999999,40.364999999999995,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="8dd8e641-94ec-4d35-a98f-82c7c8085bdf" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABR0lEQVRIS72W4VmDMBCG3+sEbiC4gHUC6QTWCdQRnKC4Sd1AJ2g6gXQBYYROwPmEhEoriIpJ/obcm/u43HfCyNKEOTNuUDIgQUiaI0oFVAiGmlepKL4LJUObmpAhrJAGML4Ug/IkFabv416QpqwR7saj936xlnceTneOQJpwhrBBmP8R4o657G6lYt/GOQalFAiXkyDtYcVIyeILaKJcQ3c7yNhk1Pz4GZt/yeQ0SM3CFogDpRiE6yAgL6H4d/IWBNIGrbkSvSAHVkFB8ChBZfuswK0F2TZyHjQjpbDSaVCIDx4RFEe6XcRiiFbeztjCP9gILWgrJVncpuqzmuKq/U9ReZaSe7sZ0vgayfod1lm5tYxpLqtsUZaDVn7ogVOGk45cXT3Hxq38x4bossh/NW51b+KNcekHSCutk1XZAXuEF2rM2AD5AcmMf7p1/L2JAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Xizhimen N St, Beijing (北京西直门北大街)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>161</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#8dd8e641-94ec-4d35-a98f-82c7c8085bdf</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.349,39.954,0</coordinates>
+</Point>
+</Placemark>
+<Style id="f9f1d9cd-0f07-49cf-bc29-4663a9364995" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72W0VGDQBCGvx1TQDowHYhD3iUVGCtQS7ACYyexA61AeCcj6SAlpACGde44kpAEQcmxL8zA7f7sv7v3r9BiGhAw4h6IUCYIE+uibBA2QEzOp2Rkv4WSpo86JQJeLUA3i4E3STHPEzsLpCFLhMdu8Y9OKUtZ8XzsWwPSgDEjvoDgXyB7J0Png2Rsq1d1oJAM4aYnSOUeS8rsBKgXXY2F3tNoM3KFN5T5sJlpkArIdMqdDxTT/oZCcXPy7QmkDJtzKzpl4ebFH1bBiwHySVv184loaK+Sa3/p2MiZyUg9g9jwAwINQZ2yHrAZBmvvUtj8D6y763zOUiIp0bCXqs2qj6o2y8S7rHiyc3R4Ri8rfJay8wprpPyK+AIqm5Azb5TyCr0XjcqOrkO22tYtIyFdBTEBFn9at2p1K+ds7hbI8Y5WZY2wpeCDgrhtgfwBrph2aai2gWYAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Donghuan road, Tianjin (天津东环路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>154</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#f9f1d9cd-0f07-49cf-bc29-4663a9364995</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.44441670000002,40.041749999999986,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="30fb0215-c67f-4538-b71f-8f6ff460b6f3" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72W0VGDQBCGvx1TQDowHYhD3iUVGCtQS7ACYyexA61AeCcj6SAlpACGde44kpAEQcmxL8zA7f7sv7v3r9BiGhAw4h6IUCYIE+uibBA2QEzOp2Rkv4WSpo86JQJeLUA3i4E3STHPEzsLpCFLhMdu8Y9OKUtZ8XzsWwPSgDEjvoDgXyB7J0Png2Rsq1d1oJAM4aYnSOUeS8rsBKgXXY2F3tNoM3KFN5T5sJlpkArIdMqdDxTT/oZCcXPy7QmkDJtzKzpl4ebFH1bBiwHySVv184loaK+Sa3/p2MiZyUg9g9jwAwINQZ2yHrAZBmvvUtj8D6y763zOUiIp0bCXqs2qj6o2y8S7rHiyc3R4Ri8rfJay8wprpPyK+AIqm5Azb5TyCr0XjcqOrkO22tYtIyFdBTEBFn9at2p1K+ds7hbI8Y5WZY2wpeCDgrhtgfwBrph2aai2gWYAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Chaoyang Olympic Sports Center, Beijing (北京朝阳奥体中心)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>154</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#30fb0215-c67f-4538-b71f-8f6ff460b6f3</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.397,39.982,0</coordinates>
+</Point>
+</Placemark>
+<Style id="24153ffe-bf40-4187-9793-3ecdf45dc240" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABVUlEQVRIS72W3VXCQBBG74gF0IF2IFZgePUIxgrUEqyA2Al2AOLx1aQCQweUYAHIeHZiQsDEoPnZc/KS3ezNfDuz3wgVQy8ZcMw1iodwCva4sUJZIYSsmcsr8W9bSdmkXtnGEwSv6mdsXglRHuWFsGh9IUjHTIHbgwD7i5SpLLjff70DUp8+G96Awb8g6Ucuuh43MuMjfbULGhEjnNWC5GCyYPgDVEuu0oPeymgR2cEfmWTNjw1DlyAJaESIcNE8JclGJ6F818l7K5B00zXnomMCYNIqSHmQVmXbZmDkQO4aOWk1IoiddNoyxLbvENSFdMqyw2ToLL0TY2u/YDu4giJZ4HV7qVpUdVy1vBCf5Jk7q6P8Gm3W+EyyYod1Vv5pllHPZZWIHn6plWd3YD0ZM7nyalW1W8HBhuiiUII/tVs755bUmW8NJPQzWZUlWJczc3JXNZBf14aCbSf7QHcAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Waterfront East Street, Tianjin (天津滨水东路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>144</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#24153ffe-bf40-4187-9793-3ecdf45dc240</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.8165667,39.32815,0</coordinates>
+</Point>
+</Placemark>
+<Style id="37b4a46d-96d0-45cb-9e06-67cf365c120c" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABPUlEQVRIS72WgVEDIRBF33ZAB9qBpgKTCowVqCWkAmMnsQOtwFwFJh1YAh3gfAYy5yXk4iDHDHMzB+xjPyy7xkgLjlvgHpgD16lr1XfqW+DDPLtzpqw0GFw0/JIAY/vRuICv5uP3qJ0EBccGeLzE+ok5G/M8D///AgWHAz4hylXT5NWDeXw2MgRJ55saQm/t1jyLI1ClXKW9HWSMHqWDl2Qt2kIXJIOk6V0Lim6jJLQUJ1+NINnsTKB1ipeWrJVALWXLm+8E0lNy1dIdYCdQaAyJ5icFTSHdftLLMNn11kvdPmDTW9cyljrzzKd9VJNXNVm1FIpv5nmKcdSfEVwsMP4r8UXJShlWqVznVQvrgGUxlWd6ZbY9yNVXa6zcUoxdmhDlxfpP5dbg3BRny1TfSdos6x5ilfOesujZAvIHP8hjDvZVh6IAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Haidian Beijing Botanical Garden, Beijing (北京海淀北京植物园)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>168</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#37b4a46d-96d0-45cb-9e06-67cf365c120c</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.207,40.002,0</coordinates>
+</Point>
+</Placemark>
+<Style id="03f32795-4f4c-400b-b5f8-79fa8d4ba00c" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72Wz03DMBSHvycOXHNB5AYbUCagnYAyATACE1A2KRvABHUmIN2AYyQuOfZSjF5iR/2TkEJqW7Ii2cn77F/e889CT7NnjDjhFhgDl67rV5+uG9a8yxf5b6Gka9KmVeBnB+hbj84b4EWK6rnXWkE2ZQ7cHxK95Z25FDzujm+BbELCKQuE0T8h/jPDijspKf3ANuicHOFqIKSBScFkDzRQrq61NTJWO3I/fnGkneyGmWiCeJBmyk0gkFEJxdXJRyBIHXbNtdiUmauXcCzLk4JCyuYXnylIj5KLcNvRbCNXkA0KccGjgmJIt4yaDJHSuza28AXrzrqQtZRJwTjuoep2NcRVu0rxVQoedDKk8VWStTtsbeXmCC6bsWLaaeWePtBtG7k29ey7bmmNHWqIGTD703VrcyXOGKfV/c6SNLJalggllje+MX0XyB86g3BUFSzPNAAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[The town of Miyun, Beijing (北京密云镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>165</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#03f32795-4f4c-400b-b5f8-79fa8d4ba00c</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.83200000000004,40.370000000000005,0</coordinates>
+</Point>
+</Placemark>
+<Style id="724c8ea5-d317-4461-919e-2174eedb188a" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABU0lEQVRIS72W0U3DMBCGvysSz90ANiBIEB5JJ6BMAIzABJRNygZ0grqPLUikGzBCX0FqDtlxowSSthAcS35J4vt8f3z+T9gx9JwI4QohAY79tKve3VQMykReSLeFkqaXekbCAQ/gAPsMw5pHecXUfVwL0pgxws0+0Wu+Gcucu+/PKyCN6HPIFCH6I2SzzPDBtaSsNg+qoJgU4aQlpIDJnMEPUEu5mvZWyOgy8j9++k+ZVMOsGdgDkoNiDMJlEBAYK6G4OunxFgiSh804FY0ZIa5eQo57CwopW755ZSZ64a6So5DpoKQWpEEhPninoC6kW3Z4GDo73l0VbPAryNbQgqTbS9Vn1cZV60tReZIFt/ZlOOPzktU7bG7l9u5r57LKjE+GjVa+obdy25JcZT23t1s9ZyH7GaLNImP0q3arvBPfQA59f9cvZFWWwArhmQyzq4H8AsZkeozbJ7wrAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Tongzhou New Town, Beijing (北京通州新城)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>153</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#724c8ea5-d317-4461-919e-2174eedb188a</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.66300000000003,39.88600000000001,0</coordinates>
+</Point>
+</Placemark>
+<Style id="d5011ced-b49c-4fe8-92fc-1086f9e80a6a" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUUlEQVRIS72WwVHDMBBF33KAazqADggV4FRAqAAogaPDAXEgbiPpACqIUgFJBymBKxyyjGQ54yR2HDCyZjSesex92m+t/woNQ1/pc8INkAAXYbq3VmFa1rzLE4tDoaRuUTMf+DkAmvbj1i3wIqm/7o1KkI6ZINwdE73imYmkPOze3wKpoccpM4T+HyHFa5YvbsXwWdzYBmVe58uWkA1MUgZ7oJZy1e1tI6PPKHz42T9lshtm4A5IDhpjEa4jgayTUEKdfESC5GHXXIlmmFAv8VjKo0SWLd+8MnegFcJ5vHQ8aOGk06iQELxDUBfSwbLDw9DZ8c6NLX7BRv8FuRoakXT7Uw1ZtXHV6lJUpjLi3i3GM74gWbXDOis/881FO5dV5nwzrLXygt7KbUtylfU83G4p5mhDdFkI5lftVnknwRiHKAlCryTrEvVdzhuKbWogfwABRHureF9IUwAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Yuyang road, Tianjin (天津渔阳路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>122</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#d5011ced-b49c-4fe8-92fc-1086f9e80a6a</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.29376600000002,39.693916599999994,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="868b5e57-1866-4a86-92fd-390095626238" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72W7VHCQBCGnx0sgP86hA7ECgwViBWoJViBsRPsQCswqUDoABj9TwFm1rlNImCIAZLcztyfy90+ufc+3hVqQs8Z0eMGIQSGeXOzFtaUmJQ3+WL2Xyqp+qgXhPR4AgMcEg74LJ/E+wbvBemAKcLdIdlLY5SprHj4278D0iF9lHdgdBJkMylGuJUF66JrFxSYzpcNIcX0WJaMS6BGclVu9EZGW1G+8U6y9iNl7A5IBgrspFy3T7GMJqHYPTnjoyNIlvabK9EBEWL3pbtQHqVj2YqfTxzIPSVBd8uxzDMH0o4hlt4ryId0c4+Hwdvx9nVhPTxBiSwJ/T6qtqomrlptEy+y4t7u0fYYbdf4TLKS8dmqMit3ltHUZROESaWVF/RGMiq/cm2rVVduRUcYYkJKdFS5tbNvWQE5yQvI/pasc2CN8kpKXFdA/gCz4XWafav/EgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Yongledianzhen, Tongzhou, Beijing (北京京东南永乐店)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>162</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#868b5e57-1866-4a86-92fd-390095626238</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.78300000000002,39.712,0</coordinates>
+</Point>
+</Placemark>
+<Style id="f8204385-2be5-4ac0-9a67-1f313c0d292a" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Beijing (北京)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#f8204385-2be5-4ac0-9a67-1f313c0d292a</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.46811700000005,39.954592,0</coordinates>
+</Point>
+</Placemark>
+<Style id="7c11e129-7741-4613-b6d7-77f74593bfbe" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABV0lEQVRIS72W3VWDQBCFvyGQ53RgOjBWIKnAWIFaghWIncQOtIJABSYdpIQ8g8t4lp8cEsmfZNkXzoGduTOXmbkjnDgKkx+8B5BQ0bEgY2ui6FqQNWjsk38JLI+5kkMfMwhh8EbxPOvEYN4DiNtutwKleHNBns5yv3dJ0fmQ/GXfdgdIYZThLQSZ/AekYRP7mEeBTf1uByjFWwpy2xGkNo8DzPQPUBe6DgXWpLHIqPrxiytlsufGTG2BVEADWyn3boAoKJSyTwbfjkAKtz7mTjK8CMT2i7Oj6KtkOKWtDj6RFM+Okhtn6ZTjamkzUpcg2z7qDagn6lb9FUNv5d1bw5azzmkvJQEm7Heo2qwcycTHkPzZ+ncpfAVlrQpbSXl8BZVNfMzsoJTX6F1oVHRLV3O0nVq3ogsEMQETXbRuNSOpFshZtUCOaloVXQmyUfQzILdSfXSB/AVPbYVewLrAKgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[The Haidian northern New Area, Beijing (北京海淀北部新区)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>177</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#7c11e129-7741-4613-b6d7-77f74593bfbe</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.17400000000002,40.09,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c09fe463-1a18-4ca4-aaaf-16749c4f9539" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABT0lEQVRIS72WwVHDQAxFnw7c0wE5xGdCBTgVECoASqCChE5CB1ABTgVJzvbBJVBAZsSsHDtOYmPA3tWMZw+7q299SasvdJhGTFHugRhhDPY5y1FyIEH4kJTtT66kbVMnxMACsbXblAR4lczWC2sE0ogV8NjtvfHESlKez3dOgHTMiCs+gek/QYprLro9D5LzVfo5BYqM55teIOVlJZGM2QVQT7ra/q2i0SKyxItRNrwpM1cgJZAr0bvhUYp8OQrF+gQ2XkCOTm9FJywRFl6BlBcH5I+2YwWuHVCOcO01Iti6HKlnEHMfECgMdbugxRCovEM17OGt89dLyloy4rCPqkXVb6q2teKbpDxZH9VP6LCDzyhrnrDFKHfiot+UVdbsmbeO8uoN7EdjRVedrS655XrsdwPRRQHLP8mts7w5ATk/CMhRjdYdairnHSHpEpDfSlx33GkyrQwAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[South Ring Road, Beijing (北京南三环西路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>160</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c09fe463-1a18-4ca4-aaaf-16749c4f9539</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.36800000000002,39.85600000000001,-1.3969838619232178e-9</coordinates>
+</Point>
+</Placemark>
+<Style id="4d1c6037-1625-4ba0-8d64-b39545d22a2a" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72W8VWDMBCHv6sLdAPdwDqBdALrAhRHcALrJtAJdALpBNINOkIn4HxJgAcWWpQm917+geS+3C+53AkXTBMWlDwhRMBdNcyqgx1KzoxPSSnOuZKhn5oQobyBBYyxHOFdUvK+yb0gjUkR1mO898xJJePl9/cOSBPmKF/A4p+QepmJ7llSjvWHLiimQLifCGlgkrE8AU2Ua2hvjYw2ourgjWTXN2FpLogDxRhNH69PsR5zI6HYPFG+PUGcW+FBNGaD2HzxZyWvBuRTNrd5ZWdAB4Rbf+FYz4XoGvUMcccUDhRCOmUf9DIEut6hEtb7E2RyaEsU9lGtoppSVftTUclkS+Keu5bpNQtfJVnt/rSUl/btm1ZllR0zVoOlvKZPqrYtudpqnW+3SltCxhVEF8XmT+1W59xcA7mq+rt5I6uyB44oH9yQX2ogfwCE334fg7CZUgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Hanbei road, Tianjin (天津汉北路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>137</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#4d1c6037-1625-4ba0-8d64-b39545d22a2a</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.76416670000002,39.15875,0</coordinates>
+</Point>
+</Placemark>
+<Style id="b2db97b9-c5fa-4028-8d6f-3e45a40a67a3" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72W0VGDQBCGv9VHJWMH2oGxAkkFxgrUEqwg2EnsQCsQKpB0QAnOnD7iOneEBCJIDBw3wwt33Mf+t3v/Ch1DT5hyzA1KiHAB7rEjQ8kQYnJe5Yv0r62kbVJP3cYLhLDrZ9y8EqM8ySdx0/pGkAYsEe72AuwuUpZieNh9XQMpnDHhDZgeBCk/stEZbgU+yld1UECKcNkLUoGJYfYL1Euu1oPeyugicgd/5CQbfnwzswlSgAJihOvhKUU2WgllXSfvXiDlpjlXohMiYOEVBI/iVbZtBiY2ogw49xxRakHqGeK2HxXkXzplNWoyjJTehbH5L9gRrqBEDOG4l+o6qsNdtd0mnsVw7+qoukaHNT4nWbPDWisvLKOfyyoJhnmrlW/uwH7NyUauqlpd7Va0tyHaKJToX+1W7dyKOpu7BtJKW8qqrLBdjvBCTtzVQP4AvXF98XDu74IAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Haitai fazhan No.2 road, Tianjin (天津海泰发展二路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>169</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#b2db97b9-c5fa-4028-8d6f-3e45a40a67a3</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.09016670000003,39.07846666999999,0</coordinates>
+</Point>
+</Placemark>
+<Style id="ff83d7cc-70ea-445b-8bc0-43e3e33f51de" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72Wu1nDQBCE/3VI5A5QiE2AqQC5AkwFQAlUYNGJ6QAqQKoAOwARqgQyZyzf3fkhgYTA0t2lutvRzj5mhJajp0xQLlFiIEKI7BOlAAqEFOFJXln+FkqaPuoJMcIcsQDtR0lR7uWdtO5yLZCOWCBct0evvbGQN26/f6kAacSQI56ByYEg7pnJbs2VFHxs41SBxpbns04g28dKKjnTH0Ad6Wr6tx2NNiNb+IGlrP/zydQ0iAMa2Ra96B/F1ctQKJs5efECsi/QueiYBJh7BVLuxCtt+w7MDJBZI8deM4KloU49g9jwAYHCULcK2AzB2tsJm/+BDbCCMsmJwy7VTVZdVLV+FJUHybmxc1S+of0Kn6WsXmGdlBtz0U1llYw1s0Yp3+3ALuakRFeZrTa7lfxZEE0WSvIvu1Wpm5uzmTWQwrBE6wq1LueRAWmbgfwCxEKAEGGhMdUAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Hangtian road, Tianjin (天津航天路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>158</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#ff83d7cc-70ea-445b-8bc0-43e3e33f51de</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.37476670000002,39.15106667,0</coordinates>
+</Point>
+</Placemark>
+<Style id="cb37eed7-af23-46e7-b362-cdefb3bdc55e" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABWElEQVRIS72WTVLCQBBGX+NON9xAXVqhSj2B4QTiCdQjeALwJngDPIHJCQxVUC7lCGx0J21N85cYIEgy6apsMpN501965muhIHTMFXCLEiKcgT0uJigThAh4lYBk11KybVA/CPmhixAWbcbGlYgjnuXCwLnYCNIRfYT7vQD5SX0JePz7OgPST5p88wYm1+HhsjvhTs6ZLhfJgkYkCJeHE1JfKpG0aOdAJeXatreVjJaR/fiZSVZ9NGi7ApmDxlYpN9VT5tXoJJTFOXn3Alkveu1APaDrFSQ8OZA/2da7jx1oApx6zQgSB1LPEFu+VpB/6ZRhrcVQW3m7m9r/gfV+BUEsAWG9l6plVc5VNx9F5UVaPNg5Ss/QKo1vIdlmh3VW/kVUgcvGHNPZauVLeikZU3Kl1drdbs3MQvY1xJgGvX+1W5n/Nm8gO0CI0lzJqgwRpggDc9GCBvIXYK18wX5ra0MAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Century Compound, Zhangjiakou (张家口市世纪豪园)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>91</td></tr><tr><th>质量</th><td>二级（良）</td></tr><tr><th>影响</th><td>空气质量可接受，但某些污染物可能对极少数异常敏感人群健康有较弱影响</td></tr><tr><th>建议</th><td>心脏病和肺病患者症状显著加剧，运动耐受力降低，健康人群普遍出现症状</td></tr></tbody></table>]]></description>
+<styleUrl>#cb37eed7-af23-46e7-b362-cdefb3bdc55e</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>114.90300000000003,40.769,0</coordinates>
+</Point>
+</Placemark>
+<Style id="4975fbbc-b8b6-4717-91e2-a0d72158835f" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72W7VHCQBCGnx0sgP86hA7ECgwViBWoJViBsRPsQCswqUDoABj9TwFm1rlNImCIAZLcztyfy90+ufc+3hVqQs8Z0eMGIQSGeXOzFtaUmJQ3+WL2Xyqp+qgXhPR4AgMcEg74LJ/E+wbvBemAKcLdIdlLY5SprHj4278D0iF9lHdgdBJkMylGuJUF66JrFxSYzpcNIcX0WJaMS6BGclVu9EZGW1G+8U6y9iNl7A5IBgrspFy3T7GMJqHYPTnjoyNIlvabK9EBEWL3pbtQHqVj2YqfTxzIPSVBd8uxzDMH0o4hlt4ryId0c4+Hwdvx9nVhPTxBiSwJ/T6qtqomrlptEy+y4t7u0fYYbdf4TLKS8dmqMit3ltHUZROESaWVF/RGMiq/cm2rVVduRUcYYkJKdFS5tbNvWQE5yQvI/pasc2CN8kpKXFdA/gCz4XWafav/EgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Huangcunzhen, Daxing, Beijing (北京大兴黄村镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>162</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#4975fbbc-b8b6-4717-91e2-a0d72158835f</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.40400000000002,39.717999999999996,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="8ee19d62-9747-4d98-a3a3-4e3513d0c3d0" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72W7VHCQBCGnx0sgP86hA7ECgwViBWoJViBsRPsQCswqUDoABj9TwFm1rlNImCIAZLcztyfy90+ufc+3hVqQs8Z0eMGIQSGeXOzFtaUmJQ3+WL2Xyqp+qgXhPR4AgMcEg74LJ/E+wbvBemAKcLdIdlLY5SprHj4278D0iF9lHdgdBJkMylGuJUF66JrFxSYzpcNIcX0WJaMS6BGclVu9EZGW1G+8U6y9iNl7A5IBgrspFy3T7GMJqHYPTnjoyNIlvabK9EBEWL3pbtQHqVj2YqfTxzIPSVBd8uxzDMH0o4hlt4ryId0c4+Hwdvx9nVhPTxBiSwJ/T6qtqomrlptEy+y4t7u0fYYbdf4TLKS8dmqMit3ltHUZROESaWVF/RGMiq/cm2rVVduRUcYYkJKdFS5tbNvWQE5yQvI/pasc2CN8kpKXFdA/gCz4XWafav/EgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Fengtai garden, Beijing (北京丰台花园)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>162</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#8ee19d62-9747-4d98-a3a3-4e3513d0c3d0</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.27900000000001,39.863,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="d489d747-2f9b-4648-8b26-b240a89f5c7e" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABR0lEQVRIS72W4VmDMBCG3+sEbiC4gHUC6QTWCdQRnKC4Sd1AJ2g6gXQBYYROwPmEhEoriIpJ/obcm/u43HfCyNKEOTNuUDIgQUiaI0oFVAiGmlepKL4LJUObmpAhrJAGML4Ug/IkFabv416QpqwR7saj936xlnceTneOQJpwhrBBmP8R4o657G6lYt/GOQalFAiXkyDtYcVIyeILaKJcQ3c7yNhk1Pz4GZt/yeQ0SM3CFogDpRiE6yAgL6H4d/IWBNIGrbkSvSAHVkFB8ChBZfuswK0F2TZyHjQjpbDSaVCIDx4RFEe6XcRiiFbeztjCP9gILWgrJVncpuqzmuKq/U9ReZaSe7sZ0vgayfod1lm5tYxpLqtsUZaDVn7ogVOGk45cXT3Hxq38x4bossh/NW51b+KNcekHSCutk1XZAXuEF2rM2AD5AcmMf7p1/L2JAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Binshui Xidao, Tianjin (天津宾水西道)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>161</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#d489d747-2f9b-4648-8b26-b240a89f5c7e</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.15778000000002,39.098119999999994,0</coordinates>
+</Point>
+</Placemark>
+<Style id="9ddef3f4-3196-450c-9ab1-e727f2c6593c" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUUlEQVRIS72WwVmDQBCF//GSazowHagVSCowVqCW4E28BC/BMmIHsQKhAkkHKcGrHhy/HUgEA6KBZa67O2/n7c68J7SE3nMKXKAEwARhYkeUDbBBSIBnWZD9lkqaFvWOAGGOGEB7KAnKgzwa8F7UAmnIEuGqPXvtjqUsuPm5UgHSiDEfvIDRdXi46kZcSsTbNkkVKCRDODkcoXRSSSRmugfUka6mu+1otIrs4Y+Msv7jk6n7IDlQSIJw3j+KtYFRKEWfvHoB+U565oAiYO4VSLkVr7Rtb6+kriI3So69VgSZA1LPIJZ+UCD/1CnrQT/DQN87Fzb/DTvACEolJhh2qBZVdVHV+lZUniTm2vqovEP7FT6jrF5hnZS/m2R0U1klZcSsUcp3M7CLOSnRVWarzW5FfxZEV4US/ctuVd4t77NZYSDHO1qVNZjLWTkT2WYgvwDA34AtFcZN+gAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Leidazhanzi Station, Tangshan (唐山市雷达站子站)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>127</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#9ddef3f4-3196-450c-9ab1-e727f2c6593c</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>118.14400000000002,39.643,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c00ed0dc-2a1d-44f1-a156-13610f7c3dd4" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABSUlEQVRIS72W7U3DMBCGnxNCzc9uABtQJqCdgHYCYAQmoGxSNoAJ6kxAugEj9KelqhidY0f9SEghdSxZkezkHvvNnV8LLc1dMuKCe2AMXIeuX32FbtjyIRuK30JJ06TLfOCXAGhbj84b4FWsfx61WpDLWAAPp0SveWchlqfD8T2QgyEDlgijf0LiZwbLTGAdB/ZBAwqEm46QCiaWyRGoo1xNa6tk9DsKP355pp0chplogkSQZspdIpBRCSXUyWciSBl2y624jHmol3Qsx7OCUsoWF58rSI+Sq3Tb0WyjUJBLCgnBewX1Id2q12ToKb1LY0tfsOGsS1lLuVjG/R6qYVddXLWpFN/E8qiTKY3PS1bvsKWVmzO4bI5l2mjlkd7RbSu5dvVsu25pjZ1qiDkw/9N1a3clwRin/n7nGFayOlYIaxzvfGPaLpA/IwFttMXQLLsAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Changping Town, Beijing (北京昌平镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>171</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c00ed0dc-2a1d-44f1-a156-13610f7c3dd4</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.22999999999999,40.217,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="ae61e044-e9ef-4ec0-a309-7bf8b015c0c5" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72W7VHCQBCGnx0sgP86hA7ECgwViBWoJViBsRPsQCswqUDoABj9TwFm1rlNImCIAZLcztyfy90+ufc+3hVqQs8Z0eMGIQSGeXOzFtaUmJQ3+WL2Xyqp+qgXhPR4AgMcEg74LJ/E+wbvBemAKcLdIdlLY5SprHj4278D0iF9lHdgdBJkMylGuJUF66JrFxSYzpcNIcX0WJaMS6BGclVu9EZGW1G+8U6y9iNl7A5IBgrspFy3T7GMJqHYPTnjoyNIlvabK9EBEWL3pbtQHqVj2YqfTxzIPSVBd8uxzDMH0o4hlt4ryId0c4+Hwdvx9nVhPTxBiSwJ/T6qtqomrlptEy+y4t7u0fYYbdf4TLKS8dmqMit3ltHUZROESaWVF/RGMiq/cm2rVVduRUcYYkJKdFS5tbNvWQE5yQvI/pasc2CN8kpKXFdA/gCz4XWafav/EgAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Huaihe street, Tianjin (天津淮河道)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>162</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#ae61e044-e9ef-4ec0-a309-7bf8b015c0c5</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.18495,39.226049999999994,0</coordinates>
+</Point>
+</Placemark>
+<Style id="24a5a26a-52b6-48de-92c3-4dc78fe04e46" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72W0VGDQBCGv9VHJWMH2oGxAkkFxgrUEqwg2EnsQCsQKpB0QAnOnD7iOneEBCJIDBw3wwt33Mf+t3v/Ch1DT5hyzA1KiHAB7rEjQ8kQYnJe5Yv0r62kbVJP3cYLhLDrZ9y8EqM8ySdx0/pGkAYsEe72AuwuUpZieNh9XQMpnDHhDZgeBCk/stEZbgU+yld1UECKcNkLUoGJYfYL1Euu1oPeyugicgd/5CQbfnwzswlSgAJihOvhKUU2WgllXSfvXiDlpjlXohMiYOEVBI/iVbZtBiY2ogw49xxRakHqGeK2HxXkXzplNWoyjJTehbH5L9gRrqBEDOG4l+o6qsNdtd0mnsVw7+qoukaHNT4nWbPDWisvLKOfyyoJhnmrlW/uwH7NyUauqlpd7Va0tyHaKJToX+1W7dyKOpu7BtJKW8qqrLBdjvBCTtzVQP4AvXF98XDu74IAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Shijingshan city, Beijing (北京石景山古城)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>169</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#24a5a26a-52b6-48de-92c3-4dc78fe04e46</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.18399999999998,39.914,0</coordinates>
+</Point>
+</Placemark>
+<Style id="c40e3e5e-cce6-45a4-b3c1-c2fa529ade70" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABWUlEQVRIS72WwU3DQBBF3wgOcEsHpAPMAcmcSCogVACUQAUJnYQOSAXYN0sccDqghBxzCBq0g+3ExMYQez2StZJ3d77m78z8ERpMLwk44gYYAUOEoV1RPsC+iE8W8kb6myup29TQHE8RW5tNiYAnSWzds0ogDZkj3DV7rzihzCXh4edOCUgDBpzyCgQHgeSXXHRrbiVllf8qA4WkCOetQHbAJGG8B9SKrtqH3tJoEdnDi1HWvSljlyA5UIRw3T2KlUHkKBSrk2PevYDkTjdciIbMEKZegeDRAfmjbZuBseiVtZEzzxGlDkg9g5j7XoH8U6cse0yG3tK7r4LNep2/WlJiSRj121SzqA5X1XqZeJaEe6uj3TParfAZZdUK66T8xHpfO5VVYtZMaqW86IHthpOCrl22msYtJyF/E0QXBcz+NW6V3u17gJxkA+SgoFVZAiuEFzZETQPkF+uAfZ0kM479AAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Xiaoshanzi Station, Tangshan (唐山市小山子站)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>152</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#c40e3e5e-cce6-45a4-b3c1-c2fa529ade70</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>118.2,39.62999999999999,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="28985d5b-4478-49cb-8c38-992aeaf6680d" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABSUlEQVRIS72W/VWDUAzFf3ECNtAN1AmkE1gnUEcABxAHaFmhbqATFCaQbuAInaDxvAC1iEgr8HLO+wd4ueTm40boMU25Am5RQuCiOu7Wpx0hA94lovjLlXS91JQQ5RkM4BjLEF4kMuCW/QqkS1bA/THeW98oK3ni8efzBpCmBChrMLqGmIvuTiK2tZMm0IIC4XIIwsHdTGJmLaBBdHUm+ptGi6hKvKNsfBNmrkBKoKVVys34KObRKBTrE+VjIpDSrXAtuiBBrF+mMyWSiWmrfz53Ebkxcj5dOOa5cBHpxCBlmvwB+aBO2XgtBk/l7athPYygXGJCv0O1iur/qtrdiK8S81COuwPTcYXPKGsJX6VLATucDA9V2Rxh3inlNfpAtd3TdchW37qVnCCILorkpHWrkTfXZzvmiO15wZ5WZYOwRXnjjKxvgfwCecN5+UnveOoAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Supply and marketing cooperatives, Tangshan (唐山市供销社)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>119</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#28985d5b-4478-49cb-8c38-992aeaf6680d</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>118.16599999999998,39.63099999999999,0</coordinates>
+</Point>
+</Placemark>
+<Style id="a05aa2c5-5a6d-4db5-9c33-87806584d91b" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABRklEQVRIS72W61HDMBCEv7MbSAekA0IFOBUQKoCUQAWYTkIHUEHsCnA6SAlpQL6M5AdxsPPAkfTHM5buVrs6aU84MxRmRDwhJChThKkLUbYIW5SMkm+B4lQqGZpUSIh5x34vGxmGD4Gsb3kvkEasEF4uy3+0SllJyfI4tgOkMCFijTD7F8hvkGX3LLBrfnWBIgqE+5EgTXgmhvkfoFFyDR90K6NjVB/8+kZMumkMc1sgFVDsKuXRC5AFsWDunsT8eAKp0hoeRCNSxN0Xf0N5E8+yNZvPLSP7lNz5o+OqrbCM1CtInTwgUBjpNkGLIVB5h7qwAZ6gXAxJ2EfVsRrjqsM28Sklr3bap/E5yfodtrLy7AYum2NYDFp5gz5KRqWV61DRc+1WeoUhWhbpVe3W4U7qBnJRN5CTVlZlg7BD+aJ0Vn2ygdwDpB5ygqcWNYsAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Changping Dingling, Beijing (北京昌平定陵)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>173</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#a05aa2c5-5a6d-4db5-9c33-87806584d91b</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.22,40.291999999999994,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="aaddf366-1fb0-47ae-9adb-1bceffc81f65" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABRklEQVRIS72W61HDMBCEv7MbSAekA0IFOBUQKoCUQAWYTkIHUEHsCnA6SAlpQL6M5AdxsPPAkfTHM5buVrs6aU84MxRmRDwhJChThKkLUbYIW5SMkm+B4lQqGZpUSIh5x34vGxmGD4Gsb3kvkEasEF4uy3+0SllJyfI4tgOkMCFijTD7F8hvkGX3LLBrfnWBIgqE+5EgTXgmhvkfoFFyDR90K6NjVB/8+kZMumkMc1sgFVDsKuXRC5AFsWDunsT8eAKp0hoeRCNSxN0Xf0N5E8+yNZvPLSP7lNz5o+OqrbCM1CtInTwgUBjpNkGLIVB5h7qwAZ6gXAxJ2EfVsRrjqsM28Sklr3bap/E5yfodtrLy7AYum2NYDFp5gz5KRqWV61DRc+1WeoUhWhbpVe3W4U7qBnJRN5CTVlZlg7BD+aJ0Vn2ygdwDpB5ygqcWNYsAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Yufazhen, Daxing, Beijing (北京京南榆垡)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>173</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#aaddf366-1fb0-47ae-9adb-1bceffc81f65</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.3,39.519999999999996,0</coordinates>
+</Point>
+</Placemark>
+<Style id="a149eb9a-83d9-4e4c-95a0-ff8d91115e14" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABT0lEQVRIS72WwVHDQAxFnw7c0wE5xGdCBTgVECoASqCChE5CB1ABTgVJzvbBJVBAZsSsHDtOYmPA3tWMZw+7q299SasvdJhGTFHugRhhDPY5y1FyIEH4kJTtT66kbVMnxMACsbXblAR4lczWC2sE0ogV8NjtvfHESlKez3dOgHTMiCs+gek/QYprLro9D5LzVfo5BYqM55teIOVlJZGM2QVQT7ra/q2i0SKyxItRNrwpM1cgJZAr0bvhUYp8OQrF+gQ2XkCOTm9FJywRFl6BlBcH5I+2YwWuHVCOcO01Iti6HKlnEHMfECgMdbugxRCovEM17OGt89dLyloy4rCPqkXVb6q2teKbpDxZH9VP6LCDzyhrnrDFKHfiot+UVdbsmbeO8uoN7EdjRVedrS655XrsdwPRRQHLP8mts7w5ATk/CMhRjdYdairnHSHpEpDfSlx33GkyrQwAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Pinggu town, Beijing (北京平谷镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>160</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#a149eb9a-83d9-4e4c-95a0-ff8d91115e14</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.1,40.142999999999994,0</coordinates>
+</Point>
+</Placemark>
+<Style id="cf15de94-7170-46c0-9983-39c7d0170e07" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABXUlEQVRIS72W0VHCQBCGv1XCDPBiB9qBWIGhArECtQQrADvBDrQCLhUYOkgJvoAzHrrOBYJEiUHjXWbykrvb7/bP7v0n1DyvRP035ELRGOQEcK97MtBMEHOIPrax6U+hpGrwhVasyAgkrtvMalyNoHcdlmbX/J2gOdFEkKv9AOVZik562Juva0sghaMF0VSQ/l8gn2vUdLCXAs/FtxJoTpQKctoMUqxW08UOvoGayFW1sW0Z84xWP/5g+j+ZlKMI7wNXIDloQWRAzn2AXDU6CcX1yRJ58gNZRW2hZzKnPRYY+QSB3opf2TYVmMiCdgYc+8xI0dSB1Cdk00chQSGkm4UrhmDlHaxhAxxBSRcbhz1UXVaebOK+h7128X0aXy7ZToddW7lp7rKadLDDSisv6E1kVHQj1/bRVnfdGu9viJoIOv7VdWt7J67PLDIUNHbSFrIqOltL89ACU3eB/ABBeJJOj/UkiAAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Mentougou, Longquan Town, Beijing (北京门头沟龙泉镇)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>181</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#cf15de94-7170-46c0-9983-39c7d0170e07</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.10600000000001,39.93699999999999,0</coordinates>
+</Point>
+</Placemark>
+<Style id="ba27fd28-ed49-4da9-881b-c86118e84ab2" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABR0lEQVRIS72W4VmDMBCG3+sEbiC4gHUC6QTWCdQRnKC4Sd1AJ2g6gXQBYYROwPmEhEoriIpJ/obcm/u43HfCyNKEOTNuUDIgQUiaI0oFVAiGmlepKL4LJUObmpAhrJAGML4Ug/IkFabv416QpqwR7saj936xlnceTneOQJpwhrBBmP8R4o657G6lYt/GOQalFAiXkyDtYcVIyeILaKJcQ3c7yNhk1Pz4GZt/yeQ0SM3CFogDpRiE6yAgL6H4d/IWBNIGrbkSvSAHVkFB8ChBZfuswK0F2TZyHjQjpbDSaVCIDx4RFEe6XcRiiFbeztjCP9gILWgrJVncpuqzmuKq/U9ReZaSe7sZ0vgayfod1lm5tYxpLqtsUZaDVn7ogVOGk45cXT3Hxq38x4bossh/NW51b+KNcekHSCutk1XZAXuEF2rM2AD5AcmMf7p1/L2JAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Dazhigu No.8 road, Tianjin (天津大直沽八号路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>161</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#ba27fd28-ed49-4da9-881b-c86118e84ab2</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.24520000000004,39.110829999999986,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+<Style id="e1e01aaa-afae-4f3d-b217-dd82cd87a825" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTUlEQVRIS72WT1bCMBCHv9H3XHMDWSguxRNYTiCeQD2CJ7DeBG8gJyA9gWUJuuAIblmU8TVtgUprwZLkvWzyZ77ML5PMCA1NL+kj3CEEQDfv6a6F7YpBGcsn8V+mpG5SLwg45QUsYJ9mSHiVL0zV4kqQ9hghPOxjfWeNMpI5T7/HSyDt0uGMCUL/X5DNJsOSe1nwXQyVQT1ihOuWkGK7kRmDHVAruWoveiOj9Si/+MmRPCmbSRikAZKBrmyk3DoBgZVQ7Ds54cMRJDO74ka0R4jY9+KyPYtj2YrDRyko/UrOXbqDEqcgdQrJjXsF+ZBu6jEYvIW3rwfr4QuKZEbg91O1XrXJqvVp4k3mPKbTLhOflaw6w2ap3Bwhy0YsGdam8oLeSkZlLde2ok3lVnhAQoxICA8qt7ZPkheQQ1tAKp21rMoUsVXOOytMUwH5A1sBdu6Kx8jJAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[West Park officials, Beijing (北京西城官园)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>159</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#e1e01aaa-afae-4f3d-b217-dd82cd87a825</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.339,39.928999999999995,0</coordinates>
+</Point>
+</Placemark>
+<Style id="a8559d2b-530f-4272-8a6e-d36a70378586" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUklEQVRIS72W0VGDQBCGvx1TQDowHYhD3iUVGCtQS7ACYyexA61AeCcj6SAlpACGde44kpAEQcmxL8zA7f7sv7v3r9BiGhAw4h6IUCYIE+uibBA2QEzOp2Rkv4WSpo86JQJeLUA3i4E3STHPEzsLpCFLhMdu8Y9OKUtZ8XzsWwPSgDEjvoDgXyB7J0Png2Rsq1d1oJAM4aYnSOUeS8rsBKgXXY2F3tNoM3KFN5T5sJlpkArIdMqdDxTT/oZCcXPy7QmkDJtzKzpl4ebFH1bBiwHySVv184loaK+Sa3/p2MiZyUg9g9jwAwINQZ2yHrAZBmvvUtj8D6y763zOUiIp0bCXqs2qj6o2y8S7rHiyc3R4Ri8rfJay8wprpPyK+AIqm5Azb5TyCr0XjcqOrkO22tYtIyFdBTEBFn9at2p1K+ds7hbI8Y5WZY2wpeCDgrhtgfwBrph2aai2gWYAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Baobai highway, Tianjin (天津宝白公路)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>154</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#a8559d2b-530f-4272-8a6e-d36a70378586</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>117.3431167,39.51626667,0</coordinates>
+</Point>
+</Placemark>
+<Style id="fec424d2-7bf9-409c-a354-4835d4a25952" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABUElEQVRIS72WsVnDQAyFf9FBlQ3IBsAEOBNgOkwDjMAECZuEJqYME2BPgLNBRqBLh/hOdoJNbAyxz2rvTu/07qT3hJbQW86BK5QAGCOM7YiyBtYICfAqC7LfUknTot4QIEwRA2gPJUF5khcD3otaII2YI9y1Z6/dMZcFDz9XKkAaMuKENzC6Dg9X3YZrWfKxTVIFisgQzg5HKJ1UEomZ7AF1pKvpbjsarSJ7+COjrP/4ZOI+SA4UkSBc9o9ibWAUStEn715AvpNeOKAZMPUKpDyKV9q2t1dSV5EbJadeK4LMAalnEEs/KJB/6pTVoJ9hoO+dC5v/hh1gBKUSEww7VIuquqhqfSsqzxJzb31U3qH9Cp9RVq+wTsqPTTK6qaySsiFslPLdDOxiTkp0ldlqs1uzPwuiq0KZ/ctuVd4t77OwMJCjHa3KCszlLJ2JbDOQX7AHfu2jZEoXAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Ceramics Company, Tangshan (唐山市陶瓷公司)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>139</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#fec424d2-7bf9-409c-a354-4835d4a25952</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>118.219,39.668,0</coordinates>
+</Point>
+</Placemark>
+<Style id="94082a8d-986b-4329-b684-d4f289422b15" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABVUlEQVRIS72WwVXCQBCGv+GgVzqQDsQKDBWIFYgHg1crELsQuMQOpAJCBUIHlOBVD4xvNxteoglE4+6+t5fsZr6dPzv5Rzgy9I4+whVCBPTcNG9t7VRSlIXMWR8KJXWLek+E8ggW0GSkCE/yTFq1uRKkMQnCTZPoFXsSmXL7/XkJpCO6nLBE6P8Rkr+W8sG1JLznD8qgsdX5vCVkD5Mpgx+glnLVnW0vo83IffjlP2VSDiMMzAXJQDHmxlx6AUFqJBRbJx3ePEGysDsuRGMmiK0Xf0N5MCCfsmWHV1YGtEU485eOBa1Fx6hXiAseEBRCOtgEvQyBrneogvX+CzI1NCMK+1N1WbVx1epSVF5kxsgs+jM+J1m1wxorP7XNRTuXVVZ8Mqy18pzeym0LchX1PNxu7ayFNDNEk0WHya/areJJXAM5tP2d0C3IukFtl/NqmshjDeQXzkl9a8dTGsUAAAAASUVORK5CYII=</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[No. 12 middle school, Tangshan (唐山市12中)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>134</td></tr><tr><th>质量</th><td>三级（轻度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者应减少长时间、高强度的户外锻炼</td></tr></tbody></table>]]></description>
+<styleUrl>#94082a8d-986b-4329-b684-d4f289422b15</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>118.18400000000001,39.657999999999994,0</coordinates>
+</Point>
+</Placemark>
+<Style id="1df1cb61-e1ea-4111-aeba-ffe70ec19149" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABTklEQVRIS72Wz03DMBSHvycOXHNB5AYbUCagnYAyATACE1A2KRvABHUmIN2AYyQuOfZSjF5iR/2TkEJqW7Ii2cn77F/e889CT7NnjDjhFhgDl67rV5+uG9a8yxf5b6Gka9KmVeBnB+hbj84b4EWK6rnXWkE2ZQ7cHxK95Z25FDzujm+BbELCKQuE0T8h/jPDijspKf3ANuicHOFqIKSBScFkDzRQrq61NTJWO3I/fnGkneyGmWiCeJBmyk0gkFEJxdXJRyBIHXbNtdiUmauXcCzLk4JCyuYXnylIj5KLcNvRbCNXkA0KccGjgmJIt4yaDJHSuza28AXrzrqQtZRJwTjuoep2NcRVu0rxVQoedDKk8VWStTtsbeXmCC6bsWLaaeWePtBtG7k29ey7bmmNHWqIGTD703VrcyXOGKfV/c6SNLJalggllje+MX0XyB86g3BUFSzPNAAAAABJRU5ErkJggg==</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Fangshan, Liangxiang, Beijing (北京房山良乡)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>165</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#1df1cb61-e1ea-4111-aeba-ffe70ec19149</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.13600000000001,39.74199999999999,0</coordinates>
+</Point>
+</Placemark>
+<Style id="9a1812f3-5630-496f-91ae-212ba064ae96" >
+<IconStyle>
+<scale>1</scale>
+<Icon>
+<href>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABR0lEQVRIS72W4VmDMBCG3+sEbiC4gHUC6QTWCdQRnKC4Sd1AJ2g6gXQBYYROwPmEhEoriIpJ/obcm/u43HfCyNKEOTNuUDIgQUiaI0oFVAiGmlepKL4LJUObmpAhrJAGML4Ug/IkFabv416QpqwR7saj936xlnceTneOQJpwhrBBmP8R4o657G6lYt/GOQalFAiXkyDtYcVIyeILaKJcQ3c7yNhk1Pz4GZt/yeQ0SM3CFogDpRiE6yAgL6H4d/IWBNIGrbkSvSAHVkFB8ChBZfuswK0F2TZyHjQjpbDSaVCIDx4RFEe6XcRiiFbeztjCP9gILWgrJVncpuqzmuKq/U9ReZaSe7sZ0vgayfod1lm5tYxpLqtsUZaDVn7ogVOGk45cXT3Hxq38x4bossh/NW51b+KNcekHSCutk1XZAXuEF2rM2AD5AcmMf7p1/L2JAAAAAElFTkSuQmCC</href>
+</Icon>
+</IconStyle>
+</Style>
+<Placemark>
+<name><![CDATA[Dongcheng Dongsi, Beijing (北京东城东四)]]></name>
+<description><![CDATA[<table class="cesium-infoBox-defaultTable"><tbody><tr><th>AQI</th><td>161</td></tr><tr><th>质量</th><td>四级（中度污染）</td></tr><tr><th>影响</th><td>易感人群症状有轻度加剧，健康人群出现刺激症状</td></tr><tr><th>建议</th><td>儿童、老年人及心脏病、呼吸系统疾病患者避免长时间、高强度的户外锻炼，一般人群适量减少户外运动</td></tr></tbody></table>]]></description>
+<styleUrl>#9a1812f3-5630-496f-91ae-212ba064ae96</styleUrl>
+<altitudeMode>absolute</altitudeMode>
+<Point>
+<coordinates>116.41700000000003,39.928999999999995,9.313225746154785e-10</coordinates>
+</Point>
+</Placemark>
+</Document>
+</kml>

@@ -56,7 +56,7 @@ define(['backbone','jquery','Config','Cesium','./LayerModel'],function(Backbone,
     		var promises = [];
     		for(i = 0,j = arr.length;i < j;i++){
     			var item = arr[i];
-    			if(mergeRes[item.resTitle + '/rest'] || /[_android,_ios]$/.test(item.resTitle)){
+    			if(mergeRes[item.resTitle + '/rest'] || /^.*?android$/.test(item.resTitle) || /^.*?ios$/.test(item.resTitle)){
     				continue;
     			}
     			var url,promise;
@@ -76,6 +76,9 @@ define(['backbone','jquery','Config','Cesium','./LayerModel'],function(Backbone,
             var model;
             for(var i = 0;i < colc.length;i++){
                 var obj = colc[i];
+                if(obj.path.indexOf("https") == -1){
+                    obj.path = obj.path.replace("http","https");
+                };
                 var resourceType = obj.resourceConfigID;
                 var name = Config.NameKeyMap[obj.name] ? Config.NameKeyMap[obj.name] : obj.name;
                 var title = Config.TitleKeyMap[obj.name] ? Config.TitleKeyMap[obj.name] : obj.name;

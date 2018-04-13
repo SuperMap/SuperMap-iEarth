@@ -19,10 +19,16 @@ define([
                    "<div id='btnGroup' class='btn-group'>",
                    "<a id='addLayerBtn'  title='" + Resource.addLayer + "' class='btn btn-inverse'><span class='fui-plus'></span></a>",
                    "<a data-toggle='dropdown' id='baseLayerBtn' title='" + Resource.setBaseLayer + "' class='btn btn-inverse' ><span class='fui-list-large-thumbnails'></span></a>",
-                   "<a id='addMarkerBtn' title='" + Resource.addMarker + "' class='btn btn-inverse'><span class='smicon-marker'></span></a>",
-                   "<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='smicon-mesure'></span></a>",
-                    "<a data-toggle='dropdown' id='visBtn' title='" + Resource.visualization + "' class='btn btn-inverse'><span class='fui-star'></span></a>",
-                   "<a data-toggle='dropdown' id='settingBtn'  title='" + Resource.setEffect + "' class='btn btn-inverse'><span class='fui-gear'></span></a>",
+                   "<a data-toggle='dropdown' id='settingBtn'  title='" + "场景" + "' class='btn btn-inverse'><span class='fui-gear'></span></a>",
+                   "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
+                   "<a data-toggle='dropdown' id='clipBtn' title='" + "剖切裁剪" + "' class='btn btn-inverse'><span class='smicon-clip'></span></a>",
+                   "<a data-toggle='dropdown' id='analysisBtn'  title='" + Resource.analysis + "' class='btn btn-inverse'><span class='fui-window'></span></a>",
+                   "<a data-toggle='dropdown' id='measureBtn' title='" + "量算" + "' class='btn btn-inverse'><span class='smicon-message'></span></a>",
+                   "<a data-toggle='dropdown' id='terrainBtn' title='" + "地形" + "' class='btn btn-inverse'><span class='smicon-terrain'></span></a>",
+                  // "<a data-toggle='dropdown' id='bookmarkBtn' title='" + "书签" + "' class='btn btn-inverse'><span class='smicon-bookmark '></span></a>",
+                  "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
+                   "<a id='addMarkerBtn' title='" + "在线编辑" + "' class='btn btn-inverse'><span class='smicon-marker'></span></a>",
+                   "<a data-toggle='dropdown' id='propertyBtn' title='" + "空间查询" + "' class='btn btn-inverse'><span class='smicon-property'></span></a>",
                    "<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='fui-arrow-left'></span></a>",
                    "</div>",
                    "</div>"
@@ -37,7 +43,12 @@ define([
             'click #addMarkerBtn' : 'onAddMarkerBtnClk',
             'click #baseLayerBtn' : 'onBaseLayerBtnClk',
             'click #measureBtn' : 'onMeasureBtnClk',
+            'click #terrainBtn' : 'onTerrainBtnClk',
+            'click #bookmarkBtn' : 'onBookmarkBtnClk',
+            'click #propertyBtn' : 'onPropertyBtnClk',
             'click #visBtn' : 'onVisBtnClk',
+            'click #analysisBtn' : 'onAnalysisBtnClk',
+            'click #clipBtn' : 'onClipBtnClk',
             'click #settingBtn' : 'onSettingBtnClk',
             'click #foldBtn' : 'onFoldBtnClk'
         },
@@ -81,7 +92,7 @@ define([
             }).on('click.dropDown-container touchstart.dropDown-container','[data-toggle=dropdown]',function(evt){
             	evt.stopPropagation();
             	var target = evt.target;
-            	if(!target.contains(evt.currentTarget) && target.tagName != 'SPAN'){
+            	if(!target.contains(evt.currentTarget) && target.parentNode.tagName != 'A'){
             		return ;
             	}
             	var $this = $(this), $parent, isActive;
@@ -98,11 +109,13 @@ define([
             	return false;
             });
         },
+
         render : function() {
             this.$el.addClass('btn-toolbar');
             this.$el.html(this.template());
             return this;
         },
+
         onLayerMangerBtnClk : function(evt) {
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -115,6 +128,7 @@ define([
         		return;
         	}
         },
+
         onExpandBtnClk : function(evt) {
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -129,6 +143,7 @@ define([
             	$('#measureBtn').hide();
             }
         },
+
         onFoldBtnClk : function(evt){
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -139,6 +154,7 @@ define([
         	$('#btnGroup').hide();
             $('#expandBtn').show();
         },
+
         onAddLayerBtnClk : function (evt) {
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -164,26 +180,52 @@ define([
             	});
             }
         },
+
         onAddMarkerBtnClk : function (evt) {
-        	if(evt && evt.preventDefault){
-        		evt.preventDefault();
-            }
-        	else{
-                window.event.returnValue = false;
-            }
-            var addMarkerHandler = this.model.addMarkerHandler;
-            if(!addMarkerHandler){
-            	addMarkerHandler = this.model.createAddMarkerHandler(this.bubble);
-            }
-            if(addMarkerHandler.active){
-            	addMarkerHandler.deactivate();
-            	$('body').removeClass('cur-addMarker');
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
             }
             else{
-            	addMarkerHandler.activate();
-            	$('body').removeClass('cur-addMarker').addClass('cur-addMarker');
+                window.event.returnValue = false;
             }
+            if(this.markerForm){
+
+                this.markerForm.$el.show();
+            }
+            if(!this.markerForm){
+                var me = this;
+                require(['./views/markerForm'],function(markerForm){
+                    var markerForm = new markerForm({
+                        sceneModel : me.model,
+                        isPCBroswer : me.isPCBroswer
+                    });
+                    me.parent.addComponent(markerForm);
+                    me.markerForm = markerForm;
+                    markerForm.$el.show();
+                });
+            }
+
+
+            // if(evt && evt.preventDefault){
+        		// evt.preventDefault();
+            // }
+            // else{
+            //     window.event.returnValue = false;
+            // }
+            // var addMarkerHandler = this.model.addMarkerHandler;
+            // if(!addMarkerHandler){
+            // 	addMarkerHandler = this.model.createAddMarkerHandler(this.bubble);
+            // }
+            // if(addMarkerHandler.active){
+            // 	addMarkerHandler.deactivate();
+            // 	$('body').removeClass('cur-addMarker');
+            // }
+            // else{
+            // 	addMarkerHandler.activate();
+            // 	$('body').removeClass('cur-addMarker').addClass('cur-addMarker');
+            // }
         },
+
         onBaseLayerBtnClk : function(evt){
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -205,6 +247,7 @@ define([
             	});
             }
         },
+
         onMeasureBtnClk : function(evt){
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -227,6 +270,80 @@ define([
                     measureDropDown.$el.addClass('dropDown-visible');
             	});
         	}
+        },
+
+        onTerrainBtnClk : function(evt){
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            if(this.terrainForm){
+
+                this.terrainForm.$el.show();
+            }
+            if(!this.terrainForm){
+                var me = this;
+                require(['./views/terrainForm'],function(terrainForm){
+                    var terrainForm = new terrainForm({
+                        sceneModel : me.model,
+                        isPCBroswer : me.isPCBroswer
+                    });
+                    me.parent.addComponent(terrainForm);
+                    me.terrainForm = terrainForm;
+                    terrainForm.$el.show();
+                });
+            }
+        },
+
+        onBookmarkBtnClk : function(evt){
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            var target = evt.target;
+            if(!target.contains(evt.currentTarget) && target.tagName != 'SPAN'){
+                return;
+            }
+            if(!this.measureDropDown){
+                var me = this;
+                require(['./views/bookmarkDropDown'],function(bookmark){
+                    var book = new bookmark({
+                        sceneModel : me.model
+                    });
+                    $('#bookmarkBtn').append(book.$el);
+                    me.book = book;
+                    book.$el.addClass('dropDown-visible');
+                });
+            }
+        },
+
+        onPropertyBtnClk : function(evt){
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            if(this.propertyForm){
+                this.propertyForm.$el.show();
+            }
+            if(!this.propertyForm){
+                var me = this;
+                require(['./views/propertyForm'],function(propertyForm){
+                    var propertyForm = new propertyForm({
+                        parent : me,
+                        sceneModel : me.model,
+                        isPCBroswer : me.isPCBroswer
+                    });
+                    me.parent.addComponent(propertyForm);
+                    me.propertyForm = propertyForm;
+                    propertyForm.$el.show();
+                });
+            }
         },
 
         onVisBtnClk : function(evt){
@@ -252,10 +369,62 @@ define([
                         me.parent.addComponent(visTools);
                         me.visTools = visTools;
                     });
+                    visualization.$el.addClass('dropDown-visible');
                 });
             }
         },
         
+        onAnalysisBtnClk : function(evt){
+        	if(evt && evt.preventDefault){
+        		evt.preventDefault();
+            }
+        	else{
+                window.event.returnValue = false;
+            }
+            if(this.analysisTools){
+                
+                this.analysisTools.$el.show();
+            }
+        	if(!this.analysisTools){
+                var me = this;
+                require(['./views/analysisTools'],function(analysisTools){
+                    var analysisTools = new analysisTools({
+                        parent : me,
+                        sceneModel : me.model,
+                        isPCBroswer : me.isPCBroswer
+                    });
+                    me.parent.addComponent(analysisTools);
+                    me.analysisTools = analysisTools;
+                    analysisTools.$el.show();
+                });
+            }
+        },
+
+        onClipBtnClk : function(evt){
+        if(evt && evt.preventDefault){
+            evt.preventDefault();
+        }
+        else{
+            window.event.returnValue = false;
+        }
+        if(this.clipForm){
+            this.clipForm.$el.show();
+        }
+        if(!this.clipForm){
+            var me = this;
+            require(['./views/clipForm'],function(clipForm){
+                var clipForm = new clipForm({
+                    parent : me,
+                    sceneModel : me.model,
+                    isPCBroswer : me.isPCBroswer
+                });
+                me.parent.addComponent(clipForm);
+                me.clipForm = clipForm;
+                clipForm.$el.show();
+            });
+        }
+    },
+
         onSettingBtnClk : function(evt){
         	if(evt && evt.preventDefault){
         		evt.preventDefault();
@@ -263,17 +432,22 @@ define([
         	else{
                 window.event.returnValue = false;
             }
-        	if(!this.settingDropDown){
-        		var me = this;
-            	require(['./views/SettingDropDown'],function(SettingDropDown){
-            		var settingDropDown = new SettingDropDown({
-                        sceneModel : me.model       
+            if(this.sceneAttribute){
+                $("#layerForm").hide();
+                $("#sceneForm").show();
+                this.sceneAttribute.$el.show();
+            }
+        	if(!this.sceneAttribute){
+                var me = this;
+                require(['./views/sceneAttribute'],function(sceneAttribute){
+                    var sceneAttribute = new sceneAttribute({
+                        sceneModel : me.model,
+                        isPCBroswer : me.isPCBroswer
                     });
-            		$('#settingBtn').append(settingDropDown.$el);
-                    me.settingDropDown = settingDropDown;
-                    settingDropDown.trigger('componentAdded');
-                    settingDropDown.$el.addClass('dropDown-visible');
-            	});
+                    me.parent.addComponent(sceneAttribute);
+                    me.sceneAttribute = sceneAttribute;
+                    sceneAttribute.$el.show();
+                });
             }
         }
 

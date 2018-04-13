@@ -4,7 +4,8 @@ define(['Cesium','CesiumHeatmap','./HeatmapImageryProvider'],function(Cesium,Ces
 	};
 	var helper,send;
     var heatLayer = null;
-
+    helper = new Cesium.EventHelper();
+    send = new Worker("./js/lib/pmworkers.js");
 	AqiService.isStart = false;
 	AqiService.start = function(viewer){
 		if(AqiService.isStart == true){
@@ -213,7 +214,7 @@ define(['Cesium','CesiumHeatmap','./HeatmapImageryProvider'],function(Cesium,Ces
 					}
 
 		}
-		helper = new Cesium.EventHelper();
+		
 		helper.add(clock.onTick,tick);
 	};
 	AqiService.remove = function(viewer){

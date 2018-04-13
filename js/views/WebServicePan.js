@@ -1,4 +1,4 @@
-define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','Cesium'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,Cesium){
+define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','popLayer' , 'Cesium'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,popLayer,Cesium){
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
@@ -7,6 +7,11 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
         '</select>',
         '</div>'
     ].join('');
+
+    popLayer.config({ //  通过模块化方式调用该插件时配置layer.js所在的目录，从而去加载它的一些配件
+        path: "js/lib/layer/src/"
+    });
+
     var WebServicePan = Container.extend({
         tagName : 'div',
         template : _.template(htmlStr),
@@ -34,7 +39,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             });
             this.render();
             this.on('componentAdded',function(parent){
-            	var url = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,366379]&pageSize=18";
+            	var url = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18";
             	me.currentPublicPage = 1;
             	me.totalPublicPage = 0;
             	me.currentPrivatePage = 1;
@@ -44,23 +49,18 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             	layerCollection.filterByTexture(texCompressType);
             	layerCollection.fetch(url,me,true);
             	if(me.isPCBroswer){
-            		$('#webServicesWraper').scroll(function(){  
-                        var scrollTop = $(this).scrollTop();
-                        var height = $(this).height();
-                        var scrollHeight = this.scrollHeight;
-                        if(height + scrollTop == scrollHeight){
+            		$('#webServicesWraper').scroll(function(){
                         	var selType = $selTypeEl.val();
                         	var newUrl;
                         	if(selType == 'public'){
                             	if(me.currentPublicPage > me.totalPublicPage){
-                            		//$('#webServicesWraper').unbind('scroll');
                             		return ;
                             	}
                             	me.currentPublicPage += 1;
                             	if(me.currentPublicPage > me.totalPublicPage){
                             		return ;
                             	}
-                            	newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,366379]&pageSize=18&currentPage=" + me.currentPublicPage;
+                            	newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18&currentPage=" + me.currentPublicPage;
                         		layerCollection.fetch(newUrl,me,true);
                         	}
                         	else{
@@ -75,8 +75,6 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
                         		newUrl = 'https://www.supermapol.com/web/services.json?offline=false&enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&keywords=[' + window.USERNAME+ ']&filterFields=["RESTITLE","LINKPAGE","USERNAME"]&t=1480990924314&currentPage=' + me.currentPrivatePage;
                         		layerCollection.fetch(newUrl,me,false);
                         	}
-                        	
-                        }
                     }); 
             	}
             	else{
@@ -93,7 +91,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
                             	if(me.currentPublicPage > me.totalPublicPage){
                             		return ;
                             	}
-                            	newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,366379]&pageSize=18&currentPage=" + me.currentPublicPage;
+                            	newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18&currentPage=" + me.currentPublicPage;
                             	layerCollection.fetch(newUrl,me,true);
                         	}
                         	else{
@@ -118,6 +116,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
         render : function(){
             this.$el.html(this.template());
             this.$('#selType').append('<option value="public">' + Resource.publicService + '</option>');
+            this.$('#selType').append('<option value="effects">' + Resource.specialEffects + '</option>');
             if(window.isLogin){
             	this.$('#selType').append('<option value="private">' + Resource.mycontent + '</option>');
             }
@@ -143,7 +142,36 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
         	else if(value === 'private'){
         		url = 'https://www.supermapol.com/web/services.json?currentPage=1&offline=false&enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&keywords=[' + window.USERNAME+ ']&filterFields=["RESTITLE","LINKPAGE","USERNAME"]&t=1480990924314'
         		this.layerCollection.fetch(url,this,false);
-        	}
+        	}else if(value === 'effects'){
+                $("#webServicesWraper").children().remove();
+                Cesium.loadJson("./data/specialEffects.json").then(function(data){
+                	var effects = data.effects;
+                	effects.forEach(function(effect){
+						var effectName = effect.name;
+						var effectPath = effect.path;
+						var effectThumbnail = effect.thumbnail;
+						var effectDescription = effect.description;
+
+						var $effectImg = $("<div class='effect-itemIcon'><div class='effect-itemBg'></div><img src="+ effectThumbnail +"></div>");
+						var $effectLabel = $("<div class='effect-itemLabel'>"+ effectName +"</div>");
+						var $effectItem = $("<div class='effect-item'></div>");
+
+						$effectItem.append($effectImg);
+						$effectItem.append($effectLabel);
+
+						$effectItem.click(function(){
+							popLayer.open({
+								title: effectDescription,
+								move: false,
+								area: ['100%', '100%'],
+								type: 2,
+								content: effectPath
+							});
+						});
+						$("#webServicesWraper").append($effectItem);
+					});
+				});
+			}
         	evt.stopPropagation();
         	return false;
         },

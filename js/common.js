@@ -12,7 +12,13 @@ requirejs.config({
         Tabs : 'views/tabs',
         dropdown : 'views/dropdown',
         CesiumHeatmap : 'lib/heatmap.min',
-        echarts:'lib/echarts.simple.min'
+        echarts : 'lib/echarts.simple.min',
+        echartsMin :'lib/echarts.min',
+        colorPicker:'lib/jquery.colorpicker',
+        spectrum : 'lib/spectrum',
+        drag :'lib/drag',
+        slider : 'lib/slider',
+        popLayer: 'lib/layer/src/layer'
     },
     shim : {
         underscore : {
@@ -29,11 +35,17 @@ requirejs.config({
         echarts : {
             exports : "echarts"
         },
+        echartsMin : {
+            exports : "echartsMin"
+        },
         Cesium: {
             exports: 'Cesium'
         },
         Zlib : {
             exports : 'Zlib'
+        },
+        colorPicker:{
+            exports : 'colorPicker'
         },
         bootstrapTree : {
             exports : 'bootstrapTree'
@@ -48,6 +60,16 @@ requirejs.config({
         dropdown : {
         	exports : 'dropdown',
         	deps : ['jquery']
+        },
+        spectrum :{
+            exports : 'spectrum'
+        },
+        slider :{
+            exports :'slider'
+        },
+        popLayer: {
+            deps : [ "jquery"],
+            exports: "mylayer"
         }
 
     }

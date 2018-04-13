@@ -27,7 +27,6 @@ define(['./Container', '../lib/AqiService','../lib/splitSrc','../lib/animation']
         render : function() {
             this.$el.html(this.template());
             this.$el.addClass('dropDown-container');
-            this.$el.css('min-width','435px');
             return this;
         },
         events : {
@@ -41,13 +40,16 @@ define(['./Container', '../lib/AqiService','../lib/splitSrc','../lib/animation']
             viewer.entities.removeAll();
             var spanEl = this.$el.find('span.smicon-pm');
             if(AqiService.isStart == false){
+                splitSrc.remove(viewer);
+                animationLand.remove(viewer);
                 AqiService.start(viewer);
                 spanEl && spanEl.removeClass('smicon-pm-selected').addClass('smicon-pm-selected');
             }
             else{
                 AqiService.remove(viewer);
                 spanEl && spanEl.removeClass('smicon-pm-selected');
-            }
+            };
+            return false;
 
         },
         onBtnSplitClk : function(){
@@ -56,13 +58,16 @@ define(['./Container', '../lib/AqiService','../lib/splitSrc','../lib/animation']
             viewer.entities.removeAll();
             var spanEl = this.$el.find('span.smicon-split');
             if(splitSrc.isStart == false){
+                AqiService.remove(viewer);
+                animationLand.remove(viewer);
                 splitSrc.start(viewer);
                 spanEl && spanEl.removeClass('smicon-split-selected').addClass('smicon-split-selected');
             }
             else{
                 splitSrc.remove(viewer);
                 spanEl && spanEl.removeClass('smicon-split-selected');
-            }
+            };
+            return false;
         },
         onBtnAnimationClk : function(){
             $("#visTitle").html(Resource.animationLand);
@@ -70,13 +75,16 @@ define(['./Container', '../lib/AqiService','../lib/splitSrc','../lib/animation']
             viewer.entities.removeAll();
             var spanEl = this.$el.find('span.smicon-animt');
             if(animationLand.isStart == false){
+                splitSrc.remove(viewer);
+                AqiService.remove(viewer);
                 animationLand.start(viewer);
                 spanEl && spanEl.removeClass('smicon-animt-selected').addClass('smicon-animt-selected');
             }
             else{
                 animationLand.remove(viewer);
                 spanEl && spanEl.removeClass('smicon-animt-selected');
-            }
+            };
+            return false;
 
         }
     });

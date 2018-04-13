@@ -49,14 +49,17 @@ function init(Cesium,Zlib){
 			animation:true,
 			timeline:true,
             baseLayerPicker : false,
-			geocoder : true
+			geocoder : true,
+			shadows : true,
+            infoBox : false
 		});
         viewer.animation.container.style.visibility='hidden';
         viewer.timeline.container.style.visibility='hidden';
 	}
 	else{
 		viewer = new Cesium.Viewer('cesiumContainer',{
-			geocoder : true
+			geocoder : true,
+            infoBox :false
 		});
 		var scene = viewer.scene;
 		if(Cesium.defined(scene.sun)) {
@@ -65,9 +68,9 @@ function init(Cesium,Zlib){
 		if(Cesium.defined(scene.moon)) {
 			scene.moon.show = false;
 		}
-//		if(Cesium.defined(scene.skyAtmosphere)) {
-//			scene.skyAtmosphere.show = false;
-//		}
+		if(Cesium.defined(scene.skyAtmosphere)) {
+			scene.skyAtmosphere.show = false;
+		}
 		if(Cesium.defined(scene.skyBox)) {
 			scene.skyBox.show = false;
 		}
@@ -82,10 +85,10 @@ function init(Cesium,Zlib){
 	viewer.scene.globe.depthTestAgainstTerrain = true;
 	viewer.scene.globe.enableLighting = true;
 	if(!window.isLogin){
-		viewer.camera.setView({
+        viewer.camera.setView({
 			destination: new Cesium.Cartesian3(6788287.844465209,-41980756.10214644,29619220.04004376)
 	    });
-		viewer.camera.flyTo({
+        viewer.camera.flyTo({
 			destination : new Cesium.Cartesian3(-5668622.32641487,21155586.53109959,12644793.325518927),
 	        duration: 5
 	    });
@@ -127,8 +130,8 @@ function init(Cesium,Zlib){
 			}
 			return false;
         });
-        require(['Tabs','dropdown','./views/ToolBar','./tools/Position','./views/ViewerContainer','./models/SceneModel','./views/ErrorPannel','./views/Compass','./views/GeoLocation'],
-        		function(Tabs,dropdown,ToolBar,Position,ViewerContainer,SceneModel,ErrorPannel,Compass,GeoLocation){
+        require(['Tabs','dropdown','./views/ToolBar','./tools/Position','./views/ViewerContainer','./models/SceneModel','./views/ErrorPannel','./views/GeoLocation','./views/layerAttribute'],
+        		function(Tabs,dropdown,ToolBar,Position,ViewerContainer,SceneModel,ErrorPannel,GeoLocation,layerAttribute){
         	var sceneModel = new SceneModel(viewer);
             var viewerContainer = new ViewerContainer();
             var toolBar = new ToolBar({
@@ -145,18 +148,10 @@ function init(Cesium,Zlib){
             }
             var errorPannel = new ErrorPannel();
             viewerContainer.addComponent(errorPannel);
-            var compassContainer = new Compass({
-            	sceneModel : sceneModel
-            });
-            viewerContainer.addComponent(compassContainer);
-            var locationContainer = new GeoLocation({
+			var layerContainer = new layerAttribute({
 				sceneModel : sceneModel
 			});
-			viewerContainer.addComponent(locationContainer,new Position({
-				mode : 'rt',
-				x : '10px',
-				y : '150px'
-			}));
+			viewerContainer.addComponent(layerContainer);
 
             $('#btnLogout').on('click',function(){
 	        	$("body").append("<iframe id='innerIframe' style='top:10000px;left:0;border:none;display:none;' src='https://www.supermapol.com/services/security/logout'></iframe>");

@@ -15,7 +15,7 @@ define([
             this.viewer = viewer;
             this.stkTerrainProvider = new Cesium.CesiumTerrainProvider({
                 //url: '//assets.agi.com/stk-terrain/world',
-            	url : 'http://www.supermapol.com/iserver/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
+            	url : 'https://www.supermapol.com/iserver/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
                 requestWaterMask : true,
                 requestVertexNormals : true,
                 credit : ''
