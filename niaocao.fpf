@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SceneRoute xmlns="http://www.supermap.com.cn/ugc60">
-<route name="Route1_2" speed="50" showroutestop="false" showrouteline="false" altitudefree="false" headingfree="False" tiltfree="false" flycircle="True" alongline="True">
+<route name="Route1_2" speed="50" lineType="0" showroutestop="False" showrouteline="False" altitudefree="True" headingfree="False" tiltfree="True" flycircle="True" alongline="True">
 <style>
 <geostyle3d>
 <linecolor>RGBA(147,112,219,255)</linecolor>
 <linewidth>20</linewidth>
+<altitudeMode>Absolute</altitudeMode>
+<bottomAltitude>-3.00</bottomAltitude>
 </geostyle3d>
 </style>
 <routestop name="Stop2" speed="0" excluded="False" viewType="camera">
@@ -14,7 +16,7 @@
 <altitude>12.146604751236699</altitude>
 <heading>358.72864174283029</heading>
 <tilt>78.517979432028199</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -40,7 +42,7 @@
 <altitude>11.9067202266306</altitude>
 <heading>86.132604998062291</heading>
 <tilt>85.049736615412499</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -66,7 +68,7 @@
 <altitude>11.340213554911299</altitude>
 <heading>357.24645452239105</heading>
 <tilt>87.364373509148393</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -92,7 +94,7 @@
 <altitude>12.960877451114399</altitude>
 <heading>269.75310742682512</heading>
 <tilt>85.100238712497998</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -118,7 +120,7 @@
 <altitude>11.7588377837092</altitude>
 <heading>183.68957880402999</heading>
 <tilt>84.137564681864205</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -144,7 +146,7 @@
 <altitude>12.888250432908499</altitude>
 <heading>88.309088331399806</heading>
 <tilt>84.252182769354505</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -170,7 +172,7 @@
 <altitude>21.034622021950799</altitude>
 <heading>88.484073213558204</heading>
 <tilt>55.810517142081999</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -196,7 +198,7 @@
 <altitude>6.6635279310867199</altitude>
 <heading>88.409378181681063</heading>
 <tilt>63.625643192502103</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -222,7 +224,7 @@
 <altitude>5.8752406947314704</altitude>
 <heading>88.114118996981105</heading>
 <tilt>68.232199694975506</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -248,7 +250,7 @@
 <altitude>24.017180605791498</altitude>
 <heading>89.657357598592938</heading>
 <tilt>70.317747794087495</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -274,7 +276,7 @@
 <altitude>21.4387021111324</altitude>
 <heading>2.2039868651327419</heading>
 <tilt>80.559454043336601</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>
@@ -300,7 +302,7 @@
 <altitude>16.939740588888501</altitude>
 <heading>2.2039868651327419</heading>
 <tilt>64.886000013826006</tilt>
-<altitudeMode>RelativeToGround</altitudeMode>
+<altitudeMode>Absolute</altitudeMode>
 </camera>
 <style>
 <geostyle3d>

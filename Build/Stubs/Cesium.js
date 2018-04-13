@@ -1430,6 +1430,62 @@ define('Fly/StopPlayMode', function() {
     return Cesium['StopPlayMode'];
 });
 
+define('Geometry3D/GeoBillboard', function() {
+    return Cesium['GeoBillboard'];
+});
+
+define('Geometry3D/GeoBox', function() {
+    return Cesium['GeoBox'];
+});
+
+define('Geometry3D/GeoCone', function() {
+    return Cesium['GeoCone'];
+});
+
+define('Geometry3D/GeoCylinder', function() {
+    return Cesium['GeoCylinder'];
+});
+
+define('Geometry3D/GeoEllipsoid', function() {
+    return Cesium['GeoEllipsoid'];
+});
+
+define('Geometry3D/GeoLine3D', function() {
+    return Cesium['GeoLine3D'];
+});
+
+define('Geometry3D/Geometry3D', function() {
+    return Cesium['Geometry3D'];
+});
+
+define('Geometry3D/Geometry3DType', function() {
+    return Cesium['Geometry3DType'];
+});
+
+define('Geometry3D/GeoModel3D', function() {
+    return Cesium['GeoModel3D'];
+});
+
+define('Geometry3D/GeoPoint3D', function() {
+    return Cesium['GeoPoint3D'];
+});
+
+define('Geometry3D/GeoRegion3D', function() {
+    return Cesium['GeoRegion3D'];
+});
+
+define('Geometry3D/GeoSphere', function() {
+    return Cesium['GeoSphere'];
+});
+
+define('Geometry3D/Point3D', function() {
+    return Cesium['Point3D'];
+});
+
+define('Geometry3D/Point3Ds', function() {
+    return Cesium['Point3Ds'];
+});
+
 define('Handler/AddMarkerHandler', function() {
     return Cesium['AddMarkerHandler'];
 });
@@ -1828,6 +1884,10 @@ define('S3MTiles/shader/RegionAltitudeVectex', function() {
 
 define('S3MTiles/shader/RegionFragment', function() {
     return Cesium['RegionFragment'];
+});
+
+define('S3MTiles/shader/RegionTextureVertex', function() {
+    return Cesium['RegionTextureVertex'];
 });
 
 define('S3MTiles/shader/RegionVectex', function() {

@@ -24,7 +24,6 @@ define(['Cesium'],function(Cesium) {
             if(planeClipPolygonHandler){
                 planeClipPolygonHandler.clear(); // 清除绘制的所有图元
                 viewer.entities.removeAll();
-
                 $("#plane-clip-point1-longitude").val(0);
                 $("#plane-clip-point1-latitude").val(0);
                 $("#plane-clip-point1-latitude").val(0);
@@ -86,7 +85,7 @@ define(['Cesium'],function(Cesium) {
 
             planeClipPolygonHandler.drawEvt.addEventListener(function(result){
                 //显示裁剪面
-                planeClipPolygonHandler.polygon.show = true;
+                planeClipPolygonHandler.polygon.show = false;
                 planeClipPolygonHandler.polyline.show = false;
 
                 //平面裁剪三点坐标信息
@@ -124,42 +123,48 @@ define(['Cesium'],function(Cesium) {
                     layers[i].clipLineColor = new Cesium.Color(1,1,1,0);
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
                 }
+                if(layers.length > 0){
+                    var clipRegion = layers[0].getClipRegion();
+                    if(clipRegion){ // 数据有问题可能会返回undefined
+                        viewer.entities.add(clipRegion);
+                    }
+                }
             });
 
             $planeClipPoint1Longitude.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint1Latitude.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint1Height.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint2Longitude.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint2Latitude.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint2Height.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint3Longitude.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint3Latitude.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
             $planeClipPoint3Height.bind('input propertychange', function(){
-                setClipPlane(layers, planeClipPolygonHandler);
+                setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
             planeClipPolygonHandler.activate();
         }else if(!beacon){//Box裁剪
@@ -241,15 +246,18 @@ define(['Cesium'],function(Cesium) {
         }
     };
 
-    function setClipPlane(layers, planeClipPolygonHandler){
+    function setClipPlane(viewer, layers, planeClipPolygonHandler){
         var pt1 = Cesium.Cartesian3.fromDegrees(Number($("#plane-clip-point1-longitude").val()), Number($("#plane-clip-point1-latitude").val()), Number($("#plane-clip-point1-height").val()));
         var pt2 = Cesium.Cartesian3.fromDegrees(Number($("#plane-clip-point2-longitude").val()), Number($("#plane-clip-point2-latitude").val()), Number($("#plane-clip-point2-height").val()));
         var pt3 = Cesium.Cartesian3.fromDegrees(Number($("#plane-clip-point3-longitude").val()), Number($("#plane-clip-point3-latitude").val()), Number($("#plane-clip-point3-height").val()));
-        planeClipPolygonHandler.polygon.polygon.hierarchy = [pt1, pt2, pt3]; // planeClipPolygonHandler.polygon 是Cesium.Entity
-        planeClipPolygonHandler.polyline.positions = [pt1, pt2, pt3];
         for(var i = 0; i < layers.length; i ++){
             layers[i].clipLineColor = new Cesium.Color(1,1,1,0);
             layers[i].setCustomClipPlane(pt1,pt2,pt3);
+        }
+        viewer.entities.removeAll();
+        if(layers.length > 0){
+            var clipRegion = layers[0].getClipRegion();
+            viewer.entities.add(clipRegion);
         }
     }
 
@@ -312,6 +320,5 @@ define(['Cesium'],function(Cesium) {
             layers[i].setCustomClipBox(boxOptions);
         }
     }
-
     return clip;
 });

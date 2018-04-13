@@ -17,6 +17,9 @@
         html, body, #cesiumContainer {
             width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;background-color: #000000;
         }
+        .params-control{
+            margion-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -41,7 +44,22 @@
         <div class="circle4"></div>
     </div>
 </div>
-<div id="toolbar" style="position: absolute;left: 5px;top: 5px;display: none;">
+<div id="toolbar" style="position: absolute;left: 5px;top: 5px;padding: 20px 5px;">
+    <p class="params-control">
+        <label style="color: #FFFFFF">亮度阈值: </label>
+        <input type="range" id="threshold" min="0" max="1" value="0.9" step="0.01" style="width: 170px">
+        <span id="current_threshold" style="color: #FFFFFF"></span>
+    </p>
+    <p class="params-control">
+        <label style="color: #FFFFFF">泛光强度: </label>
+        <input type="range" id="bloomIntensity" min="0" max="10" value="1" step="0.01" style="width: 170px">
+        <span id="current_bloomIntensity" style="color: #FFFFFF"></span>
+    </p>
+    <p class="params-control">
+        <label style="color: #FFFFFF">
+            <input type="checkbox" id="show" style="vertical-align: middle;margin-right: 10px;"><span style="vertical-align: middle">场景泛光</span>
+        </label>
+    </p>
     <select id="airlineOptions" class="selectpicker show-tick form-control">
         <option selected value="Air China" selected>中国国际航空（Air China）</option>
         <option value="China Eastern Airlines">中国东方航空（China Eastern Airlines）</option>
@@ -73,11 +91,37 @@
     function onload(Cesium) {
         try{
             let viewer = new Cesium.Viewer('cesiumContainer', {
-                infoBox: false
+                infoBox: false,
+                selectionIndicator: false
             });
             let scene = viewer.scene;
-            scene.globe.show = false;
+            scene.imageryLayers.removeAll(true);
+            scene.globe.baseColor = new Cesium.Color(0.0, 0.0, 0.0, 1.0); // 没有影像时地球的基础颜色，默认为蓝色
             scene.skyBox.show = false;
+
+            viewer.scene.fxaa = true;
+            $("#current_threshold").text($("#threshold").val());
+            $("#current_bloomIntensity").text($("#bloomIntensity").val());
+
+            //场景泛光效果的开关
+            $("#show").on("input change", function() {
+                viewer.scene.bloomEffect.show = this.checked;
+                viewer.scene.bloomEffect.threshold = $("#threshold").val();
+                viewer.scene.bloomEffect.bloomIntensity = $("#bloomIntensity").val();
+            });
+
+            //泛光亮度阈值调节
+            $("#threshold").on("input change", function() {
+                $("#current_threshold").text(this.value);
+                viewer.scene.bloomEffect.threshold = this.value;
+            });
+
+            //泛光强度
+            $("#bloomIntensity").on("input change", function() {
+                $("#current_bloomIntensity").text(this.value);
+                viewer.scene.bloomEffect.bloomIntensity = this.value;
+            });
+
             let promiseBaseLayer = scene.addS3MTilesLayerByScp(URL_CONFIG.SCP_WORLD_COUNTRY_VECTOR, {
                 name: "baseLayer"
             });
@@ -189,6 +233,7 @@
                                 viewer.entities.add({
                                     position: Cesium.Cartesian3.fromDegrees(item[3], item[4]),
                                     point: {
+                                        color: Cesium.Color.YELLOWGREEN,
                                         pixelSize: 2
                                     }
                                 });
