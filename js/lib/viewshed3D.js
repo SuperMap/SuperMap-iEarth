@@ -4,7 +4,8 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     var viewshed = function () {
     };
     viewshed.isStart = false;
-    var viewshed3D; 
+    var viewshed3D;
+    var pointPosition;
     var vsPointHandler;
     viewshed.start = function (viewer) {
         // var scene = viewer.scene;
@@ -62,11 +63,30 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
         var toolbar = document.getElementById('content1');
         Cesium.knockout.applyBindings(viewModel, toolbar);
 
+        $('#viewX').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
+            pointPosition.position._value = cartesian;
+            viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val())];
+        })
+
+        $('#viewY').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
+            pointPosition.position._value = cartesian;
+            viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val())];
+        })
+
+        $('#viewZ').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
+            pointPosition.position._value = cartesian;
+            viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val()) + parseFloat($('#heightView').val())];
+        })
 
         $('#heightView').on('input propertychange',function(){
             var longitude = parseFloat($('#viewX').val())
             var latitude = parseFloat($('#viewY').val())
             var height =parseFloat($('#viewZ').val()) + parseFloat(this.value);
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(longitude,latitude,height);
+            pointPosition.position._value = cartesian;
             viewshed3D.viewPosition = [longitude, latitude, height];
 
         })
@@ -163,6 +183,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
 
         vsPointHandler.drawCompletedEvent.addEventListener(function(point){
             var position = point.position._value;
+            pointPosition = point;
             viewPosition = position;
 
             //将获取的点的位置转化成经纬度
@@ -171,9 +192,9 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             var latitude = Cesium.Math.toDegrees(cartographic.latitude);
             var height = cartographic.height;
 
-            $('#viewX').val(longitude);
-            $('#viewY').val(latitude);
-            $('#viewZ').val(height);
+            $('#viewX').val(longitude.toFixed(4));
+            $('#viewY').val(latitude.toFixed(4));
+            $('#viewZ').val(height.toFixed(4));
 
             if(scene.viewFlag) {
                 //设置视口位置

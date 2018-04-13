@@ -1728,7 +1728,7 @@ label{
 	color: #ffffff;
 	display: inline-block;
 	vertical-align: middle;
-	height: 42px;
+	height: 38px;
 	width: 100%;
 	margin: 0;
 	padding: 0 32px 0 0;
@@ -2758,7 +2758,7 @@ main .square{
 }
 .coord{
     border: 1px solid #D3D3D3;
-    width: 33%;
+    width: 44%;
     display: inline-block;
     margin-right: 10px;
     background-color: #333;
@@ -2768,7 +2768,7 @@ main .square{
 	color: lightgray;
 	background-color: #333;
 	padding: 4px 6px;
-	width: 70%;
+	width: 88%;
 	border: none;
 	border-left: 1px solid #D3D3D3;
 }
@@ -2777,15 +2777,6 @@ main .square{
 }
 .coord label{
 	width: 5%;
-}
-#content3 input,#content4 input{
-    height: 30px;
-    color: lightgray;
-    background-color: #333;
-    padding: 4px 6px;
-    width: 81%;
-    border: none;
-    border-left: 1px solid #686363;
 }
  .sp-replacer {
     background-color: #333;

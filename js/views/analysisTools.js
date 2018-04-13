@@ -1,4 +1,4 @@
-define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3D','../lib/skyline','../lib/shadowQuery','../lib/sightline','drag','spectrum','slider','../3DGIS/profile'],function(Container,semantic,knob,viewshed,skyLine,shadow,sgline,drag,spectrum,slider,profile){
+define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3D','../lib/skyline','../lib/shadowQuery','../3DGIS/sightline','drag','spectrum','slider','../3DGIS/profile'],function(Container, semantic, knob, viewshed, skyLine, shadow, sgline, drag, spectrum, slider, profile){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -30,9 +30,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div>',
             '<div>',
                '<label>'+"观察点位置" +'</label>',
-               '<div class="coord"><label>X</label><input id="viewX" value="0.0"/></div>',
-               '<div class="coord"><label>Y</label><input id="viewY" value="0.0"/></div><br><br>',
-               '<div class="coord"><label>Z</label><input id="viewZ" value="0.0"/></div>',
+               '<div class="coord"><label>X</label><input type="number" id="viewX" value="0.0" step="0.0001"/></div>',
+               '<div class="coord"><label>Y</label><input type="number" id="viewY" value="0.0" step="0.0001"/></div><br><br>',
+               '<div class="coord"><label>Z</label><input type="number" id="viewZ" value="0.0"/></div>',
             '</div>',
 
             '<div>',
@@ -89,13 +89,13 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
     '<div>',
         '<label>'+ Resource.startTime +'</label>',
        '<select id="startTime">',
-            '<option value="0" selected>0:00</option>',
+            '<option value="0">0:00</option>',
             '<option value="2">2:00</option>',
            ' <option value="4">4:00</option>',
             '<option value="6">6:00</option>',
             '<option value="8">8:00</option>',
             '<option value="10">10:00</option>',
-            '<option value="12">12:00</option>',
+            '<option value="12" selected>12:00</option>',
             '<option value="14">14:00</option>',
             '<option value="16">16:00</option>',
             '<option value="18">18:00</option>',
@@ -111,10 +111,10 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
             '<option value="6">6:00</option>',
             '<option value="8">8:00</option>',
             '<option value="10">10:00</option>',
-            '<option value="12" selected>12:00</option>',
+            '<option value="12">12:00</option>',
             '<option value="14">14:00</option>',
             '<option value="16">16:00</option>',
-            '<option value="18">18:00</option>',
+            '<option value="18" selected>18:00</option>',
             '<option value="20">20:00</option>',
             '<option value="22">22:00</option>',
             '<option value="24">24:00</option>',
@@ -122,11 +122,11 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '</div><br>',
    '<a class="ui teal ribbon label">高度</a>',
    '<div style="">',
-       '<label>'+ Resource.bottomAltitude +'</label>',
-        '<input id="bottomHeight" class="input" value="20"/><button id="clickQuery" class="btn btn-info">点击查询高程</button>',
+       '<label>'+ "底部高程(米)" +'</label>',
+        '<input id="bottomHeight" class="input" value="20" style="width: 55%"/><button id="clickQuery" class="btn btn-info" style="margin-top: -5px">点击查询高程</button>',
     '</div>',
     '<div style="">',
-        '<label>'+ Resource.extrudeHeight +'</label>',
+        '<label>'+ "拉伸高度(米)" +'</label>',
         '<input id="extrudeHeight" class="input" value="20"/>',
    '</div><br>',
 
@@ -142,9 +142,19 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">观察者信息</a><br><br>',
     '<div >',
-        '<div class="coord"><label>X</label><input id="viewPointX" value="0.0"/></div>',
-        '<div class="coord"><label>Y</label><input id="viewPointY" value="0.0"/></div><br><br>',
-        '<div class="coord"><label>Z</label><input id="viewPointZ" value="0.0"/></div>',
+        '<div class="coord"><label>X</label><input type="number" id="viewPointX" value="0.0" step="0.0001"/></div>',
+        '<div class="coord"><label>Y</label><input type="number" id="viewPointY" value="0.0" step="0.0001"/></div><br><br>',
+        '<div class="coord"><label>Z</label><input type="number" id="viewPointZ" value="0.0"/></div><br><br>',
+        // '<table  border="0" align="left">',
+        // '<tr>',
+        // '<th>',
+        // '<input type="checkbox" id="dyAnalysis" style="width: auto;height: auto">',
+        // '</th>',
+        // '<td>',
+        // '<div style="float: left;font-size: 12px">动态</div>',
+        // '</td>',
+        // '</tr>',
+        // '</table>',
     '</div><br>',
 
 '<a class="ui teal ribbon label">参数设置</a>',
@@ -157,9 +167,8 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
     '</div>',
  '</div>',
 
-    '<button type="button"  class="btn btn-info" id="clearSL" style="float: right">'+ Resource.clear +'</button>',
-    '<button type="button"  class="btn btn-info" id="addTarget" style="float: right">'+ Resource.addTarget +'</button>',
-    '<button type="button"  class="btn btn-info" id="addViewpoint" style="float: right">'+ Resource.addViewPoint +'</button>',
+    '<button type="button"  class="btn btn-info" id="clearSL" style="float: right">'+ "清理" +'</button>',
+    '<button type="button"  class="btn btn-info" id="addViewpoint" style="float: right">'+ "分析" +'</button>',
 
 '</div>',
 '</section>',
@@ -168,9 +177,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">观察者信息</a><br>',
     '<div style=" margin-top: 10px; margin-bottom: 10px;">',
-        '<div class="coord" ><label>X</label><input id="skyviewX" value="0.0"/></div>',
-        '<div class="coord"><label>Y</label><input id="skyviewY" value="0.0"/></div><br><br>',
-       '<div class="coord"><label>Z</label><input id="skyviewZ" value="0.0"/></div>',
+        '<div class="coord" ><label>X</label><input type="number" id="skyviewX" value="0.0" step="0.0001"/></div>',
+        '<div class="coord"><label>Y</label><input type="number" id="skyviewY" value="0.0" step="0.0001"/></div><br><br>',
+       '<div class="coord"><label>Z</label><input type="number" id="skyviewZ" value="0.0"/></div>',
     '</div>',
         '<a class="ui teal ribbon label">参数设置</a><br>',
       '<div class="square">',
@@ -194,22 +203,22 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<div>',
         '<a class="ui blue ribbon label">起点信息</a><br>',
-        '<label>经度：</label>',
-        '<input id="profileLong1" class="input"  value="0.0" >',
-        '<label>维度：</label>',
-        '<input id="profileLat1" class="input"  value="0.0" >',
-        '<label>高程：</label>',
-        '<input id="profileAlt1" class="input"  value="0.0" ><br><br>',
+        '<label>经度(度)</label>',
+        '<input type="number" id="profileLong1" class="input"  value="0.0" step="0.0001">',
+        '<label>纬度(度)</label>',
+        '<input type="number" id="profileLat1" class="input"  value="0.0" step="0.0001">',
+        '<label>高程(米)</label>',
+        '<input type="number" id="profileAlt1" class="input"  value="0.0" ><br><br>',
 
         '</div>',
         '<div>',
         '<a class="ui teal ribbon label">终点信息</a><br>',
-        '<label>经度：</label>',
-        '<input id="profileLong2" class="input"  value="0.0" >',
-        '<label>维度：</label>',
-        '<input id="profileLat2" class="input"  value="0.0" >',
-        '<label>高程：</label>',
-        '<input id="profileAlt2" class="input"  value="0.0" ><br><br>',
+        '<label>经度(度)</label>',
+        '<input type="number" id="profileLong2" class="input"  value="0.0"  step="0.0001">',
+        '<label>纬度(度)</label>',
+        '<input type="number" id="profileLat2" class="input"  value="0.0" step="0.0001">',
+        '<label>高程(米)</label>',
+        '<input type="number" id="profileAlt2" class="input"  value="0.0" ><br><br>',
         '<input type="button" id="profileDel" class="btn btn-info" style="float:right" value="清理">',
         '<input type="button" id="profile" class="btn btn-info" style="float:right" value="分析">',
 
@@ -229,6 +238,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
             'click #tab2' : 'onCheckTab2',
             'click #tab3' : 'onCheckTab3',
             'click #tab4' : 'onCheckTab4',
+            'click #addViewpoint'  : 'onAddViewpointClk',
             'click #profile'  : 'onProfileClk',
             'click #profileDel'  : 'onProfileDelClk',
             'click #clickQuery'  : 'onClickQueryClk',
@@ -257,8 +267,28 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
                     localStorageKey: "spectrum.demo",
                     palette: palette
                 });
+                $("#visibleColor").spectrum({
+                    change:function(){
+                        $('#visibleColor').trigger('input');
+                    },
+                    color: "rgb(0, 200, 0, 100)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $("#hiddenColor").spectrum({
+                    change:function(){
+                        $('#hiddenColor').trigger('input');
+                    },
+                    color: "rgb(200, 0, 0, 100)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $("#selDate").val(getNowFormatDate());
                 if (!init){   //不能这样写。。。分开
-                    sgline.initializing(viewer);
                     viewshed.initializing(viewer);
                     shadow.initializing(viewer);
                     skyLine.initializing(viewer,parentContainer);
@@ -312,6 +342,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
             sgline.remove(viewer);
             skyLine.start(viewer);
         },
+        onAddViewpointClk : function(){
+            sgline.initializing(viewer);
+        },
         onProfileClk : function(evt){
             profile.initializing(viewer,parentContainer);
         },
@@ -325,10 +358,28 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
                 var position = scene.pickPosition(e.position);
                 var cartographic = Cesium.Cartographic.fromCartesian(position);
                 var height = cartographic.height;
-                $("#bottomHeight").val(height);
+                $("#bottomHeight").val(height.toFixed(9));
                 handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         },
+
     });
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    }
+
     return analysisTools;
 });

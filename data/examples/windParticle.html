@@ -52,6 +52,8 @@
 			<input type="range" id="threshold" min="0" value="0.2" max="1" value="1" step="0.01" style="width: 170px"><br><br>
 			<label style="color: #FFFFFF">泛光强度: </label>
 			<input type="range" id="bloomIntensity" min="0" max="10" value="2" step="0.01" style="width: 170px"><br><br>
+			<label class="labelText">粒子颜色: </label>
+			<input id="particleColor" class="button black" /><br/><br/>
 			<button type="button" id="startField" class="button black">启动风场</button>
 			<button type="button" id="changeFieldData" class="button black">切换数据</button><br/><br/>
 		</div>
@@ -73,9 +75,7 @@
                     infobox: false
                 });
                 var scene = viewer.scene;
-                scene.imageryLayers.removeAll(true);
-                scene.globe.baseColor = new Cesium.Color(0.0, 0.0, 0.0, 1.0); // 没有影像时地球的基础颜色，默认为蓝色
-                scene.skyBox.show = false;
+                scene.globe.show = false;
 
                 viewer.scene.skyBox.show = false;
                 viewer.scene.sun.show = false;
@@ -98,6 +98,7 @@
 
                 var fieldLayer = new Cesium.FieldLayer3D(scene.context); //场数据图层
                 fieldLayer.particleVelocityFieldEffect.velocityScale = 100.0; //初始化效果
+                fieldLayer.particleVelocityFieldEffect.particleColor =new Cesium.Color(1,1,1,0.28);
                 fieldLayer.particleVelocityFieldEffect.particleSize = 1.5;
                 fieldLayer.particleVelocityFieldEffect.paricleCountPerDegree = 1.5;
                 scene.primitives.add(fieldLayer); //添加场图层
@@ -128,6 +129,14 @@
                     }
                 });
 
+                //颜色选择器
+                $("#particleColor").spectrum({
+                    color: "rgba(255,255,255,0.28)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
                 $("#show").on("input change", function() {
                     viewer.scene.bloomEffect.show = this.checked;
                 });
@@ -156,6 +165,11 @@
                         fieldLayer.fieldData = particleWindInverseField;
                     }
                     dataChanged = !dataChanged;
+                });
+
+                //粒子颜色选择
+                $("#particleColor").on("input change", function() {
+                    fieldLayer.particleVelocityFieldEffect.particleColor = Cesium.Color.fromCssColorString(this.value);
                 });
 
                 //粒子大小控制
