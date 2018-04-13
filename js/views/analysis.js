@@ -1,4 +1,4 @@
-define(['./Container', '../lib/viewshed3D','../lib/skyline','../lib/shadowQuery','../lib/sightline'],function(Container, viewshed,skyLine,shadow,sgline){
+define(['./Container', '../lib/viewshed3D','../lib/skyline','../lib/shadowQuery','../3DGIS/sightline'],function(Container, viewshed, skyLine, shadow, sgline){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
