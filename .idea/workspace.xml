@@ -32,8 +32,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="18" column="61" lean-forward="false" selection-start-line="18" selection-start-column="61" selection-end-line="18" selection-end-column="61" />
+            <state relative-caret-position="130">
+              <caret line="8" column="57" lean-forward="true" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -44,11 +44,11 @@
       <file leaf-file-name="CustomServicePan.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/views/CustomServicePan.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4669">
+            <state relative-caret-position="851">
               <caret line="203" column="50" lean-forward="false" selection-start-line="203" selection-start-column="50" selection-end-line="203" selection-end-column="50" />
               <folding>
-                <marker date="1523610395232" expanded="true" signature="216:232" ph="[...]" />
-                <marker date="1523610395232" expanded="true" signature="4563:4653" ph="{...}" />
+                <marker date="1523610528889" expanded="true" signature="216:232" ph="[...]" />
+                <marker date="1523610528889" expanded="true" signature="4563:4653" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -67,8 +67,8 @@
       <file leaf-file-name="clip.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/3DGIS/clip.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="322">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -77,7 +77,7 @@
       <file leaf-file-name="clipForm.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/views/clipForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2645">
+            <state relative-caret-position="851">
               <caret line="115" column="50" lean-forward="false" selection-start-line="115" selection-start-column="50" selection-end-line="115" selection-end-column="50" />
               <folding>
                 <marker date="1523272174414" expanded="true" signature="272:326" ph="..." />
@@ -299,53 +299,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="supermapearth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="supermapearth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="supermapearth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="supermapearth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="supermapearth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="supermapearth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="examples" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -392,6 +345,53 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="supermapearth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="supermapearth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="supermapearth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="supermapearth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="supermapearth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="supermapearth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -556,12 +556,13 @@
       <workItem from="1523598313490" duration="1148000" />
       <workItem from="1523600572134" duration="2388000" />
       <workItem from="1523604349332" duration="1573000" />
-      <workItem from="1523608478670" duration="1454000" />
+      <workItem from="1523608478670" duration="1846000" />
+      <workItem from="1523610859261" duration="115000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="395348000" />
+    <option name="totallyTimeSpent" value="395855000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -570,12 +571,12 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1406744" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -888,61 +889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/CustomServicePan.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4669">
-          <caret line="203" column="50" lean-forward="false" selection-start-line="203" selection-start-column="50" selection-end-line="203" selection-end-column="50" />
-          <folding>
-            <marker date="1523610395232" expanded="true" signature="216:232" ph="[...]" />
-            <marker date="1523610395232" expanded="true" signature="4563:4653" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/SuperMap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/views/clipForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2645">
-          <caret line="115" column="50" lean-forward="false" selection-start-line="115" selection-start-column="50" selection-end-line="115" selection-end-column="50" />
-          <folding>
-            <marker date="1523272174414" expanded="true" signature="272:326" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="355:435" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="657:672" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="799:814" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="929:963" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="1181:1187" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="1328:1334" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="1477:1483" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="1635:1641" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="1792:1843" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="2264:2287" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="2290:2296" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="2309:2332" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="2440:2451" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="2545:2556" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="2720:2754" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="3039:3045" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="3221:3227" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="3380:3386" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="3625:3631" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="3807:3813" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="3966:3972" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="4211:4217" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="4393:4399" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="4552:4558" ph=" " />
-            <marker date="1523272174414" expanded="true" signature="4653:4664" ph="..." />
-            <marker date="1523272174414" expanded="true" signature="4741:4752" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/examples/airlinesTrailLines.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5198">
@@ -977,18 +923,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/SuperMap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="18" column="2" lean-forward="false" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/views/CustomServicePan.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="851">
+          <caret line="203" column="50" lean-forward="false" selection-start-line="203" selection-start-column="50" selection-end-line="203" selection-end-column="50" />
+          <folding>
+            <marker date="1523610528889" expanded="true" signature="216:232" ph="[...]" />
+            <marker date="1523610528889" expanded="true" signature="4563:4653" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/views/clipForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="851">
+          <caret line="115" column="50" lean-forward="false" selection-start-line="115" selection-start-column="50" selection-end-line="115" selection-end-column="50" />
+          <folding>
+            <marker date="1523272174414" expanded="true" signature="272:326" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="355:435" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="657:672" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="799:814" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="929:963" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="1181:1187" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="1328:1334" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="1477:1483" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="1635:1641" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="1792:1843" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="2264:2287" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="2290:2296" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="2309:2332" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="2440:2451" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="2545:2556" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="2720:2754" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="3039:3045" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="3221:3227" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="3380:3386" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="3625:3631" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="3807:3813" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="3966:3972" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="4211:4217" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="4393:4399" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="4552:4558" ph=" " />
+            <marker date="1523272174414" expanded="true" signature="4653:4664" ph="..." />
+            <marker date="1523272174414" expanded="true" signature="4741:4752" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/3DGIS/clip.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state relative-caret-position="322">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" column="61" lean-forward="false" selection-start-line="18" selection-start-column="61" selection-end-line="18" selection-end-column="61" />
+        <state relative-caret-position="130">
+          <caret line="8" column="57" lean-forward="true" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
