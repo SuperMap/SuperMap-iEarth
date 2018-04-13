@@ -4,7 +4,7 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
 
     /*
     * 飞行管理对象
-    * 飞行路线加载，URl方式不太适用，底层改
+    * 飞行路线加载
     * 飞行过程管理，开始，暂停，结束
     * 飞行点管理
     *
@@ -23,9 +23,15 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
            flyManager.play();
        } else {
            var scene = viewer.scene;
-           var routes = new Cesium.RouteCollection();//这里不能这样写，底层新接口出来后地改写
-           var fpfUrl = 'niaocao.fpf';
-           routes.fromFile(fpfUrl);
+           var routes = new Cesium.RouteCollection();
+           var fileInput = document.getElementById("flyFile");
+           var file = fileInput.files[0];
+           var reader = new FileReader();
+           reader.onload=function(e) {
+               var XMLContent = e.target.result;
+               routes.fromXML(XMLContent);
+           };
+           reader.readAsBinaryString(file)
            //创建飞行管理对象
            flyManager = new Cesium.FlyManager({
                scene : scene,

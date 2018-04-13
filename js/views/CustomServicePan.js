@@ -7,6 +7,8 @@ define([
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
+        '<div style="padding: 10px; border:1px solid #417BB3">',
+        '<label>打开图层</label>',
         '<div class="form-group" style="text-align: left;">',
         '<select class="cesium-button" style="width : 50%;" id="typeInput">',
         '<option value="S3M">' + Resource.s3mLayer + '</option>',
@@ -18,10 +20,10 @@ define([
         '</span>',
         '</div>',
         '<div class="form-group">',
-        '<input id="urlInput" class="my-form-control" type="url" placeholder="enter url" />',
+        '<input id="urlInput" class="my-form-control" type="url" placeholder="enter layer url" />',
         '</div>',
         '<div class="form-group">',
-        '<input id="nameInput" class="my-form-control" type="text" placeholder="enter layer name" />',
+        '<input id="nameInput" class="my-form-control" type="text" placeholder="enter name" />',
         '</div>',
         '<div class="form-group" id="dataUrlDiv" style="display: none;">',
         '<input id="dataUrlInput" style="display: none;"/>',
@@ -32,9 +34,13 @@ define([
         '<option selected="selected" value="undefined">--' + Resource.selDataSet + '--</option>',
         '</select>',
         '</div>',
-        '<div class="form-group" style="text-align : right;">',
-        '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk">' + Resource.confirm + '</button>',
-        '</div>'
+        '</div><br>',
+        '<div style="padding: 10px; border:1px solid #417BB3">',
+        '<label>打开场景</label>',
+        '<input id="sceneUrl" class="my-form-control" type="url" placeholder="enter scene url" />',
+        '</div><br>',
+        '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk" style="float: right">' + Resource.confirm + '</button>',
+
     ].join('');
     var scpUrlValueBak;
     var WebServicePan = Container.extend({
@@ -60,12 +66,13 @@ define([
         },
         onBtnOkClk : function(evt){
             var url = $('#urlInput').val();
+            var sceneUrl =  $('#sceneUrl').val();
             var name = $('#nameInput').val();
-            if(url === ''){
+            if(url === ''&& sceneUrl === ''){
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
             }
-            if(name == ''){
+            if(name == ''&& sceneUrl === ''){
                 Util.showErrorMsg(Resource.urlNotNullMsg.layerNameNotNullMsg);
                 return;
             }
@@ -74,6 +81,7 @@ define([
             
             var layerModel = new LayerModel({
             	url : url,
+                sceneUrl : sceneUrl,
             	name : name,
             	type : type,
             	realName : name
@@ -94,6 +102,9 @@ define([
                     };
                 }
             }
+
+
+
             this.model.addLayer(layerModel);
             evt.stopPropagation();
         },

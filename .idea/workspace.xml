@@ -2,16 +2,830 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7326f644-fc5c-4a7f-91dd-8bc7e2af8f7f" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_0.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_1.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_10.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_11.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_12.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_13.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_14.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_15.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_16.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_17.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_18.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_19.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_2.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_20.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_21.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_22.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_23.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_24.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_25.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_26.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_27.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_3.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_4.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_5.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_6.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_7.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_8.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/IAU2006_XYS/IAU2006_XYS_9.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/GlobalBkLayer.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/0/0/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/0/1/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/0/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/0/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/1/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/1/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/2/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/2/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/3/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/1/3/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/0/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/0/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/0/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/0/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/1/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/1/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/1/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/1/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/2/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/2/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/2/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/2/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/3/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/3/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/3/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/3/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/4/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/4/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/4/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/4/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/5/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/5/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/5/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/5/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/6/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/6/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/6/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/6/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/7/0.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/7/1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/7/2.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/2/7/3.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/NaturalEarthII/tilemapresource.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/SkyBox/tycho2t3_80_mx.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/SkyBox/tycho2t3_80_my.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/SkyBox/tycho2t3_80_mz.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/SkyBox/tycho2t3_80_px.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/SkyBox/tycho2t3_80_py.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/SkyBox/tycho2t3_80_pz.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/excavationregion_side.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/excavationregion_top.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/airfield.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/airport.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/alcohol-shop.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/america-football.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/art-gallery.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/bakery.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/bank.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/bar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/baseball.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/basketball.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/beer.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/bicycle.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/blu-diamond.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/building.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/bus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/cafe.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/camera.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/campsite.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/car.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/cemetery.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/cesium.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/chemist.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/cinema.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/circle-stroked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/circle.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/city.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/clothing-store.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/college.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/commercial.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/cricket.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/cross.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/dam.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/danger.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/disability.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/dog-park.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/embassy.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/emergency-telephone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/entrance.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/farm.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/fast-food.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/ferry.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/fire-station.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/fuel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/garden.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/gift.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/golf.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/grepin.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/grocery.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/hairdresser.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/harbor.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/heart.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/heliport.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/hospital.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/ice-cream.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/industrial.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/land-use.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/laundry.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/library.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/lighthouse.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/lodging.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/logging.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/london-underground.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/marker-stroked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/marker.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/minefield.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/mobilephone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/monument.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/museum.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/music.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/oil-well.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/park.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/park2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/parking-garage.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/parking.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/pharmacy.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/pitch.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/place-of-worship.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/playground.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/police.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/polling-place.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/post.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/prison.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/rail-above.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/rail-light.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/rail-metro.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/rail-underground.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/rail.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/religious-christian.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/religious-jewish.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/religious-muslim.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/restaurant.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/roadblock.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/rocket.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/school.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/scooter.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/shop.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/skiing.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/slaughterhouse.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/soccer.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/square-stroked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/square.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/star-stroked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/star.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/suitcase.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/swimming.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/telephone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/tennis.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/theatre.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/toilets.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/town-hall.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/town.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/triangle-stroked.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/triangle.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/village.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/warehouse.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/waste-basket.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/water.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/wetland.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/maki/zoo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/moonSmall.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/pin.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/waterNormals.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/Textures/waterNormalsSmall.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Assets/approximateTerrainHeights.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Cesium.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Terrain/0/0/0.terrain" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Terrain/0/1/0.terrain" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Terrain_STK/0/0/0.terrain" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Terrain_STK/0/1/0.terrain" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/ThirdParty/Workers/deflate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/ThirdParty/Workers/inflate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Animation/Animation.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Animation/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/BaseLayerPicker/BaseLayerPicker.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/BaseLayerPicker/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Cesium3DTilesInspector/Cesium3DTilesInspector.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/CesiumInspector/CesiumInspector.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/CesiumWidget/CesiumWidget.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/CesiumWidget/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/FullscreenButton/FullscreenButton.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Geocoder/Geocoder.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Geocoder/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/bingAerial.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/bingAerialLabels.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/bingRoads.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/blackMarble.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/esriNationalGeographic.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/esriWorldImagery.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/esriWorldStreetMap.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/mapQuestOpenStreetMap.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/mapboxSatellite.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/mapboxStreets.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/mapboxTerrain.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/naturalEarthII.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/openStreetMap.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/stamenToner.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ImageryProviders/stamenWatercolor.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/arrows_e_active.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/arrows_n_active.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/arrows_s_active.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/arrows_w_active.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/compass_active.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/ring.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/ring_active.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/tilt.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/tiltbar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/zoom.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/zoom_active_in.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/zoom_active_out.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/Navigation/zoombar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/Mouse.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/MouseLeft.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/MouseMiddle.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/MouseRight.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/Touch.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/TouchDrag.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/TouchRotate.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/TouchTilt.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/NavigationHelp/TouchZoom.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/TerrainProviders/Ellipsoid.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/TerrainProviders/STK.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/TimelineIcons.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/ZoomIndicator/zoom_Identifiers.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/compass.s3m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/cur/Hold.cur" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/cur/Pan.cur" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Images/info-loading.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/InfoBox/InfoBox.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/InfoBox/InfoBoxDescription.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Navigation/navigation.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/NavigationHelpButton/NavigationHelpButton.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/NavigationHelpButton/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/PerformanceWatchdog/PerformanceWatchdog.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/ProjectionPicker/ProjectionPicker.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/SceneModePicker/SceneModePicker.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/SelectionIndicator/SelectionIndicator.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Timeline/Timeline.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Timeline/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/VRButton/VRButton.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/Viewer/Viewer.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/ZoomIndicator/ZoomIndicator.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/lighter.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/lighterShared.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/shared.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Widgets/widgets.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/S3MTilesParser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/cesiumWorkerBootstrapper.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/combineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createBoxGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createBoxOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createCircleGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createCircleOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createCorridorGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createCorridorOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createCylinderGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createCylinderOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createEllipseGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createEllipseOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createEllipsoidGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createEllipsoidOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createFrustumGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createFrustumOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createPolygonGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createPolygonOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createPolylineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createPolylineVolumeGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createPolylineVolumeOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createRectangleGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createRectangleOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createSimplePolylineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createSphereGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createSphereOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createVerticesFromGoogleEarthEnterpriseBuffer.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createVerticesFromHeightmap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createVerticesFromQuantizedTerrainMesh.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createWallGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/createWallOutlineGeometry.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/decodeGoogleEarthEnterprisePacket.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/transcodeCRNToDXT.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/transferTypedArrayTest.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/upsampleQuantizedTerrainMesh.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Cesium/Workers/zlib.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Animation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/AnimationViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Appearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ArcGisMapServerImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/AssociativeArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/AutomaticUniforms.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/AxisAlignedBoundingBox.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BaseLayerPicker.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BaseLayerPickerViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Billboard.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BillboardCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BillboardGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BillboardVisualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BingMapsApi.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BingMapsGeocoderService.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BingMapsImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BingMapsStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BlendEquation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BlendFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BlendOption.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BlendingState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoundingRectangle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoundingSphere.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoxEmitter.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoxGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoxGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoxGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/BoxOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Buffer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CallbackProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Camera.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CameraEventAggregator.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CameraEventType.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cartesian2.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cartesian3.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cartesian4.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cartographic.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CartographicGeocoderService.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CatmullRomSpline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTile.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTileColorBlendMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTileContent.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTileFeature.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTileStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTilesInspector.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTilesInspectorViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Cesium3DTileset.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CesiumInspector.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CesiumInspectorViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CesiumMath.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CesiumTerrainProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CesiumWidget.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CheckerboardMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CircleEmitter.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CircleGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CircleOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ClampMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ClearCommand.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Clock.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ClockRange.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ClockStep.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ClockViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Color.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ColorBlendMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ColorGeometryInstanceAttribute.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ColorMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ColorTable.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Command.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ComponentDatatype.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CompositeEntityCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CompositeMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CompositePositionProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CompositeProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ComputeCommand.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ConditionsExpression.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ConeEmitter.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ConstantPositionProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ConstantProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Context.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ContextLimits.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CornerType.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CorridorGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CorridorGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CorridorGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CorridorOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Credential.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Credit.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CreditDisplay.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CubeMap.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CubeMapFace.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CubicRealPolynomial.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CullFace.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CullingVolume.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CustomDataSource.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CylinderGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CylinderGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CylinderGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CylinderOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/CzmlDataSource.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DDSTexture.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DDSTextureManager.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DataSource.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DataSourceClock.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DataSourceCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DataSourceDisplay.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DebugAppearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DebugCameraPrimitive.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DebugModelMatrixPrimitive.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DefaultProxy.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DepthFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DeveloperError.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DiscardMissingTileImagePolicy.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DistanceDisplayCondition.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DistanceDisplayConditionGeometryInstanceAttribute.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DrawHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DrawMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DynamicGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DynamicLayer3D.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/DynamicObjectState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EasingFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipseGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipseGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipseGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipseOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Ellipsoid.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidGeodesic.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidSurfaceAppearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidTangentPlane.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EllipsoidTerrainProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Entity.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EntityCluster.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EntityCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EntityView.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Event.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/EventHelper.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Expression.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ExtrapolationType.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FeatureDetection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FieldLayer3D.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FillStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FlyManager.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Fog.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FrameRateMonitor.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Framebuffer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Fullscreen.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FullscreenButton.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/FullscreenButtonViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeoJsonDataSource.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Geocoder.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeocoderService.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeocoderViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeographicProjection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeographicTilingScheme.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Geometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryAttribute.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryAttributes.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryInstance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryInstanceAttribute.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryPipeline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GeometryVisualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GetFeatureInfoFormat.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Globe.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GoogleEarthEnterpriseImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GoogleEarthEnterpriseMapsProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GoogleEarthEnterpriseMetadata.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GoogleEarthEnterpriseTerrainData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GoogleEarthEnterpriseTerrainProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GoogleEarthImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GregorianDate.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GridImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GridMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/GroundPrimitive.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HeadingPitchRange.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HeadingPitchRoll.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HeightReference.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HeightmapTerrainData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HermitePolynomialApproximation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HermiteSpline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HomeButton.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HomeButtonViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HorizontalOrigin.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HypsometricSetting.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/HypsometricSettingEnum.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ImageMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ImageryLayer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ImageryLayerCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ImageryLayerFeatureInfo.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ImagerySplitDirection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/IndexDatatype.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/InfoBox.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/InfoBoxViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/InterpolationAlgorithm.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Intersect.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/IntersectionTests.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Intersections2D.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Interval.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Iso8601.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/JulianDate.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/KeyboardEventModifier.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/KmlDataSource.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/KmlFeatureData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Label.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LabelCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LabelGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LabelStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LabelVisualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LagrangePolynomialApproximation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Layers.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LeapSecond.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LinearApproximation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/LinearSpline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MapMode2D.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MapProjection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MapboxImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Material.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MaterialAppearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Matrix2.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Matrix3.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Matrix4.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MeasureHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MeasureMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Model.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelAnimation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelAnimationCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelAnimationLoop.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelMaterial.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelMesh.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelNode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ModelVisualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Moon.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/MultiViewportMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/NavigationHelpButton.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/NavigationHelpButtonViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/NearFarScalar.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/NeverTileDiscardPolicy.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/NodeTransformationProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Occluder.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/OrientedBoundingBox.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/OrthographicOffCenterFrustum.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Packable.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PackableForInterpolation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Particle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ParticleBurst.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ParticleEmitter.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ParticleSystem.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ParticleVelocityFieldEffect.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PassState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PathGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PathVisualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PerInstanceColorAppearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PerformanceWatchdog.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PerformanceWatchdogViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PerspectiveFrustum.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PerspectiveOffCenterFrustum.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PinBuilder.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PixelFormat.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Plane.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PointGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PointPrimitive.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PointPrimitiveCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PointVisualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Polygon.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolygonGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolygonGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolygonGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolygonHierarchy.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolygonOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Polyline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineArrowMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineColorAppearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineDashMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineDynamicMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineGlowMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineMaterialAppearance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineOutlineMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineTrailMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineVolumeGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineVolumeGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineVolumeGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PolylineVolumeOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PositionProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PositionPropertyArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Primitive.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PrimitiveCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PrimitiveType.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Profile.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ProjectionImage.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ProjectionPicker.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ProjectionPickerViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Property.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PropertyArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/PropertyBag.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ProviderViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/QuadraticRealPolynomial.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/QuantizedMeshTerrainData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/QuarticRealPolynomial.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Quaternion.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/QuaternionSpline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Queue.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Ray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Rectangle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RectangleGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RectangleGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RectangleGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RectangleOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ReferenceFrame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ReferenceProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RenderState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Request.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RequestErrorEvent.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RequestState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RequestType.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Rotation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Route.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RouteCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RouteStop.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/RuntimeError.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/S3MInstance.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/S3MInstanceCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/S3MTilesLayer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SHADOWTYPE.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SampledPositionProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SampledProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Scene.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SceneMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SceneModePicker.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SceneModePickerViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SceneTransforms.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ScreenSpaceCameraController.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ScreenSpaceEventHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ScreenSpaceEventType.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SelectionIndicator.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SelectionIndicatorViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShaderCache.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShaderProgram.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShaderSource.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShadowMap.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShadowMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShadowQueryPoints.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ShowGeometryInstanceAttribute.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Sightline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Simon1994PlanetaryPositions.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SimplePolylineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SingleTileImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SkyAtmosphere.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SkyBox.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Skyline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SlopeSetting.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SlopeSettingEnum.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SphereEmitter.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SphereGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SphereOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Spherical.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Spline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/StencilFunction.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/StencilOperation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/StopPlayMode.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/StripeMaterialProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/StripeOrientation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Style3D.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/StyleExpression.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Sun.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SuperMapImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SupportTools.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/SvgPathBindingHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TaskProcessor.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TerrainData.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TerrainProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Texture.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TiandituImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TiandituMapsStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TileAvailability.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TileCoordinatesImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TileDiscardPolicy.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TileProviderError.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TilingScheme.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TimeDynamicImagery.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TimeInterval.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TimeIntervalCollection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TimeIntervalCollectionPositionProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TimeIntervalCollectionProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TimeStandard.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Timeline.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ToggleButtonViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Transforms.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TranslationRotationScale.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TridiagonalSystemSolver.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/TrustedServers.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/UniformState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/UrlTemplateImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VRButton.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VRButtonViewModel.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VRTheWorldTerrainProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VelocityOrientationProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VelocityVectorProperty.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VertexArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VertexArrayFacade.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VertexFormat.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VerticalOrigin.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/VideoSynchronizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ViewShed3D.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Viewer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/ViewportQuad.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Visibility.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/Visualizer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WallGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WallGeometryUpdater.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WallGraphics.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WallOutlineGeometry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WebGLConstants.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WebMapServiceImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WebMapTileServiceImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WebMercatorProjection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WebMercatorTilingScheme.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/WindingOrder.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/barycentricCoordinates.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/binarySearch.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/cancelAnimationFrame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/clone.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/combine.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createCommand.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createGuid.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createOpenStreetMapImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createTangentSpaceDebugPrimitive.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createTileMapServiceImageryProvider.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createUniform.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/createUniformArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/defaultValue.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/defined.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/destroyObject.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/fonts/SourceSansPro.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/formatError.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/freezeRenderState.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/getAbsoluteUri.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/getBaseUri.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/getExtensionFromUri.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/getFilenameFromUri.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/getImagePixels.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/getTimestamp.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/global.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/icons/home.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/icons/link.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/icons/popout.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/images/SuperMapLogo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/isArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/isLeapYear.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/javascript/cesiumDoc.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/javascript/html5.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/javascript/prism.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadArrayBuffer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadBlob.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadCRN.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadCubeMap.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadImage.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadImageViaBlob.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadJson.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadJsonp.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadKTX.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadText.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadWithXhr.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/loadXML.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/mergeSort.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/objectToQuery.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/pointInsideTriangle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/queryToObject.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/requestAnimationFrame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/sampleTerrain.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/sampleTerrainMostDetailed.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/styles/jsdoc-default.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/styles/prism.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/subdivideArray.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/throttleRequestByServer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/types.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/viewerCesium3DTilesInspectorMixin.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/viewerCesiumInspectorMixin.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/viewerDragDropMixin.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Documentation/viewerPerformanceWatchdogMixin.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Stubs/Cesium.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Build_0403/Stubs/paths.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Cesium/Cesium.js" afterPath="$PROJECT_DIR$/Build/Cesium/Cesium.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Cesium/Workers/S3MTilesParser.js" afterPath="$PROJECT_DIR$/Build/Cesium/Workers/S3MTilesParser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Documentation/S3MTilesLayer.html" afterPath="$PROJECT_DIR$/Build/Documentation/S3MTilesLayer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Documentation/types.txt" afterPath="$PROJECT_DIR$/Build/Documentation/types.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Stubs/Cesium.js" afterPath="$PROJECT_DIR$/Build/Stubs/Cesium.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Build/Stubs/paths.js" afterPath="$PROJECT_DIR$/Build/Stubs/paths.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/examples/airlinesTrailLines.html" afterPath="$PROJECT_DIR$/data/examples/airlinesTrailLines.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/3DGIS/clip.js" afterPath="$PROJECT_DIR$/js/3DGIS/clip.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/niaocao.fpf" afterPath="$PROJECT_DIR$/niaocao.fpf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/3DGIS/flyRoute.js" afterPath="$PROJECT_DIR$/js/3DGIS/flyRoute.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/lib/sightline.js" afterPath="$PROJECT_DIR$/js/lib/sightline.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/models/S3MLayerModel.js" afterPath="$PROJECT_DIR$/js/models/S3MLayerModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/views/CustomServicePan.js" afterPath="$PROJECT_DIR$/js/views/CustomServicePan.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -41,8 +855,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="15" column="57" lean-forward="true" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
+            <state relative-caret-position="106">
+              <caret line="7" column="71" lean-forward="true" selection-start-line="7" selection-start-column="71" selection-end-line="7" selection-end-column="71" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -50,10 +864,56 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="CustomServicePan.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/views/CustomServicePan.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4416">
+              <caret line="203" column="50" lean-forward="false" selection-start-line="203" selection-start-column="50" selection-end-line="203" selection-end-column="50" />
+              <folding>
+                <marker date="1523598639352" expanded="true" signature="216:232" ph="[...]" />
+                <marker date="1523598639352" expanded="true" signature="4563:4653" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="4563:9064" ph="{&quot;tagName&quot;: 'div'...}" />
+                <marker date="1523598639352" expanded="true" signature="4693:4739" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="4779:5201" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="4913:5016" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5033:5156" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5243:5828" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5283:5330" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5344:5409" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5480:5545" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5615:5710" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5727:5783" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5868:8388" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="5959:8343" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="6069:8329" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="6807:6962" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="6866:6939" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="7024:7178" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="7083:7156" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="7311:8309" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="7764:8285" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="7985:8159" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="8709:8832" ph="{...}" />
+                <marker date="1523598639352" expanded="true" signature="8760:8817" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SuperMap.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/SuperMap.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="clip.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/3DGIS/clip.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="851">
+            <state relative-caret-position="5888">
               <caret line="256" column="36" lean-forward="false" selection-start-line="256" selection-start-column="36" selection-end-line="256" selection-end-column="36" />
               <folding />
             </state>
@@ -63,8 +923,8 @@
       <file leaf-file-name="specialEffects.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/specialEffects.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+            <state relative-caret-position="299">
+              <caret line="13" column="5" lean-forward="false" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -113,26 +973,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="483">
               <caret line="21" column="64" lean-forward="false" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/models.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="26" column="6" lean-forward="false" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SuperMap.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/SuperMap.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9614">
-              <caret line="418" column="1" lean-forward="false" selection-start-line="418" selection-start-column="1" selection-end-line="418" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -267,7 +1107,34 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="SuperMap-Earth">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="SuperMap-Earth">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="css">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -314,58 +1181,13 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="SuperMap-Earth">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="SuperMap-Earth">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="js">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="SuperMap-Earth">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="js">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="lib">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../earth-备份/SuperMap-Earth-0413-合并代码前备份" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
@@ -520,11 +1342,14 @@
       <workItem from="1523526311541" duration="3106000" />
       <workItem from="1523535010151" duration="800000" />
       <workItem from="1523579983559" duration="1403000" />
+      <workItem from="1523583354021" duration="2525000" />
+      <workItem from="1523598313490" duration="1148000" />
+      <workItem from="1523600572134" duration="280000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="386260000" />
+    <option name="totallyTimeSpent" value="390213000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -562,13 +1387,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/3DGIS/excavationTerrain.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/3DGIS/flood.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="549">
@@ -832,22 +1650,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/examples/windParticle2.html" />
-    <entry file="file://$PROJECT_DIR$/data/models.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="26" column="6" lean-forward="false" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/examples/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="21" column="64" lean-forward="false" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/views/WebServicePan.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3542">
@@ -855,14 +1657,6 @@
           <folding>
             <marker date="1523437413214" expanded="true" signature="393:426" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/SuperMap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9614">
-          <caret line="418" column="1" lean-forward="false" selection-start-line="418" selection-start-column="1" selection-end-line="418" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -900,26 +1694,83 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/specialEffects.json">
+    <entry file="file://$PROJECT_DIR$/js/3DGIS/clip.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+        <state relative-caret-position="5888">
+          <caret line="256" column="36" lean-forward="false" selection-start-line="256" selection-start-column="36" selection-end-line="256" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/3DGIS/clip.js">
+    <entry file="file://$PROJECT_DIR$/data/models.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="851">
-          <caret line="256" column="36" lean-forward="false" selection-start-line="256" selection-start-column="36" selection-end-line="256" selection-end-column="36" />
+        <state relative-caret-position="138">
+          <caret line="6" column="6" lean-forward="true" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/examples/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="64" lean-forward="false" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/specialEffects.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="5" lean-forward="false" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/views/CustomServicePan.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4416">
+          <caret line="203" column="50" lean-forward="false" selection-start-line="203" selection-start-column="50" selection-end-line="203" selection-end-column="50" />
+          <folding>
+            <marker date="1523598639352" expanded="true" signature="216:232" ph="[...]" />
+            <marker date="1523598639352" expanded="true" signature="4563:4653" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="4563:9064" ph="{&quot;tagName&quot;: 'div'...}" />
+            <marker date="1523598639352" expanded="true" signature="4693:4739" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="4779:5201" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="4913:5016" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5033:5156" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5243:5828" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5283:5330" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5344:5409" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5480:5545" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5615:5710" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5727:5783" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5868:8388" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="5959:8343" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="6069:8329" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="6807:6962" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="6866:6939" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="7024:7178" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="7083:7156" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="7311:8309" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="7764:8285" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="7985:8159" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="8709:8832" ph="{...}" />
+            <marker date="1523598639352" expanded="true" signature="8760:8817" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/SuperMap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="15" column="57" lean-forward="true" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
+        <state relative-caret-position="106">
+          <caret line="7" column="71" lean-forward="true" selection-start-line="7" selection-start-column="71" selection-end-line="7" selection-end-column="71" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
