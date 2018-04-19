@@ -133,7 +133,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
     '<button type="button"  class="btn btn-info" id="clear" style="float: right">'+ Resource.clear +'</button>',
     '<button type="button"  class="btn btn-info" id="sunlight" style="float: right">'+ Resource.sunlight +'</button>',
     '<button type="button"  class="btn btn-info"  id="shadowAnalysis" style="float: right">'+ Resource.shadowAnalysis +'</button>',
-
     '</div>',
 
  '</section>',
@@ -181,7 +180,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div class="coord"><label>Y</label><input type="number" id="skyviewY" value="0.0" step="0.0001"/></div><br><br>',
        '<div class="coord"><label>Z</label><input type="number" id="skyviewZ" value="0.0"/></div>',
     '</div>',
-        '<a class="ui teal ribbon label">参数设置</a><br>',
+      '<a class="ui teal ribbon label">参数设置</a><br>',
       '<div class="square">',
         '<label style="width:100%; padding-left: 0;">'+ Resource.displayMode +'</label>',
          '<select id="skylineMode" style="width:70%;">',
@@ -190,14 +189,17 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '</select>',
       '</div>',
       '<div class="square">',
-        '<label  style="width:100%; padding-left: 0;">'+ Resource.skylineColor +'</label><input class="colorPicker" data-bind="value: skylineColor,valueUpdate: "input""  id="skylineColor"/>',
+        '<label style="width:100%; padding-left: 0;">'+ Resource.skylineColor +'</label><input class="colorPicker" data-bind="value: skylineColor,valueUpdate: "input""  id="skylineColor"/>',
       "</div>",
+        '<div class="square">',
+            '<label style="width:100%; padding-left: 0;">'+ Resource.skylineRadius +'</label><input class="input" type="number" value="1000" step="10" id="skylineRadius"/>',
+        '</div>',
+        '<div style="overflow: hidden;">',
         '<button  class="btn btn-info" id="clearSkyline" style="float: right">'+ Resource.clear +'</button>',
         '<button  class="btn btn-info" id="getSkyline2D" style="float: right">'+ Resource.graphDisplay +'</button>',
         '<button  class="btn btn-info"  id="getSkyline" style="float: right">'+ Resource.skyline +'</button>',
         ' </div>',
   '</section>',
-
 
     '<section id="content5">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
@@ -209,7 +211,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<input type="number" id="profileLat1" class="input"  value="0.0" step="0.0001">',
         '<label>高程(米)</label>',
         '<input type="number" id="profileAlt1" class="input"  value="0.0" ><br><br>',
-
         '</div>',
         '<div>',
         '<a class="ui teal ribbon label">终点信息</a><br>',
@@ -221,7 +222,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<input type="number" id="profileAlt2" class="input"  value="0.0" ><br><br>',
         '<input type="button" id="profileDel" class="btn btn-info" style="float:right" value="清理">',
         '<input type="button" id="profile" class="btn btn-info" style="float:right" value="分析">',
-
         '</div>',
         '</div>',
     '</section>',
@@ -310,37 +310,37 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
             this.$el.hide();
             var viewer = this.viewer;
             viewshed.remove(viewer);
-            skyLine.remove(viewer);
+            // skyLine.remove(viewer);
             sgline.remove(viewer);
-            skyLine.remove(viewer);
+            // skyLine.remove(viewer);
             return false;
         },
         onCheckTab1 : function(){
             var viewer = this.viewer;
             shadow.remove(viewer);
-            skyLine.remove(viewer);
+            // skyLine.remove(viewer);
             sgline.remove(viewer);
         },
         onCheckTab2 : function(){
             var viewer = this.viewer;
             viewshed.remove(viewer);
-            skyLine.remove(viewer);
+            // skyLine.remove(viewer);
             sgline.remove(viewer);
             shadow.start(viewer);
         },
         onCheckTab3 : function(){
             var viewer = this.viewer;
             shadow.remove(viewer);
-            skyLine.remove(viewer);
+            // skyLine.remove(viewer);
             viewshed.remove(viewer);
             sgline.start(viewer);
         },
         onCheckTab4 : function(){
             var viewer = this.viewer;
             viewshed.remove(viewer);
-            skyLine.remove(viewer);
+            // skyLine.remove(viewer);
             sgline.remove(viewer);
-            skyLine.start(viewer);
+            // skyLine.start(viewer);
         },
         onAddViewpointClk : function(){
             sgline.initializing(viewer);

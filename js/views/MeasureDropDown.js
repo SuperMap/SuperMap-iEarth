@@ -9,20 +9,31 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
     var htmlStr = [
        "<div class='btn-toolbar'>",
            "<div class='btn-group' style='margin: 5px 5px 5px 8px;'>",
-           "<a id='measureDisBtn' title='" + Resource.measureDis + "' class='btn btn-inverse' style='margin : 5px;'><span class='smicon-distance' ></span></a>",
-           "<a id='measureAreaBtn'  title='" + Resource.measureArea + "' class='btn btn-inverse' style='margin : 5px;'><span class='smicon-area' ></span></a>",
-           "<a id='measureHeightBtn'  title='" + "测高" + "' class='btn btn-inverse' style='margin : 5px;'><span class='smicon-height' ></span></a>",
-           "<a id='delResBtn' title='" + Resource.close + "' class='btn btn-inverse' style='margin : 5px;'><span class='fui-cross' ></span></a>",
+               "<a id='measureDisBtn' title='" + Resource.measureDis + "' class='btn btn-inverse' style='margin : 5px;'><span class='smicon-distance' ></span></a>",
+               "<a id='measureAreaBtn'  title='" + Resource.measureArea + "' class='btn btn-inverse' style='margin : 5px;'><span class='smicon-area' ></span></a>",
+               "<a id='measureHeightBtn'  title='" + Resource.measureHeight + "' class='btn btn-inverse' style='margin : 5px;'><span class='smicon-height' ></span></a>",
+               "<a id='delResBtn' title='" + Resource.close + "' class='btn btn-inverse' style='margin : 5px;'><span class='fui-cross' ></span></a>",
            "</div>",
        "</div>",
         '<div>',
-        "<div class='measure-title' style='float:left;font-size: 12px'>" + "模式：" + "</div>",
-        '<select id="selOpt" class="cesium-button" style="font-size: 12px">',
-        '<option value="1">空间量算</option>',
-        '<option value="2">贴地量算</option>',
-        '</select>',
-        '</div>'
+            "<div class='measure-title' style='float:left;font-size: 12px'>" + "模式：" + "</div>",
+            '<select id="selOpt" class="cesium-button" style="font-size: 12px">',
+                '<option value="1">空间量算</option>',
+                '<option value="2">贴地量算</option>',
+            '</select>',
+        '</div>',
+        /*'<label style="position: absolute;left: 10px;" for="show-isoline">',
+            '<input type="checkbox" id="show-isoline" style="vertical-align: middle;"/>',
+            '<span style="font-size: 12px;vertical-align: middle;">显示等高线</span>',
+        '</label>',*/
+        /*'<br/>',*/
+        '<div id="isoline-interval-setting" style="margin-top:10px;display: flex;flex-direction:row;align-items:center;">',
+            "<div class='measure-title' style='float:left;font-size: 12px'>" + "等高距：" + "</div>",
+            "<input type='number' class='input' id='isoline-interval' style='width: 80px;font-size: 12px;' value='20' step='1' min='1'/>",
+        '</div>',
        ].join('');
+
+
     var MeasureDropDown = Container.extend({
         tagName : 'div',
         id : 'measureDropDown',
@@ -86,7 +97,6 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 }
             });
             handlerDis.activate();
-
         },
         onMeasureAreaBtnClk : function(evt){
             $("#selOpt").on("input change",function() {
@@ -118,6 +128,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             handlerArea.activate();
         },
         onMeasureHeightBtnClk : function(evt){
+            console.log(viewer.scene.layers);
             handlerHeight.measureEvt.addEventListener(function(result){
                 var distance = result.distance > 1000 ? (result.distance/1000).toFixed(2) + 'km' : result.distance + 'm';
                 var vHeight = result.verticalHeight > 1000 ? (result.verticalHeight/1000).toFixed(2) + 'km' : result.verticalHeight + 'm';
@@ -143,7 +154,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             handlerDis  && handlerDis.clear();
             handlerArea  && handlerArea.clear();
             handlerHeight && handlerHeight.clear();
-        }
+        },
     });
     return MeasureDropDown;
 });

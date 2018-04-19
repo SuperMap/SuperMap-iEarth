@@ -35,6 +35,7 @@ define([],function(){
         selLocalFile : '选择本地文件',
         measureArea : '测面',
         measureDis : '测距',
+        measureHeight: '测高',
         close : '关闭',
         measure : '量算',
         kmUnit : '千米',
@@ -152,6 +153,7 @@ define([],function(){
         polyline : '线显示',
         polygon : '面显示',
         skylineColor : '天际线颜色',
+        skylineRadius: '分析半径（米）',
         skyline : '天际线',
         graphDisplay : '二维显示'
     };
