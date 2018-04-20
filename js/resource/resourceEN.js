@@ -35,6 +35,7 @@ define([],function(){
         selLocalFile : 'Select the local file',
         measureArea : 'Measure Area',
         measureDis : 'Measure Distance',
+        measureHeight: 'Measure Height',
         close : 'Close',
         measure : 'Measure',
         kmUnit : 'Kilometer',
@@ -151,6 +152,7 @@ define([],function(){
         polyline : 'Line',
         polygon : 'Area',
         skylineColor : 'Skyline color',
+        skylineRadius: 'Skyline radius',
         skyline : 'Skyline',
         graphDisplay : '2D display'
     };

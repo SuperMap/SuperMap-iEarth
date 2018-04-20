@@ -20,7 +20,6 @@ define(['./Container','Cesium','drag','slider','echarts'],function(Container,Ces
         template : _.template(htmlStr),
         initialize : function(options){
             viewer = options.sceneModel.viewer;
-
             this.render();
             this.on('componentAdded',function(parent){
                 $('#skyForm').myDrag({
@@ -68,10 +67,8 @@ define(['./Container','Cesium','drag','slider','echarts'],function(Container,Ces
                               data : object.y
                           }
                       ]
-                  }
+                  };
                   myChart.setOption(option);
-
-
             });
         },
         render : function(){
@@ -87,10 +84,7 @@ define(['./Container','Cesium','drag','slider','echarts'],function(Container,Ces
             }
             this.$el.hide();
             return false;
-        },
+        }
     });
-
-
-
     return skylineForm;
 });

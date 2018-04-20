@@ -2,21 +2,23 @@ define(['Cesium','echartsMin'],function(Cesium,echartsMin) {
     'use strict';
     var skyLine = function () {
     };
-    skyLine.isStart = false;
+    // skyLine.isStart = false;
     var skyline;//创建天际线分析对象
     var parent;
-    skyLine.start = function (viewer) {
+    /*skyLine.start = function (viewer) {
         var defer = Cesium.when.defer();
         $("#skyToolbar").show();
         skyLine.isStart = true;
         var scene = viewer.scene;
         skyline = new Cesium.Skyline(scene);
+        skyline.radius = 300;
         return defer;
-    };
+    };*/
     skyLine.initializing = function(viewer,parentContainer){
         var scene = viewer.scene;
-        parent =  parentContainer
+        parent =  parentContainer;
         skyline = new Cesium.Skyline(scene);
+
         document.getElementById("getSkyline").onclick = function() {
             var cartographic = scene.camera.positionCartographic;
             var longitude = Cesium.Math.toDegrees(cartographic.longitude);
@@ -30,8 +32,9 @@ define(['Cesium','echartsMin'],function(Cesium,echartsMin) {
             //设置俯仰和方向
             skyline.pitch = Cesium.Math.toDegrees(scene.camera.pitch);
             skyline.direction = Cesium.Math.toDegrees(scene.camera.heading);
+            skyline.radius = parseFloat($("#skylineRadius").val());
             skyline.build();
-        }
+        };
         var skylineColorStr = skyline.color.toCssColorString();
         $("#skylineColor").spectrum({
             change:function(){
@@ -120,11 +123,9 @@ define(['Cesium','echartsMin'],function(Cesium,echartsMin) {
                     skylineForm.$el.show();
                 });
             }
-
-
         }
-    }
-    skyLine.remove = function(viewer){
+    };
+    /*skyLine.remove = function(viewer){
         $("#skyToolbar").hide();
         $("#skyline2dChart").hide();
         skyLine.isStart = false;
@@ -132,6 +133,6 @@ define(['Cesium','echartsMin'],function(Cesium,echartsMin) {
             skyline.destroy();
             skyline = undefined;
         }
-    };
+    };*/
     return skyLine;
 });
