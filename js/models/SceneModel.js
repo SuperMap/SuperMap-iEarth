@@ -31,7 +31,6 @@ define([
             if(!layerModel){
                 return;
             }
-            var me = this;
             layerModel.addLayer(this,isFlyMode);
         },
         addLayers : function(layers,isFlyMode){

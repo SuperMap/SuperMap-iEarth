@@ -7,9 +7,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 this.sceneModel = sceneModel;
             }
             var me = this;
-            var type = this.get('type');
             var scpUrl = this.get('url');
-            var sceneUrl = this.get('sceneUrl');
             var name = this.get('realName') || this.get('name');
             var defer = Cesium.when.defer();
             if(Util.S3M_CACHE[scpUrl]){
@@ -43,22 +41,6 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                     if(me.get('isVisible') == false){
                         layer.visible = false;
                     }
-                    return defer.resolve(layer);
-                },function(err){
-                    Util.showErrorMsg(Resource.scpUrlErrorMsg);
-                    return defer.reject();
-                });
-            }
-            var scenePromise = viewer.scene.open(sceneUrl);
-            if(sceneUrl != ''){
-                return Cesium.when(scenePromise,function(layer){
-                    me.sceneModel.trigger('layerAdded',me);
-                    me.sceneModel.layers.add(me);
-                    me.layer = layer;
-                    if(isFlyMode){
-                        me.flyTo();
-                    }
-                    Util.S3M_CACHE[sceneUrl] = name;
                     return defer.resolve(layer);
                 },function(err){
                     Util.showErrorMsg(Resource.scpUrlErrorMsg);

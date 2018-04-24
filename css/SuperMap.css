@@ -1435,6 +1435,21 @@ a{
 	-webkit-font-smoothing : antialiased;
 	-moz-osx-font-smoothing : grayscale;
 }
+.fui-plus:before {
+    content: "\e608";
+}
+.fui-list-large-thumbnails:before {
+    content: "\e61d";
+}
+.fui-arrow-left:before {
+    content: "\e606";
+}
+.fui-arrow-right:before {
+    content: "\e607";
+}
+.fui-gear:before {
+    content: "\e636";
+}
 .fui-user:before{
 	content: "\e631";
 }
@@ -1449,6 +1464,9 @@ a{
 }
 .fui-cmd:before {
   content: "\e624";
+}
+.fui-window:before {
+  content: url(../images/analysis.png);
 }
 /*--------fui-icon  end------*/
 
@@ -1468,12 +1486,6 @@ a{
     speak: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-.smicon-add:before {
-    content: "\e7d9";
-}
-.smicon-bookmark:before {
-	content: "\2605";
 }
 .smicon-distance:before {
     content: "\e8f0";
@@ -1560,8 +1572,6 @@ a{
 	color : #e74c3c;
 }
   /*--------sm-icon  end------*/
-
-
   
   /*--------list-group start------*/
 ul,ol{
@@ -2585,7 +2595,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 main {
     min-width: 320px;
     max-width: 350px;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     border: 1px solid #526f82;
     color: #ffffff;
     font-size: 10pt;
@@ -2710,7 +2720,7 @@ main section button{
 }
 main .square{
     width: 47%;
-    height: 60px;
+    height: 80px;
     display: inline-block;
 }
 
@@ -2902,3 +2912,7 @@ main .square{
 	-moz-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 }
+
+
+
+
