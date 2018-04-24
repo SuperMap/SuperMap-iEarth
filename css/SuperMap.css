@@ -1466,7 +1466,7 @@ a{
   content: "\e624";
 }
 .fui-window:before {
-  content: url(../images/analysis.png);;
+  content: url(../images/analysis.png);
 }
 /*--------fui-icon  end------*/
 
@@ -1486,30 +1486,6 @@ a{
     speak: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-.smicon-layerlist:before {
-    content: "\e6F8";
-}
-.smicon-add:before {
-    content: "\e7d9";
-}
-.smicon-marker:before {
-    content: "\f0015";
-}
-.smicon-message:before {
-    content: "\e604";
-}
-.smicon-terrain:before {
-	content: "\2657";
-}
-.smicon-bookmark:before {
-	content: "\2605";
-}
-.smicon-property:before {
-	content: "\27F1";
-}
-.smicon-clip:before {
-	content: "\2702";
 }
 .smicon-distance:before {
     content: "\e8f0";
@@ -2619,7 +2595,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 main {
     min-width: 320px;
     max-width: 350px;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     border: 1px solid #526f82;
     color: #ffffff;
     font-size: 10pt;
@@ -2936,5 +2912,7 @@ main .square{
 	-moz-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 }
+
+
 
 

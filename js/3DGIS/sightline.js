@@ -6,14 +6,26 @@ define(['Cesium'],function(Cesium) {
     };
     var sightline;
     var sightLineHandler;
+    var  pointHandler;
     var pointPosition;
     var longitude;
     var latitude;
     var height ;
     sgLine.initializing =function(viewer){
         var scene = viewer.scene;
-        sightline = new Cesium.Sightline(scene);
-        sightline.build();
+        if(!sightline){
+            sightline = new Cesium.Sightline(scene);
+            sightline.build();
+        }
+        sightline.removeAllTargetPoint();
+        viewer.entities.removeAll();
+
+        // var visibleColor = document.getElementById('visibleColor');
+        // var color1 = Cesium.Color.fromCssColorString(visibleColor.value);
+        // sightline.visibleColor = color1;
+        // var hiddenColor = document.getElementById('hiddenColor');
+        // var color2 = Cesium.Color.fromCssColorString(hiddenColor.value);
+        // sightline.hiddenColor = color2;
 
         sightLineHandler = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line);
 
@@ -31,18 +43,6 @@ define(['Cesium'],function(Cesium) {
 
         sightLineHandler.movingEvt.addEventListener(function(windowPosition){
             sightLineHandler.polyline.show = false;
-            // if($("#dyAnalysis").is(":checked")) {
-            //     var pick = viewer.scene.pickPosition(windowPosition);
-            //     var ecartographic = Cesium.Cartographic.fromCartesian(pick);
-            //     var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
-            //     var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
-            //     var eheight = ecartographic.height;
-            //
-            //     sightline.addTargetPoint({
-            //         position: [elongitude, elatitude, eheight],
-            //         name: "point" + new Date()
-            //     });
-            // }
             handler.setInputAction(function(evt){
                 var pick = viewer.scene.pickPosition(evt.position);
                 var ecartographic = Cesium.Cartographic.fromCartesian(pick);
@@ -72,7 +72,7 @@ define(['Cesium'],function(Cesium) {
 
         sightLineHandler.activate();
 
-        var  pointHandler = new Cesium.PointHandler(viewer);
+        pointHandler = new Cesium.PointHandler(viewer);
 
         var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -91,12 +91,12 @@ define(['Cesium'],function(Cesium) {
 
         pointHandler.activate();
 
-        var visibleColor = document.getElementById('visibleColor');
+
         visibleColor.oninput = function(){
             var color = Cesium.Color.fromCssColorString(visibleColor.value);
             sightline.visibleColor = color;
         };
-        var hiddenColor = document.getElementById('hiddenColor');
+
         hiddenColor.oninput = function(){
             var color = Cesium.Color.fromCssColorString(hiddenColor.value);
             sightline.hiddenColor = color;
@@ -131,6 +131,9 @@ define(['Cesium'],function(Cesium) {
     sgLine.remove = function(viewer){
         if(sightLineHandler){
             sightLineHandler.deactivate();
+        }
+        if(pointHandler){
+            pointHandler.deactivate();
         }
         viewer.entities.removeAll();
         if(sightline){

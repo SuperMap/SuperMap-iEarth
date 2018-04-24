@@ -80,7 +80,6 @@ define(['Cesium'],function(Cesium) {
             }
             //分析区域为指定区域
             hyp.CoverageArea = positions;
-            //淹没分析模式
             switch (currentValue){
                 case 'None' : viewer.scene.globe.HypsometricSetting = undefined;break;
                 case 'Line' : {
