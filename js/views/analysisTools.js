@@ -1,4 +1,4 @@
-define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3D','../lib/skyline','../lib/shadowQuery','../3DGIS/sightline','drag','spectrum','slider','../3DGIS/profile'],function(Container, semantic, knob, viewshed, skyLine, shadow, sgline, drag, spectrum, slider, profile){
+define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','../3DGIS/shadowQuery','../3DGIS/sightline','drag','spectrum','slider','../3DGIS/profile'],function(Container, semantic, knob, viewshed, skyLine, shadow, sgline, drag, spectrum, slider, profile){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -6,7 +6,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
     var viewer;
     var parentContainer;
     var htmlStr = [
-  '<main style="position : absolute;left : 75%; top : 5%;width: 300px">',
+  '<main style="position : absolute;right:10px; top : 6%;width: 300px">',
   '<button aria-label="Close" id="closeMain" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
     '<input id="tab3" type="radio" name="tabs" checked>',
@@ -42,17 +42,17 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
 
             '<div>',
                '<label>'+"可视距离(米)" +'</label>',
-               '<input type="number" id="distance" class="input" min="0" step="1" value="0.0" title='+Resource.distance +' data-bind="value: distance, valueUpdate: "input"">',
+               '<input type="number" id="distance" class="input" min="0" step="1" value="0.0" title='+Resource.distance +'>',
             '</div>',
 
              '<div>',
                '<label>'+"方向角(度)" +'</label>',
-               '<input type="number" id="direction" class="input" min="0" max="360" step="1.0" value="0.0" title='+Resource.direction +' data-bind="value: direction, valueUpdate: "input"">',
+               '<input type="number" id="direction" class="input" min="0" max="360" step="1.0" value="0.0" title='+Resource.direction +'>',
             '</div>',
 
              '<div>',
                '<label >'+"俯仰角度(度)" +'</label>',
-               '<input type="number" id="pitch" class="input" min="-90" max="90" step="1.0" value="0.0" title='+Resource.roll +' data-bind="value: pitch, valueUpdate: "input"">',
+               '<input type="number" id="pitch" class="input" min="-90" max="90" step="1.0" value="0.0" title='+Resource.roll +'>',
              '</div>',
 
         '</div><br>',
@@ -60,21 +60,21 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div>',
                '<div>',
                    '<label >'+"水平视角(度)" +'</label>',
-                   '<input type="number" id="horizonalFov" class="input" min="1" max="120" step="1.0" value="90" title='+Resource.horizontalFov +' data-bind="value: horizontalFov, valueUpdate: "input"">',
+                   '<input type="number" id="horizonalFov" class="input" min="1" max="120" step="1.0" value="90" title='+Resource.horizontalFov +'>',
                '</div>',
                '<div>',
                    '<label >'+ "垂直视角(度)" +'</label>',
-                  '<input type="number" id="verticalFov"  class="input" min="1" max="90" step="1.0" value="60" title='+ Resource.verticalFov +' data-bind="value: verticalFov, valueUpdate: "input"">',
+                  '<input type="number" id="verticalFov"  class="input" min="1" max="90" step="1.0" value="60" title='+ Resource.verticalFov +' >',
                '</div>',
                 '<div class="square">',
-                   '<label  style="width:100%;">'+ "可见区域颜色" +'</label><input class="colorPicker" data-bind="value: visibleAreaColor,valueUpdate: "input""  id="colorPicker1"/>',
+                   '<label  style="width:100%;">'+ "可见区域颜色" +'</label><input class="colorPicker" id="colorPicker1"/>',
                 '</div>',
                 '<div class="square">',
-                   '<label style="width:100%;">'+ "不可见区域颜色" +'</label><input class="colorPicker" data-bind="value: invisibleAreaColor,valueUpdate: "input""  id="colorPicker2"/>',
+                   '<label style="width:100%;">'+ "不可见区域颜色" +'</label><input class="colorPicker" id="colorPicker2"/>',
                 '</div>',
         '<div style="float: right;margin-top: -20px">',
               '<button type="button"  class="btn btn-info" id="chooseView" style="">'+ "分析" +'</button>',
-              '<button type="button"  class="btn btn-info" id="clearVS" style="">'+ "清理" +'</button>',
+              '<button type="button"  class="btn btn-info" id="clearVS" style="">'+ "清除" +'</button>',
         '</div>',
         '</div>',
 '</section>',
@@ -133,6 +133,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
     '<button type="button"  class="btn btn-info" id="clear" style="float: right">'+ Resource.clear +'</button>',
     '<button type="button"  class="btn btn-info" id="sunlight" style="float: right">'+ Resource.sunlight +'</button>',
     '<button type="button"  class="btn btn-info"  id="shadowAnalysis" style="float: right">'+ Resource.shadowAnalysis +'</button>',
+
     '</div>',
 
  '</section>',
@@ -144,16 +145,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div class="coord"><label>X</label><input type="number" id="viewPointX" value="0.0" step="0.0001"/></div>',
         '<div class="coord"><label>Y</label><input type="number" id="viewPointY" value="0.0" step="0.0001"/></div><br><br>',
         '<div class="coord"><label>Z</label><input type="number" id="viewPointZ" value="0.0"/></div><br><br>',
-        // '<table  border="0" align="left">',
-        // '<tr>',
-        // '<th>',
-        // '<input type="checkbox" id="dyAnalysis" style="width: auto;height: auto">',
-        // '</th>',
-        // '<td>',
-        // '<div style="float: left;font-size: 12px">动态</div>',
-        // '</td>',
-        // '</tr>',
-        // '</table>',
     '</div><br>',
 
 '<a class="ui teal ribbon label">参数设置</a>',
@@ -166,7 +157,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
     '</div>',
  '</div>',
 
-    '<button type="button"  class="btn btn-info" id="clearSL" style="float: right">'+ "清理" +'</button>',
+    '<button type="button"  class="btn btn-info" id="clearSL" style="float: right">'+ "清除" +'</button>',
     '<button type="button"  class="btn btn-info" id="addViewpoint" style="float: right">'+ "分析" +'</button>',
 
 '</div>',
@@ -180,7 +171,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<div class="coord"><label>Y</label><input type="number" id="skyviewY" value="0.0" step="0.0001"/></div><br><br>',
        '<div class="coord"><label>Z</label><input type="number" id="skyviewZ" value="0.0"/></div>',
     '</div>',
-      '<a class="ui teal ribbon label">参数设置</a><br>',
+        '<a class="ui teal ribbon label">参数设置</a><br>',
       '<div class="square">',
         '<label style="width:100%; padding-left: 0;">'+ Resource.displayMode +'</label>',
          '<select id="skylineMode" style="width:70%;">',
@@ -189,17 +180,17 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '</select>',
       '</div>',
       '<div class="square">',
-        '<label style="width:100%; padding-left: 0;">'+ Resource.skylineColor +'</label><input class="colorPicker" data-bind="value: skylineColor,valueUpdate: "input""  id="skylineColor"/>',
+        '<label  style="width:100%; padding-left: 0;">'+ Resource.skylineColor +'</label><input class="colorPicker" data-bind="value: skylineColor,valueUpdate: "input""  id="skylineColor"/>',
       "</div>",
         '<div class="square">',
-            '<label style="width:100%; padding-left: 0;">'+ Resource.skylineRadius +'</label><input class="input" type="number" value="1000" step="10" id="skylineRadius"/>',
-        '</div>',
-        '<div style="overflow: hidden;">',
+        '<label style="width:100%; padding-left: 0;">'+ Resource.skylineRadius +'</label><input class="input" type="number" value="1000" step="10" id="skylineRadius"/>',
+        '</div><br>',
         '<button  class="btn btn-info" id="clearSkyline" style="float: right">'+ Resource.clear +'</button>',
         '<button  class="btn btn-info" id="getSkyline2D" style="float: right">'+ Resource.graphDisplay +'</button>',
         '<button  class="btn btn-info"  id="getSkyline" style="float: right">'+ Resource.skyline +'</button>',
         ' </div>',
   '</section>',
+
 
     '<section id="content5">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
@@ -211,6 +202,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<input type="number" id="profileLat1" class="input"  value="0.0" step="0.0001">',
         '<label>高程(米)</label>',
         '<input type="number" id="profileAlt1" class="input"  value="0.0" ><br><br>',
+
         '</div>',
         '<div>',
         '<a class="ui teal ribbon label">终点信息</a><br>',
@@ -220,8 +212,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         '<input type="number" id="profileLat2" class="input"  value="0.0" step="0.0001">',
         '<label>高程(米)</label>',
         '<input type="number" id="profileAlt2" class="input"  value="0.0" ><br><br>',
-        '<input type="button" id="profileDel" class="btn btn-info" style="float:right" value="清理">',
+        '<input type="button" id="profileDel" class="btn btn-info" style="float:right" value="清除">',
         '<input type="button" id="profile" class="btn btn-info" style="float:right" value="分析">',
+
         '</div>',
         '</div>',
     '</section>',
@@ -238,8 +231,12 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
             'click #tab2' : 'onCheckTab2',
             'click #tab3' : 'onCheckTab3',
             'click #tab4' : 'onCheckTab4',
+            'click #tab5' : 'onCheckTab5',
             'click #addViewpoint'  : 'onAddViewpointClk',
+            'click #chooseView'  : 'onChooseViewClk',
+            'click #shadowAnalysis'  : 'onShadowAnalysisClk',
             'click #profile'  : 'onProfileClk',
+            'click #getSkyline'  : 'onGetSkylineClk',
             'click #profileDel'  : 'onProfileDelClk',
             'click #clickQuery'  : 'onClickQueryClk',
         },
@@ -287,13 +284,37 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
                     localStorageKey: "spectrum.demo",
                     palette: palette
                 });
+                $("#colorPicker1").spectrum({
+                    change:function(){
+                        $('#colorPicker1').trigger('input');
+                    },
+                    color: "rgb(0, 200, 0, 100)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $('#colorPicker2').spectrum({
+                    change:function(){
+                        $('#colorPicker2').trigger('input');
+                    },
+                    color: "rgb(200, 0, 0, 100)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $("#skylineColor").spectrum({
+                    change:function(){
+                        $('#skylineColor').trigger('input');
+                    },
+                    color: "rgb(200, 0, 0, 100)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
                 $("#selDate").val(getNowFormatDate());
-                if (!init){   //不能这样写。。。分开
-                    viewshed.initializing(viewer);
-                    shadow.initializing(viewer);
-                    skyLine.initializing(viewer,parentContainer);
-                    init = true;
-                }
             });
         },
         render : function(){
@@ -310,37 +331,46 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
             this.$el.hide();
             var viewer = this.viewer;
             viewshed.remove(viewer);
-            // skyLine.remove(viewer);
+            skyLine.remove(viewer);
             sgline.remove(viewer);
-            // skyLine.remove(viewer);
+            skyLine.remove(viewer);
             return false;
         },
         onCheckTab1 : function(){
             var viewer = this.viewer;
             shadow.remove(viewer);
-            // skyLine.remove(viewer);
+            skyLine.remove(viewer);
             sgline.remove(viewer);
+            profile.remove(viewer,parentContainer);
         },
         onCheckTab2 : function(){
             var viewer = this.viewer;
             viewshed.remove(viewer);
-            // skyLine.remove(viewer);
+            skyLine.remove(viewer);
             sgline.remove(viewer);
-            shadow.start(viewer);
+            profile.remove(viewer,parentContainer);
         },
         onCheckTab3 : function(){
             var viewer = this.viewer;
             shadow.remove(viewer);
-            // skyLine.remove(viewer);
+            skyLine.remove(viewer);
             viewshed.remove(viewer);
-            sgline.start(viewer);
+            profile.remove(viewer,parentContainer);
         },
         onCheckTab4 : function(){
             var viewer = this.viewer;
             viewshed.remove(viewer);
-            // skyLine.remove(viewer);
+            shadow.remove(viewer);
             sgline.remove(viewer);
-            // skyLine.start(viewer);
+            profile.remove(viewer,parentContainer);
+        },
+        onCheckTab5 : function(){
+            var viewer = this.viewer;
+            viewshed.remove(viewer);
+            shadow.remove(viewer);
+            skyLine.remove(viewer);
+            sgline.remove(viewer);
+
         },
         onAddViewpointClk : function(){
             sgline.initializing(viewer);
@@ -350,6 +380,15 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../lib/viewshed3
         },
         onProfileDelClk : function(evt){
             profile.remove(viewer,parentContainer);
+        },
+        onChooseViewClk : function(evt){
+            viewshed.initializing(viewer);
+        },
+        onShadowAnalysisClk : function(evt){
+            shadow.initializing(viewer);
+        },
+        onGetSkylineClk : function(evt){
+            skyLine.initializing(viewer,parentContainer);
         },
         onClickQueryClk : function(evt){
             var scene = viewer.scene;

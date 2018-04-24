@@ -2150,8 +2150,16 @@ define('Scene/ColorBlendMode', function() {
     return Cesium['ColorBlendMode'];
 });
 
+define('Scene/ColorCorrection', function() {
+    return Cesium['ColorCorrection'];
+});
+
 define('Scene/Composite3DTileContent', function() {
     return Cesium['Composite3DTileContent'];
+});
+
+define('Scene/Compositor', function() {
+    return Cesium['Compositor'];
 });
 
 define('Scene/ConditionsExpression', function() {
@@ -3354,16 +3362,16 @@ define('Shaders/PostProcessFilters/AdditiveBlend', function() {
     return Cesium['AdditiveBlend'];
 });
 
-define('Shaders/PostProcessFilters/BloomBlend', function() {
-    return Cesium['BloomBlend'];
-});
-
 define('Shaders/PostProcessFilters/BloomBrightPass', function() {
     return Cesium['BloomBrightPass'];
 });
 
 define('Shaders/PostProcessFilters/BrightPass', function() {
     return Cesium['BrightPass'];
+});
+
+define('Shaders/PostProcessFilters/CompositorFP', function() {
+    return Cesium['CompositorFP'];
 });
 
 define('Shaders/PostProcessFilters/FXAA', function() {

@@ -11,6 +11,7 @@ define(['Cesium'],function(Cesium) {
 
     var clip = function(){};
 
+    var layers = [];
     var screenSpaceEventHandler = null, planeClipPolygonHandler = null;
 
     clip.init = function(viewer){
@@ -19,7 +20,7 @@ define(['Cesium'],function(Cesium) {
         planeClipPolygonHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Polygon, 0);
     };
 
-    clip.remove = function(viewer,layers,beacon){
+    clip.remove = function(viewer,sceneModel,beacon){
         if(beacon){ // 平面裁剪
             if(planeClipPolygonHandler){
                 planeClipPolygonHandler.clear(); // 清除绘制的所有图元
@@ -39,18 +40,31 @@ define(['Cesium'],function(Cesium) {
         }else{
             viewer.entities.removeById("Custom");
 
-            $("#length").val(5);
-            $("#width").val(5);
-            $("#height").val(5);
+            $("#length").val(100);
+            $("#width").val(100);
+            $("#height").val(100);
             $("#rotate").val(0);
         }
         //清除裁剪结果
         for(var i = 0; i < layers.length; i ++){
-            layers[i].clearCustomClipBox();
+            if(Object.prototype.toString.call(layers[i])=='[object Array]'){
+                var layer = layers[i];
+                for(var j = 0; j < layer.length; j ++){
+                    layer[j].clearCustomClipBox();
+                }
+            }else{
+                layers[i].clearCustomClipBox();
+            }
+
         }
     };
 
-    clip.initializing = function(viewer,layers,beacon){
+    clip.initializing = function(viewer,sceneModel,beacon){
+        for(var i = 0; i < sceneModel.layers.models.length; i++){
+            if(sceneModel.layers.models[i].layer.clipLineColor){
+                layers.push(sceneModel.layers.models[i].layer);
+            }
+        }
         if(beacon){//平面裁剪
             var $planeClipPoint1Longitude = $("#plane-clip-point1-longitude"),
                 $planeClipPoint1Latitude = $("#plane-clip-point1-latitude"),
@@ -63,7 +77,15 @@ define(['Cesium'],function(Cesium) {
                 $planeClipPoint3Height = $("#plane-clip-point3-height");
 
             for(var i = 0; i < layers.length; i ++){
-                layers[i].clearCustomClipBox();
+                if(Object.prototype.toString.call(layers[i])=='[object Array]'){
+                    var layer = layers[i];
+                    for(var j = 0; j < layer.length; j ++){
+                        layer[j].clearCustomClipBox();
+                    }
+                }else{
+                    layers[i].clearCustomClipBox();
+                }
+
             }
 
             if(screenSpaceEventHandler){ // 进行平面裁剪时就禁用掉Box裁剪或之前设置的面裁剪，并清除Box裁剪的结果
@@ -120,8 +142,15 @@ define(['Cesium'],function(Cesium) {
 
                 //平面裁剪参数设定
                 for(var i = 0; i < layers.length; i ++){
-                    layers[i].clipLineColor = new Cesium.Color(1,1,1,0);
-                    layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
+                    if(Object.prototype.toString.call(layers[i])=='[object Array]'){
+                        var layer = layers[i];
+                        for(var j = 0; j < layer.length; j ++){
+                            layer[j].setCustomClipPlane(positions[0],positions[1],positions[2]);;
+                        }
+                    }else{
+                        layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);;
+                    }
+
                 }
                 if(layers.length > 0){
                     var clipRegion = layers[0].getClipRegion();
@@ -170,8 +199,19 @@ define(['Cesium'],function(Cesium) {
         }else if(!beacon){//Box裁剪
             var $clipMode = $('#clipMode'),$length = $('#length'),$width = $('#width'),$height = $('#height'),$rotate = $('#rotate'), $boxClipCanMove = $('#box-clip-can-move');
             var boxEntity = undefined;
+            viewer.entities.removeById("Custom");
             var scene = viewer.scene;
+            for(var i = 0; i < layers.length; i ++){
+                if(Object.prototype.toString.call(layers[i])=='[object Array]'){
+                    var layer = layers[i];
+                    for(var j = 0; j < layer.length; j ++){
+                        layer[j].clearCustomClipBox();
+                    }
+                }else{
+                    layers[i].clearCustomClipBox();
+                }
 
+            }
             //参数绑定变换
             $length.bind('input propertychange',function(){
                 if(!boxEntity){

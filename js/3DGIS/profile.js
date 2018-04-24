@@ -10,9 +10,10 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
   *
   * */
     var handlerLine;
+    var line
     var profile = function () {
     };
-
+    var crossProfile;
     profile.remove = function(viewer,parent){
         $('#profileLong1').val(0.0);
         $('#profileLat1').val(0.0);
@@ -28,11 +29,20 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
             $("#pro").width(0);
             $("#pro").height(0);
         }
+        if(crossProfile){
+            crossProfile.destroy();
+        }
+
     };
 
     profile.initializing = function(viewer,parent){
         var scene = viewer.scene;
-        var profile = new Cesium.Profile(scene);
+        if(!crossProfile){
+            crossProfile = new Cesium.Profile(scene);
+        }
+        if(handlerLine){
+            handlerLine.clear();
+        }
         handlerLine = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line);
         handlerLine.activeEvt.addEventListener(function(isActive){
             if(isActive == true){
@@ -48,7 +58,7 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
         handlerLine.movingEvt.addEventListener(function(windowPosition){
         });
         handlerLine.drawEvt.addEventListener(function(result) {
-            var line=result.object;
+            line=result.object;
             var startPoint = line._positions[0];
             var endPoint = line._positions[line._positions.length - 1];
 
@@ -70,18 +80,17 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
             $('#profileAlt2').val(eheight);
 
             //剖面分析的起止点
-            profile.startPoint = [slongitude, slatitude, sheight];
-            profile.endPoint = [elongitude, elatitude, eheight];
-            profile.extendHeight = 40;
-
+            crossProfile.startPoint = [slongitude, slatitude, sheight];
+            crossProfile.endPoint = [elongitude, elatitude, eheight];
+            crossProfile.extendHeight = 40;
             //剖面数据
-            profile.getBuffer(function(buffer) {
+            crossProfile.getBuffer(function(buffer) {
                 if(parent.profileForm){
                     var canvas = document.getElementById("pro");
-                    canvas.height = profile._textureHeight;
-                    canvas.width = profile._textureWidth;
+                    canvas.height = crossProfile._textureHeight;
+                    canvas.width = crossProfile._textureWidth;
                     var ctx = canvas.getContext("2d");
-                    var imgData = ctx.createImageData(profile._textureWidth, profile._textureHeight);
+                    var imgData = ctx.createImageData(crossProfile._textureWidth, crossProfile._textureHeight);
                     imgData.data.set(buffer);
                     ctx.putImageData(imgData,0,0);
                     $("#pro").width(300);
@@ -94,7 +103,7 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
                     require(['./views/profileForm'],function(profileForm){
                         var profileForm = new profileForm({
                             buffer : buffer,
-                            profile : profile,
+                            profile : crossProfile,
                             sceneModel : me.model,
                             isPCBroswer : me.isPCBroswer
                         });
@@ -104,9 +113,46 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
                     });
                 }
             });
-            profile.build();
+            crossProfile.build();
         });
         handlerLine.activate();
+
+        $('#profileLong1').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val()));
+            line._positions[0] = cartesian;
+           line._polylineCollection._polylines[0]._positions[0] = cartesian;
+            crossProfile.startPoint = [parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val())];
+        })
+
+        $('#profileLat1').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val()));
+            line._positions[0] = cartesian;
+            crossProfile.startPoint = [parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val())];
+        })
+
+        $('#profileAlt1').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val()));
+            line._positions[0] = cartesian;
+            crossProfile.startPoint = [parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val())];
+        })
+
+        $('#profileLong2').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong2').val()), parseFloat($('#profileLat2').val()), parseFloat($('#profileAlt2').val()));
+            line._positions[line._positions.length - 1] = cartesian;
+            crossProfile.endPoint = [parseFloat($('#profileLong2').val()), parseFloat($('#profileLat2').val()), parseFloat($('#profileAlt2').val())];
+        })
+
+        $('#profileLat2').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong2').val()), parseFloat($('#profileLat2').val()), parseFloat($('#profileAlt2').val()));
+            line._positions[line._positions.length - 1] = cartesian;
+            crossProfile.endPoint = [parseFloat($('#profileLong2').val()), parseFloat($('#profileLat2').val()), parseFloat($('#profileAlt2').val())];
+        })
+
+        $('#profileAlt2').on('input propertychange',function(){
+            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong2').val()), parseFloat($('#profileLat2').val()), parseFloat($('#profileAlt2').val()));
+            line._positions[line._positions.length - 1] = cartesian;
+            crossProfile.endPoint = [parseFloat($('#profileLong2').val()), parseFloat($('#profileLat2').val()), parseFloat($('#profileAlt2').val())];
+        })
     }
 
     return profile;
