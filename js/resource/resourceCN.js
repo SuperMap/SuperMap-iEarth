@@ -1,4 +1,4 @@
-define([],function(){
+define(function(){
     var ResourceCN = {
         login : '登陆',
         logout : '登出',
