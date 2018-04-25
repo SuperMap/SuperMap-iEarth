@@ -1,4 +1,4 @@
-define([],function(){
+define(function(){
     var ResourceEN = {
         login : 'Login',
         logout : 'Logout',
