@@ -71,7 +71,8 @@
 		onNodeUnselected: undefined,
 		onSearchComplete: undefined,
 		onSearchCleared: undefined,
-		onNodeRemove : undefined
+		onNodeRemove : undefined,
+        onNodeRightClicked: undefined
 	};
 
 	_default.options = {
@@ -86,15 +87,11 @@
 	};
 
 	var Tree = function (element, options) {
-
 		this.$element = $(element);
 		this.elementId = element.id;
 		this.styleId = this.elementId + '-style';
-
 		this.init(options);
-
 		return {
-
 			// Options (public access)
 			options: this.options,
 
@@ -204,13 +201,18 @@
 		this.$element.off('searchComplete');
 		this.$element.off('searchCleared');
 		this.$element.off('nodeRemove');
+        this.$element.off('nodeRightClicked');
 	};
 
 	Tree.prototype.subscribeEvents = function () {
 
 		this.unsubscribeEvents();
 
-		this.$element.on('click', $.proxy(this.clickHandler, this));
+        this.$element.on('contextmenu', function(){ // 取消浏览器默认的右键菜单
+            return false;
+        });
+
+		this.$element.on('mousedown', $.proxy(this.clickHandler, this)); // click只对应左键点击，要区分点击键要用mousedown事件
 
 		if (typeof (this.options.onNodeChecked) === 'function') {
 			this.$element.on('nodeChecked', this.options.onNodeChecked);
@@ -257,6 +259,9 @@
 		if(typeof (this.options.onNodeDbClk) === 'function') {
 			this.$element.on('nodeDbClk',this.options.onNodeDbClk);
 		}
+        if(typeof (this.options.onNodeRightClicked) === 'function') {
+            this.$element.on('nodeRightClicked',this.options.onNodeRightClicked);
+        }
 	};
 
 	/*
@@ -336,7 +341,6 @@
 	};
 
 	Tree.prototype.clickHandler = function (event) {
-
 		if (!this.options.enableLinks) event.preventDefault();
 
 		var target = $(event.target);
@@ -347,32 +351,36 @@
 
 		var classList = target.attr('class') ? target.attr('class').split(' ') : [];
 		if ((classList.indexOf('expand-icon') !== -1)) {
-
 			this.toggleExpandedState(node, _default.options);
 			this.render();
 		}
 		else if ((classList.indexOf('check-icon') !== -1)) {
-
-            //target.find('input').prop('checked',false);
-            var chk = target.prev();
-            if(chk && chk[0]){
-                chk[0].checked = !chk[0].checked;
-            }
-			this.toggleCheckedState(node, _default.options);
-			//this.render();
+			if(event.which === 1){
+                var chk = target.prev();
+                if(chk && chk[0]){
+                    chk[0].checked = !chk[0].checked;
+                }
+                this.toggleCheckedState(node, _default.options);
+			}
 		}
 		else if(classList.indexOf('fui-cross') !== -1){
-			this.$element.trigger('nodeRemove', $.extend(true, {}, node));
+			if(event.which === 1){
+                this.$element.trigger('nodeRemove', $.extend(true, {}, node));
+			}
 		}
 		else {
-			
-			if (node.selectable) {
-				this.toggleSelectedState(node, _default.options);
-			} else {
-				this.toggleExpandedState(node, _default.options);
-			}
-
-			this.render();
+            if(event.which == 1){ // 左键点击
+                if (node.selectable) {
+                    this.toggleSelectedState(node, _default.options);
+                } else {
+                    this.toggleExpandedState(node, _default.options);
+                }
+                this.render();
+            }else if(event.which == 3){ // 右键点击
+				if(node.level === 3){ // 在每一个图层的根节点上右击才会弹出图层列表，子节点和父节点上右击都不会
+                    this.$element.trigger('nodeRightClicked', $.extend(true, {}, node));
+				}
+            }
 		}
 	};
 
@@ -537,10 +545,8 @@
 	// Starting from the root node, and recursing down the
 	// structure we build the tree one node at a time
 	Tree.prototype.buildTree = function (nodes, level) {
-
 		if (!nodes) return;
 		level += 1;
-
 		var _this = this;
 		$.each(nodes, function addNodes(id, node) {
             node.level = level;
@@ -648,6 +654,9 @@
 
 			// Add item to the tree
 			_this.$wrapper.append(treeItem);
+			if(level === 3){ // 图层级别的列表项才对应图层属性对话框
+                treeItem.attr('title', '右键显示/设置该图层属性');
+			}
 
 			// Recursively add child ndoes
 			if (node.nodes && node.state.expanded && !node.state.disabled) {

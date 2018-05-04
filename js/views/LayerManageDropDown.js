@@ -65,8 +65,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
         render : function(){
             this.$el.html(this.template());
             this.$el.addClass('dropDown-container');
-            var height = $('body').height()*0.85 + 'px';
-            this.$el.css({'height' : height,'min-width' : '260px','text-align' : 'left'});
+            this.$el.css({'min-width' : '260px','text-align' : 'left', 'padding': '8px'});
             return this;
         },
         initZtree : function(){
@@ -131,8 +130,12 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
                     }
                 },
                 onNodeSelected : function (evt,node) {
-                	var layerModel = node.layerModel;
+                    var layerModel = node.layerModel;
                     layerModel && layerModel.flyTo();
+                    showLayerAttribute(layerModel.layer);
+                },
+                onNodeRightClicked: function (evt,node){
+                    var layerModel = node.layerModel;
                     $("#sceneForm").hide();
                     $("#layerForm").show();
                     showLayerAttribute(layerModel.layer);
