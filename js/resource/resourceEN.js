@@ -50,7 +50,6 @@ define(function(){
         skyAtmosphereEffect : 'Atmosphere Rendering',
         lightEffect : 'Light Rendering',
         fogEffect : 'Atomization Effect',
-        layerManager : 'Layer Manager',
         expand : 'Expand',
         addLayer : 'Add Layer',
         setBaseLayer : 'Base Layer Settings',
