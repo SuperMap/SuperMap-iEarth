@@ -1336,7 +1336,7 @@ a{
 	-webkit-user-select : none;
 	background-image : none;
 	padding : 10px 12px;
-	font-size : 15px;
+	font-size : 17px;
 	font-weight : 400;
 	line-height : 1.4;
 	border : none;
@@ -1567,6 +1567,9 @@ a{
 	border-left-width: 2px;
 
 
+}
+.smicon-message:before {
+	content: "\e604";
 }
 .smicon-animt-selected{
 	color : #e74c3c;
@@ -2664,7 +2667,8 @@ main input:checked + label {
 
 #objectTab1:checked ~ #objectContent1,
 #objectTab2:checked ~ #objectContent2,
-#objectTab3:checked ~ #objectContent3{
+#objectTab3:checked ~ #objectContent3,
+#objectTab4:checked ~ #objectContent4{
 	display: block;
 }
 
@@ -2787,8 +2791,8 @@ main .square{
 }
 .graphing{
 	background-color: rgba(38, 38, 38, 0.0);
-	border: 1px solid #526f82;
-	padding: 10px;
+	border: 0px solid #526f82;
+
 }
 .terrain{
 	background-color: rgba(38, 38, 38, 0.75);
@@ -2912,6 +2916,10 @@ main .square{
 	-moz-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 }
+td {text-align:center}
+
+
+
 
 
 
