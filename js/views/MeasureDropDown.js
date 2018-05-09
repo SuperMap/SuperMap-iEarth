@@ -26,7 +26,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 '<option value="2">贴地量算</option>',
             '</select>',
         '</div><br>',
-        '<div style="display: none">',
+        '<div>',
         '<input type="radio" id="singleIsoline" name="showIsoline" checked/>',
         '<label style="font-size: 12px;vertical-align: middle;">单等高线</label>',
         '<input type="radio" id="multiIsoline" name="showIsoline />',
@@ -45,7 +45,8 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
         	'click #measureDisBtn' : 'onMeasureDisBtnClk',
         	'click #measureAreaBtn' : 'onMeasureAreaBtnClk',
             'click #measureHeightBtn' : 'onMeasureHeightBtnClk',
-        	'click #delResBtn' : 'onDelResBtnClk'
+        	'click #delResBtn' : 'onDelResBtnClk',
+            'click input[type=showIsoline]': 'onHello'
         },
         initialize : function(options){
         	sceneModel = options.sceneModel;
@@ -163,6 +164,9 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 }
             }
         },
+        onHello: function(){
+            alert("hello");
+        }
     });
     function  createIsoline(verticalHeight) {
         if(!isoline){
@@ -183,10 +187,10 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
         var colorTable = new Cesium.ColorTable();
         isoline.ColorTable = colorTable;
         isoline.Opacity = 0.4;
-        // viewer.scene.globe.HypsometricSetting = {
-        //     hypsometricSetting : isoline,
-        //     analysisMode : Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
-        // };
+        viewer.scene.globe.HypsometricSetting = {
+            hypsometricSetting : isoline,
+            analysisMode : Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
+        };
         for(var i = 0;i < layers.length;i++){
             layers[i].hypsometricSetting = {
                 hypsometricSetting : isoline,
