@@ -1790,6 +1790,14 @@ define('S3MTiles/RenderEntityPagedLOD', function() {
     return Cesium['RenderEntityPagedLOD'];
 });
 
+define('S3MTiles/S3MCreateIndexJob', function() {
+    return Cesium['S3MCreateIndexJob'];
+});
+
+define('S3MTiles/S3MCreateVertexJob', function() {
+    return Cesium['S3MCreateVertexJob'];
+});
+
 define('S3MTiles/S3MDataParser', function() {
     return Cesium['S3MDataParser'];
 });
@@ -2206,6 +2214,10 @@ define('Scene/DepthFunction', function() {
     return Cesium['DepthFunction'];
 });
 
+define('Scene/DepthOfFieldEffect', function() {
+    return Cesium['DepthOfFieldEffect'];
+});
+
 define('Scene/DepthPlane', function() {
     return Cesium['DepthPlane'];
 });
@@ -2556,6 +2568,14 @@ define('Scene/QuadtreeTileLoadState', function() {
 
 define('Scene/QuadtreeTileProvider', function() {
     return Cesium['QuadtreeTileProvider'];
+});
+
+define('Scene/ScanEffect', function() {
+    return Cesium['ScanEffect'];
+});
+
+define('Scene/ScanEffectMode', function() {
+    return Cesium['ScanEffectMode'];
 });
 
 define('Scene/Scene', function() {
@@ -3374,6 +3394,18 @@ define('Shaders/PostProcessFilters/CompositorFP', function() {
     return Cesium['CompositorFP'];
 });
 
+define('Shaders/PostProcessFilters/DOFCoc', function() {
+    return Cesium['DOFCoc'];
+});
+
+define('Shaders/PostProcessFilters/DOFCocComposite', function() {
+    return Cesium['DOFCocComposite'];
+});
+
+define('Shaders/PostProcessFilters/DOFDiskBlur', function() {
+    return Cesium['DOFDiskBlur'];
+});
+
 define('Shaders/PostProcessFilters/FXAA', function() {
     return Cesium['FXAA'];
 });
@@ -3388,6 +3420,10 @@ define('Shaders/PostProcessFilters/GaussianBlur9', function() {
 
 define('Shaders/PostProcessFilters/PassThrough', function() {
     return Cesium['PassThrough'];
+});
+
+define('Shaders/PostProcessFilters/Scan', function() {
+    return Cesium['Scan'];
 });
 
 define('Shaders/ReprojectWebMercatorFS', function() {

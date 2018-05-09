@@ -1,13 +1,13 @@
-define(['./Container','Cesium','drag','slider','echarts'],function(Container,Cesium, drag, slider,echarts){
+define(['./Container','Cesium','drag','slider','echartsMin'],function(Container,Cesium, drag, slider,echarts){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
     var viewer;
     var htmlStr = [
-        '<div class="graphing" id="skyForm" style="position: absolute;left : 5%; top : 50%;;width:350px;height: 320px;background-color: rgba(38, 38, 38, 0.75);">',
+        '<div class="graphing" id="skyForm" style="position: absolute;left : 5%; top : 50%;;width:330px;height: 250px;background-color: rgba(38, 38, 38, 0.75);">',
         '<label style="float:left; text-align:left;font-size: 13px;color: lightgrey;">'+ "二维天际线" +'</label>',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeSkylineForm" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
-        '<div id="map" style="height:300px;width: 450px; float: left;margin-left: -50px;margin-left: -50px;margin-top: -20px" >',
+        '<div id="map" style="height:220px;width: 280px;margin: 20px" >',
         '</div>'
     ].join('');
 
@@ -67,7 +67,14 @@ define(['./Container','Cesium','drag','slider','echarts'],function(Container,Ces
                               type : "line",
                               data : object.y
                           }
-                      ]
+                      ],
+                      grid: {
+                          left: '3%',
+                          right: '3%',
+                          bottom: '10%',
+                          top : '10%',
+                          containLabel: true
+                      },
                   }
                   myChart.setOption(option);
 

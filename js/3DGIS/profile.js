@@ -31,8 +31,8 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
         }
         if(crossProfile){
             crossProfile.destroy();
+            crossProfile = undefined;
         }
-
     };
 
     profile.initializing = function(viewer,parent){
