@@ -39,7 +39,6 @@ define(['Cesium'],function(Cesium) {
             }
         }else{
             viewer.entities.removeById("Custom");
-
             $("#length").val(100);
             $("#width").val(100);
             $("#height").val(100);
@@ -47,24 +46,12 @@ define(['Cesium'],function(Cesium) {
         }
         //清除裁剪结果
         for(var i = 0; i < layers.length; i ++){
-            if(Object.prototype.toString.call(layers[i])=='[object Array]'){
-                var layer = layers[i];
-                for(var j = 0; j < layer.length; j ++){
-                    layer[j].clearCustomClipBox();
-                }
-            }else{
-                layers[i].clearCustomClipBox();
-            }
-
+            layers[i].clearCustomClipBox();
         }
     };
 
     clip.initializing = function(viewer,sceneModel,beacon){
-        for(var i = 0; i < sceneModel.layers.models.length; i++){
-            if(sceneModel.layers.models[i].layer.clipLineColor){
-                layers.push(sceneModel.layers.models[i].layer);
-            }
-        }
+        layers = viewer.scene.layers._layers._array;
         if(beacon){//平面裁剪
             var $planeClipPoint1Longitude = $("#plane-clip-point1-longitude"),
                 $planeClipPoint1Latitude = $("#plane-clip-point1-latitude"),
@@ -75,24 +62,13 @@ define(['Cesium'],function(Cesium) {
                 $planeClipPoint3Longitude = $("#plane-clip-point3-longitude"),
                 $planeClipPoint3Latitude = $("#plane-clip-point3-latitude"),
                 $planeClipPoint3Height = $("#plane-clip-point3-height");
-
             for(var i = 0; i < layers.length; i ++){
-                if(Object.prototype.toString.call(layers[i])=='[object Array]'){
-                    var layer = layers[i];
-                    for(var j = 0; j < layer.length; j ++){
-                        layer[j].clearCustomClipBox();
-                    }
-                }else{
-                    layers[i].clearCustomClipBox();
-                }
-
+                layers[i].clearCustomClipBox();
             }
-
             if(screenSpaceEventHandler){ // 进行平面裁剪时就禁用掉Box裁剪或之前设置的面裁剪，并清除Box裁剪的结果
                 screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 viewer.entities.removeById("Custom");
             }
-
             planeClipPolygonHandler.activeEvt.addEventListener(function(isActive){
                 if(isActive == true){
                     viewer.enableCursorStyle = false;
@@ -104,7 +80,6 @@ define(['Cesium'],function(Cesium) {
                     $('body').removeClass('drawCur');
                 }
             });
-
             planeClipPolygonHandler.drawEvt.addEventListener(function(result){
                 //显示裁剪面
                 planeClipPolygonHandler.polygon.show = false;
@@ -142,15 +117,7 @@ define(['Cesium'],function(Cesium) {
 
                 //平面裁剪参数设定
                 for(var i = 0; i < layers.length; i ++){
-                    if(Object.prototype.toString.call(layers[i])=='[object Array]'){
-                        var layer = layers[i];
-                        for(var j = 0; j < layer.length; j ++){
-                            layer[j].setCustomClipPlane(positions[0],positions[1],positions[2]);;
-                        }
-                    }else{
-                        layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);;
-                    }
-
+                    layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
                 }
                 if(layers.length > 0){
                     var clipRegion = layers[0].getClipRegion();
@@ -202,15 +169,7 @@ define(['Cesium'],function(Cesium) {
             viewer.entities.removeById("Custom");
             var scene = viewer.scene;
             for(var i = 0; i < layers.length; i ++){
-                if(Object.prototype.toString.call(layers[i])=='[object Array]'){
-                    var layer = layers[i];
-                    for(var j = 0; j < layer.length; j ++){
-                        layer[j].clearCustomClipBox();
-                    }
-                }else{
-                    layers[i].clearCustomClipBox();
-                }
-
+                layers[i].clearCustomClipBox();
             }
             //参数绑定变换
             $length.bind('input propertychange',function(){

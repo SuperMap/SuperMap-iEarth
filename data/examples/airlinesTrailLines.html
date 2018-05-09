@@ -24,42 +24,31 @@
 </head>
 <body>
 <div id="cesiumContainer"></div>
-<div id='loadingbar' class="spinner">
-    <div class="spinner-container container1">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
-    </div>
-    <div class="spinner-container container2">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
-    </div>
-    <div class="spinner-container container3">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
+<div class="applyImg" id="imgApply">
+    尾迹线
+</div>
+<div class="closeDiv">
+    <div class="closeImg" id="closeFun">
     </div>
 </div>
+<div class="applyContainer" id="comApply" style="background-color: #FFFFFF;height: 300px">
 <div id="toolbar" style="position: absolute;left: 5px;top: 5px;padding: 20px 5px;">
     <p class="params-control">
-        <label style="color: #FFFFFF">亮度阈值: </label>
-        <input type="range" id="threshold" min="0" max="1" value="0.9" step="0.01" style="width: 170px">
-        <span id="current_threshold" style="color: #FFFFFF"></span>
-    </p>
-    <p class="params-control">
-        <label style="color: #FFFFFF">泛光强度: </label>
-        <input type="range" id="bloomIntensity" min="0" max="10" value="1" step="0.01" style="width: 170px">
-        <span id="current_bloomIntensity" style="color: #FFFFFF"></span>
-    </p>
-    <p class="params-control">
-        <label style="color: #FFFFFF">
+        <label>
             <input type="checkbox" id="show" style="vertical-align: middle;margin-right: 10px;"><span style="vertical-align: middle">场景泛光</span>
         </label>
     </p>
+    <p class="params-control">
+        <label>亮度阈值: </label>
+        <input type="range" id="threshold" min="0" max="1" value="0.9" step="0.01" style="width: 210px">
+        <span id="current_threshold" style="color: #FFFFFF"></span>
+    </p>
+    <p class="params-control">
+        <label>泛光强度: </label>
+        <input type="range" id="bloomIntensity" min="0" max="10" value="1" step="0.01" style="width: 210px">
+        <span id="current_bloomIntensity" style="color: #FFFFFF"></span>
+    </p><br>
+    <label>航空公司: </label>
     <select id="airlineOptions" class="selectpicker show-tick form-control">
         <option selected value="Air China" selected>中国国际航空（Air China）</option>
         <option value="China Eastern Airlines">中国东方航空（China Eastern Airlines）</option>
@@ -72,6 +61,7 @@
         <option value="easyJet">英国易捷航空（easyJet）</option>
         <option value="Ryanair">爱尔兰瑞安航空（Ryanair）</option>
     </select>
+  </div>
 </div>
 <script type="text/javascript">
     /* 示范代码说明：
@@ -134,7 +124,6 @@
                         roll : 0
                     }
                 });
-
                 Cesium.loadJson("./json/flights.json").then(function(jsonData){
 
                     function getAirportCoord(idx){ // 获得具体机场的坐标
@@ -246,6 +235,19 @@
 
                 });
             });
+            $("#imgApply").on("click",function () {
+                    $("#coverLayer").show("slow");
+                    $("#comApply").show("slow");
+                    $(".closeDiv").show("slow");
+                }
+            )
+
+            $("#closeFun").on("click",function () {
+                    $("#coverLayer").hide("slow");
+                    $("#comApply").hide("slow");
+                    $(".closeDiv").hide("slow");
+                }
+            )
         }catch(e){
             console.log(e);
         }

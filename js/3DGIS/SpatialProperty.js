@@ -12,13 +12,21 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
 
     var SpatialProperty = function () {
     };
-
     SpatialProperty.remove = function(viewer){
-
+        $("#urlName").val("");
+        $("#dataSource option:not(:first)").remove();
+        $("#dataSet option:not(:first)").remove();
+        $("#dataLongitude option").remove();
+        $("#dataLatitude option").remove();
+        $("#dataHeight option").remove();
+        if(parent.graphingForm){
+            parent.graphingForm.$el.hide();
+        }
+        viewer.entities.removeAll();
     };
 
-    SpatialProperty.initializing = function(vie,parents,urlName,dataSource,dataSet){
-        viewer = vie;
+    SpatialProperty.initializing = function(viewerContainer,parents,urlName,dataSource,dataSet){
+        viewer = viewerContainer;
         parent = parents;
         setUrl = dataSource + ':' + dataSet;
         dataUrl = urlName;
@@ -27,11 +35,9 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
         handlerPolygon.drawEvt.addEventListener(function(result){
             handlerPolygon.polygon.show = false;
             handlerPolygon.polyline.show = false;
-            //几何区获取
             var geometry = CesiumToSuperMap.convertPolygon(Cesium,SuperMap,result.object);
             spatialQuery(geometry);
         });
-
     }
 
     function spatialQuery(drawGeometryArgs){
@@ -54,17 +60,17 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
 
     function processCompleted(queryEventArgs){
         //查询数据处理
-        var selectedFeatures = queryEventArgs.originResult.features;
+        var selectedFeatures = queryEventArgs.result.features;
         viewer.entities.removeAll();
         for(var i = 0;i < selectedFeatures.length;i++ ){
             viewer.entities.add({
-                position : Cesium.Cartesian3.fromDegrees(parseFloat(selectedFeatures[i].fieldValues["12"]),parseFloat(selectedFeatures[i].fieldValues["13"]),parseFloat(selectedFeatures[i].fieldValues["16"])),
+                id:queryEventArgs.result.features[i].data.SMID,
+                position : Cesium.Cartesian3.fromDegrees(parseFloat(selectedFeatures[i].data[$('#dataLongitude option:selected').text().toUpperCase()]),parseFloat(selectedFeatures[i].data[$('#dataLatitude option:selected').text().toUpperCase()]),parseFloat(selectedFeatures[i].data[$('#dataHeight option:selected').text().toUpperCase()])),
                 billboard :{
                     image : 'images/2.png',
                     width:30,
                     height:30,
                 },
-                name : selectedFeatures[i].fieldValues["11"],
             });
         }
         //调用图表窗口
@@ -75,10 +81,11 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
             require(['views/graphingForm'], function (graphingForm) {
                 var graphingForm = new graphingForm({
                     sceneModel: parent.model,
+                    dataset:queryEventArgs,
                     isPCBroswer: parent.isPCBroswer
                 });
                 parent.parent.addComponent(graphingForm);
-                parent.propertyForm = graphingForm;
+                parent.graphingForm = graphingForm;
                 graphingForm.$el.show();
             });
         }

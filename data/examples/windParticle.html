@@ -6,12 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 		<title>Wind Field</title>
 		<link rel="stylesheet" href="../../Build/Cesium/Widgets/widgets.css"/>
-		<link rel="stylesheet" href="../../css/bootstrap.min.css"/>
 		<link href="../../css/pretty.css" rel="stylesheet"/>
-		<link href="//at.alicdn.com/t/font_635232_djykub50ul5idx6r.css" rel="stylesheet"/>
 		<script src="./js/config.js"></script>
 		<script src="../../js/jquery.min.js"></script>
-		<script src="../../js/lib/bootstrap.min.js"></script>
+		<link href="../../css/semantic.min.css" rel="stylesheet">
 		<script type="text/javascript" src="../../js/lib/require.min.js" data-main="./js/main"></script>
 		<style>
 			html, body, #cesiumContainer {
@@ -22,72 +20,63 @@
 				overflow: hidden;
 				background-color: #000000;
 			}
-			#param-panel-container {
-				position: absolute;
-				top: 30px;
-				left: 30px;
-			}
-			#param-panel{
-				margin-top: 20px;
-			}
-			.labelText {
-				display: inline-block;
-				font-weight: bold;
-			}
 			.param-group{
 				margin-bottom: 15px;
-			}
-			.main {
-				border: 1px solid #526f82;
-				color: #ffffff;
-				padding: 20px;
-				background-color: rgba(38, 38, 38, 0.75);
 			}
 		</style>
 	</head>
 	<body>
 		<div id="cesiumContainer"></div>
-		<div id="param-panel-container">
-			<button class="btn btn-default btn-lg" type="button" data-toggle="collapse" data-target="#param-panel" aria-expanded="false" aria-controls="param-panel" title="参数面板">
-				<span class="iconfont icon-zhankai"></span>
-			</button>
-			<div id="param-panel" class="collapse">
-				<div class="well main">
-					<div class="param-group">
-						<label class="labelText">粒子大小:</label>
-						<input type="range" id="particleSize" min="1" max="10" value="1.5" step="1" style="width: 170px">
-					</div>
-					<div class="param-group">
-						<label class="labelText">生命周期:</label>
-						<input type="range" id="particleLife" min="1" max="20" value="5" step="1" style="width: 170px">
-					</div>
-					<div class="param-group">
-						<label class="labelText">粒子密度:</label>
-						<input type="range" id="particleDensity" min="0.1" max="3" value="1.5" step="0.1" style="width: 170px">
-					</div>
-					<div class="param-group">
-						<label class="labelText">粒子速度: </label>
-						<input type="range" id="particleVelocityScale" min="0.1" max="5" value="1" step="0.1" style="width: 170px">
-					</div>
-					<label class="checkbox param-group">
-						<input type="checkbox" id="fieldLayerVisible" checked>图层可见性
-					</label>
-					<label class="checkbox param-group">
-						<input type="checkbox" id="show" checked>场景泛光
-					</label>
-					<div class="param-group">
-						<label class="labelText">亮度阈值:</label>
-						<input type="range" id="threshold" min="0" value="0.2" max="1" value="1" step="0.01" style="width: 170px">
-					</div>
-					<div class="param-group">
-						<label class="labelText">泛光强度: </label>
-						<input type="range" id="bloomIntensity" min="0" max="10" value="2" step="0.01" style="width: 170px">
-					</div>
-					<button type="button" id="startField" class="btn btn-default">启动风场</button>
-					<button type="button" id="changeFieldData" class="btn btn-default">切换数据</button>
-				</div>
+		<div class="applyImg" id="imgApply">
+			风场管理
+		</div>
+		<div class="closeDiv">
+			<div class="closeImg" id="closeFun">
 			</div>
 		</div>
+		<div class="applyContainer" id="comApply" style="background-color: #FFFFFF">
+		<div style="margin: 10px">
+			<div class="ui black empty circular label"></div>
+			<div class="ui green empty circular label"></div>
+			<div class="ui red empty circular label"></div>
+			<div class="ui blue empty circular label"></div>
+			<div class="ui purple empty circular label"></div>
+			<div class="ui teal empty circular label"></div><br>
+			<div class="param-group">
+				<label class="labelText">粒子大小:</label>
+				<input type="number" id="particleSize" min="0" value="0.5" step="0.1" style="width: 210px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">生命周期:</label>
+				<input type="number" id="particleLife" min="1"  value="5" step="1" style="width: 210px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">粒子密度:</label>
+				<input type="number" id="particleDensity" min="0" value="1.5" step="0.1" style="width: 210px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">粒子速度: </label>
+				<input type="number" id="particleVelocityScale" min="0" value="1" step="0.1" style="width: 210px">
+			</div>
+			<label class="checkbox param-group">
+				<input type="checkbox" id="fieldLayerVisible" checked>图层可见性
+			</label>
+			<label class="checkbox param-group">
+				<input type="checkbox" id="show" checked>场景泛光
+			</label><br><br>
+			<div class="param-group">
+				<label class="labelText">亮度阈值:</label>
+				<input type="range" id="threshold" min="0" value="0.2" max="1" value="1" step="0.01" style="width: 170px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">泛光强度: </label>
+				<input type="range" id="bloomIntensity" min="0" max="10" value="2" step="0.01" style="width: 170px">
+			</div>
+			<input type="button" id="startField" class="btn btn-default" style="float: right;background-color: #FFFFFF;border: green 1px solid;" value="启动风场">
+			<input type="button" id="changeFieldData" class="btn btn-default" style="float: right;background-color: #FFFFFF;border: green 1px solid;margin-right: 10px" value="切换数据">
+
+		</div>
+	   </div>
 		<script>
 			/*示范代码说明：
 			 *本示范程序为全球风场可视化效果，可实时控制显示粒子样式与活动信息
@@ -131,7 +120,7 @@
 
 				var fieldLayer = new Cesium.FieldLayer3D(scene.context); //场数据图层
 				fieldLayer.particleVelocityFieldEffect.velocityScale = 100.0; //初始化效果
-				fieldLayer.particleVelocityFieldEffect.particleSize = 1.5;
+				fieldLayer.particleVelocityFieldEffect.particleSize = 0.5;
 				fieldLayer.particleVelocityFieldEffect.paricleCountPerDegree = 1.5;
 				scene.primitives.add(fieldLayer); //添加场图层
 				var particleWindField = [];
@@ -211,6 +200,22 @@
 				$("#particleVelocityScale").on("input change", function() {
 					fieldLayer.particleVelocityFieldEffect.velocityScale = this.value * 100.0;
 				});
+
+				$("#imgApply").on("click",function () {
+                        $("#coverLayer").show("slow");
+                        $("#comApply").show("slow");
+                        $(".closeDiv").show("slow");
+                    }
+				)
+
+                $("#closeFun").on("click",function () {
+                        $("#coverLayer").hide("slow");
+                        $("#comApply").hide("slow");
+                        $(".closeDiv").hide("slow");
+                    }
+				)
+
+
 			}
 		</script>
 	</body>
