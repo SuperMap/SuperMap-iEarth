@@ -1,4 +1,4 @@
-define([],function(){
+define(function(){
     var ResourceCN = {
         login : '登陆',
         logout : '登出',
@@ -50,7 +50,6 @@ define([],function(){
         skyAtmosphereEffect : '大气渲染',
         sunEffect : '光照渲染',
         fogEffect : '雾化效果',
-        layerManager : '图层管理',
         expand : '展开',
         addLayer : '添加图层',
         setBaseLayer : '底图设置',

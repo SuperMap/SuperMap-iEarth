@@ -26,26 +26,27 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 '<option value="2">贴地量算</option>',
             '</select>',
         '</div><br>',
-        '<div style="display: none">',
-        '<input type="radio" id="singleIsoline" name="showIsoline" checked/>',
-        '<label style="font-size: 12px;vertical-align: middle;">单等高线</label>',
-        '<input type="radio" id="multiIsoline" name="showIsoline />',
-        '<label style="font-size: 6px;vertical-align: middle;">多等高线</label>',
+        '<div>',
+        '<label style="font-size: 12px;vertical-align: middle;" id="singleIsolineLabel"><input type="radio" id="singleIsoline" name="showIsoline" <%= isolineMode == "singleIsoline" ? "checked" : "" %>/><span>单等高线</span></label>',
+        '<label style="font-size: 12px;vertical-align: middle;" id="multiIsolineLabel"><input type="radio" id="multiIsoline" name="showIsoline" <%= isolineMode == "multiIsoline" ? "checked" : "" %>/><span>多等高线</span></label>',
         '</div>',
         '<div id="isoline-interval-setting" style="margin-top:10px;display: flex;flex-direction:row;align-items:center;">',
             "<div class='measure-title' style='float:left;font-size: 12px'>" + "等高距(米)：" + "</div>",
-            "<input type='number' class='input' id='isoline-interval' style='width: 80px;font-size: 12px;' value='1' step='1' min='1'/>",
+            "<input type='number' class='input' id='isoline-interval' style='width: 80px;font-size: 12px;' value='50' step='1' min='1'/>",
         '</div>',
        ].join('');
+    var isolineMode = "singleIsoline";
     var MeasureDropDown = Container.extend({
         tagName : 'div',
         id : 'measureDropDown',
         template : _.template(htmlStr),
         events : {
-        	'click #measureDisBtn' : 'onMeasureDisBtnClk',
-        	'click #measureAreaBtn' : 'onMeasureAreaBtnClk',
+            'click #measureDisBtn' : 'onMeasureDisBtnClk',
+            'click #measureAreaBtn' : 'onMeasureAreaBtnClk',
             'click #measureHeightBtn' : 'onMeasureHeightBtnClk',
-        	'click #delResBtn' : 'onDelResBtnClk'
+            'click #delResBtn' : 'onDelResBtnClk',
+            'click #singleIsolineLabel': 'onShowSingleIsoline',
+            'click #multiIsolineLabel': 'onShowMultiIsoline'
         },
         initialize : function(options){
         	sceneModel = options.sceneModel;
@@ -59,7 +60,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             });
         },
         render : function(){
-        	this.$el.html(this.template());
+        	this.$el.html(this.template({isolineMode: isolineMode}));
         	this.$el.addClass('dropDown-container');
         	this.$el.css('min-width','180px');
             return this;
@@ -163,6 +164,15 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 }
             }
         },
+        onShowSingleIsoline: function(){
+            isolineMode = "singleIsoline";
+            this.render();
+        },
+        onShowMultiIsoline: function(){
+            isolineMode = "multiIsoline";
+            this.render();
+        }
+
     });
     function  createIsoline(verticalHeight) {
         if(!isoline){
@@ -183,10 +193,10 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
         var colorTable = new Cesium.ColorTable();
         isoline.ColorTable = colorTable;
         isoline.Opacity = 0.4;
-        // viewer.scene.globe.HypsometricSetting = {
-        //     hypsometricSetting : isoline,
-        //     analysisMode : Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
-        // };
+        viewer.scene.globe.HypsometricSetting = {
+            hypsometricSetting : isoline,
+            analysisMode : Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
+        };
         for(var i = 0;i < layers.length;i++){
             layers[i].hypsometricSetting = {
                 hypsometricSetting : isoline,

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>扫描效果</title>
+    <link href="../../Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link href="../../css/pretty.css" rel="stylesheet">
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="../../js/lib/tooltip.js"></script>
+    <script src="../../js/lib/spectrum.js"></script>
+    <script type="text/javascript" src="../../js/lib/require.min.js" data-main="./js/main"></script>
+    <style>
+        @font-face {
+            font-family: 'Flat-UI-Icons';
+            src: url('../../fonts/glyphicons/flat-ui-icons-regular.eot');
+            src: url('../../fonts/glyphicons/flat-ui-icons-regular.eot?#iefix') format('embedded-opentype'), url('../../fonts/glyphicons/flat-ui-icons-regular.woff') format('woff'), url('../../fonts/glyphicons/flat-ui-icons-regular.ttf') format('truetype'), url('../../fonts/glyphicons/flat-ui-icons-regular.svg#flat-ui-icons-regular') format('svg');
+        }
+        [class^=fui-],[class*=fui-]{
+             font-family : Flat-UI-Icons;
+             font-style : normal;
+             font-weight : 400;
+             font-variant : normal;
+             text-transform : none;
+             speak : none;
+             -webkit-font-smoothing : antialiased;
+             -moz-osx-font-smoothing : grayscale;
+         }
+        .fui-expand:before{
+            content: "\e61A";
+        }
+        html, body, #cesiumContainer {
+            width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+        }
+        .params-setting-container {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #ffffff;
+        }
+        .params-setting{
+            overflow: auto;
+            width: 340px;
+            border: 1px solid #526f82;
+            padding: 30px 20px 5px 20px;
+            background-color: rgba(38, 38, 38, 0.75);
+        }
+        .params-setting-hide{
+            padding: 0;
+            height: 0;
+            border: none;
+            overflow: hidden;
+        }
+        .params-setting-anchor{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 23px;
+            height: 23px;
+            cursor: pointer;
+            border-right: 1px solid #526f82;
+            border-bottom: 1px solid #526f82;
+            background-color: rgba(38, 38, 38, 0.75);
+            text-align: center;
+        }
+        .params-setting-anchor>span{
+            height: 23px;
+            line-height: 23px;
+        }
+        .param-item{
+            margin-bottom: 15px;
+        }
+        .param-item>label, .param-item>input{
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .divider{
+            height: 2px;
+            background-color: #7c7c7c;
+            margin-bottom: 15px;
+        }
+        .params-setting::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+            height: 1px;
+        }
+        .params-setting::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: #535353;
+        }
+        .params-setting::-webkit-scrollbar-track {/*滚动条里面轨道*/
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: #EDEDED;
+        }
+        #set-scan-direction{
+            font-size: 0.8rem;
+        }
+        @media screen and (min-width: 1280px){
+            body{
+                font-size: 0.8rem;
+            }
+            .params-setting{
+                max-height: 450px;
+                width: 300px;
+            }
+        }
+        @media screen and (min-width: 1680px){
+            body{
+                font-size: 0.9rem;
+            }
+            .params-setting{
+                max-height: 760px;
+                width: 340px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="cesiumContainer"></div>
+<div class="params-setting-container">
+    <div class="params-setting-anchor" title="显示/隐藏参数面板"><span class="fui-expand"></span></div>
+    <div class="params-setting">
+        <div class="param-item">
+            <label for="scanShow">开启扫描</label>
+            <input type="checkbox" id="scanShow">
+        </div>
+        <div class="param-item">
+            <label>扫描模式：</label>
+            <label for="line-scan-mode">线状扫描</label>
+            <input type="radio" name="scan-mode" value="line-scan-mode" id="line-scan-mode" checked>
+            <label for="ring-scan-mode">环状扫描</label>
+            <input type="radio" name="scan-mode" value="ring-scan-mode" id="ring-scan-mode">
+        </div>
+        <div class="param-item">
+            <label>扫描颜色</label>
+            <input type="text" id="scan-color"/>
+        </div>
+        <div class="param-item">
+            <button type="button" class="button black" id="set-scan-direction">自定义扫描方向</button>
+        </div>
+        <div class="divider"></div>
+        <div class="param-item">
+            <label for="colorCorrectionShow">颜色校正开启</label>
+            <input type="checkbox" id="colorCorrectionShow" checked>
+        </div>
+        <div class="param-item">
+            <label>饱和度</label>
+            <input type="range" id="saturation" min="-10" max="30" value="3.9" step="0.1" style="width: 170px">
+            <label id ="saturation_label"></label>
+        </div>
+        <div class="param-item">
+            <label>亮度</label>
+            <input type="range" id="brightness" min="-1" max="1" value="0" step="0.01" style="width: 170px">
+            <label id ="brightness_label"></label>
+        </div>
+        <div class="param-item">
+            <label>对比度</label>
+            <input type="range" id="contrast" min="-10" max="10" value="1" step="0.1" style="width: 170px">
+            <label id ="contrast_label"></label>
+        </div>
+        <div class="param-item">
+            <label>色调</label>
+            <input type="range" id="hue" min="0" max="3" value="0" step="0.1" style="width: 170px">
+            <label id ="hue_label"></label>
+        </div>
+        <div class="divider"></div>
+        <div class="param-item">
+            <label for="bloomShow">开启泛光</label>
+            <input type="checkbox"  id="bloomShow">
+        </div>
+        <div class="param-item">
+            <label>亮度阈值</label>
+            <input type="range" id="bloom-threshold" min="0" max="1" value="0.8" step="0.01" style="width: 170px">
+            <label id="bloom-threshold-label"></label>
+        </div>
+        <div class="param-item">
+            <label>泛光强度</label>
+            <input type="range" id="bloom-intensity" min="0" max="10" value="1" step="0.1" style="width: 170px">
+            <label id="bloom-intensity-label"></label>
+        </div>
+        <div class="divider"></div>
+        <div class="param-item">
+            <label for="DOFShow">开启景深</label>
+            <input type="checkbox" id="DOFShow">
+        </div>
+        <div class="param-item">
+            <label>焦距</label>
+            <input type="range" id="focalDistance" min="0.1" max="1000.0"  value="100" step="0.1" style="width: 170px">
+            <label id ="focalDistance_label"></label>
+        </div>
+        <div class="param-item">
+            <label>对焦范围</label>
+            <input type="range" id="focalRange" min="0" max="200"  value="60" step="1" style="width: 170px">
+            <label id ="focalRange_label"></label>
+        </div>
+        <div class="param-item">
+            <label>镜头的F值</label>
+            <input type="range"  id="cameraF" min="1.0" max="16"  value="2.8" step="0.1" style="width: 170px">
+            <label id ="cameraF_label"></label>
+        </div>
+        <div class="param-item">
+            <label>焦外模糊半径</label>
+            <input type="range"  id="dofblurRadius" min="0.1" max="20.0"  value="10.0" step="0.1" style="width: 170px">
+            <label id ="dofblurRadius_label"></label>
+        </div>
+    </div>
+</div>
+<script>
+    function onload(Cesium) {
+
+        $(".params-setting-anchor").click(function(){
+            $(".params-setting").toggleClass("params-setting-hide");
+        });
+
+        var viewer = new Cesium.Viewer('cesiumContainer', {
+             infobox:false
+        });
+        var scene = viewer.scene;
+        scene.fxaa = true;
+        scene.skyAtmosphere.show = false;
+
+        var promise = scene.open(URL_CONFIG.SCENE_CBD);
+        Cesium.when(promise,function(layers){
+            var tooltip = createTooltip(document.body);
+            var tooltipMsg = "";
+            var clickCount = 0;
+            var refLayer = layers[0];
+            //设置相机位置，定位至模型
+            scene.camera.setView({
+                destination : new Cesium.Cartesian3(-2180733.097675902, 4379639.149392802, 4092613.146140101),
+                orientation:{
+                    heading: 4.419871112141432,
+                    pitch: -0.40767078314183536,
+                    roll: 1.0658141036401503e-14
+                }
+            });
+            // 初始时就开启颜色校正
+            viewer.scene.colorCorrection.show = true;
+            viewer.scene.colorCorrection.saturation = $("#saturation").val();
+            viewer.scene.colorCorrection.brightness = $("#brightness").val();
+            viewer.scene.colorCorrection.contrast = $("#contrast").val();
+            viewer.scene.colorCorrection.hue = $("#hue").val();
+
+            // 初始时同步参数设置与显示
+            $("#saturation_label").text($("#saturation").val()); // 饱和度
+            $("#brightness_label").text($("#brightness").val()); // 亮度
+            $("#contrast_label").text($("#contrast").val()); // 对比度
+            $("#hue_label").text($("#hue").val()); // 色调
+            $("#bloom-threshold-label").text($("#bloom-threshold").val()); // 亮度阈值
+            $("#bloom-intensity-label").text($("#bloom-intensity").val()); // 泛光强度
+            $("#focalDistance_label").text($("#focalDistance").val()); // 焦距
+            $("#focalRange_label").text($("#focalRange").val()); // 对焦范围
+            $("#cameraF_label").text($("#cameraF").val()); // 镜头的F值
+            $("#dofblurRadius_label").text($("#dofblurRadius").val()); // 焦外模糊半径
+
+            // 初始化颜色选择控件
+            var initialScanColor = "#2263e6";
+            viewer.scene.scanEffect.color = Cesium.Color.fromCssColorString(initialScanColor);
+            $("#scan-color").spectrum({
+                color: initialScanColor,
+                chooseText: "确定",
+                cancelText: "取消",
+                showAlpha: true,
+                change: function(color){
+                    var colorObj = color.toRgb();
+                    viewer.scene.scanEffect.color = new Cesium.Color(colorObj.r / 255, colorObj.g / 255, colorObj.b /255, colorObj.a);
+                }
+            });
+
+            var handlerActive = false; // true表示正在进行扫描点选设置
+            var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            handler.setInputAction(function(e){
+                if(!handlerActive){
+                    return;
+                }
+                clickCount++;
+
+                // 获取鼠标屏幕坐标,并将其转化成笛卡尔坐标
+                var position = e.position;
+                var last = scene.pickPosition(position);
+                var scanMode = $("input[name='scan-mode']:checked").val(); // 获取当前扫描模式
+                if(scanMode === "line-scan-mode"){
+                    if(clickCount == 1){
+                        viewer.scene.scanEffect.centerPostion = last; // 设置扫描中心点
+                        tooltipMsg = "点选设置扫描方向";
+                    }else if(clickCount == 2){
+                        var dir = new Cesium.Cartesian3();
+                        Cesium.Cartesian3.subtract(last, viewer.scene.scanEffect.centerPostion, dir); // 获取扫描方向向量
+                        viewer.scene.scanEffect.lineMoveDirection = dir;
+
+                        clickCount = 0;
+                        handlerActive = false;
+                        tooltip.setVisible(false);
+                    }
+                }else{
+                    viewer.scene.scanEffect.centerPostion = last;
+
+                    clickCount = 0;
+                    handlerActive = false;
+                    tooltip.setVisible(false);
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            handler.setInputAction(function(e){
+                if(!handlerActive){
+                    return;
+                }
+                tooltip.showAt(e.endPosition, tooltipMsg);
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+            $("#colorCorrectionShow").on("input change",function(){
+                viewer.scene.colorCorrection.show = this.checked;
+            });
+
+            $("#saturation").on("input change",function(){
+                $("#saturation_label").text(this.value);
+                viewer.scene.colorCorrection.saturation = this.value;
+            });
+
+            $("#brightness").on("input change",function(){
+                $("#brightness_label").text(this.value);
+                viewer.scene.colorCorrection.brightness = this.value;
+            });
+
+            $("#contrast").on("input change",function(){
+                $("#contrast_label").text(this.value);
+                viewer.scene.colorCorrection.contrast = this.value;
+            });
+
+            $("#hue").on("input change",function(){
+                $("#hue_label").text(this.value);
+                viewer.scene.colorCorrection.hue = this.value;
+            });
+
+            $("#bloomShow").on("input change",function(){
+                viewer.scene.bloomEffect.show = this.checked;
+                viewer.scene.bloomEffect.threshold = $("#bloom-threshold").val();
+                viewer.scene.bloomEffect.bloomIntensity = $("#bloom-intensity").val();
+            });
+
+            $("#bloom-threshold").on("input change", function(){
+                $("#bloom-threshold-label").text(this.value);
+                viewer.scene.bloomEffect.threshold = this.value;
+            });
+
+            $("#bloom-intensity").on("input change", function(){
+                $("#bloom-intensity-label").text(this.value);
+                viewer.scene.bloomEffect.bloomIntensity = this.value;
+            });
+
+            $("#scanShow").on("input change",function(){
+                viewer.scene.scanEffect.show = this.checked;
+                var pos = new Cesium.Cartesian3.fromDegrees(refLayer.lon,refLayer.lat,10.0);
+                viewer.scene.scanEffect.centerPostion = pos;
+            });
+
+            $("input[name='scan-mode']").on("input change",function(){
+                viewer.scene.scanEffect.mode = this.value === "line-scan-mode" ? Cesium.ScanEffectMode.LINE : Cesium.ScanEffectMode.CIRCLE;
+                if(this.value === "line-scan-mode"){
+                    $("#set-scan-direction").text("自定义扫描方向");
+                }else{
+                    $("#set-scan-direction").text("自定义扫描中心");
+                }
+            });
+
+            $("#DOFShow").on("input change",function(){
+                viewer.scene.depthOfFieldEffect.show = this.checked;
+            });
+
+            $("#focalDistance").on("input change",function(){
+                $("#focalDistance_label").text(this.value);
+                viewer.scene.depthOfFieldEffect.focalDistance = this.value;
+            });
+
+            $("#focalRange").on("input change",function(){
+                $("#focalRange_label").text(this.value);
+                viewer.scene.depthOfFieldEffect.focalRange = this.value;
+            });
+
+            $("#cameraF").on("input change",function(){
+                $("#cameraF_label").text(this.value);
+                viewer.scene.depthOfFieldEffect.fStop = this.value;
+            });
+
+            $("#dofblurRadius").on("input change",function(){
+                $("#dofblurRadius_label").text(this.value);
+                viewer.scene.depthOfFieldEffect.blurRadius = this.value;
+            });
+
+            $("#set-scan-direction").click(function(){
+                handlerActive = true;
+                tooltip.setVisible(true);
+                tooltipMsg = "点选设置扫描中心";
+            });
+        });
+    }
+</script>
+</body>

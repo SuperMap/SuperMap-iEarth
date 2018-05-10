@@ -13,7 +13,7 @@ define([
     var _ = require('underscore');
     var htmlStr = [
                    "<div id='toolbar' class='btn-group' style='margin: 5px 5px 5px 8px;'>",
-                   "<a data-toggle='dropdown' id='layerMangerBtn' title='" + Resource.layerManager + "' class='btn btn-inverse'><span style='font-size : 17px;' class='iconfont icon-tuceng' ></span></a>",
+                   "<a data-toggle='dropdown' id='layerMangerBtn' class='btn btn-inverse'><span style='font-size : 17px;' class='iconfont icon-tuceng' ></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
                    "<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanzhankai'></span></a>",
                    "<div id='btnGroup' class='btn-group'>",
