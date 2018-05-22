@@ -226,9 +226,9 @@ function init(Cesium, Zlib) {
                         sceneModel.open();
                     }
                 }
-                else if (isPCBroswer) {
+                /*else if (isPCBroswer) { // 会链接到iPortal，引入iPortal自身的一个后台报错，暂时注释掉，目前没有出现问题
                     $("body").append("<iframe id='innerIframe' style='top:10000px;left:0;border:none;display:none;' src='https://www.supermapol.com/services/security/logout'></iframe>");
-                }
+                }*/
             });
     });
 }
