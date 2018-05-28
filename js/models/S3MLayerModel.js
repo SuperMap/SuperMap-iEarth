@@ -17,40 +17,25 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             var promise = viewer.scene.addS3MTilesLayerByScp(scpUrl,{
                 name : name
             });
-            if(scpUrl != ''&& name != ''){
-                return Cesium.when(promise,function(layer){
-                    me.sceneModel.trigger('layerAdded',me);
-                    me.sceneModel.layers.add(me);
-                    me.layer = layer;
-                    if(isFlyMode){
-                        me.flyTo();
-                    }
-                    Util.S3M_CACHE[scpUrl] = name;
-                    if(me.get('realName') == 'srsb'){
-                        layer.setQueryParameter({
-                            url: 'https://www.supermapol.com/iserver/services/data-srsb/rest/data',
-                            dataSourceName: 'vector',
-                            dataSetName: '房屋面',
-                            keyWorld: 'SmID'
-                        });
-                    }
-                    var attrQueryPars = me.attrQueryPars;
-                    if(Cesium.defined(attrQueryPars)){
-                        layer.setQueryParameter(attrQueryPars);
-                    }
-                    if(me.get('isVisible') == false){
-                        layer.visible = false;
-                    }
-                    return defer.resolve(layer);
-                },function(err){
-                    Util.showErrorMsg(Resource.scpUrlErrorMsg);
-                    return defer.reject();
-                });
+		return Cesium.when(promise,function(layer){
+            if(!Cesium.FeatureDetection.isPCBroswer()){
+				layer._supportCompressType = 0;
             }
-
+			me.sceneModel.trigger('layerAdded',me);
+			me.sceneModel.layers.add(me);
+			me.layer = layer;
+			if(isFlyMode){
+				me.flyTo();
+			}
+			Util.S3M_CACHE[scpUrl] = name;
+			if(me.get('isVisible') == false){
+				layer.visible = false;
+			}
+			return defer.resolve(layer);
+		})
         },
         removeLayer : function(viewer){
-        	var name = this.get('realName');
+        	var name = this.get('name');
         	var scpUrl = this.get('url');
         	if(Util.S3M_CACHE[scpUrl]){
         		Util.S3M_CACHE[scpUrl] = undefined;
@@ -60,8 +45,8 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         	this.sceneModel.layers.remove(this);
         },
         flyTo : function(){
-        	var scpName = this.get('realName');
-        	var hiddenScp = ['萨尔茨堡_火车站','萨尔茨堡_足球场','萨尔茨堡_学校','萨尔茨堡_居民区','堪培拉_国会大厦','堪培拉_国际会议中心','堪培拉_雷吉斯酒店','堪培拉_克莱门斯街'];
+        	var scpName = this.get('name');
+        	var hiddenScp = ['萨尔茨堡火车站', 'BIM建筑', 'CBD', '点云'];
         	var cameraParam = Config.CAMERA_PARAM[scpName];
         	var globe = this.viewer.scene.globe;
         	var scene = this.viewer.scene;

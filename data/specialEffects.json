@@ -11,6 +11,12 @@
       "path": "./data/examples/airlinesTrailLines.html",
       "thumbnail": "./data/examples/thumbnails/airlinesTrailLines.jpg",
       "description": "航班尾迹线"
+    },
+    {
+      "name": "扫描线",
+      "path": "./data/examples/scanEffect.html",
+      "thumbnail": "./data/examples/thumbnails/scanEffect.jpg",
+      "description": "扫描线特效"
     }
   ]
 }

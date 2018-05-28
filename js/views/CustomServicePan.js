@@ -85,31 +85,33 @@ define([
                 return;
             }
 
-            var type = $('#typeInput').val();
-            var layerModel = new LayerModel({
-            	url : url,
-                sceneUrl : sceneUrl,
-            	name : name,
-            	type : type,
-            	realName : name
-            });
-            if("S3M" == type){
-            	if($('#queryFeatureChk').is(':checked') && $('#dataUrlInput').val() !== '' && $('#datasourceSel').val() && $('#datasetSel').val()){
-            		var dataUrl = $('#dataUrlInput').val(),datasource = $('#datasourceSel').val(),dataset = $('#datasetSel').val();
-                    Util.SCPURL_SET[name] = {
-                        dataUrl : dataUrl,
-                        datasource : datasource,
-                        dataset : dataset
-                    };
-                    layerModel.strategy.attrQueryPars = {
-                        url: dataUrl,
-                        dataSourceName: datasource,
-                        dataSetName: dataset,
-                        keyWorld: 'SmID'
-                    };
+            if(url != ''&& name != ''){
+                var type = $('#typeInput').val();
+                var layerModel = new LayerModel({
+                    url : url,
+                    sceneUrl : sceneUrl,
+                    name : name,
+                    type : type,
+                    realName : name
+                });
+                if("S3M" == type){
+                    if($('#queryFeatureChk').is(':checked') && $('#dataUrlInput').val() !== '' && $('#datasourceSel').val() && $('#datasetSel').val()){
+                        var dataUrl = $('#dataUrlInput').val(),datasource = $('#datasourceSel').val(),dataset = $('#datasetSel').val();
+                        Util.SCPURL_SET[name] = {
+                            dataUrl : dataUrl,
+                            datasource : datasource,
+                            dataset : dataset
+                        };
+                        layerModel.strategy.attrQueryPars = {
+                            url: dataUrl,
+                            dataSourceName: datasource,
+                            dataSetName: dataset,
+                            keyWorld: 'SmID'
+                        };
+                    }
                 }
+                this.model.addLayer(layerModel);
             }
-            this.model.addLayer(layerModel);
 
            if(sceneUrl != ''){
               var allUrl = sceneUrl + "/datas.xml";
