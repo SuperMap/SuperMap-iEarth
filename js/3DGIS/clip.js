@@ -152,7 +152,11 @@ define(['Cesium'],function(Cesium) {
                         viewer.entities.add(clipRegion);
                     }
                 }
+                sceneModel.analysisObjects.planeClipStore = positions;
             });
+
+
+
 
             $planeClipPoint1Longitude.bind('input propertychange', function(){
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
@@ -268,6 +272,13 @@ define(['Cesium'],function(Cesium) {
                     });
                     setClipBox(layers, boxEntity);
                 }
+                var boxEntityStore = {};
+                boxEntityStore.length  = length;
+                boxEntityStore.width = width;
+                boxEntityStore.height = width;
+                boxEntityStore.rotate = rotate;
+                boxEntityStore.position = cartesian;
+                sceneModel.analysisObjects.boxClipStore = boxEntityStore;
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         }
     };

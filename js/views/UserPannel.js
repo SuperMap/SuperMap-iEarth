@@ -1,3 +1,4 @@
+//@ sourceURL=UserPannel.js
 define([
     "./Container"], function(Container) {
     "use strict";

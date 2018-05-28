@@ -2597,7 +2597,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 /**/
 main {
     min-width: 320px;
-    max-width: 350px;
+    /*max-width: 350px;*/
     /*margin: 0 auto;*/
     border: 1px solid #526f82;
     color: #ffffff;
@@ -2664,6 +2664,12 @@ main input:checked + label {
 #clipTab3:checked ~ #clipContent3{
 	display: block;
 }
+
+#portalTab1:checked ~ #portalTabContent1,
+#portalTab2:checked ~ #portalTabContent2{
+	display: block;
+}
+
 
 #objectTab1:checked ~ #objectContent1,
 #objectTab2:checked ~ #objectContent2,
@@ -2910,13 +2916,15 @@ main .square{
 	background: -ms-linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%);
 	background: linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%);
 }
-#marker :hover {
+.marker :hover {
 	background: #B2ADB2;
 	-webkit-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	-moz-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 }
 td {text-align:center}
+
+
 
 
 
