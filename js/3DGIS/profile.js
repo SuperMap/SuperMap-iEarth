@@ -35,7 +35,7 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
         }
     };
 
-    profile.initializing = function(viewer,parent){
+    profile.initializing = function(viewer,parent,sceneModel){
         var scene = viewer.scene;
         if(!crossProfile){
             crossProfile = new Cesium.Profile(scene);
@@ -116,6 +116,14 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
             crossProfile.build();
         });
         handlerLine.activate();
+
+        var store = {};
+        store.startPoint = crossProfile.startPoint;
+        store.endPoint = crossProfile.endPoint;
+        store.extendHeight = crossProfile.extendHeight;
+        sceneModel.analysisObjects.profileStore = store;
+
+
 
         $('#profileLong1').on('input propertychange',function(){
             var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#profileLong1').val()), parseFloat($('#profileLat1').val()), parseFloat($('#profileAlt1').val()));

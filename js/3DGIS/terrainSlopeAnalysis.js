@@ -27,7 +27,7 @@ define(['Cesium'],function(Cesium) {
         }
     };
 
-    terrainSlopeAnalysis.initializing = function(viewer){
+    terrainSlopeAnalysis.initializing = function(viewer,sceneModel){
         //坡度坡向对象
         var slope = new Cesium.SlopeSetting();
 
@@ -89,6 +89,11 @@ define(['Cesium'],function(Cesium) {
             SlopePolygon.deactivate();
         });
         SlopePolygon.activate();
+
+        var store = {};
+        store.CoverageArea = slope.CoverageArea;
+        sceneModel.terrainObjects.terrainSlopeStore = store;
+
 
         //最小分析坡度值
         $("#wideminR").on("input change",function(){

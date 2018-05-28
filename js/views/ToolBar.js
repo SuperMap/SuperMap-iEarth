@@ -382,7 +382,6 @@ define([
                 window.event.returnValue = false;
             }
             if(this.analysisTools){
-                
                 this.analysisTools.$el.show();
             }
         	if(!this.analysisTools){

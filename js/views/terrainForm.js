@@ -18,8 +18,9 @@ define(['./Container',
     var $ = require('jquery');
     var viewer;
     var layers = [];
+    var sceneModel;
     var htmlStr = [
-        '<main style="position : absolute;right:0; top : 10%;width: 300px">',
+        '<main style="position : absolute;right:50px; top : 10%;width: 300px">',
         '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="terrainTab2" type="radio" name="terrainTab" checked>',
         '<label for="terrainTab2" style="font-size: 13px">' + "坡度坡向" + '</label>',
@@ -139,6 +140,7 @@ define(['./Container',
         template : _.template(htmlStr),
         initialize : function(options){
             viewer = options.sceneModel.viewer;
+            sceneModel = options.sceneModel;
             for(var i = 0; i < options.sceneModel.layers.models.length; i++){
                 layers.push(options.sceneModel.layers.models[i].layer);
             }
@@ -186,31 +188,31 @@ define(['./Container',
             return false;
         },
         onModifyTerrainClk : function(evt){
-            modifyTerrain.initializing(viewer);
+            modifyTerrain.initializing(viewer,sceneModel);
         },
         onModifyTerrainDelClk : function(evt){
             modifyTerrain.remove(viewer);
         },
         onExcavationTerrainClk : function(evt){
-            excavationTerrain.initializing(viewer);
+            excavationTerrain.initializing(viewer,sceneModel);
         },
         onExcavationTerrainDelClk : function(evt){
             excavationTerrain.remove(viewer);
         },
         onTerrainSlopeClk : function(evt){
-            terrainSlopeAnalysis.initializing(viewer);
+            terrainSlopeAnalysis.initializing(viewer,sceneModel);
         },
         onTerrainSlopeDelClk : function(evt){
             terrainSlopeAnalysis.remove(viewer);
         },
         onFloodClk : function(evt){
-            flood.initializing(viewer);
+            flood.initializing(viewer,sceneModel);
         },
         onFloodDelClk : function(evt){
             flood.remove(viewer);
         },
         onFillClk : function(evt){
-            isoline.initializing(viewer);
+            isoline.initializing(viewer,sceneModel);
         },
         onFillDelClk : function(evt){
             isoline.remove(viewer);

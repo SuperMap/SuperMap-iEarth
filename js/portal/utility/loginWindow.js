@@ -9,9 +9,8 @@
 //注意！！需自主设置CLIENT_LOGIN_URL为登录的URL地址，SSO_LOGOUT_URL为登出地址
 //===================================================================/
 window.SuperMapSSO={
-	//CLIENT_LOGIN_URL:"http://www.supermapol.com/supermapearth/login?popup=true",
-	CLIENT_LOGIN_URL:"http://localhost:8080/supermapearth/login?popup=true",
-    SSO_LOGOUT_URL:"https://sso.supermap.com/logout",
+    CLIENT_LOGIN_URL:"http://192.168.17.193:9090/cas-test-client/login?popup=true",
+    SSO_LOGOUT_URL:"https://sso.supermap.com/v1/cas/logout",
     WINDOW_ID:"",
     CALLBACKNAME:"",
     /*
@@ -24,8 +23,12 @@ window.SuperMapSSO={
      * callBackName:回调函数名称
      */
     doLogin:function(callBackName){
-        this.createDiv(true,this.CLIENT_LOGIN_URL,callBackName);
-        window.SuperMapSSO.isShowWindow = true;
+        if (window.casEnable) {
+            this.createDiv(true,this.CLIENT_LOGIN_URL,callBackName);
+            window.SuperMapSSO.isShowWindow = true;
+            return;
+        }
+        window.location.href = this.CLIENT_LOGIN_URL;
     },
     /*
      * 登录状态同步
@@ -40,7 +43,7 @@ window.SuperMapSSO={
      */
     doLogout:function(redirectBackUrl){
         var url = window.location.href;
-        if(redirectBackUrl!=null&&redirectBackUrl!=undefined&&redirectBackUrl!=""){
+        if(redirectBackUrl != undefined && redirectBackUrl != ""){
             url = redirectBackUrl;
         }
         window.location.href = this.SSO_LOGOUT_URL + "?service=" + url;
@@ -56,18 +59,18 @@ window.SuperMapSSO={
         var fullUrl, displayHtml="",
             windowDiv=document.createElement("div"),
             random=Math.round(Math.random()*1000);
-        windowDiv.id="login_window"+random;
-        this.WINDOW_ID=windowDiv.id;
-        if(serviceUrl.indexOf("?")==-1){
-            serviceUrl+="?";
-        }
-        fullUrl=serviceUrl+"&id="+windowDiv.id+"&callBackName="+callBackName;
+            windowDiv.id="login_window"+random;
+            this.WINDOW_ID=windowDiv.id;
+            if(serviceUrl.indexOf("?")==-1){
+                serviceUrl+="?";
+            }
+            fullUrl=serviceUrl+"&id="+windowDiv.id+"&callBackName="+callBackName;
         displayHtml=isShow?"":"display:none";
         //加入随机数，避免和客户端id冲突
         windowDiv.innerHTML="<style>.supermapSSO_loginWindow_cross{position:fixed;top:calc(25% + 12px); right:calc(50% - 180px + 12px); line-height: 0.6em; cursor:pointer; z-index:1;color:#c5c5c5; font-size:26px;font-family:microsoft yahei;transition:color 0.3s; } .supermapSSO_loginWindow_cross:hover{ color:#818181;}</style>"
-            +"<div style='position: fixed;top:0;left:0;width:100%; height:100%;background:rgba(0,0,0,0.6);"+displayHtml+"'></div>"
-            +"<span class='supermapSSO_loginWindow_cross' title='关闭' style='z-index:100001;"+displayHtml+"' onclick='SuperMapSSO.closeMe(\""+windowDiv.id+"\")'>×</span>"
-            +"<iframe style='position: fixed; top:0;left:0; width:100%; height:100%; border:none;z-index:100000;"+displayHtml+"' src='"+fullUrl+"'></iframe>";
+                            +"<div style='position: fixed;top:0;left:0;width:100%; height:100%;background:rgba(0,0,0,0.6);"+displayHtml+"'></div>"
+                            +"<span class='supermapSSO_loginWindow_cross' title='关闭' style='z-index:100001;"+displayHtml+"' onclick='SuperMapSSO.closeMe(\""+windowDiv.id+"\")'>&times;</span>"
+                            +"<iframe style='position: fixed; top:0;left:0; width:100%; height:100%; border:none;z-index:100000;"+displayHtml+"' src='"+fullUrl+"'></iframe>";
         document.body.appendChild(windowDiv);
 
         if(isAutoClose){
@@ -100,7 +103,7 @@ window.SuperMapSSO={
         if(_element != null){
             document.body.removeChild(_element);
         }
-        if(callBackName!=undefined&&callBackName!=null&&callBackName!=""){
+        if(callBackName != undefined && callBackName != ""){
             if(window[callBackName]){
                 window[callBackName]();
             }

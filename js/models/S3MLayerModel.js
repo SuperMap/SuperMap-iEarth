@@ -18,6 +18,10 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 name : name
             });
 		return Cesium.when(promise,function(layer){
+            var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
+            if(!isPCBroswer){
+                layer._supportCompressType=0;
+            }
 			me.sceneModel.trigger('layerAdded',me);
 			me.sceneModel.layers.add(me);
 			me.layer = layer;
