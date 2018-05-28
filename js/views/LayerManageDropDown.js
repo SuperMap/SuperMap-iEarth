@@ -9,7 +9,6 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
         ModeUrl = ModeUrl.substring(0,ModeUrl.length-7) + "/data/path/indexData.dat";
         var nodelist = new Array();var nodedata = new Array();var datalist = new Array();
         var per = new Array();
-
         $.ajax({
             url: ModeUrl,
             dataType: 'xml',
