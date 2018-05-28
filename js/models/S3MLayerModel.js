@@ -18,9 +18,8 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 name : name
             });
 		return Cesium.when(promise,function(layer){
-            var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
-            if(!isPCBroswer){
-                layer._supportCompressType=0;
+            if(!Cesium.FeatureDetection.isPCBroswer()){
+				layer._supportCompressType = 0;
             }
 			me.sceneModel.trigger('layerAdded',me);
 			me.sceneModel.layers.add(me);
@@ -36,7 +35,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
 		})
         },
         removeLayer : function(viewer){
-        	var name = this.get('realName');
+        	var name = this.get('name');
         	var scpUrl = this.get('url');
         	if(Util.S3M_CACHE[scpUrl]){
         		Util.S3M_CACHE[scpUrl] = undefined;
@@ -46,8 +45,8 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         	this.sceneModel.layers.remove(this);
         },
         flyTo : function(){
-        	var scpName = this.get('realName');
-        	var hiddenScp = ['萨尔茨堡_火车站','萨尔茨堡_足球场','萨尔茨堡_学校','萨尔茨堡_居民区','堪培拉_国会大厦','堪培拉_国际会议中心','堪培拉_雷吉斯酒店','堪培拉_克莱门斯街'];
+        	var scpName = this.get('name');
+        	var hiddenScp = ['萨尔茨堡火车站', 'BIM建筑', 'CBD', '点云'];
         	var cameraParam = Config.CAMERA_PARAM[scpName];
         	var globe = this.viewer.scene.globe;
         	var scene = this.viewer.scene;
