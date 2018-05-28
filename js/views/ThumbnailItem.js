@@ -5,7 +5,7 @@ define(['backbone','jquery'],function(Backbone,$){
         '<img style="width:100%;height:100%;" src="<%- thumbnail %>" title="<%- title%>">',
         '<div class="service-itemAttr">',
         '<div class="service-itemBg"></div>',
-        '<div class="service-itemDes">Type:<%- serviceType %></div>',
+        /*'<div class="service-itemDes">Type:<%- serviceType %></div>',*/
         /*'<div class="service-itemAdd"><span class="fui-plus"></span></div>',*/
         '<div class="service-itemUnSelected"><span class="fui-check"></span></div>',
         '</div>',

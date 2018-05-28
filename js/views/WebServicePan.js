@@ -39,7 +39,8 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             });
             this.render();
             this.on('componentAdded',function(parent){
-            	var url = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18";
+            	// var url = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18";
+                var url = "data/services.json";
             	me.currentPublicPage = 1;
             	me.totalPublicPage = 0;
             	me.currentPrivatePage = 1;
@@ -60,7 +61,8 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
                             	if(me.currentPublicPage > me.totalPublicPage){
                             		return ;
                             	}
-                            	newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18&currentPage=" + me.currentPublicPage;
+                            	// newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18&currentPage=" + me.currentPublicPage;
+                                newUrl = "data/services.json";
                         		layerCollection.fetch(newUrl,me,true);
                         	}
                         	else{
