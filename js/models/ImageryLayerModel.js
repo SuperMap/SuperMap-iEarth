@@ -1,4 +1,4 @@
-define(['backbone','../Util','Cesium'],function(Backbone,Util,Cesium){
+define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium, Config){
     var ImageryLayerModel = Backbone.Model.extend({
         addLayer : function(sceneModel,isFlyMode){
         	var viewer = sceneModel.viewer;
@@ -57,9 +57,35 @@ define(['backbone','../Util','Cesium'],function(Backbone,Util,Cesium){
         	this.sceneModel.layers.remove(this);
         },
         flyTo : function(){
-            var layer = this.layer;
-            if(layer){
-            	this.viewer.flyTo(layer);
+            var scpName = this.get('originName');
+            var cameraParam = Config.CAMERA_PARAM[scpName];
+            if(cameraParam){
+                this.viewer.scene.camera.flyTo({
+                    destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
+                    orientation : {
+                        heading : cameraParam.heading,
+                        pitch : cameraParam.pitch,
+                        roll : cameraParam.roll
+                    }
+                });
+                return ;
+            }else{
+                var layer = this.layer;
+                if(layer){
+                    var bounds = layer.layerBounds;
+                    if(!bounds){
+                        var extend = 0.1;
+                        var left = Cesium.Math.toRadians(layer.lon - extend);
+                        var right = Cesium.Math.toRadians(layer.lon + extend);
+                        var top = Cesium.Math.toRadians(layer.lat + extend);
+                        var bottom = Cesium.Math.toRadians(layer.lat - extend);
+                        bounds = new Cesium.Rectangle(left,bottom,right,top);
+                        layer.layerBounds = bounds;
+                    }
+                    var camera = this.viewer.scene.camera;
+                    var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
+                    camera.flyToBoundingSphere(bd);
+                }
             }
         },
         setVisible : function(isVisible){
