@@ -39,7 +39,6 @@ define([
             return this;
         },
         onSaveClk : function(evt){
-            alert("nihao!");
             if(this.model){
                 this.model.save();
             }
