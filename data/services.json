@@ -4,17 +4,15 @@
     {
       "id": 1,
       "type": "REALSPACE",
-      "thumbnail": "./images/serviceImages/S3MTiles_suofeiya.jpg",
-      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_church/rest",
-      "sceneUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_church/rest/realspace/scenes/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9C%BA%E6%99%AF",
-      "sceneName": "索菲亚大教堂"
+      "thumbnail": "./images/serviceImages/hk_sci_park.jpg",
+      "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-yanmofenxi/rest",
+      "sceneName": "香港科技园"
     },
     {
       "id": 2,
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_srsb_water.jpg",
       "proxiedUrl": "https://www.supermapol.com/iserver/services/3D-srsb/rest",
-      "sceneUrl": "https://www.supermapol.com/iserver/services/3D-srsb/rest/realspace/scenes/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9C%BA%E6%99%AF",
       "sceneName": "萨尔茨堡火车站"
     },
     {
@@ -22,7 +20,6 @@
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_jingmo.jpg",
       "proxiedUrl": "http://support.supermap.com.cn:8090/iserver/services/3D-CBD/rest",
-      "sceneUrl": "http://support.supermap.com.cn:8090/iserver/services/3D-CBD/rest/realspace/scenes/CBD",
       "sceneName": "CBD"
     },
     {
@@ -30,7 +27,6 @@
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_niaochao_water.jpg",
       "proxiedUrl": "https://www.supermapol.com/iserver/services/3D-niaocao_water/rest",
-      "sceneUrl": "https://www.supermapol.com/iserver/services/3D-niaocao_water/rest/realspace/scenes/niaocao_water",
       "sceneName": "鸟巢"
     },
     {
@@ -38,7 +34,6 @@
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_vector.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-GuangZhou/rest",
-      "sceneUrl": "http://www.supermapol.com/realspace/services/3D-GuangZhou/rest/realspace/scenes/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9C%BA%E6%99%AF",
       "sceneName": "矢量"
     },
     {
@@ -46,7 +41,6 @@
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/terrainAndImagery.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-dixingyingxiang/rest",
-      "sceneUrl": "http://www.supermapol.com/realspace/services/3D-dixingyingxiang/rest/realspace/scenes/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9C%BA%E6%99%AF",
       "sceneName": "四川省地形影像"
     },
     {
@@ -54,7 +48,6 @@
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_BIM.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-BIMbuilding/rest",
-      "sceneUrl": "http://www.supermapol.com/realspace/services/3D-BIMbuilding/rest/realspace/scenes/BIMBuilding",
       "sceneName": "BIM建筑"
     },
     {
@@ -62,8 +55,21 @@
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_pointCloud.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-cloud/rest",
-      "sceneUrl": "http://www.supermapol.com/realspace/services/3D-cloud/rest/realspace/scenes/cloud",
       "sceneName": "点云"
+    },
+    {
+      "id": 9,
+      "type": "REALSPACE",
+      "thumbnail": "./images/serviceImages/pipeline.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-pipe-alone/rest",
+      "sceneName": "管线"
+    },
+    {
+      "id": 10,
+      "type": "REALSPACE",
+      "thumbnail": "./images/serviceImages/volume.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-tishuju/rest",
+      "sceneName": "体数据"
     }
   ]
 }

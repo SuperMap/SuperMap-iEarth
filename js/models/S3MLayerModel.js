@@ -45,11 +45,8 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         	this.sceneModel.layers.remove(this);
         },
         flyTo : function(){
-        	var scpName = this.get('name');
-        	var hiddenScp = ['萨尔茨堡火车站', 'BIM建筑', 'CBD', '点云'];
+        	var scpName = this.get('originName');
         	var cameraParam = Config.CAMERA_PARAM[scpName];
-        	var globe = this.viewer.scene.globe;
-        	var scene = this.viewer.scene;
         	if(cameraParam){
         		this.viewer.scene.camera.flyTo({
             		destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
@@ -57,48 +54,26 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             			heading : cameraParam.heading,
             			pitch : cameraParam.pitch,
             			roll : cameraParam.roll
-            		},
-            		complete : function(){
-            			return ;
-            			if(hiddenScp.indexOf(scpName) != -1){
-            				globe.show = false;
-            				scene.skyAtmosphere.show = false;
-            				globe._surface._tilesToRender.length = 0;
-            			}
-            			else{
-            				globe.show = true;
-            				scene.skyAtmosphere.show = true;
-            			}
             		}
             	});
         		return ;
-        	}
-            var layer = this.layer;
-            if(this.get('realName') == "T8H_NoLod"){
-            	this.viewer.scene.camera.flyTo({
-            		destination : new Cesium.Cartesian3(-2627165.1432829266,3933035.5960504636,4264844.38928223),
-            		orientation : {
-            			heading : 0.6642083137167463,
-            			pitch : -0.37902552808937795,
-            			roll : 0.0022196324266055
-            		}
-            	});
-            	return ;
-            }
-            if(layer){
-            	var bounds = layer.layerBounds;
-            	if(!bounds){
-            		var extend = 0.1;
-            		var left = Cesium.Math.toRadians(layer.lon - extend);
-            		var right = Cesium.Math.toRadians(layer.lon + extend);
-            		var top = Cesium.Math.toRadians(layer.lat + extend);
-            		var bottom = Cesium.Math.toRadians(layer.lat - extend);
-            		bounds = new Cesium.Rectangle(left,bottom,right,top);
-            		layer.layerBounds = bounds;
-            	}
-            	var camera = this.viewer.scene.camera;
-            	var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
-            	camera.flyToBoundingSphere(bd);
+        	}else{
+                var layer = this.layer;
+                if(layer){
+                    var bounds = layer.layerBounds;
+                    if(!bounds){
+                        var extend = 0.1;
+                        var left = Cesium.Math.toRadians(layer.lon - extend);
+                        var right = Cesium.Math.toRadians(layer.lon + extend);
+                        var top = Cesium.Math.toRadians(layer.lat + extend);
+                        var bottom = Cesium.Math.toRadians(layer.lat - extend);
+                        bounds = new Cesium.Rectangle(left,bottom,right,top);
+                        layer.layerBounds = bounds;
+                    }
+                    var camera = this.viewer.scene.camera;
+                    var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
+                    camera.flyToBoundingSphere(bd);
+                }
             }
         },
         setVisible : function(isVisible,ids){
