@@ -108,6 +108,7 @@ function init(Cesium, Zlib) {
         viewer = new Cesium.Viewer('cesiumContainer', {
             infoBox: false
         });
+
         var scene = viewer.scene;
         if (Cesium.defined(scene.sun)) {
             scene.sun.show = false;
@@ -126,7 +127,6 @@ function init(Cesium, Zlib) {
             e.preventDefault();
         }, false);
     }
-
     if (viewer.geocoder) {
         viewer.geocoder.viewModel.geoKey = 'NGyNBR7nqy1edmqO6NpnIECG';
     }
