@@ -7,7 +7,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     var parentContainer;
     var sceneModel;
     var htmlStr = [
-  '<main style="position : absolute;right:50px; top : 6%;width: 300px">',
+  '<main style="position : absolute;right:45px; top : 6%;width: 300px">',
   '<button aria-label="Close" id="closeMain" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
     '<input id="tab3" type="radio" name="tabs" checked>',

@@ -127,10 +127,6 @@ function init(Cesium, Zlib) {
         }, false);
     }
 
-    // viewer.imageryLayers.addImageryProvider(new Cesium.SuperMapImageryProvider({
-    //     url : "https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light"
-    // }));
-
     if (viewer.geocoder) {
         viewer.geocoder.viewModel.geoKey = 'NGyNBR7nqy1edmqO6NpnIECG';
     }

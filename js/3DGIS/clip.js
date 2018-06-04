@@ -115,6 +115,33 @@ define(['Cesium'],function(Cesium) {
                 $("#plane-clip-point3-latitude").val(parseFloat(elatitude2));
                 $("#plane-clip-point3-height").val(parseFloat(eheight2));
 
+                var areaClipPoint1 = new Cesium.Entity({
+                    position: positions[0],
+                    point: {
+                        color: Cesium.Color.RED,
+                        pixelSize: 15
+                    }
+                });
+                viewer.entities.add(areaClipPoint1);
+
+                var areaClipPoint2 = new Cesium.Entity({
+                    position: positions[1],
+                    point: {
+                        color: Cesium.Color.RED,
+                        pixelSize: 15
+                    }
+                });
+                viewer.entities.add(areaClipPoint2);
+
+                var areaClipPoint3 = new Cesium.Entity({
+                    position: positions[2],
+                    point: {
+                        color: Cesium.Color.RED,
+                        pixelSize: 15
+                    }
+                });
+                viewer.entities.add(areaClipPoint3);
+
                 //平面裁剪参数设定
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
@@ -299,6 +326,34 @@ define(['Cesium'],function(Cesium) {
             layers[i].setCustomClipPlane(pt1,pt2,pt3);
         }
         viewer.entities.removeAll();
+
+        var areaClipPoint1 = new Cesium.Entity({
+            position: pt1,
+            point: {
+                color: Cesium.Color.RED,
+                pixelSize: 15
+            }
+        });
+        viewer.entities.add(areaClipPoint1);
+
+        var areaClipPoint2 = new Cesium.Entity({
+            position: pt2,
+            point: {
+                color: Cesium.Color.RED,
+                pixelSize: 15
+            }
+        });
+        viewer.entities.add(areaClipPoint2);
+
+        var areaClipPoint3 = new Cesium.Entity({
+            position: pt3,
+            point: {
+                color: Cesium.Color.RED,
+                pixelSize: 15
+            }
+        });
+        viewer.entities.add(areaClipPoint3);
+
         if(layers.length > 0){
             var clipRegion = layers[0].getClipRegion();
             viewer.entities.add(clipRegion);

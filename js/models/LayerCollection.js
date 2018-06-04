@@ -24,9 +24,6 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
             privateModels: [],
             initialize: function () {
             },
-            parseResponse: function (resp) {
-
-            },
             filterByTexture: function (texCompressType) {
                 var mergeRes = {};
                 if (texCompressType == TexSupportType.DXT || texCompressType == TexSupportType.NOT) {
@@ -81,90 +78,61 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
                     if (obj.path.indexOf("https") == -1) {
                         obj.path = obj.path.replace("http", "https");
                     };
-                    // var resourceType = obj.resourceConfigID;
-                    // var name = Config.NameKeyMap[obj.name] ? Config.NameKeyMap[obj.name] : obj.name;
                     var name = parameter.sceneName;
-                    // var title = Config.TitleKeyMap[obj.name] ? Config.TitleKeyMap[obj.name] : obj.name;
-                    var title = parameter.sceneName;
-                    if (0 == i) {
-                        model = new LayerModel({
-                            type: 'MULTIS3M',
-                            name: name,
-                            thumbnail: parameter.thumbnail,
-                            title: title,
-                            path: obj.path
-                        });
-                        model.strategy.children = [];
-                    }
-                    model.strategy.children.push(new LayerModel({
-                        type: 'S3M',
-                        url: obj.path + '/config',
-                        name: name,
-                        thumbnail: parameter.thumbnail,
-                        title: name,
-                        path: obj.path
-                    }));
-                    /*if (resourceType == 'map3DData') {
-                     if (0 == i) {
-                     model = new LayerModel({
-                     type: 'MULTIS3M',
-                     name: name,
-                     thumbnail: obj.path + '/data/path/' + obj.name + '.png',
-                     title: title,
-                     realName: obj.name,
-                     path: obj.path,
-                     serviceType: '3D Service'
-                     });
-                     model.strategy.children = [];
-                     }
-                     model.strategy.children.push(new LayerModel({
-                     url: obj.path + '/config',
-                     name: name,
-                     thumbnail: obj.path + '/data/path/' + obj.name + '.png',
-                     title: name,
-                     realName: obj.name,
-                     path: obj.path,
-                     type: 'S3M',
-                     serviceType: '3D Service'
-                     }));
-                     }
-                     else if (resourceType == 'map') {
-                     if (0 == i) {
-                     model = new LayerModel({
-                     type: 'MULTIIMAGERY',
-                     name: name,
-                     thumbnail: 'http://www.supermapol.com/web/../web/static/portal/img/map/cloud.png',
-                     title: obj.name,
-                     realName: obj.name,
-                     path: obj.path,
-                     serviceType: 'Map Service'
-                     });
-                     model.strategy.children = [];
-                     }
-                     model.strategy.children.push(new LayerModel({
-                     url: obj.path,
-                     name: name,
-                     thumbnail: 'http://www.supermapol.com/web/../web/static/portal/img/map/cloud.png',
-                     title: name,
-                     realName: obj.name,
-                     path: obj.path,
-                     type: 'IMAGERY',
-                     serviceType: 'Map Service'
-                     }));
-                     }*/
+                    var subName = obj.name;
+                    var typeUrl = obj.path + '.xml';
+                    var type;
+                    $.ajax({
+                        url: typeUrl,
+                        dataType: 'xml',
+                        type: 'GET',
+                        async: false,
+                        timeout: 3000,
+                        error: function(xml){
+                            type = 'OSGB';
+                        },
+                        success: function(xml){
+                            $(xml).find("dataType").each(function(j)
+                            {
+                                var id = $(this).children("id");
+                                type = id.context.innerHTML;
+                                if(type == 'OSGB'){
+                                    type = 'S3M';
+                                    obj.path +=  '/config';
+                                }
+                                else if(type == 'IMG'){
+                                    type = 'IMAGERY';
+                                }
+                                else if(type == 'DEM'){
+                                    type = 'TERRAIN';
+                                }
+                                if(i === 0){
+                                    model = new LayerModel({
+                                        type: 'MULTIS3M',
+                                        url: obj.path,
+                                        name: name,
+                                        thumbnail: parameter.thumbnail,
+                                        title: name,
+                                        path: obj.path
+                                    });
+                                    model.strategy.children = [];
+                                }
+                                model.strategy.children.push(new LayerModel({
+                                    type: type,
+                                    url: obj.path,
+                                    name: name + '_' + subName,
+                                    thumbnail: parameter.thumbnail,
+                                    originName: name,
+                                    title: name,
+                                    path: obj.path
+                                }))
+                            });
+                        }
+                    });
                 }
                 model && models.push(model);
                 if (isPublic == true) {
                     this.publicModels = [].concat(this.publicModels).concat(models);
-                    /*this.publicModels.sort(function (a, b) {
-                     var aName = a.get('realName');
-                     var bName = b.get('realName');
-                     var da = a.get('type') == 'MULTIS3M' ? 1000 : 10000;
-                     var db = b.get('type') == 'MULTIS3M' ? 1000 : 10000;
-                     var aValue = Config.SORT_RULE[aName] || da;
-                     var bValue = Config.SORT_RULE[bName] || db;
-                     return aValue - bValue;
-                     });*/
                 }
                 else {
                     this.privateModels = [].concat(this.privateModels).concat(models);

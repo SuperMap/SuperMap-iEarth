@@ -6,7 +6,7 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
     var parent;
     var sceneModel;
     var htmlStr = [
-        '<main style="position : absolute;right: 0px; top : 10%;width: 300px;">',
+        '<main style="position : absolute;right: 45px; top : 10%;width: 300px;">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="clipTab2" type="radio" name="clipTab" checked>',
         '<label for="clipTab2" style="font-size: 13px">' + "Box裁剪" + '</label>',

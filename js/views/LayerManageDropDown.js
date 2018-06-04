@@ -192,8 +192,6 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
         var layerName = document.getElementById('layerName');
         layerName.value = layer._name;
         selectedLayer = layer;
-        var foreColorStr = selectedLayer.style3D.fillForeColor.toCssColorString();
-        var lineColorStr = selectedLayer.style3D.lineColor.toCssColorString();
         if(!initialization){
             var foreColor = document.getElementById('foreColorPicker');
             foreColor.oninput = function(){
