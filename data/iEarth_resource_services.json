@@ -16,13 +16,6 @@
       "sceneName": "萨尔茨堡火车站"
     },
     {
-      "id": 3,
-      "type": "REALSPACE",
-      "thumbnail": "./images/serviceImages/S3MTiles_jingmo.jpg",
-      "proxiedUrl": "http://support.supermap.com.cn:8090/iserver/services/3D-CBD/rest",
-      "sceneName": "CBD"
-    },
-    {
       "id": 4,
       "type": "REALSPACE",
       "thumbnail": "./images/serviceImages/S3MTiles_niaochao_water.jpg",
