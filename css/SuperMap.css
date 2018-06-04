@@ -923,6 +923,28 @@ ul#progress li:first-child {
     }
 }
 
+/* 控制参数窗口 */
+@media screen and (min-width: 768px){
+	.paramsWindow{
+		position: absolute;
+		width: 320px;
+		top: 10%;
+		right:50px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.paramsWindow{
+		position: absolute;
+		width: 95%;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+/*------------------------------------*/
+
 /*-- iphone 6 plus 414x736 锟斤拷锟斤拷*/
 @media screen and (max-width : 414px) and (max-height : 744px) {
 	.myModal-header ul {
@@ -2681,8 +2703,6 @@ main input:checked + label {
 #objectTab4:checked ~ #objectContent4{
 	display: block;
 }
-
-
 
 @media screen and (max-width: 650px) {
   label {

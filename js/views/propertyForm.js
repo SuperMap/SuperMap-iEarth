@@ -3,10 +3,10 @@ define(['./Container', '../3DGIS/SpatialProperty'],function(Container,SpatialPro
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-       '<div class="property" id="propertyForm" style="position: absolute;top: 10%;width:320px;;z-index: 1; right:50px;cursor: auto">',
+        '<div class="property paramsWindow" id="propertyForm" style="z-index: 1; cursor: auto">',
         '<div>',
         '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ "空间查询" +'</label>',
-        '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '</div>',
         '<div>',
         '<a class="ui tag label">数据服务URL</a><br>',

@@ -20,8 +20,8 @@ define(['./Container',
     var layers = [];
     var sceneModel;
     var htmlStr = [
-        '<main style="position : absolute;right:50px; top : 10%;width: 300px">',
-        '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<main class="paramsWindow">',
+        '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="terrainTab2" type="radio" name="terrainTab" checked>',
         '<label for="terrainTab2" style="font-size: 13px">' + "坡度坡向" + '</label>',
         '<input id="terrainTab4" type="radio" name="terrainTab">',
