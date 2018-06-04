@@ -5,7 +5,7 @@ define(function() {
         this.sceneModel = options;
     };
     parsePortal.prototype.initialize = function(){
-        if(this.analysisObjects.planeClipStore){
+        if(this.analysisObjects.planeClipStore || this.analysisObjects.boxClipStore){
             var me = this;
             require(['./views/clipForm'],function(clipForm){
                 var clipForm = new clipForm({
@@ -13,8 +13,7 @@ define(function() {
                     sceneModel : me.sceneModel,
                     isPCBroswer : me.sceneModel.isPCBroswer
                 });
-                this.sceneModel.viewerContainer.addComponent(clipForm);
-               // me.clipForm = clipForm;
+                me.sceneModel.viewerContainer.addComponent(clipForm);
                 clipForm.$el.show();
             });
         }

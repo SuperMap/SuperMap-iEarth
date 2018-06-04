@@ -68,7 +68,7 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
             sceneModel = options.sceneModel;
             viewer = options.sceneModel.viewer;
             parent = options.parent;
-           this.render();
+            this.render();
             this.on('componentAdded',function(parent){
                 $('main').each(function(index){
                     $(this).myDrag({
@@ -83,6 +83,12 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
                 });
             });
             clip.init(viewer);
+            if(sceneModel.analysisObjects.planeClipStore){
+                clip.initializing(viewer,sceneModel,true);
+            }
+            if(sceneModel.analysisObjects.boxClipStore){
+                clip.initializing(viewer,sceneModel,false);
+            }
         },
         render : function(){
             this.$el.html(this.template());

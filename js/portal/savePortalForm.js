@@ -96,11 +96,11 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                                 imagedata.data[y+2] = b;
                                 imagedata.data[y+3] = a;
                             }
-                         // var t =  canvas.toDataURL("image/png");
                         }
                         ctx.clearRect(0,0,W,H);
                         ctx.putImageData(imagedata,0,0);
                     });
+                that.postRender.removeEventListener();
                 document.getElementById("saveDate").innerText = getNowFormatDate();
             });
         },
@@ -123,6 +123,9 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 Util.showErrorMsg("保存场景名称不能为空！");
                 return;
             }
+            var canvas = document.getElementById("sceneCanvas");
+            var base64 =  canvas.toDataURL("image/jpeg",0.1);
+            base64 = base64.split(",")[1];
             var data = {};
             data.layers = [];
             for(var i = 0,j = sceneModel.layers.length;i < j;i++){
@@ -160,7 +163,21 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 dataType: "json",
                 data: saveData,
                 success : function (jsonResult) {
-                    Util.showErrorMsg("场景保存成功！");
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://localhost:8090/iportal/web/scenes/" + parseInt(jsonResult.newResourceID) + "/thumbnail.json",
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        data: base64,
+                        success : function (result) {
+                            Util.showErrorMsg("场景保存成功！");
+                        },
+                        error: function(error)
+                        {
+                            var e = error;
+                            Util.showErrorMsg("存储失败！请先登陆iPortal或Online账户......");
+                        },
+                    });
                 },
                 error: function()
                 {
@@ -186,7 +203,8 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                           contentType: "application/json;charset=utf-8",
                           dataType: "json",
                           success : function (json) {
-                              var str = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src="http://localhost:8090/iportal/services/../web/static/portal/img/scene/sceneThumbnail.png" title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel">' + json.name + '</div></div>';
+                              var thumbnail =  "http://localhost:8090/iportal/resources/thumbnail/scene/scene" + json.id + ".png";
+                              var str = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + '  title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel">' + json.name + '</div></div>';
                               $('#scenePreview').append(str);
                               $("#"+json.name).on('click',function(){
                                   $("#"+json.name).addClass('service-itemIcon-selected');
