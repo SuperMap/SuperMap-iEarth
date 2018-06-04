@@ -11,7 +11,8 @@ define(['Cesium'],function(Cesium) {
     var longitude;
     var latitude;
     var height ;
-    sgLine.initializing =function(viewer){
+    var targetPoint;
+    sgLine.initializing =function(viewer,sceneModel){
         var scene = viewer.scene;
         if(!sightline){
             sightline = new Cesium.Sightline(scene);
@@ -63,8 +64,9 @@ define(['Cesium'],function(Cesium) {
             var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
             var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
             var eheight = ecartographic.height;
+            targetPoint = [elongitude, elatitude, eheight];
             sightline.addTargetPoint({
-                position : [elongitude, elatitude, eheight],
+                position :targetPoint,
                 name : "point" + new Date()
             });
             handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -91,6 +93,10 @@ define(['Cesium'],function(Cesium) {
 
         pointHandler.activate();
 
+        var store = {};
+        store.viewPosition =  sightline.viewPosition;
+        store.targetPoint =  targetPoint;
+        sceneModel.analysisObjects.sightLineStore = store;
 
         visibleColor.oninput = function(){
             var color = Cesium.Color.fromCssColorString(visibleColor.value);

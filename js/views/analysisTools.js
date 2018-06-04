@@ -5,8 +5,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     var init = false;
     var viewer;
     var parentContainer;
+    var sceneModel;
     var htmlStr = [
-  '<main style="position : absolute;right:10px; top : 6%;width: 300px">',
+  '<main style="position : absolute;right:50px; top : 6%;width: 300px">',
   '<button aria-label="Close" id="closeMain" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
     '<input id="tab3" type="radio" name="tabs" checked>',
@@ -78,7 +79,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '</div>',
         '</div>',
 '</section>',
-
 '<section id="content2">',
     '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
     '<a class="ui blue ribbon label">时间</a>',
@@ -129,13 +129,10 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<label>'+ "拉伸高度(米)" +'</label>',
         '<input id="extrudeHeight" class="input" value="20"/>',
    '</div><br>',
-
     '<button type="button"  class="btn btn-info" id="clear" style="float: right">'+ Resource.clear +'</button>',
     '<button type="button"  class="btn btn-info" id="sunlight" style="float: right">'+ Resource.sunlight +'</button>',
     '<button type="button"  class="btn btn-info"  id="shadowAnalysis" style="float: right">'+ Resource.shadowAnalysis +'</button>',
-
     '</div>',
-
  '</section>',
 
   '<section id="content3">',
@@ -156,10 +153,8 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
       '<label  style="width:100%;">'+ Resource.hideenColor +'</label><input class="colorPicker" data-bind="value: hiddenColor,valueUpdate: "input""  id="hiddenColor"/>',
     '</div>',
  '</div>',
-
     '<button type="button"  class="btn btn-info" id="clearSL" style="float: right">'+ "清除" +'</button>',
     '<button type="button"  class="btn btn-info" id="addViewpoint" style="float: right">'+ "分析" +'</button>',
-
 '</div>',
 '</section>',
 
@@ -190,8 +185,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<button  class="btn btn-info"  id="getSkyline" style="float: right">'+ Resource.skyline +'</button>',
         ' </div>',
   '</section>',
-
-
     '<section id="content5">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<div>',
@@ -202,7 +195,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<input type="number" id="profileLat1" class="input"  value="0.0" step="0.0001">',
         '<label>高程(米)</label>',
         '<input type="number" id="profileAlt1" class="input"  value="0.0" ><br><br>',
-
         '</div>',
         '<div>',
         '<a class="ui teal ribbon label">终点信息</a><br>',
@@ -218,7 +210,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '</div>',
         '</div>',
     '</section>',
-
 '</main>'
     ].join('');
     var analysisTools = Container.extend({
@@ -241,7 +232,8 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             'click #clickQuery'  : 'onClickQueryClk',
         },
         initialize : function(options){
-            this.viewer = options.sceneModel.viewer
+            this.viewer = options.sceneModel.viewer;
+            sceneModel = options.sceneModel;
             parentContainer = options.parent;
             this.render();
             this.on('componentAdded',function(parent){
@@ -373,22 +365,22 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
 
         },
         onAddViewpointClk : function(){
-            sgline.initializing(viewer);
+            sgline.initializing(viewer,sceneModel);
         },
         onProfileClk : function(evt){
-            profile.initializing(viewer,parentContainer);
+            profile.initializing(viewer,parentContainer,sceneModel);
         },
         onProfileDelClk : function(evt){
-            profile.remove(viewer,parentContainer);
+            profile.remove(viewer,parentContainer,sceneModel);
         },
         onChooseViewClk : function(evt){
-            viewshed.initializing(viewer);
+            viewshed.initializing(viewer,sceneModel);
         },
         onShadowAnalysisClk : function(evt){
-            shadow.initializing(viewer);
+            shadow.initializing(viewer,sceneModel);
         },
         onGetSkylineClk : function(evt){
-            skyLine.initializing(viewer,parentContainer);
+            skyLine.initializing(viewer,parentContainer,sceneModel);
         },
         onClickQueryClk : function(evt){
             var scene = viewer.scene;

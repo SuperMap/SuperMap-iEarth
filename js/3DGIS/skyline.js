@@ -4,7 +4,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
     };
     var skyline;
     var parent;
-    skyLine.initializing = function(viewer,parentContainer){
+    skyLine.initializing = function(viewer,parentContainer,sceneModel){
         var scene = viewer.scene;
         parent =  parentContainer
         if(!skyline){
@@ -47,6 +47,14 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             }
             skyline.clear();
         });
+
+        var store = {};
+        store.viewPosition = skyline.viewPosition;
+        store.pitch = skyline.pitch;
+        store.direction = skyline.direction;
+        store.radius = skyline.radius;
+        sceneModel.analysisObjects.skylineStore = store;
+
 
         document.getElementById("getSkyline2D").onclick = function() {
             var object = skyline.getSkyline2D();

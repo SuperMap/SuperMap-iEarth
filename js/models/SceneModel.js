@@ -7,12 +7,15 @@ define([
         '../models/LayerCollection',
         '../models/KmlLayerModel',
         '../models/MarkerModel',
-        '../models/BaseLayerModel'],
-        function(Backbone,Cesium,$,Util,WriteKml,LayerCollection,KmlLayerModel,MarkerModel,BaseLayerModel){
+        '../models/BaseLayerModel',
+        './LayerModel',
+        '../portal/parsePortalJson'],
+        function(Backbone,Cesium,$,Util,WriteKml,LayerCollection,KmlLayerModel,MarkerModel,BaseLayerModel,LayerModel,parsePortalJson){
 	var _ = require('underscore');
     var SceneModel = Backbone.Model.extend({
-        initialize : function(viewer){
+        initialize : function(viewer,isPCBroswer){
             this.viewer = viewer;
+            this.isPCBroswer = isPCBroswer;
             this.stkTerrainProvider = new Cesium.CesiumTerrainProvider({
                 //url: '//assets.agi.com/stk-terrain/world',
             	url : 'https://www.supermapol.com/iserver/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
@@ -26,6 +29,9 @@ define([
             this.layers = new LayerCollection();
             this.baseLayer = new BaseLayerModel({type : 'IMAGE'});
             this.isSTKTerrain = false;
+            this.analysisObjects = {};
+            this.terrainObjects = {};
+            this.markerObjects = {};
         },
         addLayer : function(layerModel,isFlyMode){
             if(!layerModel){
@@ -51,7 +57,6 @@ define([
         		this.setTerrain($("#chkTerrain").is(':checked'));
         	}
         	layerModel.removeLayer(this.viewer);
-            
         },
         addMarker : function(markerModel){
         	if(this.defaultKmlLayer){
@@ -209,7 +214,7 @@ define([
             $.ajax({
                 type: "POST",
                 url: "/supermapearth/Workspace",
-                contentType: "application/json;charset=utf-8", //必须有
+                contentType: "application/json;charset=utf-8",
                 dataType: "json", 
                 data: saveData,  
                 success : function (jsonResult) {
@@ -228,7 +233,7 @@ define([
         	$.ajax({
                 type: "GET",
                 url: "/supermapearth/Workspace",
-                contentType: "application/json;charset=utf-8", //必须有
+                contentType: "application/json;charset=utf-8",
                 dataType: "json", 
                 success: function (jsonResult) {
                 	var sceneJson = jsonResult.scene;
@@ -312,6 +317,31 @@ define([
                     roll : cameraJson.roll
                 }
             });
+        },
+        parsePortalJson : function (request) {
+             if(!request.content){
+                 return;
+             }
+             var sceneContent = $.parseJSON(request.content);
+             var cameraStore = sceneContent.camera;
+             var camera = this.viewer.scene.camera;
+             camera.setView({
+                destination : new Cesium.Cartesian3(cameraStore.position.x,cameraStore.position.y,cameraStore.position.z),
+                orientation : {
+                    heading : cameraStore.heading,
+                    pitch : cameraStore.pitch,
+                    roll : cameraStore.roll
+                }
+            });
+            var layersStore = sceneContent.layers;
+            for(var i = 0; i < layersStore.length; i++){
+                var layerModel = new LayerModel(layersStore[i]);
+                this.addLayer(layerModel);
+            }
+            this.analysisObjects = sceneContent.analysisObjects;
+            this.terrainObjects = sceneContent.terrainObjects;
+            var parseObject = new parsePortalJson(this);
+            parseObject.initialize();
         }
     });
     return SceneModel;

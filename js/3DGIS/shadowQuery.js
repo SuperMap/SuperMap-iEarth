@@ -5,7 +5,8 @@ define(['Cesium'],function(Cesium) {
     };
     var shadowQuery;
     var handlerPolygon;
-    shadow.initializing = function(viewer){
+    var positions;
+    shadow.initializing = function(viewer,sceneModel){
          var scene = viewer.scene;
         var layers = scene.layers.layerQueue;
 
@@ -41,7 +42,7 @@ define(['Cesium'],function(Cesium) {
             }
             polygon.show = false;
             handlerPolygon.polyline.show = false;
-            var positions = [].concat(polygon.positions);
+            positions = [].concat(polygon.positions);
             positions = Cesium.arrayRemoveDuplicates(positions,Cesium.Cartesian3.equalsEpsilon);
             //遍历多边形，取出所有点
             for(var i = 0, len = positions.length; i < len; i++) {
@@ -77,12 +78,17 @@ define(['Cesium'],function(Cesium) {
                 extend : eh
             });
             shadowQuery.build();
-
         });
-
-
             handlerPolygon.deactivate();
             handlerPolygon.activate();
+
+            var store = {};
+            store.startTime = shadowQuery.startTime;
+            store.endTime = shadowQuery.endTime;
+            store.position = positions;
+            store.bottom = Number($('#bottomHeight').val());
+            store.extend = Number($('#extrudeHeight').val());
+            sceneModel.analysisObjects.shadowQueryStore = store;
 
 
         $('#sunlight').click(function(){

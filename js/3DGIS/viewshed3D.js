@@ -18,7 +18,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             viewshed3D = undefined;
         };
     };
-    viewshed.initializing = function(viewer){
+    viewshed.initializing = function(viewer,sceneModel){
         var scene = viewer.scene;
         if(!viewshed3D){
             viewshed3D = new Cesium.ViewShed3D(scene);
@@ -147,6 +147,15 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
                 scene.viewFlag = false;
             }
         });
+
+        var store = {};
+        store.viewPosition = viewshed3D.viewPosition;
+        store.distance = viewshed3D.distance;
+        store.pitch = viewshed3D.pitch;
+        store.direction = viewshed3D.direction;
+        store.verticalFov = viewshed3D.verticalFov;
+        store.horizontalFov = viewshed3D.horizontalFov;
+        sceneModel.analysisObjects.viewshed3DStore = store;
 
         vsPointHandler.activate();
 
