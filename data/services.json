@@ -4,9 +4,9 @@
     {
       "id": 1,
       "type": "REALSPACE",
-      "thumbnail": "./images/serviceImages/S3MTiles_suofeiya.jpg",
-      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_church/rest",
-      "sceneName": "索菲亚大教堂"
+      "thumbnail": "./images/serviceImages/hk_sci_park.jpg",
+      "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-yanmofenxi/rest",
+      "sceneName": "香港科技园"
     },
     {
       "id": 2,
@@ -56,6 +56,20 @@
       "thumbnail": "./images/serviceImages/S3MTiles_pointCloud.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-cloud/rest",
       "sceneName": "点云"
+    },
+    {
+      "id": 9,
+      "type": "REALSPACE",
+      "thumbnail": "./images/serviceImages/pipeline.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-pipe-alone/rest",
+      "sceneName": "管线"
+    },
+    {
+      "id": 10,
+      "type": "REALSPACE",
+      "thumbnail": "./images/serviceImages/volume.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-tishuju/rest",
+      "sceneName": "体数据"
     }
   ]
 }

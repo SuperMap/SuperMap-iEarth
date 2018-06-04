@@ -128,7 +128,6 @@ function init(Cesium, Zlib) {
             e.preventDefault();
         }, false);
     }
-
     if (viewer.geocoder) {
         viewer.geocoder.viewModel.geoKey = 'NGyNBR7nqy1edmqO6NpnIECG';
     }
