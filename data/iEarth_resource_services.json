@@ -4,12 +4,19 @@
     {
       "id": 1,
       "type": "REALSPACE",
+      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_suofeiya.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_church/rest",
+      "sceneName": "索菲亚大教堂"
+    },
+    {
+      "id": 2,
+      "type": "REALSPACE",
       "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/hk_sci_park.jpg",
       "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-yanmofenxi/rest",
       "sceneName": "香港科技园"
     },
     {
-      "id": 2,
+      "id": 3,
       "type": "REALSPACE",
       "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_srsb_water.jpg",
       "proxiedUrl": "https://www.supermapol.com/iserver/services/3D-srsb/rest",
