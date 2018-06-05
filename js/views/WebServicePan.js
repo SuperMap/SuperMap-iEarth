@@ -40,8 +40,8 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             this.render();
             this.on('componentAdded',function(parent){
             	// var url = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18";
-                var url = "https://www.supermapol.com/earth/iEarth_resource_services.json";
-            	me.currentPublicPage = 1;
+                var url = "http://www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services.json";
+                me.currentPublicPage = 1;
             	me.totalPublicPage = 0;
             	me.currentPrivatePage = 1;
             	me.totalPrivatePage = 0;

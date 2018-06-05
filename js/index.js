@@ -172,13 +172,6 @@ function init(Cesium, Zlib) {
                     isPCBroswer: isPCBroswer
                 });
                 viewerContainer.addComponent(toolBar, new Position());
-                if (!isPCBroswer) { // 移动端隐藏在线编辑和量算按钮
-                    $('#addMarkerBtn').hide();
-                    $('#measureBtn').hide();
-                }
-                else {
-                    $('#btnLogin').show();
-                }
                 var errorPannel = new ErrorPannel();
                 viewerContainer.addComponent(errorPannel);
                 var compassContainer = new Compass({
@@ -193,14 +186,14 @@ function init(Cesium, Zlib) {
                     x : '10px',
                     y : '150px'
                 }));
-                var portalFormContainer = new portalForm({
-                    sceneModel : sceneModel
-                });
-                viewerContainer.addComponent(portalFormContainer,new Position({
-                    mode : 'rt',
-                    x : '10px',
-                    y : '200px'
-                }));
+                // var portalFormContainer = new portalForm({
+                //     sceneModel : sceneModel
+                // });
+                // viewerContainer.addComponent(portalFormContainer,new Position({
+                //     mode : 'rt',
+                //     x : '10px',
+                //     y : '200px'
+                // }));
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });

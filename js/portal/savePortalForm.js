@@ -5,7 +5,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
     var viewer;
     var sceneModel;
     var htmlStr = [
-        '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 600px;height: 400px">',
+        '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 40%;height: 55%">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="portalTab1" type="radio" name="portalTab" checked>',
         '<label for="portalTab1" style="font-size: 13px">' + "iPortal保存" + '</label>',
@@ -14,7 +14,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         '<section id="portalTabContent1">',
         '<h1 class="title"></h1>',
             '<div id="sceneImage" style="width:300px;height:300px; float: left ;">',
-               '<canvas id="sceneCanvas" style=" max-width: 100%;"/>',
+               '<canvas id="sceneCanvas" style=" max-width: 90%;max-height: 60%;"/>',
                '<label style="font-style:italic;">'+"存储日期:" +'</label>',
                '<label id="saveDate" style="font-style:italic;margin-left: 20px"></label>',
                '<div class="ui large star rating"></div>',
@@ -65,6 +65,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 // });
 
                 var that = viewer.scene;
+                document.getElementById("saveDate").innerText = getNowFormatDate();
                 that.postRender.addEventListener(function(){
                         var buffer = that.context.readPixels({
                             frameBuffer:that.fxaa._fbo
@@ -101,7 +102,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                         ctx.putImageData(imagedata,0,0);
                     });
                 that.postRender.removeEventListener();
-                document.getElementById("saveDate").innerText = getNowFormatDate();
+
             });
         },
         render : function(){
