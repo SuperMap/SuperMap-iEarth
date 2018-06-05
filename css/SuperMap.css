@@ -1350,7 +1350,7 @@ a{
 .btn-toolbar>.btn-group{
 	margin-left : 5px;
 }
-.btn-toolbar .btn,.btn-toolbar .btn-group,.btn-toolbar .input-group{
+.btn-toolbar .btn,.btn-toolbar .toolbar,.btn-toolbar .input-group{
 	float : left;
 }
 .btn{
@@ -1367,7 +1367,6 @@ a{
 	font-weight : 400;
 	line-height : 1.4;
 	border : none;
-	border-radius : 4px;
 	vertical-align : middle;
 	transition : border .25s linear,color .25s linear,background-color .25s linear;
 	-webkit-font-smoothing : subpixel-antialiased;
