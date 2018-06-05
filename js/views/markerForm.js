@@ -12,7 +12,7 @@ define(['./Container',
     var defaultUrl;
     var handlerPoint;
     var htmlStr = [
-        '<main style="position : absolute;right: 50px; top : 10%;width: 300px">',
+        '<main style="position : absolute;right: 45px; top : 10%;width: 300px">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="objectTab1" type="radio" name="objectTab" checked>',
         '<label for="objectTab1" style="font-size: 13px">' + "添加点" + '</label>',

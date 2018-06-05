@@ -63,6 +63,9 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
                         url = item.proxiedUrl + '/maps.json';
                     }
                     else if (item.type == "REALSPACE") {
+                        if (item.proxiedUrl.indexOf("https") > -1) {
+                            item.proxiedUrl = item.proxiedUrl.replace("https", "http");
+                         };
                         url = item.proxiedUrl + '/realspace/datas.json';
                     }
                     promise = Cesium.loadJson(url);
@@ -75,9 +78,9 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
                 var model;
                 for (var i = 0; i < parameter.colcParam.length; i++) {
                     var obj = parameter.colcParam[i];
-                    if (obj.path.indexOf("https") == -1) {
-                        obj.path = obj.path.replace("http", "https");
-                    };
+                      if (obj.path.indexOf("https") > -1) {
+                         obj.path = obj.path.replace("https", "http");
+                     };
                     var name = parameter.sceneName;
                     var subName = obj.name;
                     var typeUrl = obj.path + '.xml';
