@@ -76,13 +76,13 @@ define([
                     this.layerManageDropDownView = layerManageDropDownView;
                 }
             });
-            if(!this.isPCBroswer){
-            	$('.cesium-geocoder-input').on('focus',function(){
-            		$('.dropDown-container').removeClass('dropDown-visible');
-                	$('#btnGroup').hide();
-                    $('#expandBtn').show();
-                });
-            }
+            // if(!this.isPCBroswer){
+            // 	$('.cesium-geocoder-input').on('focus',function(){
+            // 		$('.dropDown-container').removeClass('dropDown-visible');
+            //     	$('#btnGroup').hide();
+            //         $('#expandBtn').show();
+            //     });
+            // }
             $(document).on('click.dropDown-container touchstart.dropDown-container', function(evt){
             	var len = $('#layerMangerBtn div.dropDown-visible').length + $('#measureBtn div.dropDown-visible').length;
             	if(len > 0){

@@ -155,8 +155,18 @@ define(['Cesium'],function(Cesium) {
                 sceneModel.analysisObjects.planeClipStore = positions;
             });
 
-
-
+            if(sceneModel.analysisObjects.planeClipStore){
+                var positions = sceneModel.analysisObjects.planeClipStore;
+                for(var i = 0; i < layers.length; i ++){
+                    layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
+                }
+                if(layers.length > 0){
+                    var clipRegion = layers[0].getClipRegion();
+                    if(clipRegion){
+                        viewer.entities.add(clipRegion);
+                    }
+                }
+            }
 
             $planeClipPoint1Longitude.bind('input propertychange', function(){
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
@@ -278,8 +288,32 @@ define(['Cesium'],function(Cesium) {
                 boxEntityStore.height = width;
                 boxEntityStore.rotate = rotate;
                 boxEntityStore.position = cartesian;
+                boxEntityStore.index = document.getElementById("clipMode").selectedIndex;
+                boxEntityStore.clipMode = $('#clipMode').val();
                 sceneModel.analysisObjects.boxClipStore = boxEntityStore;
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            if(sceneModel.analysisObjects.boxClipStore){
+                var box = sceneModel.analysisObjects.boxClipStore;
+                var length = box.length;
+                var width = box.width;
+                var height = box.height;
+                var hpr = new Cesium.HeadingPitchRoll(box.rotate, 0, 0);
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(box.position, hpr);
+                boxEntity = viewer.entities.add({
+                    id : "Custom",
+                    box : {
+                        dimensions : new Cesium.Cartesian3(length,width,height),
+                        material : Cesium.Color.fromRandom({alpha : 0.1})
+                    },
+                    position : box.position,
+                    orientation : orientation
+                });
+                boxEntity.index = box.index;
+                boxEntity.clipMode = box.clipMode;
+                boxEntity.rotate = box.rotate;
+                setClipBox(layers, boxEntity);
+            }
         }
     };
 
@@ -327,11 +361,11 @@ define(['Cesium'],function(Cesium) {
     }
 
     function setClipBox(layers,boxEntity){
-        var index = document.getElementById("clipMode").selectedIndex;
+        var index = document.getElementById("clipMode") ? (document.getElementById("clipMode").selectedIndex) : boxEntity.index;
         var newDim = boxEntity.box.dimensions.getValue();
         var position = boxEntity.position.getValue(0);
-        var clipMode = $('#clipMode').val();
-        var heading = Cesium.Math.toRadians($('#rotate').val());
+        var clipMode = $('#clipMode').val() ? $('#clipMode').val() : boxEntity.clipMode;
+        var heading =  $('#rotate').val() ? Cesium.Math.toRadians($('#rotate').val()) : boxEntity.rotate;
         var boxOptions;
         switch (index){
             case 0:

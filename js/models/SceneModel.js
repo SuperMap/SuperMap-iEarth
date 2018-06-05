@@ -33,11 +33,18 @@ define([
             this.terrainObjects = {};
             this.markerObjects = {};
         },
-        addLayer : function(layerModel,isFlyMode){
+        addLayer : function(layerModel,sceneContent,isFlyMode){
+            var me = this;
             if(!layerModel){
                 return;
             }
-            layerModel.addLayer(this,isFlyMode);
+           var promise =  layerModel.addLayer(this,isFlyMode);
+            Cesium.when(promise,function(layer){
+                me.analysisObjects = sceneContent.analysisObjects;
+                me.terrainObjects = sceneContent.terrainObjects;
+                var parseObject = new parsePortalJson(me);
+                parseObject.initialize();
+            })
         },
         addLayers : function(layers,isFlyMode){
         	if(!layers){
@@ -336,12 +343,9 @@ define([
             var layersStore = sceneContent.layers;
             for(var i = 0; i < layersStore.length; i++){
                 var layerModel = new LayerModel(layersStore[i]);
-                this.addLayer(layerModel);
+                this.addLayer(layerModel,sceneContent);
             }
-            this.analysisObjects = sceneContent.analysisObjects;
-            this.terrainObjects = sceneContent.terrainObjects;
-            var parseObject = new parsePortalJson(this);
-            parseObject.initialize();
+
         }
     });
     return SceneModel;
