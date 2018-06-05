@@ -924,7 +924,8 @@ ul#progress li:first-child {
 }
 
 /* 控制参数窗口 */
-@media screen and (min-width: 768px){
+
+@media screen and (min-width: 600px){
 	.paramsWindow{
 		position: absolute;
 		width: 320px;
@@ -933,13 +934,17 @@ ul#progress li:first-child {
 	}
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 600px){
 	.paramsWindow{
 		position: absolute;
 		width: 95%;
 		top: 10%;
 		left: 50%;
 		transform: translateX(-50%);
+	}
+	.params-window-content{
+		max-height: 400px;
+		overflow:auto;
 	}
 }
 
