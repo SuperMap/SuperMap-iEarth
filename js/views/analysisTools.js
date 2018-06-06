@@ -6,8 +6,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     var viewer;
     var parentContainer;
     var sceneModel;
+    var isPCBroswer;
     var htmlStr = [
-  '<main style="position : absolute;right:45px; top : 6%;width: 300px">',
+  '<main style="position : absolute;" class="mainView">',
   '<button aria-label="Close" id="closeMain" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
     '<input id="tab3" type="radio" name="tabs" checked>',
@@ -26,6 +27,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     '<label for="tab4" style="font-size: 13px">' + Resource.skyline + '</label>',
 
  '<section id="content1">',
+        '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">观察者信息</a>',
         '<div>',
@@ -76,6 +78,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<div style="float: right;margin-top: -20px">',
               '<button type="button"  class="btn btn-info" id="chooseView" style="">'+ "分析" +'</button>',
               '<button type="button"  class="btn btn-info" id="clearVS" style="">'+ "清除" +'</button>',
+        '</div>',
         '</div>',
         '</div>',
 '</section>',
@@ -235,6 +238,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             this.viewer = options.sceneModel.viewer;
             sceneModel = options.sceneModel;
             parentContainer = options.parent;
+            isPCBroswer = options.isPCBroswer
             this.render();
             this.on('componentAdded',function(parent){
                 viewer = this.viewer;
@@ -370,21 +374,36 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         },
         onAddViewpointClk : function(){
             sgline.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onProfileClk : function(evt){
             profile.initializing(viewer,parentContainer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onProfileDelClk : function(evt){
             profile.remove(viewer,parentContainer,sceneModel);
         },
         onChooseViewClk : function(evt){
             viewshed.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onShadowAnalysisClk : function(evt){
             shadow.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onGetSkylineClk : function(evt){
             skyLine.initializing(viewer,parentContainer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onClickQueryClk : function(evt){
             var scene = viewer.scene;
@@ -396,8 +415,10 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                 $("#bottomHeight").val(height.toFixed(9));
                 handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
-
     });
 
     function getNowFormatDate() {

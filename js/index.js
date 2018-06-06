@@ -115,9 +115,6 @@ function init(Cesium, Zlib) {
         if (Cesium.defined(scene.moon)) {
             scene.moon.show = false;
         }
-        // if (Cesium.defined(scene.skyAtmosphere)) {
-        //     scene.skyAtmosphere.show = false;
-        // }
         if (Cesium.defined(scene.skyBox)) {
             scene.skyBox.show = false;
         }
@@ -186,14 +183,16 @@ function init(Cesium, Zlib) {
                     x : '10px',
                     y : '150px'
                 }));
-                var portalFormContainer = new portalForm({
-                    sceneModel : sceneModel
-                });
-                viewerContainer.addComponent(portalFormContainer,new Position({
-                    mode : 'rt',
-                    x : '10px',
-                    y : '200px'
-                }));
+                if(isPCBroswer){
+                    var portalFormContainer = new portalForm({
+                        sceneModel : sceneModel
+                    });
+                    viewerContainer.addComponent(portalFormContainer,new Position({
+                        mode : 'rt',
+                        x : '10px',
+                        y : '200px'
+                    }));
+                }
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });

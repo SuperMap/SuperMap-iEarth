@@ -50,8 +50,9 @@ define(['Cesium'],function(Cesium) {
         }
     };
 
-    clip.initializing = function(viewer,sceneModel,beacon){
+    clip.initializing = function(viewer,sceneModel,beacon,isPCBroswer){
         layers = viewer.scene.layers._layers._array;
+        var positions = [];
         if(beacon){//平面裁剪
             var $planeClipPoint1Longitude = $("#plane-clip-point1-longitude"),
                 $planeClipPoint1Latitude = $("#plane-clip-point1-latitude"),
@@ -80,13 +81,14 @@ define(['Cesium'],function(Cesium) {
                     $('body').removeClass('drawCur');
                 }
             });
+
             planeClipPolygonHandler.drawEvt.addEventListener(function(result){
                 //显示裁剪面
                 planeClipPolygonHandler.polygon.show = false;
                 planeClipPolygonHandler.polyline.show = false;
 
                 //平面裁剪三点坐标信息
-                var positions = result.object.positions;
+                positions = result.object? result.object.positions : result;
 
                 var scartographic0 = Cesium.Cartographic.fromCartesian(positions[0]);
                 var slongitude0 = Cesium.Math.toDegrees(scartographic0.longitude).toFixed(9);
@@ -154,6 +156,13 @@ define(['Cesium'],function(Cesium) {
                 }
                 sceneModel.analysisObjects.planeClipStore = positions;
             });
+
+            screenSpaceEventHandler.setInputAction(function(evt){
+                positions.push(viewer.scene.pickPosition(evt.position));
+                if(!isPCBroswer && positions.length >= 3){
+                    planeClipPolygonHandler.drawEvt.raiseEvent(positions);
+                }
+            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
             if(sceneModel.analysisObjects.planeClipStore){
                 var positions = sceneModel.analysisObjects.planeClipStore;

@@ -19,8 +19,9 @@ define(['./Container',
     var viewer;
     var layers = [];
     var sceneModel;
+    var isPCBroswer;
     var htmlStr = [
-        '<main style="position : absolute;right:45px; top : 10%;width: 300px">',
+        '<main style="position : absolute;" class="mainView">',
         '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="terrainTab2" type="radio" name="terrainTab" checked>',
         '<label for="terrainTab2" style="font-size: 13px">' + "坡度坡向" + '</label>',
@@ -47,6 +48,7 @@ define(['./Container',
         '</div>',
         '</section>',
         '<section id="terrainContent2">',
+        '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
             '<div>',
                '<a class="ui blue ribbon label">分析区域</a><br><br>',
@@ -76,6 +78,7 @@ define(['./Container',
            '<label>'+"(坡度坡向分析需要带法线地形)" +'</label>',
             '<button type="button" id="terrainSlopeDel" class="btn btn-info" style="float: right">'+ "清除" +'</button>',
             '<button type="button" id="terrainSlope" class="btn btn-info" style="float: right">'+ "分析" +'</button>',
+        '</div>',
         '</div>',
     '</section>',
         '<section id="terrainContent3">',
@@ -141,6 +144,7 @@ define(['./Container',
         initialize : function(options){
             viewer = options.sceneModel.viewer;
             sceneModel = options.sceneModel;
+            isPCBroswer = options.isPCBroswer;
             for(var i = 0; i < options.sceneModel.layers.models.length; i++){
                 layers.push(options.sceneModel.layers.models[i].layer);
             }
@@ -189,30 +193,45 @@ define(['./Container',
         },
         onModifyTerrainClk : function(evt){
             modifyTerrain.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onModifyTerrainDelClk : function(evt){
             modifyTerrain.remove(viewer);
         },
         onExcavationTerrainClk : function(evt){
             excavationTerrain.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onExcavationTerrainDelClk : function(evt){
             excavationTerrain.remove(viewer);
         },
         onTerrainSlopeClk : function(evt){
             terrainSlopeAnalysis.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onTerrainSlopeDelClk : function(evt){
             terrainSlopeAnalysis.remove(viewer);
         },
         onFloodClk : function(evt){
             flood.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onFloodDelClk : function(evt){
             flood.remove(viewer);
         },
         onFillClk : function(evt){
             isoline.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onFillDelClk : function(evt){
             isoline.remove(viewer);

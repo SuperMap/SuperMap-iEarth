@@ -91,10 +91,10 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
             });
             clip.init(viewer);
             if(sceneModel.analysisObjects.planeClipStore){
-                clip.initializing(viewer,sceneModel,true);
+                clip.initializing(viewer,sceneModel,true,isPCBroswer);
             }
             if(sceneModel.analysisObjects.boxClipStore){
-                clip.initializing(viewer,sceneModel,false);
+                clip.initializing(viewer,sceneModel,false,isPCBroswer);
             }
         },
         render : function(){
@@ -115,7 +115,7 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
             return false;
         },
         onSectionClk : function(evt){
-            clip.initializing(viewer,sceneModel,true);
+            clip.initializing(viewer,sceneModel,true,isPCBroswer);
             if(!isPCBroswer){
                 this.$el.hide();
             }
@@ -124,7 +124,7 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
             clip.remove(viewer,sceneModel,true);
         },
         onCustomClk : function(evt){
-            clip.initializing(viewer,sceneModel,false);
+            clip.initializing(viewer,sceneModel,false,isPCBroswer);
             if(!isPCBroswer){
                 this.$el.hide();
             }

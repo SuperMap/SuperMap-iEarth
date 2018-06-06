@@ -11,18 +11,21 @@ define(['./Container',
     var instance;
     var defaultUrl;
     var handlerPoint;
+    var isPCBroswer;
+    var me;
     var htmlStr = [
-        '<main style="position : absolute;right: 45px; top : 10%;width: 300px">',
+        '<main style="position : absolute;" class="mainView">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="objectTab1" type="radio" name="objectTab" checked>',
-        '<label for="objectTab1" style="font-size: 13px">' + "添加点" + '</label>',
+        '<label for="objectTab1" id = "objectLabel1" style="font-size: 13px">' + "添加点" + '</label>',
         '<input id="objectTab2" type="radio" name="objectTab">',
-        '<label for="objectTab2" style="font-size: 13px">' + "添加线" + '</label>',
+        '<label for="objectTab2" id = "objectLabel2" style="font-size: 13px">' + "添加线" + '</label>',
         '<input id="objectTab3" type="radio" name="objectTab" >',
-        '<label for="objectTab3" style="font-size: 13px">' + "添加面" + '</label>',
+        '<label for="objectTab3" id = "objectLabel3" style="font-size: 13px">' + "添加面" + '</label>',
         // '<input id="objectTab4" type="radio" name="objectTab" >',
         // '<label for="objectTab4" style="font-size: 13px">' + "添加粒子" + '</label>',
         '<section id="objectContent1">',
+        '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">符号库</a><br><br>',
         '<div style="border:1px solid #2EC5AD">',
@@ -41,6 +44,7 @@ define(['./Container',
             '<label id="markerR" style="font-size:13px;">缩放</label>',
             '<input type="number" id="scale" class="input" step="0.1" value="1" title="模型缩放比例"><br><br>',
             '<button type="button" id="del1" class="btn btn-info" style="float: right">'+ "删除" +'</button>',
+        '</div>',
         '</div>',
        '</section>',
         '<section id="objectContent2">',
@@ -129,6 +133,8 @@ define(['./Container',
             viewer = options.sceneModel.viewer;
             viewer.infobox = false;
             var scene = viewer.scene;
+            isPCBroswer = options.isPCBroswer;
+            me = this;
             handlerPoint = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Point);
             instance = new Cesium.S3MInstanceCollection(scene._context);
             scene.primitives.add(instance);
@@ -258,6 +264,7 @@ define(['./Container',
                 });
 
             });
+
             Cesium.loadJson('data/models.json').then(function(data){
                 var result = data.s3mModels;
                 for(var i = 0,j = result.length;i < j;i++){
@@ -286,6 +293,9 @@ define(['./Container',
         $('#icons').append(str);
         var $child =$("#"+data.name);
         $child.on('click',function(){
+            if(!isPCBroswer){
+                me.$el.hide();
+            }
             defaultUrl = data.path;
             if($("img").hasClass("selected")){
                 $("img").removeClass("selected");
@@ -307,6 +317,9 @@ define(['./Container',
         });
     };
     function createLineType(type,line) {
+        if(!isPCBroswer){
+            me.$el.hide();
+        }
         if($("a").hasClass("selected")){
             $("a").removeClass("selected");
         }
@@ -412,6 +425,9 @@ define(['./Container',
         handlerLine.activate();
     };
     function createPolygonType(type,polygon) {
+        if(!isPCBroswer){
+            me.$el.hide();
+        }
         if($("a").hasClass("selected")){
             $("a").removeClass("selected");
         }
