@@ -186,14 +186,14 @@ function init(Cesium, Zlib) {
                     x : '10px',
                     y : '150px'
                 }));
-                // var portalFormContainer = new portalForm({
-                //     sceneModel : sceneModel
-                // });
-                // viewerContainer.addComponent(portalFormContainer,new Position({
-                //     mode : 'rt',
-                //     x : '10px',
-                //     y : '200px'
-                // }));
+                var portalFormContainer = new portalForm({
+                    sceneModel : sceneModel
+                });
+                viewerContainer.addComponent(portalFormContainer,new Position({
+                    mode : 'rt',
+                    x : '10px',
+                    y : '200px'
+                }));
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });

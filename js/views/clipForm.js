@@ -5,9 +5,10 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
     var viewer;
     var parent;
     var sceneModel;
+    var isPCBroswer;
     var htmlStr = [
-        '<main class="paramsWindow">',
-        '<button style="top: 10px;position: absolute;right: 1rem;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<main style="position : absolute;" class="mainView">',
+        '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="clipTab2" type="radio" name="clipTab" checked>',
         '<label for="clipTab2" style="font-size: 13px">' + "Box裁剪" + '</label>',
         '<input id="clipTab3" type="radio" name="clipTab">',
@@ -36,7 +37,8 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
            '</div>',
         ' </div>',
         '</section>',
-        '<section id="clipContent3" class="params-window-content">',
+        '<section id="clipContent3">',
+        '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">第一点</a>',
         '<p><span>经度：</span><input type="number" id="plane-clip-point1-longitude" class="input clip-input" min="-180" max="180" step="0.0001" value="0" size="5"><span>&nbsp;度</span></p>',
@@ -50,9 +52,10 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
         '<p><span>经度：</span><input type="number" id="plane-clip-point3-longitude" class="input clip-input" min="-180" max="180" step="0.0001" value="0" size="5"><span>&nbsp;度</span></p>',
         '<p><span>纬度：</span><input type="number" id="plane-clip-point3-latitude" class="input clip-input" min="-180" max="180" step="0.0001" value="0" size="5"><span>&nbsp;度</span></p>',
         '<p><span>高度：</span><input type="number" id="plane-clip-point3-height" class="input clip-input" step="1" value="0" size="5"><span>&nbsp;米</span></p>',
-
         '<button  id="sectionDel"  class="btn btn-info" style="float:right">清除</button>',
         '<button  id="section"  class="btn btn-info"  style="float:right">分析</button><br><br>',
+        ' </div>',
+    ' </div>',
 
         '</section>',
     '</main>',
@@ -73,6 +76,7 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
             sceneModel = options.sceneModel;
             viewer = options.sceneModel.viewer;
             parent = options.parent;
+            isPCBroswer = options.isPCBroswer
             this.render();
             this.on('componentAdded',function(parent){
                 $('main').each(function(index){
@@ -114,12 +118,18 @@ define(['./Container', '../3DGIS/clip'],function(Container,clip){
         },
         onSectionClk : function(evt){
             clip.initializing(viewer,sceneModel,true);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onSectionDelClk : function(evt){
             clip.remove(viewer,sceneModel,true);
         },
         onCustomClk : function(evt){
             clip.initializing(viewer,sceneModel,false);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onCustomDelClk : function(evt){
             clip.remove(viewer,sceneModel,false);
