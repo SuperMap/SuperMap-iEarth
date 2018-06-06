@@ -17,6 +17,18 @@ define(function() {
                 clipForm.$el.show();
             });
         }
+        if(this.analysisObjects.viewshed3DStore){
+            var me = this;
+            require(['./views/analysisTools'],function(analysisTools){
+                var analysisTools = new analysisTools({
+                    parent : me.sceneModel.viewerContainer,
+                    sceneModel : me.sceneModel,
+                    isPCBroswer : me.sceneModel.isPCBroswer
+                });
+                me.sceneModel.viewerContainer.addComponent(analysisTools);
+                analysisTools.$el.show();
+            });
+        }
     }
 
     return parsePortal;

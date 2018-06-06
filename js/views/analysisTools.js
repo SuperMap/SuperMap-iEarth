@@ -307,6 +307,10 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                     palette: palette
                 });
                 $("#selDate").val(getNowFormatDate());
+                if(sceneModel.analysisObjects.viewshed3DStore){
+
+                    viewshed.initializing(viewer,sceneModel);
+                }
             });
         },
         render : function(){

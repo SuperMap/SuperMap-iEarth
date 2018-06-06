@@ -895,7 +895,11 @@ ul#progress li:first-child {
         min-width: 150px;
     }
 }
-
+.mainView {
+	right: 45px;
+	top : 10%;
+	width: 300px;
+}
 /*-- iPad 1024X768 锟斤拷锟斤拷*/
 @media screen and (max-width : 768px) {
 	.myModal-header ul {
@@ -921,6 +925,10 @@ ul#progress li:first-child {
     #visualization{
         min-width: 150px;
     }
+	.adaptation {
+		height: 350px;
+		overflow:auto
+	}
 }
 
 /* 控制参数窗口 */
@@ -1028,6 +1036,7 @@ ul#progress li:first-child {
 		max-height: 470px;
 	}
 }
+
 /*-- Galaxy S5 360X640 锟斤拷锟斤拷*/
 @media screen and (max-width : 640px) and (max-height : 360px) {
 	.service-items {
@@ -1096,6 +1105,12 @@ ul#progress li:first-child {
     #visualization{
         min-width: 150px;
     }
+}
+
+@media screen and (max-width : 375px){
+.mainView {
+	right: 0px;
+}
 }
 
 /*---------媒锟斤拷锟窖� END--------------*/
