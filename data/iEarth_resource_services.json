@@ -4,30 +4,13 @@
     {
       "id": 1,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_suofeiya.jpg",
+      "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_suofeiya.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_not_over_pipe/rest",
       "sceneName": "索菲亚大教堂"
     },
     {
       "id": 2,
       "type": "REALSPACE",
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/hk_sci_park.jpg",
-      "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-yanmofenxi/rest",
-      "sceneName": "香港科技园"
-=======
-      "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_suofeiya.jpg",
-      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_church/rest",
-      "sceneName": "索菲亚大教堂"
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
-    },
-    {
-      "id": 3,
-      "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_srsb_water.jpg",
-      "proxiedUrl": "https://www.supermapol.com/iserver/services/3D-srsb/rest",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/hk_sci_park.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-yanmofenxi/rest",
       "sceneName": "香港科技园"
@@ -37,84 +20,54 @@
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_srsb_water.jpg",
       "proxiedUrl": "http://www.supermapol.com/iserver/services/3D-srsb/rest",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "sceneName": "萨尔茨堡火车站"
     },
     {
       "id": 4,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_niaochao_water.jpg",
-      "proxiedUrl": "https://www.supermapol.com/iserver/services/3D-niaocao_water/rest",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_niaochao_water.jpg",
       "proxiedUrl": "http://www.supermapol.com/iserver/services/3D-niaocao_water/rest",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "sceneName": "鸟巢"
     },
     {
       "id": 5,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_vector.jpg",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_vector.jpg",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-GuangZhou/rest",
       "sceneName": "矢量"
     },
     {
       "id": 6,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/terrainAndImagery.jpg",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/terrainAndImagery.jpg",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
-      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-dixingyingxiang/rest",
-      "sceneName": "四川省地形影像"
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-ZF_normal/rest",
+      "sceneName": "珠峰地形影像"
     },
     {
       "id": 7,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_BIM.jpg",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_BIM.jpg",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-BIMbuilding/rest",
       "sceneName": "BIM建筑"
     },
     {
       "id": 8,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_pointCloud.jpg",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_pointCloud.jpg",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-cloud/rest",
       "sceneName": "点云"
     },
     {
       "id": 9,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/pipeline.jpg",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/pipeline.jpg",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-pipe-alone/rest",
       "sceneName": "管线"
     },
     {
       "id": 10,
       "type": "REALSPACE",
-<<<<<<< HEAD
-      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/volume.jpg",
-=======
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/volume.jpg",
->>>>>>> fc3425b557d2f8eaa0142c5e1efe247eb8055441
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-tishuju/rest",
       "sceneName": "体数据"
     }
