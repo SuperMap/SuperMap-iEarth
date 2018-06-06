@@ -1014,7 +1014,13 @@ ul#progress li:first-child {
 /*-- iPhone 6 375x667 锟斤拷锟斤拷*/
 @media screen and (max-width : 375px) and (max-height : 675px) {
 	.service-item {
-		width: 140px;
+		width: 206px;
+	}
+	.service-itemIcon{
+		height: 166px;
+	}
+	.service-items{
+		text-align: center;
 	}
 }
 /*-- iPhone 6 375x667 锟斤拷锟斤拷*/
