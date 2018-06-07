@@ -37,6 +37,7 @@ define([
         tagName : 'div',
         template : _.template(htmlStr),
         events : {
+            'touchstart #layerMangerBtn' : 'onLayerMangerBtnClk',
             'click #layerMangerBtn' : 'onLayerMangerBtnClk',
             'click #expandBtn' : 'onExpandBtnClk',
             'click #addLayerBtn' : 'onAddLayerBtnClk',
@@ -89,7 +90,7 @@ define([
             		return ;
             	}
             	$('.dropDown-container').removeClass('dropDown-visible');
-            }).on('click.dropDown-container touchstart.dropDown-container','[data-toggle=dropdown]',function(evt){
+            }).on('click.dropDown-container touchstart.dropDown-container', '[data-toggle=dropdown]',function(evt){
             	evt.stopPropagation();
             	var target = evt.target;
             	if(!target.contains(evt.currentTarget) && target.parentNode.tagName != 'A'){
@@ -127,6 +128,11 @@ define([
         	if(!target.contains(evt.currentTarget) && target.tagName != 'SPAN'){
         		return;
         	}
+            /*if($("#layer-manage-drop-down").hasClass("dropDown-visible")){
+                $("#layer-manage-drop-down").removeClass("dropDown-visible");
+            }else{
+                $("#layer-manage-drop-down").addClass("dropDown-visible");
+            }*/
         },
 
         onExpandBtnClk : function(evt) {
