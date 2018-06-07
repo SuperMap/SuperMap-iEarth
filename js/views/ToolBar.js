@@ -42,6 +42,7 @@ define([
             'click #expandBtn' : 'onExpandBtnClk',
             'click #addLayerBtn' : 'onAddLayerBtnClk',
             'click #addMarkerBtn' : 'onAddMarkerBtnClk',
+            'touchstart #baseLayerBtn' : 'onBaseLayerBtnClk',
             'click #baseLayerBtn' : 'onBaseLayerBtnClk',
             'click #measureBtn' : 'onMeasureBtnClk',
             'click #terrainBtn' : 'onTerrainBtnClk',
