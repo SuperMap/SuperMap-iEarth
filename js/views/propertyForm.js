@@ -3,7 +3,8 @@ define(['./Container', '../3DGIS/SpatialProperty'],function(Container,SpatialPro
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-        '<div class="property paramsWindow" id="propertyForm" style="z-index: 1; cursor: auto">',
+       '<div class="property mainView" id="propertyForm" style="position: absolute;width:320px;;z-index: 1;cursor: auto">',
+        '<div class="adaptation">',
         '<div>',
         '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ "空间查询" +'</label>',
         '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
@@ -29,7 +30,8 @@ define(['./Container', '../3DGIS/SpatialProperty'],function(Container,SpatialPro
         '<div class="or"></div>',
         '<button class="ui button" id="spatialQueryDel" style="float: right">清理图表</button>',
         '</div>',
-       '</div>'
+       '</div>',
+    '<div>'
     ].join('');
     var parent;
     var propertyForm = Container.extend({
