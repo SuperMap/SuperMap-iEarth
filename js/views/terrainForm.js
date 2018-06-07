@@ -18,9 +18,10 @@ define(['./Container',
     var viewer;
     var layers = [];
     var sceneModel;
+    var isPCBroswer;
     var htmlStr = [
-        '<main class="paramsWindow">',
-        '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<main style="position : absolute;" class="mainView">',
+        '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="terrainTab2" type="radio" name="terrainTab" checked>',
         '<label for="terrainTab2" style="font-size: 13px">' + "坡度坡向" + '</label>',
         '<input id="terrainTab4" type="radio" name="terrainTab">',
@@ -52,6 +53,7 @@ define(['./Container',
             '</div>',
         '</section>',
         '<section id="terrainContent2">',
+        '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
             '<div>',
             '<a class="ui blue ribbon label">分析区域</a>',
@@ -84,7 +86,7 @@ define(['./Container',
             '<button type="button" id="terrainSlope" class="btn btn-info" style="float: right">' + "分析" + '</button>',
         '</div>',
         '</div>',
-        '</section>',
+    '</section>',
         '<section id="terrainContent3">',
             '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
             '<a class="ui blue ribbon label">参数设置</a><br>',
@@ -152,7 +154,8 @@ define(['./Container',
         initialize: function (options) {
             viewer = options.sceneModel.viewer;
             sceneModel = options.sceneModel;
-            for (var i = 0; i < options.sceneModel.layers.models.length; i++) {
+            isPCBroswer = options.isPCBroswer;
+            for(var i = 0; i < options.sceneModel.layers.models.length; i++){
                 layers.push(options.sceneModel.layers.models[i].layer);
             }
             this.render();
@@ -201,32 +204,47 @@ define(['./Container',
 
             return false;
         },
-        onModifyTerrainClk: function (evt) {
-            modifyTerrain.initializing(viewer, sceneModel);
+        onModifyTerrainClk : function(evt){
+            modifyTerrain.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onModifyTerrainDelClk: function (evt) {
             modifyTerrain.remove(viewer);
         },
-        onExcavationTerrainClk: function (evt) {
-            excavationTerrain.initializing(viewer, sceneModel);
+        onExcavationTerrainClk : function(evt){
+            excavationTerrain.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onExcavationTerrainDelClk: function (evt) {
             excavationTerrain.remove(viewer);
         },
-        onTerrainSlopeClk: function (evt) {
-            terrainSlopeAnalysis.initializing(viewer, sceneModel);
+        onTerrainSlopeClk : function(evt){
+            terrainSlopeAnalysis.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onTerrainSlopeDelClk: function (evt) {
             terrainSlopeAnalysis.remove(viewer);
         },
-        onFloodClk: function (evt) {
-            flood.initializing(viewer, sceneModel);
+        onFloodClk : function(evt){
+            flood.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onFloodDelClk: function (evt) {
             flood.remove(viewer);
         },
-        onFillClk: function (evt) {
-            isoline.initializing(viewer, sceneModel);
+        onFillClk : function(evt){
+            isoline.initializing(viewer,sceneModel);
+            if(!isPCBroswer){
+                this.$el.hide();
+            }
         },
         onFillDelClk: function (evt) {
             isoline.remove(viewer);

@@ -2,7 +2,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
-        "<div id='layerTree' style='height: 623.9px;overflow:auto'></div>",
+        "<div id='layerTree'></div>",
     ].join('');
     var list;
     function calNode(ModeUrl){

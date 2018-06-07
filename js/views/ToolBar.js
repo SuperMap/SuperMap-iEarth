@@ -189,7 +189,6 @@ define([
                 window.event.returnValue = false;
             }
             if(this.markerForm){
-
                 this.markerForm.$el.show();
             }
             if(!this.markerForm){

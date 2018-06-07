@@ -3,7 +3,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-        '<div class="tabs-vertical" id="layerForm" style="position: absolute;top: 10%;width:350px;;z-index: 1; right: 45px;cursor: auto; display:none">',
+        '<div class="tabs-vertical mainView" id="layerForm" style="position: absolute;width:350px;;z-index: 1;cursor: auto; display:none">',
         '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.layerOptions +'</label>',
         '<button aria-label="Close" id="layerClose" class="myModal-close" title='+ Resource.close +' style="top: 10px;position: absolute;left: 90%;"><span aria-hidden="true">×</span></button>',
         '<ul><li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',

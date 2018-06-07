@@ -9,7 +9,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
     var labels;
     var label;
     var htmlStr = [
-                   '<div class="tabs-vertical paramsWindow" id="sceneForm" style="z-index: 1;cursor: auto;">',
+                   '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
                    '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.sceneOptions +'</label>',
                    '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 				   '<ul>',
