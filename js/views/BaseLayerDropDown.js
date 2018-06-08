@@ -12,7 +12,8 @@ define(['./Container','../models/BaseLayerCollection','./ThumbGroup'],function(C
         template : _.template(htmlStr),
         tagName : 'div',
         events : {
-        	'click #chkTerrain' : 'onChkTerrain'
+        	'click #chkTerrain' : 'onChkTerrain',
+            'touchstart #chkTerrain' : 'onChkTerrain'
         },
         initialize : function(options){
         	this.model = options.sceneModel;

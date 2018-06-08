@@ -65,6 +65,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
         render : function(){
             this.$el.html(this.template());
             this.$el.addClass('dropDown-container');
+            this.$el.attr('id', 'layer-manage-drop-down');
             this.$el.css({'min-width' : '260px','text-align' : 'left', 'padding': '8px'});
             return this;
         },

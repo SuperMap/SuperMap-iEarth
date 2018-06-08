@@ -84,7 +84,7 @@ define(['Cesium'],function(Cesium) {
 
             planeClipPolygonHandler.drawEvt.addEventListener(function(result){
                 //显示裁剪面
-                planeClipPolygonHandler.polygon.show = false;
+                planeClipPolygonHandler.polygon.show = true;
                 planeClipPolygonHandler.polyline.show = false;
 
                 //平面裁剪三点坐标信息
@@ -148,23 +148,23 @@ define(['Cesium'],function(Cesium) {
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
                 }
-                if(layers.length > 0){
-                    var clipRegion = layers[0].getClipRegion();
-                    if(clipRegion){ // 数据有问题可能会返回undefined
-                        viewer.entities.add(clipRegion);
-                    }
-                }
-                sceneModel.analysisObjects.planeClipStore = positions;
+                // if(layers.length > 0){
+                //     var clipRegion = layers[0].getClipRegion();
+                //     if(clipRegion){ // 数据有问题可能会返回undefined
+                //         viewer.entities.add(clipRegion);
+                //     }
+                // }
+                //sceneModel.analysisObjects.planeClipStore = positions;
             });
 
             screenSpaceEventHandler.setInputAction(function(evt){
                 positions.push(viewer.scene.pickPosition(evt.position));
-                if(positions.length >= 3){
+                if(!isPCBroswer && positions.length >= 3){
                     planeClipPolygonHandler.drawEvt.raiseEvent(positions);
                 }
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-            if(sceneModel.analysisObjects.planeClipStore){
+            /*if(sceneModel.analysisObjects.planeClipStore){
                 var positions = sceneModel.analysisObjects.planeClipStore;
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
@@ -175,7 +175,7 @@ define(['Cesium'],function(Cesium) {
                         viewer.entities.add(clipRegion);
                     }
                 }
-            }
+            }*/
 
             $planeClipPoint1Longitude.bind('input propertychange', function(){
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
