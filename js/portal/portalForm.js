@@ -12,7 +12,8 @@ define(['../views/Container'],function(Container){
         template : _.template(htmlStr),
         initialize : function(options) {
             this.model = options.sceneModel;
-            viewer = options.sceneModel.viewer;;
+            this.isPCBroswer = options.isPCBroswer;
+            viewer = options.sceneModel.viewer;
             this.render();
         },
         render : function() {

@@ -158,6 +158,8 @@ function init(Cesium, Zlib) {
         $("#loadOverlay").hide();
         $('#loadbar').removeClass('ins');
         $(".cesium-viewer-navigationContainer").hide();
+        $(".cesium-viewer-bottom").hide();
+
 
         require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm'],
             function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm) {
@@ -185,7 +187,8 @@ function init(Cesium, Zlib) {
                 }));
                 if(isPCBroswer){
                     var portalFormContainer = new portalForm({
-                        sceneModel : sceneModel
+                        sceneModel : sceneModel,
+                        isPCBroswer : isPCBroswer
                     });
                     viewerContainer.addComponent(portalFormContainer,new Position({
                         mode : 'rt',

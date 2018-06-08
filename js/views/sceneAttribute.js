@@ -49,7 +49,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
                     '<div class="square" ><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">'+ Resource.skyAtmosphereEffect +'</label></div>',
                     '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
                     '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
-                    '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
+                    '<div class="square" ><input type="checkbox" id="icon"/><label for="icon">Logo</label></div>',
                     '<div class="square" ><input type="checkbox" id="underground"/><label for="underground">地下</label></div>',
                     '</div> ',
                     

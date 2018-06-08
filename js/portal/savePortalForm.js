@@ -4,18 +4,20 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
     var $ = require('jquery');
     var viewer;
     var sceneModel;
+    var appsRoot;
+    var isPCBroswer;
     var htmlStr = [
         '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 40%;height: 55%">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="portalTab1" type="radio" name="portalTab" checked>',
-        '<label for="portalTab1" style="font-size: 13px">' + "iPortal保存" + '</label>',
-        '<input id="portalTab2" type="radio" name="portalTab">',
-        '<label for="portalTab2" style="font-size: 13px">' + "iEarth场景" + '</label>',
+        '<label for="portalTab1" style="font-size: 13px">' + "场景保存" + '</label>',
+        // '<input id="portalTab2" type="radio" name="portalTab">',
+        // '<label for="portalTab2" style="font-size: 13px">' + "iEarth场景" + '</label>',
         '<section id="portalTabContent1">',
         '<h1 class="title"></h1>',
             '<div id="sceneImage" style="width:300px;height:300px; float: left ;">',
                '<canvas id="sceneCanvas" style=" max-width: 90%;max-height: 60%;"/>',
-               '<label style="font-style:italic;">'+"存储日期:" +'</label>',
+               '<label  id = "saveDateLabel" style="font-style:italic;">'+"存储日期:" +'</label>',
                '<label id="saveDate" style="font-style:italic;margin-left: 20px"></label>',
                '<div class="ui large star rating"></div>',
             '</div>',
@@ -50,6 +52,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         initialize : function(options){
             viewer = options.sceneModel.viewer;
             sceneModel = options.sceneModel;
+            isPCBroswer = options.isPCBroswer
             this.render();
             this.on('componentAdded',function(parent){
                 // $('main').each(function(index){
@@ -65,7 +68,13 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 // });
 
                 var that = viewer.scene;
+                if(!isPCBroswer){
+                    document.getElementById("sceneImage").style.display="none";
+                }
                 document.getElementById("saveDate").innerText = getNowFormatDate();
+                appsRoot =Window.iportalAppsRoot;
+                var pattern = "/apps";
+                appsRoot = appsRoot.replace(new RegExp(pattern), "");
                 that.postRender.addEventListener(function(){
                         var buffer = that.context.readPixels({
                             frameBuffer:that.fxaa._fbo
@@ -102,7 +111,6 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                         ctx.putImageData(imagedata,0,0);
                     });
                 that.postRender.removeEventListener();
-
             });
         },
         render : function(){
@@ -159,14 +167,14 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             saveData =  JSON.stringify(saveData);
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8090/iportal/web/scenes.json",
+                url: appsRoot + "/web/scenes.json",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 data: saveData,
                 success : function (jsonResult) {
                     $.ajax({
                         type: "PUT",
-                        url: "http://localhost:8090/iportal/web/scenes/" + parseInt(jsonResult.newResourceID) + "/thumbnail.json",
+                        url: appsRoot + "/web/scenes/" + parseInt(jsonResult.newResourceID) + "/thumbnail.json",
                         contentType: "application/json;charset=utf-8",
                         dataType: "json",
                         data: base64,
@@ -190,7 +198,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             var me = this;
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8090/iportal/web/scenes.json",
+                url: appsRoot + "/web/scenes.json",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success : function (jsonResult) {
@@ -200,11 +208,11 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                       var id = item.id;
                       $.ajax({
                           type: "GET",
-                          url: "http://localhost:8090/iportal/web/scenes/" + id + ".json",
+                          url: appsRoot + "/web/scenes/" + id + ".json",
                           contentType: "application/json;charset=utf-8",
                           dataType: "json",
                           success : function (json) {
-                              var thumbnail =  "http://localhost:8090/iportal/resources/thumbnail/scene/scene" + json.id + ".png";
+                              var thumbnail =  appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
                               var str = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + '  title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel">' + json.name + '</div></div>';
                               $('#scenePreview').append(str);
                               $("#"+json.name).on('click',function(){
