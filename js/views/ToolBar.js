@@ -139,7 +139,6 @@ define([
         	$('#btnGroup').show();
         	$('#expandBtn').hide();
         	if(!this.isPCBroswer){
-            	$('#addMarkerBtn').hide();
             	$('#measureBtn').hide();
             }
         },

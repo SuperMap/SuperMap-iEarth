@@ -159,7 +159,7 @@ define(['Cesium'],function(Cesium) {
 
             screenSpaceEventHandler.setInputAction(function(evt){
                 positions.push(viewer.scene.pickPosition(evt.position));
-                if(!isPCBroswer && positions.length >= 3){
+                if(positions.length >= 3){
                     planeClipPolygonHandler.drawEvt.raiseEvent(positions);
                 }
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
