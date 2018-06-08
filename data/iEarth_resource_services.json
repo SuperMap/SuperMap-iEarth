@@ -5,7 +5,7 @@
       "id": 1,
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_suofeiya.jpg",
-      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_not_over_pipe/rest",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-suofeiya_church/rest",
       "sceneName": "索菲亚大教堂"
     },
     {
@@ -59,13 +59,6 @@
     },
     {
       "id": 9,
-      "type": "REALSPACE",
-      "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/pipeline.jpg",
-      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-pipe-alone/rest",
-      "sceneName": "管线"
-    },
-    {
-      "id": 10,
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/volume.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-tishuju/rest",
