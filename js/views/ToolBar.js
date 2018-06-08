@@ -12,8 +12,8 @@ define([
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
-                   "<div id='toolbar' class='btn-group' style='margin: 5px 5px 5px 8px;'>",
-                   "<a data-toggle='dropdown' id='layerMangerBtn' class='btn btn-inverse'><span style='font-size : 17px;' class='iconfont icon-tuceng' ></span></a>",
+                   "<div id='toolbar' class='toolbar' style='margin: 5px 5px 5px 8px;'>",
+                   "<a data-toggle='dropdown' id='layerMangerBtn' class='btn btn-inverse'><span style='font-size : 16px;' class='iconfont icon-tuceng' ></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
                    "<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanzhankai'></span></a>",
                    "<div id='btnGroup' class='btn-group'>",
@@ -37,10 +37,12 @@ define([
         tagName : 'div',
         template : _.template(htmlStr),
         events : {
+            'touchstart #layerMangerBtn' : 'onLayerMangerBtnClk',
             'click #layerMangerBtn' : 'onLayerMangerBtnClk',
             'click #expandBtn' : 'onExpandBtnClk',
             'click #addLayerBtn' : 'onAddLayerBtnClk',
             'click #addMarkerBtn' : 'onAddMarkerBtnClk',
+            'touchstart #baseLayerBtn' : 'onBaseLayerBtnClk',
             'click #baseLayerBtn' : 'onBaseLayerBtnClk',
             'click #measureBtn' : 'onMeasureBtnClk',
             'click #terrainBtn' : 'onTerrainBtnClk',
@@ -89,7 +91,7 @@ define([
             		return ;
             	}
             	$('.dropDown-container').removeClass('dropDown-visible');
-            }).on('click.dropDown-container touchstart.dropDown-container','[data-toggle=dropdown]',function(evt){
+            }).on('click.dropDown-container touchstart.dropDown-container', '[data-toggle=dropdown]',function(evt){
             	evt.stopPropagation();
             	var target = evt.target;
             	if(!target.contains(evt.currentTarget) && target.parentNode.tagName != 'A'){
@@ -127,6 +129,11 @@ define([
         	if(!target.contains(evt.currentTarget) && target.tagName != 'SPAN'){
         		return;
         	}
+            /*if($("#layer-manage-drop-down").hasClass("dropDown-visible")){
+                $("#layer-manage-drop-down").removeClass("dropDown-visible");
+            }else{
+                $("#layer-manage-drop-down").addClass("dropDown-visible");
+            }*/
         },
 
         onExpandBtnClk : function(evt) {

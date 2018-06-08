@@ -64,13 +64,15 @@ define([
         		this.setTerrain($("#chkTerrain").is(':checked'));
         	}
         	layerModel.removeLayer(this.viewer);
+        	if(layerModel.get('originName') === '点云'){
+                document.getElementById('japan_pointCloud_tag').style.display = 'none';
+            }
         },
         addMarker : function(markerModel){
         	if(this.defaultKmlLayer){
         		this.defaultKmlLayer.addMarker(markerModel,this,this.currentMarker);
         		this.trigger('markerAdded',markerModel);
         	}
-        	
         },
         removeMarker : function(markerModel){
         	if(!markerModel){

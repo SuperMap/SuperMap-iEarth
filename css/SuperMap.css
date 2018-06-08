@@ -946,6 +946,33 @@ ul#progress li:first-child {
 	}
 }
 
+/* 控制参数窗口 */
+
+@media screen and (min-width: 600px){
+	.paramsWindow{
+		position: absolute;
+		width: 320px;
+		top: 10%;
+		right:50px;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.paramsWindow{
+		position: absolute;
+		width: 95%;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.params-window-content{
+		max-height: 400px;
+		overflow:auto;
+	}
+}
+
+/*------------------------------------*/
+
 /*-- iphone 6 plus 414x736 锟斤拷锟斤拷*/
 @media screen and (max-width : 414px) and (max-height : 744px) {
 	.myModal-header ul {
@@ -1002,7 +1029,13 @@ ul#progress li:first-child {
 /*-- iPhone 6 375x667 锟斤拷锟斤拷*/
 @media screen and (max-width : 375px) and (max-height : 675px) {
 	.service-item {
-		width: 140px;
+		width: 206px;
+	}
+	.service-itemIcon{
+		height: 166px;
+	}
+	.service-items{
+		text-align: center;
 	}
 }
 /*-- iPhone 6 375x667 锟斤拷锟斤拷*/
@@ -1356,7 +1389,7 @@ a{
 .btn-toolbar>.btn-group{
 	margin-left : 5px;
 }
-.btn-toolbar .btn,.btn-toolbar .btn-group,.btn-toolbar .input-group{
+.btn-toolbar .btn,.btn-toolbar .toolbar,.btn-toolbar .input-group{
 	float : left;
 }
 .btn{
@@ -1373,7 +1406,6 @@ a{
 	font-weight : 400;
 	line-height : 1.4;
 	border : none;
-	border-radius : 4px;
 	vertical-align : middle;
 	transition : border .25s linear,color .25s linear,background-color .25s linear;
 	-webkit-font-smoothing : subpixel-antialiased;
@@ -2714,8 +2746,6 @@ main input:checked + label {
 #objectTab4:checked ~ #objectContent4{
 	display: block;
 }
-
-
 
 @media screen and (max-width: 650px) {
   label {

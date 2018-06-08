@@ -11,7 +11,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
     var htmlStr = [
                    '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
                    '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.sceneOptions +'</label>',
-                   '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+                   '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 				   '<ul>',
                    '<li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
 				   '<li><a data-index="1" href="#">'+ Resource.otherOptions +'</a></li>',

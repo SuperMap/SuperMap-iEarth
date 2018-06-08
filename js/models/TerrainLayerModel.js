@@ -47,6 +47,7 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
                 	});
                 }
             }*/
+            document.getElementById('japan_pointCloud_tag').style.display = 'none';
             var scpName = this.get('originName');
             var cameraParam = Config.CAMERA_PARAM[scpName];
             if(cameraParam){
