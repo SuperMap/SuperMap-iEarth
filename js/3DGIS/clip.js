@@ -84,7 +84,7 @@ define(['Cesium'],function(Cesium) {
 
             planeClipPolygonHandler.drawEvt.addEventListener(function(result){
                 //显示裁剪面
-                planeClipPolygonHandler.polygon.show = false;
+                planeClipPolygonHandler.polygon.show = true;
                 planeClipPolygonHandler.polyline.show = false;
 
                 //平面裁剪三点坐标信息
@@ -148,12 +148,12 @@ define(['Cesium'],function(Cesium) {
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
                 }
-                /*if(layers.length > 0){
-                    var clipRegion = layers[0].getClipRegion();
-                    if(clipRegion){ // 数据有问题可能会返回undefined
-                        viewer.entities.add(clipRegion);
-                    }
-                }*/
+                // if(layers.length > 0){
+                //     var clipRegion = layers[0].getClipRegion();
+                //     if(clipRegion){ // 数据有问题可能会返回undefined
+                //         viewer.entities.add(clipRegion);
+                //     }
+                // }
                 //sceneModel.analysisObjects.planeClipStore = positions;
             });
 
