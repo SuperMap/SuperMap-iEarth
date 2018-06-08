@@ -27,9 +27,13 @@
         }
     </style>
 </head>
+
 <body>
 	<div id="cesiumContainer"></div>
     <img src="./images/japan.jpg" id="japan_pointCloud_tag" style="left: 20px; bottom: 80px;position: absolute;display: none;width: 150px;">
+    <script>
+        Window.iportalAppsRoot = "${resource.rootPath}";
+    </script>
     <script src="js/lib/require.min.js" data-main="js/index"></script>
 </body>
 </html>

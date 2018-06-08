@@ -869,6 +869,11 @@ ul#progress li:first-child {
 }
 /*---------媒锟斤拷锟窖� start--------------*/
 /*-- iPad 1024X768 锟斤拷锟斤拷*/
+@media screen and (max-width : 1500px) {
+	#sceneImage {
+		display: none;
+	}
+}
 @media screen and (max-width : 1024px) {
 	.myModal-header ul {
 		display: none;
@@ -2985,6 +2990,7 @@ main .square{
 	box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 }
 td {text-align:center}
+.visited:visited {color: #00FF00}
 
 
 
