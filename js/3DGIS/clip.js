@@ -148,12 +148,12 @@ define(['Cesium'],function(Cesium) {
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
                 }
-                if(layers.length > 0){
+                /*if(layers.length > 0){
                     var clipRegion = layers[0].getClipRegion();
                     if(clipRegion){ // 数据有问题可能会返回undefined
                         viewer.entities.add(clipRegion);
                     }
-                }
+                }*/
                 //sceneModel.analysisObjects.planeClipStore = positions;
             });
 
@@ -363,10 +363,10 @@ define(['Cesium'],function(Cesium) {
         });
         viewer.entities.add(areaClipPoint3);
 
-        if(layers.length > 0){
+        /*if(layers.length > 0){
             var clipRegion = layers[0].getClipRegion();
             viewer.entities.add(clipRegion);
-        }
+        }*/
     }
 
     function setClipBox(layers,boxEntity){
