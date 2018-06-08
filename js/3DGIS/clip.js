@@ -154,7 +154,7 @@ define(['Cesium'],function(Cesium) {
                         viewer.entities.add(clipRegion);
                     }
                 }
-                sceneModel.analysisObjects.planeClipStore = positions;
+                //sceneModel.analysisObjects.planeClipStore = positions;
             });
 
             screenSpaceEventHandler.setInputAction(function(evt){
@@ -164,7 +164,7 @@ define(['Cesium'],function(Cesium) {
                 }
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-            if(sceneModel.analysisObjects.planeClipStore){
+            /*if(sceneModel.analysisObjects.planeClipStore){
                 var positions = sceneModel.analysisObjects.planeClipStore;
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
@@ -175,7 +175,7 @@ define(['Cesium'],function(Cesium) {
                         viewer.entities.add(clipRegion);
                     }
                 }
-            }
+            }*/
 
             $planeClipPoint1Longitude.bind('input propertychange', function(){
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
