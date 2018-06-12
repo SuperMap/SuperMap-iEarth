@@ -955,6 +955,12 @@ ul#progress li:first-child {
 		top: 10%;
 		right:50px;
 	}
+	.secne-logo{
+		left: 20px;
+		bottom: 80px;
+		position: absolute;
+		max-width: 140px;
+	}
 }
 
 @media screen and (max-width: 600px){
@@ -968,6 +974,15 @@ ul#progress li:first-child {
 	.params-window-content{
 		max-height: 400px;
 		overflow:auto;
+	}
+	.secne-logo{
+		left: 10px;
+		bottom: 50px;
+		position: absolute;
+		max-width: 80px;
+	}
+	.cesium-credit-image img{
+		width: 110px;
 	}
 }
 
@@ -2992,12 +3007,7 @@ main .square{
 td {text-align:center}
 .visited:visited {color: #00FF00}
 
-.secne-logo{
-	left: 20px;
-	bottom: 80px;
-	position: absolute;
-	max-width: 140px;
-}
+
 
 
 
