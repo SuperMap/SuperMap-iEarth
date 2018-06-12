@@ -57,7 +57,9 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
         	this.sceneModel.layers.remove(this);
         },
         flyTo : function(){
-            document.getElementById('japan_pointCloud_tag').style.display = 'none';
+            if($("#japan_pointCloud_tag").length > 0){
+                $("#japan_pointCloud_tag").remove();
+            }
             var scpName = this.get('originName');
             var cameraParam = Config.CAMERA_PARAM[scpName];
             if(cameraParam){

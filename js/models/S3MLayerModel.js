@@ -15,9 +15,13 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 return defer.reject();
             }
             if(this.get('originName') == '点云'){
-                document.getElementById('japan_pointCloud_tag').style.display = 'block';
+                if(!($("#japan_pointCloud_tag").length > 0)){
+                    $("body").append($('<img src="./images/japan.jpg" id="japan_pointCloud_tag" style="left: 20px; bottom: 80px;position: absolute;width: 150px;">'));
+                }
             }else{
-                document.getElementById('japan_pointCloud_tag').style.display = 'none';
+                if($("#japan_pointCloud_tag").length > 0){
+                    $("#japan_pointCloud_tag").remove();
+                }
             }
             var promise = viewer.scene.addS3MTilesLayerByScp(scpUrl,{
                 name : name
@@ -52,9 +56,13 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         flyTo : function(){
         	var scpName = this.get('originName');
             if(scpName === '点云'){
-                document.getElementById('japan_pointCloud_tag').style.display = 'block';
+                if(!($("#japan_pointCloud_tag").length > 0)){
+                    $("body").append($('<img src="./images/japan.jpg" id="japan_pointCloud_tag" style="left: 20px; bottom: 80px;position: absolute;width: 150px;">'));
+                }
             }else{
-                document.getElementById('japan_pointCloud_tag').style.display = 'none';
+                if($("#japan_pointCloud_tag").length > 0){
+                    $("#japan_pointCloud_tag").remove();
+                }
             }
         	var cameraParam = Config.CAMERA_PARAM[scpName];
         	if(cameraParam){
