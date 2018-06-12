@@ -68,9 +68,6 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 // });
 
                 var that = viewer.scene;
-                if(!isPCBroswer){
-                    document.getElementById("sceneImage").style.display="none";
-                }
                 document.getElementById("saveDate").innerText = getNowFormatDate();
                 appsRoot =Window.iportalAppsRoot;
                 var pattern = "/apps";

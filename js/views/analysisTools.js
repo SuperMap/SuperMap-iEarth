@@ -18,7 +18,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     '<label for="tab1" style="font-size: 13px">' + "可视域" + '</label>',
 
     '<input id="tab2" type="radio" name="tabs">',
-    '<label for="tab2" style="font-size: 13px">' + "阴影" + '</label>',
+    '<label id="tab2Label" for="tab2" style="font-size: 13px">' + "阴影" + '</label>',
 
     '<input id="tab5" type="radio" name="tabs">',
     '<label for="tab5" style="font-size: 13px">' + "剖面" + '</label>',

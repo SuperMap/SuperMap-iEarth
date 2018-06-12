@@ -33,7 +33,7 @@ define([ 'backbone',
             }
         },
         addLayer : function(viewer,isFlyMode) {
-            document.getElementById('japan_pointCloud_tag').style.display = 'none';
+           // document.getElementById('japan_pointCloud_tag').style.display = 'none';
         	isFlyMode = isFlyMode == false ? false : true;
             return this.strategy.addLayer(viewer,isFlyMode);
         },

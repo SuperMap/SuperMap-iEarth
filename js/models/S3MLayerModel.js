@@ -14,11 +14,11 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             	Util.showErrorMsg(Resource.layerExistMsg);
                 return defer.reject();
             }
-            if(this.get('originName') == '点云'){
-                document.getElementById('japan_pointCloud_tag').style.display = 'block';
-            }else{
-                document.getElementById('japan_pointCloud_tag').style.display = 'none';
-            }
+            // if(this.get('originName') == '点云'){
+            //     document.getElementById('japan_pointCloud_tag').style.display = 'block';
+            // }else{
+            //     document.getElementById('japan_pointCloud_tag').style.display = 'none';
+            // }
             var promise = viewer.scene.addS3MTilesLayerByScp(scpUrl,{
                 name : name
             });
