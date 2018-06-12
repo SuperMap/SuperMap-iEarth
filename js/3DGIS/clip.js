@@ -269,10 +269,10 @@ define(['Cesium'],function(Cesium) {
             screenSpaceEventHandler.setInputAction(function(evt){
                 var cartesian = scene.pickPosition(evt.position);
                 if(boxEntity){
-                    if($boxClipCanMove.get(0).checked){
-                        boxEntity.position = cartesian;
-                        setClipBox(layers, boxEntity);
-                    }
+                    // if($boxClipCanMove.get(0).checked){
+                    //     boxEntity.position = cartesian;
+                    //     setClipBox(layers, boxEntity);
+                    // }
                 }else{
                     var length = Number($length.val());
                     var width = Number($width.val());
@@ -301,6 +301,16 @@ define(['Cesium'],function(Cesium) {
                 boxEntityStore.clipMode = $('#clipMode').val();
                 sceneModel.analysisObjects.boxClipStore = boxEntityStore;
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            screenSpaceEventHandler.setInputAction(
+                function(movement){
+                    var cartesian = viewer.scene.pickPosition(movement.startPosition);
+                    boxEntity.position = cartesian;
+                    if($boxClipCanMove.get(0).checked){
+                        setClipBox(layers, boxEntity);
+                    }
+
+                },Cesium.ScreenSpaceEventType.MOUSE_MOVE
+            );
 
             if(sceneModel.analysisObjects.boxClipStore){
                 var box = sceneModel.analysisObjects.boxClipStore;
