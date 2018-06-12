@@ -33,9 +33,6 @@ define([ 'backbone',
             }
         },
         addLayer : function(viewer,isFlyMode) {
-            if($("#japan_pointCloud_tag").length > 0){
-               $("#japan_pointCloud_tag").remove();
-            }
         	isFlyMode = isFlyMode == false ? false : true;
             return this.strategy.addLayer(viewer,isFlyMode);
         },

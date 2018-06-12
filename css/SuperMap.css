@@ -2992,6 +2992,13 @@ main .square{
 td {text-align:center}
 .visited:visited {color: #00FF00}
 
+.secne-logo{
+	left: 20px;
+	bottom: 80px;
+	position: absolute;
+	max-width: 140px;
+}
+
 
 
 

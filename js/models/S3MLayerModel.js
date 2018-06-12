@@ -9,18 +9,27 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             var me = this;
             var scpUrl = this.get('url');
             var name = this.get('realName') || this.get('name');
+            var originName = this.get('originName');
             var defer = Cesium.when.defer();
             if(Util.S3M_CACHE[scpUrl]){
             	Util.showErrorMsg(Resource.layerExistMsg);
                 return defer.reject();
             }
-            if(this.get('originName') == '点云'){
-                if(!($("#japan_pointCloud_tag").length > 0)){
-                    $("body").append($('<img src="./images/japan.jpg" id="japan_pointCloud_tag" style="left: 20px; bottom: 80px;position: absolute;width: 150px;">'));
+            if(originName == '点云'){
+                if(!($("#scene-logo").length > 0)){
+                    $("body").append('<img id="scene-logo" class="secne-logo">');
                 }
-            }else{
-                if($("#japan_pointCloud_tag").length > 0){
-                    $("#japan_pointCloud_tag").remove();
+                $("#scene-logo").attr("src", "./images/japan.jpg");
+
+            }else if(originName == '索菲亚大教堂'){
+                if(!($("#scene-logo").length > 0)){
+                    $("body").append('<img id="scene-logo" class="secne-logo">');
+                }
+                $("#scene-logo").attr("src", "./images/hlj.png");
+            }
+            else{
+                if($("#scene-logo").length > 0){
+                    $("#scene-logo").remove();
                 }
             }
             var promise = viewer.scene.addS3MTilesLayerByScp(scpUrl,{
@@ -56,12 +65,19 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         flyTo : function(){
         	var scpName = this.get('originName');
             if(scpName === '点云'){
-                if(!($("#japan_pointCloud_tag").length > 0)){
-                    $("body").append($('<img src="./images/japan.jpg" id="japan_pointCloud_tag" style="left: 20px; bottom: 80px;position: absolute;width: 150px;">'));
+                if(!($("#scene-logo").length > 0)){
+                    $("body").append('<img id="scene-logo" class="secne-logo">');
                 }
-            }else{
-                if($("#japan_pointCloud_tag").length > 0){
-                    $("#japan_pointCloud_tag").remove();
+                $("#scene-logo").attr("src", "./images/japan.jpg");
+            }else if(scpName === '索菲亚大教堂'){
+                if(!($("#scene-logo").length > 0)){
+                    $("body").append('<img id="scene-logo" class="secne-logo">');
+                }
+                $("#scene-logo").attr("src", "./images/hlj.png");
+            }
+            else{
+                if($("#scene-logo").length > 0){
+                    $("#scene-logo").remove();
                 }
             }
         	var cameraParam = Config.CAMERA_PARAM[scpName];
