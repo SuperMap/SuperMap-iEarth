@@ -7,16 +7,14 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
     var appsRoot;
     var isPCBroswer;
     var htmlStr = [
-        '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 40%;height: 55%">',
+        '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 600px;height: 400px">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="portalTab1" type="radio" name="portalTab" checked>',
-        '<label for="portalTab1" style="font-size: 13px">' + "场景保存" + '</label>',
-        // '<input id="portalTab2" type="radio" name="portalTab">',
-        // '<label for="portalTab2" style="font-size: 13px">' + "iEarth场景" + '</label>',
+        '<label for="portalTab1" id="portalTab1Lab" style="font-size: 13px;">' + "场景保存" + '</label>',
         '<section id="portalTabContent1">',
         '<h1 class="title"></h1>',
             '<div id="sceneImage" style="width:300px;height:300px; float: left ;">',
-               '<canvas id="sceneCanvas" style=" max-width: 90%;max-height: 60%;"/>',
+               '<canvas id="sceneCanvas" style="width: 290px;height: 150px"/>',
                '<label  id = "saveDateLabel" style="font-style:italic;">'+"存储日期:" +'</label>',
                '<label id="saveDate" style="font-style:italic;margin-left: 20px"></label>',
                '<div class="ui large star rating"></div>',
@@ -30,12 +28,8 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 '<input  id="scenePortalUser" class="input" >',
                 '<label>'+"描述" +'</label>',
                 '<textarea id="scenePortalDescription" style="width:220px;height:50px;"></textarea>',
+                '<input type="button" id="updateUser" class="btn btn-info" value="更新当前场景" style="float: right">',
                 '<input type="button" id="saveUser" class="btn btn-info" value="保存" style="float: right">',
-            '</div>',
-        '</section>',
-        '<section id="portalTabContent2">',
-        '<h1 class="title"></h1>',
-            '<div id="scenePreview" class="service-items" style="">',
             '</div>',
         '</section>',
    '</main>',
@@ -46,7 +40,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         events : {
             'click #closeScene'  : 'onCloseSceneClk',
             'click #saveUser'  : 'onSaveUserClk',
-            'click #portalTab2' : 'onPortalTab2Clk',
+            'click #updateUser'  : 'onUpdateUserClk',
         },
         template : _.template(htmlStr),
         initialize : function(options){
@@ -66,6 +60,8 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 //         dragMove:function(x,y){}
                 //     });
                 // });
+
+
 
                 var that = viewer.scene;
                 document.getElementById("saveDate").innerText = getNowFormatDate();
@@ -107,7 +103,36 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                         ctx.clearRect(0,0,W,H);
                         ctx.putImageData(imagedata,0,0);
                     });
-                that.postRender.removeEventListener();
+                //that.postRender.removeEventListener();
+
+                if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
+                    var sceneViewerUrl = window.location.href;
+                    if (sceneViewerUrl.indexOf("?action=") == -1) {
+                        var appsRoot =Window.iportalAppsRoot;
+                        var pattern = "/apps";
+                        appsRoot = appsRoot.replace(new RegExp(pattern), "");
+                        sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+                        if(sceneViewerUrl != '/'){
+                            var regexp = new RegExp("/");
+                            var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
+                            $.ajax({
+                                    type: "GET",
+                                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
+                                    contentType: "application/json;charset=utf-8",
+                                    dataType: "json",
+                                    async: false,
+                                    success : function (json) {
+                                        $('#scenePortalName').val(json.name);
+                                        $('#scenePortalTages').val(json.tags);
+                                        $('#scenePortalUser').val(json.nickname);
+                                        $('#scenePortalDescription').val(json.description);
+                                        $('#saveUser').val("另存为");
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
             });
         },
         render : function(){
@@ -124,7 +149,12 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             this.$el.hide();
             return false;
         },
+
         onSaveUserClk : function(evt){
+            appsRoot =Window.iportalAppsRoot;
+            var pattern = "/apps";
+            appsRoot = appsRoot.replace(new RegExp(pattern), "");
+            var me = this;
             if($('#scenePortalName').val() == ""){
                 Util.showErrorMsg("保存场景名称不能为空！");
                 return;
@@ -152,6 +182,15 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 pitch : camera.pitch,
                 roll : camera.roll
             };
+            data.environmentState = {
+                enableLighting : sceneModel.viewer.scene.globe.enableLighting,
+                skyAtmosphereShow : sceneModel.viewer.scene.skyAtmosphere.show,
+                enableFog : sceneModel.viewer.scene.fog.enabled
+            };
+            data.isSTKTerrain = sceneModel.isSTKTerrain;
+            if(sceneModel.baseLayer && 'IMAGE' != sceneModel.baseLayer.get('type')){
+                data.baseLayer = sceneModel.baseLayer.toJSON();
+            }
             data.analysisObjects = sceneModel.analysisObjects;
             data.terrainObjects = sceneModel.terrainObjects;
             var saveData = {
@@ -176,11 +215,12 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                         dataType: "json",
                         data: base64,
                         success : function (result) {
+                            me.$el.hide();
                             Util.showErrorMsg("场景保存成功！");
+                            window.location.href= appsRoot + "/apps/earth/" + jsonResult.newResourceID;
                         },
                         error: function(error)
                         {
-                            var e = error;
                             Util.showErrorMsg("存储失败！请先登陆iPortal或Online账户......");
                         },
                     });
@@ -191,43 +231,103 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 },
             });
         },
-        onPortalTab2Clk : function (evt) {
+
+        onUpdateUserClk : function(evt){
             var me = this;
-            $.ajax({
-                type: "GET",
-                url: appsRoot + "/web/scenes.json",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success : function (jsonResult) {
-                  $('#scenePreview').empty();
-                  for(var i = 0; i < jsonResult.content.length; i++){
-                      var item = jsonResult.content[i];
-                      var id = item.id;
-                      $.ajax({
-                          type: "GET",
-                          url: appsRoot + "/web/scenes/" + id + ".json",
-                          contentType: "application/json;charset=utf-8",
-                          dataType: "json",
-                          success : function (json) {
-                              var thumbnail =  appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
-                              var str = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + '  title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel">' + json.name + '</div></div>';
-                              $('#scenePreview').append(str);
-                              $("#"+json.name).on('click',function(){
-                                  $("#"+json.name).addClass('service-itemIcon-selected');
-                                  sceneModel.parsePortalJson(json);
-                                  me.$el.hide();
-                              });
-                          }
-                          }
-                      )
-                  }
+            appsRoot =Window.iportalAppsRoot;
+            var pattern = "/apps";
+            appsRoot = appsRoot.replace(new RegExp(pattern), "");
+            var canvas = document.getElementById("sceneCanvas");
+            var base64 =  canvas.toDataURL("image/jpeg",0.1);
+            base64 = base64.split(",")[1];
+            var data = {};
+            data.layers = [];
+            for(var i = 0,j = sceneModel.layers.length;i < j;i++){
+                var layerModel = sceneModel.layers.at(i);
+                if(layerModel.get("type") !== "KML"){
+                    var obj = layerModel.toJSON();
+                    data.layers.push(obj);
+                }
+            }
+            var camera = sceneModel.viewer.scene.camera;
+            data.camera = {
+                position : {
+                    x : camera.position.x,
+                    y : camera.position.y,
+                    z : camera.position.z
                 },
-                error: function()
-                {
-                    Util.showErrorMsg("场景信息获取失败！请先登陆iPortal或Online账户......");
-                },
-            });
-        }
+                heading : camera.heading,
+                pitch : camera.pitch,
+                roll : camera.roll
+            };
+            data.environmentState = {
+                enableLighting : sceneModel.viewer.scene.globe.enableLighting,
+                skyAtmosphereShow : sceneModel.viewer.scene.skyAtmosphere.show,
+                enableFog : sceneModel.viewer.scene.fog.enabled
+            };
+            data.isSTKTerrain = sceneModel.isSTKTerrain;
+            if(sceneModel.baseLayer && 'IMAGE' != sceneModel.baseLayer.get('type')){
+                data.baseLayer = sceneModel.baseLayer.toJSON();
+            }
+            data.analysisObjects = sceneModel.analysisObjects;
+            data.terrainObjects = sceneModel.terrainObjects;
+
+            var updateData = {
+                "name":$('#scenePortalName').val(),
+                "tags":$('#scenePortalTages').val(),
+                "userName":$('#scenePortalUser').val(),
+                "description":$('#scenePortalDescription').val(),
+                "content": JSON.stringify(data)
+            };
+            // var updateData = {};
+            // if($('#scenePortalName').val() != ""){
+            //     updateData.name = $('#scenePortalName').val();
+            // }
+            // if($('#scenePortalTages').val() != ""){
+            //     updateData.tags = $('#scenePortalTages').val();
+            // }
+            // if($('#scenePortalUser').val() != ""){
+            //     updateData.userName = $('#scenePortalUser').val();
+            // }
+            // if($('#scenePortalDescription').val() != ""){
+            //     updateData.description = $('#scenePortalDescription').val();
+            // }
+            // updateData.content = JSON.stringify(data)
+            // updateData =  JSON.stringify(updateData);
+
+            var sceneViewerUrl = window.location.href;
+            sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+            if(sceneViewerUrl != '/'){
+                var regexp = new RegExp("/");
+                var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
+                $.ajax({
+                        type: "PUT",
+                        url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        data: updateData,
+                        success : function (json) {
+                            Util.showErrorMsg("场景更新成功！");
+                        },
+                        error: function(error)
+                        {
+                            Util.showErrorMsg("场景更新失败，先保存当前场景！");
+                        },
+                    })
+                $.ajax({
+                    type: "PUT",
+                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + "/thumbnail.json",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    data: base64,
+                    success : function (result) {
+                        me.$el.hide();
+                    }
+
+                })
+            }
+        },
+
     });
     function getNowFormatDate() {
         var date = new Date();

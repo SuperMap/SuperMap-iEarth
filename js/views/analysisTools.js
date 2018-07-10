@@ -77,6 +77,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                 '</div>',
         '<div style="float: right;margin-top: -20px">',
               '<button type="button"  class="btn btn-info" id="chooseView" style="">'+ "分析" +'</button>',
+              '<button type="button"  class="btn btn-info" id="ViewshedParameter" style="">'+ "闭合体" +'</button>',
               '<button type="button"  class="btn btn-info" id="clearVS" style="">'+ "清除" +'</button>',
         '</div>',
         '</div>',

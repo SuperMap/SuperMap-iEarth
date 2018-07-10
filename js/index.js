@@ -1,93 +1,87 @@
-require.config({
-    waitSeconds: 60, // 加载超时时间，单位为秒
-    paths: {
-        Cesium: '../Build/Cesium/Cesium',
-        Zlib: '../Build/Cesium/Workers/zlib.min',
-        jquery: "lib/jquery.min",
-        underscore: "lib/underscore-min.1.4.4",
-        backbone: "lib/backbone-min",
-        Config: 'Config',
-        bootstrapTree: 'lib/bootstrap-treeview',
-        iScroll: 'lib/iscroll',
-        Tabs: 'views/tabs',
-        dropdown: 'views/dropdown',
-        CesiumHeatmap: 'lib/heatmap.min',
-        echarts: 'lib/echarts.simple.min',
-        echartsMin: 'lib/echarts.min',
-        colorPicker: 'lib/jquery.colorpicker',
-        spectrum: 'lib/spectrum',
-        drag: 'lib/drag',
-        slider: 'lib/slider',
-        popLayer: 'lib/layer/src/layer',
-        resourceCN: 'resource/resourceCN',
-        resourceEN: 'resource/resourceEN'
-    },
-    shim: { // 配置非AMD规范模块
-        underscore: {
-            deps: [],
-            exports: "_"
+  require.config({
+        waitSeconds: 60, // 加载超时时间，单位为秒
+        paths: {
+            Cesium: '../Build/Cesium/Cesium',
+            Zlib: '../Build/Cesium/Workers/zlib.min',
+            jquery: "lib/jquery.min",
+            underscore: "lib/underscore-min.1.4.4",
+            backbone: "lib/backbone-min",
+            Config: 'Config',
+            bootstrapTree: 'lib/bootstrap-treeview',
+            iScroll: 'lib/iscroll',
+            Tabs: 'views/tabs',
+            dropdown: 'views/dropdown',
+            CesiumHeatmap: 'lib/heatmap.min',
+            echarts: 'lib/echarts.simple.min',
+            echartsMin: 'lib/echarts.min',
+            colorPicker: 'lib/jquery.colorpicker',
+            spectrum: 'lib/spectrum',
+            drag: 'lib/drag',
+            slider: 'lib/slider',
+            popLayer: 'lib/layer/src/layer',
+            resourceCN: 'resource/resourceCN',
+            resourceEN: 'resource/resourceEN'
         },
-        backbone: {
-            deps: ["jquery", "underscore"],
-            exports: "Backbone"
-        },
-        CesiumHeatmap: {
-            exports: "CesiumHeatmap"
-        },
-        echarts: {
-            exports: "echarts"
-        },
-        echartsMin: {
-            exports: "echartsMin"
-        },
-        Cesium: {
-            exports: 'Cesium'
-        },
-        Zlib: {
-            exports: 'Zlib'
-        },
-        colorPicker: {
-            exports: 'colorPicker'
-        },
-        bootstrapTree: {
-            exports: 'bootstrapTree'
-        },
-        iScroll: {
-            exports: 'iScroll'
-        },
-        Tabs: {
-            exports: 'Tabs',
-            deps: ['jquery']
-        },
-        dropdown: {
-            exports: 'dropdown',
-            deps: ['jquery']
-        },
-        spectrum: {
-            exports: 'spectrum'
-        },
-        slider: {
-            exports: 'slider'
-        },
-        popLayer: {
-            deps: ["jquery"],
-            exports: "mylayer"
+        shim: { // 配置非AMD规范模块
+            underscore: {
+                deps: [],
+                exports: "_"
+            },
+            backbone: {
+                deps: ["jquery", "underscore"],
+                exports: "Backbone"
+            },
+            CesiumHeatmap: {
+                exports: "CesiumHeatmap"
+            },
+            echarts: {
+                exports: "echarts"
+            },
+            echartsMin: {
+                exports: "echartsMin"
+            },
+            Cesium: {
+                exports: 'Cesium'
+            },
+            Zlib: {
+                exports: 'Zlib'
+            },
+            colorPicker: {
+                exports: 'colorPicker'
+            },
+            bootstrapTree: {
+                exports: 'bootstrapTree'
+            },
+            iScroll: {
+                exports: 'iScroll'
+            },
+            Tabs: {
+                exports: 'Tabs',
+                deps: ['jquery']
+            },
+            dropdown: {
+                exports: 'dropdown',
+                deps: ['jquery']
+            },
+            spectrum: {
+                exports: 'spectrum'
+            },
+            slider: {
+                exports: 'slider'
+            },
+            popLayer: {
+                deps: ["jquery"],
+                exports: "mylayer"
+            }
         }
-    }
-});
+    });
 
 var currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
-if (currentLanguage == 'zh-cn') {
+
     require(['resourceCN', 'Cesium', 'Zlib'], function (ResourceCN, Cesium, Zlib) {
         window.Resource = ResourceCN;
         init(Cesium, Zlib);
     });
-} else {
-    require(['resourceEN', 'Cesium', 'Zlib'], function (ResourceEN, Cesium, Zlib) {
-        window.Resource = ResourceEN;
-        init(Cesium, Zlib);
-    });
-}
 
 function init(Cesium, Zlib) {
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
@@ -133,7 +127,7 @@ function init(Cesium, Zlib) {
         destination: new Cesium.Cartesian3(6788287.844465209, -41980756.10214644, 29619220.04004376)
     });
     viewer.camera.flyTo({
-        destination: new Cesium.Cartesian3(-5668622.32641487, 21155586.53109959, 12644793.325518927),
+        destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
         duration: 5
     });
     viewer.pickEvent.addEventListener(function (feature) {
@@ -198,6 +192,62 @@ function init(Cesium, Zlib) {
                     sceneModel: sceneModel
                 });
                 viewerContainer.addComponent(layerContainer);
+
+                if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
+                    var sceneViewerUrl = window.location.href;
+                    if (sceneViewerUrl.indexOf("?action=") == -1) {
+                        var appsRoot =Window.iportalAppsRoot;
+                        var pattern = "/apps";
+                        appsRoot = appsRoot.replace(new RegExp(pattern), "");
+                        sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+                        if(sceneViewerUrl != '/'){
+                            var regexp = new RegExp("/");
+                            var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
+                            $.ajax({
+                                    type: "GET",
+                                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
+                                    contentType: "application/json;charset=utf-8",
+                                    dataType: "json",
+                                    async: false,
+                                    success : function (json) {
+                                        if(json.content){
+                                            sceneModel.parsePortalJson(json);
+                                        }else {
+                                            var cesiumScene =  json.url;
+                                            var url = cesiumScene.match(/realspace(\S*)/)[1];
+                                            var regexp = new RegExp(url);
+                                            cesiumScene = cesiumScene.replace(regexp,"");
+                                            cesiumScene  += "/datas.xml";
+                                            $.ajax({
+                                                url: cesiumScene,
+                                                dataType: 'xml',
+                                                type: 'GET',
+                                                async: false,
+                                                timeout: 3000,
+                                                error: function(xml){
+
+                                                },
+                                                success: function(xml){
+                                                    var data = {};
+                                                    data.layers = [];
+                                                    $(xml).find("path").each(function(j)
+                                                    {
+                                                        var id = $(this).children("id");
+
+                                                        //var content =
+
+                                                    });
+                                                }
+                                            });
+
+                                        }
+
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
             });
     });
 }

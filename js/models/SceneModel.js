@@ -18,7 +18,7 @@ define([
             this.isPCBroswer = isPCBroswer;
             this.stkTerrainProvider = new Cesium.CesiumTerrainProvider({
                 //url: '//assets.agi.com/stk-terrain/world',
-            	url : 'https://www.supermapol.com/iserver/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
+            	url : 'https://www.supermapol.com/realspace/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
                 requestWaterMask : true,
                 requestVertexNormals : true,
                 credit : ''
@@ -40,10 +40,22 @@ define([
             }
            var promise =  layerModel.addLayer(this,isFlyMode);
             Cesium.when(promise,function(layer){
-                me.analysisObjects = sceneContent.analysisObjects;
-                me.terrainObjects = sceneContent.terrainObjects;
-                var parseObject = new parsePortalJson(me);
-                parseObject.initialize();
+                if(Window.iportalAppsRoot != "${resource.rootPath}"){
+                    var cameraStore = sceneContent.camera;
+                    var camera = me.viewer.scene.camera;
+                    camera.flyTo({
+                        destination : new Cesium.Cartesian3(cameraStore.position.x,cameraStore.position.y,cameraStore.position.z),
+                        orientation : {
+                            heading : cameraStore.heading,
+                            pitch : cameraStore.pitch,
+                            roll : cameraStore.roll
+                        }
+                    });
+                    me.analysisObjects = sceneContent.analysisObjects;
+                    me.terrainObjects = sceneContent.terrainObjects;
+                    var parseObject = new parsePortalJson(me);
+                    parseObject.initialize();
+                }
             })
         },
         addLayers : function(layers,isFlyMode){
@@ -331,17 +343,19 @@ define([
              if(!request.content){
                  return;
              }
-             var sceneContent = $.parseJSON(request.content);
-             var cameraStore = sceneContent.camera;
-             var camera = this.viewer.scene.camera;
-             camera.setView({
-                destination : new Cesium.Cartesian3(cameraStore.position.x,cameraStore.position.y,cameraStore.position.z),
-                orientation : {
-                    heading : cameraStore.heading,
-                    pitch : cameraStore.pitch,
-                    roll : cameraStore.roll
-                }
-            });
+            this.viewer.scene.name = request.name;
+            var sceneContent = $.parseJSON(request.content);
+            if(sceneContent.environmentState){
+                this.setEnvironment(sceneContent.environmentState);
+            }
+            this.isSTKTerrain = sceneContent.isSTKTerrain;
+            if(this.isSTKTerrain == true){
+                this.setTerrain(true);
+            }
+            if(sceneContent.baseLayer){
+                var baseLayerModel = new BaseLayerModel(sceneContent.baseLayer);
+                this.setBaseLayer(baseLayerModel);
+            }
             var layersStore = sceneContent.layers;
             for(var i = 0; i < layersStore.length; i++){
                 var layerModel = new LayerModel(layersStore[i]);

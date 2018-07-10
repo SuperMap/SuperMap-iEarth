@@ -15,23 +15,6 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             	Util.showErrorMsg(Resource.layerExistMsg);
                 return defer.reject();
             }
-            if(originName == '点云'){
-                if(!($("#scene-logo").length > 0)){
-                    $("body").append('<img id="scene-logo" class="secne-logo">');
-                }
-                $("#scene-logo").attr("src", "./images/japan.jpg");
-
-            }else if(originName == '索菲亚大教堂'){
-                if(!($("#scene-logo").length > 0)){
-                    $("body").append('<img id="scene-logo" class="secne-logo">');
-                }
-                $("#scene-logo").attr("src", "./images/hlj.png");
-            }
-            else{
-                if($("#scene-logo").length > 0){
-                    $("#scene-logo").remove();
-                }
-            }
             var promise = viewer.scene.addS3MTilesLayerByScp(scpUrl,{
                 name : name
             });
@@ -43,7 +26,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
 			me.sceneModel.layers.add(me);
 			me.layer = layer;
 			if(isFlyMode){
-				me.flyTo();
+                me.flyTo();
 			}
 			Util.S3M_CACHE[scpUrl] = name;
 			if(me.get('isVisible') == false){
@@ -74,6 +57,8 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                     $("body").append('<img id="scene-logo" class="secne-logo">');
                 }
                 $("#scene-logo").attr("src", "./images/hlj.png");
+            }else if(scpName === '体数据'){
+                this.hypsometricSetting();
             }
             else{
                 if($("#scene-logo").length > 0){
@@ -81,34 +66,36 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 }
             }
         	var cameraParam = Config.CAMERA_PARAM[scpName];
-        	if(cameraParam){
-        		this.viewer.scene.camera.flyTo({
-            		destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
-            		orientation : {
-            			heading : cameraParam.heading,
-            			pitch : cameraParam.pitch,
-            			roll : cameraParam.roll
-            		}
-            	});
-        		return ;
-        	}else{
-                var layer = this.layer;
-                if(layer){
-                    var bounds = layer.layerBounds;
-                    if(!bounds){
-                        var extend = 0.1;
-                        var left = Cesium.Math.toRadians(layer.lon - extend);
-                        var right = Cesium.Math.toRadians(layer.lon + extend);
-                        var top = Cesium.Math.toRadians(layer.lat + extend);
-                        var bottom = Cesium.Math.toRadians(layer.lat - extend);
-                        bounds = new Cesium.Rectangle(left,bottom,right,top);
-                        layer.layerBounds = bounds;
+
+                if(cameraParam){
+                    this.viewer.scene.camera.flyTo({
+                        destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
+                        orientation : {
+                            heading : cameraParam.heading,
+                            pitch : cameraParam.pitch,
+                            roll : cameraParam.roll
+                        }
+                    });
+                    return ;
+                }else{
+                    var layer = this.layer;
+                    if(layer){
+                        var bounds = layer.layerBounds;
+                        if(!bounds){
+                            var extend = 0.1;
+                            var left = Cesium.Math.toRadians(layer.lon - extend);
+                            var right = Cesium.Math.toRadians(layer.lon + extend);
+                            var top = Cesium.Math.toRadians(layer.lat + extend);
+                            var bottom = Cesium.Math.toRadians(layer.lat - extend);
+                            bounds = new Cesium.Rectangle(left,bottom,right,top);
+                            layer.layerBounds = bounds;
+                        }
+                        var camera = this.viewer.scene.camera;
+                        var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
+                        camera.flyToBoundingSphere(bd);
                     }
-                    var camera = this.viewer.scene.camera;
-                    var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
-                    camera.flyToBoundingSphere(bd);
                 }
-            }
+
         },
         setVisible : function(isVisible,ids){
             if(ids.length>0)
@@ -129,6 +116,30 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             	};
         	
         	return obj;
+        },
+        hypsometricSetting : function () {
+            var colorTable = new Cesium.ColorTable();
+            var layer = this.layer;
+            colorTable.insert(layer._fMaxValue, new Cesium.Color(210/255, 15/255, 15/255));
+            colorTable.insert(2*(layer._fMinValue+layer._fMaxValue)/3, new Cesium.Color(221/255, 224/255, 7/255));
+            colorTable.insert((layer._fMinValue+layer._fMaxValue)/2, new Cesium.Color(20/255, 187/255, 18/255));
+            colorTable.insert((layer._fMinValue+layer._fMaxValue)/4, new Cesium.Color(0, 161/255, 1));
+            colorTable.insert(layer._fMinValue, new Cesium.Color(9/255, 9/255, 212/255));
+            var hypsometric = new Cesium.HypsometricSetting();
+            hypsometric.MaxVisibleValue = 0;
+            hypsometric.ColorTable = colorTable;
+            hypsometric.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE_AND_LINE;
+            hypsometric.Opacity = 0.618;
+            hypsometric.LineInterval = 60.0;
+            hypsometric.LineColor = new Cesium.Color(1,0,0,1);
+            hypsometric.ColorTableMaxKey = layer._fMaxValue;
+            hypsometric.ColorTableMinKey = layer._fMinValue;
+            hypsometric.MaxVisibleValue = layer._fMaxValue;
+            hypsometric.MinVisibleValue = layer._fMinValue;
+            layer.hypsometricSetting = {
+                hypsometricSetting : hypsometric,
+                analysisMode : Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
+            }
         }
     });
     return S3MLayerModel;

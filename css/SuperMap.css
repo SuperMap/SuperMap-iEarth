@@ -869,11 +869,6 @@ ul#progress li:first-child {
 }
 /*---------媒锟斤拷锟窖� start--------------*/
 /*-- iPad 1024X768 锟斤拷锟斤拷*/
-@media screen and (max-width : 1500px) {
-	#sceneImage {
-		display: none;
-	}
-}
 @media screen and (max-width : 1024px) {
 	.myModal-header ul {
 		display: none;
@@ -3009,6 +3004,17 @@ main .square{
 }
 td {text-align:center}
 .visited:visited {color: #00FF00}
+.m-box{width:55px;margin:0 auto;background:rgba(0,0,0,0.0);}
+.m-box p{margin:0 0 10px;}
+.m-box .icn a{display:block;width:50px;height:35px;background:url('http://l.bst.126.net/rsc/img/weibo.png?035') no-repeat;}
+.m-box .icn .wb1{background-position:10px -216px;}
+.m-box .icn .wb2{background-position:-190px -216px;}
+.m-box .icn .wb3{background:url(http://l.bst.126.net/rsc/img/postshare/tieba24.png) 15px 0 no-repeat;}  .m-box .icn .wb4{background-position:-88px -215px;}
+.m-box .icn .wb5{background-position:-138px -216px;}
+.m-box .icn .wb6{background-position:-245px -216px;}
+.m-box .icn .wb7{background-position:-300px -216px;}
+.m-box .icn .wb8{background-position:-355px -216px;}
+.m-box .icn .wb9{background-position:-415px -215px;}
 
 
 

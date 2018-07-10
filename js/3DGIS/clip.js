@@ -1,4 +1,4 @@
-define(['Cesium'],function(Cesium) {
+﻿define(['Cesium'],function(Cesium) {
     'use strict';
     var $ = require('jquery');
 
@@ -84,7 +84,7 @@ define(['Cesium'],function(Cesium) {
 
             planeClipPolygonHandler.drawEvt.addEventListener(function(result){
                 //显示裁剪面
-                planeClipPolygonHandler.polygon.show = true;
+                planeClipPolygonHandler.polygon.show = false;
                 planeClipPolygonHandler.polyline.show = false;
 
                 //平面裁剪三点坐标信息
@@ -124,7 +124,7 @@ define(['Cesium'],function(Cesium) {
                         pixelSize: 15
                     }
                 });
-                viewer.entities.add(areaClipPoint1);
+                //viewer.entities.add(areaClipPoint1);
 
                 var areaClipPoint2 = new Cesium.Entity({
                     position: positions[1],
@@ -133,7 +133,7 @@ define(['Cesium'],function(Cesium) {
                         pixelSize: 15
                     }
                 });
-                viewer.entities.add(areaClipPoint2);
+                //viewer.entities.add(areaClipPoint2);
 
                 var areaClipPoint3 = new Cesium.Entity({
                     position: positions[2],
@@ -142,25 +142,25 @@ define(['Cesium'],function(Cesium) {
                         pixelSize: 15
                     }
                 });
-                viewer.entities.add(areaClipPoint3);
+                //viewer.entities.add(areaClipPoint3);
 
                 //平面裁剪参数设定
                 for(var i = 0; i < layers.length; i ++){
                     layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
                 }
-                // if(layers.length > 0){
-                //     var clipRegion = layers[0].getClipRegion();
-                //     if(clipRegion){ // 数据有问题可能会返回undefined
-                //         viewer.entities.add(clipRegion);
-                //     }
-                // }
+                if(layers.length > 0){
+                    var clipRegion = layers[0].getClipRegion();
+                    if(clipRegion){ // 数据有问题可能会返回undefined
+                        viewer.entities.add(clipRegion);
+                    }
+                }
                 //sceneModel.analysisObjects.planeClipStore = positions;
             });
 
             screenSpaceEventHandler.setInputAction(function(evt){
                 positions.push(viewer.scene.pickPosition(evt.position));
-                if(!isPCBroswer && positions.length >= 3){
-                    planeClipPolygonHandler.drawEvt.raiseEvent(positions);
+                if(positions.length >= 3){
+                   // planeClipPolygonHandler.drawEvt.raiseEvent(positions);
                 }
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
@@ -269,10 +269,10 @@ define(['Cesium'],function(Cesium) {
             screenSpaceEventHandler.setInputAction(function(evt){
                 var cartesian = scene.pickPosition(evt.position);
                 if(boxEntity){
-                    // if($boxClipCanMove.get(0).checked){
-                    //     boxEntity.position = cartesian;
-                    //     setClipBox(layers, boxEntity);
-                    // }
+                    if($boxClipCanMove.get(0).checked){
+                        boxEntity.position = cartesian;
+                        setClipBox(layers, boxEntity);
+                    }
                 }else{
                     var length = Number($length.val());
                     var width = Number($width.val());
@@ -301,16 +301,6 @@ define(['Cesium'],function(Cesium) {
                 boxEntityStore.clipMode = $('#clipMode').val();
                 sceneModel.analysisObjects.boxClipStore = boxEntityStore;
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
-            screenSpaceEventHandler.setInputAction(
-                function(movement){
-                    var cartesian = viewer.scene.pickPosition(movement.startPosition);
-                    boxEntity.position = cartesian;
-                    if($boxClipCanMove.get(0).checked){
-                        setClipBox(layers, boxEntity);
-                    }
-
-                },Cesium.ScreenSpaceEventType.MOUSE_MOVE
-            );
 
             if(sceneModel.analysisObjects.boxClipStore){
                 var box = sceneModel.analysisObjects.boxClipStore;
@@ -373,10 +363,10 @@ define(['Cesium'],function(Cesium) {
         });
         viewer.entities.add(areaClipPoint3);
 
-        /*if(layers.length > 0){
+        if(layers.length > 0){
             var clipRegion = layers[0].getClipRegion();
             viewer.entities.add(clipRegion);
-        }*/
+        }
     }
 
     function setClipBox(layers,boxEntity){

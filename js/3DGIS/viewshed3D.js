@@ -95,6 +95,11 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             var color = Cesium.Color.fromCssColorString(this.value);
             viewshed3D.hiddenAreaColor = color;
         })
+
+        $("#ViewshedParameter").on("click",function () {
+          var parameter = viewshed3D.getViewshedParameter();
+
+        })
         var viewPosition;
         scene.viewFlag = true;
         vsPointHandler = new Cesium.PointHandler(viewer);
