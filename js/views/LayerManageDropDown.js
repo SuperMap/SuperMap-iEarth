@@ -1,4 +1,4 @@
-define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Container,$,bootstrapTree){
+define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excavationRegion','../3DGIS/flattenRegion'],function(Container,$,bootstrapTree,spectrum,drag,excavationRegion,flattenRegion){
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
@@ -53,6 +53,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
         template : _.template(htmlStr),
         initialize : function(options){
             this.model = options.sceneModel;
+            this.viewer = options.sceneModel.viewer;
             this.render();
             var me = this;
             this.listenTo(this.model, 'layerAdded', function(layerModel) {
@@ -139,7 +140,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
                     var layerModel = node.layerModel;
                     $("#sceneForm").hide();
                     $("#layerForm").show();
-                    showLayerAttribute(layerModel.layer);
+                    showLayerAttribute(layerModel.layer,me.viewer);
                 }
             });
             this.rootNode = {};
@@ -189,7 +190,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
     };
     var initialization = false;
     var selectedLayer;
-    function showLayerAttribute(layer){
+    function showLayerAttribute(layer,viewer){
         var layerName = document.getElementById('layerName');
         layerName.value = layer._name;
         selectedLayer = layer;
@@ -311,6 +312,32 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag'],function(Conta
                  var chooseIDs = layer.getSelection();
                 selectedLayer.setObjsVisible(chooseIDs,false);
             }
+            viewer.scene.undergroundMode = true;
+            $("#undergroundMode").change(function() {
+                viewer.scene.undergroundMode = !viewer.scene.undergroundMode;
+            });
+            viewer.scene.terrainProvider.isCreateSkirt = false;
+            $('#minimumZoomDistance').bind('input propertychange', function() {
+                viewer.scene.screenSpaceCameraController.minimumZoomDistance = -(parseFloat(this.value));
+            });
+            $('#groundAlpha').bind('input propertychange', function() {
+                viewer.scene.globe.globeAlpha = parseFloat(this.value);
+            });
+            $('#modelAlpha').bind('input propertychange', function() {
+                selectedLayer.style3D.fillForeColor.alpha = parseFloat(this.value);
+            });
+            $("#excavationRegion").click(function(evt){
+                excavationRegion.initializing(selectedLayer,viewer);
+            });
+            $("#delExcavationRegion").click(function(evt){
+                excavationRegion.remove(selectedLayer);
+            });
+            $("#flattenRegion").click(function(evt){
+                flattenRegion.initializing(selectedLayer,viewer);
+            });
+            $("#delFlattenRegion").click(function(evt){
+                flattenRegion.remove(selectedLayer);
+            });
             //还原
             initialize.onchange = function () {
                 selectedLayer.setObjsVisible([],false);

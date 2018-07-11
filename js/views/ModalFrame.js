@@ -7,10 +7,10 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan','.
         "<div class='myModal-header'>",
         "<button  aria-label='Close' class='myModal-close' title='" + Resource.close + "' id='btnCloseModal'><span aria-hidden='true'>&times;</span></button>",
         "<ul class='nav nav-tabs' role='tablist'>",
-        '<li role="presentation" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
+        '<li role="presentation" id="servicePan" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
         '<li role="presentation"><a href="#customServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.customService + '</a></li>',
         '<li role="presentation"><a href="#localFilePan" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.localKML + '</a></li>',
-        '<li role="presentation" id = "a"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
+        '<li role="presentation" id = "getMyScenes"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
         '</ul>',
         "</div>",
         '<div class="myModal-body">',
@@ -31,9 +31,7 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan','.
             this.render();
             var modalFrame = this;
             this.on('componentAdded',function(parent){
-                $("#myScenes").on("click",function(){
-                    alert("hahah")
-                });
+
                 var webServicePan = new WebServicePan({
                     sceneModel : options.sceneModel,
                     isPCBroswer : this.isPCBroswer

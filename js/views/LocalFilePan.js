@@ -2,7 +2,8 @@ define(['./Container','jquery','../models/LayerModel'],function(Container,$,Laye
     var _ = require('underscore');
     var htmlStr = [
         '<div class="form-group has-success">',
-        '<input class="my-form-control" type="file" placeholder="' + Resource.selLocalFile + '" style="padding: 8px;"/>',
+        '<label>本地KML数据</label>',
+        '<input class="my-form-control" type="file" accept=".kml"  placeholder="' + Resource.selLocalFile + '" style="padding: 8px;"/>',
         '</div>'
     ].join('');
     var LocalFilePan = Container.extend({
