@@ -2742,6 +2742,7 @@ main input:checked + label {
 	display: block;
 }
 
+#clipTab1:checked ~ #clipContent1,
 #clipTab2:checked ~ #clipContent2,
 #clipTab3:checked ~ #clipContent3{
 	display: block;

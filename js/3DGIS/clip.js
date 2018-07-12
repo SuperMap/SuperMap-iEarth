@@ -1,28 +1,32 @@
-﻿define(['Cesium'],function(Cesium) {
+﻿define(['Cesium'], function (Cesium) {
     'use strict';
     var $ = require('jquery');
 
     /*
-    * 裁剪对象，平面裁剪和Box裁剪，底层实际统一为一个shader,这里一个类统一管理
-    * 平面裁剪目前还不能交互控制点，先这样
-    * Box裁剪变换与四种模式
-    *
-    * */
+     * 裁剪对象，平面裁剪和Box裁剪，底层实际统一为一个shader,这里一个类统一管理
+     * 平面裁剪目前还不能交互控制点，先这样
+     * Box裁剪变换与四种模式
+     *
+     * */
 
-    var clip = function(){};
+    var clip = function () {
+    };
 
     var layers = [];
+    var hasCrossClipped = false; // 判断是否已有Cross裁剪
     var screenSpaceEventHandler = null, planeClipPolygonHandler = null;
 
-    clip.init = function(viewer){
+
+
+    clip.init = function (viewer) {
         var scene = viewer.scene;
         screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
         planeClipPolygonHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Polygon, 0);
     };
 
-    clip.remove = function(viewer,sceneModel,beacon){
-        if(beacon){ // 平面裁剪
-            if(planeClipPolygonHandler){
+    clip.remove = function (viewer, sceneModel, beacon) {
+        if (beacon) { // 平面裁剪
+            if (planeClipPolygonHandler) {
                 planeClipPolygonHandler.clear(); // 清除绘制的所有图元
                 viewer.entities.removeAll();
                 $("#plane-clip-point1-longitude").val(0);
@@ -37,7 +41,7 @@
                 $("#plane-clip-point3-latitude").val(0);
                 $("#plane-clip-point3-height").val(0);
             }
-        }else{
+        } else {
             viewer.entities.removeById("Custom");
             $("#length").val(100);
             $("#width").val(100);
@@ -45,15 +49,16 @@
             $("#rotate").val(0);
         }
         //清除裁剪结果
-        for(var i = 0; i < layers.length; i ++){
+        for (var i = 0; i < layers.length; i++) {
             layers[i].clearCustomClipBox();
         }
     };
 
-    clip.initializing = function(viewer,sceneModel,beacon,isPCBroswer){
-        layers = viewer.scene.layers._layers._array;
+    clip.initializing = function (viewer, sceneModel, clipType, isPCBroswer) {
+        var scene = viewer.scene;
+        layers = viewer.scene.layers.layerQueue;
         var positions = [];
-        if(beacon){//平面裁剪
+        if (clipType === 'plane') {//平面裁剪
             var $planeClipPoint1Longitude = $("#plane-clip-point1-longitude"),
                 $planeClipPoint1Latitude = $("#plane-clip-point1-latitude"),
                 $planeClipPoint1Height = $("#plane-clip-point1-height"),
@@ -63,32 +68,32 @@
                 $planeClipPoint3Longitude = $("#plane-clip-point3-longitude"),
                 $planeClipPoint3Latitude = $("#plane-clip-point3-latitude"),
                 $planeClipPoint3Height = $("#plane-clip-point3-height");
-            for(var i = 0; i < layers.length; i ++){
+            for (var i = 0; i < layers.length; i++) {
                 layers[i].clearCustomClipBox();
             }
-            if(screenSpaceEventHandler){ // 进行平面裁剪时就禁用掉Box裁剪或之前设置的面裁剪，并清除Box裁剪的结果
+            if (screenSpaceEventHandler) { // 进行平面裁剪时就禁用掉Box裁剪或之前设置的面裁剪，并清除Box裁剪的结果
                 screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 viewer.entities.removeById("Custom");
             }
-            planeClipPolygonHandler.activeEvt.addEventListener(function(isActive){
-                if(isActive == true){
+            planeClipPolygonHandler.activeEvt.addEventListener(function (isActive) {
+                if (isActive == true) {
                     viewer.enableCursorStyle = false;
                     viewer._element.style.cursor = '';
                     $('body').removeClass('drawCur').addClass('drawCur');
                 }
-                else{
+                else {
                     viewer.enableCursorStyle = true;
                     $('body').removeClass('drawCur');
                 }
             });
 
-            planeClipPolygonHandler.drawEvt.addEventListener(function(result){
+            planeClipPolygonHandler.drawEvt.addEventListener(function (result) {
                 //显示裁剪面
                 planeClipPolygonHandler.polygon.show = false;
                 planeClipPolygonHandler.polyline.show = false;
 
                 //平面裁剪三点坐标信息
-                positions = result.object? result.object.positions : result;
+                positions = result.object ? result.object.positions : result;
 
                 var scartographic0 = Cesium.Cartographic.fromCartesian(positions[0]);
                 var slongitude0 = Cesium.Math.toDegrees(scartographic0.longitude).toFixed(9);
@@ -145,113 +150,114 @@
                 //viewer.entities.add(areaClipPoint3);
 
                 //平面裁剪参数设定
-                for(var i = 0; i < layers.length; i ++){
-                    layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
+                for (var i = 0; i < layers.length; i++) {
+                    layers[i].setCustomClipPlane(positions[0], positions[1], positions[2]);
                 }
-                if(layers.length > 0){
+                if (layers.length > 0) {
                     var clipRegion = layers[0].getClipRegion();
-                    if(clipRegion){ // 数据有问题可能会返回undefined
+                    if (clipRegion) { // 数据有问题可能会返回undefined
                         viewer.entities.add(clipRegion);
                     }
                 }
                 //sceneModel.analysisObjects.planeClipStore = positions;
             });
 
-            screenSpaceEventHandler.setInputAction(function(evt){
+            screenSpaceEventHandler.setInputAction(function (evt) {
                 positions.push(viewer.scene.pickPosition(evt.position));
-                if(positions.length >= 3){
-                   // planeClipPolygonHandler.drawEvt.raiseEvent(positions);
+                if (positions.length >= 3) {
+                    // planeClipPolygonHandler.drawEvt.raiseEvent(positions);
                 }
-            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
             /*if(sceneModel.analysisObjects.planeClipStore){
-                var positions = sceneModel.analysisObjects.planeClipStore;
-                for(var i = 0; i < layers.length; i ++){
-                    layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
-                }
-                if(layers.length > 0){
-                    var clipRegion = layers[0].getClipRegion();
-                    if(clipRegion){
-                        viewer.entities.add(clipRegion);
-                    }
-                }
-            }*/
+             var positions = sceneModel.analysisObjects.planeClipStore;
+             for(var i = 0; i < layers.length; i ++){
+             layers[i].setCustomClipPlane(positions[0],positions[1],positions[2]);
+             }
+             if(layers.length > 0){
+             var clipRegion = layers[0].getClipRegion();
+             if(clipRegion){
+             viewer.entities.add(clipRegion);
+             }
+             }
+             }*/
 
-            $planeClipPoint1Longitude.bind('input propertychange', function(){
+            $planeClipPoint1Longitude.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint1Latitude.bind('input propertychange', function(){
+            $planeClipPoint1Latitude.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint1Height.bind('input propertychange', function(){
+            $planeClipPoint1Height.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint2Longitude.bind('input propertychange', function(){
+            $planeClipPoint2Longitude.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint2Latitude.bind('input propertychange', function(){
+            $planeClipPoint2Latitude.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint2Height.bind('input propertychange', function(){
+            $planeClipPoint2Height.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint3Longitude.bind('input propertychange', function(){
+            $planeClipPoint3Longitude.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint3Latitude.bind('input propertychange', function(){
+            $planeClipPoint3Latitude.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
 
-            $planeClipPoint3Height.bind('input propertychange', function(){
+            $planeClipPoint3Height.bind('input propertychange', function () {
                 setClipPlane(viewer, layers, planeClipPolygonHandler);
             });
             planeClipPolygonHandler.activate();
-        }else if(!beacon){//Box裁剪
-            var $clipMode = $('#clipMode'),$length = $('#length'),$width = $('#width'),$height = $('#height'),$rotate = $('#rotate'), $boxClipCanMove = $('#box-clip-can-move');
+        } else if (clipType === 'box') {//Box裁剪
+            var $clipMode = $('#clipMode'), $length = $('#length'), $width = $('#width'), $height = $('#height'),
+                $rotate = $('#rotate'), $boxClipCanMove = $('#box-clip-can-move');
             var boxEntity = undefined;
             viewer.entities.removeById("Custom");
             var scene = viewer.scene;
-            for(var i = 0; i < layers.length; i ++){
+            for (var i = 0; i < layers.length; i++) {
                 layers[i].clearCustomClipBox();
             }
             //参数绑定变换
-            $length.bind('input propertychange',function(){
-                if(!boxEntity){
-                    return ;
+            $length.bind('input propertychange', function () {
+                if (!boxEntity) {
+                    return;
                 }
                 var dim = boxEntity.box.dimensions.getValue();
                 var newValue = Number($(this).val());
-                boxEntity.box.dimensions = new Cesium.Cartesian3(newValue,dim.y,dim.z);
-                setClipBox(layers,boxEntity);
+                boxEntity.box.dimensions = new Cesium.Cartesian3(newValue, dim.y, dim.z);
+                setClipBox(layers, boxEntity);
             });
-            $width.bind('input propertychange',function(){
-                if(!boxEntity){
-                    return ;
+            $width.bind('input propertychange', function () {
+                if (!boxEntity) {
+                    return;
                 }
                 var dim = boxEntity.box.dimensions.getValue();
                 var newValue = Number($(this).val());
-                boxEntity.box.dimensions = new Cesium.Cartesian3(dim.x,newValue,dim.z);
-                setClipBox(layers,boxEntity);
+                boxEntity.box.dimensions = new Cesium.Cartesian3(dim.x, newValue, dim.z);
+                setClipBox(layers, boxEntity);
             });
-            $height.bind('input propertychange',function(){
-                if(!boxEntity){
-                    return ;
+            $height.bind('input propertychange', function () {
+                if (!boxEntity) {
+                    return;
                 }
                 var dim = boxEntity.box.dimensions.getValue();
                 var newValue = Number($(this).val());
-                boxEntity.box.dimensions = new Cesium.Cartesian3(dim.x,dim.y,newValue);
-                setClipBox(layers,boxEntity);
+                boxEntity.box.dimensions = new Cesium.Cartesian3(dim.x, dim.y, newValue);
+                setClipBox(layers, boxEntity);
             });
-            $rotate.bind('input propertychange',function(){
-                if(!boxEntity){
-                    return ;
+            $rotate.bind('input propertychange', function () {
+                if (!boxEntity) {
+                    return;
                 }
                 var position = boxEntity.position.getValue(0);
                 var newValue = Number($(this).val());
@@ -259,21 +265,21 @@
                 var hpr = new Cesium.HeadingPitchRoll(rotate, 0, 0);
                 var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
                 boxEntity.orientation = orientation;
-                setClipBox(layers,boxEntity);
+                setClipBox(layers, boxEntity);
             });
 
-            $clipMode.change(function(){
-                setClipBox(layers,boxEntity);
+            $clipMode.bind('input propertychange', function () {
+                setClipBox(layers, boxEntity);
             });
 
-            screenSpaceEventHandler.setInputAction(function(evt){
+            screenSpaceEventHandler.setInputAction(function (evt) {
                 var cartesian = scene.pickPosition(evt.position);
-                if(boxEntity){
-                    if($boxClipCanMove.get(0).checked){
+                if (boxEntity) {
+                    if ($boxClipCanMove.get(0).checked) {
                         boxEntity.position = cartesian;
                         setClipBox(layers, boxEntity);
                     }
-                }else{
+                } else {
                     var length = Number($length.val());
                     var width = Number($width.val());
                     var height = Number($height.val());
@@ -281,18 +287,18 @@
                     var hpr = new Cesium.HeadingPitchRoll(rotate, 0, 0);
                     var orientation = Cesium.Transforms.headingPitchRollQuaternion(cartesian, hpr);
                     boxEntity = viewer.entities.add({
-                        id : "Custom",
-                        box : {
-                            dimensions : new Cesium.Cartesian3(length,width,height),
-                            material : Cesium.Color.fromRandom({alpha : 0.1})
+                        id: "Custom",
+                        box: {
+                            dimensions: new Cesium.Cartesian3(length, width, height),
+                            material: Cesium.Color.fromRandom({alpha: 0.1})
                         },
-                        position : cartesian,
-                        orientation : orientation
+                        position: cartesian,
+                        orientation: orientation
                     });
                     setClipBox(layers, boxEntity);
                 }
                 var boxEntityStore = {};
-                boxEntityStore.length  = length;
+                boxEntityStore.length = length;
                 boxEntityStore.width = width;
                 boxEntityStore.height = width;
                 boxEntityStore.rotate = rotate;
@@ -300,9 +306,9 @@
                 boxEntityStore.index = document.getElementById("clipMode").selectedIndex;
                 boxEntityStore.clipMode = $('#clipMode').val();
                 sceneModel.analysisObjects.boxClipStore = boxEntityStore;
-            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-            if(sceneModel.analysisObjects.boxClipStore){
+            if (sceneModel.analysisObjects.boxClipStore) {
                 var box = sceneModel.analysisObjects.boxClipStore;
                 var length = box.length;
                 var width = box.width;
@@ -310,29 +316,210 @@
                 var hpr = new Cesium.HeadingPitchRoll(box.rotate, 0, 0);
                 var orientation = Cesium.Transforms.headingPitchRollQuaternion(box.position, hpr);
                 boxEntity = viewer.entities.add({
-                    id : "Custom",
-                    box : {
-                        dimensions : new Cesium.Cartesian3(length,width,height),
-                        material : Cesium.Color.fromRandom({alpha : 0.1})
+                    id: "Custom",
+                    box: {
+                        dimensions: new Cesium.Cartesian3(length, width, height),
+                        material: Cesium.Color.fromRandom({alpha: 0.1})
                     },
-                    position : box.position,
-                    orientation : orientation
+                    position: box.position,
+                    orientation: orientation
                 });
                 boxEntity.index = box.index;
                 boxEntity.clipMode = box.clipMode;
                 boxEntity.rotate = box.rotate;
                 setClipBox(layers, boxEntity);
             }
+        } else if (clipType === 'cross') {
+            var $crossClipWidth = $('#cross-clip-width'),
+                $crossClipHeight = $('#cross-clip-height'),
+                $crossClipPitch = $('#cross-clip-pitch'),
+                $crossClipRoll = $('#cross-clip-roll'),
+                $crossClipHeading = $('#cross-clip-heading'),
+                $crossClipExtrude = $('#cross-clip-extrude');
+
+            var boxPosition, position, dimensions, width = 5, height = 5, heading = 0, pitch = 0, roll = 0,
+                extrudeDistance = 1.0, startClip = true;
+
+            var clipCrossBox = viewer.entities.add({ // 标识盒
+                position: Cesium.Cartesian3.fromDegrees(0, 0, 0),
+                box: {
+                    dimensions: new Cesium.Cartesian3(5, 5, 0.1),
+                    fill: false,
+                    outline: true,
+                    outlineColor: Cesium.Color.WHITE,
+                    outlineWidth: 5.0
+                }
+            });
+
+            var screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            screenSpaceEventHandler.setInputAction(function(movement){
+                if (startClip) {
+                    boxPosition = scene.pickPosition(movement.endPosition);
+                    if (!boxPosition) {
+                        return;
+                    }
+                    clipCrossBox.position = boxPosition;
+                }
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+            screenSpaceEventHandler.setInputAction(function (evt) {
+                if (startClip) {
+                    position = scene.pickPosition(evt.position);
+                    if (!position) {
+                        return;
+                    }
+                    var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
+                    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+                    clipCrossBox.orientation = orientation;
+                    dimensions = new Cesium.Cartesian3(width, height, extrudeDistance);
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                    startClip = false;
+                    hasCrossClipped = true;
+                    clipCrossBox.show = false;
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            $crossClipWidth.on('input propertychange', function() {
+                width = Number($(this).val());
+                clipCrossBox.box.dimensions = new Cesium.Cartesian3(width, height, 0.1);
+                dimensions = new Cesium.Cartesian3(width, height, extrudeDistance);
+                if (!position) {
+                    return;
+                }
+                if (hasCrossClipped) {
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                }
+            });
+
+            $crossClipHeight.on('input propertychange', function() {
+                height = Number($(this).val());
+                clipCrossBox.box.dimensions = new Cesium.Cartesian3(width, height, 0.1);
+                dimensions = new Cesium.Cartesian3(width, height, extrudeDistance);
+                if (!position) {
+                    return;
+                }
+                if (hasCrossClipped) {
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                }
+            });
+
+            $crossClipPitch.on('input propertychange', function() {
+                pitch = Number($(this).val());
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
+                clipCrossBox.orientation = orientation;
+                if (!position) {
+                    return;
+                }
+                if (hasCrossClipped) {
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                }
+            });
+
+            $crossClipRoll.on('input propertychange', function() {
+                roll = Number($(this).val());
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
+                clipCrossBox.orientation = orientation;
+                if (!position) {
+                    return;
+                }
+                if (hasCrossClipped) {
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                }
+            });
+
+            $crossClipHeading.on('input propertychange', function() {
+                heading = Number($(this).val());
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
+                clipCrossBox.orientation = orientation;
+                if (!position) {
+                    return;
+                }
+                if (hasCrossClipped) {
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                }
+            });
+
+            $crossClipExtrude.on('input propertychange', function(){
+                extrudeDistance = Number($(this).val());
+                if(hasCrossClipped){
+                    updateCrossClip(layers, {
+                        position,
+                        dimensions,
+                        heading,
+                        pitch,
+                        roll,
+                        extrudeDistance
+                    });
+                }
+            });
         }
     };
 
-    function setClipPlane(viewer, layers, planeClipPolygonHandler){
+    function updateCrossClip(layers, params) {
+        for (let layer of layers) {
+            layer.setCustomClipCross({
+                position: params.position,
+                dimensions: params.dimensions,
+                heading: params.heading,
+                pitch: params.pitch,
+                roll: params.roll,
+                extrudeDistance: params.extrudeDistance
+            });
+        }
+    }
+
+    function setClipPlane(viewer, layers, planeClipPolygonHandler) {
         var pt1 = Cesium.Cartesian3.fromDegrees(Number($("#plane-clip-point1-longitude").val()), Number($("#plane-clip-point1-latitude").val()), Number($("#plane-clip-point1-height").val()));
         var pt2 = Cesium.Cartesian3.fromDegrees(Number($("#plane-clip-point2-longitude").val()), Number($("#plane-clip-point2-latitude").val()), Number($("#plane-clip-point2-height").val()));
         var pt3 = Cesium.Cartesian3.fromDegrees(Number($("#plane-clip-point3-longitude").val()), Number($("#plane-clip-point3-latitude").val()), Number($("#plane-clip-point3-height").val()));
-        for(var i = 0; i < layers.length; i ++){
-            layers[i].clipLineColor = new Cesium.Color(1,1,1,0);
-            layers[i].setCustomClipPlane(pt1,pt2,pt3);
+        for (var i = 0; i < layers.length; i++) {
+            layers[i].clipLineColor = new Cesium.Color(1, 1, 1, 0);
+            layers[i].setCustomClipPlane(pt1, pt2, pt3);
         }
         viewer.entities.removeAll();
 
@@ -363,70 +550,71 @@
         });
         viewer.entities.add(areaClipPoint3);
 
-        if(layers.length > 0){
+        if (layers.length > 0) {
             var clipRegion = layers[0].getClipRegion();
             viewer.entities.add(clipRegion);
         }
     }
 
-    function setClipBox(layers,boxEntity){
+    function setClipBox(layers, boxEntity) {
         var index = document.getElementById("clipMode") ? (document.getElementById("clipMode").selectedIndex) : boxEntity.index;
         var newDim = boxEntity.box.dimensions.getValue();
         var position = boxEntity.position.getValue(0);
         var clipMode = $('#clipMode').val() ? $('#clipMode').val() : boxEntity.clipMode;
-        var heading =  $('#rotate').val() ? Cesium.Math.toRadians($('#rotate').val()) : boxEntity.rotate;
+        var heading = $('#rotate').val() ? Cesium.Math.toRadians($('#rotate').val()) : boxEntity.rotate;
         var boxOptions;
-        switch (index){
+        switch (index) {
             case 0:
-                for(var i = 0,j = layers.length;i < j;i++){
-                    layers[i].clipLineColor = new Cesium.Color(1,1,1,1);
+                for (var i = 0, j = layers.length; i < j; i++) {
+                    layers[i].clipLineColor = new Cesium.Color(1, 1, 1, 1);
                 }
                 boxOptions = {
-                    dimensions : newDim,
-                    position : position,
-                    clipMode : clipMode,
-                    heading : heading
+                    dimensions: newDim,
+                    position: position,
+                    clipMode: clipMode,
+                    heading: heading
                 };
                 break;
             case 1:
-                for(var i = 0,j = layers.length;i < j;i++){
-                    layers[i].clipLineColor = new Cesium.Color(1,1,1,1);
+                for (var i = 0, j = layers.length; i < j; i++) {
+                    layers[i].clipLineColor = new Cesium.Color(1, 1, 1, 1);
                 }
                 boxOptions = {
-                    dimensions : newDim,
-                    position : position,
-                    clipMode : clipMode,
-                    heading : heading
+                    dimensions: newDim,
+                    position: position,
+                    clipMode: clipMode,
+                    heading: heading
                 };
                 break;
             case 2:
-                for(var i = 0,j = layers.length;i < j;i++){
-                    layers[i].clipLineColor = new Cesium.Color(1,1,1,0.0);
+                for (var i = 0, j = layers.length; i < j; i++) {
+                    layers[i].clipLineColor = new Cesium.Color(1, 1, 1, 0.0);
                 }
                 boxOptions = {
-                    dimensions : newDim,
-                    position : position,
-                    clipMode : "clip_behind_all_plane",
-                    heading : heading
+                    dimensions: newDim,
+                    position: position,
+                    clipMode: "clip_behind_all_plane",
+                    heading: heading
                 };
                 break;
             case 3:
-                for(var i = 0,j = layers.length;i < j;i++){
-                    layers[i].clipLineColor = new Cesium.Color(1,1,1,0.0);
+                for (var i = 0, j = layers.length; i < j; i++) {
+                    layers[i].clipLineColor = new Cesium.Color(1, 1, 1, 0.0);
                 }
                 boxOptions = {
-                    dimensions : newDim,
-                    position : position,
-                    clipMode : "clip_behind_any_plane",
-                    heading : heading
+                    dimensions: newDim,
+                    position: position,
+                    clipMode: "clip_behind_any_plane",
+                    heading: heading
                 };
                 break;
             default:
                 break;
         }
-        for(var i = 0,j = layers.length;i < j;i++){
+        for (var i = 0, j = layers.length; i < j; i++) {
             layers[i].setCustomClipBox(boxOptions);
         }
     }
+
     return clip;
 });
