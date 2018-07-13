@@ -2744,7 +2744,7 @@ main input:checked + label {
 
 #clipTab1:checked ~ #clipContent1,
 #clipTab2:checked ~ #clipContent2,
-#clipTab3:checked ~ #clipContent3{
+#cross-clip-panel-radio:checked ~ #cross-clip-panel{
 	display: block;
 }
 

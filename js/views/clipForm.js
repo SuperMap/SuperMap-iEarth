@@ -1,4 +1,4 @@
-define(['./Container', '../3DGIS/clip'], function (Container, clip) {
+define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/PlaneClip'], function (Container, CrossClip, BoxClip, PlaneClip) {
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -10,41 +10,39 @@ define(['./Container', '../3DGIS/clip'], function (Container, clip) {
         <main style="position : absolute;" class="mainView">
             <button type="button" style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close"
                     id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>
-            <input id="clipTab2" type="radio" name="clipTab" checked>
-            <label for="clipTab2" style="font-size: 13px">Box裁剪</label>
-            <input id="clipTab3" type="radio" name="clipTab">
-            <label for="clipTab3" style="font-size: 13px">平面裁剪</label>
-            <input id="clipTab1" type="radio" name="clipTab">
-            <label for="clipTab1" style="font-size: 13px">Cross裁剪</label>
-            <section id="clipContent2" class="params-window-content">
+            <input id="clipTab1" type="radio" name="clipTab" checked>
+            <label for="clipTab1" style="font-size: 13px">Box裁剪</label>
+            <input id="clipTab2" type="radio" name="clipTab">
+            <label for="clipTab2" style="font-size: 13px">平面裁剪</label>
+            <input id="cross-clip-panel-radio" type="radio" name="clipTab">
+            <label for="cross-clip-panel-radio" id="cross-clip-panel-label" style="font-size: 13px">Cross裁剪</label>
+            <section id="clipContent1" class="params-window-content">
                 <div class="ui raised segment" style="margin: 10px; background: #3b4547">
                     <div>
                         <a class="ui blue ribbon label">参数设置</a><br>
-                        <p><span>长度：</span><input type="number" id="length" class="input clip-input" min="0" step="1"
-                                                  value="100"><span>&nbsp;米</span></p>
-                        <p><span>宽度：</span><input type="number" id="width" class="input clip-input" min="0" step="1"
-                                                  value="100"><span>&nbsp;米</span></p>
-                        <p><span>高度：</span><input type="number" id="height" class="input clip-input" min="0" step="1"
-                                                  value="100"><span>&nbsp;米</span></p>
-                        <p><span>旋转：</span><input type="number" id="rotate" class="input clip-input" min="0" max="360" step="1"
+                        <p><span>长度：</span><input type="number" id="box-clip-length" class="input clip-input" min="0" step="1"
+                                                  value="10"><span>&nbsp;米</span></p>
+                        <p><span>宽度：</span><input type="number" id="box-clip-width" class="input clip-input" min="0" step="1"
+                                                  value="10"><span>&nbsp;米</span></p>
+                        <p><span>高度：</span><input type="number" id="box-clip-height" class="input clip-input" min="0" step="1"
+                                                  value="10"><span>&nbsp;米</span></p>
+                        <p><span>旋转：</span><input type="number" id="box-clip-rotate" class="input clip-input" min="0" max="360" step="1"
                                                   value="0"><span>&nbsp;度</span></p>
                         <a class="ui teal ribbon label">裁剪模式</a><br><br>
-                        <select id="clipMode" class="cesium-button" style="font-size: 12px;margin: 0px 0px -5px 0px;width: 90%">
-                            <option value="clip_behind_all_plane">带线框盒内裁剪</option>
-                            <option value="clip_behind_any_plane">带线框盒外裁剪</option>
-                            <option value="clip_behind_all_plane1">不带线框盒内裁剪</option>
-                            <option value="clip_behind_any_plane1">不带线框盒外裁剪</option>
+                        <select id="box-clip-mode" class="cesium-button" style="font-size: 12px;margin: 0px 0px -5px 0px;width: 90%">
+                            <option value="clip_behind_all_plane_with_line_frame">带线框盒内裁剪</option>
+                            <option value="clip_behind_any_plane_with_line_frame">带线框盒外裁剪</option>
+                            <option value="clip_behind_all_plane_without_line_frame">不带线框盒内裁剪</option>
+                            <option value="clip_behind_any_plane_without_line_frame">不带线框盒外裁剪</option>
                         </select><br/><br/>
-                        <label><input type="checkbox" id="box-clip-can-move" style="vertical-align: middle;"/>&nbsp;<span
-                                style="vertical-align: middle;">支持Box移动</span></label>
                         <div style="overflow: hidden;">
-                            <input type="button" id="customDel" class="btn btn-info" style="float:right" value="清除">
-                            <input type="button" id="custom" class="btn btn-info" style="float:right" value="分析">
+                            <input type="button" id="clear-box-clip" class="btn btn-info" style="float:right" value="清除">
+                            <input type="button" id="box-clip-analysis" class="btn btn-info" style="float:right" value="分析">
                         </div>
                     </div>
                 </div>
             </section>
-            <section id="clipContent3">
+            <section id="clipContent2">
                 <div class="adaptation">
                     <div class="ui raised segment" style="margin: 10px; background: #3b4547 ">
                         <a class="ui blue ribbon label">第一点</a>
@@ -68,13 +66,13 @@ define(['./Container', '../3DGIS/clip'], function (Container, clip) {
                                                   min="-180" max="180" step="0.0001" value="0" size="5"><span>&nbsp;度</span></p>
                         <p><span>高度：</span><input type="number" id="plane-clip-point3-height" class="input clip-input" step="1"
                                                   value="0" size="5"><span>&nbsp;米</span></p>
-                        <button id="sectionDel" class="btn btn-info" style="float:right">清除</button>
-                        <button id="section" class="btn btn-info" style="float:right">分析</button>
+                        <button id="clear-plane-clip" class="btn btn-info" style="float:right">清除</button>
+                        <button id="plane-clip-analysis" class="btn btn-info" style="float:right">分析</button>
                         <br><br>
                     </div>
                 </div>
             </section>
-            <section id="clipContent1">
+            <section id="cross-clip-panel">
                 <div class="adaptation">
                     <div class="ui raised segment" style="margin: 10px; background: #3b4547 ">
                         <a class="ui blue ribbon label">参数设置</a>
@@ -89,9 +87,9 @@ define(['./Container', '../3DGIS/clip'], function (Container, clip) {
                         <p><span>绕Z轴：</span><input type="number" id="cross-clip-heading" class="input clip-input"
                                                   min="0" max="360" step="1" value="0"><span>&nbsp;度</span></p>
                         <p><span>拉伸：</span><input type="number" id="cross-clip-extrude" class="input clip-input"
-                                                  min="0.1" max="30" step="0.1" value="0.1"><span>&nbsp;米</span></p>
+                                                  min="1" max="30" step="1" value="1"><span>&nbsp;米</span></p>
                         <div style="overflow: hidden;">
-                            <button id="clear-cross-clip" class="btn btn-info" style="float:right">选取裁剪位置</button>
+                            <button id="clear-cross-clip" class="btn btn-info" style="float:right">清除</button>
                             <button id="choose-cross-clip-pos" class="btn btn-info" style="float:right">选取裁剪位置</button>
                         </div>
                     </div>
@@ -104,11 +102,12 @@ define(['./Container', '../3DGIS/clip'], function (Container, clip) {
         id: 'sceneAttribute',
         events: {
             'click #closeScene': 'onCloseSceneClk',
-            'click #section': 'onSectionClk',
-            'click #sectionDel': 'onSectionDelClk',
-            'click #custom': 'onCustomClk',
-            'click #customDel': 'onCustomDelClk',
-            'click #choose-cross-clip-pos': 'onCrossClipClk', // cross裁剪
+            'click #plane-clip-analysis': 'onPlaneClip',
+            'click #clear-plane-clip': 'onClearPlaneClip',
+            'click #box-clip-analysis': 'onBoxClip',
+            'click #clear-box-clip': 'onClearBoxClip',
+            'click #choose-cross-clip-pos': 'onCrossClip',
+            'click #clear-cross-clip': 'onClearCrossClip',
             'change input[type=file]': 'onInputChange'
         },
         template: _.template(htmlStr),
@@ -134,53 +133,46 @@ define(['./Container', '../3DGIS/clip'], function (Container, clip) {
                     });
                 });
             });
-            clip.init(viewer);
-            if (sceneModel.analysisObjects.planeClipStore) {
+            /*if (sceneModel.analysisObjects.planeClipStore) {
                 clip.initializing(viewer, sceneModel, true, isPCBroswer);
             }
             if (sceneModel.analysisObjects.boxClipStore) {
                 clip.initializing(viewer, sceneModel, false, isPCBroswer);
-            }
+            }*/
         },
         render: function () {
             this.$el.html(this.template());
             return this;
         },
         onCloseSceneClk: function (evt) {
-            /*if (evt && evt.preventDefault) {
-                evt.preventDefault();
-            }
-            else {
-                window.event.returnValue = false;
-            }*/
             this.$el.hide();
-            clip.remove(viewer, sceneModel, true);
-            clip.remove(viewer, sceneModel, false);
-            /*return false;*/
         },
-        onSectionClk: function (evt) {
-            clip.initializing(viewer, sceneModel, 'plane', isPCBroswer);
+        onPlaneClip: function (evt) {
+            PlaneClip.startClip(viewer, isPCBroswer);
             if (!isPCBroswer) {
                 this.$el.hide();
             }
         },
-        onSectionDelClk: function (evt) {
-            clip.remove(viewer, sceneModel, true);
+        onClearPlaneClip: function (evt) {
+            PlaneClip.clear(viewer);
         },
-        onCustomClk: function (evt) {
-            clip.initializing(viewer, sceneModel, 'box', isPCBroswer);
+        onBoxClip: function (evt) {
+            BoxClip.startClip(viewer);
             if (!isPCBroswer) {
                 this.$el.hide();
             }
         },
-        onCustomDelClk: function (evt) {
-            clip.remove(viewer, sceneModel, false);
+        onClearBoxClip: function (evt) {
+            BoxClip.clear();
         },
-        onCrossClipClk: function(){
-            clip.initializing(viewer, sceneModel, 'cross', isPCBroswer);
+        onCrossClip: function(){
+            CrossClip.startClip(viewer);
             if (!isPCBroswer) {
                 this.$el.hide();
             }
+        },
+        onClearCrossClip: function(){
+            CrossClip.clear();
         }
     });
     return clipForm;
