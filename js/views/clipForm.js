@@ -9,7 +9,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
     var htmlStr = `
         <main style="position : absolute;" class="mainView">
             <button type="button" style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close"
-                    id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>
+                    id="close-clip-panel" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>
             <input id="clipTab1" type="radio" name="clipTab" checked>
             <label for="clipTab1" style="font-size: 13px">Box裁剪</label>
             <input id="clipTab2" type="radio" name="clipTab">
@@ -101,7 +101,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
         tagName: 'div',
         id: 'sceneAttribute',
         events: {
-            'click #closeScene': 'onCloseSceneClk',
+            'click #close-clip-panel': 'onCloseClipPanel',
             'click #plane-clip-analysis': 'onPlaneClip',
             'click #clear-plane-clip': 'onClearPlaneClip',
             'click #box-clip-analysis': 'onBoxClip',
@@ -115,7 +115,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
             sceneModel = options.sceneModel;
             viewer = options.sceneModel.viewer;
             parent = options.parent;
-            isPCBroswer = options.isPCBroswer
+            isPCBroswer = options.isPCBroswer;
             this.render();
             this.on('componentAdded', function (parent) {
                 $('main').each(function (index) {
@@ -133,19 +133,25 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                     });
                 });
             });
-            /*if (sceneModel.analysisObjects.planeClipStore) {
+            /*
+            // iPortal对接代码
+            if (sceneModel.analysisObjects.planeClipStore) {
                 clip.initializing(viewer, sceneModel, true, isPCBroswer);
             }
             if (sceneModel.analysisObjects.boxClipStore) {
                 clip.initializing(viewer, sceneModel, false, isPCBroswer);
-            }*/
+            }
+            */
         },
         render: function () {
             this.$el.html(this.template());
             return this;
         },
-        onCloseSceneClk: function (evt) {
+        onCloseClipPanel: function (evt) {
             this.$el.hide();
+            PlaneClip.destroy(viewer);
+            BoxClip.destroy(viewer);
+            CrossClip.destroy(viewer);
         },
         onPlaneClip: function (evt) {
             PlaneClip.startClip(viewer, isPCBroswer);

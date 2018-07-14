@@ -1,3 +1,6 @@
+/**
+ * 平面裁剪
+ */
 define(['Cesium', 'jquery'], function (Cesium, $) {
 
     var PlaneClip = function () {
@@ -76,7 +79,7 @@ define(['Cesium', 'jquery'], function (Cesium, $) {
             // sceneModel.analysisObjects.planeClipStore = positions;
         });
 
-        if(!isPCBroswer){
+        if(!isPCBroswer){ // 移动端无法检测到绘图工具的绘制结束事件，靠触点数量判断绘制结束
             screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
             screenSpaceEventHandler.setInputAction(function (evt) {
                 positions.push(viewer.scene.pickPosition(evt.position));
@@ -141,11 +144,12 @@ define(['Cesium', 'jquery'], function (Cesium, $) {
         }
     };
 
-    PlaneClip.destroy = function () {
-        this.clear();
+    PlaneClip.destroy = function (viewer) {
+        this.clear(viewer);
         layers = null;
         screenSpaceEventHandler && (screenSpaceEventHandler = null);
         planeClipPolygonHandler && (planeClipPolygonHandler = null);
+        hasInitialized = false;
     };
 
     /*

@@ -121,6 +121,7 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         this.clear();
         viewer.entities.getById('box-clip-custom-box') && viewer.entities.removeById('box-clip-custom-box');
         screenSpaceEventHandler && (screenSpaceEventHandler = null);
+        hasInitialized = false;
     };
 
     function setClipBox() {
