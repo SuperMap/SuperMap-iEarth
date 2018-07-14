@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Container, Cesium, flyRoute,drag, slider){
+define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tooltip'],function(Container, Cesium, flyRoute,drag, slider,tooltip){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -9,17 +9,18 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
     var labels;
     var label;
     var htmlStr = [
-                   '<div class="tabs-vertical" id="sceneForm" style="position: absolute;top: 10%;width:350px;z-index: 1; right:0;cursor: auto;">',
+                   '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
                    '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.sceneOptions +'</label>',
-                   '<button style="top: 10px;position: absolute;left: 90%;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+                   '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 				   '<ul>',
                    '<li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
 				   '<li><a data-index="1" href="#">'+ Resource.otherOptions +'</a></li>',
 				   '<li><a data-index="2" href="#">'+ "场景颜色" +'</a></li>',
                    '<li style="font-size: 12px"><a data-index="3" href="#">'+ "泛光" +'</a></li>',
                    '<li style="font-size: 12px"><a data-index="4" href="#">'+ "相机" +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="5" href="#">'+ "关于" +'</a></li>',
                    '</ul>',
-				   '<div class="tabs-content-placeholder" id="scene-placeholder">',
+				   '<div class="tabs-content-placeholder" style="height:280px" id="scene-placeholder">',
 
                    '<div class="tab-content-active">',
                    '<label>'+ Resource.sceneName +'</label>',
@@ -81,7 +82,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
                     '<div>',
                         '<label>'+ "飞行线路" +'</label><br><br>',
                         '<input style="background-color:#2EC5AD" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
-                       '<button class="start" id="startFly" title="开始" style="background-color: transparent;border:none;"></button>',
+                        '<button class="start" id="startFly" title="开始" style="background-color: transparent;border:none;"></button>',
                         '<button class="pause" id="pauseFly" title="暂停" style="background-color: transparent;border:none;"></button>',
                         '<button class="stop"  id="stopFly"  title="停止" style="background-color: transparent;border:none;"></button><br><br>',
                         '<select id="stopList" style="background-color:#2EC5AD;width: 100%">',
@@ -94,11 +95,24 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
                         '</th>',
                         '<td>',
                             '<input type="checkbox"  id="circulation" checked = true >',
-                            '<label style="width: 100px;">循环旋转</label>',
+                            '<label style="width: 60px;">循环旋转</label>',
                         '</td>',
                         '</tr>',
                         '</table>',
                     '</div>',
+
+                    '<div>',
+                    '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
+                    '<label style=" text-align: center; font-size: 16px">版本 ： 2.1.1</label><br><br><br><br>',
+                    '<label>'+"更新内容" +'</label><br><br>',
+                    '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
+                        "1、图层上支持倾斜模型开挖与压平\n"+
+                        "2、完善分享模块\n"+
+                        "3、体数据添加颜色说明\n"+
+                    '</textarea>',
+                    '</div>',
+               '</div>',
+          '</div>',
 
                ].join('');
     var sceneAttribute = Container.extend({
@@ -201,8 +215,8 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
                     camera.flyCircleLoop = this.checked;
                 });
                 var sceneName = viewer.scene.name;
-                if(name){
-                    $("#sceneName").value = name;
+                if(sceneName){
+                    $("#sceneName").val(sceneName);
                 }
                 else{
                     $("#sceneName")[0].value = "未命名";
@@ -279,6 +293,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
         },
         onQueryCoordinatesClk : function(evt){
             viewer.scene.fxaa = true;
+            var tooltip = createTooltip(document.body);
             handler.setInputAction(function(movement) {
                 var position = scene.pickPosition(movement.startPosition);
                 var cartographic = Cesium.Cartographic.fromCartesian(position);
@@ -288,32 +303,38 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider'],function(Co
                 if(height < 0) {
                     height = 0;
                 }
-                if(!labels){
-                    labels = viewer.scene.primitives.add(new Cesium.LabelCollection({
-                        depthTestEnable : false
-                    }));
-                    label = labels.add({
-                        id  : "label",
-                        position : Cesium.Cartesian3.fromDegrees(longitude, latitude, height+1.0),
-                        text : "经度：" +  longitude.toFixed(6) + "\n纬度：" + latitude.toFixed(6) + "\n高度：" + height.toFixed(6) ,
-                        font : '12px sans-serif',
-                        fillColor : Cesium.Color.WHITE,
-                        outlineColor : Cesium.Color.BLACK,
-                        outlineWidth : 1.0,
-                        showBackground : true,
-                        backgroundColor : new Cesium.Color(0.165, 0.165, 0.165, 0.8),
-                        backgroundPadding : new Cesium.Cartesian2(7, 5),
-                        style : Cesium.LabelStyle.FILL,
-                        pixelOffset : Cesium.Cartesian2.ZERO,
-                        eyeOffset : Cesium.Cartesian3.ZERO,
-                        horizontalOrigin : Cesium.HorizontalOrigin.LEFT,
-                        verticalOrigin : Cesium.VerticalOrigin.BASELINE,
-                        scale : 1.0,
-                    });
-                }else{
-                    label.position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height+1.0);
-                    label.text = "经度：" +  longitude.toFixed(6)  + "\n纬度：" + latitude.toFixed(6) + "\n高度：" + height.toFixed(6);
-                }
+                var info = "经度：" + longitude.toFixed(6) + "\n纬度：" + latitude.toFixed(6) + "\n高度：" + height.toFixed(6)
+
+                //tooltip.showAt(movement.startPosition, '<p>'+info + '</p>');
+                tooltip.setVisible(true);
+                tooltip.showAt(movement.endPosition,'<p>点击模型，添加裁剪盒子</p>');
+                //if(!labels) {
+                    // labels = viewer.scene.primitives.add(new Cesium.LabelCollection({
+                    //     depthTestEnable : false
+                    // }));
+                    // label = labels.add({
+                    //     id  : "label",
+                    //     position : Cesium.Cartesian3.fromDegrees(longitude, latitude, height+1.0),
+                    //     text : "经度：" +  longitude.toFixed(6) + "\n纬度：" + latitude.toFixed(6) + "\n高度：" + height.toFixed(6) ,
+                    //     font : '12px sans-serif',
+                    //     fillColor : Cesium.Color.WHITE,
+                    //     outlineColor : Cesium.Color.BLACK,
+                    //     outlineWidth : 1.0,
+                    //     showBackground : true,
+                    //     backgroundColor : new Cesium.Color(0.165, 0.165, 0.165, 0.8),
+                    //     backgroundPadding : new Cesium.Cartesian2(7, 5),
+                    //     style : Cesium.LabelStyle.FILL,
+                    //     pixelOffset : Cesium.Cartesian2.ZERO,
+                    //     eyeOffset : Cesium.Cartesian3.ZERO,
+                    //     horizontalOrigin : Cesium.HorizontalOrigin.LEFT,
+                    //     verticalOrigin : Cesium.VerticalOrigin.BASELINE,
+                    //     scale : 1.0,
+                    // });
+                //}
+                // }else{
+                //     label.position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height+1.0);
+                //     label.text = "经度：" +  longitude.toFixed(6)  + "\n纬度：" + latitude.toFixed(6) + "\n高度：" + height.toFixed(6);
+                // }
             }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             handler.setInputAction(function(){
                 labels.remove(label);

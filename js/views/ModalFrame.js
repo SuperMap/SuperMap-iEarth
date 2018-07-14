@@ -1,4 +1,4 @@
-define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan'],function(Container,WebServicePan,CustomServicePan,LocalFilePan){
+define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan','./myScenes'],function(Container,WebServicePan,CustomServicePan,LocalFilePan,myScenes){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -7,9 +7,10 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan'],f
         "<div class='myModal-header'>",
         "<button  aria-label='Close' class='myModal-close' title='" + Resource.close + "' id='btnCloseModal'><span aria-hidden='true'>&times;</span></button>",
         "<ul class='nav nav-tabs' role='tablist'>",
-        '<li role="presentation" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
+        '<li role="presentation" id="servicePan" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
         '<li role="presentation"><a href="#customServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.customService + '</a></li>',
         '<li role="presentation"><a href="#localFilePan" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.localKML + '</a></li>',
+        '<li role="presentation" id = "getMyScenes"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
         '</ul>',
         "</div>",
         '<div class="myModal-body">',
@@ -30,6 +31,7 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan'],f
             this.render();
             var modalFrame = this;
             this.on('componentAdded',function(parent){
+
                 var webServicePan = new WebServicePan({
                     sceneModel : options.sceneModel,
                     isPCBroswer : this.isPCBroswer
@@ -44,6 +46,11 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan'],f
                         sceneModel : options.sceneModel
                     });
                     modalFrame.addComponent(localFilePan);
+                    var portalScenes = new myScenes({
+                        sceneModel : options.sceneModel,
+                        isPCBroswer : this.isPCBroswer
+                    });
+                    modalFrame.addComponent(portalScenes);
                 }
             });
             this.listenTo(this.model,'layerAdded',function(){

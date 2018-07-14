@@ -9,6 +9,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             var me = this;
             var scpUrl = this.get('url');
             var name = this.get('realName') || this.get('name');
+            var originName = this.get('originName');
             var defer = Cesium.when.defer();
             if(Util.S3M_CACHE[scpUrl]){
             	Util.showErrorMsg(Resource.layerExistMsg);
@@ -25,7 +26,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
 			me.sceneModel.layers.add(me);
 			me.layer = layer;
 			if(isFlyMode){
-				me.flyTo();
+                me.flyTo();
 			}
 			Util.S3M_CACHE[scpUrl] = name;
 			if(me.get('isVisible') == false){
@@ -45,61 +46,56 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         	this.sceneModel.layers.remove(this);
         },
         flyTo : function(){
-        	var scpName = this.get('name');
-        	var hiddenScp = ['萨尔茨堡火车站', 'BIM建筑', 'CBD', '点云'];
+        	var scpName = this.get('originName');
+            if(scpName === '点云'){
+                if(!($("#scene-logo").length > 0)){
+                    $("body").append('<img id="scene-logo" class="secne-logo">');
+                }
+                $("#scene-logo").attr("src", "./images/japan.jpg");
+            }else if(scpName === '索菲亚大教堂'){
+                if(!($("#scene-logo").length > 0)){
+                    $("body").append('<img id="scene-logo" class="secne-logo">');
+                }
+                $("#scene-logo").attr("src", "./images/hlj.png");
+            }else if(scpName === '体数据'){
+                this.hypsometricSetting();
+            }
+            else{
+                if($("#scene-logo").length > 0){
+                    $("#scene-logo").remove();
+                }
+            }
         	var cameraParam = Config.CAMERA_PARAM[scpName];
-        	var globe = this.viewer.scene.globe;
-        	var scene = this.viewer.scene;
-        	if(cameraParam){
-        		this.viewer.scene.camera.flyTo({
-            		destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
-            		orientation : {
-            			heading : cameraParam.heading,
-            			pitch : cameraParam.pitch,
-            			roll : cameraParam.roll
-            		},
-            		complete : function(){
-            			return ;
-            			if(hiddenScp.indexOf(scpName) != -1){
-            				globe.show = false;
-            				scene.skyAtmosphere.show = false;
-            				globe._surface._tilesToRender.length = 0;
-            			}
-            			else{
-            				globe.show = true;
-            				scene.skyAtmosphere.show = true;
-            			}
-            		}
-            	});
-        		return ;
-        	}
-            var layer = this.layer;
-            if(this.get('realName') == "T8H_NoLod"){
-            	this.viewer.scene.camera.flyTo({
-            		destination : new Cesium.Cartesian3(-2627165.1432829266,3933035.5960504636,4264844.38928223),
-            		orientation : {
-            			heading : 0.6642083137167463,
-            			pitch : -0.37902552808937795,
-            			roll : 0.0022196324266055
-            		}
-            	});
-            	return ;
-            }
-            if(layer){
-            	var bounds = layer.layerBounds;
-            	if(!bounds){
-            		var extend = 0.1;
-            		var left = Cesium.Math.toRadians(layer.lon - extend);
-            		var right = Cesium.Math.toRadians(layer.lon + extend);
-            		var top = Cesium.Math.toRadians(layer.lat + extend);
-            		var bottom = Cesium.Math.toRadians(layer.lat - extend);
-            		bounds = new Cesium.Rectangle(left,bottom,right,top);
-            		layer.layerBounds = bounds;
-            	}
-            	var camera = this.viewer.scene.camera;
-            	var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
-            	camera.flyToBoundingSphere(bd);
-            }
+
+                if(cameraParam){
+                    this.viewer.scene.camera.flyTo({
+                        destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
+                        orientation : {
+                            heading : cameraParam.heading,
+                            pitch : cameraParam.pitch,
+                            roll : cameraParam.roll
+                        }
+                    });
+                    return ;
+                }else{
+                    var layer = this.layer;
+                    if(layer){
+                        var bounds = layer.layerBounds;
+                        if(!bounds){
+                            var extend = 0.1;
+                            var left = Cesium.Math.toRadians(layer.lon - extend);
+                            var right = Cesium.Math.toRadians(layer.lon + extend);
+                            var top = Cesium.Math.toRadians(layer.lat + extend);
+                            var bottom = Cesium.Math.toRadians(layer.lat - extend);
+                            bounds = new Cesium.Rectangle(left,bottom,right,top);
+                            layer.layerBounds = bounds;
+                        }
+                        var camera = this.viewer.scene.camera;
+                        var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
+                        camera.flyToBoundingSphere(bd);
+                    }
+                }
+
         },
         setVisible : function(isVisible,ids){
             if(ids.length>0)
@@ -120,6 +116,30 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             	};
         	
         	return obj;
+        },
+        hypsometricSetting : function () {
+            var colorTable = new Cesium.ColorTable();
+            var layer = this.layer;
+            colorTable.insert(layer._fMaxValue, new Cesium.Color(210/255, 15/255, 15/255));
+            colorTable.insert(2*(layer._fMinValue+layer._fMaxValue)/3, new Cesium.Color(221/255, 224/255, 7/255));
+            colorTable.insert((layer._fMinValue+layer._fMaxValue)/2, new Cesium.Color(20/255, 187/255, 18/255));
+            colorTable.insert((layer._fMinValue+layer._fMaxValue)/4, new Cesium.Color(0, 161/255, 1));
+            colorTable.insert(layer._fMinValue, new Cesium.Color(9/255, 9/255, 212/255));
+            var hypsometric = new Cesium.HypsometricSetting();
+            hypsometric.MaxVisibleValue = 0;
+            hypsometric.ColorTable = colorTable;
+            hypsometric.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE_AND_LINE;
+            hypsometric.Opacity = 0.618;
+            hypsometric.LineInterval = 60.0;
+            hypsometric.LineColor = new Cesium.Color(1,0,0,1);
+            hypsometric.ColorTableMaxKey = layer._fMaxValue;
+            hypsometric.ColorTableMinKey = layer._fMinValue;
+            hypsometric.MaxVisibleValue = layer._fMaxValue;
+            hypsometric.MinVisibleValue = layer._fMinValue;
+            layer.hypsometricSetting = {
+                hypsometricSetting : hypsometric,
+                analysisMode : Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
+            }
         }
     });
     return S3MLayerModel;

@@ -3,12 +3,13 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-        '<div class="tabs-vertical" id="layerForm" style="position: absolute;top: 10%;width:350px;;z-index: 1; right: 0;cursor: auto; display:none">',
+        '<div class="tabs-vertical mainView" id="layerForm" style="position: absolute;width:350px;;z-index: 1;cursor: auto; display:none">',
         '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.layerOptions +'</label>',
         '<button aria-label="Close" id="layerClose" class="myModal-close" title='+ Resource.close +' style="top: 10px;position: absolute;left: 90%;"><span aria-hidden="true">×</span></button>',
         '<ul><li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
 		'<li><a data-index="1" href="#">'+ Resource.visibility +'</a></li>',
-		'<li><a data-index="2" href="#">'+ Resource.styleSetting +'</a></li></ul>',
+		'<li><a data-index="2" href="#">'+ Resource.styleSetting +'</a></li>',
+        '<li><a data-index="3" href="#">'+ "图层操作" +'</a></li></ul>',
         '<div class="tabs-content-placeholder" style="height:350px" id="layer-placeholder">',
         '<div class="tab-content-active">',
         '<label>'+ Resource.layerName +'</label>',
@@ -27,8 +28,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<div class="square" ><input type="checkbox" id="multiChoose" checked/><label for="multiChoose">'+ Resource.multiSelection +'</label></div>',
         '<div class="square" ><input type="checkbox" id="cullEnabled"/><label for="cullEnabled">'+ Resource.cullEnabled +'</label></div>',
         '<div class="square" style="width:47%"><input type="checkbox" id="breleaseColor" checked/><label style="width:72px;" for="releaseMemory">'+ Resource.bReleaseColor +'</label></div>',
-       
-        '</div>',
+       '</div>',
         '<div>',
         '<label >'+ Resource.visibleDistanceMin +'</label>',
         '<input type="text" value="0" class="cesium-button" id="minHeight">',
@@ -58,6 +58,21 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<input class="colorPicker"  id="foreColorPicker">',
         '<label >'+ Resource.lineColor +'</label>',
         '<input class="colorPicker" id="lineColorPicker">',
+        '</div>',
+        '<div>',
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">'+ "倾斜摄影开挖" +'</label>',
+        '<div class="square" ><input type="checkbox" id="undergroundMode" checked/><label for="display">'+ "开启地下" +'</label></div>',
+        '<label >'+ "地下深度(米)" +'</label>',
+        '<input type="number" class="input" id="minimumZoomDistance" value="1000">',
+        '<label >'+ "地表透明度" +'</label>',
+        '<input type="number" class="input" id="groundAlpha" min="0" max="1.0" step="0.01" value="1.0">',
+        '<label >'+ "模型透明度" +'</label>',
+        '<input type="number" class="input" id="modelAlpha" min="0" max="1.0" step="0.01" value="1.0">',
+        '<input type="button" class="btn btn-info" style="margin-left: 85px" id="excavationRegion" value="执行开挖">',
+        '<input type="button" class="btn btn-info"  id="delExcavationRegion" value="清除开挖">',
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">'+ "倾斜摄影压平" +'</label><br><br>',
+        '<input type="button" class="btn btn-info" style="margin-left: 85px" id="flattenRegion" value="模型压平">',
+        '<input type="button" class="btn btn-info" id="delFlattenRegion" value="清除压平">',
         '</div>',
         '</div></div>'
     ].join('');

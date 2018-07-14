@@ -188,8 +188,9 @@
 	};
 
 	Tree.prototype.unsubscribeEvents = function () {
-
 		this.$element.off('click');
+        this.$element.off('mousedown');
+        this.$element.off('touchstart');
 		this.$element.off('nodeChecked');
 		this.$element.off('nodeCollapsed');
 		this.$element.off('nodeDisabled');
@@ -213,6 +214,7 @@
         });
 
 		this.$element.on('mousedown', $.proxy(this.clickHandler, this)); // click只对应左键点击，要区分点击键要用mousedown事件
+        this.$element.on('touchstart', $.proxy(this.clickHandler, this));
 
 		if (typeof (this.options.onNodeChecked) === 'function') {
 			this.$element.on('nodeChecked', this.options.onNodeChecked);
@@ -355,7 +357,7 @@
 			this.render();
 		}
 		else if ((classList.indexOf('check-icon') !== -1)) {
-			if(event.which === 1){
+			if(event.which === 0 || event.which === 1){
                 var chk = target.prev();
                 if(chk && chk[0]){
                     chk[0].checked = !chk[0].checked;
@@ -364,12 +366,12 @@
 			}
 		}
 		else if(classList.indexOf('fui-cross') !== -1){
-			if(event.which === 1){
+			if(event.which === 0 || event.which === 1){
                 this.$element.trigger('nodeRemove', $.extend(true, {}, node));
 			}
 		}
 		else {
-            if(event.which == 1){ // 左键点击
+            if(event.which == 0 || event.which == 1){ // 左键点击
                 if (node.selectable) {
                     this.toggleSelectedState(node, _default.options);
                 } else {

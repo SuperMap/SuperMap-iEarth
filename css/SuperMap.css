@@ -858,7 +858,15 @@ ul#progress li:first-child {
     min-width: 435px;
 }
 /* ---setting drop down END---*/
-
+.mainView {
+	right: 45px;
+	top : 10%;
+	width: 300px;
+}
+#layerTree {
+	height: 590px;
+	overflow:auto
+}
 /*---------媒锟斤拷锟窖� start--------------*/
 /*-- iPad 1024X768 锟斤拷锟斤拷*/
 @media screen and (max-width : 1024px) {
@@ -868,13 +876,19 @@ ul#progress li:first-child {
 	.selTypeContainer {
 		display: none;
 	}
-	#addMarkerBtn {
+	#propertyBtn {
+		display: none;
+	}
+	#objectLabel2 {
+		display: none;
+	}
+	#objectLabel3 {
 		display: none;
 	}
 	#measureBtn {
 		display: none;
     }
-    #analysisBtn {
+	#tab2Label {
 		display: none;
 	}
 	.myModal-content {
@@ -921,7 +935,56 @@ ul#progress li:first-child {
     #visualization{
         min-width: 150px;
     }
+	.adaptation {
+		height: 350px;
+		overflow:auto
+	}
+	#layerTree {
+		height: 500px;
+	}
 }
+
+/* 控制参数窗口 */
+
+@media screen and (min-width: 600px){
+	.paramsWindow{
+		position: absolute;
+		width: 320px;
+		top: 10%;
+		right:50px;
+	}
+	.secne-logo{
+		left: 20px;
+		bottom: 80px;
+		position: absolute;
+		max-width: 140px;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.paramsWindow{
+		position: absolute;
+		width: 95%;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.params-window-content{
+		max-height: 400px;
+		overflow:auto;
+	}
+	.secne-logo{
+		left: 10px;
+		bottom: 50px;
+		position: absolute;
+		max-width: 80px;
+	}
+	.cesium-credit-image img{
+		width: 110px;
+	}
+}
+
+/*------------------------------------*/
 
 /*-- iphone 6 plus 414x736 锟斤拷锟斤拷*/
 @media screen and (max-width : 414px) and (max-height : 744px) {
@@ -979,7 +1042,13 @@ ul#progress li:first-child {
 /*-- iPhone 6 375x667 锟斤拷锟斤拷*/
 @media screen and (max-width : 375px) and (max-height : 675px) {
 	.service-item {
-		width: 140px;
+		width: 206px;
+	}
+	.service-itemIcon{
+		height: 166px;
+	}
+	.service-items{
+		text-align: center;
 	}
 }
 /*-- iPhone 6 375x667 锟斤拷锟斤拷*/
@@ -1001,6 +1070,7 @@ ul#progress li:first-child {
 		max-height: 470px;
 	}
 }
+
 /*-- Galaxy S5 360X640 锟斤拷锟斤拷*/
 @media screen and (max-width : 640px) and (max-height : 360px) {
 	.service-items {
@@ -1069,6 +1139,15 @@ ul#progress li:first-child {
     #visualization{
         min-width: 150px;
     }
+}
+
+@media screen and (max-width : 375px){
+.mainView {
+	right: 0px;
+}
+#terrainBtn {
+	display: none;
+}
 }
 
 /*---------媒锟斤拷锟窖� END--------------*/
@@ -1323,7 +1402,7 @@ a{
 .btn-toolbar>.btn-group{
 	margin-left : 5px;
 }
-.btn-toolbar .btn,.btn-toolbar .btn-group,.btn-toolbar .input-group{
+.btn-toolbar .btn,.btn-toolbar .toolbar,.btn-toolbar .input-group{
 	float : left;
 }
 .btn{
@@ -1340,7 +1419,6 @@ a{
 	font-weight : 400;
 	line-height : 1.4;
 	border : none;
-	border-radius : 4px;
 	vertical-align : middle;
 	transition : border .25s linear,color .25s linear,background-color .25s linear;
 	-webkit-font-smoothing : subpixel-antialiased;
@@ -1602,6 +1680,10 @@ ul,ol{
       border-bottom-right-radius: 4px;
       border-bottom-left-radius: 4px;
   }
+
+.list-group-item>*{
+	vertical-align: middle;
+}
   /*--------list-group  end------*/
 
 /*--------input label  end------*/
@@ -2597,7 +2679,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 /**/
 main {
     min-width: 320px;
-    max-width: 350px;
+    /*max-width: 350px;*/
     /*margin: 0 auto;*/
     border: 1px solid #526f82;
     color: #ffffff;
@@ -2660,10 +2742,17 @@ main input:checked + label {
 	display: block;
 }
 
+#clipTab1:checked ~ #clipContent1,
 #clipTab2:checked ~ #clipContent2,
-#clipTab3:checked ~ #clipContent3{
+#cross-clip-panel-radio:checked ~ #cross-clip-panel{
 	display: block;
 }
+
+#portalTab1:checked ~ #portalTabContent1,
+#portalTab2:checked ~ #portalTabContent2{
+	display: block;
+}
+
 
 #objectTab1:checked ~ #objectContent1,
 #objectTab2:checked ~ #objectContent2,
@@ -2671,8 +2760,6 @@ main input:checked + label {
 #objectTab4:checked ~ #objectContent4{
 	display: block;
 }
-
-
 
 @media screen and (max-width: 650px) {
   label {
@@ -2910,13 +2997,29 @@ main .square{
 	background: -ms-linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%);
 	background: linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%);
 }
-#marker :hover {
+.marker :hover {
 	background: #B2ADB2;
 	-webkit-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	-moz-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 	box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 }
 td {text-align:center}
+.visited:visited {color: #00FF00}
+.m-box{width:55px;margin:0 auto;background:rgba(0,0,0,0.0);}
+.m-box p{margin:0 0 10px;}
+.m-box .icn a{display:block;width:50px;height:35px;background:url('http://l.bst.126.net/rsc/img/weibo.png?035') no-repeat;}
+.m-box .icn .wb1{background-position:10px -216px;}
+.m-box .icn .wb2{background-position:-190px -216px;}
+.m-box .icn .wb3{background:url(http://l.bst.126.net/rsc/img/postshare/tieba24.png) 15px 0 no-repeat;}  .m-box .icn .wb4{background-position:-88px -215px;}
+.m-box .icn .wb5{background-position:-138px -216px;}
+.m-box .icn .wb6{background-position:-245px -216px;}
+.m-box .icn .wb7{background-position:-300px -216px;}
+.m-box .icn .wb8{background-position:-355px -216px;}
+.m-box .icn .wb9{background-position:-415px -215px;}
+
+
+
+
 
 
 

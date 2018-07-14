@@ -27,8 +27,8 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             '</select>',
         '</div><br>',
         '<div>',
-        '<label style="font-size: 12px;vertical-align: middle;" id="singleIsolineLabel"><input type="radio" id="singleIsoline" name="showIsoline" <%= isolineMode == "singleIsoline" ? "checked" : "" %>/><span>单等高线</span></label>',
-        '<label style="font-size: 12px;vertical-align: middle;" id="multiIsolineLabel"><input type="radio" id="multiIsoline" name="showIsoline" <%= isolineMode == "multiIsoline" ? "checked" : "" %>/><span>多等高线</span></label>',
+        '<label style="font-size: 12px;vertical-align: middle;margin: 7px" id="singleIsolineLabel"><input type="radio" id="singleIsoline" name="showIsoline" <%= isolineMode == "singleIsoline" ? "checked" : "" %>/><span>单等高线</span></label>',
+        '<label style="font-size: 12px;vertical-align: middle;margin: 7px" id="multiIsolineLabel"><input type="radio" id="multiIsoline" name="showIsoline" <%= isolineMode == "multiIsoline" ? "checked" : "" %>/><span>多等高线</span></label>',
         '</div>',
         '<div id="isoline-interval-setting" style="margin-top:10px;display: flex;flex-direction:row;align-items:center;">',
             "<div class='measure-title' style='float:left;font-size: 12px'>" + "等高距(米)：" + "</div>",
@@ -158,6 +158,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             handlerDis  && handlerDis.clear();
             handlerArea  && handlerArea.clear();
             handlerHeight && handlerHeight.clear();
+            viewer.scene.globe.HypsometricSetting = undefined;
             if(isoline){
                 for(var i = 0;i < layers.length;i++){
                     layers[i].hypsometricSetting = undefined;

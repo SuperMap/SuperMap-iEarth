@@ -8,20 +8,24 @@ define(['./Container',
     var _ = require('underscore');
     var $ = require('jquery');
     var viewer;
-    var handlerPolygon;
     var instance;
+    var defaultUrl;
+    var handlerPoint;
+    var isPCBroswer;
+    var me;
     var htmlStr = [
-        '<main style="position : absolute;left : 75%; top : 5%;width: 300px">',
+        '<main style="position : absolute;" class="mainView">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="objectTab1" type="radio" name="objectTab" checked>',
-        '<label for="objectTab1" style="font-size: 13px">' + "添加点" + '</label>',
+        '<label for="objectTab1" id = "objectLabel1" style="font-size: 13px">' + "添加点" + '</label>',
         '<input id="objectTab2" type="radio" name="objectTab">',
-        '<label for="objectTab2" style="font-size: 13px">' + "添加线" + '</label>',
+        '<label for="objectTab2" id = "objectLabel2" style="font-size: 13px">' + "添加线" + '</label>',
         '<input id="objectTab3" type="radio" name="objectTab" >',
-        '<label for="objectTab3" style="font-size: 13px">' + "添加面" + '</label>',
+        '<label for="objectTab3" id = "objectLabel3" style="font-size: 13px">' + "添加面" + '</label>',
         // '<input id="objectTab4" type="radio" name="objectTab" >',
         // '<label for="objectTab4" style="font-size: 13px">' + "添加粒子" + '</label>',
         '<section id="objectContent1">',
+        '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">符号库</a><br><br>',
         '<div style="border:1px solid #2EC5AD">',
@@ -30,7 +34,7 @@ define(['./Container',
         '<div>',
         '<label style="font-size:13px">颜色选择器：</label><input  class="colorPicker" size="8" data-bind="value: material," id="colorPicker">',
         '</div><br>',
-        '<a class="ui blue ribbon label">变换</a>',
+        '<a class="ui teal ribbon label">变换</a>',
             '<label id="markerX" style="font-size:13px;">绕X轴旋转</label>',
             '<input id="pitch" class="input" type="number" min="0" max="360" step="1.0" value="0" title="pitch">',
             '<label id="markerY" style="font-size:13px;">绕Y轴旋转</label>',
@@ -41,66 +45,59 @@ define(['./Container',
             '<input type="number" id="scale" class="input" step="0.1" value="1" title="模型缩放比例"><br><br>',
             '<button type="button" id="del1" class="btn btn-info" style="float: right">'+ "删除" +'</button>',
         '</div>',
+        '</div>',
        '</section>',
         '<section id="objectContent2">',
-        '<h1 class="title"></h1>',
-        '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
+        '<div class="ui raised segment" style="margin: 10px; background: #3b4547;">',
         '<a class="ui blue ribbon label">符号库</a><br><br>',
         '<div style="border:1px solid #2EC5AD">',
         '<table>',
         '<tbody>',
         '<tr>',
-        '<td><span style="font-size: 25px" id="fullLine" class="iconfont icon-line"></span><label style="margin-right: -18px">实线</label></td>',
-        '<td><span style="font-size: 25px" id="dottedLine" class="iconfont icon-xuxian"></span><label style="margin-right: -10px">虚线型</label></td>',
-        '<td><span style="font-size: 25px" id="outline" class="iconfont icon-xiantiao"></span><label style="margin-right: -10px">轮廓线</label></td>',
-        '<td><span style="font-size: 25px" id="arrowLine" class="iconfont icon-line-arrow"></span><label style="margin-right: -10px">箭头线</label></td>',
+        '<td><a style="font-size: 25px" id="fullLine" class="iconfont icon-line"></a><label style="margin-right: -18px">实线</label></td>',
+        '<td><a style="font-size: 25px" id="dottedLine" class="iconfont icon-xuxian"></a><label style="margin-right: -10px">虚线型</label></td>',
+        '<td><a style="font-size: 25px" id="outline" class="iconfont icon-xiantiao"></a><label style="margin-right: -10px">轮廓线</label></td>',
+        '<td><a style="font-size: 25px" id="arrowLine" class="iconfont icon-line-arrow"></a><label style="margin-right: -10px">箭头线</label></td>',
         '</tr>',
         '<tr>',
-        '<td style="padding-top: 20px"><span style="font-size:25px;" id="glowLine" class="iconfont icon-xiancai5"></span><label style="margin-right: -10px">光晕线</label></td>',
+        '<td style="padding-top: 20px"><a style="font-size:25px;" id="glowLine" class="iconfont icon-xiancai5"></a><label style="margin-right: -10px">光晕线</label></td>',
+        '<td style="padding-top: 20px"><a style="font-size:25px;" id="TrailLine" class="iconfont icon-yuanxuxian"></a><label style="margin-right: -10px">尾迹线</label></td>',
         '</tr>',
         '</tbody>',
         '</table>',
+        '</div><br>',
+        '<a class="ui teal ribbon label">参数设置</a>',
+        '<label style="font-size:13px;">线宽</label>',
+        '<input id="lineWidth" class="input" type="number" value="5.0">',
+        '<div class="square">',
+        '<label  style="width:100%;">'+ "线条颜色" +'</label><input class="colorPicker" id="lineColor"/>',
         '</div>',
-        // '<label style="font-size:13px;">线宽</label>',
-        // '<input id="lineWidth" class="input" type="number">',
-        // '<label style="font-size:13px;">线颜色</label>',
-        // '<input id="lineColor" class="input" type="number">',
-        // '<div class="square">',
-        // '<label  style="width:100%;">'+ "可见区域颜色" +'</label><input class="colorPicker" id="colorPicker1"/>',
-        // '</div>',
-        // '<div class="square">',
-        // '<label style="width:100%;">'+ "不可见区域颜色" +'</label><input class="colorPicker" id="colorPicker2"/>',
-        // '</div>',
+        '<div class="square">',
+        '<label style="width:100%;">'+ "轮廓颜色" +'</label><input class="colorPicker" id="outlineColor"/>',
+        '</div>',
         '<button type="button" id="delAllLine" class="btn btn-info" style="float: right">'+ "清除" +'</button>',
         '</div><br>',
         '</section>',
         '<section id="objectContent3">',
-        '<div>',
-        '<h1 class="title"></h1>',
-        '</div>',
-        '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
+        '<div class="ui raised segment" style="margin: 10px;background: #3b4547;">',
         '<a class="ui blue ribbon label">符号库</a><br><br>',
         '<div style="border:1px solid #2EC5AD">',
         '<table>',
         '<tbody>',
         '<tr>',
-        '<td style="padding-top: 10px"><span style="font-size: 25px" id="pureColor" class="iconfont icon-lansekuangicon"></span><label style="margin-right: -18px">纯色</label></td>',
-        '<td style="padding-top: 10px"><span style="font-size: 25px" id="gridding" class="iconfont icon-plus-gridview"></span><label style="margin-right: -10px">网格</label></td>',
-        '<td style="padding-top: 10px"><span style="font-size: 25px" id="stripe" class="iconfont icon-ic_texture_px"></span><label style="margin-right: -10px">条纹</label></td>',
+        '<td style="padding-top: 10px"><a style="font-size: 25px" id="pureColor" class="iconfont icon-lansekuangicon"></a><label style="margin-right: -18px">纯色</label></td>',
+        '<td style="padding-top: 10px"><a style="font-size: 25px" id="gridding" class="iconfont icon-plus-gridview"></a><label style="margin-right: -10px">网格</label></td>',
+        '<td style="padding-top: 10px"><a style="font-size: 25px" id="stripe" class="iconfont icon-ic_texture_px"></a><label style="margin-right: -10px">条纹</label></td>',
         '</tr>',
         '</tbody>',
         '</table><br><br><br>',
         '</div>',
         '<div>',
         '<button type="button" id="delAllPolygon" class="btn btn-info" style="float: right">'+ "清除" +'</button>',
-
         '</div>',
         '</div>',
         '</section>',
         '<section id="objectContent4">',
-        '<div>',
-        '<h1 class="title"></h1>',
-        '</div>',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">符号库</a><br><br>',
         '<div style="border:1px solid #2EC5AD">',
@@ -123,9 +120,6 @@ define(['./Container',
         '</section>',
         '</main>',
     ].join('');
-    var defaultUrl;
-    var handlerPoint;
-    var handlerLine;
     var markerForm = Container.extend({
         tagName: 'div',
         id: 'sceneAttribute',
@@ -139,6 +133,8 @@ define(['./Container',
             viewer = options.sceneModel.viewer;
             viewer.infobox = false;
             var scene = viewer.scene;
+            isPCBroswer = options.isPCBroswer;
+            me = this;
             handlerPoint = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Point);
             instance = new Cesium.S3MInstanceCollection(scene._context);
             scene.primitives.add(instance);
@@ -157,6 +153,20 @@ define(['./Container',
                 });
                 $("#colorPicker").spectrum({
                     color: "2EC5AD",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $("#lineColor").spectrum({
+                    color: "FFFF00",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $("#outlineColor").spectrum({
+                    color: "CC0000",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -226,31 +236,35 @@ define(['./Container',
                     }
                 });
                 $("#fullLine").on("click",function(){
-                   createLineType(0);
+                   createLineType(0,this);
                 });
                 $("#dottedLine").on("click",function(){
-                    createLineType(1);
+                    createLineType(1,this);
                 });
                 $("#outline").on("click",function(){
-                    createLineType(2);
+                    createLineType(2,this);
                 });
                 $("#arrowLine").on("click",function(){
-                    createLineType(3);
+                    createLineType(3,this);
                 });
                 $("#glowLine").on("click",function(){
-                    createLineType(4);
+                    createLineType(4,this);
+                });
+                $("#TrailLine").on("click",function(){
+                    createLineType(5,this);
                 });
                 $("#pureColor").on("click",function(){
-                    createPolygonType(0);
+                    createPolygonType(0,this);
                 });
                 $("#gridding").on("click",function(){
-                    createPolygonType(1);
+                    createPolygonType(1,this);
                 });
                 $("#stripe").on("click",function(){
-                    createPolygonType(2);
+                    createPolygonType(2,this);
                 });
 
             });
+
             Cesium.loadJson('data/models.json').then(function(data){
                 var result = data.s3mModels;
                 for(var i = 0,j = result.length;i < j;i++){
@@ -272,150 +286,16 @@ define(['./Container',
             this.$el.hide();
             return false;
         },
-        onAddition2Clk : function(evt){
-
-            handlerLine.activeEvt.addEventListener(function(isActive){
-                if(isActive == true){
-                    viewer.enableCursorStyle = false;
-                    viewer._element.style.cursor = '';
-                    $('body').removeClass('drawCur').addClass('drawCur');
-                }
-                else{
-                    viewer.enableCursorStyle = true;
-                    $('body').removeClass('drawCur');
-                }
-            });
-            handlerLine.drawEvt.addEventListener(function(result){
-                handlerLine.polyline.show = false;
-                var array = [].concat(result.object.positions);
-                var position = [];
-                for(var i = 0, len = array.length; i < len; i ++){
-                    var cartographic = Cesium.Cartographic.fromCartesian(array[i]);
-                    var longitude = Cesium.Math.toDegrees(cartographic.longitude);
-                    var latitude = Cesium.Math.toDegrees(cartographic.latitude);
-                    var h=cartographic.height;
-                    if(position.indexOf(longitude)==-1&&position.indexOf(latitude)==-1){
-                        position.push(longitude);
-                        position.push(latitude);
-                        position.push(h);
-                    }
-                }
-                var index = document.getElementById("lineMode").selectedIndex;
-                switch (index){
-                    case 0:
-                    viewer.entities.add({
-                        id : "en0",
-                        polyline : {
-                            positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 10,
-                            material : new Cesium.PolylineGlowMaterialProperty({
-                                glowPower : 0.25,
-                                color : Cesium.Color.YELLOW
-                            })
-                        }
-                    }); break;
-                    case 1:
-                        viewer.entities.add({
-                        id : "en1",
-                        polyline : {
-                            positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 5,
-                            material : new Cesium.PolylineOutlineMaterialProperty({
-                                color : Cesium.Color.ORANGE,
-                                outlineWidth : 2,
-                                outlineColor : Cesium.Color.RED
-                            })
-                        }
-                    }); break;
-                    case 2:
-                        viewer.entities.add({
-                        id : "en2",
-                        polyline : {
-                            positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 10,
-                            followSurface : false,
-                            material : new Cesium.PolylineArrowMaterialProperty(Cesium.Color.BLUE)
-                        }
-                    }); break;
-                    case 3:
-                         viewer.entities.add({
-                            id : "en3",
-                            polyline : {
-                                positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                                width : 4,
-                                material : new Cesium.PolylineDashMaterialProperty({
-                                    color: Cesium.Color.RED
-                                })
-                            }
-                        }); break;
-                    default:break;
-                }
-            });
-            handlerLine.activate();
-        },
-        onAddition3Clk : function(evt){
-            handlerPolygon = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Polygon,0);
-            handlerPolygon.activeEvt.addEventListener(function(isActive){
-                if(isActive == true){
-                    viewer.enableCursorStyle = false;
-                    viewer._element.style.cursor = '';
-                    $('body').removeClass('drawCur').addClass('drawCur');
-                }
-                else{
-                    viewer.enableCursorStyle = true;
-                    $('body').removeClass('drawCur');
-                }
-            });
-            handlerPolygon.drawEvt.addEventListener(function(result){
-                // var array = [].concat(result.object.positions);
-                // var position = [];
-                // for(var i = 0, len = array.length; i < len; i ++){
-                //     var cartographic = Cesium.Cartographic.fromCartesian(array[i]);
-                //     var longitude = Cesium.Math.toDegrees(cartographic.longitude);
-                //     var latitude = Cesium.Math.toDegrees(cartographic.latitude);
-                //     var h=1000000;
-                //     if(position.indexOf(longitude)==-1&&position.indexOf(latitude)==-1){
-                //         position.push(longitude);
-                //         position.push(latitude);
-                //         position.push(h);
-                //     }
-                // }
-                handlerPolygon.polygon.show = true;
-                handlerPolygon.polyline.show = true;
-
-                // var index = document.getElementById("polygonMode").selectedIndex;
-                // switch (index){
-                //     case 0:
-                //         handlerPolygon.polygon.show = true;
-                //         handlerPolygon.polyline.show = true; break;
-                //     case 1:
-                //         handlerPolygon.polygon.show = false;
-                //         handlerPolygon.polyline.show = false;
-                //         viewer.entities.add({
-                //             polygon : {
-                //                 hierarchy : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                //                 material : new Cesium.StripeMaterialProperty({
-                //                     evenColor : Cesium.Color.WHITE.withAlpha(0.5),
-                //                     oddColor : Cesium.Color.BLUE.withAlpha(0.5),
-                //                     repeat : 30.0
-                //                 })
-                //             }
-                //         });
-                //         break;
-                //     case 2:   ; break;
-                //     default:break;
-                // }
-
-            });
-            handlerPolygon.activate();
-        },
 
     });
     function addItem(data){
-        var str = '<a id="marker"><img style="width: 10%;height: 100%; margin:8px" title=data.name src={thumbnail} id={name}></a>'.replace('{thumbnail}',data.thumbnail).replace('{name}', data.name);
+        var str = '<a class="marker"><img style="width: 10%;height: 100%; margin:8px" title=data.name src={thumbnail} id={name}></a>'.replace('{thumbnail}',data.thumbnail).replace('{name}', data.name);
         $('#icons').append(str);
         var $child =$("#"+data.name);
         $child.on('click',function(){
+            if(!isPCBroswer){
+                me.$el.hide();
+            }
             defaultUrl = data.path;
             if($("img").hasClass("selected")){
                 $("img").removeClass("selected");
@@ -436,7 +316,16 @@ define(['./Container',
             handlerPoint.activate();
         });
     };
-    function createLineType(type) {
+    function createLineType(type,line) {
+        if(!isPCBroswer){
+            me.$el.hide();
+        }
+        if($("a").hasClass("selected")){
+            $("a").removeClass("selected");
+        }
+        else{
+            $(line).addClass("selected");
+        }
         var  handlerLine = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line);
         handlerLine.activeEvt.addEventListener(function(isActive){
             if(isActive == true){
@@ -451,6 +340,9 @@ define(['./Container',
         });
         handlerLine.drawEvt.addEventListener(function(result){
             handlerLine.polyline.show = false;
+            var linecolor = Cesium.Color.fromCssColorString($("#lineColor").val())
+            var outlinecolor = Cesium.Color.fromCssColorString($("#outlineColor").val())
+            var lineWidth = parseFloat($("#lineWidth").val())
             var array = [].concat(result.object.positions);
             var position = [];
             for(var i = 0, len = array.length; i < len; i ++){
@@ -465,14 +357,21 @@ define(['./Container',
                 }
             }
             switch (type){
-                case 0:  handlerLine.polyline.show = true;break;
+                case 0:
+                    viewer.entities.add({
+                        polyline : {
+                            positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
+                            width : lineWidth,
+                            material: linecolor?linecolor:Cesium.Color.YELLOW,
+                        }
+                    }); break;
                 case 1:
                     viewer.entities.add({
                         polyline : {
                             positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 4,
+                            width : lineWidth,
                             material : new Cesium.PolylineDashMaterialProperty({
-                                color: Cesium.Color.RED
+                                color: linecolor?linecolor:Cesium.Color.YELLOW,
                             })
                         }
                     }); break;
@@ -480,11 +379,11 @@ define(['./Container',
                     viewer.entities.add({
                         polyline : {
                             positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 5,
+                            width : lineWidth,
                             material : new Cesium.PolylineOutlineMaterialProperty({
-                                color : Cesium.Color.ORANGE,
+                                color : linecolor?linecolor:Cesium.Color.YELLOW,
                                 outlineWidth : 2,
-                                outlineColor : Cesium.Color.RED
+                                outlineColor : outlinecolor?outlinecolor:Cesium.Color.FIREBRICK,
                             })
                         }
                     }); break;
@@ -492,20 +391,32 @@ define(['./Container',
                     viewer.entities.add({
                         polyline : {
                             positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 10,
+                            width : lineWidth*2.0,
                             followSurface : false,
-                            material : new Cesium.PolylineArrowMaterialProperty(Cesium.Color.BLUE)
+                            material : new Cesium.PolylineArrowMaterialProperty(linecolor?linecolor:Cesium.Color.YELLOW)
                         }
                     }); break;
                 case 4:
                     viewer.entities.add({
                         polyline : {
                             positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width : 10,
+                            width : lineWidth*2.0,
                             material : new Cesium.PolylineGlowMaterialProperty({
                                 glowPower : 0.25,
-                                color : Cesium.Color.YELLOW
+                                color : linecolor?linecolor:Cesium.Color.YELLOW,
                             })
+                        }
+                    }); break;
+                case 5:
+                    viewer.entities.add({
+                        polyline : {
+                            positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
+                            width : lineWidth,
+                            material : new Cesium.PolylineTrailMaterialProperty({
+                                 color: linecolor?linecolor:Cesium.Color.YELLOW,
+                                 trailLength : 0.02,
+                                 period :0.3
+                              })
                         }
                     }); break;
                 default:break;
@@ -513,7 +424,16 @@ define(['./Container',
         });
         handlerLine.activate();
     };
-    function createPolygonType(type) {
+    function createPolygonType(type,polygon) {
+        if(!isPCBroswer){
+            me.$el.hide();
+        }
+        if($("a").hasClass("selected")){
+            $("a").removeClass("selected");
+        }
+        else{
+            $(polygon).addClass("selected");
+        }
         var handlerPolygon = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Polygon,0);
         handlerPolygon.activeEvt.addEventListener(function(isActive){
             if(isActive == true){

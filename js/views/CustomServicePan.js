@@ -20,7 +20,7 @@ define([
         '</span>',
         '</div>',
         '<div class="form-group">',
-        '<input id="urlInput" class="my-form-control" type="url" placeholder="enter layer url" />',
+        '<input id="urlInput" class="my-form-control" type="url" placeholder="enter layer url" title="iserver config 数据配置文件级"/>',
         '</div>',
         '<div class="form-group">',
         '<input id="nameInput" class="my-form-control" type="text" placeholder="enter name" />',
@@ -37,7 +37,7 @@ define([
         '</div><br>',
         '<div style="padding: 10px; border:1px solid #417BB3">',
         '<label>打开场景</label>',
-        '<input id="sceneUrl" class="my-form-control" type="url" placeholder="enter scene url" />',
+        '<input id="sceneUrl" class="my-form-control" type="url" placeholder="enter scene url" title="iserver realspace根节点目录级"/>',
         '</div><br>',
         '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk" style="float: right">' + Resource.confirm + '</button>',
 

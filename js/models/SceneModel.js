@@ -7,15 +7,18 @@ define([
         '../models/LayerCollection',
         '../models/KmlLayerModel',
         '../models/MarkerModel',
-        '../models/BaseLayerModel'],
-        function(Backbone,Cesium,$,Util,WriteKml,LayerCollection,KmlLayerModel,MarkerModel,BaseLayerModel){
+        '../models/BaseLayerModel',
+        './LayerModel',
+        '../portal/parsePortalJson'],
+        function(Backbone,Cesium,$,Util,WriteKml,LayerCollection,KmlLayerModel,MarkerModel,BaseLayerModel,LayerModel,parsePortalJson){
 	var _ = require('underscore');
     var SceneModel = Backbone.Model.extend({
-        initialize : function(viewer){
+        initialize : function(viewer,isPCBroswer){
             this.viewer = viewer;
+            this.isPCBroswer = isPCBroswer;
             this.stkTerrainProvider = new Cesium.CesiumTerrainProvider({
                 //url: '//assets.agi.com/stk-terrain/world',
-            	url : 'https://www.supermapol.com/iserver/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
+            	url : 'https://www.supermapol.com/realspace/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
                 requestWaterMask : true,
                 requestVertexNormals : true,
                 credit : ''
@@ -26,12 +29,34 @@ define([
             this.layers = new LayerCollection();
             this.baseLayer = new BaseLayerModel({type : 'IMAGE'});
             this.isSTKTerrain = false;
+            this.analysisObjects = {};
+            this.terrainObjects = {};
+            this.markerObjects = {};
         },
-        addLayer : function(layerModel,isFlyMode){
+        addLayer : function(layerModel,sceneContent,isFlyMode){
+            var me = this;
             if(!layerModel){
                 return;
             }
-            layerModel.addLayer(this,isFlyMode);
+           var promise =  layerModel.addLayer(this,isFlyMode);
+            Cesium.when(promise,function(layer){
+                if(Window.iportalAppsRoot != "${resource.rootPath}"){
+                    var cameraStore = sceneContent.camera;
+                    var camera = me.viewer.scene.camera;
+                    camera.flyTo({
+                        destination : new Cesium.Cartesian3(cameraStore.position.x,cameraStore.position.y,cameraStore.position.z),
+                        orientation : {
+                            heading : cameraStore.heading,
+                            pitch : cameraStore.pitch,
+                            roll : cameraStore.roll
+                        }
+                    });
+                    me.analysisObjects = sceneContent.analysisObjects;
+                    me.terrainObjects = sceneContent.terrainObjects;
+                    var parseObject = new parsePortalJson(me);
+                    parseObject.initialize();
+                }
+            })
         },
         addLayers : function(layers,isFlyMode){
         	if(!layers){
@@ -51,14 +76,15 @@ define([
         		this.setTerrain($("#chkTerrain").is(':checked'));
         	}
         	layerModel.removeLayer(this.viewer);
-            
+        	if(layerModel.get('originName') === '点云'){
+                document.getElementById('japan_pointCloud_tag').style.display = 'none';
+            }
         },
         addMarker : function(markerModel){
         	if(this.defaultKmlLayer){
         		this.defaultKmlLayer.addMarker(markerModel,this,this.currentMarker);
         		this.trigger('markerAdded',markerModel);
         	}
-        	
         },
         removeMarker : function(markerModel){
         	if(!markerModel){
@@ -209,7 +235,7 @@ define([
             $.ajax({
                 type: "POST",
                 url: "/supermapearth/Workspace",
-                contentType: "application/json;charset=utf-8", //必须有
+                contentType: "application/json;charset=utf-8",
                 dataType: "json", 
                 data: saveData,  
                 success : function (jsonResult) {
@@ -228,7 +254,7 @@ define([
         	$.ajax({
                 type: "GET",
                 url: "/supermapearth/Workspace",
-                contentType: "application/json;charset=utf-8", //必须有
+                contentType: "application/json;charset=utf-8",
                 dataType: "json", 
                 success: function (jsonResult) {
                 	var sceneJson = jsonResult.scene;
@@ -312,6 +338,30 @@ define([
                     roll : cameraJson.roll
                 }
             });
+        },
+        parsePortalJson : function (request) {
+             if(!request.content){
+                 return;
+             }
+            this.viewer.scene.name = request.name;
+            var sceneContent = $.parseJSON(request.content);
+            if(sceneContent.environmentState){
+                this.setEnvironment(sceneContent.environmentState);
+            }
+            this.isSTKTerrain = sceneContent.isSTKTerrain;
+            if(this.isSTKTerrain == true){
+                this.setTerrain(true);
+            }
+            if(sceneContent.baseLayer){
+                var baseLayerModel = new BaseLayerModel(sceneContent.baseLayer);
+                this.setBaseLayer(baseLayerModel);
+            }
+            var layersStore = sceneContent.layers;
+            for(var i = 0; i < layersStore.length; i++){
+                var layerModel = new LayerModel(layersStore[i]);
+                this.addLayer(layerModel,sceneContent);
+            }
+
         }
     });
     return SceneModel;

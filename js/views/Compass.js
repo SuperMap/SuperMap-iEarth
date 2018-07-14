@@ -5,7 +5,7 @@ define(['./Container', 'Cesium'],function(Container, Cesium){
     var htmlStr = [
                    '<a id="btnCompass" title="' + Resource.compass + '" class="btn btn-inverse" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
                    '<span id="compass" class="smicon-compass" style="transform : rotate(-45deg);display : inline-block;"></span>',
-                   '</a>'
+                   '</a>',
                ].join('');
     var Compass = Container.extend({
         template : _.template(htmlStr),

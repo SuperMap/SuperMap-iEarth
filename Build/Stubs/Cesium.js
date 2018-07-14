@@ -826,6 +826,10 @@ define('Core/RequestType', function() {
     return Cesium['RequestType'];
 });
 
+define('Core/Resource', function() {
+    return Cesium['Resource'];
+});
+
 define('Core/RuntimeError', function() {
     return Cesium['RuntimeError'];
 });
@@ -1526,6 +1530,254 @@ define('Handler/PolylineHandler', function() {
     return Cesium['PolylineHandler'];
 });
 
+define('Plot/AlgoSymbol/AlgoInclude', function() {
+    return Cesium['AlgoInclude'];
+});
+
+define('Plot/AlgoSymbol/AlgoSymbol', function() {
+    return Cesium['AlgoSymbol'];
+});
+
+define('Plot/Cell/SymbolAlgoUtil', function() {
+    return Cesium['SymbolAlgoUtil'];
+});
+
+define('Plot/Cell/SymbolArbitraryPolygon', function() {
+    return Cesium['SymbolArbitraryPolygon'];
+});
+
+define('Plot/Cell/SymbolArc', function() {
+    return Cesium['SymbolArc'];
+});
+
+define('Plot/Cell/SymbolBrace', function() {
+    return Cesium['SymbolBrace'];
+});
+
+define('Plot/Cell/SymbolCell', function() {
+    return Cesium['SymbolCell'];
+});
+
+define('Plot/Cell/SymbolChord', function() {
+    return Cesium['SymbolChord'];
+});
+
+define('Plot/Cell/SymbolCircle', function() {
+    return Cesium['SymbolCircle'];
+});
+
+define('Plot/Cell/SymbolConcentricCircle', function() {
+    return Cesium['SymbolConcentricCircle'];
+});
+
+define('Plot/Cell/SymbolCurveEight', function() {
+    return Cesium['SymbolCurveEight'];
+});
+
+define('Plot/Cell/SymbolEllipse', function() {
+    return Cesium['SymbolEllipse'];
+});
+
+define('Plot/Cell/SymbolKidney', function() {
+    return Cesium['SymbolKidney'];
+});
+
+define('Plot/Cell/SymbolParallelogram', function() {
+    return Cesium['SymbolParallelogram'];
+});
+
+define('Plot/Cell/SymbolPie', function() {
+    return Cesium['SymbolPie'];
+});
+
+define('Plot/Cell/SymbolPolyBezier', function() {
+    return Cesium['SymbolPolyBezier'];
+});
+
+define('Plot/Cell/SymbolPolyBezierClosed', function() {
+    return Cesium['SymbolPolyBezierClosed'];
+});
+
+define('Plot/Cell/SymbolPolyline', function() {
+    return Cesium['SymbolPolyline'];
+});
+
+define('Plot/Cell/SymbolRectangle', function() {
+    return Cesium['SymbolRectangle'];
+});
+
+define('Plot/Cell/SymbolRegularPolygon', function() {
+    return Cesium['SymbolRegularPolygon'];
+});
+
+define('Plot/Cell/SymbolRunWay', function() {
+    return Cesium['SymbolRunWay'];
+});
+
+define('Plot/Cell/SymbolTrapezoid', function() {
+    return Cesium['SymbolTrapezoid'];
+});
+
+define('Plot/Convert/GeoGraphicObjectConvert', function() {
+    return Cesium['GeoGraphicObjectConvert'];
+});
+
+define('Plot/Convert/LayerDataStruct', function() {
+    return Cesium['LayerDataStruct'];
+});
+
+define('Plot/Convert/SitDataManager', function() {
+    return Cesium['SitDataManager'];
+});
+
+define('Plot/Convert/SitDataStruct', function() {
+    return Cesium['SitDataStruct'];
+});
+
+define('Plot/Convert/SmlInfoStruct', function() {
+    return Cesium['SmlInfoStruct'];
+});
+
+define('Plot/GeoGraphicObject', function() {
+    return Cesium['GeoGraphicObject'];
+});
+
+define('Plot/Handler/PlotDrawControl', function() {
+    return Cesium['PlotDrawControl'];
+});
+
+define('Plot/Handler/PlotEditControl', function() {
+    return Cesium['PlotEditControl'];
+});
+
+define('Plot/PlotAnimation/GOAnimation', function() {
+    return Cesium['GOAnimation'];
+});
+
+define('Plot/PlotAnimation/GOAnimationAttribute', function() {
+    return Cesium['GOAnimationAttribute'];
+});
+
+define('Plot/PlotAnimation/GOAnimationBlink', function() {
+    return Cesium['GOAnimationBlink'];
+});
+
+define('Plot/PlotAnimation/GOAnimationGrow', function() {
+    return Cesium['GOAnimationGrow'];
+});
+
+define('Plot/PlotAnimation/GOAnimationManager', function() {
+    return Cesium['GOAnimationManager'];
+});
+
+define('Plot/PlotAnimation/GOAnimationRotate', function() {
+    return Cesium['GOAnimationRotate'];
+});
+
+define('Plot/PlotAnimation/GOAnimationScale', function() {
+    return Cesium['GOAnimationScale'];
+});
+
+define('Plot/PlotAnimation/GOAnimationShow', function() {
+    return Cesium['GOAnimationShow'];
+});
+
+define('Plot/PlotAnimation/GOAnimationWay', function() {
+    return Cesium['GOAnimationWay'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationDefine/BlinkAnimationBlinkStyle', function() {
+    return Cesium['BlinkAnimationBlinkStyle'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationDefine/BlinkAnimationReplaceStyle', function() {
+    return Cesium['BlinkAnimationReplaceStyle'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationDefine/GOAnimationState', function() {
+    return Cesium['GOAnimationState'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationDefine/GOAnimationType', function() {
+    return Cesium['GOAnimationType'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationDefine/RotateDirection', function() {
+    return Cesium['RotateDirection'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationDefine/WayPathType', function() {
+    return Cesium['WayPathType'];
+});
+
+define('Plot/PlotAnimation/PlotAnimationLayer', function() {
+    return Cesium['PlotAnimationLayer'];
+});
+
+define('Plot/PlotDefine/DotMode', function() {
+    return Cesium['DotMode'];
+});
+
+define('Plot/PlotDefine/FillGradientMode', function() {
+    return Cesium['FillGradientMode'];
+});
+
+define('Plot/PlotDefine/SurroundLineType', function() {
+    return Cesium['SurroundLineType'];
+});
+
+define('Plot/PlotDefine/SymbolType', function() {
+    return Cesium['SymbolType'];
+});
+
+define('Plot/PlotDefine/TextPos', function() {
+    return Cesium['TextPos'];
+});
+
+define('Plot/Plotting', function() {
+    return Cesium['Plotting'];
+});
+
+define('Plot/PlottingLayer', function() {
+    return Cesium['PlottingLayer'];
+});
+
+define('Plot/Styles/DefaultStyle', function() {
+    return Cesium['DefaultStyle'];
+});
+
+define('Plot/Styles/SymbolStyle', function() {
+    return Cesium['SymbolStyle'];
+});
+
+define('Plot/Styles/SymbolTextStyle', function() {
+    return Cesium['SymbolTextStyle'];
+});
+
+define('Plot/SymbolDot/SymbolDot', function() {
+    return Cesium['SymbolDot'];
+});
+
+define('Plot/SymbolDot/SymbolDotGraphic', function() {
+    return Cesium['SymbolDotGraphic'];
+});
+
+define('Plot/SymbolDot/SymbolDotPicture', function() {
+    return Cesium['SymbolDotPicture'];
+});
+
+define('Plot/SymbolDot/SymbolDotVector', function() {
+    return Cesium['SymbolDotVector'];
+});
+
+define('Plot/SymbolLib/SymbolLib', function() {
+    return Cesium['SymbolLib'];
+});
+
+define('Plot/SymbolLib/SymbolLibManager', function() {
+    return Cesium['SymbolLibManager'];
+});
+
 define('Renderer/AutomaticUniforms', function() {
     return Cesium['AutomaticUniforms'];
 });
@@ -1596,6 +1848,10 @@ define('Renderer/Framebuffer', function() {
 
 define('Renderer/freezeRenderState', function() {
     return Cesium['freezeRenderState'];
+});
+
+define('Renderer/GetHeightFramebuffer', function() {
+    return Cesium['GetHeightFramebuffer'];
 });
 
 define('Renderer/GLSLPreprocessor', function() {
@@ -1778,6 +2034,10 @@ define('S3MTiles/Enum/ShadowType', function() {
     return Cesium['ShadowType'];
 });
 
+define('S3MTiles/Enum/SplitDirection', function() {
+    return Cesium['SplitDirection'];
+});
+
 define('S3MTiles/MaterialPass', function() {
     return Cesium['MaterialPass'];
 });
@@ -1816,6 +2076,14 @@ define('S3MTiles/S3MInstanceCollection', function() {
 
 define('S3MTiles/S3MLayerScheduler', function() {
     return Cesium['S3MLayerScheduler'];
+});
+
+define('S3MTiles/S3MPolylineEffect', function() {
+    return Cesium['S3MPolylineEffect'];
+});
+
+define('S3MTiles/S3MRegionEffect', function() {
+    return Cesium['S3MRegionEffect'];
 });
 
 define('S3MTiles/S3MRenderStateCreator', function() {
@@ -1882,6 +2150,14 @@ define('S3MTiles/shader/ModifyRegionSideVp', function() {
     return Cesium['ModifyRegionSideVp'];
 });
 
+define('S3MTiles/shader/PolylineFp', function() {
+    return Cesium['PolylineFp'];
+});
+
+define('S3MTiles/shader/PolylineVp', function() {
+    return Cesium['PolylineVp'];
+});
+
 define('S3MTiles/shader/ProjectionImageFp', function() {
     return Cesium['ProjectionImageFp'];
 });
@@ -1892,6 +2168,14 @@ define('S3MTiles/shader/RegionAltitudeVectex', function() {
 
 define('S3MTiles/shader/RegionFragment', function() {
     return Cesium['RegionFragment'];
+});
+
+define('S3MTiles/shader/RegionMaterialFp', function() {
+    return Cesium['RegionMaterialFp'];
+});
+
+define('S3MTiles/shader/RegionMaterialVp', function() {
+    return Cesium['RegionMaterialVp'];
 });
 
 define('S3MTiles/shader/RegionTextureVertex', function() {
@@ -2228,6 +2512,10 @@ define('Scene/DeviceOrientationCameraController', function() {
 
 define('Scene/DiscardMissingTileImagePolicy', function() {
     return Cesium['DiscardMissingTileImagePolicy'];
+});
+
+define('Scene/DracoLoaderS3M', function() {
+    return Cesium['DracoLoaderS3M'];
 });
 
 define('Scene/EllipsoidPrimitive', function() {

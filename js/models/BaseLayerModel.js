@@ -13,7 +13,7 @@ define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
         	switch(type){
 	        	case 'BINGMAP' : this.imageryProvider = new Cesium.BingMapsImageryProvider({
 	        		url : url,
-	        		key : "AjQhMyw76oicHqFz7cUc3qTEy3M2fC2YIbcHjqgyMPuQprNVBr3SsvVdOfmlVc0v"
+	        		key : "ArLWvxLVAh1vxsmDZuOxr94On14sA52a_IPUewEz8H7mm3qDQnjWe-OzJtu1PZpZ"
 	        		});break;
 	        	case 'TIANDITU' : this.imageryProvider = new Cesium.TiandituImageryProvider();break;
 	        	case 'IMAGE' : this.imageryProvider = new Cesium.SingleTileImageryProvider({url : url});break;
