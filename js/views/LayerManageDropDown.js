@@ -134,7 +134,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
                 onNodeSelected : function (evt,node) {
                     var layerModel = node.layerModel;
                     layerModel && layerModel.flyTo();
-                    showLayerAttribute(layerModel.layer);
+                    showLayerAttribute(layerModel.layer,me.viewer);
                 },
                 onNodeRightClicked: function (evt,node){
                     var layerModel = node.layerModel;

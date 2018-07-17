@@ -130,14 +130,14 @@ function init(Cesium, Zlib) {
         destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
         duration: 5
     });
-    viewer.pickEvent.addEventListener(function (feature) {
+    /*viewer.pickEvent.addEventListener(function (feature) {
         var name = feature[Resource.name];
         var des = getDescription(feature);
         viewer.selectedEntity = new Cesium.Entity({
             name: name,
             description: des
         });
-    });
+    });*/
     require(['jquery'], function ($) {
         if (!isPCBroswer) {
             var supportsOrientationChange = "onorientationchange" in window,

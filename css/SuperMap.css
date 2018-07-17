@@ -1698,7 +1698,7 @@ label{
     line-height: 2.3;
     display: inline-block;
     max-width: 100%;
-    margin-bottom: 5px;
+	margin-right: 0.5rem;
 }
 /*--------input label  end------*/
 
@@ -1784,7 +1784,6 @@ label{
 }
 .my-form-control {
 	border: solid 1px #444;
-	/* background-color: rgba(40,40,40,0.7); */
 	background-color: rgba(38, 38, 38, 0.75);
 	color: #ffffff;
 	display: inline-block;
@@ -1792,7 +1791,7 @@ label{
 	height: 38px;
 	width: 100%;
 	margin: 0;
-	padding: 0 32px 0 0;
+	padding: 0.5rem;
 	box-sizing: border-box;
 }
 
@@ -1804,26 +1803,26 @@ label{
 
 /* .squaredTwo */
 .squaredTwo {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    position: relative;
-    margin: 5px 5px;
-    background: #fcfff4;
-    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-}
+	 display: inline-block;
+	 width: 20px;
+	 height: 20px;
+	 position: relative;
+	 margin: 5px 5px;
+	 background: #fcfff4;
+	 background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	 background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	 background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	 -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+	 -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+	 box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+ }
 .squaredTwo label {
-    width: 16px;
-    height: 16px;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
     position: absolute;
-    left: 2px;
-    top: 2px;
+    left: 0;
+    top: 0;
     background: -moz-linear-gradient(top, #222222 0%, #45484d 100%);
     background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
     background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
@@ -1865,6 +1864,46 @@ label{
     opacity: 1;
 }
 /* end .squaredTwo */
+
+/* 自定义CheckBox样式  start */
+.custom-checkbox-wrapper{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	position: relative;
+	background: rgba(38, 38, 38, 0.75);
+	border: 2px solid rgba(255, 255, 255, 0.8);
+	margin: 0 0.5rem;
+}
+
+.custom-checkbox{
+	position: absolute;
+	clip: rect(0, 0, 0, 0);
+}
+
+.custom-checkbox:checked + .custom-checkbox-label::after{
+	content:"\2714";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	line-height: 100%;
+	font-size: 18px;
+}
+
+.custom-checkbox-label{
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+/* 自定义CheckBox样式  end */
+
 
 /*--------tree view  start------*/
 .treeview{
