@@ -24,8 +24,6 @@ define(['backbone', 'Cesium', '../Util', '../Config', '../views/Bubble'], functi
                     layer.setQueryParameter(me.attrQueryPars);
                     viewer.pickEvent.addEventListener(function (feature) {
                         $("#bubble").show();
-                        /*var infoboxContainer = this.bubble.el;
-                         viewer.infoBox = infoboxContainer;*/
                         var table = document.getElementById("tab");
                         for (i = table.rows.length - 1; i > -1; i--) {
                             table.deleteRow(i);

@@ -1,11 +1,10 @@
-define(['./Container','jquery','../models/LayerModel'],function(Container,$,LayerModel){
-    var _ = require('underscore');
-    var htmlStr = [
-        '<div class="form-group has-success">',
-        '<label>本地KML数据</label>',
-        '<input class="my-form-control" type="file" accept=".kml"  placeholder="' + Resource.selLocalFile + '" style="padding: 8px;"/>',
-        '</div>'
-    ].join('');
+define(['./Container', 'jquery', '../models/LayerModel', 'underscore'], function(Container, $, LayerModel, _){
+    var htmlStr = `
+        <div class="form-group has-success">
+            <label>本地KML数据</label>
+            <input class="my-form-control" type="file" accept=".kml" placeholder=${Resource.selLocalFile} style="padding: 8px;"/>
+        </div>
+    `;
     var LocalFilePan = Container.extend({
         tagName : 'div',
         template : _.template(htmlStr),
@@ -26,7 +25,7 @@ define(['./Container','jquery','../models/LayerModel'],function(Container,$,Laye
             var target = evt.target;
             var file = target.files[0];
             var layerModel = new LayerModel({
-            	type : 'KML',
+                type : 'KML',
                 file : file
             });
             this.model.addLayer(layerModel);

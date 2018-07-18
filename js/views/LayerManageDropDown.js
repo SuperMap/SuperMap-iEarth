@@ -6,6 +6,9 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
     ].join('');
     var list;
     function calNode(ModeUrl){
+        if(!ModeUrl){
+            return;
+        }
         ModeUrl = ModeUrl.substring(0,ModeUrl.length-7) + "/data/path/indexData.dat";
         var nodelist = new Array();var nodedata = new Array();var datalist = new Array();
         var per = new Array();
@@ -81,23 +84,28 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
                 onNodeChecked : function(evt,node){
                 	var layerModel = node.layerModel;
                      var ids = [];
-                    for(var i = 0;i < list[0].length;i++)
-                    {
-                        if(list[0][i] == node.text)
-                        {
-                            ids = list[1][i];
-                        }
-                    }
+                     if(list){
+                         for(var i = 0;i < list[0].length;i++)
+                         {
+                             if(list[0][i] == node.text)
+                             {
+                                 ids = list[1][i];
+                             }
+                         }
+                     }
+
                 	layerModel && layerModel.setVisible(true,ids);
                 }, 
                 onNodeUnchecked : function(evt,node){
                     var layerModel = node.layerModel;
                     var ids = [];
-                	for(var i = 0;i < list[0].length;i++)
-                    {
-                        if(list[0][i] == node.text)
+                    if(list){
+                        for(var i = 0;i < list[0].length;i++)
                         {
-                           ids = list[1][i];
+                            if(list[0][i] == node.text)
+                            {
+                                ids = list[1][i];
+                            }
                         }
                     }
                 	layerModel && layerModel.setVisible(false,ids);
@@ -157,7 +165,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
             }
             var childNode = this.tree.treeview('addNode',[this.rootNode[type],{text : name,showDel : true,fontSize : '10pt',state : {checked : isVisible}}]);
             list = calNode(layerModel.get('url'));
-            if(list[0].length>0){
+            if(list && list[0].length>0){
                 for(var i = 0;i < list[0].length;i++){
                     var sonNode = this.tree.treeview('addNode',[childNode,{text : list[0][i],showDel : true,fontSize : '10pt',state : {checked : isVisible}}]);
                     sonNode.layerModel = layerModel;
