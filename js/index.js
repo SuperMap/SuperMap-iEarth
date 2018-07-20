@@ -8,7 +8,6 @@
             backbone: "lib/backbone-min",
             Config: 'Config',
             bootstrapTree: 'lib/bootstrap-treeview',
-            iScroll: 'lib/iscroll',
             Tabs: 'views/tabs',
             dropdown: 'views/dropdown',
             CesiumHeatmap: 'lib/heatmap.min',
@@ -51,9 +50,6 @@
             },
             bootstrapTree: {
                 exports: 'bootstrapTree'
-            },
-            iScroll: {
-                exports: 'iScroll'
             },
             Tabs: {
                 exports: 'Tabs',
