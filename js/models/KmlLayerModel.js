@@ -20,7 +20,6 @@ define(['backbone','Cesium'],function(Backbone,Cesium){
             	camera : viewer.scene.camera,
                 canvas : viewer.scene.canvas
             })).then(function(dataSource){
-                // me.set('name',dataSource.name);
                 me.set('name', me.get('file').name.substring(0, me.get('file').name.lastIndexOf('.kml')));
                 me.sceneModel.trigger('layerAdded',me);
                 me.sceneModel.layers.add(me);
