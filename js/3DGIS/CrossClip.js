@@ -27,10 +27,6 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         pitch = Number($crossClipPitch.val());
         roll = Number($crossClipRoll.val());
         extrudeDistance = Number($crossClipExtrude.val());
-
-        /*var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
-        var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);*/
-
         dim = new Cesium.Cartesian3(width, height, extrudeDistance);
 
         box = viewer.entities.add({ // 标识盒
@@ -54,6 +50,9 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                     return ;
                 }
                 box.position = boxPosition;
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
+                box.orientation = orientation;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
@@ -145,7 +144,7 @@ define(['Cesium', 'jquery'], function(Cesium, $){
 
     CrossClip.destroy = function(viewer){
         this.clear();
-        layers && (layers = null);
+        layers && (layers = []);
         screenSpaceEventHandler && (screenSpaceEventHandler = null);
         box && viewer.entities.removeById('cross-clip-identify-box');
         hasInitialized = false;

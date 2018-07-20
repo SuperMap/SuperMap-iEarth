@@ -146,7 +146,7 @@ define(['Cesium', 'jquery'], function (Cesium, $) {
 
     PlaneClip.destroy = function (viewer) {
         this.clear(viewer);
-        layers = null;
+        layers = [];
         screenSpaceEventHandler && (screenSpaceEventHandler = null);
         planeClipPolygonHandler && (planeClipPolygonHandler = null);
         hasInitialized = false;
