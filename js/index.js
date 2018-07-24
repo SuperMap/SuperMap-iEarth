@@ -173,6 +173,7 @@ function init(Cesium, Zlib) {
                     x : '10px',
                     y : '150px'
                 }));
+                /* // 该版本不提供iPortal对接功能
                 if(isPCBroswer){
                     var portalFormContainer = new portalForm({
                         sceneModel : sceneModel,
@@ -184,6 +185,7 @@ function init(Cesium, Zlib) {
                         y : '200px'
                     }));
                 }
+                */
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });

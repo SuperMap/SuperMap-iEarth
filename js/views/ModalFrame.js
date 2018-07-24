@@ -15,8 +15,8 @@ define(['./Container', './WebServicePan', './CustomServicePan', './LocalFilePan'
                     </li>
                     <li role="presentation"><a href="#localFilePan" aria-controls="profile" role="tab" data-toggle="tab">${Resource.localKML}</a>
                     </li>
-                    <li role="presentation" id="getMyScenes"><a href="#myScenes" aria-controls="profile" role="tab"
-                                                                data-toggle="tab">${Resource.myScenes}</a></li>
+                    <!-- <li role="presentation" id="getMyScenes"><a href="#myScenes" aria-controls="profile" role="tab"
+                                                                data-toggle="tab">${Resource.myScenes}</a></li> -->
                 </ul>
             </div>
             <div class="myModal-body">
@@ -50,6 +50,7 @@ define(['./Container', './WebServicePan', './CustomServicePan', './LocalFilePan'
                         sceneModel: options.sceneModel
                     });
                     modalFrame.addComponent(localFilePan);
+
                     var portalScenes = new myScenes({
                         sceneModel: options.sceneModel,
                         isPCBroswer: this.isPCBroswer
