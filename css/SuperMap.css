@@ -3052,6 +3052,13 @@ main input:checked + label {
     display: block;
 }
 
+#terrainTab1:checked ~ #terrainContent1,
+#terrainTab2:checked ~ #terrainContent2,
+#terrainTab3:checked ~ #terrainContent3,
+#terrainTab4:checked ~ #terrainContent4 {
+    display: block;
+}
+
 #clipTab1:checked ~ #clipContent1,
 #clipTab2:checked ~ #clipContent2,
 #cross-clip-panel-radio:checked ~ #cross-clip-panel {

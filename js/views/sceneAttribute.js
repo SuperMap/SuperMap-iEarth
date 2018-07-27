@@ -53,7 +53,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 <section>
                     <div class="square"><input type="checkbox" id="earth" checked/><label for="earth">${Resource.earth}</label>
                     </div>
-                    <div class="square"><input type="checkbox" id="shadows" checked/><label
+                    <div class="square"><input type="checkbox" id="shadows"/><label
                             for="shadows">${Resource.shadowMap}</label></div>
                     <div class="square"><input type="checkbox" id="lightRender" checked/><label for="lightRender">${Resource.sun}</label>
                     </div>
@@ -144,6 +144,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
             viewer = options.sceneModel.viewer;
             scene = viewer.scene;
             viewer.scene.bloomEffect.show = false;
+            var layers = scene.layers.layerQueue;
             handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
             camera = scene.camera;
             camera.flyCircleLoop = true;
@@ -181,7 +182,17 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     scene.globe.enableLighting = !scene.globe.enableLighting;
                 });
                 $("#shadows").click(function(evt){
-                    scene.shadows = !scene.shadows;
+                    if($(this).prop('checked')){
+                        for(var layer of layers){
+                            layer.shadowType = 2;
+                            layer.refresh(); // 加这句是因为 不刷新阴影不会立即显示  属于底层问题，待修改
+                        }
+
+                    }else{
+                        for(var layer of layers){
+                            layer.shadowType = 0;
+                        }
+                    }
                 });
                 $("#fogEnabled").click(function(evt){
                     scene.fog.enabled = !scene.fog.enabled ;

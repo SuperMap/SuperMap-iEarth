@@ -34,11 +34,11 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                             <option value="clip_behind_any_plane_with_line_frame">带线框盒外裁剪</option>
                             <option value="clip_behind_all_plane_without_line_frame">不带线框盒内裁剪</option>
                             <option value="clip_behind_any_plane_without_line_frame">不带线框盒外裁剪</option>
-                        </select><br/><br/>
-                        <div style="overflow: hidden;">
-                            <input type="button" id="clear-box-clip" class="btn btn-info" style="float:right" value="清除">
-                            <input type="button" id="box-clip-analysis" class="btn btn-info" style="float:right" value="分析">
-                        </div>
+                        </select>
+                        
+                        <input type="button" id="clear-box-clip" class="btn btn-info" style="float:right" value="清除">
+                        <input type="button" id="box-clip-analysis" class="btn btn-info" style="float:right" value="分析">
+                        
                     </div>
                 </div>
             </section>
@@ -68,9 +68,9 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                                                   value="0" size="5"><span>&nbsp;米</span></p>
                         <button id="clear-plane-clip" class="btn btn-info" style="float:right">清除</button>
                         <button id="plane-clip-analysis" class="btn btn-info" style="float:right">分析</button>
-                        <br><br>
                     </div>
                 </div>
+                
             </section>
             <section id="cross-clip-panel">
                 <div class="adaptation">
@@ -88,10 +88,9 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                                                   min="0" max="360" step="1" value="0"><span>&nbsp;度</span></p>
                         <p><span>拉伸：</span><input type="number" id="cross-clip-extrude" class="input clip-input"
                                                   min="1" max="30" step="1" value="1"><span>&nbsp;米</span></p>
-                        <div style="overflow: hidden;">
-                            <button id="clear-cross-clip" class="btn btn-info" style="float:right">清除</button>
-                            <button id="choose-cross-clip-pos" class="btn btn-info" style="float:right">选取裁剪位置</button>
-                        </div>
+                                              
+                        <button id="clear-cross-clip" class="btn btn-info" style="float:right">清除</button>
+                        <button id="choose-cross-clip-pos" class="btn btn-info" style="float:right">选取裁剪位置</button>
                     </div>
                 </div>
             </section>

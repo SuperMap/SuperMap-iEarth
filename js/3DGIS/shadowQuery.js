@@ -7,12 +7,12 @@ define(['Cesium'],function(Cesium) {
     var handlerPolygon;
     var positions;
     shadow.initializing = function(viewer,sceneModel){
-         var scene = viewer.scene;
+        var scene = viewer.scene;
         var layers = scene.layers.layerQueue;
 
         for(var i = 0;i < layers.length;i++){
             layers[i].shadowType = 2;
-        };
+        }
         //创建阴影查询对象
         if(!shadowQuery){
             shadowQuery = new Cesium.ShadowQueryPoints(scene);
@@ -99,7 +99,7 @@ define(['Cesium'],function(Cesium) {
             var ehour = Number($("#endTime :selected").val());
             for(var i = 0;i < layers.length;i++){
                 layers[i].shadowType = 2;
-            };
+            }
             if(shour > ehour) {
                 return;
             }

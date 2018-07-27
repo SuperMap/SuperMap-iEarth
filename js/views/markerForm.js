@@ -289,7 +289,7 @@ define(['./Container',
 
     });
     function addItem(data){
-        var str = '<a class="marker"><img style="width: 10%;height: 100%; margin:8px" title=data.name src={thumbnail} id={name}></a>'.replace('{thumbnail}',data.thumbnail).replace('{name}', data.name);
+        var str = '<a class="marker"><img style="width: 10%;height: 100%; margin:8px" title=' + data.name + ' src={thumbnail} id={name}></a>'.replace('{thumbnail}',data.thumbnail).replace('{name}', data.name);
         $('#icons').append(str);
         var $child =$("#"+data.name);
         $child.on('click',function(){

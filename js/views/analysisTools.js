@@ -82,7 +82,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                             <div class="square">
                                 <label style="width:100%;">不可见区域颜色</label><input class="colorPicker" id="colorPicker2"/>
                             </div>
-                            <div style="float: right;margin-top: -20px">
+                            <div style="float: right;">
                                 <button type="button" class="btn btn-info" id="chooseView">分析</button>
                                 <button type="button" class="btn btn-info" id="ViewshedParameter">闭合体</button>
                                 <button type="button" class="btn btn-info" id="clearVS">清除</button>
