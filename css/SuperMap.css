@@ -2955,7 +2955,7 @@ main .square{
     padding: 10px 10px;
 }
 
-.tabs-vertical .tabs-content-placeholder div{
+.tabs-vertical .tabs-content-placeholder section{
     display: none;
 }
 .tabs-vertical .tabs-content-placeholder .sp-replacer{
@@ -2970,7 +2970,7 @@ main .square{
 .tabs-vertical .tabs-content-placeholder .sp-replacer .sp-preview .sp-preview-inner,.tabs-vertical .tabs-content-placeholder .sp-replacer .sp-dd{
     display: block;
 }
-.tabs-vertical .tabs-content-placeholder div.tab-content-active{
+.tabs-vertical .tabs-content-placeholder section.tab-content-active{
     display: block;
 }
 

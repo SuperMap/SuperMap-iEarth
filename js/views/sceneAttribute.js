@@ -171,7 +171,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
 				$(document).ready(function() {
 					var widget = $('#sceneForm');
 					var tabs = widget.find('ul a'),
-						content = widget.find('.tabs-content-placeholder > div');
+						content = widget.find('.tabs-content-placeholder > section');
 					tabs.on('click', function (e) {
 						e.preventDefault();
 						// Get the data-index attribute, and show the matching content div
@@ -204,7 +204,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                             layer.shadowType = 2;
                             layer.refresh(); // 加这句是因为 不刷新阴影不会立即显示  属于底层问题，待修改
                         }
-
                     }else{
                         for(var layer of layers){
                             layer.shadowType = 0;
@@ -487,7 +486,12 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
         onQueryCoordinatesClk : function(evt){
             var tooltip = createTooltip(document.body);
             handler.setInputAction(function(movement) {
-                var position = scene.pickPosition(movement.endPosition);
+
+                var info = "经度：" + longitude.toFixed(4) + "°  " + "纬度：" + latitude.toFixed(4)+ "°" + "高度：" + height.toFixed(4)+ "米"
+                tooltip.showAt(movement.endPosition, '<p>'+info + '</p>');
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            handler.setInputAction(function(e){
+                var position = scene.pickPosition(e.position);
                 var cartographic = Cesium.Cartographic.fromCartesian(position);
                 var longitude = Cesium.Math.toDegrees(cartographic.longitude);
                 var latitude = Cesium.Math.toDegrees(cartographic.latitude);
@@ -495,14 +499,9 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 if(height < 0) {
                     height = 0;
                 }
-                var info = "经度：" + longitude.toFixed(4) + "°  " + "纬度：" + latitude.toFixed(4)+ "°" + "高度：" + height.toFixed(4)+ "米"
-                tooltip.showAt(movement.endPosition, '<p>'+info + '</p>');
-            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            handler.setInputAction(function(){
-                tooltip.setVisible(false);
-                tooltip = null;
                 handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            },Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+                handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         },
         onStartFlyClk : function(evt){
             flyRoute.initializing(viewer);

@@ -7,9 +7,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     var parentContainer;
     var sceneModel;
     var isPCBroswer;
-    var htmlStr = [
-  '<main style="position : absolute;" class="mainView">',
-  '<button aria-label="Close" id="closeMain" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
     var htmlStr = `
         <main style="position : absolute;" class="mainView">
