@@ -1,4 +1,4 @@
-define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','popLayer' , 'Cesium'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,popLayer,Cesium){
+define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','popLayer' , 'Cesium'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,popLayer,Cesium){
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
@@ -49,6 +49,70 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             	me.addLoading();
             	layerCollection.filterByTexture(texCompressType);
             	layerCollection.fetch(url,me,true);
+            	if(me.isPCBroswer){
+            		$('#webServicesWraper').scroll(function(){
+                        	var selType = $selTypeEl.val();
+                        	var newUrl;
+                        	if(selType == 'public'){
+                            	if(me.currentPublicPage > me.totalPublicPage){
+                            		return ;
+                            	}
+                            	me.currentPublicPage += 1;
+                            	if(me.currentPublicPage > me.totalPublicPage){
+                            		return ;
+                            	}
+                            	// newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18&currentPage=" + me.currentPublicPage;
+                                newUrl = "data/services.json";
+                        		layerCollection.fetch(newUrl,me,true);
+                        	}
+                        	else{
+                        		if(me.currentPrivatePage > me.totalPrivatePage){
+                            		//me.thumbGroup.scroll.options.onScrollEnd = undefined;
+                            		return ;
+                            	}
+                        		me.currentPrivatePage += 1;
+                        		if(me.currentPrivatePage > me.totalPrivatePage){
+                            		return ;
+                            	}
+                        		newUrl = 'https://www.supermapol.com/web/services.json?offline=false&enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&keywords=[' + window.USERNAME+ ']&filterFields=["RESTITLE","LINKPAGE","USERNAME"]&t=1480990924314&currentPage=' + me.currentPrivatePage;
+                        		layerCollection.fetch(newUrl,me,false);
+                        	}
+                    }); 
+            	}
+            	else{
+            		me.listenTo(me.thumbGroup,"addScroll", function(){
+            			me.thumbGroup.scroll.options.onScrollEnd = function(){
+                        	var selType = $selTypeEl.val();
+                        	var newUrl;
+                        	if(selType == 'public'){
+                            	if(me.currentPublicPage > me.totalPublicPage){
+                            		//me.thumbGroup.scroll.options.onScrollEnd = undefined;
+                            		return ;
+                            	}
+                            	me.currentPublicPage += 1;
+                            	if(me.currentPublicPage > me.totalPublicPage){
+                            		return ;
+                            	}
+                            	newUrl = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18&currentPage=" + me.currentPublicPage;
+                            	layerCollection.fetch(newUrl,me,true);
+                        	}
+                        	else{
+                            	if(me.currentPrivatePage > me.totalPrivatePage){
+                            		//me.thumbGroup.scroll.options.onScrollEnd = undefined;
+                            		return ;
+                            	}
+                            	me.currentPrivatePage += 1;
+                            	if(me.currentPrivatePage > me.totalPrivatePage){
+                            		return ;
+                            	}
+                        		newUrl = 'https://www.supermapol.com/web/services.json?offline=false&enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&keywords=[' + window.USERNAME+ ']&filterFields=["RESTITLE","LINKPAGE","USERNAME"]&t=1480990924314&currentPage=' + me.currentPrivatePage;
+                            	layerCollection.fetch(newUrl,me,false);
+                        	}
+                		};
+                		me.stopListening(me.thumbGroup,"addScroll");
+            		});
+            	}
+            	 
             });
         },
         render : function(){

@@ -1,0 +1,89 @@
+{
+  "s3mModels": [
+    {
+      "name": "椅子",
+      "thumbnail": "./data/S3MData/bench.png",
+      "path": "./data/S3MData/Chair.s3m"
+    },
+    {
+      "name": "垃圾箱",
+      "thumbnail": "./data/S3MData/Dustbin.png",
+      "path": "./data/S3MData/Dustbin.s3m"
+    },
+    {
+      "name": "垃圾箱2",
+      "thumbnail": "./data/S3MData/paper-bucket.png",
+      "path": "./data/S3MData/Dustbin2.s3m"
+    },
+    {
+      "name": "垃圾桶",
+      "thumbnail": "./data/S3MData/dustbin1.png",
+      "path": "./data/S3MData/GarbageCan.s3m"
+    },
+    {
+      "name": "报亭",
+      "thumbnail": "./data/S3MData/newspaper.png",
+      "path": "./data/S3MData/NewsStand.s3m"
+    },
+    {
+      "name": "邮政信箱",
+      "thumbnail": "./data/S3MData/mailbox.png",
+      "path": "./data/S3MData/PO-Box.s3m"
+    },
+    {
+      "name": "限速牌",
+      "thumbnail": "./data/S3MData/speed-limit.png",
+      "path": "./data/S3MData/RestrictionBoard.s3m"
+    },
+    {
+      "name": "路灯",
+      "thumbnail": "./data/S3MData/lamp-post.png",
+      "path": "./data/S3MData/StreetLight.s3m"
+    },
+    {
+      "name": "红绿灯",
+      "thumbnail": "./data/S3MData/traffic-light.png",
+      "path": "./data/S3MData/TrafficLight.s3m"
+    },
+    {
+      "name": "电信电话亭",
+      "thumbnail": "./data/S3MData/phone-booth.png",
+      "path": "./data/S3MData/T-TelBooth.s3m"
+    },
+    {
+      "name": "树1",
+      "thumbnail": "./data/S3MData/tree.png",
+      "path": "./data/S3MData/tree1.s3m"
+    },
+    {
+      "name": "树2",
+      "thumbnail": "./data/S3MData/pine.png",
+      "path": "./data/S3MData/tree2.s3m"
+    },
+    {
+      "name": "树3",
+      "thumbnail": "./data/S3MData/tree3.png",
+      "path": "./data/S3MData/tree3.s3m"
+    },
+    {
+      "name": "树4",
+      "thumbnail": "./data/S3MData/tree2.png",
+      "path": "./data/S3MData/tree4.s3m"
+    },
+    {
+      "name": "springTree",
+      "thumbnail": "./data/S3MData/springTree.png",
+      "path": "./data/S3MData/springTree.s3m"
+    },
+    {
+      "name": "autumnTree",
+      "thumbnail": "./data/S3MData/autumnTree.png",
+      "path": "./data/S3MData/autumnTree.s3m"
+    },
+    {
+      "name": "winterTree",
+      "thumbnail": "./data/S3MData/winterTree.png",
+      "path": "./data/S3MData/winterTree.s3m"
+    }
+  ]
+}

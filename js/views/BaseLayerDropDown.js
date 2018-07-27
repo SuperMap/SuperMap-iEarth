@@ -1,9 +1,9 @@
-define(['./Container','../models/BaseLayerCollection','./ThumbGroup'],function(Container,BaseLayerCollection,ThumbGroup){
+define(['./Container','../models/BaseLayerCollection','./ThumbGroup','iScroll'],function(Container,BaseLayerCollection,ThumbGroup,iScroll){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-        '<div id="baseLayerGroup">',
+        '<div id="baseLayerGroup" >',
         '</div>',
         '<div>',
         '<div style="text-align : left;"><div class="squaredTwo" id="chkTerrain"><input type="checkbox" ><label class="check-icon"></label></div><label>' + Resource.stkTerrain + '</label></div>'
@@ -36,7 +36,8 @@ define(['./Container','../models/BaseLayerCollection','./ThumbGroup'],function(C
                 $('#baseLayerBtn').removeClass('open');
             });
             this.on('componentAdded',function(parent){
-            	layerCollection.fetch();
+
+            	 layerCollection.fetch();
             	 if(me.model.isSTKTerrain){
                  	$('#chkTerrain input[type="checkbox"]').prop('checked',true);
                  }

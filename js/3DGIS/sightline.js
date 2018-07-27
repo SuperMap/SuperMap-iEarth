@@ -12,14 +12,18 @@ define(['Cesium'],function(Cesium) {
     var latitude;
     var height ;
     var targetPoint;
+    var clickFlag = 0;
     sgLine.initializing =function(viewer,sceneModel){
         var scene = viewer.scene;
         if(!sightline){
             sightline = new Cesium.Sightline(scene);
             sightline.build();
         }
+        clickFlag += 1;
         sightline.removeAllTargetPoint();
         viewer.entities.removeAll();
+        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+
 
         // var visibleColor = document.getElementById('visibleColor');
         // var color1 = Cesium.Color.fromCssColorString(visibleColor.value);
@@ -56,27 +60,28 @@ define(['Cesium'],function(Cesium) {
                 });
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         });
-
+        var store = {};
         sightLineHandler.drawEvt.addEventListener(function(result) {
-            var line=result.object;
-            var endPoint = line._positions[line._positions.length - 1];
-            var ecartographic = Cesium.Cartographic.fromCartesian(endPoint);
-            var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
-            var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
-            var eheight = ecartographic.height;
-            targetPoint = [elongitude, elatitude, eheight];
-            sightline.addTargetPoint({
-                position :targetPoint,
-                name : "point" + new Date()
-            });
-            handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                var line=result.object;
+                var endPoint = line._positions[line._positions.length - 1];
+                var ecartographic = Cesium.Cartographic.fromCartesian(endPoint);
+                var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
+                var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
+                var eheight = ecartographic.height;
+                targetPoint = [elongitude, elatitude, eheight];
+                sightline.addTargetPoint({
+                    position: targetPoint,
+                    name: "point" + new Date()
+                });
+                store.viewPosition =  sightline.viewPosition;
+                store.targetPoint =  targetPoint;
+                sceneModel.analysisObjects.sightLineStore = store;
+                handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         });
 
         sightLineHandler.activate();
 
         pointHandler = new Cesium.PointHandler(viewer);
-
-        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         pointHandler.drawCompletedEvent.addEventListener(function(point){
             pointPosition = point;
@@ -92,11 +97,6 @@ define(['Cesium'],function(Cesium) {
         });
 
         pointHandler.activate();
-
-        var store = {};
-        store.viewPosition =  sightline.viewPosition;
-        store.targetPoint =  targetPoint;
-        sceneModel.analysisObjects.sightLineStore = store;
 
         visibleColor.oninput = function(){
             var color = Cesium.Color.fromCssColorString(visibleColor.value);
@@ -132,6 +132,15 @@ define(['Cesium'],function(Cesium) {
             $('#viewPointZ').val("0.0");
             viewer.entities.removeAll();
             sightline.removeAllTargetPoint();
+        }
+
+        if(sceneModel.analysisObjects.sightLineStore && clickFlag < 2){
+            var store = sceneModel.analysisObjects.sightLineStore;
+            sightline.viewPosition = store.viewPosition;
+            sightline.addTargetPoint({
+                position: store.targetPoint,
+                name: "point" + new Date()
+            });
         }
     };
     sgLine.remove = function(viewer){

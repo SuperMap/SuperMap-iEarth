@@ -7,6 +7,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     var parentContainer;
     var sceneModel;
     var isPCBroswer;
+    var htmlStr = [
+  '<main style="position : absolute;" class="mainView">',
+  '<button aria-label="Close" id="closeMain" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
     var htmlStr = `
         <main style="position : absolute;" class="mainView">
@@ -76,16 +79,23 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                                 <input type="number" id="verticalFov" class="input" min="1" max="90" step="1.0" value="60"
                                        title=${Resource.verticalFov}/>
                             </div>
+                            <div style="margin-top: -35px;">
+                                <label>闭合体</label>
+                                <select id="viewShedBody" style="width: 90%">
+                                    <option value="NONE" selected>无闭合体</option>
+                                    <option value="VISIBLEBODY">可视体</option>
+                                    <option value="HIDDENBODY">不可视体</option>
+                                </select>
+                            </div>
                             <div class="square">
                                 <label style="width:100%;">可见区域颜色</label><input class="colorPicker" id="colorPicker1"/>
                             </div>
                             <div class="square">
                                 <label style="width:100%;">不可见区域颜色</label><input class="colorPicker" id="colorPicker2"/>
                             </div>
-                            <div style="float: right;">
-                                <button type="button" class="btn btn-info" id="chooseView">分析</button>
-                                <button type="button" class="btn btn-info" id="ViewshedParameter">闭合体</button>
-                                <button type="button" class="btn btn-info" id="clearVS">清除</button>
+                            <div style="float: right;margin-top: -20px">
+                                <button type="button" class="btn btn-info" id="chooseView" style="">分析</button>
+                                <button type="button" class="btn btn-info" id="clearVS" style="">清除</button>
                             </div>
                         </div>
                     </div>
@@ -200,6 +210,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                         <select id="skylineMode" style="width:70%;">
                             <option value="0" selected>${Resource.polyline}</option>
                             <option value="1">${Resource.polygon}</option>
+                            <option value="2">${Resource.skylinesectorbody}</option>
                         </select>
                     </div>
                     <div class="square">
@@ -243,9 +254,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                         <input type="button" id="profile" class="btn btn-info" style="float:right" value="分析">
                     </div>
                 </div>
-            </section>
-            
-            
+            </section> 
         </main>
     `;
 
@@ -346,9 +355,15 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                 });
                 $("#selDate").val(getNowFormatDate());
                 if(sceneModel.analysisObjects.viewshed3DStore){
-
                     viewshed.initializing(viewer,sceneModel);
                 }
+                if(sceneModel.analysisObjects.sightLineStore){
+                    sgline.initializing(viewer,sceneModel);
+                }
+                if(sceneModel.analysisObjects.skylineStore){
+                    skyLine.initializing(viewer,parentContainer,sceneModel);
+                }
+
             });
         },
         render : function(){

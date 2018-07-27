@@ -4,6 +4,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
     };
     var skyline;
     var parent;
+    var s3mInstance;
     skyLine.initializing = function(viewer,parentContainer,sceneModel){
         var scene = viewer.scene;
         parent =  parentContainer
@@ -34,9 +35,48 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             var value = $(this).val();
             if(value=="0"){
                 skyline.displayStyle = 0;
+                scene.primitives._primitives = [];
             }
             else if(value=="1"){
-                skyline.displayStyle = 1;
+                skyline.displayStyle = 1
+                scene.primitives._primitives = [];
+            }
+            else if(value=="2"){
+                skyline.displayStyle = 0;
+                if(!s3mInstance){
+                    s3mInstance = new Cesium.S3MInstanceCollection(scene._context);
+                    scene.primitives.add(s3mInstance);
+                }
+                var param = skyline.getSkylineSectorParameter();
+                var geometrySkylineSectorBodyPostParameter = {};
+                geometrySkylineSectorBodyPostParameter.viewerPoint  = param.viewPos;
+                geometrySkylineSectorBodyPostParameter.line3D  = param.geoLine3D;
+                geometrySkylineSectorBodyPostParameter.height = 0;
+                geometrySkylineSectorBodyPostParameter.lonlat = true;
+                var url = "http://localhost:8090/iserver/services/spatialAnalysis-qiang/restjsr/spatialanalyst/geometry/3d/skylinesectorbody.json";
+                var queryData = JSON.stringify(geometrySkylineSectorBodyPostParameter);
+                $.ajax({
+                    url : url,
+                    async : true,
+                    data : queryData,
+                    method : "POST"
+                }).done(function(data) {
+                    $.ajax({
+                        url : data.newResourceLocation + ".json",
+                        method : "GET"
+                    }).done(function(data) {
+                        if (data.geometry === null) {
+                            return;
+                        }
+                        var uint8Array = new Uint8Array(data.geometry.model);
+                        var buffer = uint8Array.buffer;
+                        s3mInstance.add("result",{
+                            position : Cesium.Cartesian3.fromDegrees(data.geometry.position.x, data.geometry.position.y, data.geometry.position.z),
+                            hpr : new Cesium.HeadingPitchRoll(0,0,0),
+                            color : new Cesium.Color(0, 160/255, 233/255, 0.5)
+                        }, buffer);
+                    })
+                });
             }
         });
 
@@ -45,8 +85,17 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             if(parent.skylineForm){
                 parent.skylineForm.$el.hide();
             }
+            scene.primitives._primitives = [];
             skyline.clear();
         });
+
+        if(sceneModel.analysisObjects.skylineStore){
+            var store = sceneModel.analysisObjects.skylineStore;
+            skyline.viewPosition = store.viewPosition;
+            skyline.pitch = store.pitch;
+            skyline.direction = store.direction;
+            skyline.radius = store.radius;
+        }
 
         var store = {};
         store.viewPosition = skyline.viewPosition;
