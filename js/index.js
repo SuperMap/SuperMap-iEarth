@@ -100,6 +100,8 @@ function init(Cesium, Zlib) {
         });
 
         var scene = viewer.scene;
+        scene.fxaa = true; // 开启反锯齿效果，对地球起到美化作用
+
         if (Cesium.defined(scene.sun)) {
             scene.sun.show = false;
         }

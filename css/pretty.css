@@ -5,6 +5,21 @@ html, body, #cesiumContainer {
     padding: 0;
     overflow: hidden;
     background-color: #000000;
+
+    /* 禁止文字被鼠标选中 */
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+.divider{
+    height: 2px;
+    background-color: #7c7c7c;
+    margin: 10px 0;
 }
 
 ul {

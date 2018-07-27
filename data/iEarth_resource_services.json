@@ -1,4 +1,4 @@
-{
+﻿{
   "totalPage": 1,
   "content": [
     {
@@ -19,14 +19,14 @@
       "id": 3,
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_srsb_water.jpg",
-      "proxiedUrl": "http://www.supermapol.com/iserver/services/3D-srsb/rest",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-srsb/rest",
       "sceneName": "萨尔茨堡火车站"
     },
     {
       "id": 4,
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_niaochao_water.jpg",
-      "proxiedUrl": "http://www.supermapol.com/iserver/services/3D-niaocao_water/rest",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-niaocao_water/rest",
       "sceneName": "鸟巢"
     },
     {
@@ -63,6 +63,20 @@
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/volume.jpg",
       "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-tishuju/rest",
       "sceneName": "体数据"
+    },
+    {
+      "id": 10,
+      "type": "REALSPACE",
+      "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/columnar.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-Histogram/rest",
+      "sceneName": "柱状"
+    },
+    {
+      "id": 11,
+      "type": "REALSPACE",
+      "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/Line.jpg",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-Line/rest",
+      "sceneName": "线状"
     }
   ]
 }
