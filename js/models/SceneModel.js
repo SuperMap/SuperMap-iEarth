@@ -362,6 +362,100 @@ define([
                 this.addLayer(layerModel,sceneContent);
             }
 
+        },
+        openScene : function (sceneUrl) {
+                var that = this;
+                var allUrl = sceneUrl + "/datas.xml";
+                var namelist = new Array();
+                var pathlist = new Array()
+                $.ajax({
+                    url: allUrl,
+                    dataType: 'xml',
+                    type: 'GET',
+                    async: false,
+                    timeout: 3000,
+                    error: function(xml){
+
+                    },
+                    success: function(xml){
+                        $(xml).find("name").each(function(i)
+                        {
+                            var id = $(this).children("id");
+                            namelist[i] = id.context.innerHTML;
+                        });
+                        $(xml).find("path").each(function(i)
+                        {
+                            var id = $(this).children("id");
+                            pathlist[i] = id.context.innerHTML;
+                        });
+
+                    }
+                });
+
+                var jsonUrl = sceneUrl + '/scenes.xml';
+                var jsonPath;
+                $.ajax({
+                    url: jsonUrl,
+                    dataType: 'xml',
+                    type: 'GET',
+                    async: false,
+                    timeout: 3000,
+                    error: function(xml){
+
+                    },
+                    success: function(xml){
+                        $(xml).find("path").each(function(i)
+                        {
+                            var id = $(this).children("id");
+                            jsonPath = id.context.innerHTML;
+                        });
+
+                    }
+                });
+                var typeUrl = jsonPath + '/layers.xml';
+                var typelist = new Array()
+                $.ajax({
+                    url: typeUrl,
+                    dataType: 'xml',
+                    type: 'GET',
+                    async: false,
+                    timeout: 3000,
+                    error: function(xml){
+                    },
+                    success: function(xml){
+                        $(xml).find("layer3DType").each(function(i)
+                        {
+                            var id = $(this).children("id");
+                            typelist[i] = id.context.innerHTML;
+                        });
+
+                    }
+                });
+                for(var j = 0;j < typelist.length;j++){
+                    if(typelist[j] == 'OSGBLayer'){
+                        typelist[j] = 'S3M';
+                    }
+                    else if(typelist[j] == 'ImageFileLayer'){
+                        typelist[j] = 'IMAGERY';
+                    }
+                    else if(typelist[j] == 'TerrainFileLayer'){
+                        typelist[j] = 'TERRAIN';
+                    }
+                }
+
+                for(var i = 0;i < namelist.length;i++){
+                    if(typelist[i] == 'S3M'){
+                        pathlist[i] = pathlist[i] +"/config";
+                    }
+                    var layerModel = new LayerModel({
+                        url : pathlist[i],
+                        name : namelist[i],
+                        type : typelist[i],
+                        realName : name
+                    });
+                    that.addLayer(layerModel);
+                }
+
         }
     });
     return SceneModel;

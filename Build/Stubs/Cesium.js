@@ -1442,6 +1442,10 @@ define('Geometry3D/GeoBox', function() {
     return Cesium['GeoBox'];
 });
 
+define('Geometry3D/GeoCircle3D', function() {
+    return Cesium['GeoCircle3D'];
+});
+
 define('Geometry3D/GeoCone', function() {
     return Cesium['GeoCone'];
 });
@@ -3932,6 +3936,10 @@ define('ThirdParty/measureText', function() {
 
 define('ThirdParty/mersenne-twister', function() {
     return Cesium['mersenne-twister'];
+});
+
+define('ThirdParty/netcdf', function() {
+    return Cesium['netcdf'];
 });
 
 define('ThirdParty/NoSleep', function() {

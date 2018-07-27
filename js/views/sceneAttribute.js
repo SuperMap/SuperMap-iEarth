@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tooltip'],function(Container, Cesium, flyRoute,drag, slider,tooltip){
+define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tooltip','../lib/HeadControls','../lib/jeelizFaceFilter'],function(Container, Cesium, flyRoute,drag, slider,tooltip,HeadControls,jeelizFaceFilter){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -6,127 +6,130 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
     var viewer;
     var camera;
     var handler;
-    var labels;
-    var label;
+    var flyCirclePoint;
+    var htmlStr = [
+                   '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
+                   '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.sceneOptions +'</label>',
+                   '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+				   '<ul>',
+                   '<li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
+				   '<li><a data-index="1" href="#">'+ Resource.otherOptions +'</a></li>',
+				   '<li><a data-index="2" href="#">'+ "场景颜色" +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="3" href="#">'+ "泛光" +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="4" href="#">'+ "相机" +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="5" href="#">'+ "关于" +'</a></li>',
+                   '</ul>',
+				   '<div class="tabs-content-placeholder" style="height:290px" id="scene-placeholder">',
 
-    var htmlStr = `
-        <div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:380px;z-index: 1;cursor: auto;">
-            <label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">${Resource.sceneOptions}</label>
-            <button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close"
-                    title="关闭"><span aria-hidden="true">×</span></button>
-            <ul>
-                <li><a class="tab-active" data-index="0" href="#">${Resource.basicOptions}</a></li>
-                <li><a data-index="1" href="#">${Resource.otherOptions}</a></li>
-                <li><a data-index="2" href="#">场景颜色</a></li>
-                <li style="font-size: 12px"><a data-index="3" href="#">泛光</a></li>
-                <li style="font-size: 12px"><a data-index="4" href="#">相机</a></li>
-                <li style="font-size: 12px"><a data-index="5" href="#">关于</a></li>
-            </ul>
-            <div class="tabs-content-placeholder" style="height: 100%;" id="scene-placeholder">
-        
-                <section class="tab-content-active">
-                    <label>${Resource.sceneName}</label>
-                    <input type="text" class="input" disabled id="sceneName">
-                    <div class="divider"></div>
-                    <label>${Resource.viewMode}</label>
-                    <select id="sceneMode" class="cesium-button">
-                        <option value="3D">3D</option>
-                        <option value="2D">2D</option>
-                        <option value="columbusView">Columbus View</option>
-                    </select>
-                    <div class="divider"></div>
-                    <label>${Resource.multiViewport}</label>
-                    <select id="viewportType" class="cesium-button">
-                        <option value="NONE" selected>${Resource.onePort}</option>
-                        <option value="HORIZONTAL">${Resource.horizontalSnap}</option>
-                        <option value="VERTICAL">${Resource.verticalSnap}</option>
-                        <option value="TRIPLE">${Resource.tripeSnap}</option>
-                        <option value="QUAD">${Resource.quadSnap}</option>
-                    </select>
-                    <div class="divider"></div>
-                    <button class="btn btn-info" id="queryCoordinates">查询坐标值</button>
-                    <div class="param-item"><span>经度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>
-                    <div class="param-item"><span>纬度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>
-                    <div class="param-item"><span>高度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>
-                </section>
-        
-                <section>
-                    <div class="square"><input type="checkbox" id="earth" checked/><label for="earth">${Resource.earth}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="shadows" checked/><label
-                            for="shadows">${Resource.shadowMap}</label></div>
-                    <div class="square"><input type="checkbox" id="lightRender" checked/><label for="lightRender">${Resource.sun}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="timeline"/><label for="timeline">${Resource.timeline}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">${Resource.skyAtmosphereEffect}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">${Resource.fogEffect}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">${Resource.depthAgainst}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>
-                    <div class="square"><input type="checkbox" id="underground"/><label for="underground">地下</label></div>
-                </section>
-        
-                <section>
-                    <label>${Resource.brightness}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="brightness" class="input">
-                    <label>${Resource.contrast}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="contrast" class="input">
-                    <label>${Resource.hue}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="0.0" id="hue" class="input">
-                    <label>${Resource.saturation}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="saturation" class="input">
-                    <label>${Resource.gamma}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="gamma" class="input">
-                </section>
-        
-        
-                <section>
-                    <label style="width: 60px;float: left; margin-top: -0.5px">场景泛光</label>
-                    <input type="checkbox" id="bloom"/>
-                    <label>亮度阈值</label>
-                    <input type="number" id="threshold" class="input" min="0" max="1" value="0.9" step="0.01">
-                    <label>泛光强度</label>
-                    <input type="number" id="bloomIntensity" class="input" min="0" max="10" value="2.0" step="0.01">
-                </section>
-        
-        
-                <section>
-                    <label>飞行线路</label><br><br>
-                    <input style="background-color:#2EC5AD" type="file" id="flyFile" onchange="" accept=".fpf"/><br><br>
-                    <button class="start" id="startFly" title="开始" style="background-color: transparent;border:none;"></button>
-                    <button class="pause" id="pauseFly" title="暂停" style="background-color: transparent;border:none;"></button>
-                    <button class="stop" id="stopFly" title="停止" style="background-color: transparent;border:none;"></button>
-                    <br><br>
-                    <select id="stopList" style="background-color:#2EC5AD;width: 100%">
-                    </select>
-                    <label>观察</label><br>
-                    <table border="0" align="left">
-                        <tr>
-                            <th>
-                                <button id="spin" class="btn btn-info" style="">绕点旋转</button>
-                            </th>
-                            <td>
-                                <input type="checkbox" id="circulation" checked=true>
-                                <label style="width: 60px;">循环旋转</label>
-                            </td>
-                        </tr>
-                    </table>
-                </section>
-        
-                <section>
-                    <label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>
-                    <label style=" text-align: center; font-size: 16px">版本 ： 2.1.1</label><br><br><br><br>
-                    <label>更新内容</label><br><br>
-                    <textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;
-                    margin-left: 15px;background:transparent">1、图层上支持倾斜模型开挖与压平\n\n2、完善分享模块\n\n3、体数据添加颜色说明
-                    </textarea>
-                </section>
-            </div>
-        </div>
-    `;
+                   '<div class="tab-content-active">',
+                   '<label>'+ Resource.sceneName +'</label>',
+                   '<input type="text" class="cesium-button" readonly id="sceneName">',
+                   '<label>'+ Resource.viewMode +'</label>',
+                   '<select id="sceneMode" class="cesium-button">',
+                   '<option value="3D">3D</option><option value="2D">2D</option>',
+                   '<option value="columbusView">Columbus View</option>',
+                   '</select>',
+                   '<label> '+ Resource.multiViewport +'</label>',
+                   '<select id="viewportType" class="cesium-button">',
+                   '<option value="NONE" selected>'+ Resource.onePort +'</option>',
+                   '<option value="HORIZONTAL">'+ Resource.horizontalSnap +'</option>',
+                   '<option value="VERTICAL">'+ Resource.verticalSnap +'</option>',
+                   '<option value="TRIPLE">'+ Resource.tripeSnap +'</option>',
+                   '<option value="QUAD">'+ Resource.quadSnap +'</option>',
+                   '</select>',
+                    '<label> '+ '卷帘效果' +'</label>',
+                    '<select id="splitType" class="cesium-button">',
+                    '<option value="NONE" selected>'+ '禁用卷帘' +'</option>',
+                    '<option value="LEFT">'+ '屏蔽卷帘左侧' +'</option>',
+                    '<option value="RIGHT">'+ '屏蔽卷帘右侧'+'</option>',
+                    '<option value="TOP">'+ '屏蔽卷帘上侧' +'</option>',
+                    '<option value="BOTTOM">'+ '屏蔽卷帘下侧' +'</option>',
+                    '</select>',
+                   '<button class="btn btn-info" id="queryCoordinates">查询坐标值</button>',
+                   '</div>',
+
+
+                   '<div>',
+                    '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">'+ Resource.earth +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="shadows" checked/><label for="shadows">'+ Resource.shadowMap +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="lightRender"  checked/><label for="lightRender">'+ Resource.sun +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="timeline"  /><label for="timeline">'+ Resource.timeline +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">'+ Resource.skyAtmosphereEffect +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
+                    '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
+                    '<div class="square" ><input type="checkbox" id="underground"/><label for="underground">地下</label></div>',
+                    '</div> ',
+                    
+                   '<div>',
+                   '<label>'+ Resource.brightness +'</label>',
+                   '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input" >',
+                   '<label>'+ Resource.contrast +'</label>',
+                   '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "contrast" class="input" >',
+                   '<label>'+ Resource.hue +'</label>',
+                   '<input type="number" min="0" max="3" step="0.02" value="0.0" id= "hue" class="input">',
+                   '<label>'+ Resource.saturation +'</label>',
+                   '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "saturation" class="input" >',
+                   '<label>'+ Resource.gamma +'</label>',
+                   '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input" >',
+                   '</div>',
+
+
+                    '<div>',
+                    '<label style="width: 60px;float: left; margin-top: -0.5px">场景泛光</label>',
+                    '<input type="checkbox" id="bloom"/>',
+                    '<label>亮度阈值</label>',
+                    '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.9" step="0.01">',
+                    '<label>泛光强度</label>',
+                    '<input type="number"  id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.01">',
+                    '</div>',
+
+
+                    '<div>',
+                        '<label>'+ "飞行线路" +'</label><br><br>',
+                        '<input style="background-color:#2EC5AD" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
+                        '<button class="start" id="startFly" title="开始" style="background-color: transparent;border:none;"></button>',
+                        '<button class="pause" id="pauseFly" title="暂停" style="background-color: transparent;border:none;"></button>',
+                        '<button class="stop"  id="stopFly"  title="停止" style="background-color: transparent;border:none;"></button><br><br>',
+                        '<select id="stopList" style="background-color:#2EC5AD;width: 100%">',
+                        '</select>',
+                        '<label>'+ "观察" +'</label><br>',
+                        '<table  border="0" align="left">',
+                        '<tr>',
+                        '<td>',
+                           '<button id="spin" class="btn btn-info" style="">绕点旋转</button>',
+                        '</td>',
+                        '<td nowrap="nowrap">',
+                        '<input type="checkbox"  id="stopFlyCircle">',
+                        '<label style="margin-left: -5px;">暂停</label>',
+                        '</td>',
+                        '<td nowrap="nowrap">',
+                            '<input type="checkbox"  id="circulation" checked = true >',
+                            '<label style="margin-left: -5px;">循环</label>',
+                        '</td>',
+                        '<td nowrap="nowrap">',
+                        '<input type="checkbox"  id="interaction">',
+                        '<label style="margin-left: -5px;">交互</label>',
+                        '<canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>',
+                        '<button id="startHeadControlsButton" style="display: none">启用摄像头</button>',
+                        '</td>',
+                        '</table>',
+                    '</div>',
+
+                    '<div>',
+                    '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
+                    '<label style=" text-align: center; font-size: 16px">版本 ： 0.1.2</label><br><br><br><br>',
+                    '<label>'+"更新内容" +'</label><br><br>',
+                    '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
+                        "1、支持打开iPortal注册的服务\n"+
+                        "2、加速初始化\n"+
+                        "3、部分界面调整\n"+
+                    '</textarea>',
+                    '</div>',
+               '</div>',
+          '</div>',
+
+               ].join('');
     var sceneAttribute = Container.extend({
         tagName: 'div',
         id: 'sceneAttribute',
@@ -153,7 +156,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
 				$(document).ready(function() {
 					var widget = $('#sceneForm');
 					var tabs = widget.find('ul a'),
-						content = widget.find('.tabs-content-placeholder > section');
+						content = widget.find('.tabs-content-placeholder > div');
 					tabs.on('click', function (e) {
 						e.preventDefault();
 						// Get the data-index attribute, and show the matching content div
@@ -226,6 +229,70 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 $('#circulation').on("input change",function(){
                     camera.flyCircleLoop = this.checked;
                 });
+                $('#stopFlyCircle').on("input change",function(){
+                    if(this.checked){
+                        camera.stopFlyCircle();
+                    }else{
+                        camera.flyCircle(flyCirclePoint);
+                    }
+                });
+                $('#interaction').on("input change",function(){
+                        var SETTINGS={
+                            zoomSensibility: 5.5,
+                            panSensibility: 0.00000015
+                        };
+                        var ISHEADCONTROLSON=false,  ISHEADCONTROLSINITIALIZED=false;
+                        $("#startHeadControlsButton").show();
+                        if(!this.checked){
+                            ISHEADCONTROLSON = true;
+                            $("#headControlsCanvas").hide();
+                            $("#startHeadControlsButton").hide();
+                            toggleHeadControls(!ISHEADCONTROLSON);
+                            return;
+                        }
+                        $("#startHeadControlsButton").on("click",function(){
+                            $("#headControlsCanvas").show();
+                            $("#startHeadControlsButton").hide();
+                            if (ISHEADCONTROLSINITIALIZED){
+                                toggleHeadControls(!ISHEADCONTROLSON);
+                                return;
+                            }
+                            ISHEADCONTROLSINITIALIZED=true;
+                            HeadControls.init({
+                                canvasId: 'headControlsCanvas',
+                                callbackMove: callbackMove,
+                                callbackReady: function(err){
+                                    if (err){
+                                        console.log('ERROR in index.html : HEAD CONTROLS NOT READY. err =', err);
+                                    } else {
+                                        console.log('INFO in index.html : HEAD CONTROLS ARE READY :)');
+                                        toggleHeadControls(true);
+                                    }
+                                },
+                                NNCpath: 'js/lib/',
+                                animateDelay: 2
+                            });
+                        })
+                    function toggleHeadControls(isOn){
+                        HeadControls.toggle(isOn);
+                        ISHEADCONTROLSON=isOn;
+                    }
+                    function callbackMove(mv){
+                        var cameraHeight = scene.camera.positionCartographic.height/1000.0
+                        if (mv.dZ!==0) {
+                            var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
+                            camera.moveForward(zoomAmount);
+                        }
+                        if (mv.dRx!==0) {
+                            var panAmountX=SETTINGS.panSensibility*mv.dRx* cameraHeight;
+                            camera.rotateUp(panAmountX);
+                        }
+                        if (mv.dRy!==0) {
+                            var panAmountY=SETTINGS.panSensibility*mv.dRy* cameraHeight;
+                            camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
+                        }
+                    }
+                });
                 var sceneName = viewer.scene.name;
                 if(sceneName){
                     $("#sceneName").val(sceneName);
@@ -249,7 +316,96 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     var value = $(this).val();
                     scene.multiViewportMode = Cesium.MultiViewportMode[value];
                 });
-
+                $('#splitType').change(function(){
+                    var value = $(this).val();
+                    if(!document.getElementById("verticalSlider")){
+                        $("#cesiumContainer").append("<div id='verticalSlider' style='display: none;'></div>");
+                        $("#cesiumContainer").append("<div id='horizontalSlider' style='display: none;'></div>");
+                    }
+                    var verticalSlider = document.getElementById('verticalSlider');
+                    var horizontalSlider = document.getElementById('horizontalSlider');
+                    var width = $('body').width()/2;
+                    var height = $('body').height()/2;
+                    var layers = viewer.scene.layers._layers._array;
+                    var splitDirection;
+                    var splitPosition;
+                    switch (value){
+                        case 'NONE':
+                            verticalSlider.style.display = 'none';
+                            horizontalSlider.style.display = 'none';
+                            splitDirection = Cesium.SplitDirection.NONE;
+                            splitPosition = undefined;
+                            break;
+                        case 'LEFT':
+                            verticalSlider.style.display = 'block';
+                            horizontalSlider.style.display = 'none';
+                            splitDirection = Cesium.SplitDirection.LEFT;
+                            splitPosition = width;
+                            break;
+                        case 'RIGHT':
+                            verticalSlider.style.display = 'block';
+                            horizontalSlider.style.display = 'none';
+                            splitDirection = Cesium.SplitDirection.RIGHT;
+                            splitPosition = width;
+                            break;
+                        case 'TOP':
+                            verticalSlider.style.display = 'none';
+                            horizontalSlider.style.display = 'block';
+                            splitDirection = Cesium.SplitDirection.TOP;
+                            splitPosition = height;
+                            break;
+                        case 'BOTTOM':
+                            verticalSlider.style.display = 'none';
+                            horizontalSlider.style.display = 'block';
+                            splitDirection = Cesium.SplitDirection.BOTTOM;
+                            splitPosition = height;
+                            break;
+                        default:break;
+                    }
+                    for(var i = 0;i < layers.length;i++){
+                        var layer = layers[i];
+                        layer.splitDirection = splitDirection;
+                        if(splitPosition){
+                            layer.splitPosition = splitPosition;
+                        }
+                    }
+                    verticalSlider.addEventListener('mousedown', mouseDown, false);
+                    horizontalSlider.addEventListener('mousedown', mouseDown, false);
+                    var windowHeight = height * 2;
+                    document.addEventListener('mouseup', mouseUp, false);
+                    function mouseUp(e) {
+                        document.removeEventListener('mousemove', sliderMove, false);
+                    }
+                    function mouseDown(e) {
+                        document.addEventListener('mousemove', sliderMove, false);
+                    }
+                    function sliderMove(e) {
+                        if(e.preventDefault){
+                            e.preventDefault();
+                        }else{
+                            e.returnValue = false;
+                        }
+                        if(splitDirection === Cesium.SplitDirection.LEFT || splitDirection === Cesium.SplitDirection.RIGHT){
+                            verticalSlider.style.left = e.clientX + 'px';
+                            splitPosition = e.clientX;
+                        }else if(splitDirection === Cesium.SplitDirection.TOP || splitDirection === Cesium.SplitDirection.BOTTOM){
+                            let clientY = e.clientY;
+                            if(clientY < 0){
+                                clientY = 0;
+                            }else if(clientY > windowHeight){
+                                clientY = windowHeight - $('#horizontalSlider').height();
+                            }
+                            horizontalSlider.style.top = clientY + 'px';
+                            splitPosition = windowHeight - clientY;
+                        }
+                        for(var i = 0;i < layers.length;i++){
+                            var layer = layers[i];
+                            layer.splitDirection = splitDirection;
+                            layer.splitPosition = splitPosition;
+                        }
+                    }
+                });
+                $("")
                 var brightness = document.getElementById('brightness');
                 brightness.oninput = function(){
                     if (imageryLayers.length > 0) {
@@ -306,18 +462,22 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
         onQueryCoordinatesClk : function(evt){
             var tooltip = createTooltip(document.body);
             handler.setInputAction(function(movement) {
-                tooltip.showAt(movement.endPosition,'<p>点击查询坐标值</p>');
+                var position = scene.pickPosition(movement.endPosition);
+                var cartographic = Cesium.Cartographic.fromCartesian(position);
+                var longitude = Cesium.Math.toDegrees(cartographic.longitude);
+                var latitude = Cesium.Math.toDegrees(cartographic.latitude);
+                var height = cartographic.height;
+                if(height < 0) {
+                    height = 0;
+                }
+                var info = "经度：" + longitude.toFixed(4) + "°  " + "纬度：" + latitude.toFixed(4)+ "°" + "高度：" + height.toFixed(4)+ "米"
+                tooltip.showAt(movement.endPosition, '<p>'+info + '</p>');
             }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            handler.setInputAction(function(e){
-                var cartesian = scene.pickPosition(e.position);
-                var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-                $('#scene-coordinate-longitude').val(Cesium.Math.toDegrees(cartographic.longitude).toFixed(6));
-                $('#scene-coordinate-latitude').val(Cesium.Math.toDegrees(cartographic.latitude).toFixed(6));
-                $('#scene-coordinate-height').val(cartographic.height.toFixed(3));
+            handler.setInputAction(function(){
                 tooltip.setVisible(false);
-                handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                tooltip = null;
                 handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            },Cesium.ScreenSpaceEventType.RIGHT_CLICK);
         },
         onStartFlyClk : function(evt){
             flyRoute.initializing(viewer);
@@ -333,6 +493,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
             var flyCircle = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Point);
             flyCircle.drawEvt.addEventListener(function(result){
                 center = result.object.position;
+                flyCirclePoint = center;
                 camera.flyCircle(center);
             });
             flyCircle.activate();

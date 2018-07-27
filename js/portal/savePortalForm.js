@@ -293,7 +293,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             //     updateData.description = $('#scenePortalDescription').val();
             // }
             // updateData.content = JSON.stringify(data)
-            // updateData =  JSON.stringify(updateData);
+             updateData =  JSON.stringify(updateData);
 
             var sceneViewerUrl = window.location.href;
             sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
@@ -307,24 +307,24 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                         dataType: "json",
                         data: updateData,
                         success : function (json) {
-                            Util.showErrorMsg("场景更新成功！");
+                            $.ajax({
+                                type: "PUT",
+                                url: appsRoot + "/web/scenes/" + sceneViewerUrl + "/thumbnail.json",
+                                contentType: "application/json;charset=utf-8",
+                                dataType: "json",
+                                data: base64,
+                                success : function (result) {
+                                    me.$el.hide();
+                                    Util.showErrorMsg("场景更新成功！");
+                                }
+                            })
                         },
                         error: function(error)
                         {
                             Util.showErrorMsg("场景更新失败，先保存当前场景！");
                         },
                     })
-                $.ajax({
-                    type: "PUT",
-                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + "/thumbnail.json",
-                    contentType: "application/json;charset=utf-8",
-                    dataType: "json",
-                    data: base64,
-                    success : function (result) {
-                        me.$el.hide();
-                    }
 
-                })
             }
         },
 

@@ -152,6 +152,7 @@ define(function(){
         displayMode : '显示模式',
         polyline : '线显示',
         polygon : '面显示',
+        skylinesectorbody : '闭合体',
         skylineColor : '天际线颜色',
         skylineRadius: '分析半径（米）',
         skyline : '天际线',
