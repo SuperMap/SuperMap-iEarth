@@ -486,19 +486,15 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
         onQueryCoordinatesClk : function(evt){
             var tooltip = createTooltip(document.body);
             handler.setInputAction(function(movement) {
-
-                var info = "经度：" + longitude.toFixed(4) + "°  " + "纬度：" + latitude.toFixed(4)+ "°" + "高度：" + height.toFixed(4)+ "米"
-                tooltip.showAt(movement.endPosition, '<p>'+info + '</p>');
+                tooltip.showAt(movement.endPosition, '点击查询坐标值');
             }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             handler.setInputAction(function(e){
                 var position = scene.pickPosition(e.position);
                 var cartographic = Cesium.Cartographic.fromCartesian(position);
-                var longitude = Cesium.Math.toDegrees(cartographic.longitude);
-                var latitude = Cesium.Math.toDegrees(cartographic.latitude);
-                var height = cartographic.height;
-                if(height < 0) {
-                    height = 0;
-                }
+                $('#scene-coordinate-longitude').val(Cesium.Math.toDegrees(cartographic.longitude).toFixed(6));
+                $('#scene-coordinate-latitude').val(Cesium.Math.toDegrees(cartographic.latitude).toFixed(6));
+                $('#scene-coordinate-height').val(cartographic.height.toFixed(3));
+                tooltip.setVisible(false);
                 handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
                 handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);

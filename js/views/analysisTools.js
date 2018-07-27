@@ -76,7 +76,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                                 <input type="number" id="verticalFov" class="input" min="1" max="90" step="1.0" value="60"
                                        title=${Resource.verticalFov}/>
                             </div>
-                            <div style="margin-top: -35px;">
+                            <div>
                                 <label>闭合体</label>
                                 <select id="viewShedBody" style="width: 90%">
                                     <option value="NONE" selected>无闭合体</option>
@@ -90,7 +90,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
                             <div class="square">
                                 <label style="width:100%;">不可见区域颜色</label><input class="colorPicker" id="colorPicker2"/>
                             </div>
-                            <div style="float: right;margin-top: -20px">
+                            <div style="float: right;">
                                 <button type="button" class="btn btn-info" id="chooseView" style="">分析</button>
                                 <button type="button" class="btn btn-info" id="clearVS" style="">清除</button>
                             </div>
