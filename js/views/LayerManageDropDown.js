@@ -1,4 +1,4 @@
-define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excavationRegion','../3DGIS/flattenRegion', '../3DGIS/ModelFlood'],function(Container,$,bootstrapTree,spectrum,drag,excavationRegion,flattenRegion, ModelFlood){
+define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excavationRegion','../3DGIS/flattenRegion'],function(Container,$,bootstrapTree,spectrum,drag,excavationRegion,flattenRegion){
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
@@ -6,9 +6,6 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
     ].join('');
     var list;
     function calNode(ModeUrl){
-        if(!ModeUrl){
-            return;
-        }
         ModeUrl = ModeUrl.substring(0,ModeUrl.length-7) + "/data/path/indexData.dat";
         var nodelist = new Array();var nodedata = new Array();var datalist = new Array();
         var per = new Array();
@@ -84,28 +81,23 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
                 onNodeChecked : function(evt,node){
                 	var layerModel = node.layerModel;
                      var ids = [];
-                     if(list){
-                         for(var i = 0;i < list[0].length;i++)
-                         {
-                             if(list[0][i] == node.text)
-                             {
-                                 ids = list[1][i];
-                             }
-                         }
-                     }
-
+                    for(var i = 0;i < list[0].length;i++)
+                    {
+                        if(list[0][i] == node.text)
+                        {
+                            ids = list[1][i];
+                        }
+                    }
                 	layerModel && layerModel.setVisible(true,ids);
                 }, 
                 onNodeUnchecked : function(evt,node){
                     var layerModel = node.layerModel;
                     var ids = [];
-                    if(list){
-                        for(var i = 0;i < list[0].length;i++)
+                	for(var i = 0;i < list[0].length;i++)
+                    {
+                        if(list[0][i] == node.text)
                         {
-                            if(list[0][i] == node.text)
-                            {
-                                ids = list[1][i];
-                            }
+                           ids = list[1][i];
                         }
                     }
                 	layerModel && layerModel.setVisible(false,ids);
@@ -142,7 +134,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
                 onNodeSelected : function (evt,node) {
                     var layerModel = node.layerModel;
                     layerModel && layerModel.flyTo();
-                    showLayerAttribute(layerModel.layer,me.viewer);
+                    showLayerAttribute(layerModel.layer);
                 },
                 onNodeRightClicked: function (evt,node){
                     var layerModel = node.layerModel;
@@ -165,7 +157,7 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
             }
             var childNode = this.tree.treeview('addNode',[this.rootNode[type],{text : name,showDel : true,fontSize : '10pt',state : {checked : isVisible}}]);
             list = calNode(layerModel.get('url'));
-            if(list && list[0].length>0){
+            if(list[0].length>0){
                 for(var i = 0;i < list[0].length;i++){
                     var sonNode = this.tree.treeview('addNode',[childNode,{text : list[0][i],showDel : true,fontSize : '10pt',state : {checked : isVisible}}]);
                     sonNode.layerModel = layerModel;
@@ -233,7 +225,6 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
             });
             $("#layerClose").click(function(){
                 $("#layerForm").hide();
-                ModelFlood.destroy(selectedLayer);
             })
             $("#breleaseColor").click(function(evt){
                 selectedLayer.bReleaseColor = !selectedLayer.bReleaseColor;
@@ -347,16 +338,10 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
             $("#delFlattenRegion").click(function(evt){
                 flattenRegion.remove(selectedLayer);
             });
-            $("#execute-flood").click(function(){ // 执行淹没分析
-                ModelFlood.startAnalysis(selectedLayer);
-            });
-            $("#clear-flood").click(function(){ // 清除淹没分析
-                ModelFlood.clear(selectedLayer);
-            });
             //还原
             initialize.onchange = function () {
                 selectedLayer.setObjsVisible([],false);
-            };
+            }
             initialization = true;
          }
         

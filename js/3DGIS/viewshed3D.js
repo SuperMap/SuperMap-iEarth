@@ -6,6 +6,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     var viewshed3D;
     var pointPosition;
     var vsPointHandler;
+    var clickFlag = 0;
     viewshed.remove = function(viewer){
         var scene = viewer.scene;
         viewer.entities.removeAll();
@@ -20,11 +21,14 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     };
     viewshed.initializing = function(viewer,sceneModel){
         var scene = viewer.scene;
+        clickFlag += 1;
         if(!viewshed3D){
             viewshed3D = new Cesium.ViewShed3D(scene);
         }
         viewer.entities.removeAll();
+
         viewshed3D.distance = 0.1;
+        var store = {};
         $("#clearVS").click(function(){
             viewer.entities.removeAll();
             viewshed3D.distance = 0.1;
@@ -100,6 +104,44 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
           var parameter = viewshed3D.getViewshedParameter();
 
         })
+
+        $('#viewShedBody').change(function(){
+            scene.primitives._primitives = [];
+            var s3mInstanceColc = new Cesium.S3MInstanceCollection(scene._context);
+            scene.primitives.add(s3mInstanceColc);
+            var param = viewshed3D.getViewshedParameter();
+            var geometryViewShedBodyPostParameter = {};
+            geometryViewShedBodyPostParameter.viewerPoint  = param.viewPosition;
+            geometryViewShedBodyPostParameter.point3DsList = param.point3DList;
+            geometryViewShedBodyPostParameter.radius = param.distance;
+            geometryViewShedBodyPostParameter.lonlat = true;
+            geometryViewShedBodyPostParameter.viewShedType = $(this).val();
+            var url = "http://localhost:8090/iserver/services/spatialAnalysis-BIMFangWu/restjsr/spatialanalyst/geometry/3d/viewshedbody.json";
+            var queryData = JSON.stringify(geometryViewShedBodyPostParameter);
+            $.ajax({
+                url : url,
+                async : true,
+                data : queryData,
+                method : "POST"
+            }).done(function(data) {
+                $.ajax({
+                    url : data.newResourceLocation + ".json",
+                    method : "GET"
+                }).done(function(data) {
+                    if (data.geometry === null) {
+                        return;
+                    }
+                    var uint8Array = new Uint8Array(data.geometry.model);
+                    var buffer = uint8Array.buffer;
+                    s3mInstanceColc.add("result",{
+                        position : Cesium.Cartesian3.fromDegrees(data.geometry.position.x, data.geometry.position.y, data.geometry.position.z),
+                        hpr : new Cesium.HeadingPitchRoll(0,0,0),
+                        color : new Cesium.Color(0, 160/255, 233/255, 0.5)
+                    }, buffer);
+                })
+            });
+
+        });
         var viewPosition;
         scene.viewFlag = true;
         vsPointHandler = new Cesium.PointHandler(viewer);
@@ -133,6 +175,13 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
                 $('#horizontalFov').val(viewshed3D.horizontalFov);
                 $('#verticalFov').val(viewshed3D.verticalFov);
             }
+            store.viewPosition = viewshed3D.viewPosition;
+            store.distance = viewshed3D.distance;
+            store.pitch = viewshed3D.pitch;
+            store.direction = viewshed3D.direction;
+            store.verticalFov = viewshed3D.verticalFov;
+            store.horizontalFov = viewshed3D.horizontalFov;
+            sceneModel.analysisObjects.viewshed3DStore = store;
         },Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
         vsPointHandler.drawCompletedEvent.addEventListener(function(point){
@@ -153,17 +202,19 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             }
         });
 
-        var store = {};
-        store.viewPosition = viewshed3D.viewPosition;
-        store.distance = viewshed3D.distance;
-        store.pitch = viewshed3D.pitch;
-        store.direction = viewshed3D.direction;
-        store.verticalFov = viewshed3D.verticalFov;
-        store.horizontalFov = viewshed3D.horizontalFov;
-        sceneModel.analysisObjects.viewshed3DStore = store;
+        if(sceneModel.analysisObjects.viewshed3DStore && clickFlag < 2){
+            var store = sceneModel.analysisObjects.viewshed3DStore;
+            viewshed3D.build();
+            viewshed3D.viewPosition = store.viewPosition;
+            viewshed3D.distance =  store.distance;
+            viewshed3D.pitch = store.pitch;
+            viewshed3D.direction = store.direction;
+            viewshed3D.verticalFov = store.verticalFov;
+            viewshed3D.horizontalFov = store.horizontalFov;
+        }
+
 
         vsPointHandler.activate();
-
     }
     return viewshed;
 });

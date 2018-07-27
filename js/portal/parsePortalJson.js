@@ -14,10 +14,10 @@ define(function() {
                     isPCBroswer : me.sceneModel.isPCBroswer
                 });
                 me.sceneModel.viewerContainer.addComponent(clipForm);
-                clipForm.$el.show();
+                clipForm.$el.hide();
             });
         }
-        if(this.analysisObjects.viewshed3DStore){
+        if(this.analysisObjects.viewshed3DStore || this.analysisObjects.sightLineStore || this.analysisObjects.skylineStore){
             var me = this;
             require(['./views/analysisTools'],function(analysisTools){
                 var analysisTools = new analysisTools({
@@ -26,7 +26,7 @@ define(function() {
                     isPCBroswer : me.sceneModel.isPCBroswer
                 });
                 me.sceneModel.viewerContainer.addComponent(analysisTools);
-                analysisTools.$el.show();
+               analysisTools.$el.hide();
             });
         }
     }

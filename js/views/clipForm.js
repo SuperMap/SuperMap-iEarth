@@ -9,7 +9,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
     var htmlStr = `
         <main style="position : absolute;" class="mainView">
             <button type="button" style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close"
-                    id="close-clip-panel" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>
+                    id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>
             <input id="clipTab1" type="radio" name="clipTab" checked>
             <label for="clipTab1" style="font-size: 13px">Box裁剪</label>
             <input id="clipTab2" type="radio" name="clipTab">
@@ -35,7 +35,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                             <option value="clip_behind_all_plane_without_line_frame">不带线框盒内裁剪</option>
                             <option value="clip_behind_any_plane_without_line_frame">不带线框盒外裁剪</option>
                         </select><br/><br/>
-                        <div style="overflow: hidden;">
+                        <div>
                             <input type="button" id="clear-box-clip" class="btn btn-info" style="float:right" value="清除">
                             <input type="button" id="box-clip-analysis" class="btn btn-info" style="float:right" value="分析">
                         </div>
@@ -67,8 +67,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                         <p><span>高度：</span><input type="number" id="plane-clip-point3-height" class="input clip-input" step="1"
                                                   value="0" size="5"><span>&nbsp;米</span></p>
                         <button id="clear-plane-clip" class="btn btn-info" style="float:right">清除</button>
-                        <button id="plane-clip-analysis" class="btn btn-info" style="float:right">分析</button>
-                        <br><br>
+                        <button id="plane-clip-analysis" class="btn btn-info" style="float:right">分析</button>                       
                     </div>
                 </div>
             </section>
@@ -86,9 +85,9 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                                                   min="0" max="360" step="1" value="0"><span>&nbsp;度</span></p>
                         <p><span>绕Z轴：</span><input type="number" id="cross-clip-heading" class="input clip-input"
                                                   min="0" max="360" step="1" value="0"><span>&nbsp;度</span></p>
-                        <p><span>拉伸：</span><input type="number" id="cross-clip-extrude" class="input clip-input"
+                        <p><span>拉&nbsp&nbsp伸：</span><input type="number" id="cross-clip-extrude" class="input clip-input"
                                                   min="1" max="30" step="1" value="1"><span>&nbsp;米</span></p>
-                        <div style="overflow: hidden;">
+                        <div>
                             <button id="clear-cross-clip" class="btn btn-info" style="float:right">清除</button>
                             <button id="choose-cross-clip-pos" class="btn btn-info" style="float:right">选取裁剪位置</button>
                         </div>
@@ -101,7 +100,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
         tagName: 'div',
         id: 'sceneAttribute',
         events: {
-            'click #close-clip-panel': 'onCloseClipPanel',
+            'click #closeScene': 'onCloseSceneClk',
             'click #plane-clip-analysis': 'onPlaneClip',
             'click #clear-plane-clip': 'onClearPlaneClip',
             'click #box-clip-analysis': 'onBoxClip',
@@ -115,7 +114,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
             sceneModel = options.sceneModel;
             viewer = options.sceneModel.viewer;
             parent = options.parent;
-            isPCBroswer = options.isPCBroswer;
+            isPCBroswer = options.isPCBroswer
             this.render();
             this.on('componentAdded', function (parent) {
                 $('main').each(function (index) {
@@ -133,25 +132,19 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                     });
                 });
             });
-            /*
-            // iPortal对接代码
-            if (sceneModel.analysisObjects.planeClipStore) {
+            /*if (sceneModel.analysisObjects.planeClipStore) {
                 clip.initializing(viewer, sceneModel, true, isPCBroswer);
             }
             if (sceneModel.analysisObjects.boxClipStore) {
                 clip.initializing(viewer, sceneModel, false, isPCBroswer);
-            }
-            */
+            }*/
         },
         render: function () {
             this.$el.html(this.template());
             return this;
         },
-        onCloseClipPanel: function (evt) {
+        onCloseSceneClk: function (evt) {
             this.$el.hide();
-            PlaneClip.destroy(viewer);
-            BoxClip.destroy(viewer);
-            CrossClip.destroy(viewer);
         },
         onPlaneClip: function (evt) {
             PlaneClip.startClip(viewer, isPCBroswer);

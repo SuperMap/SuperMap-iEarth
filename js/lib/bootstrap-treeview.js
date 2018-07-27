@@ -650,7 +650,7 @@
 			}
 			
 			//Add del button 
-			if(level === 3 &&_this.options.showDel && node.showDel){
+			if(_this.options.showDel && node.showDel){
 				treeItem.append($(_this.template.del));
 			}
 

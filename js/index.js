@@ -8,6 +8,7 @@
             backbone: "lib/backbone-min",
             Config: 'Config',
             bootstrapTree: 'lib/bootstrap-treeview',
+            iScroll: 'lib/iscroll',
             Tabs: 'views/tabs',
             dropdown: 'views/dropdown',
             CesiumHeatmap: 'lib/heatmap.min',
@@ -51,6 +52,9 @@
             bootstrapTree: {
                 exports: 'bootstrapTree'
             },
+            iScroll: {
+                exports: 'iScroll'
+            },
             Tabs: {
                 exports: 'Tabs',
                 deps: ['jquery']
@@ -71,14 +75,18 @@
             }
         }
     });
-
-var currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
-
-    require(['resourceCN', 'Cesium', 'Zlib'], function (ResourceCN, Cesium, Zlib) {
-        window.Resource = ResourceCN;
-        init(Cesium, Zlib);
-    });
-
+  var currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
+  if (currentLanguage == 'zh-cn') {
+      require(['resourceCN', 'Cesium', 'Zlib'], function (ResourceCN, Cesium, Zlib) {
+          window.Resource = ResourceCN;
+          init(Cesium, Zlib);
+      });
+  } else {
+      require(['resourceEN', 'Cesium', 'Zlib'], function (ResourceEN, Cesium, Zlib) {
+          window.Resource = ResourceEN;
+          init(Cesium, Zlib);
+      });
+  }
 function init(Cesium, Zlib) {
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
     var viewer;
@@ -100,8 +108,6 @@ function init(Cesium, Zlib) {
         });
 
         var scene = viewer.scene;
-        scene.fxaa = true; // 开启反锯齿效果，对地球起到美化作用
-
         if (Cesium.defined(scene.sun)) {
             scene.sun.show = false;
         }
@@ -128,14 +134,14 @@ function init(Cesium, Zlib) {
         destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
         duration: 5
     });
-    /*viewer.pickEvent.addEventListener(function (feature) {
+    viewer.pickEvent.addEventListener(function (feature) {
         var name = feature[Resource.name];
         var des = getDescription(feature);
         viewer.selectedEntity = new Cesium.Entity({
             name: name,
             description: des
         });
-    });*/
+    });
     require(['jquery'], function ($) {
         if (!isPCBroswer) {
             var supportsOrientationChange = "onorientationchange" in window,
@@ -175,7 +181,6 @@ function init(Cesium, Zlib) {
                     x : '10px',
                     y : '150px'
                 }));
-                /* // 该版本不提供iPortal对接功能
                 if(isPCBroswer){
                     var portalFormContainer = new portalForm({
                         sceneModel : sceneModel,
@@ -187,7 +192,6 @@ function init(Cesium, Zlib) {
                         y : '200px'
                     }));
                 }
-                */
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });
@@ -203,6 +207,9 @@ function init(Cesium, Zlib) {
                         if(sceneViewerUrl != '/'){
                             var regexp = new RegExp("/");
                             var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
+                            if(sceneViewerUrl.indexOf("share") > -1){
+                                sceneViewerUrl = sceneViewerUrl.match(/(\S*)share/)[1];
+                            }
                             $.ajax({
                                     type: "GET",
                                     url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
@@ -217,29 +224,7 @@ function init(Cesium, Zlib) {
                                             var url = cesiumScene.match(/realspace(\S*)/)[1];
                                             var regexp = new RegExp(url);
                                             cesiumScene = cesiumScene.replace(regexp,"");
-                                            cesiumScene  += "/datas.xml";
-                                            $.ajax({
-                                                url: cesiumScene,
-                                                dataType: 'xml',
-                                                type: 'GET',
-                                                async: false,
-                                                timeout: 3000,
-                                                error: function(xml){
-
-                                                },
-                                                success: function(xml){
-                                                    var data = {};
-                                                    data.layers = [];
-                                                    $(xml).find("path").each(function(j)
-                                                    {
-                                                        var id = $(this).children("id");
-
-                                                        //var content =
-
-                                                    });
-                                                }
-                                            });
-
+                                            sceneModel.openScene(cesiumScene);
                                         }
 
                                     }
