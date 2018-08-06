@@ -2,7 +2,7 @@ define(['./Container','jquery','../models/LayerModel'],function(Container,$,Laye
     var _ = require('underscore');
     var htmlStr = [
         '<div class="form-group has-success">',
-        '<label>本地KML数据</label>',
+        '<label>'+ Resource.KMLData +'</label>',
         '<input class="my-form-control" type="file" accept=".kml"  placeholder="' + Resource.selLocalFile + '" style="padding: 8px;"/>',
         '</div>'
     ].join('');
