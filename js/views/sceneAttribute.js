@@ -9,7 +9,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
     var flyCirclePoint;
 
     var htmlStr = `
-        <div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:380px;z-index: 1;cursor: auto;">
+        <div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:330px;z-index: 1;cursor: auto;">
             <label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">${Resource.sceneOptions}</label>
             <button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close"
                     title="关闭"><span aria-hidden="true">×</span></button>
@@ -22,18 +22,15 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 <li style="font-size: 12px"><a data-index="5" href="#">关于</a></li>
             </ul>
             <div class="tabs-content-placeholder" style="height: 100%;" id="scene-placeholder">
-        
                 <section class="tab-content-active">
                     <label>${Resource.sceneName}</label>
                     <input type="text" class="input" disabled id="sceneName">
-                    <div class="divider"></div>
                     <label>${Resource.viewMode}</label>
                     <select id="sceneMode" class="cesium-button">
                         <option value="3D">3D</option>
                         <option value="2D">2D</option>
                         <option value="columbusView">Columbus View</option>
                     </select>
-                    <div class="divider"></div>
                     <label>${Resource.multiViewport}</label>
                     <select id="viewportType" class="cesium-button">
                         <option value="NONE" selected>${Resource.onePort}</option>
@@ -42,7 +39,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                         <option value="TRIPLE">${Resource.tripeSnap}</option>
                         <option value="QUAD">${Resource.quadSnap}</option>
                     </select>
-                    <div class="divider"></div>
                     <label>卷帘效果</label>
                     <select id="splitType" class="cesium-button">
                         <option value="NONE" selected>禁用卷帘</option>
@@ -51,7 +47,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                         <option value="TOP">屏蔽卷帘上侧</option>
                         <option value="BOTTOM">屏蔽卷帘下侧</option>
                     </select>
-                    <div class="divider"></div>
                     <button class="btn btn-info" id="queryCoordinates">查询坐标值</button>
                     <div class="param-item"><span>经度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>
                     <div class="param-item"><span>纬度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>
@@ -90,7 +85,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     <input type="number" min="0" max="3" step="0.02" value="1.0" id="gamma" class="input">
                 </section>
         
-        
                 <section>
                     <label style="width: 60px;float: left; margin-top: -0.5px">场景泛光</label>
                     <input type="checkbox" id="bloom"/>
@@ -99,7 +93,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     <label>泛光强度</label>
                     <input type="number" id="bloomIntensity" class="input" min="0" max="10" value="2.0" step="0.01">
                 </section>
-        
         
                 <section>
                     <label>飞行线路</label><br><br>
