@@ -2,7 +2,6 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
-    var init = false;
     var viewer;
     var parentContainer;
     var sceneModel;

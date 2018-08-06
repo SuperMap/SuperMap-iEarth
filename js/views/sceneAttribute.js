@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tooltip','../lib/HeadControls','../lib/jeelizFaceFilter'],function(Container, Cesium, flyRoute,drag, slider,tooltip,HeadControls,jeelizFaceFilter){
+define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','drag','slider','../lib/tooltip','../lib/HeadControls','../lib/jeelizFaceFilter'],function(Container, Cesium, flyRoute,dynamicScene,drag, slider,tooltip,HeadControls,jeelizFaceFilter){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -56,7 +56,11 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
         '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
         '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
         '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
-        '<div class="square" ><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
+        '<div class="square"><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
+        '<div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">',
+        '<span>相机最小缩放距离</span>',
+        '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />',
+        '</div>',
         '</div> ',
         '<div>',
         '<label>'+ Resource.brightness +'</label>',
@@ -123,140 +127,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
         '</div>',
         '</div>',
     ].join('');
-
-    var htmlStr = `
-        <div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:330px;z-index: 1;cursor: auto;">
-            <label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">${Resource.sceneOptions}</label>
-            <button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close"
-                    title="关闭"><span aria-hidden="true">×</span></button>
-            <ul>
-                <li><a class="tab-active" data-index="0" href="#">${Resource.basicOptions}</a></li>
-                <li><a data-index="1" href="#">${Resource.otherOptions}</a></li>
-                <li><a data-index="2" href="#">场景颜色</a></li>
-                <li style="font-size: 12px"><a data-index="3" href="#">泛光</a></li>
-                <li style="font-size: 12px"><a data-index="4" href="#">相机</a></li>
-                <li style="font-size: 12px"><a data-index="5" href="#">关于</a></li>
-            </ul>
-            <div class="tabs-content-placeholder" style="height: 100%;" id="scene-placeholder">
-                <section class="tab-content-active">
-                    <label>${Resource.sceneName}</label>
-                    <input type="text" class="input" disabled id="sceneName">
-                    <label>${Resource.viewMode}</label>
-                    <select id="sceneMode" class="cesium-button">
-                        <option value="3D">3D</option>
-                        <option value="2D">2D</option>
-                        <option value="columbusView">Columbus View</option>
-                    </select>
-                    <label>${Resource.multiViewport}</label>
-                    <select id="viewportType" class="cesium-button">
-                        <option value="NONE" selected>${Resource.onePort}</option>
-                        <option value="HORIZONTAL">${Resource.horizontalSnap}</option>
-                        <option value="VERTICAL">${Resource.verticalSnap}</option>
-                        <option value="TRIPLE">${Resource.tripeSnap}</option>
-                        <option value="QUAD">${Resource.quadSnap}</option>
-                    </select>
-                    <label>卷帘效果</label>
-                    <select id="splitType" class="cesium-button">
-                        <option value="NONE" selected>禁用卷帘</option>
-                        <option value="LEFT">屏蔽卷帘左侧</option>
-                        <option value="RIGHT">屏蔽卷帘右侧</option>
-                        <option value="TOP">屏蔽卷帘上侧</option>
-                        <option value="BOTTOM">屏蔽卷帘下侧</option>
-                    </select>
-                    <button class="btn btn-info" id="queryCoordinates">查询坐标值</button>
-                    <div class="param-item"><span>经度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>
-                    <div class="param-item"><span>纬度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>
-                    <div class="param-item"><span>高度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>
-                </section>
-        
-                <section>
-                    <div class="square"><input type="checkbox" id="earth" checked/><label for="earth">${Resource.earth}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="shadows"/><label
-                            for="shadows">${Resource.shadowMap}</label></div>
-                    <div class="square"><input type="checkbox" id="lightRender" checked/><label for="lightRender">${Resource.sun}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="timeline"/><label for="timeline">${Resource.timeline}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">${Resource.skyAtmosphereEffect}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">${Resource.fogEffect}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">${Resource.depthAgainst}</label>
-                    </div>
-                    <div class="square"><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>
-                    <div class="square"><input type="checkbox" id="underground"/><label for="underground">地下</label></div>
-                    <div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">
-                        <span>相机最小缩放距离</span>
-                        <input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />
-                    </div>
-                </section>
-        
-                <section>
-                    <label>${Resource.brightness}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="brightness" class="input">
-                    <label>${Resource.contrast}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="contrast" class="input">
-                    <label>${Resource.hue}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="0.0" id="hue" class="input">
-                    <label>${Resource.saturation}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="saturation" class="input">
-                    <label>${Resource.gamma}</label>
-                    <input type="number" min="0" max="3" step="0.02" value="1.0" id="gamma" class="input">
-                </section>
-        
-                <section>
-                    <label style="width: 60px;float: left; margin-top: -0.5px">场景泛光</label>
-                    <input type="checkbox" id="bloom"/>
-                    <label>亮度阈值</label>
-                    <input type="number" id="threshold" class="input" min="0" max="1" value="0.9" step="0.01">
-                    <label>泛光强度</label>
-                    <input type="number" id="bloomIntensity" class="input" min="0" max="10" value="2.0" step="0.01">
-                </section>
-        
-                <section>
-                    <label>飞行线路</label><br><br>
-                    <input style="background-color:#2EC5AD" type="file" id="flyFile" onchange="" accept=".fpf"/><br><br>
-                    <button class="start" id="startFly" title="开始" style="background-color: transparent;border:none;"></button>
-                    <button class="pause" id="pauseFly" title="暂停" style="background-color: transparent;border:none;"></button>
-                    <button class="stop" id="stopFly" title="停止" style="background-color: transparent;border:none;"></button>
-                    <br><br>
-                    <select id="stopList" style="background-color:#2EC5AD;width: 100%">
-                    </select>
-                    <label>观察</label><br>
-                    <table border="0" align="left">
-                        <tr>
-                            <td>
-                                <button id="spin" class="btn btn-info" style="">绕点旋转</button>
-                            </td>
-                            <td nowrap="nowrap">
-                                <input type="checkbox" id="stopFlyCircle">
-                                <label style="margin-left: -5px;">暂停</label>
-                            </td>
-                            <td nowrap="nowrap">
-                                <input type="checkbox" id="circulation" checked=true>
-                                <label style="margin-left: -5px;">循环</label>
-                            </td>
-                            <td nowrap="nowrap">
-                                <input type="checkbox" id="interaction">
-                                <label style="margin-left: -5px;">交互</label>
-                                <canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>
-                                <button id="startHeadControlsButton" style="display: none">启用摄像头</button>
-                            </td>
-                    </table>
-                </section>
-        
-                <section>
-                    <label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>
-                    <label style=" text-align: center; font-size: 16px">版本 ： 0.1.2</label><br><br><br><br>
-                    <label>更新内容</label><br><br>
-                    <textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;
-                    margin-left: 15px;background:transparent">1、加速初始化\n\n2、部分界面调整
-                    </textarea>
-                </section>
-            </div>
-        </div>
-    `;
     var sceneAttribute = Container.extend({
         tagName: 'div',
         id: 'sceneAttribute',
@@ -268,6 +138,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
             'click #pauseFly'  : 'onPauseFlyClk',
             'click #stopFly'  : 'onStopFlyClk',
             'click #spin'  : 'onSpinClk',
+            'change #dynamicScene'  : 'onDynamicScene',
         },
         template : _.template(htmlStr),
         initialize : function(options){
@@ -640,6 +511,18 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 camera.flyCircle(center);
             });
             flyCircle.activate();
+        },
+        onDynamicScene : function (evt) {
+            var fileInput = document.getElementById("dynamicScene");
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload=function(e) {
+                var XMLContent = e.target.result;
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(XMLContent,"text/xml");
+                dynamicScene.initialize(viewer,doc);
+            };
+            reader.readAsBinaryString(file);
         }
     });
     return sceneAttribute;

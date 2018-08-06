@@ -4,13 +4,13 @@ define(['../views/Container'],function(Container){
     var $ = require('jquery');
     var viewer;
     var htmlStr = [
-        '<a id="home" class="btn btn-inverse" title="' + "重置" + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-home"></span>',
         '</a><br><br>',
-        '<a id="portalOpen" class="btn btn-inverse" title="' + "存储" + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-yunduan1"></span>',
         '</a><br><br>',
-        '<a id="portalShare" class="btn btn-inverse" title="' + "分享" + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-fenxiang"></span>',
         '</a>'
     ].join('');
