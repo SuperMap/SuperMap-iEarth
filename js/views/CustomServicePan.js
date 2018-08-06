@@ -8,7 +8,7 @@ define([
     var _ = require('underscore');
     var htmlStr = [
         '<div style="padding: 10px; border:1px solid #417BB3">',
-        '<label>打开图层</label>',
+        '<label>'+ Resource.OpenLayer +'</label>',
         '<div class="form-group" style="text-align: left;">',
         '<select class="cesium-button" style="width : 50%;" id="typeInput">',
         '<option value="S3M">' + Resource.s3mLayer + '</option>',
@@ -36,7 +36,7 @@ define([
         '</div>',
         '</div><br>',
         '<div style="padding: 10px; border:1px solid #417BB3">',
-        '<label>打开场景</label>',
+        '<label>'+ Resource.OpenScene +'</label>',
         '<input id="sceneUrl" class="my-form-control" type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
         '</div><br>',
         '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk" style="float: right">' + Resource.confirm + '</button>',

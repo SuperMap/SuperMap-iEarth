@@ -238,6 +238,10 @@ define('Core/DoublyLinkedList', function() {
     return Cesium['DoublyLinkedList'];
 });
 
+define('Core/DXTTextureDecode', function() {
+    return Cesium['DXTTextureDecode'];
+});
+
 define('Core/EarthOrientationParameters', function() {
     return Cesium['EarthOrientationParameters'];
 });
@@ -1774,14 +1778,6 @@ define('Plot/SymbolDot/SymbolDotVector', function() {
     return Cesium['SymbolDotVector'];
 });
 
-define('Plot/SymbolLib/SymbolLib', function() {
-    return Cesium['SymbolLib'];
-});
-
-define('Plot/SymbolLib/SymbolLibManager', function() {
-    return Cesium['SymbolLibManager'];
-});
-
 define('Renderer/AutomaticUniforms', function() {
     return Cesium['AutomaticUniforms'];
 });
@@ -2018,6 +2014,10 @@ define('S3MTiles/Enum/LoadState', function() {
     return Cesium['LoadState'];
 });
 
+define('S3MTiles/Enum/ModifyRegionMode', function() {
+    return Cesium['ModifyRegionMode'];
+});
+
 define('S3MTiles/Enum/ProgramDefines', function() {
     return Cesium['ProgramDefines'];
 });
@@ -2042,6 +2042,10 @@ define('S3MTiles/Enum/SplitDirection', function() {
     return Cesium['SplitDirection'];
 });
 
+define('S3MTiles/Enum/VertexCompressOption', function() {
+    return Cesium['VertexCompressOption'];
+});
+
 define('S3MTiles/MaterialPass', function() {
     return Cesium['MaterialPass'];
 });
@@ -2052,6 +2056,10 @@ define('S3MTiles/PagedLOD', function() {
 
 define('S3MTiles/RenderEntityPagedLOD', function() {
     return Cesium['RenderEntityPagedLOD'];
+});
+
+define('S3MTiles/S3MBDataParser', function() {
+    return Cesium['S3MBDataParser'];
 });
 
 define('S3MTiles/S3MCreateIndexJob', function() {

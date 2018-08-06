@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tooltip','../lib/HeadControls','../lib/jeelizFaceFilter'],function(Container, Cesium, flyRoute,drag, slider,tooltip,HeadControls,jeelizFaceFilter){
+define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','drag','slider','../lib/tooltip','../lib/HeadControls','../lib/jeelizFaceFilter'],function(Container, Cesium, flyRoute,dynamicScene,drag, slider,tooltip,HeadControls,jeelizFaceFilter){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -14,13 +14,12 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
 				   '<ul>',
                    '<li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
 				   '<li><a data-index="1" href="#">'+ Resource.otherOptions +'</a></li>',
-				   '<li><a data-index="2" href="#">'+ "场景颜色" +'</a></li>',
-                   '<li style="font-size: 12px"><a data-index="3" href="#">'+ "泛光" +'</a></li>',
-                   '<li style="font-size: 12px"><a data-index="4" href="#">'+ "相机" +'</a></li>',
-                   '<li style="font-size: 12px"><a data-index="5" href="#">'+ "关于" +'</a></li>',
+				   '<li><a data-index="2" href="#">'+ Resource.sceneColor +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="3" href="#">'+ Resource.flood +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="4" href="#">'+ Resource.camera +'</a></li>',
+                   '<li style="font-size: 12px"><a data-index="5" href="#">'+ Resource.about +'</a></li>',
                    '</ul>',
-				   '<div class="tabs-content-placeholder" style="height:290px" id="scene-placeholder">',
-
+				   '<div class="tabs-content-placeholder" style="height:300px" id="scene-placeholder">',
                    '<div class="tab-content-active">',
                    '<label>'+ Resource.sceneName +'</label>',
                    '<input type="text" class="cesium-button" readonly id="sceneName">',
@@ -37,18 +36,16 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                    '<option value="TRIPLE">'+ Resource.tripeSnap +'</option>',
                    '<option value="QUAD">'+ Resource.quadSnap +'</option>',
                    '</select>',
-                    '<label> '+ '卷帘效果' +'</label>',
+                    '<label> '+ Resource.split +'</label>',
                     '<select id="splitType" class="cesium-button">',
-                    '<option value="NONE" selected>'+ '禁用卷帘' +'</option>',
-                    '<option value="LEFT">'+ '屏蔽卷帘左侧' +'</option>',
-                    '<option value="RIGHT">'+ '屏蔽卷帘右侧'+'</option>',
-                    '<option value="TOP">'+ '屏蔽卷帘上侧' +'</option>',
-                    '<option value="BOTTOM">'+ '屏蔽卷帘下侧' +'</option>',
+                    '<option value="NONE" selected>'+ Resource.splitNONE +'</option>',
+                    '<option value="LEFT">'+ Resource.splitLEFT +'</option>',
+                    '<option value="RIGHT">'+ Resource.splitRIGHT +'</option>',
+                    '<option value="TOP">'+ Resource.splitTop +'</option>',
+                    '<option value="BOTTOM">'+ Resource.splitBOTTOM +'</option>',
                     '</select>',
-                   '<button class="btn btn-info" id="queryCoordinates">查询坐标值</button>',
+                   '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
                    '</div>',
-
-
                    '<div>',
                     '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">'+ Resource.earth +'</label></div>',
                     '<div class="square" ><input type="checkbox" id="shadows" checked/><label for="shadows">'+ Resource.shadowMap +'</label></div>',
@@ -58,9 +55,8 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
                     '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
                     '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
-                    '<div class="square" ><input type="checkbox" id="underground"/><label for="underground">地下</label></div>',
+                    '<div class="square" ><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
                     '</div> ',
-                    
                    '<div>',
                    '<label>'+ Resource.brightness +'</label>',
                    '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input" >',
@@ -73,53 +69,50 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                    '<label>'+ Resource.gamma +'</label>',
                    '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input" >',
                    '</div>',
-
-
                     '<div>',
-                    '<label style="width: 60px;float: left; margin-top: -0.5px">场景泛光</label>',
+                    '<label style="width: 60px;float: left; margin-top: -0.5px">' + Resource.sceneFlood + '</label>',
                     '<input type="checkbox" id="bloom"/>',
-                    '<label>亮度阈值</label>',
+                    '<label>' + Resource.threshold + '</label>',
                     '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.9" step="0.01">',
-                    '<label>泛光强度</label>',
+                    '<label>' + Resource.bloomIntensity + '</label>',
                     '<input type="number"  id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.01">',
                     '</div>',
-
-
                     '<div>',
-                        '<label>'+ "飞行线路" +'</label><br><br>',
+                        '<label>'+ Resource.flyRoute +'</label><br><br>',
                         '<input style="background-color:#2EC5AD" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
-                        '<button class="start" id="startFly" title="开始" style="background-color: transparent;border:none;"></button>',
-                        '<button class="pause" id="pauseFly" title="暂停" style="background-color: transparent;border:none;"></button>',
-                        '<button class="stop"  id="stopFly"  title="停止" style="background-color: transparent;border:none;"></button><br><br>',
+                        '<button class="start" id="startFly" title='+ Resource.startFly + ' style="background-color: transparent;border:none;"></button>',
+                        '<button class="pause" id="pauseFly" title='+ Resource.pauseFly + ' style="background-color: transparent;border:none;"></button>',
+                        '<button class="stop"  id="stopFly"  title='+ Resource.stopFly + ' style="background-color: transparent;border:none;"></button><br><br>',
                         '<select id="stopList" style="background-color:#2EC5AD;width: 100%">',
                         '</select>',
-                        '<label>'+ "观察" +'</label><br>',
+                        '<label>'+ Resource.observe +'</label><br>',
                         '<table  border="0" align="left">',
                         '<tr>',
                         '<td>',
-                           '<button id="spin" class="btn btn-info" style="">绕点旋转</button>',
+                           '<button id="spin" class="btn btn-info" style="">' + Resource.rotatePoint + '</button>',
                         '</td>',
                         '<td nowrap="nowrap">',
                         '<input type="checkbox"  id="stopFlyCircle">',
-                        '<label style="margin-left: -5px;">暂停</label>',
+                        '<label style="margin-left: -5px;">' + Resource.pauseFly + '</label>',
                         '</td>',
                         '<td nowrap="nowrap">',
                             '<input type="checkbox"  id="circulation" checked = true >',
-                            '<label style="margin-left: -5px;">循环</label>',
+                            '<label style="margin-left: -5px;">' + Resource.rotateCirculation + '</label>',
                         '</td>',
                         '<td nowrap="nowrap">',
                         '<input type="checkbox"  id="interaction">',
-                        '<label style="margin-left: -5px;">交互</label>',
+                        '<label style="margin-left: -5px;">' + Resource.interactive + '</label>',
                         '<canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>',
-                        '<button id="startHeadControlsButton" style="display: none">启用摄像头</button>',
+                        '<button id="startHeadControlsButton" style="display: none">' + Resource.enableWebcam + '</button>',
                         '</td>',
                         '</table>',
+                   '<label>'+ "场景动画" +'</label><br>',
+                   '<input style="background-color:#2EC5AD" type="file" id="dynamicScene" onchange="" accept=".xml"/><br><br>',
                     '</div>',
-
                     '<div>',
                     '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
                     '<label style=" text-align: center; font-size: 16px">版本 ： 0.1.2</label><br><br><br><br>',
-                    '<label>'+"更新内容" +'</label><br><br>',
+                    '<label>'+Resource.newContent +'</label><br><br>',
                     '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
                         "1、支持打开iPortal注册的服务\n"+
                         "2、加速初始化\n"+
@@ -128,8 +121,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     '</div>',
                '</div>',
           '</div>',
-
-               ].join('');
+       ].join('');
     var sceneAttribute = Container.extend({
         tagName: 'div',
         id: 'sceneAttribute',
@@ -141,6 +133,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
             'click #pauseFly'  : 'onPauseFlyClk',
             'click #stopFly'  : 'onStopFlyClk',
             'click #spin'  : 'onSpinClk',
+            'change #dynamicScene'  : 'onDynamicScene',
         },
         template : _.template(htmlStr),
         initialize : function(options){
@@ -497,6 +490,18 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 camera.flyCircle(center);
             });
             flyCircle.activate();
+        },
+        onDynamicScene : function (evt) {
+            var fileInput = document.getElementById("dynamicScene");
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload=function(e) {
+                var XMLContent = e.target.result;
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(XMLContent,"text/xml");
+                dynamicScene.initialize(viewer,doc);
+            };
+            reader.readAsBinaryString(file);
         }
     });
     return sceneAttribute;
