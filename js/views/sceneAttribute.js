@@ -8,6 +8,122 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
     var handler;
     var flyCirclePoint;
 
+    var htmlStr = [
+        '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
+        '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.sceneOptions +'</label>',
+        '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<ul>',
+        '<li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
+        '<li><a data-index="1" href="#">'+ Resource.otherOptions +'</a></li>',
+        '<li><a data-index="2" href="#">'+ Resource.sceneColor +'</a></li>',
+        '<li style="font-size: 12px"><a data-index="3" href="#">'+ Resource.flood +'</a></li>',
+        '<li style="font-size: 12px"><a data-index="4" href="#">'+ Resource.camera +'</a></li>',
+        '<li style="font-size: 12px"><a data-index="5" href="#">'+ Resource.about +'</a></li>',
+        '</ul>',
+        '<div class="tabs-content-placeholder" style="height:300px" id="scene-placeholder">',
+        '<div class="tab-content-active">',
+        '<label>'+ Resource.sceneName +'</label>',
+        '<input type="text" class="cesium-button" readonly id="sceneName">',
+        '<label>'+ Resource.viewMode +'</label>',
+        '<select id="sceneMode" class="cesium-button">',
+        '<option value="3D">3D</option><option value="2D">2D</option>',
+        '<option value="columbusView">Columbus View</option>',
+        '</select>',
+        '<label> '+ Resource.multiViewport +'</label>',
+        '<select id="viewportType" class="cesium-button">',
+        '<option value="NONE" selected>'+ Resource.onePort +'</option>',
+        '<option value="HORIZONTAL">'+ Resource.horizontalSnap +'</option>',
+        '<option value="VERTICAL">'+ Resource.verticalSnap +'</option>',
+        '<option value="TRIPLE">'+ Resource.tripeSnap +'</option>',
+        '<option value="QUAD">'+ Resource.quadSnap +'</option>',
+        '</select>',
+        '<label> '+ Resource.split +'</label>',
+        '<select id="splitType" class="cesium-button">',
+        '<option value="NONE" selected>'+ Resource.splitNONE +'</option>',
+        '<option value="LEFT">'+ Resource.splitLEFT +'</option>',
+        '<option value="RIGHT">'+ Resource.splitRIGHT +'</option>',
+        '<option value="TOP">'+ Resource.splitTop +'</option>',
+        '<option value="BOTTOM">'+ Resource.splitBOTTOM +'</option>',
+        '</select>',
+        '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
+        '</div>',
+        '<div>',
+        '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">'+ Resource.earth +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="shadows" checked/><label for="shadows">'+ Resource.shadowMap +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="lightRender"  checked/><label for="lightRender">'+ Resource.sun +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="timeline"  /><label for="timeline">'+ Resource.timeline +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">'+ Resource.skyAtmosphereEffect +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
+        '<div class="square" ><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
+        '</div> ',
+        '<div>',
+        '<label>'+ Resource.brightness +'</label>',
+        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input" >',
+        '<label>'+ Resource.contrast +'</label>',
+        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "contrast" class="input" >',
+        '<label>'+ Resource.hue +'</label>',
+        '<input type="number" min="0" max="3" step="0.02" value="0.0" id= "hue" class="input">',
+        '<label>'+ Resource.saturation +'</label>',
+        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "saturation" class="input" >',
+        '<label>'+ Resource.gamma +'</label>',
+        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input" >',
+        '</div>',
+        '<div>',
+        '<label style="width: 60px;float: left; margin-top: -0.5px">' + Resource.sceneFlood + '</label>',
+        '<input type="checkbox" id="bloom"/>',
+        '<label>' + Resource.threshold + '</label>',
+        '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.9" step="0.01">',
+        '<label>' + Resource.bloomIntensity + '</label>',
+        '<input type="number"  id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.01">',
+        '</div>',
+        '<div>',
+        '<label>'+ Resource.flyRoute +'</label><br><br>',
+        '<input style="background-color:#2EC5AD" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
+        '<button class="start" id="startFly" title='+ Resource.startFly + ' style="background-color: transparent;border:none;"></button>',
+        '<button class="pause" id="pauseFly" title='+ Resource.pauseFly + ' style="background-color: transparent;border:none;"></button>',
+        '<button class="stop"  id="stopFly"  title='+ Resource.stopFly + ' style="background-color: transparent;border:none;"></button><br><br>',
+        '<select id="stopList" style="background-color:#2EC5AD;width: 100%">',
+        '</select>',
+        '<label>'+ Resource.observe +'</label><br>',
+        '<table  border="0" align="left">',
+        '<tr>',
+        '<td>',
+        '<button id="spin" class="btn btn-info" style="">' + Resource.rotatePoint + '</button>',
+        '</td>',
+        '<td nowrap="nowrap">',
+        '<input type="checkbox"  id="stopFlyCircle">',
+        '<label style="margin-left: -5px;">' + Resource.pauseFly + '</label>',
+        '</td>',
+        '<td nowrap="nowrap">',
+        '<input type="checkbox"  id="circulation" checked = true >',
+        '<label style="margin-left: -5px;">' + Resource.rotateCirculation + '</label>',
+        '</td>',
+        '<td nowrap="nowrap">',
+        '<input type="checkbox"  id="interaction">',
+        '<label style="margin-left: -5px;">' + Resource.interactive + '</label>',
+        '<canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>',
+        '<button id="startHeadControlsButton" style="display: none">' + Resource.enableWebcam + '</button>',
+        '</td>',
+        '</table>',
+        '<label>'+ "场景动画" +'</label><br>',
+        '<input style="background-color:#2EC5AD" type="file" id="dynamicScene" onchange="" accept=".xml"/><br><br>',
+        '</div>',
+        '<div>',
+        '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
+        '<label style=" text-align: center; font-size: 16px">版本 ： 0.1.2</label><br><br><br><br>',
+        '<label>'+Resource.newContent +'</label><br><br>',
+        '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
+        "1、支持打开iPortal注册的服务\n"+
+        "2、加速初始化\n"+
+        "3、部分界面调整\n"+
+        '</textarea>',
+        '</div>',
+        '</div>',
+        '</div>',
+    ].join('');
+
     var htmlStr = `
         <div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:330px;z-index: 1;cursor: auto;">
             <label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">${Resource.sceneOptions}</label>
@@ -70,6 +186,10 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                     </div>
                     <div class="square"><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>
                     <div class="square"><input type="checkbox" id="underground"/><label for="underground">地下</label></div>
+                    <div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">
+                        <span>相机最小缩放距离</span>
+                        <input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />
+                    </div>
                 </section>
         
                 <section>
@@ -240,8 +360,18 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                 $("#bloomIntensity").on("input change",function(){
                     viewer.scene.bloomEffect.bloomIntensity = this.value;
                 });
-                $("#underground").click(function(evt){
-                    viewer.scene.undergroundMode = !viewer.scene.undergroundMode;
+                $("#underground").on("input propertychange", function(evt){
+                    var isEnableUnderground = $(this).prop("checked");
+                    viewer.scene.undergroundMode = isEnableUnderground;
+                    $("#camera-minimum-zoom-distance-wrapper").css("display", isEnableUnderground ? "block" : "none");
+                    if(isEnableUnderground){
+                        viewer.scene.screenSpaceCameraController.minimumZoomDistance = Number($("#camera-minimum-zoom-distance").val());
+                    }else{
+                        viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
+                    }
+                });
+                $("#camera-minimum-zoom-distance").on("input propertychange", function(){
+                    viewer.scene.screenSpaceCameraController.minimumZoomDistance = Number($("#camera-minimum-zoom-distance").val());
                 });
                 $('#circulation').on("input change",function(){
                     camera.flyCircleLoop = this.checked;
@@ -422,7 +552,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','drag','slider','../lib/tool
                         }
                     }
                 });
-                $("")
+
                 var brightness = document.getElementById('brightness');
                 brightness.oninput = function(){
                     if (imageryLayers.length > 0) {
