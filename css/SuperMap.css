@@ -2945,7 +2945,7 @@ main .square{
 /* The content */
 
 .tabs-vertical .tabs-content-placeholder{
-    overflow: hidden;
+    overflow: auto;
     border-left: 1px solid #6b7072;
     font-weight: normal;
     background-color: rgba(38, 38, 38, 0);

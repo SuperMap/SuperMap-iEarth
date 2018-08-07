@@ -1,4 +1,4 @@
-define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excavationRegion','../3DGIS/flattenRegion'],function(Container,$,bootstrapTree,spectrum,drag,excavationRegion,flattenRegion){
+define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excavationRegion','../3DGIS/flattenRegion', '../3DGIS/ModelFlood'],function(Container,$,bootstrapTree,spectrum,drag,excavationRegion,flattenRegion, ModelFlood){
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
@@ -337,6 +337,12 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
             });
             $("#delFlattenRegion").click(function(evt){
                 flattenRegion.remove(selectedLayer);
+            });
+            $("#execute-flood").click(function(){ // 执行淹没分析
+                ModelFlood.startAnalysis(selectedLayer);
+            });
+            $("#clear-flood").click(function(){ // 清除淹没分析
+                ModelFlood.clear(selectedLayer);
             });
             //还原
             initialize.onchange = function () {

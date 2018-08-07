@@ -73,6 +73,16 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">'+ "倾斜摄影压平" +'</label><br><br>',
         '<input type="button" class="btn btn-info" style="margin-left: 85px" id="flattenRegion" value="模型压平">',
         '<input type="button" class="btn btn-info" id="delFlattenRegion" value="清除压平">',
+
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">淹没分析</label><br><br>',
+        '<label>最大高度 (米):</label>',
+        '<input type="number" class="input" id="flood-max-height" value="71" required="required"/>',
+        '<label>最小高度 (米):</label>',
+        '<input type="number" class="input" id="flood-min-height" value="1" required="required"/>',
+        '<label>淹没速度(米/秒):</label>',
+        '<input type="number" class="input" id="flood-speed" value="1" required="required"/>',
+        '<input type="button" class="btn btn-info" style="margin-left: 85px" id="execute-flood" value="执行淹没">',
+        '<input type="button" class="btn btn-info" id="clear-flood" value="清除淹没">',
         '</div>',
         '</div></div>'
     ].join('');
