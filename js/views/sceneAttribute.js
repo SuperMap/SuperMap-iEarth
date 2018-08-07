@@ -153,7 +153,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
             this.on('componentAdded',function(parent){
                 var icon = true;
 				$(document).ready(function() {
-					var widget = $('#sceneForm');
+					/*var widget = $('#sceneForm');
 					var tabs = widget.find('ul a'),
 						content = widget.find('.tabs-content-placeholder > section');
 					tabs.on('click', function (e) {
@@ -164,7 +164,19 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
 						content.removeClass('tab-content-active');
 						$(this).addClass('tab-active');
 						content.eq(index).addClass('tab-content-active');
-					});
+					});*/
+                    var widget = $('#sceneForm');
+                    var tabs = widget.find('ul a'),
+                        content = widget.find('.tabs-content-placeholder > div');
+                    tabs.on('click', function (e) {
+                        e.preventDefault();
+                        // Get the data-index attribute, and show the matching content div
+                        var index = $(this).data('index');
+                        tabs.removeClass('tab-active');
+                        content.removeClass('tab-content-active');
+                        $(this).addClass('tab-active');
+                        content.eq(index).addClass('tab-content-active');
+                    });
 				});
                 $('#sceneForm').myDrag({
                     parent:'body',
