@@ -16,7 +16,7 @@ define([
         '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
         '</select>',
         '<span id="queryFeatureSpan">',
-        '<div class="squaredTwo" id="chkContainer"> <input  type="checkbox" id="queryFeatureChk"> <label class="check-icon"></label></div>' + Resource.featureQuery,
+        '<div class="squaredTwo" id="chkContainer"> <input type="checkbox" id="queryFeatureChk"> <label class="check-icon"></label></div>' + Resource.featureQuery,
         '</span>',
         '</div>',
         '<div class="form-group">',
@@ -42,13 +42,11 @@ define([
         '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk" style="float: right">' + Resource.confirm + '</button>',
 
     ].join('');
-    var scpUrlValueBak;
     var WebServicePan = Container.extend({
         tagName : 'div',
         template : _.template(htmlStr),
         events : {
             'click #btnOk' : 'onBtnOkClk',
-            'click #btnCancel' : 'onBtnCancelClk',
             'change #typeInput' : 'onSelectChange',
             'click #chkContainer' : 'onCheckboxChange',
             'blur #urlInput' : 'onUrlInputBlur'
@@ -102,12 +100,26 @@ define([
                             datasource : datasource,
                             dataset : dataset
                         };
-                        layerModel.strategy.attrQueryPars = {
+                        /*layerModel.strategy.attrQueryPars = {
                             url: dataUrl,
                             dataSourceName: datasource,
                             dataSetName: dataset,
                             keyWorld: 'SmID'
-                        };
+                        };*/
+                        if(dataset === 'merge'){
+                            layerModel.strategy.attrQueryPars = {
+                                url: dataUrl,
+                                dataSourceName: datasource,
+                                isMerge: true
+                            };
+                        }else{
+                            layerModel.strategy.attrQueryPars = {
+                                url: dataUrl,
+                                dataSourceName: datasource,
+                                dataSetName: dataset,
+                                keyWord: 'SmID'
+                            };
+                        }
                     }
                 }
                 this.model.addLayer(layerModel);
@@ -209,9 +221,6 @@ define([
 
             evt.stopPropagation();
         },
-        onBtnCancelClk : function(evt){
-            evt.stopPropagation();
-        },
         onSelectChange : function(evt){
             var target = evt.target;
             var value = target.value;
@@ -250,8 +259,7 @@ define([
             var target = evt.target;
             if($('#queryFeatureChk').is(':checked')){
                 var scpUrl = $(target).val();
-                if(scpUrlValueBak !== scpUrl && scpUrl !== ''){
-                    scpUrlValueBak = scpUrl;
+                if(scpUrl !== ''){
                     var scpUri = new Cesium.Uri(scpUrl);
                     var authority = scpUri.authority;
                     var path = scpUri.path;
@@ -259,14 +267,13 @@ define([
                     var prefixPath = path.substring(0,index1);
                     var index2 = path.indexOf('/rest');
                     var name = path.substring(index1 + 4,index2);
-                    var dataUrl = 'http://' + scpUri.authority + prefixPath + '/data-' + name + '/rest/data';
+                    var dataUrl = 'http://' + authority + prefixPath + '/data-' + name + '/rest/data';
                     $('#dataUrlInput').val(dataUrl);
                     var dataSourceUrl = dataUrl + '/datasources.json';
                     $('#datasourceSel option').each(function(){
                         if($(this).val() !== 'undefined'){
                             $(this).remove();
                         }
-
                     });
                     $('#datasetSel option').each(function(){
                         if($(this).val() !== 'undefined'){
@@ -283,12 +290,12 @@ define([
                             var names = dataSets['datasetNames'];
                             var arr = [];
                             var str = '';
-                            for(var i = 0,j = names.length;i < j;i++){
-                                var str = '<option>{text}</option>'.replace('{text}',names[i]);
+                            for(var dataSetName of names){
+                                var str = `<option value="${dataSetName}">${dataSetName}</option>'`;
                                 arr.push(str);
                             }
-                            arr.join('');
-                            $('#datasetSel').append(arr);
+                            arr.unshift('<option value="merge">查询所有数据集</option>');
+                            $('#datasetSel').append(arr.join(''));
                         });
                     });
                 }

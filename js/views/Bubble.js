@@ -1,19 +1,24 @@
-define(['./Container','jquery','../models/MarkerModel','../models/KmlLayerModel'],function(Container,$,MarkerModel,KmlLayerModel){
+define(['backbone','jquery','../models/MarkerModel','../models/KmlLayerModel'],function(Backbone,$,MarkerModel,KmlLayerModel){
 	"use strict";
     var _ = require('underscore');
-    var htmlStr = [
-               '<div class="se-popup-header"><span id="closeMarkerBtn" class="fui-cross se-popup-close"></span><label class="header-title">' + Resource.objectEditor + '</label></div>',
-               '<div class="se-popup-content"><label class="title-name">' + Resource.title + '</label><input id="markerName" class="title-txt"><label class="description">' + Resource.description + '</label><textarea id="markerDes" class="description-txt"></textarea></div>',
-               '<div class="se-popup-footer"><a id="saveMarkerBtn" class="se-popup-ok">' + Resource.confirm + '</a><span class="se-popup-division"></span><a id="delMarkerBtn" class="se-popup-cancel">' + Resource.cancel + '</a> </div>'
-               ].join('');
-	var Bubble = Container.extend({
-		tagName : 'div',
-		className : 'se-popup-container',
+    var htmlStr = `
+        <div id="tools" style="text-align : right">
+            <span style="color: rgb(95, 74, 121);padding: 5px;position: absolute;left: 10px;top: 4px;">对象属性</span>
+            <span class="fui-export" id="bubblePosition" style="color: darkgrey; padding:5px" title="停靠"></span>
+            <span class="fui-cross" title="关闭" id="bubbleClose" style="color: darkgrey;padding:5px"></span>
+        </div>
+        <div style="overflow-y:scroll;height:150px" id="tableContainer">
+            <table id="tab"></table>
+        </div>
+    `;
+	var Bubble = Backbone.View.extend({
+        tagName: 'div',
+        id: 'bubble',
+        className: 'bubble',
         template : _.template(htmlStr),
         events : {
-            'click #saveMarkerBtn' : 'onSaveMarkerClk',
-            'click #delMarkerBtn' : 'onDelMarkerClk',
-            'click #closeMarkerBtn' : 'onCloseMarkerClk'
+            'click #bubblePosition' : 'onBubblePositionClk',
+            'click #bubbleClose': 'onBubbleColseClk'
         },
         initialize : function(options) {
             this.model = options.sceneModel;
@@ -23,40 +28,25 @@ define(['./Container','jquery','../models/MarkerModel','../models/KmlLayerModel'
         	this.$el.html(this.template());
             return this;
         },
-        onSaveMarkerClk : function(evt){
-            var markerName = $('#markerName').val();
-            var description = $('#markerDes').val();
-            this.model.currentMarker.name = markerName;
-            this.model.currentMarker.description = description;
-            this.model.currentMarker.label.text = markerName;
-            if(!this.model.defaultKmlLayer){
-            	this.model.defaultKmlLayer = new KmlLayerModel({
-                	name : 'default KML'
-                });
-            	this.model.addLayer(this.model.defaultKmlLayer);
+        onBubblePositionClk: function(){
+            if ($("#bubblePosition").hasClass("fui-export")) {
+                this.model.viewer.customInfobox = undefined;
+                $("#bubble").removeClass("bubble").addClass("float");
+                $("#bubblePosition").removeClass("fui-export").addClass("fui-bubble");
+                $("#bubblePosition")[0].title = "悬浮";
+                $("#bubble").css({'left': '82%', 'bottom': '45%'});
+                $("#tableContainer").css({'height': '350px'});
             }
-            this.model.addMarker(new MarkerModel({
-            	name : markerName,
-            	description : description
-            }));
-            this.$el.hide();
-            $('#markerName').val('');
-            $('#markerDes').val('');
-            evt.stopPropagation();
+            else if ($("#bubblePosition").hasClass("fui-bubble")) {
+                $("#bubble").removeClass("float").addClass("bubble");
+                $("#bubblePosition").removeClass("fui-bubble").addClass("fui-export");
+                $("#bubblePosition")[0].title = "停靠";
+                $("#tableContainer").css({'height': '150px'});
+                this.model.viewer.customInfobox = this.el;
+            }
         },
-        onDelMarkerClk : function(evt){
-        	this.model.removeCurrentMarker();
-        	$('#markerName').val('');
-            $('#markerDes').val('');
-            this.$el.hide();
-            evt.stopPropagation();
-        },
-        onCloseMarkerClk : function(evt){
-        	this.model.removeCurrentMarker();
-        	$('#markerName').val('');
-            $('#markerDes').val('');
-            this.$el.hide();
-            evt.stopPropagation();
+        onBubbleColseClk: function(){
+            $("#bubble").hide();
         }
 	});
 	return Bubble;

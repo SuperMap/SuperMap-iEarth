@@ -1499,53 +1499,75 @@ a{
 
 /*--------fui-icon  start----*/
 @font-face {
-    font-family: 'Flat-UI-Icons';
-    src: url('../fonts/glyphicons/flat-ui-icons-regular.eot');
-    src: url('../fonts/glyphicons/flat-ui-icons-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons/flat-ui-icons-regular.woff') format('woff'), url('../fonts/glyphicons/flat-ui-icons-regular.ttf') format('truetype'), url('../fonts/glyphicons/flat-ui-icons-regular.svg#flat-ui-icons-regular') format('svg');
+	font-family: 'Flat-UI-Icons';
+	src: url('../fonts/glyphicons/flat-ui-icons-regular.eot');
+	src: url('../fonts/glyphicons/flat-ui-icons-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons/flat-ui-icons-regular.woff') format('woff'), url('../fonts/glyphicons/flat-ui-icons-regular.ttf') format('truetype'), url('../fonts/glyphicons/flat-ui-icons-regular.svg#flat-ui-icons-regular') format('svg');
 }
-[class^=fui-],[class*=fui-]{
-	font-family : Flat-UI-Icons;
-	font-style : normal;
-	font-weight : 400;
-	font-variant : normal;
-	text-transform : none;
-	speak : none;
-	-webkit-font-smoothing : antialiased;
-	-moz-osx-font-smoothing : grayscale;
+
+[class^=fui-], [class*=fui-] {
+	font-family: Flat-UI-Icons;
+	font-style: normal;
+	font-weight: 400;
+	font-variant: normal;
+	text-transform: none;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	cursor: pointer;
 }
+
 .fui-plus:before {
-    content: "\e608";
+	content: "\e608";
 }
+
 .fui-list-large-thumbnails:before {
-    content: "\e61d";
+	content: "\e61d";
 }
+
 .fui-arrow-left:before {
-    content: "\e606";
+	content: "\e606";
 }
+
 .fui-arrow-right:before {
-    content: "\e607";
+	content: "\e607";
 }
+
 .fui-gear:before {
-    content: "\e636";
+	content: "\e636";
 }
-.fui-user:before{
+
+.fui-user:before {
 	content: "\e631";
 }
-.fui-cross:before{
+
+.fui-export:before {
+	content: "\e63c";
+}
+
+.fui-bubble:before {
+	content: "\e63b";
+}
+
+.fui-cross:before {
 	content: "\e609";
 }
-.fui-check:before{
+
+.fui-check:before {
 	content: "\e60a";
 }
+
 .fui-star:before {
 	content: "\2600";
 }
+
 .fui-cmd:before {
-  content: "\e624";
+	content: "\e624";
 }
+
 .fui-window:before {
-  content: url(../images/analysis.png);
+	content: url(../images/analysis.png);
 }
+
 /*--------fui-icon  end------*/
 
 /*--------sm-icon  start------*/

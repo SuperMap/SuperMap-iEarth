@@ -61,14 +61,11 @@ define([
             this.on('componentAdded',function(parent){
                 if(parent){
                 	this.parent = parent;
-                	var bubble = new Bubble({
-                    	sceneModel : options.sceneModel
+                    var bubble = new Bubble({
+                        sceneModel : options.sceneModel
                     });
-                    parent.addComponent(bubble,new Position({
-                        x : '0',
-                        y : '0'
-                    }));
-                    this.bubble = bubble;
+                    $('body').append(bubble.el);
+                    this.model.viewer.customInfobox = bubble.el;
                     
                     var layerManageDropDownView = new LayerManageDropDown({
                         sceneModel : this.model

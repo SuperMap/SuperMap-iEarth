@@ -112,7 +112,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '</table>',
         '<label>'+ "场景动画" +'</label><br>',
         '<input style="background-color:#2EC5AD; width: 100%;" type="file" id="dynamicScene" onchange="" accept=".xml"/><br><br>',
-        
+
         '<div class="square"><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
         '<div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">',
         '<span>' + Resource.cameraMinimumZoomDistance + '</span>',

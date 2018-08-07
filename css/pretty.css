@@ -753,22 +753,20 @@ input[type=range]:focus::-ms-fill-upper {
 
 /*-------bubble------------------*/
 .bubble {
-    text-align:center;
+    text-align: center;
     position: absolute;
-    padding: 15px 30px;
+    padding: 15px;
     margin: 0;
-    color: #fff;
-    background: #5a8f00;
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#b8db29), to(#5a8f00));
-    background: -moz-linear-gradient(#b8db29, #5a8f00);
-    background: -o-linear-gradient(#b8db29, #5a8f00);
-    background: linear-gradient(rgba(7,86,152,0.3), rgba(46,136,196,0.3));
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    max-width : 330px;
-    max-height: 450px;
+    background: #fff;
+    max-width: 330px;
+    max-height: 200px;
 }
+
+.bubble float {
+    right: 2%;
+    top: 2%;
+}
+
 .bubble:after {
     content: "";
     position: absolute;
@@ -776,9 +774,51 @@ input[type=range]:focus::-ms-fill-upper {
     left: 50px;
     border-width: 0 20px 50px 0px;
     border-style: solid;
-    border-color: transparent rgba(46,136,196,0.3);
+    border-color: transparent #fff;
     display: block;
     width: 0;
+}
+
+/* Border styles */
+#tab thead, #tab tr {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgb(211, 202, 221);
+}
+
+#tab {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(211, 202, 221);
+    height: 400px;
+}
+
+/* Padding and font style */
+#tab td, #tab th {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: Verdana;
+    color: rgb(95, 74, 121);
+    border: 1px solid rgb(193, 168, 223);
+}
+
+/* Alternating background colors */
+#tab tr:nth-child(even) {
+    background: rgb(223, 216, 232)
+}
+
+#tab tr:nth-child(odd) {
+    background: #FFF
+}
+
+.float {
+    position: absolute;
+    text-align: center;
+    padding: 15px;
+    margin: 0;
+    background: #fff;
+    max-width: 330px;
+    max-height: 400px;
 }
 
 /*-------bubble  end------------------*/

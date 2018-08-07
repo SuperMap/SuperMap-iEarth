@@ -19,6 +19,23 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 name : name
             });
 		return Cesium.when(promise,function(layer){
+            if (me.attrQueryPars) {
+                layer.setQueryParameter(me.attrQueryPars);
+                viewer.pickEvent.addEventListener(function (feature) {
+                    $("#bubble").show();
+                    var table = document.getElementById("tab");
+                    for (i = table.rows.length - 1; i > -1; i--) {
+                        table.deleteRow(i);
+                    }
+                    for (var key in feature) {
+                        var newRow = table.insertRow();
+                        var cell1 = newRow.insertCell();
+                        var cell2 = newRow.insertCell();
+                        cell1.innerHTML = key;
+                        cell2.innerHTML = feature[key];
+                    }
+                });
+            }
             if(!Cesium.FeatureDetection.isPCBroswer()){
 				layer._supportCompressType = 0;
             }
@@ -67,35 +84,22 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
             }
         	var cameraParam = Config.CAMERA_PARAM[scpName];
 
-                if(cameraParam){
-                    this.viewer.scene.camera.flyTo({
-                        destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
-                        orientation : {
-                            heading : cameraParam.heading,
-                            pitch : cameraParam.pitch,
-                            roll : cameraParam.roll
-                        }
-                    });
-                    return ;
-                }else{
-                    var layer = this.layer;
-                    if(layer){
-                        var bounds = layer.layerBounds;
-                        if(!bounds){
-                            var extend = 0.1;
-                            var left = Cesium.Math.toRadians(layer.lon - extend);
-                            var right = Cesium.Math.toRadians(layer.lon + extend);
-                            var top = Cesium.Math.toRadians(layer.lat + extend);
-                            var bottom = Cesium.Math.toRadians(layer.lat - extend);
-                            bounds = new Cesium.Rectangle(left,bottom,right,top);
-                            layer.layerBounds = bounds;
-                        }
-                        var camera = this.viewer.scene.camera;
-                        var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
-                        camera.flyToBoundingSphere(bd);
+            if(cameraParam){
+                this.viewer.scene.camera.flyTo({
+                    destination : new Cesium.Cartesian3(cameraParam.Cartesian3.x,cameraParam.Cartesian3.y,cameraParam.Cartesian3.z),
+                    orientation : {
+                        heading : cameraParam.heading,
+                        pitch : cameraParam.pitch,
+                        roll : cameraParam.roll
                     }
-                }
-
+                });
+                return ;
+            }else{
+                var ceterCartesianPosition = this.layer._position;
+                var boundingSphere = new Cesium.BoundingSphere(ceterCartesianPosition, 200);
+                var camera = this.viewer.scene.camera;
+                camera.flyToBoundingSphere(boundingSphere);
+            }
         },
         setVisible : function(isVisible,ids){
             if(ids.length>0)
