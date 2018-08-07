@@ -153,7 +153,8 @@ define(function(){
         skylineColor : 'Skyline color',
         skylineRadius: 'Skyline radius',
         skyline : 'Skyline',
-        graphDisplay : '2D display'
+        graphDisplay : '2D display',
+        cameraMinimumZoomDistance: 'camera minimum zoom distance'
     };
     return ResourceEN;
 });
