@@ -2121,7 +2121,7 @@ input[type=text] {
      width:100%; 
  }
  #layerForm .square label, #sceneForm .square label{
-    width: 50px;
+    width: 80px;
     font-size: 12px;
     color: darkgrey;
 }

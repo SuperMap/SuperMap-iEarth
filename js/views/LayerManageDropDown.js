@@ -347,6 +347,28 @@ define(['./Container','jquery','bootstrapTree','spectrum','drag','../3DGIS/excav
             $("#clear-flood").click(function(){ // 清除淹没分析
                 ModelFlood.clear(selectedLayer);
             });
+            $("#choose-offset").on("input propertychange", function(){
+                if($(this).prop("checked")){
+                    var xOffset = Number($("#choose-x-offset").val());
+                    var yOffset = Number($("#choose-y-offset").val());
+                    var zOffset = Number($("#choose-z-offset").val());
+                    selectedLayer.selectColorType = 1.0; // 替换模式
+                    selectedLayer.selectedTranslate = new Cesium.Cartesian3(xOffset, yOffset, zOffset);
+                }else{
+                    selectedLayer.selectedTranslate = new Cesium.Cartesian3(0, 0, 0);
+                    selectedLayer.selectColorType = 0.0; // 混合模式
+                    selectedLayer.releaseSelection(); // 释放选择集
+                }
+            });
+            $("#choose-x-offset,#choose-y-offset,#choose-z-offset").on("input propertychange", function(){
+                if($("#choose-offset").prop("checked")){
+                    var xOffset = Number($("#choose-x-offset").val());
+                    var yOffset = Number($("#choose-y-offset").val());
+                    var zOffset = Number($("#choose-z-offset").val());
+                    selectedLayer.selectedTranslate = new Cesium.Cartesian3(xOffset, yOffset, zOffset);
+                }
+            });
+
             //还原
             initialize.onchange = function () {
                 selectedLayer.setObjsVisible([],false);

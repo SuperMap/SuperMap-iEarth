@@ -83,6 +83,16 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<input type="number" class="input" id="flood-speed" value="1" required="required"/>',
         '<input type="button" class="btn btn-info" style="margin-left: 85px" id="execute-flood" value="执行淹没">',
         '<input type="button" class="btn btn-info" id="clear-flood" value="清除淹没">',
+
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">选中偏移</label><br><br>',
+        '<div class="square" ><input type="checkbox" id="choose-offset"/><label for="choose-offset">'+ "开启选中偏移" +'</label></div>',
+        '<label>沿X轴偏移:</label>',
+        '<input type="number" class="input" id="choose-x-offset" min="-50" max="50" step="1" value="0">',
+        '<label>沿Y轴偏移:</label>',
+        '<input type="number" class="input" id="choose-y-offset" min="-50" max="50" step="1" value="0">',
+        '<label>沿Z轴偏移:</label>',
+        '<input type="number" class="input" id="choose-z-offset" min="-50" max="50" step="1" value="0">',
+
         '</div>',
         '</div></div>'
     ].join('');
@@ -149,6 +159,16 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                 $("#selectColorPicker").spectrum({
                     change:function(){
                         $('#selectColorPicker').trigger('input');
+                    },
+                    color: "#fff",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette
+                });
+                $("#choose-offset-color").spectrum({
+                    change:function(){
+                        $('#choose-offset-color').trigger('input');
                     },
                     color: "#fff",
                     showPalette: true,
