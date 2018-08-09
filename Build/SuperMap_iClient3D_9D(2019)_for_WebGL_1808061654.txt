@@ -10,7 +10,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  webglreport.html
 ©¦  
 ©À©¤Build
-©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1808020844.txt
+©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1808061654.txt
 ©¦  ©¦  
 ©¦  ©À©¤Cesium
 ©¦  ©¦  ©¦  Cesium.js
@@ -1525,8 +1525,13 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦          Marker_add.jpg
     ©¦          NewScene.png
     ©¦          OpenDatasource.png
+    ©¦          PlotPanel.png
+    ©¦          plotting.jpg
+    ©¦          plottingProperties.png
+    ©¦          plottingTuiyan.jpg
     ©¦          PublishQuickly.png
     ©¦          Select3DService.png
+    ©¦          sitDataManager.png
     ©¦          Tips.png
     ©¦          
     ©À©¤img
@@ -1544,6 +1549,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      digTerrain.jpg
     ©¦      draw.jpg
     ©¦      drawHandler.jpg
+    ©¦      dynamicDTH.jpg
     ©¦      dynamicLayer.jpg
     ©¦      dynamicTime.jpg
     ©¦      extrude.jpg
@@ -1890,6 +1896,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      
     ©¸©¤TopicDoc
             AttributeQueryofObliqueModel_OperateTopic.html
+            DynamicPlottingTopic.html
             FlyManagerTopic.html
             LoadBIM_OperateTopic.html
             LoadGltfModel_OperateTopic.html

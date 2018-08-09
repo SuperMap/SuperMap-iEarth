@@ -17,7 +17,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
         if(viewshed3D){
             viewshed3D.destroy();
             viewshed3D = undefined;
-        };
+        }
     };
     viewshed.initializing = function(viewer,sceneModel){
         var scene = viewer.scene;
@@ -98,11 +98,6 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
         $('#colorPicker2').on('input propertychange',function(){
             var color = Cesium.Color.fromCssColorString(this.value);
             viewshed3D.hiddenAreaColor = color;
-        })
-
-        $("#ViewshedParameter").on("click",function () {
-          var parameter = viewshed3D.getViewshedParameter();
-
         })
 
         $('#viewShedBody').change(function(){

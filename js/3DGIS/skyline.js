@@ -5,12 +5,15 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
     var skyline;
     var parent;
     var s3mInstance;
+    var clickFlag = 0;
     skyLine.initializing = function(viewer,parentContainer,sceneModel){
         var scene = viewer.scene;
-        parent =  parentContainer
+        clickFlag += 1;
+        parent =  parentContainer;
         if(!skyline){
             skyline = new Cesium.Skyline(scene);
         }
+        clear(); // 清除上一次分析结果
         var cartographic = scene.camera.positionCartographic;
         var longitude = Cesium.Math.toDegrees(cartographic.longitude);
         var latitude = Cesium.Math.toDegrees(cartographic.latitude);
@@ -25,6 +28,11 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         skyline.direction = Cesium.Math.toDegrees(scene.camera.heading);
         skyline.radius = parseFloat($("#skylineRadius").val());
         skyline.build();
+
+        for(var index in skyline.getObjectIds()){
+            var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
+            layer.setObjsColor(skyline.getObjectIds()[index], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+        }
 
         var skylineColor = document.getElementById('skylineColor');
         skylineColor.oninput = function(){
@@ -80,16 +88,21 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             }
         });
 
-        $('#clearSkyline').click(function(){
+        $('#clearSkyline').click(clear);
+
+        function clear(){
             viewer.entities.removeAll();
             if(parent.skylineForm){
                 parent.skylineForm.$el.hide();
             }
             scene.primitives._primitives = [];
             skyline.clear();
-        });
+            for(var layer of scene.layers.layerQueue){
+                layer.removeAllObjsColor();
+            }
+        }
 
-        if(sceneModel.analysisObjects.skylineStore){
+        if(sceneModel.analysisObjects.skylineStore && clickFlag < 2){
             var store = sceneModel.analysisObjects.skylineStore;
             skyline.viewPosition = store.viewPosition;
             skyline.pitch = store.pitch;

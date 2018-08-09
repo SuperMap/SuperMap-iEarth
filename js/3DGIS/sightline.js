@@ -6,7 +6,7 @@ define(['Cesium'],function(Cesium) {
     };
     var sightline;
     var sightLineHandler;
-    var  pointHandler;
+    var pointHandler;
     var pointPosition;
     var longitude;
     var latitude;
@@ -47,19 +47,9 @@ define(['Cesium'],function(Cesium) {
         });
 
         sightLineHandler.movingEvt.addEventListener(function(windowPosition){
-            sightLineHandler.polyline.show = false;
-            handler.setInputAction(function(evt){
-                var pick = viewer.scene.pickPosition(evt.position);
-                var ecartographic = Cesium.Cartographic.fromCartesian(pick);
-                var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
-                var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
-                var eheight = ecartographic.height;
-                sightline.addTargetPoint({
-                    position: [elongitude, elatitude, eheight],
-                    name: "point" + new Date()
-                });
-            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
+            sightLineHandler.polyline && (sightLineHandler.polyline.show = false);
         });
+
         var store = {};
         sightLineHandler.drawEvt.addEventListener(function(result) {
                 var line=result.object;
@@ -94,6 +84,22 @@ define(['Cesium'],function(Cesium) {
             $('#viewPointY').val(latitude.toFixed(4));
             $('#viewPointZ').val(height.toFixed(4));
             sightline.viewPosition = [longitude, latitude, height];
+
+            handler.setInputAction(function(evt){
+                var pick = viewer.scene.pickPosition(evt.position);
+                var ecartographic = Cesium.Cartographic.fromCartesian(pick);
+                var elongitude = Cesium.Math.toDegrees(ecartographic.longitude);
+                var elatitude = Cesium.Math.toDegrees(ecartographic.latitude);
+                var eheight = ecartographic.height;
+                sightline.addTargetPoint({
+                    position: [elongitude, elatitude, eheight],
+                    name: "point" + new Date()
+                });
+                for(var index in sightline.getObjectIds()){
+                    var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
+                    layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+                }
+            },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         });
 
         pointHandler.activate();
@@ -132,7 +138,10 @@ define(['Cesium'],function(Cesium) {
             $('#viewPointZ').val("0.0");
             viewer.entities.removeAll();
             sightline.removeAllTargetPoint();
-        }
+            for(var layer of scene.layers.layerQueue){
+                layer.removeAllObjsColor();
+            }
+        };
 
         if(sceneModel.analysisObjects.sightLineStore && clickFlag < 2){
             var store = sceneModel.analysisObjects.sightLineStore;
