@@ -20,7 +20,7 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         var scene = viewer.scene;
         layers = viewer.scene.layers.layerQueue;
 
-        boxPosition = new Cesium.Cartesian3(0, 0, 0);
+        boxPosition = Cesium.Cartesian3.fromDegrees(0, 0, 0);
         width = Number($crossClipWidth.val());
         height = Number($crossClipHeight.val());
         heading = Number($crossClipHeading.val());
@@ -28,18 +28,14 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         roll = Number($crossClipRoll.val());
         extrudeDistance = Number($crossClipExtrude.val());
 
-        var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
-        var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
-
         dim = new Cesium.Cartesian3(width, height, extrudeDistance);
 
         box = viewer.entities.add({ // 标识盒
             id: 'cross-clip-identify-box',
             position: boxPosition,
-            orientation: orientation,
             show: true,
             box : {
-                dim : dim,
+                dimensions : new Cesium.Cartesian3(width, height, 0.1),
                 fill : false,
                 outline : true,
                 outlineColor : Cesium.Color.WHITE,
@@ -55,6 +51,9 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                     return ;
                 }
                 box.position = boxPosition;
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
+                box.orientation = orientation;
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
@@ -126,7 +125,6 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                 updateClip();
             }
         });
-
         hasInitialized = true;
     };
 
@@ -139,16 +137,18 @@ define(['Cesium', 'jquery'], function(Cesium, $){
     };
 
     CrossClip.clear = function(){
+        hasClipped = false;
         for (var layer of layers) {
             layer.clearCustomClipBox();
         }
     };
 
-    CrossClip.destroy = function(){
+    CrossClip.destroy = function(viewer){
         this.clear();
-        layers && (layers = null);
-        screenSpaceEventHandler && (screenSpaceEventHandler = null);
+        layers && (layers = []);
+        screenSpaceEventHandler && screenSpaceEventHandler.destroy();
         box && viewer.entities.removeById('cross-clip-identify-box');
+        hasInitialized = false;
     };
 
     function updateClip() {

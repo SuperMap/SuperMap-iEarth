@@ -16,6 +16,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<li><a class="tab-active" data-index="0" href="#">'+ Resource.basicOptions +'</a></li>',
         '<li><a data-index="1" href="#">'+ Resource.otherOptions +'</a></li>',
         '<li><a data-index="2" href="#">'+ Resource.sceneColor +'</a></li>',
+        
         '<li style="font-size: 12px"><a data-index="3" href="#">'+ Resource.flood +'</a></li>',
         '<li style="font-size: 12px"><a data-index="4" href="#">'+ Resource.camera +'</a></li>',
         '<li style="font-size: 12px"><a data-index="5" href="#">'+ Resource.about +'</a></li>',
@@ -52,7 +53,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '</div>',
         '<div>',
         '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">'+ Resource.earth +'</label></div>',
-        '<div class="square" ><input type="checkbox" id="shadows" checked/><label for="shadows">'+ Resource.shadowMap +'</label></div>',
+        '<div class="square" ><input type="checkbox" id="shadows"/><label for="shadows">'+ Resource.shadowMap +'</label></div>',
         '<div class="square" ><input type="checkbox" id="lightRender"  checked/><label for="lightRender">'+ Resource.sun +'</label></div>',
         '<div class="square" ><input type="checkbox" id="timeline"  /><label for="timeline">'+ Resource.timeline +'</label></div>',
         '<div class="square" ><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">'+ Resource.skyAtmosphereEffect +'</label></div>',
@@ -74,12 +75,12 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input" >',
         '</div>',
         '<div>',
-        '<label style="width: 60px;float: left; margin-top: -0.5px">' + Resource.sceneFlood + '</label>',
+        '<label style="width: 60px;float: left; margin-top: -0.5px" for="bloom">' + Resource.sceneFlood + '</label>',
         '<input type="checkbox" id="bloom"/>',
         '<label>' + Resource.threshold + '</label>',
-        '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.9" step="0.01">',
+        '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.6" step="0.01">',
         '<label>' + Resource.bloomIntensity + '</label>',
-        '<input type="number"  id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.01">',
+        '<input type="number"  id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.5">',
         '</div>',
         '<div>',
         '<label>'+ Resource.flyRoute +'</label><br><br>',
@@ -242,9 +243,11 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                 });
                 $("#bloom").click(function(evt){
                     viewer.scene.bloomEffect.show = !viewer.scene.bloomEffect.show;
+                    viewer.scene.bloomEffect.threshold = Number($("#threshold").val());
+                    viewer.scene.bloomEffect.bloomIntensity = Number($("#bloomIntensity").val());
                 });
                 $("#threshold").on("input change",function(){
-                    viewer.scene.bloomEffect.threshold = this.value;
+                    viewer.scene.bloomEffect.threshold = Number(this.value);
                 });
                 $("#bloomIntensity").on("input change",function(){
                     viewer.scene.bloomEffect.bloomIntensity = this.value;

@@ -44,7 +44,7 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         });
 
         $boxClipRotate.on('input propertychange', function () {
-            rotate = Number($(this).val());
+            rotate = Cesium.Math.toRadians(Number($(this).val()));
             if(hasClipped){
                 setClipBox();
             }
@@ -55,7 +55,7 @@ define(['Cesium', 'jquery'], function(Cesium, $){
             height = Number($boxClipHeight.val());
             width = Number($boxClipWidth.val());
             length = Number($boxClipLength.val());
-            rotate = Number($boxClipRotate.val());
+            rotate = Cesium.Math.toRadians(Number($boxClipRotate.val()));
             clipMode = $boxClipMode.val();
             if(startClip){
                 position = scene.pickPosition(evt.position);
@@ -120,7 +120,8 @@ define(['Cesium', 'jquery'], function(Cesium, $){
     BoxClip.destroy = function(viewer){
         this.clear();
         viewer.entities.getById('box-clip-custom-box') && viewer.entities.removeById('box-clip-custom-box');
-        screenSpaceEventHandler && (screenSpaceEventHandler = null);
+        screenSpaceEventHandler && screenSpaceEventHandler.destroy();
+        hasInitialized = false;
     };
 
     function setClipBox() {

@@ -141,11 +141,12 @@ define(['Cesium', 'jquery'], function (Cesium, $) {
         }
     };
 
-    PlaneClip.destroy = function () {
-        this.clear();
-        layers = null;
-        screenSpaceEventHandler && (screenSpaceEventHandler = null);
+    PlaneClip.destroy = function (viewer) {
+        this.clear(viewer);
+        layers = [];
+        screenSpaceEventHandler && screenSpaceEventHandler.destroy();
         planeClipPolygonHandler && (planeClipPolygonHandler = null);
+        hasInitialized = false;
     };
 
     /*
