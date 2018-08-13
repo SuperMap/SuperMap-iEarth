@@ -136,7 +136,7 @@ define(['Cesium'],function(Cesium) {
             viewer.entities.removeAll();
             for(var i = 0;i < layers.length;i++){
                 layers[i].shadowType = 0;
-            };
+            }
             shadowQuery.qureyRegion({
                 position : [0,0],
                 bottom : 0,
@@ -190,9 +190,18 @@ define(['Cesium'],function(Cesium) {
         }
         else{
             handlerPolygon.deactivate();
-        };
+        }
+        var layers = viewer.scene.layers.layerQueue;
+        for(var i = 0;i < layers.length;i++){
+            layers[i].shadowType = 0;
+        }
         if(shadowQuery){
-            shadowQuery =  shadowQuery.destroy();
+            shadowQuery.qureyRegion({
+                position : [0,0],
+                bottom : 0,
+                extend : 0
+            });
+            shadowQuery.destroy();
             shadowQuery = undefined;
         }
     };

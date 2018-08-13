@@ -95,7 +95,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
             sceneModel = options.sceneModel;
             viewer = options.sceneModel.viewer;
             parent = options.parent;
-            isPCBroswer = options.isPCBroswer
+            isPCBroswer = options.isPCBroswer;
             this.render();
             this.on('componentAdded', function (parent) {
                 $('main').each(function (index) {

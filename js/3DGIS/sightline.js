@@ -13,6 +13,7 @@ define(['Cesium'],function(Cesium) {
     var height ;
     var targetPoint;
     var clickFlag = 0;
+    var handler;
     sgLine.initializing =function(viewer,sceneModel){
         var scene = viewer.scene;
         if(!sightline){
@@ -22,7 +23,7 @@ define(['Cesium'],function(Cesium) {
         clickFlag += 1;
         sightline.removeAllTargetPoint();
         viewer.entities.removeAll();
-        var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
 
         // var visibleColor = document.getElementById('visibleColor');
@@ -137,10 +138,11 @@ define(['Cesium'],function(Cesium) {
             $('#viewPointY').val("0.0");
             $('#viewPointZ').val("0.0");
             viewer.entities.removeAll();
-            sightline.removeAllTargetPoint();
+            sightline && sightline.removeAllTargetPoint();
             for(var layer of scene.layers.layerQueue){
                 layer.removeAllObjsColor();
             }
+            sgLine.remove(viewer);
         };
 
         if(sceneModel.analysisObjects.sightLineStore && clickFlag < 2){
@@ -159,6 +161,7 @@ define(['Cesium'],function(Cesium) {
         if(pointHandler){
             pointHandler.deactivate();
         }
+        handler && (!handler.isDestroyed()) && handler.destroy();
         viewer.entities.removeAll();
         if(sightline){
             sightline.destroy();

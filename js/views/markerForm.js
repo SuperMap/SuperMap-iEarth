@@ -8,7 +8,7 @@ define(['./Container',
     var _ = require('underscore');
     var $ = require('jquery');
     var viewer;
-    var instance;
+    var s3mInstanceColc;
     var defaultUrl;
     var handlerPoint;
     var isPCBroswer;
@@ -101,11 +101,9 @@ define(['./Container',
     ].join('');
     var markerForm = Container.extend({
         tagName: 'div',
-        id: 'sceneAttribute',
+        id: 'marker-form',
         events : {
             'click #closeScene'  : 'onCloseSceneClk',
-            'click #addition2'  : 'onAddition2Clk',
-            'click #addition3'  : 'onAddition3Clk',
         },
         template : _.template(htmlStr),
         initialize : function(options){
@@ -114,9 +112,9 @@ define(['./Container',
             var scene = viewer.scene;
             isPCBroswer = options.isPCBroswer;
             me = this;
-            handlerPoint = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Point);
-            instance = new Cesium.S3MInstanceCollection(scene._context);
-            scene.primitives.add(instance);
+            handlerPoint = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
+            s3mInstanceColc = new Cesium.S3MInstanceCollection(scene._context);
+            scene.primitives.add(s3mInstanceColc);
             this.render();
             this.on('componentAdded',function(parent){
                 $('main').each(function(index){
@@ -151,31 +149,12 @@ define(['./Container',
                     localStorageKey: "spectrum.demo",
                     palette: palette
                 });
-                $("#pitch").on("input change",function(){
-                    var rotationValue = Cesium.Math.toRadians(this.value);
-                    if(viewer.selectedEntity){
-                        var instance = viewer.selectedEntity.primitive;
-                        var index = viewer.selectedEntity.index;
-                        instance.updateRotation(new Cesium.HeadingPitchRoll(0,rotationValue,0),index);
-                    }
-                });
-                $("#roll").on("input change",function(){
-                    var rotationValue = Cesium.Math.toRadians(this.value);
-                    if(viewer.selectedEntity){
-                        var instance = viewer.selectedEntity.primitive;
-                        var index = viewer.selectedEntity.index;
-                        instance.updateRotation(new Cesium.HeadingPitchRoll(0,0,rotationValue),index);
-                    }
-                });
-                $("#heading").on("input change",function(){
-                    var rotationValue = Cesium.Math.toRadians(this.value);
-                    if(viewer.selectedEntity){
-                        var instance = viewer.selectedEntity.primitive;
-                        var index = viewer.selectedEntity.index;
-                        instance.updateRotation(new Cesium.HeadingPitchRoll(rotationValue,0,0),index);
-                    }
-                });
-                $("#scale").on("input change",function(){
+
+                $("#pitch").on("input propertychange",updatePointMarkerRotation);
+                $("#roll").on("input propertychange",updatePointMarkerRotation);
+                $("#heading").on("input propertychange",updatePointMarkerRotation);
+
+                $("#scale").on("input propertychange",function(){
                     var scale = parseFloat(this.value);
                     if(viewer.selectedEntity){
                         var instance = viewer.selectedEntity.primitive;
@@ -183,7 +162,7 @@ define(['./Container',
                         instance.updateScale(new Cesium.Cartesian3(scale,scale,scale),index);
                     }
                 });
-                $("#colorPicker").on("input change",function(){
+                $("#colorPicker").on("input propertychange",function(){
                     var color = Cesium.Color.fromCssColorString(this.value);
                     if(viewer.selectedEntity){
                         var instance = viewer.selectedEntity.primitive;
@@ -250,6 +229,17 @@ define(['./Container',
                     addItem(result[i]);
                 }
             });
+
+            handlerPoint.drawEvt.addEventListener(function(result){
+                handlerPoint.clear();
+                var point = result.object;
+                s3mInstanceColc.add(defaultUrl,{
+                    position : point.position,
+                    hpr : new Cesium.HeadingPitchRoll(parseFloat($("#heading").val()),parseFloat($("#pitch").val()),parseFloat($("#roll").val())),
+                    scale : new Cesium.Cartesian3(parseFloat($("#scale").val()),parseFloat($("#scale").val()),parseFloat($("#scale").val())),
+                });
+                handlerPoint && handlerPoint.deactivate();
+            });
         },
         render : function(){
             this.$el.html(this.template());
@@ -282,16 +272,10 @@ define(['./Container',
             else{
                 $(this).addClass("selected");
             }
-            handlerPoint.drawEvt.addEventListener(function(result){
-                handlerPoint.clear();
-                var point = result.object;
-                instance.add(defaultUrl,{
-                    position : point.position,
-                    hpr : new Cesium.HeadingPitchRoll(parseFloat($("#heading").val()),parseFloat($("#pitch").val()),parseFloat($("#roll").val())),
-                    scale : new Cesium.Cartesian3(parseFloat($("#scale").val()),parseFloat($("#scale").val()),parseFloat($("#scale").val())),
-                });
-                handlerPoint && handlerPoint.deactivate();
-            });
+            $("#heading").val(0);
+            $("#pitch").val(0);
+            $("#roll").val(0);
+            $("#scale").val(1);
             handlerPoint.activate();
         });
     };
@@ -467,12 +451,22 @@ define(['./Container',
                             })
                         }
                     });break;
-                case 2:   ; break;
                 default:break;
             }
 
         });
         handlerPolygon.activate();
+    }
+
+    function updatePointMarkerRotation(){
+        var headingValue = Cesium.Math.toRadians($("#heading").val());
+        var pitchValue = Cesium.Math.toRadians($("#pitch").val());
+        var rollValue = Cesium.Math.toRadians($("#roll").val());
+        if(viewer.selectedEntity){
+            var instance = viewer.selectedEntity.primitive;
+            var index = viewer.selectedEntity.index;
+            instance.updateRotation(new Cesium.HeadingPitchRoll(headingValue, pitchValue, rollValue), index);
+        }
     }
     return markerForm;
 });

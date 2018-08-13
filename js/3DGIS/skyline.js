@@ -46,7 +46,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
                 scene.primitives._primitives = [];
             }
             else if(value=="1"){
-                skyline.displayStyle = 1
+                skyline.displayStyle = 1;
                 scene.primitives._primitives = [];
             }
             else if(value=="2"){
