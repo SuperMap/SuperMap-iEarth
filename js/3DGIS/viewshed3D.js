@@ -35,27 +35,25 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             vsPointHandler.deactivate();
         });
 
-        $('#viewX').on('input propertychange',function(){
-            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
-            pointPosition.position._value = cartesian;
-            viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val())];
-        })
+        $('#viewX').on('input propertychange',viewCoordChange);
+        $('#viewY').on('input propertychange',viewCoordChange);
+        $('#viewZ').on('input propertychange',viewCoordChange);
 
-        $('#viewY').on('input propertychange',function(){
-            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
-            pointPosition.position._value = cartesian;
-            viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val())];
-        })
-
-        $('#viewZ').on('input propertychange',function(){
+        function viewCoordChange(){
+            if($('#viewX').val() === "") { $('#viewX').val("0.0") }
+            if($('#viewY').val() === "") { $('#viewY').val("0.0") }
+            if($('#viewZ').val() === "") { $('#viewZ').val("0.0") }
             var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
             pointPosition.position._value = cartesian;
             viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val()) + parseFloat($('#heightView').val())];
-        })
+        }
 
         $('#heightView').on('input propertychange',function(){
-            var longitude = parseFloat($('#viewX').val())
-            var latitude = parseFloat($('#viewY').val())
+            var longitude = parseFloat($('#viewX').val());
+            var latitude = parseFloat($('#viewY').val());
+            if(this.value === ""){ // 避免删除导致崩溃
+                this.value = "0.0";
+            }
             var height =parseFloat($('#viewZ').val()) + parseFloat(this.value);
             var  cartesian =  Cesium.Cartesian3.fromDegrees(longitude,latitude,height);
             pointPosition.position._value = cartesian;
@@ -64,24 +62,39 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
         })
 
         $('#distance').on('input propertychange',function(){
-            viewshed3D.distance = parseFloat(this.value);
-        })
+            if(Number(this.value) < 1.0){
+                $(this).val("1.0");
+            }
+            viewshed3D.distance = Number(this.value);
+        });
 
         $('#pitch').on('input propertychange',function(){
+            if(this.value === ""){
+                $(this).val("0");
+            }
             viewshed3D.pitch = parseFloat(this.value);
         })
 
         $('#direction').on('input propertychange',function(){
+            if(this.value === ""){
+                $(this).val("0");
+            }
             viewshed3D.direction = parseFloat(this.value);
         })
 
         $('#verticalFov').on('input propertychange',function(){
+            if(Number(this.value) < 1){
+                $(this).val("1");
+            }
             viewshed3D.verticalFov = parseFloat(this.value);
-        })
+        });
 
         $('#horizonalFov').on('input propertychange',function(){
+            if(Number(this.value) < 1){
+                $(this).val("1");
+            }
             viewshed3D.horizontalFov = parseFloat(this.value);
-        })
+        });
 
         // var visibleColor = document.getElementById('colorPicker1');
         // var color1 = Cesium.Color.fromCssColorString(visibleColor.value);

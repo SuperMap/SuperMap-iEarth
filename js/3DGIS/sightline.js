@@ -98,7 +98,7 @@ define(['Cesium'],function(Cesium) {
                 });
                 for(var index in sightline.getObjectIds()){
                     var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
-                    layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
+                    layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(1.0, 0.0, 0.0, 0.4));
                 }
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         });
@@ -116,18 +116,27 @@ define(['Cesium'],function(Cesium) {
         };
 
         $('#viewPointX').on('input propertychange',function(){
+            if(this.value === ""){
+                $(this).val("0.0");
+            }
             var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val()),Cesium.Ellipsoid.WGS84);
             pointPosition.position._value = cartesian;
             sightline.viewPosition = [parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val())];
         })
 
         $('#viewPointY').on('input propertychange',function(){
+            if(this.value === ""){
+                $(this).val("0.0");
+            }
             var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val()),Cesium.Ellipsoid.WGS84);
             pointPosition.position._value = cartesian;
             sightline.viewPosition = [parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val())];
         })
 
         $('#viewPointZ').on('input propertychange',function(){
+            if(this.value === ""){
+                $(this).val("0.0");
+            }
             var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val()),Cesium.Ellipsoid.WGS84);
             pointPosition.position._value = cartesian;
             sightline.viewPosition = [parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val())];

@@ -100,6 +100,7 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 var camera = this.viewer.scene.camera;
                 camera.flyToBoundingSphere(boundingSphere);
             }
+
         },
         setVisible : function(isVisible,ids){
             if(ids.length>0)

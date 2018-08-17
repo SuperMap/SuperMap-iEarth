@@ -42,7 +42,7 @@ define(['./Container',
             '<label id="markerZ" style="font-size:13px;">'+ Resource.Zrotation +'</label>',
             '<input id="heading" class="input" type="number" min="0" max="360" step="1.0" value="0" title="heading">',
             '<label id="markerR" style="font-size:13px;">'+ Resource.zoom +'</label>',
-            '<input type="number" id="scale" class="input" step="0.1" value="1" title="模型缩放比例"><br><br>',
+            '<input type="number" id="scale" class="input" step="0.1" min="0.1" value="1" title="模型缩放比例"><br><br>',
             '<button type="button" id="del1" class="btn btn-info" style="float: right">'+ Resource.eliminate +'</button>',
         '</div>',
         '</div>',
@@ -68,7 +68,7 @@ define(['./Container',
         '</div><br>',
         '<a class="ui teal ribbon label">'+ Resource.parameterSetting +'</a>',
         '<label style="font-size:13px;">'+ Resource.lineWidth +'</label>',
-        '<input id="lineWidth" class="input" type="number" value="5.0">',
+        '<input id="lineWidth" class="input" type="number" value="5.0" min="0.1" step="0.1">',
         '<div class="square">',
         '<label  style="width:100%;">'+ Resource.LineColor +'</label><input class="colorPicker" id="lineColor"/>',
         '</div>',
@@ -150,16 +150,19 @@ define(['./Container',
                     palette: palette
                 });
 
-                $("#pitch").on("input propertychange",updatePointMarkerRotation);
-                $("#roll").on("input propertychange",updatePointMarkerRotation);
-                $("#heading").on("input propertychange",updatePointMarkerRotation);
+                $("#pitch,#roll,#heading").on("input propertychange", updatePointMarkerRotation);
+                $("#pitch,#roll,#heading").on("blur", function(){
+                    if($.trim(this.value) === ""){
+                        $(this).val("0");
+                        updatePointMarkerRotation();
+                    }
+                });
 
-                $("#scale").on("input propertychange",function(){
-                    var scale = parseFloat(this.value);
-                    if(viewer.selectedEntity){
-                        var instance = viewer.selectedEntity.primitive;
-                        var index = viewer.selectedEntity.index;
-                        instance.updateScale(new Cesium.Cartesian3(scale,scale,scale),index);
+                $("#scale").on("input propertychange", updatePointMarkerScale);
+                $("#scale").blur(function(){
+                    if($.trim(this.value) === ""){
+                        $(this).val("1");
+                        updatePointMarkerScale();
                     }
                 });
                 $("#colorPicker").on("input propertychange",function(){
@@ -211,6 +214,13 @@ define(['./Container',
                 $("#TrailLine").on("click",function(){
                     createLineType(5,this);
                 });
+
+                $("#lineWidth").blur(function(){
+                    if($.trim(this.value) === ""){
+                        $(this).val("1.0");
+                    }
+                });
+
                 $("#pureColor").on("click",function(){
                     createPolygonType(0,this);
                 });
@@ -220,7 +230,6 @@ define(['./Container',
                 $("#stripe").on("click",function(){
                     createPolygonType(2,this);
                 });
-
             });
 
             Cesium.loadJson('data/models.json').then(function(data){
@@ -231,7 +240,7 @@ define(['./Container',
             });
 
             handlerPoint.drawEvt.addEventListener(function(result){
-                handlerPoint.clear();
+                handlerPoint.clear(); // 不显示绘制的点
                 var point = result.object;
                 s3mInstanceColc.add(defaultUrl,{
                     position : point.position,
@@ -240,6 +249,8 @@ define(['./Container',
                 });
                 handlerPoint && handlerPoint.deactivate();
             });
+
+
         },
         render : function(){
             this.$el.html(this.template());
@@ -303,9 +314,9 @@ define(['./Container',
         });
         handlerLine.drawEvt.addEventListener(function(result){
             handlerLine.polyline.show = false;
-            var linecolor = Cesium.Color.fromCssColorString($("#lineColor").val())
-            var outlinecolor = Cesium.Color.fromCssColorString($("#outlineColor").val())
-            var lineWidth = parseFloat($("#lineWidth").val())
+            var linecolor = Cesium.Color.fromCssColorString($("#lineColor").val());
+            var outlinecolor = Cesium.Color.fromCssColorString($("#outlineColor").val());
+            var lineWidth = parseFloat($("#lineWidth").val());
             var array = [].concat(result.object.positions);
             var position = [];
             for(var i = 0, len = array.length; i < len; i ++){
@@ -386,7 +397,8 @@ define(['./Container',
             }
         });
         handlerLine.activate();
-    };
+    }
+
     function createPolygonType(type,polygon) {
         if(!isPCBroswer){
             me.$el.hide();
@@ -459,6 +471,9 @@ define(['./Container',
     }
 
     function updatePointMarkerRotation(){
+        if($("#heading").val() === "" || $("#pitch").val() === "" || $("#roll").val() === ""){
+            return;
+        }
         var headingValue = Cesium.Math.toRadians($("#heading").val());
         var pitchValue = Cesium.Math.toRadians($("#pitch").val());
         var rollValue = Cesium.Math.toRadians($("#roll").val());
@@ -466,6 +481,18 @@ define(['./Container',
             var instance = viewer.selectedEntity.primitive;
             var index = viewer.selectedEntity.index;
             instance.updateRotation(new Cesium.HeadingPitchRoll(headingValue, pitchValue, rollValue), index);
+        }
+    }
+
+    function updatePointMarkerScale(){
+        if($.trim($("#scale").val()) === ""){
+            return;
+        }
+        var scale = Number($("#scale").val());
+        if(viewer.selectedEntity){
+            var instance = viewer.selectedEntity.primitive;
+            var index = viewer.selectedEntity.index;
+            instance.updateScale(new Cesium.Cartesian3(scale,scale,scale),index);
         }
     }
     return markerForm;

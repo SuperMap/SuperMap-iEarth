@@ -156,7 +156,10 @@ define(['Cesium'],function(Cesium) {
             setCurrentTime();
         });
 
-        $('#bottomHeight').change(function(){
+        $('#bottomHeight').on("input propertychange", function(){
+            if(this.value === ""){
+                $(this).val("0.0");
+            }
             var bh = Number($(this).val());
             var eh = Number($('#extrudeHeight').val());
             shadowQuery.qureyRegion({
@@ -166,7 +169,10 @@ define(['Cesium'],function(Cesium) {
             });
         });
 
-        $('#extrudeHeight').change(function(){
+        $('#extrudeHeight').on("input propertychange", function(){
+            if(this.value === ""){
+                $(this).val("0.0");
+            }
             var bh = Number($('#bottomHeight').val());
             var eh = Number($(this).val());
             shadowQuery.qureyRegion({
