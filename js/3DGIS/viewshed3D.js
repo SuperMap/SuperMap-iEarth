@@ -4,15 +4,14 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     var viewshed = function () {
     };
     var viewshed3D;
-    var pointPosition;
+    var point;
     var vsPointHandler;
     var clickFlag = 0;
-    var viewshedResultEntity = null;
     viewshed.remove = function(viewer){
         var scene = viewer.scene;
-        viewer.entities.removeAll();
         scene.viewFlag = true;
         if(vsPointHandler){
+            vsPointHandler && vsPointHandler.clear();
             vsPointHandler.deactivate();
         }
         if(viewshed3D){
@@ -20,20 +19,20 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             viewshed3D = undefined;
         }
     };
-    viewshed.initializing = function(viewer,sceneModel){
+    viewshed.initializing = function(viewer, sceneModel){
         var scene = viewer.scene;
         clickFlag += 1;
         if(!viewshed3D){
             viewshed3D = new Cesium.ViewShed3D(scene);
         }
-        viewer.entities.removeAll();
-
+        vsPointHandler && vsPointHandler.clear();
         viewshed3D.distance = 0.1;
         var store = {};
         $("#clearVS").click(function(){
-            viewer.entities.removeAll();
+            /*vsPointHandler && vsPointHandler.clear();
             viewshed3D.distance = 0.1;
-            vsPointHandler.deactivate();
+            vsPointHandler.deactivate();*/
+            viewshed.remove(viewer);
         });
 
         $('#viewX').on('input propertychange',viewCoordChange);
@@ -44,8 +43,8 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             if($('#viewX').val() === "") { $('#viewX').val("0.0") }
             if($('#viewY').val() === "") { $('#viewY').val("0.0") }
             if($('#viewZ').val() === "") { $('#viewZ').val("0.0") }
-            var  cartesian =  Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
-            pointPosition.position._value = cartesian;
+            var cartesian = Cesium.Cartesian3.fromDegrees(parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val())+ parseFloat($('#heightView').val()),Cesium.Ellipsoid.WGS84);
+            point.position = cartesian;
             viewshed3D.viewPosition = [parseFloat($('#viewX').val()), parseFloat($('#viewY').val()), parseFloat($('#viewZ').val()) + parseFloat($('#heightView').val())];
         }
 
@@ -56,15 +55,14 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
                 this.value = "0.0";
             }
             var height =parseFloat($('#viewZ').val()) + parseFloat(this.value);
-            var  cartesian =  Cesium.Cartesian3.fromDegrees(longitude,latitude,height);
-            pointPosition.position._value = cartesian;
+            var cartesian = Cesium.Cartesian3.fromDegrees(longitude,latitude,height);
+            point.position = cartesian;
             viewshed3D.viewPosition = [longitude, latitude, height];
-
-        })
+        });
 
         $('#distance').on('input propertychange',function(){
-            if(Number(this.value) < 1.0){
-                $(this).val("1.0");
+            if(Number(this.value) < 0.1){
+                $(this).val("0.1");
             }
             viewshed3D.distance = Number(this.value);
         });
@@ -81,7 +79,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
                 $(this).val("0");
             }
             viewshed3D.direction = parseFloat(this.value);
-        })
+        });
 
         $('#verticalFov').on('input propertychange',function(){
             if(Number(this.value) < 1){
@@ -107,12 +105,12 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
         $('#colorPicker1').on('input propertychange',function(){
             var color = Cesium.Color.fromCssColorString(this.value);
             viewshed3D.visibleAreaColor = color;
-        })
+        });
 
         $('#colorPicker2').on('input propertychange',function(){
             var color = Cesium.Color.fromCssColorString(this.value);
             viewshed3D.hiddenAreaColor = color;
-        })
+        });
 
         $('#viewShedBody').change(function(){
             scene.primitives._primitives = [];
@@ -153,7 +151,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
         });
         var viewPosition;
         scene.viewFlag = true;
-        vsPointHandler = new Cesium.PointHandler(viewer);
+        vsPointHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point, Cesium.ClampMode.Space);
 
         var vsHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
@@ -193,9 +191,9 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             sceneModel.analysisObjects.viewshed3DStore = store;
         },Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
-        vsPointHandler.drawCompletedEvent.addEventListener(function(point){
-            var position = point.position._value;
-            pointPosition = point;
+        vsPointHandler.drawEvt.addEventListener(function(result){
+            point = result.object;
+            var position = result.object.position;
             viewPosition = position;
             var cartographic = Cesium.Cartographic.fromCartesian(position);
             var longitude = Cesium.Math.toDegrees(cartographic.longitude);
