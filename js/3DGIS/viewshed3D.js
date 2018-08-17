@@ -7,6 +7,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     var pointPosition;
     var vsPointHandler;
     var clickFlag = 0;
+    var viewshedResultEntity = null;
     viewshed.remove = function(viewer){
         var scene = viewer.scene;
         viewer.entities.removeAll();
@@ -68,12 +69,12 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             viewshed3D.distance = Number(this.value);
         });
 
-        $('#pitch').on('input propertychange',function(){
+        $('#viewshed-pitch').on('input propertychange',function(){
             if(this.value === ""){
                 $(this).val("0");
             }
             viewshed3D.pitch = parseFloat(this.value);
-        })
+        });
 
         $('#direction').on('input propertychange',function(){
             if(this.value === ""){
@@ -178,7 +179,7 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             if (!scene.viewFlag) {
                 scene.viewFlag = true;
                 $('#direction').val(viewshed3D.direction);
-                $('#pitch').val(viewshed3D.pitch);
+                $('#viewshed-pitch').val(viewshed3D.pitch);
                 $('#distance').val(viewshed3D.distance);
                 $('#horizontalFov').val(viewshed3D.horizontalFov);
                 $('#verticalFov').val(viewshed3D.verticalFov);

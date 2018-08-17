@@ -47,7 +47,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '</div>',
         '<div  class="square">',
         '<label >'+ Resource.ElevationAngle +'</label>',
-        '<input type="number" id="pitch" class="input" min="-90" max="90" step="1.0" value="0.0" title='+Resource.roll +'>',
+        '<input type="number" id="viewshed-pitch" class="input" min="-90" max="90" step="1.0" value="0.0" title='+Resource.roll +'>',
         '</div>',
         '</div>',
         '<a class="ui teal ribbon label">'+ Resource.parameterSetting +'</a>',
@@ -60,6 +60,8 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<label >'+ Resource.verticalFov +'</label>',
         '<input type="number" id="verticalFov"  class="input" min="1" max="90" step="1.0" value="60" title='+ Resource.verticalFov +' >',
         '</div>',
+        /*
+        // 功能无效，暂时注释
         '<div style="margin-top: -35px;">',
         '<label >'+ Resource.skylinesectorbody +'</label>',
         '<select id="viewShedBody" style="width: 90%">',
@@ -68,6 +70,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<option value="HIDDENBODY">'+ Resource.novisibleVolume+'</option>',
         '</select>',
         '</div>',
+        */
         '<div class="square">',
         '<label>'+ Resource.visibleColor +'</label><input class="colorPicker" id="colorPicker1"/>',
         '</div>',
