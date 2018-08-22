@@ -10,23 +10,23 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 600px;height: 400px">',
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
         '<input id="portalTab1" type="radio" name="portalTab" checked>',
-        '<label for="portalTab1" id="portalTab1Lab" style="font-size: 13px;">' + Resource.sceneSave + '</label>',
+        '<label for="portalTab1" id="portalTab1Lab" style="font-size: 13px;">' + "场景保存" + '</label>',
         '<section id="portalTabContent1">',
         '<h1 class="title"></h1>',
             '<div id="sceneImage" style="width:300px;height:300px; float: left ;">',
                '<canvas id="sceneCanvas" style="width: 290px;height: 150px"/>',
-               '<label  id = "saveDateLabel" style="font-style:italic;">'+ Resource.storeDate +'</label>',
+               '<label  id = "saveDateLabel" style="font-style:italic;">'+"存储日期:" +'</label>',
                '<label id="saveDate" style="font-style:italic;margin-left: 20px"></label>',
                '<div class="ui large star rating"></div>',
             '</div>',
             '<div id="sceneMessage" style="width: 270px;height:200px;float: left; padding: 15px">',
-                '<label>'+ Resource.sceneName +'</label>',
+                '<label>'+"场景名称" +'</label>',
                 '<input  id="scenePortalName" class="input">',
-                '<label>'+ Resource.scenetag +'</label>',
+                '<label>'+"场景标签" +'</label>',
                 '<input  id="scenePortalTages" class="input" >',
-                '<label>'+ Resource.author +'</label>',
+                '<label>'+"作者" +'</label>',
                 '<input  id="scenePortalUser" class="input" >',
-                '<label>'+ Resource.description +'</label>',
+                '<label>'+"描述" +'</label>',
                 '<textarea id="scenePortalDescription" style="width:220px;height:50px;"></textarea>',
                 '<input type="button" id="updateUser" class="btn btn-info" value="更新当前场景" style="float: right">',
                 '<input type="button" id="saveUser" class="btn btn-info" value="保存" style="float: right">',
@@ -49,62 +49,21 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             isPCBroswer = options.isPCBroswer
             this.render();
             this.on('componentAdded',function(parent){
-                // $('main').each(function(index){
-                //     $(this).myDrag({
-                //         parent:'body',
-                //         randomPosition:false,
-                //         direction:'all',
-                //         handler:false,
-                //         dragStart:function(x,y){},
-                //         dragEnd:function(x,y){},
-                //         dragMove:function(x,y){}
-                //     });
-                // });
-
-
-
                 var that = viewer.scene;
                 document.getElementById("saveDate").innerText = getNowFormatDate();
                 appsRoot =Window.iportalAppsRoot;
                 var pattern = "/apps";
                 appsRoot = appsRoot.replace(new RegExp(pattern), "");
-                that.postRender.addEventListener(function(){
-                        var buffer = that.context.readPixels({
-                            frameBuffer:that.fxaa._fbo
-                        });
-                        var canvas = document.getElementById("sceneCanvas");
-                        canvas.height = that.context.drawingBufferHeight;
-                        canvas.width = that.context.drawingBufferWidth;
-                        var ctx = canvas.getContext("2d");
-                        var imgData = ctx.createImageData(canvas.width,canvas.height);
-                        imgData.data.set(buffer);
-                        ctx.putImageData(imgData,0,0);
-                        var imagedata = ctx.getImageData(0,0,canvas.width,canvas.height);
-                        var W = imagedata.width;
-                        var H = imagedata.height;
-                        for(var i = 0;i < imagedata.height/2;++i){
-                            for(var j = 0;j < imagedata.width;++j){
-                                var x = i*4*imagedata.width + 4*j;
-                                var y = (imagedata.height-i)*4*imagedata.width + 4*j;
-                                var r = imagedata.data[x];
-                                var g = imagedata.data[x+1];
-                                var b = imagedata.data[x+2];
-                                var a = imagedata.data[x+3];
-                                imagedata.data[x] = imagedata.data[y];
-                                imagedata.data[x+1] = imagedata.data[y+1];
-                                imagedata.data[x+2] = imagedata.data[y+2];
-                                imagedata.data[x+3] = imagedata.data[y+3];
-                                imagedata.data[y] = r;
-                                imagedata.data[y+1] = g;
-                                imagedata.data[y+2] = b;
-                                imagedata.data[y+3] = a;
-                            }
-                        }
-                        ctx.clearRect(0,0,W,H);
-                        ctx.putImageData(imagedata,0,0);
-                    });
-                //that.postRender.removeEventListener();
-
+                var promise = that.outputSceneToFile();
+                Cesium.when(promise,function (buffer) {
+                    var canvas = document.getElementById("sceneCanvas");
+                    var ctx = canvas.getContext("2d");
+                    var img = new Image();
+                    img.src = buffer;
+                    img.onload = function () {
+                        ctx.drawImage(img,0,0,290,150)
+                    }
+                })
                 if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
                     var sceneViewerUrl = window.location.href;
                     if (sceneViewerUrl.indexOf("?action=") == -1) {

@@ -1,133 +1,59 @@
-define(['backbone','./util','./mapview','./SuperMap'], function(Backbone, Util, MapViewer, SuperMap) {
-    var viewLang = MapViewer.Lang.View.Editor,showMessageTime = 3000,
-        modalLang = MapViewer.Lang.View.Modal,
-        //组件高度的缓存，主要是用来计算modal居中位置的
-        HCACHE = 334,
-        //登陆类型 SuperMap.Cloud.Security.IPORTAL OR SuperMap.Cloud.Security.SUPERMAPOL
-        LOGIN_TYPE = SuperMap.Cloud.Security.IPORTAL,//-v- iclient 写错了IPORTAL
-        //这是一串特殊字符字符串，用来验证的userName是否合法
-        SPECTIAL_KEY = "[`·~!#$%^&*()|\\/:;'',.@<>?{}-+]=\"\"，。、》《？；【）（￥！；‘’“”",
-        //站点定义的rootUrl
-        BASE_URL = Util.getRootUrl();
-    var LogWindow = Backbone.View.extend({
-            tagName : 'div',
-            className : 'modal fade',
-            //attributes属性用来设置一些组件容器标签的属性
-            attributes : {
-                role : 'dialog',
-                tabindex : -1
-            },
-            events : {
-                'click .log-btn' : 'login',
-                'keyup .log-name>input' : 'keyBoradLogName',
-                'keypress  .log-psd>input' : 'keyBoradLog'
-            },
-            template : _.template(   '<div class="modal-dialog log-container" >' +
-                                          '<div class="modal-content  log-content" >' +
-                                              '<div class="modal-body">' +
-                                                '<div data-dismiss="modal" class="close-btn supermapol-icons-clear"></div>' +
-                                                '<div class="log-title">' + viewLang.logIn + '</div>' +
-                                                '<div class="log-name"><input type="text" placeholder="' + viewLang.userName + '"></div>' +
-                                                '<div class="log-psd"><input type="password" placeholder="' + viewLang.passWord + '"></div>' +
-                                                '<div><button class="log-btn">' + viewLang.logInBtn + '</button></div>' +
-                                              '</div>'+
-                                          '</div>' +
-                                      '</div>'),
-            onLoginSuccessed:null,
-            initialize : function() {
-                var me = this;
-                me.security = new SuperMap.Cloud.Security(LOGIN_TYPE, BASE_URL);
-                me.render();
-                me.$el.on('show.bs.modal', function(e) {
-                    me.resetPosition();
-                });
-                $(window).on('resize', function() {me.resetPosition()});
-            },
-            render : function() {
-                var me = this;
-                this.$el.html(this.template());
-                return this;
-            },
-            show : function(onLoginSuccessed) {
-                this.onLoginSuccessed = onLoginSuccessed;
-                var $modal = this.$el;
-                $modal.modal({show : true, backdrop : 'static'});
-            },
-            hide : function() {
-                this.$el.modal('hide');
-            },
-            resetPosition : function() {
-                var marHeight = $(window).height()/2 - HCACHE/2;
-                this.$('.modal-dialog').css({'margin-top' : marHeight});
-            },
-            keyBoradLog : function(e) {
-                if(e.keyCode === 13) {
-                    this.login();
-                }
-            },
-        /**
-         * 输入userName调用本方法
-         * method keyBoradLogName
-         * @param e
-         */
-            keyBoradLogName : function(e) {
-                    var value = $(e.target).val();
-                    if(this.checkUserName(value)) {
-                        this.$('.log-btn').removeAttr('disabled').removeClass('disabled-log');
-                    }
-                    else{
-                        this.$('.log-btn').attr('disabled', 'disabled').addClass('disabled-log');
-                        Util.showMessage({
-                            type : 'danger',
-                            content : modalLang.unLegalInput
-                        }, 500);
-                    }
-            },
-        /**
-         * 校验userName字符串是否合法
-         * method checkUserName
-         * @param value
-         * @returns {boolean}
-         */
-            checkUserName : function(value) {
-                for(var i = 0, length = value.length; i < length ; i++) {
-                    if(SPECTIAL_KEY.indexOf(value[i]) > -1){
-                        return false;
-                    }
-                }
-                    return true;
-            },
-        /**
-         * 利用SuperMap.Cloud.Security来登陆iportal
-         * method login
-         * no param
-         */
-            login : function() {
-                var userName = this.$('.log-name>input').val(),
-                    passWord = this.$('.log-psd>input').val();
-                if(userName && passWord) {
-                       this.security.login(userName, passWord, function (data) {
-                           this.onLoginSuccessed && this.onLoginSuccessed.call(this,data);
-                           this.trigger('loginsuccess');
-                           this.hide();
-                           Util.showMessage({
-                               type: "success",
-                               content: viewLang.logInSuccess
-                           },showMessageTime);
-                       }, function (err) {
-                           Util.showMessage({
-                               type: "danger",
-                               content: viewLang.nameOrPassIsWrong
-                           },showMessageTime);
-                       }, this);
-                }
-                else {
-                    Util.showMessage({
-                        type : "warning",
-                        content : viewLang.nameAndPassNotNull
-                    },showMessageTime);
-                }
-            }
-    });
-        return LogWindow;
+define(function(){
+window.SuperMapSSO = {
+    CLIENT_LOGIN_URL: "http://192.168.17.193:9090/cas-test-client/login?popup=true",
+    SSO_LOGOUT_URL: "https://sso.supermap.com/v1/cas/logout",
+    WINDOW_ID: "",
+    CALLBACKNAME: "",
+    setLoginUrl: function(e) {
+        this.CLIENT_LOGIN_URL = e
+    },
+    doLogin: function(e) {
+        this.createDiv(!0, this.CLIENT_LOGIN_URL, e),
+        window.SuperMapSSO.isShowWindow = !0
+    },
+    doSynchronize: function(e) {
+        this.CALLBACKNAME = e,
+        this.createDiv(!1, this.CLIENT_LOGIN_URL, e, !0)
+    },
+    doLogout: function(e) {
+        var t = window.location.href;
+        e != undefined && e != "" && (t = e),
+        window.location.href = this.SSO_LOGOUT_URL + "?service=" + t
+    },
+    createDiv: function(e, t, n, r) {
+        this.CALLBACKNAME = n;
+        var i, s = "", o = document.createElement("div"), u = Math.round(Math.random() * 1e3);
+        o.id = "login_window" + u,
+        this.WINDOW_ID = o.id,
+        t.indexOf("?") == -1 && (t += "?"),
+        i = t + "&id=" + o.id + "&callBackName=" + n,
+        s = e ? "" : "display:none",
+        o.innerHTML = "<style>.supermapSSO_loginWindow_cross{position:fixed;top:calc(25% + 12px); right:calc(50% - 180px + 12px); line-height: 0.6em; cursor:pointer; z-index:1;color:#c5c5c5; font-size:26px;font-family:microsoft yahei;transition:color 0.3s; } .supermapSSO_loginWindow_cross:hover{ color:#818181;}</style><div style='position: fixed;top:0;left:0;width:100%; height:100%;background:rgba(0,0,0,0.4);z-index: 99999;" + s + "'></div>" + "<span class='supermapSSO_loginWindow_cross' title='关闭' style='z-index:100001;" + s + "' onclick='SuperMapSSO.closeMe(\"" + o.id + "\")'>&times;</span>" + "<iframe style='position: fixed; top:0;left:0; width:100%; height:100%; border:none;z-index:100000;" + s + "' src='" + i + "'></iframe>",
+        document.body.appendChild(o),
+        r && setTimeout("window.SuperMapSSO.closeMe('" + o.id + "')", 5e3)
+    },
+    checkIfCloseWindow: function() {
+        console.log("测试关闭" + window.location.href);
+        var e = window.location.search
+          , t = this.getQueryString(e, "id")
+          , n = this.getQueryString(e, "callBackName");
+        t != null && window.parent.window.SuperMapSSO.closeMe(t, n)
+    },
+    closeMe: function(e, t) {
+        window.SuperMapSSO.isShowWindow = !1,
+        console.log("关闭，当前url" + window.location.href);
+        var n;
+        if (e == undefined || e == "")
+            e = this.WINDOW_ID;
+        n = document.getElementById(e),
+        n != null && document.body.removeChild(n),
+        t != undefined && t != "" && window[t] && window[t]()
+    },
+    getQueryString: function(e, t) {
+        var n = new RegExp("(^|&)" + t + "=([^&]*)(&|$)","i")
+          , r = e.substr(1).match(n);
+        return r != null ? r[2] : null
+    }
+};
+return window.SuperMapSSO;
 });

@@ -303,7 +303,7 @@ define(function(){
         terrain : '地形',
         onlineEditing : '在线编辑',
         interspaceQuery: '空间查询',
-        cameraMinimumZoomDistance: '相机最小缩放距离'
+        cameraMinimumZoomDistance: '相机最小缩放距离(米)'
     };
     return ResourceCN;
 });

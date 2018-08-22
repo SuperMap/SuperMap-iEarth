@@ -36,7 +36,28 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                     title : 'Open Street Map',
                     type : 'OSM',
                     serviceType : Resource.osmServiceType
-                })
+                }),
+                new BaseLayerModel({
+                    url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Dark',
+                    name : 'Open Street Map',
+                    thumbnail : 'images/SuperMapDark.jpg',
+                    title : 'SuperMap China_Dark Map',
+                    type : 'SUPERMAPDARK'
+                }),
+                new BaseLayerModel({
+                    url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
+                    name : 'Open Street Map',
+                    thumbnail : 'images/SuperMapLight.jpg',
+                    title : 'SuperMap China_Light Map',
+                    type : 'SUPERMAPLIGHT'
+                }),
+                new BaseLayerModel({
+                    url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
+                    name : 'Open Street Map',
+                    thumbnail : 'images/grad.jpg',
+                    title : 'Grid Image Map',
+                    type : 'GRIDIMAGERY'
+                }),
             ];
             this.reset(models);
         }

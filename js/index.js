@@ -123,7 +123,7 @@ function init(Cesium, Zlib) {
         }, false);
     }
     if (viewer.geocoder) {
-        viewer.geocoder.viewModel.geoKey = 'izqco4KnLicbSXrFRvmWcbvL';
+        viewer.geocoder.viewModel.geoKey = 'NGyNBR7nqy1edmqO6NpnIECG';
     }
     viewer.scene.globe.depthTestAgainstTerrain = true;
     viewer.scene.globe.enableLighting = true;
@@ -134,14 +134,14 @@ function init(Cesium, Zlib) {
         destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
         duration: 5
     });
-    /*viewer.pickEvent.addEventListener(function (feature) {
+    viewer.pickEvent.addEventListener(function (feature) {
         var name = feature[Resource.name];
         var des = getDescription(feature);
         viewer.selectedEntity = new Cesium.Entity({
             name: name,
             description: des
         });
-    });*/
+    });
     require(['jquery'], function ($) {
         if (!isPCBroswer) {
             var supportsOrientationChange = "onorientationchange" in window,
@@ -206,9 +206,10 @@ function init(Cesium, Zlib) {
                         sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
                         if(sceneViewerUrl != '/'){
                             var regexp = new RegExp("/");
-                            var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
+                            sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
                             if(sceneViewerUrl.indexOf("share") > -1){
                                 sceneViewerUrl = sceneViewerUrl.match(/(\S*)share/)[1];
+                                sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
                             }
                             $.ajax({
                                     type: "GET",

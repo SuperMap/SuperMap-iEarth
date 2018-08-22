@@ -18,18 +18,33 @@ define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
 	        	case 'TIANDITU' : this.imageryProvider = new Cesium.TiandituImageryProvider();break;
 	        	case 'IMAGE' : this.imageryProvider = new Cesium.SingleTileImageryProvider({url : url});break;
 	        	case 'OSM' : this.imageryProvider = new Cesium.createOpenStreetMapImageryProvider({url : url});break;
-	        	default : break;
+                case 'MAPBOX' : this.imageryProvider = new Cesium.MapboxImageryProvider({mapId: 'mapbox.dark'});break;
+                case 'SUPERMAPDARK' : this.imageryProvider = new Cesium.SuperMapImageryProvider({url : url});break;
+                case 'SUPERMAPLIGHT' : this.imageryProvider = new Cesium.SuperMapImageryProvider({url : url});break;
+                case 'GRIDIMAGERY' :  this.imageryProvider = this.imageryProvider;break;
+                default : break;
         	}
         },
         setBaseLayer : function(Cesium,viewer){
         	if(!Cesium || !viewer){
         		return ;
         	}
-    		var url = this.get('url');
-    		var imageryLayerCollection = viewer.scene.globe._imageryLayerCollection;
-            var layer = imageryLayerCollection.get(0);
-            imageryLayerCollection.remove(layer, true);
-            imageryLayerCollection.addImageryProvider(this.imageryProvider, 0);
+    		 var imageryLayerCollection = viewer.scene.globe._imageryLayerCollection;
+             var layer = imageryLayerCollection.get(0);
+            if(imageryLayerCollection.get(2)){
+                imageryLayerCollection.remove(imageryLayerCollection.get(2));
+            }
+            if(imageryLayerCollection.get(1)){
+                imageryLayerCollection.remove(imageryLayerCollection.get(1));
+            }
+            if(this.get('type') != "GRIDIMAGERY"){
+                imageryLayerCollection.remove(layer);
+                imageryLayerCollection.addImageryProvider(this.imageryProvider, 0);
+            }
+            if(this.get('type') == "GRIDIMAGERY"){
+                imageryLayerCollection.addImageryProvider(new Cesium.TileCoordinatesImageryProvider(),1);
+                imageryLayerCollection.addImageryProvider(new Cesium.GridImageryProvider(),2);
+            }
         }
     });
     return BaseLayerModel;

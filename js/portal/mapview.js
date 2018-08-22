@@ -1,4 +1,4 @@
-define([ "views/uicomponents/container", "tools/delay-caller",'util' ], function(Container, DelayCaller,Util) {
+define([ "views/uicomponents/container", "lib/tools/delay-caller",'util' ], function(Container, DelayCaller, Util) {
     var $ = require("jquery"), widthCache = 0, heightCache = 0, DURATION = 50, $window = $(window);
     var viewlang = MapViewer.Lang.View.Mapview;
     var MapView = Container.extend({
