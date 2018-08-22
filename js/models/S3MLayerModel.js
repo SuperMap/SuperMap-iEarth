@@ -19,8 +19,6 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 name : name
             });
 		return Cesium.when(promise,function(layer){
-		    layer.selectEnabled = false;
-            layer.setLodRangeScale(10);
             if (me.attrQueryPars) {
                 layer.setQueryParameter(me.attrQueryPars);
                 viewer.pickEvent.addEventListener(function (feature) {
