@@ -95,6 +95,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             handlerDis.activate();
         },
         onMeasureAreaBtnClk : function(evt){
+            console.log(handlerArea.measureEvt);
             $("#selOpt").on("input change",function() {
                 var value = $(this).val();
                 if(value == '1'){
@@ -107,7 +108,8 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 }
             });
             handlerArea.measureEvt.addEventListener(function(result){
-                var area = result.area > 1000000 ? (result.area/1000000).toFixed(2) + 'km²' : result.area + '㎡'
+                var mj = Number(result.area);
+                var area = mj > 1000000 ? (mj/1000000).toFixed(2) + 'km²' : mj.toFixed(2) + '㎡';
                 handlerArea.areaLabel.text = '面积:' + area;
             });
             handlerArea.activeEvt.addEventListener(function(isActive){

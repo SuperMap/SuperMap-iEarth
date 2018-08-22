@@ -29,10 +29,13 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         skyline.radius = parseFloat($("#skylineRadius").val());
         skyline.build();
 
-        for(var index in skyline.getObjectIds()){
-            var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
-            layer.setObjsColor(skyline.getObjectIds()[index], new Cesium.Color(1.0, 0.0, 0.0, 0.5));
-        }
+        setTimeout(function(){
+            for(var index in skyline.getObjectIds()){
+                var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
+                layer.setObjsColor(skyline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
+            }
+        }, 1000);
+
 
         var skylineColor = document.getElementById('skylineColor');
         skylineColor.oninput = function(){

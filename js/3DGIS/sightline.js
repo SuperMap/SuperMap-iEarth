@@ -96,10 +96,13 @@ define(['Cesium'],function(Cesium) {
                     position: [elongitude, elatitude, eheight],
                     name: "point" + new Date()
                 });
-                for(var index in sightline.getObjectIds()){
-                    var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
-                    layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(1.0, 0.0, 0.0, 0.4));
-                }
+                setTimeout(function(){
+                    for(var index in sightline.getObjectIds()){
+                        var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
+                        layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
+                    }
+                }, 1500);
+
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         });
 
