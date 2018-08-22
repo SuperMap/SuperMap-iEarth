@@ -3,7 +3,7 @@ define(['./Container','../models/BaseLayerCollection','./ThumbGroup','iScroll'],
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-        '<div id="baseLayerGroup" >',
+        '<div id="baseLayerGroup" style="width: 650px">',
         '</div>',
         '<div>',
         '<div style="text-align : left;"><div class="squaredTwo" id="chkTerrain"><input type="checkbox" ><label class="check-icon"></label></div><label>' + Resource.stkTerrain + '</label></div>'

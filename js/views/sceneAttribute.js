@@ -111,19 +111,16 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<button id="startHeadControlsButton" style="display: none">' + Resource.enableWebcam + '</button>',
         '</td>',
         '</table>',
-        '<label>'+ "场景动画" +'</label><br>',
-        '<input style="background-color:#2EC5AD; width: 100%;" type="file" id="dynamicScene" onchange="" accept=".xml"/><br><br>',
-
         '<div class="square"><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
         '<div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">',
-        '<span>' + Resource.cameraMinimumZoomDistance + '</span>',
+        '<label>' + Resource.cameraMinimumZoomDistance + '</label>',
         '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />',
         '</div>',
 
         '</div>',
         '<div>',
         '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
-        '<label style=" text-align: center; font-size: 16px">版本 ： 0.1.2</label><br><br><br><br>',
+        '<label style=" text-align: center; font-size: 16px">版本 ： 1.0</label><br><br><br><br>',
         '<label>'+Resource.newContent +'</label><br><br>',
         '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
         "1、支持打开iPortal注册的服务\n"+
@@ -145,7 +142,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
             'click #pauseFly'  : 'onPauseFlyClk',
             'click #stopFly'  : 'onStopFlyClk',
             'click #spin'  : 'onSpinClk',
-            'change #dynamicScene'  : 'onDynamicScene',
         },
         template : _.template(htmlStr),
         initialize : function(options){
@@ -533,18 +529,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
             });
             flyCircle.activate();
         },
-        onDynamicScene : function (evt) {
-            var fileInput = document.getElementById("dynamicScene");
-            var file = fileInput.files[0];
-            var reader = new FileReader();
-            reader.onload=function(e) {
-                var XMLContent = e.target.result;
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(XMLContent,"text/xml");
-                dynamicScene.initialize(viewer,doc);
-            };
-            reader.readAsBinaryString(file);
-        }
     });
     return sceneAttribute;
 });

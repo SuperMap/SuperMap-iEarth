@@ -1,4 +1,4 @@
-define(['../views/Container'],function(Container){
+define(['../views/Container','../portal/loginWindow'],function(Container,SuperMapSSO){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -7,11 +7,14 @@ define(['../views/Container'],function(Container){
         '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-home"></span>',
         '</a><br><br>',
-        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none;width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-yunduan1"></span>',
         '</a><br><br>',
-        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-fenxiang"></span>',
+        '</a><br><br>',
+        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-denglu1"></span>',
         '</a>'
     ].join('');
     var portalForm = Container.extend({
@@ -21,6 +24,12 @@ define(['../views/Container'],function(Container){
             this.isPCBroswer = options.isPCBroswer;
             viewer = options.sceneModel.viewer;
             this.render();
+            this.on('componentAdded',function(parent){
+                if(Window.isSuperMapOL == "true"){
+                    $("#portalShare").show();
+                    $("#login").show();
+                 }
+            });
         },
         render : function() {
             this.$el.html(this.template());
@@ -29,13 +38,25 @@ define(['../views/Container'],function(Container){
         events : {
             'click #home' : 'home',
             'click #portalOpen' : 'portalOpen',
-            'click #portalShare' : 'portalShare'
+            'click #portalShare' : 'portalShare',
+            'click #login' : 'login'
         },
         portalOpen : function() {
             var me = this;
             if(me.savePortalForm){
                 $("#portalTab1").click();
                 me.savePortalForm.$el.show();
+                var promise = viewer.scene.outputSceneToFile();
+                Cesium.when(promise,function (buffer) {
+                    var canvas = document.getElementById("sceneCanvas");
+                    //canvas.css("background","url(" + buffer + ")") ;
+                    var ctx = canvas.getContext("2d");
+                    var img = new Image();
+                    img.src = buffer;
+                    img.onload = function () {
+                        ctx.drawImage(img,0,0,290,150)
+                    }
+                })
             }
             else
             {
@@ -79,6 +100,25 @@ define(['../views/Container'],function(Container){
                 destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
                 duration: 5
             });
+        },
+
+        login : function (event) {
+            window.reCallBack = function(){
+                window.location.href = window.location.href;
+            }
+            var appsRoot =Window.iportalAppsRoot;
+            var pattern = "/apps";
+            appsRoot = appsRoot.replace(new RegExp(pattern), "");
+            var loginURL = appsRoot + "/web/login?popup=true";
+            SuperMapSSO.setLoginUrl(loginURL);
+            SuperMapSSO.doSynchronize("reCallBack");
+            SuperMapSSO.doLogin("reCallBack");
+            if(event && event.preventDefault){
+                event.preventDefault();
+            }else{
+                window.event.returnValue = false;
+            }
+            return false;
         }
     });
     return portalForm;
