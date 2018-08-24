@@ -1,4 +1,4 @@
-define(['./Container','../models/BaseLayerCollection','./ThumbGroup','iScroll'],function(Container,BaseLayerCollection,ThumbGroup,iScroll){
+define(['./Container','../models/BaseLayerCollection','./ThumbGroup','iScroll'],function(Container,BaseLayerCollection,ThumbGroup){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -69,7 +69,6 @@ define(['./Container','../models/BaseLayerCollection','./ThumbGroup','iScroll'],
         	if ( evt && evt.stopPropagation ) {
         		evt.stopPropagation();
         	}
-        		 
         	else{
         		window.event.cancelBubble = true;
         	}

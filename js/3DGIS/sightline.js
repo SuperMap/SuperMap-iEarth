@@ -16,6 +16,9 @@ define(['Cesium'],function(Cesium) {
     var handler;
     sgLine.initializing =function(viewer,sceneModel){
         var scene = viewer.scene;
+        for(var layer of scene.layers.layerQueue){
+            layer.removeAllObjsColor();
+        }
         if(!sightline){
             sightline = new Cesium.Sightline(scene);
             sightline.build();
@@ -96,12 +99,12 @@ define(['Cesium'],function(Cesium) {
                     position: [elongitude, elatitude, eheight],
                     name: "point" + new Date()
                 });
-                setTimeout(function(){
+                /*setTimeout(function(){
                     for(var index in sightline.getObjectIds()){
                         var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
                         layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
                     }
-                }, 1500);
+                }, 1500);*/
 
             },Cesium.ScreenSpaceEventType.LEFT_CLICK);
         });
@@ -166,6 +169,27 @@ define(['Cesium'],function(Cesium) {
             });
         }
     };
+
+    sgLine.highlightBarrier = function(viewer){
+        if(sightline){
+            if(sightLineHandler){
+                sightLineHandler.deactivate();
+            }
+            if(pointHandler){
+                pointHandler.deactivate();
+            }
+            handler && (!handler.isDestroyed()) && handler.destroy();
+            /*if(sightline){
+                sightline.destroy();
+                sightline = undefined;
+            }*/
+            for(var index in sightline.getObjectIds()){
+                var layer = viewer.scene.layers.findByIndex(index - 3); // 底层索引从3开始
+                layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
+            }
+        }
+    }
+
     sgLine.remove = function(viewer){
         if(sightLineHandler){
             sightLineHandler.deactivate();

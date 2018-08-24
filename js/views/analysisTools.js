@@ -156,8 +156,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<label  style="width:100%;">'+ Resource.hideenColor +'</label><input class="colorPicker" data-bind="value: hiddenColor,valueUpdate: "input""  id="hiddenColor"/>',
         '</div>',
         '</div>',
-        '<button type="button"  class="btn btn-info" id="clearSL" style="float: right">'+ Resource.eliminate +'</button>',
-        '<button type="button"  class="btn btn-info" id="addViewpoint" style="float: right">'+ Resource.analyze +'</button>',
+        '<button type="button" class="btn btn-info" id="clearSL" style="float: right">'+ Resource.eliminate +'</button>',
+        '<button type="button" class="btn btn-info" id="sightline-highlight-barrier" style="float: right">' + Resource.highlightBarrier + '</button>',
+        '<button type="button" class="btn btn-info" id="addViewpoint" style="float: right">'+ Resource.analyze +'</button>',
         '</div>',
         '</section>',
         '<section id="content4">',
@@ -227,6 +228,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             'click #tab4' : 'onCheckTab4',
             'click #tab5' : 'onCheckTab5',
             'click #addViewpoint'  : 'onAddViewpointClk',
+            'click #sightline-highlight-barrier': 'onSightlineHighlightBarrier',
             'click #chooseView'  : 'onChooseViewClk',
             'click #shadowAnalysis'  : 'onShadowAnalysisClk',
             'click #profile'  : 'onProfileClk',
@@ -383,6 +385,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             if(!isPCBroswer){
                 this.$el.hide();
             }
+        },
+        onSightlineHighlightBarrier: function(){
+            sgline.highlightBarrier(viewer);
         },
         onProfileClk : function(evt){
             profile.initializing(viewer,parentContainer,sceneModel);

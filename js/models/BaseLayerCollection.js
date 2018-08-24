@@ -47,17 +47,17 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                 new BaseLayerModel({
                     url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
                     name : 'Open Street Map',
-                    thumbnail : 'images/SuperMapLight.jpg',
-                    title : 'SuperMap China_Light Map',
-                    type : 'SUPERMAPLIGHT'
-                }),
-                new BaseLayerModel({
-                    url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
-                    name : 'Open Street Map',
                     thumbnail : 'images/grad.jpg',
                     title : 'Grid Image Map',
                     type : 'GRIDIMAGERY'
                 }),
+                new BaseLayerModel({
+                    url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
+                    name : 'Open Street Map',
+                    thumbnail : 'images/SuperMapLight.jpg',
+                    title : 'SuperMap China_Light Map',
+                    type : 'SUPERMAPLIGHT'
+                })
             ];
             this.reset(models);
         }

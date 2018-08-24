@@ -154,7 +154,8 @@ define(function(){
         skylineRadius: 'Skyline radius',
         skyline : 'Skyline',
         graphDisplay : '2D display',
-        cameraMinimumZoomDistance: 'camera minimum zoom distance'
+        cameraMinimumZoomDistance: 'camera minimum zoom distance',
+        highlightBarrier: 'highlight barrier'
     };
     return ResourceEN;
 });
