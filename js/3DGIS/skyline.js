@@ -18,7 +18,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         var longitude = Cesium.Math.toDegrees(cartographic.longitude);
         var latitude = Cesium.Math.toDegrees(cartographic.latitude);
         var height = cartographic.height;
-        //天际线分析的视口位置设置成当前相机位置
+        // 天际线分析的视口位置设置成当前相机位置
         skyline.viewPosition = [longitude, latitude, height];
         $('#skyviewX').val(longitude.toFixed(4));
         $('#skyviewY').val(latitude.toFixed(4));
@@ -28,14 +28,6 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         skyline.direction = Cesium.Math.toDegrees(scene.camera.heading);
         skyline.radius = parseFloat($("#skylineRadius").val());
         skyline.build();
-
-        setTimeout(function(){
-            for(var index in skyline.getObjectIds()){
-                var layer = scene.layers.findByIndex(index - 3); // 底层索引从3开始
-                layer.setObjsColor(skyline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
-            }
-        }, 1000);
-
 
         var skylineColor = document.getElementById('skylineColor');
         skylineColor.oninput = function(){
@@ -175,11 +167,23 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
                     skylineForm.$el.show();
                 });
             }
-
-
+        }
+    }
+    skyLine.highlightBarrier = function(viewer){
+        if(skyline){
+            for(var index in skyline.getObjectIds()){
+                var layer = viewer.scene.layers.findByIndex(index - 3); // 底层索引从3开始
+                layer.setObjsColor(skyline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
+            }
         }
     }
     skyLine.remove = function(viewer){
+        if(parent && parent.skylineForm){
+            parent.skylineForm.$el.hide();
+        }
+        for(var layer of viewer.scene.layers.layerQueue){
+            layer.removeAllObjsColor();
+        }
         if(skyline){
             skyline.destroy();
             skyline = undefined;

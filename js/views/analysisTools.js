@@ -21,7 +21,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<input id="tab4" type="radio" name="tabs">',
         '<label for="tab4" style="font-size: 13px">' + Resource.skyline + '</label>',
         /*'<input id="tab4" type="radio" name="tabs">',
-        '<label for="tab4" style="font-size: 13px">' + '视频' + '</label>',*/
+         '<label for="tab4" style="font-size: 13px">' + '视频' + '</label>',*/
         '<section id="content1">',
         '<div class="adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
@@ -184,9 +184,12 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<div class="square">',
         '<label style="width:100%; padding-left: 0;">'+ Resource.skylineRadius +'</label><input class="input" type="number" value="1000" step="10" id="skylineRadius"/>',
         '</div><br>',
-        '<button  class="btn btn-info" id="clearSkyline" style="float: right">'+ Resource.clear +'</button>',
-        '<button  class="btn btn-info" id="getSkyline2D" style="float: right">'+ Resource.graphDisplay +'</button>',
-        '<button  class="btn btn-info"  id="getSkyline" style="float: right">'+ Resource.skyline +'</button>',
+        '<div style="width: 115%;transform: translateX(10px);float: right;">',
+        '<button  class="btn btn-info" id="clearSkyline" style="float: right;">'+ Resource.clear +'</button>',
+        '<button  class="btn btn-info" id="skyline-highlight-barrier" style="float: right;">'+ Resource.highlightBarrier +'</button>',
+        '<button  class="btn btn-info" id="getSkyline2D" style="float: right;">'+ Resource.graphDisplay +'</button>',
+        '<button  class="btn btn-info"  id="getSkyline" style="float: right;">'+ Resource.skyline +'</button>',
+        '</div>',
         ' </div>',
         '</section>',
         '<section id="content5">',
@@ -233,6 +236,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             'click #shadowAnalysis'  : 'onShadowAnalysisClk',
             'click #profile'  : 'onProfileClk',
             'click #getSkyline'  : 'onGetSkylineClk',
+            'click #skyline-highlight-barrier': 'onSkylineHighlightBarrier',
             'click #profileDel'  : 'onProfileDelClk',
             'click #clickQuery'  : 'onClickQueryClk',
         },
@@ -415,6 +419,9 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             if(!isPCBroswer){
                 this.$el.hide();
             }
+        },
+        onSkylineHighlightBarrier: function(evt){
+            skyLine.highlightBarrier(viewer);
         },
         onClickQueryClk : function(evt){
             var scene = viewer.scene;
