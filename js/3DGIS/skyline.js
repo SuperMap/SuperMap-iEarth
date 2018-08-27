@@ -6,6 +6,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
     var parent;
     var s3mInstance;
     var clickFlag = 0;
+    var hasSkyLineAnalysisResult = false;
     skyLine.initializing = function(viewer,parentContainer,sceneModel){
         var scene = viewer.scene;
         clickFlag += 1;
@@ -28,6 +29,8 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         skyline.direction = Cesium.Math.toDegrees(scene.camera.heading);
         skyline.radius = parseFloat($("#skylineRadius").val());
         skyline.build();
+
+        hasSkyLineAnalysisResult = true; // 表示有了分析结果，可以提取二维天际线和高亮障碍物
 
         var skylineColor = document.getElementById('skylineColor');
         skylineColor.oninput = function(){
@@ -95,6 +98,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             for(var layer of scene.layers.layerQueue){
                 layer.removeAllObjsColor();
             }
+            hasSkyLineAnalysisResult = false;
         }
 
         if(sceneModel.analysisObjects.skylineStore && clickFlag < 2){
@@ -114,6 +118,9 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
 
 
         document.getElementById("getSkyline2D").onclick = function() {
+            if(!hasSkyLineAnalysisResult){
+                return; // 没有分析结果，无法提取天际线轮廓
+            }
             var object = skyline.getSkyline2D();
             var me = parent;
             if(parent.skylineForm){
@@ -170,7 +177,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         }
     }
     skyLine.highlightBarrier = function(viewer){
-        if(skyline){
+        if(skyline && hasSkyLineAnalysisResult){
             for(var index in skyline.getObjectIds()){
                 var layer = viewer.scene.layers.findByIndex(index - 3); // 底层索引从3开始
                 layer.setObjsColor(skyline.getObjectIds()[index], new Cesium.Color(255/255,105/255,180/255, 1.0));
@@ -188,6 +195,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             skyline.destroy();
             skyline = undefined;
         }
+        hasSkyLineAnalysisResult = false;
     };
     return skyLine;
 });
