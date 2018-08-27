@@ -28,7 +28,7 @@ define([
                   // "<a data-toggle='dropdown' id='bookmarkBtn' title='" + "书签" + "' class='btn btn-inverse'><span class='smicon-bookmark '></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
                    "<a id='addMarkerBtn' title='" + Resource.onlineEditing + "' class='btn btn-inverse'><span class='iconfont icon-edit'></span></a>",
-                   "<a data-toggle='dropdown' id='propertyBtn' title='" + Resource.interspaceQuery + "' class='btn btn-inverse'><span class='iconfont icon-zhcc_chaxun'></span></a>",
+                   /*"<a data-toggle='dropdown' id='propertyBtn' title='" + Resource.interspaceQuery + "' class='btn btn-inverse'><span class='iconfont icon-zhcc_chaxun'></span></a>",*/
                    "<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanshouqi'></span></a>",
                    "</div>",
                    "</div>"

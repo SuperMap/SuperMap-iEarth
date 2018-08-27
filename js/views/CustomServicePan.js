@@ -15,9 +15,9 @@ define([
         '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
         '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
         '</select>',
-        '<span id="queryFeatureSpan">',
+        /*'<span id="queryFeatureSpan">',
         '<div class="squaredTwo" id="chkContainer"> <input type="checkbox" id="queryFeatureChk"> <label class="check-icon"></label></div>' + Resource.featureQuery,
-        '</span>',
+        '</span>',*/
         '</div>',
         '<div class="form-group">',
         '<input id="urlInput" class="my-form-control" type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
