@@ -140,7 +140,6 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 onNodeSelected: function (evt, node) {
                     var layerModel = node.layerModel;
                     layerModel && layerModel.flyTo();
-                    showLayerAttribute(layerModel.layer);
                 },
                 onNodeRightClicked: function (evt, node) {
                     var layerModel = node.layerModel;
