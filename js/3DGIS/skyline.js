@@ -95,7 +95,6 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
             }
             scene.primitives._primitives = [];
             skyline.clear();
-            console.log(viewer.entities);
             for(var layer of scene.layers.layerQueue){
                 layer.removeAllObjsColor();
             }
