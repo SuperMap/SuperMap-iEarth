@@ -16,23 +16,53 @@ define(['Cesium', 'jquery'], function(Cesium, $){
             $boxClipMode = $('#box-clip-mode');
 
         $boxClipLength.on('input propertychange', function () {
-            length = Number($(this).val());
+            var temp_length = Number($(this).val());
+            if(temp_length <= 0){
+                return;
+            }
+            length = temp_length;
             if(hasClipped){
                 setClipBox();
+            }
+        });
+        $boxClipLength.on('blur', function(){
+            var temp_length = Number($(this).val());
+            if(temp_length <= 0){
+                $(this).val(length);
             }
         });
 
         $boxClipWidth.on('input propertychange', function () {
-            width = Number($(this).val());
+            var temp_width = Number($(this).val());
+            if(temp_width <= 0){
+                return;
+            }
+            width = temp_width;
             if(hasClipped){
                 setClipBox();
             }
         });
+        $boxClipWidth.on('blur', function(){
+            var temp_width = Number($(this).val());
+            if(temp_width <= 0){
+                $(this).val(width);
+            }
+        });
 
         $boxClipHeight.on('input propertychange', function () {
-            height = Number($(this).val());
+            var temp_height = Number($(this).val());
+            if(temp_height <= 0){
+                return;
+            }
+            height = temp_height;
             if(hasClipped){
                 setClipBox();
+            }
+        });
+        $boxClipHeight.on('blur', function(){
+            var temp_height = Number($(this).val());
+            if(temp_height <= 0){
+                $(this).val(height);
             }
         });
 
@@ -55,6 +85,9 @@ define(['Cesium', 'jquery'], function(Cesium, $){
             height = Number($boxClipHeight.val());
             width = Number($boxClipWidth.val());
             length = Number($boxClipLength.val());
+            if(height <= 0 || width <= 0 || length <= 0){
+                return;
+            }
             rotate = Cesium.Math.toRadians(Number($boxClipRotate.val()));
             clipMode = $boxClipMode.val();
             if(startClip){
