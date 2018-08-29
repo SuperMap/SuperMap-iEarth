@@ -87,38 +87,65 @@ define(['Cesium', 'jquery'], function (Cesium, $) {
         }
 
         $planeClipPoint1Longitude.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint1Latitude.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint1Height.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint2Longitude.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint2Latitude.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint2Height.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint3Longitude.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint3Latitude.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
 
         $planeClipPoint3Height.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             setClipPlane(viewer);
         });
     };
