@@ -1,7 +1,7 @@
 /**
  * Cross裁剪
  */
-define(['Cesium', 'jquery'], function(Cesium, $){
+define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
 
     var CrossClip = function(){
     };
@@ -27,6 +27,48 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         pitch = Number($crossClipPitch.val());
         roll = Number($crossClipRoll.val());
         extrudeDistance = Number($crossClipExtrude.val());
+
+        if(width <= 0){
+            if($.trim($crossClipWidth.val()) === ''){
+                Util.showErrorMsg('裁剪盒宽度不应为空');
+            }else{
+                Util.showErrorMsg('裁剪盒宽度应为正值');
+            }
+            return false;
+        }
+
+        if(height <= 0){
+            if($.trim($crossClipHeight.val()) === ''){
+                Util.showErrorMsg('裁剪盒高度不应为空');
+            }else{
+                Util.showErrorMsg('裁剪盒高度应为正值');
+            }
+            return false;
+        }
+
+        if(extrudeDistance <= 0){
+            if($.trim($crossClipExtrude.val()) === ''){
+                Util.showErrorMsg('裁剪盒拉伸距离不应为空');
+            }else{
+                Util.showErrorMsg('裁剪盒拉伸距离应为正值');
+            }
+            return false;
+        }
+
+        if($.trim($crossClipPitch.val()) === ''){
+            Util.showErrorMsg('绕X轴旋转角度不应为空');
+            return false;
+        }
+
+        if($.trim($crossClipHeading.val()) === ''){
+            Util.showErrorMsg('绕Y轴旋转角度不应为空');
+            return;
+        }
+
+        if($.trim($crossClipRoll.val()) === ''){
+            Util.showErrorMsg('绕Z轴旋转角度不应为空');
+            return;
+        }
 
         dim = new Cesium.Cartesian3(width, height, extrudeDistance);
 
@@ -72,15 +114,29 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
         $crossClipWidth.on('input propertychange', function() {
-            width = Number($(this).val());
+            var temp_width = Number($(this).val());
+            if(temp_width <= 0){
+                return;
+            }
+            width = temp_width;
             box.box.dimensions = new Cesium.Cartesian3(width, height, 0.1);
             dim = new Cesium.Cartesian3(width, height, extrudeDistance);
             if(hasClipped){
                 updateClip();
             }
         });
+        $crossClipWidth.on('blur', function(){
+            var temp_width = Number($(this).val());
+            if(temp_width <= 0){
+                $(this).val(width);
+            }
+        });
 
         $crossClipHeight.on('input propertychange', function() {
+            var temp_height = Number($(this).val());
+            if(temp_height <= 0){
+                return;
+            }
             height = Number($(this).val());
             box.box.dimensions = new Cesium.Cartesian3(width, height, 0.1);
             dim = new Cesium.Cartesian3(width, height, extrudeDistance);
@@ -88,8 +144,17 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                 updateClip();
             }
         });
+        $crossClipHeight.on('blur', function(){
+            var temp_height = Number($(this).val());
+            if(temp_height <= 0){
+                $(this).val(height);
+            }
+        });
 
         $crossClipPitch.on('input propertychange', function() {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             pitch = Number($(this).val());
             var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
             var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
@@ -98,8 +163,16 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                 updateClip();
             }
         });
+        $crossClipPitch.on('blur', function(){
+            if($.trim($(this).val()) === ''){
+                $(this).val(pitch);
+            }
+        });
 
         $crossClipRoll.on('input propertychange', function() {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             roll = Number($(this).val());
             var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
             var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
@@ -108,8 +181,16 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                 updateClip();
             }
         });
+        $crossClipRoll.on('blur', function(){
+            if($.trim($(this).val()) === ''){
+                $(this).val(roll);
+            }
+        });
 
         $crossClipHeading.on('input propertychange', function() {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             heading = Number($(this).val());
             var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), Cesium.Math.toRadians(roll));
             var orientation = Cesium.Transforms.headingPitchRollQuaternion(boxPosition, hpr);
@@ -118,19 +199,40 @@ define(['Cesium', 'jquery'], function(Cesium, $){
                 updateClip();
             }
         });
+        $crossClipHeading.on('blur', function(){
+            if($.trim($(this).val()) === ''){
+                $(this).val(heading);
+            }
+        });
 
         $crossClipExtrude.on('input propertychange', function(){
-            extrudeDistance = Number($(this).val());
+            var temp_extrudeDistance = Number($(this).val());
+            if(temp_extrudeDistance <= 0){
+                return;
+            }
+            extrudeDistance = temp_extrudeDistance;
             if(hasClipped){
                 updateClip();
             }
         });
+        $crossClipExtrude.on('blur', function(){
+            var temp_extrudeDistance = Number($(this).val());
+            if(temp_extrudeDistance <= 0){
+                $(this).val(extrudeDistance);
+            }
+        });
+
         hasInitialized = true;
+
+        return true;
     };
 
     CrossClip.startClip = function(viewer){
         if(!hasInitialized){
-            this.initialize(viewer);
+            var initialSuccess = this.initialize(viewer);
+            if(!initialSuccess){
+                return;
+            }
         }
         startClip = true;
         box.show = true;

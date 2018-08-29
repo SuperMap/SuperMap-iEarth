@@ -1,7 +1,7 @@
 /**
  * Box裁剪
  */
-define(['Cesium', 'jquery'], function(Cesium, $){
+define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
     var BoxClip = function(){};
     var hasInitialized = false, startClip = false, hasClipped = false, layers = [], screenSpaceEventHandler = null, position = null;
     var width, height, length, rotate, clipMode;
@@ -14,6 +14,38 @@ define(['Cesium', 'jquery'], function(Cesium, $){
             $boxClipHeight = $('#box-clip-height'),
             $boxClipRotate = $('#box-clip-rotate'),
             $boxClipMode = $('#box-clip-mode');
+
+        if(Number($boxClipLength.val()) <= 0){
+            if($.trim($boxClipLength.val()) === ''){
+                Util.showErrorMsg("裁剪盒长度不应为空");
+            }else{
+                Util.showErrorMsg("裁剪盒长度应为正值");
+            }
+            return false;
+        }
+
+        if(Number($boxClipWidth.val()) <= 0){
+            if($.trim($boxClipWidth.val()) === ''){
+                Util.showErrorMsg("裁剪盒宽度不应为空");
+            }else{
+                Util.showErrorMsg("裁剪盒宽度应为正值");
+            }
+            return false;
+        }
+
+        if(Number($boxClipHeight.val()) <= 0){
+            if($.trim($boxClipHeight.val()) === ''){
+                Util.showErrorMsg("裁剪盒高度不应为空");
+            }else{
+                Util.showErrorMsg("裁剪盒高度应为正值");
+            }
+            return false;
+        }
+
+        if($.trim($boxClipRotate.val()) === ''){
+            Util.showErrorMsg("旋转角度不应为空");
+            return false;
+        }
 
         $boxClipLength.on('input propertychange', function () {
             var temp_length = Number($(this).val());
@@ -74,9 +106,17 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         });
 
         $boxClipRotate.on('input propertychange', function () {
+            if($.trim($(this).val()) === ''){
+                return;
+            }
             rotate = Cesium.Math.toRadians(Number($(this).val()));
             if(hasClipped){
                 setClipBox();
+            }
+        });
+        $boxClipRotate.on('blur', function(){
+            if($.trim($(this).val()) === ''){
+                $(this).val(rotate);
             }
         });
 
@@ -135,11 +175,16 @@ define(['Cesium', 'jquery'], function(Cesium, $){
         }*/
 
         hasInitialized = true;
+
+        return true;
     };
 
     BoxClip.startClip = function(viewer){
         if(!hasInitialized){
-            this.initialize(viewer);
+            var initialSuccess = this.initialize(viewer);
+            if(!initialSuccess){
+                return;
+            }
         }
         startClip = true;
     };
