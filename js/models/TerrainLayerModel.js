@@ -55,21 +55,15 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
                 return ;
             }else{
                 var layer = this.layer;
-                if(layer){
-                    var bounds = layer.layerBounds;
-                    if(!bounds){
-                        var extend = 0.1;
-                        var left = Cesium.Math.toRadians(layer.lon - extend);
-                        var right = Cesium.Math.toRadians(layer.lon + extend);
-                        var top = Cesium.Math.toRadians(layer.lat + extend);
-                        var bottom = Cesium.Math.toRadians(layer.lat - extend);
-                        bounds = new Cesium.Rectangle(left,bottom,right,top);
-                        layer.layerBounds = bounds;
-                    }
-                    var camera = this.viewer.scene.camera;
-                    var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
-                    camera.flyToBoundingSphere(bd);
-                }
+                var west = Cesium.Math.toRadians(layer._bounds.west);
+                var south = Cesium.Math.toRadians(layer._bounds.south);
+                var east = Cesium.Math.toRadians(layer._bounds.east);
+                var north = Cesium.Math.toRadians(layer._bounds.north);
+                var rectangle = new Cesium.Rectangle(west, south, east, north);
+                var camera = this.viewer.scene.camera;
+                camera.flyTo({
+                    destination: rectangle
+                });
             }
         },
         removeLayer : function(viewer){
