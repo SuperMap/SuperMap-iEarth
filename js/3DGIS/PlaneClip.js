@@ -1,4 +1,4 @@
-define(['Cesium', 'jquery'], function (Cesium, $) {
+define(['Cesium', 'jquery', '../Util'], function (Cesium, $, Util) {
 
     var PlaneClip = function () {
     };
@@ -37,6 +37,11 @@ define(['Cesium', 'jquery'], function (Cesium, $) {
             planeClipPolygonHandler.polyline.show = false;
             // 平面裁剪三点坐标信息
             positions = result.object ? result.object.positions : result;
+
+            if(!positions){ // 当绘制两个点就异常结束时该值为undefined
+                Util.showErrorMsg("请至少绘制三个点用于构造裁剪面");
+                return;
+            }
 
             var scartographic0 = Cesium.Cartographic.fromCartesian(positions[0]);
             var slongitude0 = Cesium.Math.toDegrees(scartographic0.longitude).toFixed(9);

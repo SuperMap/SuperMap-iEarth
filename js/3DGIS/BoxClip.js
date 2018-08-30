@@ -116,7 +116,7 @@ define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
         });
         $boxClipRotate.on('blur', function(){
             if($.trim($(this).val()) === ''){
-                $(this).val(rotate);
+                $(this).val(Cesium.Math.toDegrees(rotate));
             }
         });
 

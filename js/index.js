@@ -123,7 +123,7 @@ function init(Cesium, Zlib) {
         }, false);
     }
     if (viewer.geocoder) {
-        viewer.geocoder.viewModel.geoKey = 'NGyNBR7nqy1edmqO6NpnIECG';
+        viewer.geocoder.viewModel.geoKey = 'AncYVbOYE2nsXoMhCzGlh9iJI1yYtjmkLGmDsD9bwfjBmutByzkx4aAv5I8ZgzTK';
     }
     viewer.scene.globe.depthTestAgainstTerrain = true;
     viewer.scene.globe.enableLighting = true;

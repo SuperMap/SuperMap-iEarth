@@ -46,6 +46,21 @@ define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
             return false;
         }
 
+        if($.trim($crossClipPitch.val()) === ''){
+            Util.showErrorMsg('绕X轴旋转角度不应为空');
+            return false;
+        }
+
+        if($.trim($crossClipRoll.val()) === ''){
+            Util.showErrorMsg('绕Y轴旋转角度不应为空');
+            return;
+        }
+
+        if($.trim($crossClipHeading.val()) === ''){
+            Util.showErrorMsg('绕Z轴旋转角度不应为空');
+            return;
+        }
+
         if(extrudeDistance <= 0){
             if($.trim($crossClipExtrude.val()) === ''){
                 Util.showErrorMsg('裁剪盒拉伸距离不应为空');
@@ -53,21 +68,6 @@ define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
                 Util.showErrorMsg('裁剪盒拉伸距离应为正值');
             }
             return false;
-        }
-
-        if($.trim($crossClipPitch.val()) === ''){
-            Util.showErrorMsg('绕X轴旋转角度不应为空');
-            return false;
-        }
-
-        if($.trim($crossClipHeading.val()) === ''){
-            Util.showErrorMsg('绕Y轴旋转角度不应为空');
-            return;
-        }
-
-        if($.trim($crossClipRoll.val()) === ''){
-            Util.showErrorMsg('绕Z轴旋转角度不应为空');
-            return;
         }
 
         dim = new Cesium.Cartesian3(width, height, extrudeDistance);
