@@ -75,19 +75,7 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
             }else{
                 var layer = this.layer;
                 if(layer){
-                    var bounds = layer.layerBounds;
-                    if(!bounds){
-                        var extend = 0.1;
-                        var left = Cesium.Math.toRadians(layer.lon - extend);
-                        var right = Cesium.Math.toRadians(layer.lon + extend);
-                        var top = Cesium.Math.toRadians(layer.lat + extend);
-                        var bottom = Cesium.Math.toRadians(layer.lat - extend);
-                        bounds = new Cesium.Rectangle(left,bottom,right,top);
-                        layer.layerBounds = bounds;
-                    }
-                    var camera = this.viewer.scene.camera;
-                    var bd = Cesium.BoundingSphere.fromRectangle3D(bounds);
-                    camera.flyToBoundingSphere(bd);
+                    this.viewer.flyTo(layer);
                 }
             }
         },
