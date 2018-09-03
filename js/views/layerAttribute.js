@@ -93,6 +93,18 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<label>沿Z轴偏移:</label>',
         '<input type="number" class="input" id="choose-z-offset" min="-50" max="50" step="1" value="0">',
 
+        '<div id="layer-style" style="display:none;">',
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">图层颜色</label><br><br>',
+        '<label>亮度:</label>',
+        '<input type="number" class="input" id="layer-brightness" min="0" max="3" step="0.1">',
+        '<label>对比度:</label>',
+        '<input type="number" class="input" id="layer-contrast" min="0" max="5" step="0.1">',
+        '<label>色调:</label>',
+        '<input type="number" class="input" id="layer-hue" min="0" max="5" step="0.1">',
+        '<label>饱和度:</label>',
+        '<input type="number" class="input" id="layer-saturation" min="0" max="50" step="1">',
+        '</div>',
+
         '</div>',
         '</div></div>'
     ].join('');

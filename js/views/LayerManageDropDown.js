@@ -216,6 +216,16 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
         var layerName = document.getElementById('layerName');
         layerName.value = layer._name;
         selectedLayer = layer;
+        if(selectedLayer instanceof Cesium.S3MTilesLayer){
+            document.getElementById('layer-brightness').value = selectedLayer.brightness;
+            document.getElementById('layer-contrast').value = selectedLayer.contrast;
+            document.getElementById('layer-hue').value = selectedLayer.hue;
+            document.getElementById('layer-saturation').value = selectedLayer.saturation;
+
+            document.getElementById('layer-style').style.display = "block";
+        }else{
+            document.getElementById('layer-style').style.display = "none";
+        }
         if (!initialization) {
             var foreColor = document.getElementById('foreColorPicker');
             foreColor.oninput = function () {
@@ -387,6 +397,32 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                     selectedLayer.selectedTranslate = new Cesium.Cartesian3(xOffset, yOffset, zOffset);
                 }
             });
+
+            $("#layer-brightness").on('propertychange input', function(){ // 调整S3M图层亮度
+                if($.trim($(this).val()) === ''){
+                    return;
+                }
+                selectedLayer.brightness = Number($(this).val());
+            });
+            $("#layer-contrast").on('propertychange input', function(){ // 调整S3M图层对比度
+                if($.trim($(this).val()) === ''){
+                    return;
+                }
+                selectedLayer.contrast = Number($(this).val());
+            });
+            $("#layer-hue").on('propertychange input', function(){ // 调整S3M图层色调
+                if($.trim($(this).val()) === ''){
+                    return;
+                }
+                selectedLayer.hue = Number($(this).val());
+            });
+            $("#layer-saturation").on('propertychange input', function(){ // 调整S3M图层饱和度
+                if($.trim($(this).val()) === ''){
+                    return;
+                }
+                selectedLayer.saturation = Number($(this).val());
+            });
+
 
             //还原
             initialize.onchange = function () {
