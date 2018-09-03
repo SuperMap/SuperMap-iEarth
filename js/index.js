@@ -123,7 +123,8 @@ function init(Cesium, Zlib) {
         }, false);
     }
     if (viewer.geocoder) {
-        viewer.geocoder.viewModel.geoKey = 'AncYVbOYE2nsXoMhCzGlh9iJI1yYtjmkLGmDsD9bwfjBmutByzkx4aAv5I8ZgzTK';
+        // 请开发者自行到supermap online官网（http://www.supermapol.com/）申请key
+        viewer.geocoder.viewModel.geoKey = '79F9yph6kv8c8I9aARQUxtvn';
     }
     viewer.scene.globe.depthTestAgainstTerrain = true;
     viewer.scene.globe.enableLighting = true;
