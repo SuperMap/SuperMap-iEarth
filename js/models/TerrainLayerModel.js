@@ -17,8 +17,8 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
             }
             var terrainProvider = new Cesium.CesiumTerrainProvider({
                 url : url,
-                requestWaterMask : true,
-                requestVertexNormals : true,
+                requestWaterMask : false,
+                requestVertexNormals : false,
                 isSct : true
             });
             
