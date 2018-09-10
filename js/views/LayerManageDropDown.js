@@ -222,9 +222,34 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             document.getElementById('layer-hue').value = selectedLayer.hue;
             document.getElementById('layer-saturation').value = selectedLayer.saturation;
 
-            document.getElementById('layer-style').style.display = "block";
-        }else{
-            document.getElementById('layer-style').style.display = "none";
+            /*switch (selectedLayer.style3D.fillStyle){
+                case Cesium.FillStyle.Fill:
+                    $('input[name="layer-fill-style"][value="fill"]').attr("checked", true);
+                    break;
+                case Cesium.FillStyle.WireFrame:
+                    $('input[name="layer-fill-style"][value="wireframe"]').attr("checked", true);
+                    break;
+                case Cesium.FillStyle.Fill_And_WireFrame:
+                    $('input[name="layer-fill-style"][value="fill-and-wireframe"]').attr("checked", true);
+                    break;
+                default:
+                    break;
+            }*/
+            $('input[name="layer-fill-style"][value="fill-and-wireframe"]').attr("checked", true);
+            /*switch (selectedLayer.wireFrameMode){
+                case Cesium.WireFrameType.Triangle:
+                    $('input[name="layer-wireframe-mode"][value="triangle"]').attr("checked", true);
+                    break;
+                case Cesium.FillStyle.WireFrame:
+                    $('input[name="layer-wireframe-mode"][value="quad"]').attr("checked", true);
+                    break;
+                case Cesium.WireFrameType.Sketch:
+                    $('input[name="layer-wireframe-mode"][value="sketch"]').attr("checked", true);
+                    break;
+                default:
+                    break;
+            }*/
+            $('input[name="layer-wireframe-mode"][value="sketch"]').attr("checked", true);
         }
         if (!initialization) {
             var foreColor = document.getElementById('foreColorPicker');
@@ -421,6 +446,41 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                     return;
                 }
                 selectedLayer.saturation = Number($(this).val());
+            });
+
+            // 线框模式
+            $("input[name='layer-fill-style']").on('input propertychange', function(){
+                var layerFillStyle = $(this).val();
+                switch (layerFillStyle){
+                    case 'fill':
+                        selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill;
+                        break;
+                    case 'wireframe':
+                        selectedLayer.style3D.fillStyle = Cesium.FillStyle.WireFrame;
+                        break;
+                    case 'fill-and-wireframe':
+                        selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
+                        break;
+                    default:
+                        break;
+                }
+
+            });
+            $("input[name='layer-wireframe-mode']").on('input propertychange', function(){
+                var layerWireframeMode = $(this).val();
+                switch (layerWireframeMode){
+                    case 'triangle':
+                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Triangle;
+                        break;
+                    case 'quad':
+                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Quad;
+                        break;
+                    case 'sketch':
+                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Sketch;
+                        break;
+                    default:
+                        break;
+                }
             });
 
 

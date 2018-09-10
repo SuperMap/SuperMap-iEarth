@@ -14,7 +14,9 @@ define(['Cesium'],function(Cesium) {
     };
 
     isoline.remove = function(viewer){
-        viewer.scene.globe.HypsometricSetting = undefined
+        viewer.scene.globe.HypsometricSetting = undefined;
+        hyp && (hyp.MaxVisibleValue = -1000);
+        hyp && (hyp.MinVisibleValue = -1000);
     };
 
     isoline.initializing = function(viewer){
@@ -78,6 +80,7 @@ define(['Cesium'],function(Cesium) {
                     positions.push(h);
                 }
             }
+
             //分析区域为指定区域
             hyp.CoverageArea = positions;
             switch (currentValue){

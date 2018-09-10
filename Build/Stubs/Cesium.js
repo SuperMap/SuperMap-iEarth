@@ -1870,6 +1870,10 @@ define('Renderer/modernizeShader', function() {
     return Cesium['modernizeShader'];
 });
 
+define('Renderer/NormalFramebuffer', function() {
+    return Cesium['NormalFramebuffer'];
+});
+
 define('Renderer/Pass', function() {
     return Cesium['Pass'];
 });
@@ -3042,6 +3046,10 @@ define('Scene/WindMapProvider', function() {
     return Cesium['WindMapProvider'];
 });
 
+define('Scene/WireFrameType', function() {
+    return Cesium['WireFrameType'];
+});
+
 define('Shaders/AdjustTranslucentFS', function() {
     return Cesium['AdjustTranslucentFS'];
 });
@@ -3500,6 +3508,10 @@ define('Shaders/Builtin/Functions/shadowVisibility', function() {
 
 define('Shaders/Builtin/Functions/signNotZero', function() {
     return Cesium['signNotZero'];
+});
+
+define('Shaders/Builtin/Functions/sketchMode', function() {
+    return Cesium['sketchMode'];
 });
 
 define('Shaders/Builtin/Functions/tangentToEyeSpaceMatrix', function() {

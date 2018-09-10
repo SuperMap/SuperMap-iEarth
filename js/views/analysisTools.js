@@ -175,7 +175,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<select id="skylineMode" style="width:70%;">',
         '<option value="0" selected>'+ Resource.polyline +'</option>',
         '<option value="1">'+ Resource.polygon +'</option>',
-        '<option value="2">'+ Resource.skylinesectorbody +'</option>',
+        /*'<option value="2">'+ Resource.skylinesectorbody +'</option>', // 需要iServer910支持 */
         '</select>',
         '</div>',
         '<div class="square">',

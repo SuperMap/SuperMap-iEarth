@@ -47,7 +47,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
                 skyline.displayStyle = 1;
                 scene.primitives._primitives = [];
             }
-            else if(value=="2"){
+            else if(value=="2"){ // 需要iServer910支持，暂时界面上注释
                 skyline.displayStyle = 0;
                 if(!s3mInstance){
                     s3mInstance = new Cesium.S3MInstanceCollection(scene._context);

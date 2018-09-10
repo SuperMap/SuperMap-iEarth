@@ -93,7 +93,6 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<label>沿Z轴偏移:</label>',
         '<input type="number" class="input" id="choose-z-offset" min="-50" max="50" step="1" value="0">',
 
-        '<div id="layer-style" style="display:none;">',
         '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 50%">图层颜色</label><br><br>',
         '<label>亮度:</label>',
         '<input type="number" class="input" id="layer-brightness" min="0" max="3" step="0.1">',
@@ -103,7 +102,16 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<input type="number" class="input" id="layer-hue" min="0" max="5" step="0.1">',
         '<label>饱和度:</label>',
         '<input type="number" class="input" id="layer-saturation" min="0" max="50" step="1">',
-        '</div>',
+
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 60%">填充风格和线框模式</label><br><br>',
+        '<label>填充风格:</label>',
+        '<div style="display: block;"><input type="radio" id="layer-fill-mode" name="layer-fill-style" value="fill"><label for="layer-fill-mode" style="width: auto;margin-left:0.5rem;">填充模式</label></div>',
+        '<div style="display: block;"><input type="radio" id="layer-wireframe-mode" name="layer-fill-style" value="wireframe"><label for="layer-wireframe-mode" style="width: auto;margin-left:0.5rem;">线框模式</label></div>',
+        '<div style="display: block;"><input type="radio" id="layer-fill-and-wireframe-mode" name="layer-fill-style" value="fill-and-wireframe"><label for="layer-fill-and-wireframe-mode" style="width: auto;margin-left:0.5rem;">填充和线框模式</label></div>',
+        '<label>线框模式:</label>',
+        '<div style="display: block;"><input type="radio" id="triangle-wireframe-mode" name="layer-wireframe-mode" value="triangle"><label for="triangle-wireframe-mode" style="width: auto;margin-left:0.5rem;">三角面线框</label></div>',
+        '<div style="display: block;"><input type="radio" id="quad-wireframe-mode" name="layer-wireframe-mode" value="quad"><label for="quad-wireframe-mode" style="width: auto;margin-left:0.5rem;">平面线框</label></div>',
+        '<div style="display: block;"><input type="radio" id="sketch-wireframe-mode" name="layer-wireframe-mode" value="sketch"><label for="sketch-wireframe-mode" style="width: auto;margin-left:0.5rem;">草图模式</label></div>',
 
         '</div>',
         '</div></div>'
@@ -193,8 +201,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         render : function(){
             this.$el.html(this.template());
             return this;
-        },
-   
+        }
     });
     return layerAttribute;
 });

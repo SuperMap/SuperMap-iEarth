@@ -10,7 +10,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  webglreport.html
 ©¦  
 ©À©¤Build
-©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1808092029.txt
+©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1809051504.txt
 ©¦  ©¦  
 ©¦  ©À©¤Cesium
 ©¦  ©¦  ©¦  Cesium.js
@@ -55,6 +55,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦      ©¦  GlobalBkLayer.jpg
 ©¦  ©¦  ©¦      ©¦  logo.png
 ©¦  ©¦  ©¦      ©¦  moonSmall.jpg
+©¦  ©¦  ©¦      ©¦  noise.png
 ©¦  ©¦  ©¦      ©¦  pin.svg
 ©¦  ©¦  ©¦      ©¦  waterNormals.jpg
 ©¦  ©¦  ©¦      ©¦  waterNormalsSmall.jpg
@@ -872,6 +873,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  ScreenSpaceCameraController.html
 ©¦  ©¦  ©¦  ScreenSpaceEventHandler.html
 ©¦  ©¦  ©¦  ScreenSpaceEventType.html
+©¦  ©¦  ©¦  SelctColorType.html
 ©¦  ©¦  ©¦  SelectionIndicator.html
 ©¦  ©¦  ©¦  SelectionIndicatorViewModel.html
 ©¦  ©¦  ©¦  ShaderCache.html
@@ -1527,7 +1529,9 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦          OpenDatasource.png
     ©¦          PlotPanel.png
     ©¦          plotting.jpg
+    ©¦          plotting.PNG
     ©¦          plottingProperties.png
+    ©¦          plottingTuiyan.gif
     ©¦          plottingTuiyan.jpg
     ©¦          PublishQuickly.png
     ©¦          Select3DService.png
