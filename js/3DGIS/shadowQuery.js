@@ -12,6 +12,7 @@ define(['Cesium'],function(Cesium) {
 
         for(var i = 0;i < layers.length;i++){
             layers[i].shadowType = 2;
+            layers[i].refresh();
         }
         //创建阴影查询对象
         if(!shadowQuery){
