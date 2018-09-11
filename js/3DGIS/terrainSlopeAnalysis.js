@@ -86,6 +86,7 @@ define(['Cesium'],function(Cesium) {
                 analysisMode : wide
             };
             SlopePolygon.polygon.show = false;
+            SlopePolygon.polyline.show = false;
             SlopePolygon.deactivate();
         });
         SlopePolygon.activate();

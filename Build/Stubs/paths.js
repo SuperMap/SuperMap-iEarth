@@ -947,6 +947,8 @@ define(function() {
         'Shaders/SunFS' : '../Stubs/Cesium',
         'Shaders/SunTextureFS' : '../Stubs/Cesium',
         'Shaders/SunVS' : '../Stubs/Cesium',
+        'Shaders/TransformFeedback/LocalParticleVp' : '../Stubs/Cesium',
+        'Shaders/TransformFeedback/LocalVelocityFieldTransformFeedbackVp' : '../Stubs/Cesium',
         'Shaders/TransformFeedback/ParticleFp' : '../Stubs/Cesium',
         'Shaders/TransformFeedback/ParticleVp' : '../Stubs/Cesium',
         'Shaders/TransformFeedback/TransformFeedbackFp' : '../Stubs/Cesium',

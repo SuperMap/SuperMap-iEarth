@@ -3782,6 +3782,14 @@ define('Shaders/SunVS', function() {
     return Cesium['SunVS'];
 });
 
+define('Shaders/TransformFeedback/LocalParticleVp', function() {
+    return Cesium['LocalParticleVp'];
+});
+
+define('Shaders/TransformFeedback/LocalVelocityFieldTransformFeedbackVp', function() {
+    return Cesium['LocalVelocityFieldTransformFeedbackVp'];
+});
+
 define('Shaders/TransformFeedback/ParticleFp', function() {
     return Cesium['ParticleFp'];
 });

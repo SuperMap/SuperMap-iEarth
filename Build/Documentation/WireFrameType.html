@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SkyAtmosphere - Cesium Documentation</title>
+    <title>WireFrameType - Cesium Documentation</title>
 
     <!--[if lt IE 9]>
       <script src="javascript/html5.js"></script>
@@ -18,7 +18,7 @@
 
     <h1 class="page-title">
         <a href="index.html"><img src="images/SuperMapLogo.png" class="SuperMapLogo"></a>
-        SkyAtmosphere
+        WireFrameType
         <div class="titleCenterer"></div>
     </h1>
 
@@ -40,9 +40,9 @@
         
 <dt>
     <div class="nameContainer">
-    <h4 class="name" id="SkyAtmosphere">
-        <a href="#SkyAtmosphere" class="doc-link"></a>
-        new Cesium.SkyAtmosphere<span class="signature">(<span class="optional">ellipsoid</span>)</span>
+    <h4 class="name" id="WireFrameType">
+        <a href="#WireFrameType" class="doc-link"></a>
+        WireFrameType<span class="signature">()</span>
         
 
 
@@ -56,7 +56,7 @@
 
     
     <div class="description">
-        An atmosphere drawn around the limb of the provided ellipsoid.  Based on<a href="http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter16.html">Accurate Atmospheric Scattering</a>in GPU Gems 2.<p>This is only supported in 3D.  atmosphere is faded out when morphing to 2D or Columbus view.</p>
+        S3M图层模型线框模式。
     </div>
     
 
@@ -66,66 +66,6 @@
 
     
 
-    
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ellipsoid</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Ellipsoid.html">Ellipsoid</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="default">
-                
-                    <code class="language-javascript">Ellipsoid.WGS84</code>
-                
-                </td>
-            
-
-            <td class="description last">
-            
-                
-                        <span class="optional">optional</span>
-                
-                
-
-                
-            
-                The ellipsoid that the atmosphere is drawn around.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
     
 
     
@@ -161,21 +101,11 @@
     
 
     
-        <h5>Example:</h5>
-        
-    <pre><code class="language-javascript">scene.skyAtmosphere = new Cesium.SkyAtmosphere();</code></pre>
 
     
 
     
 
-    
-
-    
-    <h5>See:</h5>
-    <ul class="see-list">
-        <li>Scene.skyAtmosphere</li>
-    </ul>
     
 
     
@@ -203,9 +133,9 @@
             
 <dt>
     <div class="nameContainer">
-    <h4 class="name" id="brightnessShift">
-        <a href="#brightnessShift" class="doc-link"></a>
-        brightnessShift<span class="type-signature"> : Number</span>
+    <h4 class="name" id=".Quad">
+        <a href="#.Quad" class="doc-link"></a>
+        <span class="type-signature attribute-static">static</span><span class="type-signature attribute-constant">constant</span>Cesium.WireFrameType.Quad<span class="type-signature"> : Number</span>
         
 
 
@@ -218,68 +148,7 @@
 <dd>
     
     <div class="description">
-        The brightness shift to apply to the atmosphere. Defaults to 0.0 (no shift).A brightness shift of -1.0 is complete darkness, which will let space show through.
-    </div>
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <span class="details-header">Default Value:</span>
-    <code class="language-javascript">0.0</code>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-    <h4 class="name" id="ellipsoid">
-        <a href="#ellipsoid" class="doc-link"></a>
-        <span class="type-signature attribute-readonly">readonly</span>ellipsoid<span class="type-signature"> : <a href="Ellipsoid.html">Ellipsoid</a></span>
-        
-
-
-    </h4>
-
-    </div>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Gets the ellipsoid the atmosphere is drawn around.
+        四边形线框模式。
     </div>
     
 
@@ -322,9 +191,9 @@
             
 <dt>
     <div class="nameContainer">
-    <h4 class="name" id="hueShift">
-        <a href="#hueShift" class="doc-link"></a>
-        hueShift<span class="type-signature"> : Number</span>
+    <h4 class="name" id=".Sketch">
+        <a href="#.Sketch" class="doc-link"></a>
+        <span class="type-signature attribute-static">static</span><span class="type-signature attribute-constant">constant</span>Cesium.WireFrameType.Sketch<span class="type-signature"> : Number</span>
         
 
 
@@ -337,7 +206,7 @@
 <dd>
     
     <div class="description">
-        The hue shift to apply to the atmosphere. Defaults to 0.0 (no shift).A hue shift of 1.0 indicates a complete rotation of the hues available.
+        草图线框模式。
     </div>
     
 
@@ -361,9 +230,6 @@
 
     
 
-    
-    <span class="details-header">Default Value:</span>
-    <code class="language-javascript">0.0</code>
     
 
     
@@ -383,9 +249,9 @@
             
 <dt>
     <div class="nameContainer">
-    <h4 class="name" id="saturationShift">
-        <a href="#saturationShift" class="doc-link"></a>
-        saturationShift<span class="type-signature"> : Number</span>
+    <h4 class="name" id=".Triangle">
+        <a href="#.Triangle" class="doc-link"></a>
+        <span class="type-signature attribute-static">static</span><span class="type-signature attribute-constant">constant</span>Cesium.WireFrameType.Triangle<span class="type-signature"> : Number</span>
         
 
 
@@ -398,7 +264,7 @@
 <dd>
     
     <div class="description">
-        The saturation shift to apply to the atmosphere. Defaults to 0.0 (no shift).A saturation shift of -1.0 is monochrome.
+        三角形线框模式。
     </div>
     
 
@@ -422,70 +288,6 @@
 
     
 
-    
-    <span class="details-header">Default Value:</span>
-    <code class="language-javascript">0.0</code>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-    <h4 class="name" id="show">
-        <a href="#show" class="doc-link"></a>
-        show<span class="type-signature"> : Boolean</span>
-        
-
-
-    </h4>
-
-    </div>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        Determines if the atmosphere is shown.
-    </div>
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <span class="details-header">Default Value:</span>
-    <code class="language-javascript">true</code>
     
 
     
@@ -504,207 +306,6 @@
         </dl>
     
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-            
-<dt>
-    <div class="nameContainer">
-    <h4 class="name" id="destroy">
-        <a href="#destroy" class="doc-link"></a>
-        destroy<span class="signature">()</span> &rarr; <span class="type-signature returnType">undefined</span>
-        
-
-
-    </h4>
-
-    </div>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Destroys the WebGL resources held by this object.  Destroying an object allows for deterministicrelease of WebGL resources, instead of relying on the garbage collector to destroy this object.<br /><br />Once an object is destroyed, it should not be used; calling any function other than<code>isDestroyed</code> will result in a <a href="DeveloperError.html"><code>DeveloperError</code></a> exception.  Therefore,assign the return value (<code>undefined</code>) to the object as done in the example.
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-
-        
-
-    
-    <h5>Throws:</h5>
-    <ul>
-            <li>
-
-    <div class="param-desc">
-        
-<span class="param-type"><a href="DeveloperError.html">DeveloperError</a></span>
-
-: This object was destroyed, i.e., destroy() was called.
-    </div>
-
-</li>
-        </ul>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h5>Example:</h5>
-        
-    <pre><code class="language-javascript">skyAtmosphere = skyAtmosphere &amp;&amp; skyAtmosphere.destroy();</code></pre>
-
-    
-
-    
-
-    
-
-    
-    <h5>See:</h5>
-    <ul class="see-list">
-        <li><a href="SkyAtmosphere.html#isDestroyed">SkyAtmosphere#isDestroyed</a></li>
-    </ul>
-    
-
-    
-</dl>
-
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
-    <h4 class="name" id="isDestroyed">
-        <a href="#isDestroyed" class="doc-link"></a>
-        isDestroyed<span class="signature">()</span> &rarr; <span class="type-signature returnType">Boolean</span>
-        
-
-
-    </h4>
-
-    </div>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns true if this object was destroyed; otherwise, false.<br /><br />If this object was destroyed, it should not be used; calling any function other than<code>isDestroyed</code> will result in a <a href="DeveloperError.html"><code>DeveloperError</code></a> exception.
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-</div>
-
-
-        
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>See:</h5>
-    <ul class="see-list">
-        <li><a href="SkyAtmosphere.html#destroy">SkyAtmosphere#destroy</a></li>
-    </ul>
-    
-
-    
-</dl>
-
-</dd>
-
-        </dl>
     
 
     
