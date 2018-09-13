@@ -513,6 +513,7 @@ define(function() {
         'S3MTiles/Enum/SelectColorType' : '../Stubs/Cesium',
         'S3MTiles/Enum/ShadowType' : '../Stubs/Cesium',
         'S3MTiles/Enum/SplitDirection' : '../Stubs/Cesium',
+        'S3MTiles/Enum/UrlType' : '../Stubs/Cesium',
         'S3MTiles/Enum/VertexCompressOption' : '../Stubs/Cesium',
         'S3MTiles/MaterialPass' : '../Stubs/Cesium',
         'S3MTiles/PagedLOD' : '../Stubs/Cesium',

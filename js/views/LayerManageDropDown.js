@@ -1,4 +1,4 @@
-define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/excavationRegion', '../3DGIS/flattenRegion', '../3DGIS/ModelFlood'], function (Container, $, bootstrapTree, spectrum, drag, excavationRegion, flattenRegion, ModelFlood) {
+define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/excavationRegion', '../3DGIS/flattenRegion', '../3DGIS/ModelFlood', './layerAttribute'], function (Container, $, bootstrapTree, spectrum, drag, excavationRegion, flattenRegion, ModelFlood, LayerAttribute) {
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
@@ -222,34 +222,33 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             document.getElementById('layer-hue').value = selectedLayer.hue;
             document.getElementById('layer-saturation').value = selectedLayer.saturation;
 
-            /*switch (selectedLayer.style3D.fillStyle){
+            // 这里有问题：DOM改变了界面不会改变，可能和Backbone的模板渲染有关系
+            switch (selectedLayer.style3D.fillStyle){
                 case Cesium.FillStyle.Fill:
-                    $('input[name="layer-fill-style"][value="fill"]').attr("checked", true);
+                    $('input[name="layer-fill-style"][value="fill"]').attr("checked", "checked");
                     break;
                 case Cesium.FillStyle.WireFrame:
-                    $('input[name="layer-fill-style"][value="wireframe"]').attr("checked", true);
+                    $('input[name="layer-fill-style"][value="wireframe"]').attr("checked", "checked");
                     break;
                 case Cesium.FillStyle.Fill_And_WireFrame:
-                    $('input[name="layer-fill-style"][value="fill-and-wireframe"]').attr("checked", true);
+                    $('input[name="layer-fill-style"][value="fill-and-wireframe"]').attr("checked", "checked");
                     break;
                 default:
                     break;
-            }*/
-            $('input[name="layer-fill-style"][value="fill-and-wireframe"]').attr("checked", true);
-            /*switch (selectedLayer.wireFrameMode){
+            }
+            switch (selectedLayer.wireFrameMode){
                 case Cesium.WireFrameType.Triangle:
-                    $('input[name="layer-wireframe-mode"][value="triangle"]').attr("checked", true);
+                    $('input[name="layer-wireframe-mode"][value="triangle"]').attr("checked", "checked");
                     break;
                 case Cesium.FillStyle.WireFrame:
-                    $('input[name="layer-wireframe-mode"][value="quad"]').attr("checked", true);
+                    $('input[name="layer-wireframe-mode"][value="quad"]').attr("checked", "checked");
                     break;
                 case Cesium.WireFrameType.Sketch:
-                    $('input[name="layer-wireframe-mode"][value="sketch"]').attr("checked", true);
+                    $('input[name="layer-wireframe-mode"][value="sketch"]').attr("checked", "checked");
                     break;
                 default:
                     break;
-            }*/
-            $('input[name="layer-wireframe-mode"][value="sketch"]').attr("checked", true);
+            }
         }
         if (!initialization) {
             var foreColor = document.getElementById('foreColorPicker');
@@ -464,7 +463,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                     default:
                         break;
                 }
-
+                selectedLayer.refresh();
             });
             $("input[name='layer-wireframe-mode']").on('input propertychange', function(){
                 var layerWireframeMode = $(this).val();
@@ -481,6 +480,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                     default:
                         break;
                 }
+                selectedLayer.refresh();
             });
 
 

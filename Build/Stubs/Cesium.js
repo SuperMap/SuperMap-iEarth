@@ -2046,6 +2046,10 @@ define('S3MTiles/Enum/SplitDirection', function() {
     return Cesium['SplitDirection'];
 });
 
+define('S3MTiles/Enum/UrlType', function() {
+    return Cesium['UrlType'];
+});
+
 define('S3MTiles/Enum/VertexCompressOption', function() {
     return Cesium['VertexCompressOption'];
 });

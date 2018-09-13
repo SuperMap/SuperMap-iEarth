@@ -163,6 +163,7 @@ function init(Cesium, Zlib) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
+
                 var toolBar = new ToolBar({
                     sceneModel: sceneModel,
                     isPCBroswer: isPCBroswer
@@ -193,6 +194,7 @@ function init(Cesium, Zlib) {
                         y : '200px'
                     }));
                 }
+
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });

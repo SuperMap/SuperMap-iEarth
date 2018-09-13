@@ -95,7 +95,6 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             handlerDis.activate();
         },
         onMeasureAreaBtnClk : function(evt){
-            console.log(handlerArea.measureEvt);
             $("#selOpt").on("input change",function() {
                 var value = $(this).val();
                 if(value == '1'){
