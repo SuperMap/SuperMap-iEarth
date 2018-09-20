@@ -251,11 +251,17 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             }
         }
         if (!initialization) {
-            var foreColor = document.getElementById('foreColorPicker');
-            foreColor.oninput = function () {
-                var color = Cesium.Color.fromCssColorString(foreColor.value);
-                selectedLayer.style3D.fillForeColor = color;
-            };
+            $("#foreColorPicker").spectrum({
+                color: "#fff", // 默认颜色
+                showPalette: true, //用于存储过往选择的颜色
+                palette: palette,
+                showAlpha: true, // 支持透明度选择
+                chooseText: "选择",
+                cancelText: "取消",
+                hide: function(color){
+                    selectedLayer.style3D.fillForeColor = Cesium.Color.fromCssColorString(color.toRgbString());
+                }
+            });
             var lineColor = document.getElementById('lineColorPicker');
             lineColor.oninput = function () {
                 var color = Cesium.Color.fromCssColorString(lineColor.value);

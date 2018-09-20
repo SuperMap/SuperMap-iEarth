@@ -15,7 +15,7 @@
             echarts: 'lib/echarts.simple.min',
             echartsMin: 'lib/echarts.min',
             colorPicker: 'lib/jquery.colorpicker',
-            spectrum: 'lib/spectrum',
+            spectrum: 'lib/spectrum/spectrum',
             drag: 'lib/drag',
             slider: 'lib/slider',
             popLayer: 'lib/layer/src/layer',
