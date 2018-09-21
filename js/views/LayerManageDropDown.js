@@ -328,33 +328,22 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 selectedLayer.refresh();
             }
 
-            //最小最大可见高度设置
-            var height = 152;
-            var minHeight = document.getElementById('minHeight');
-            var maxHeight = document.getElementById('maxHeight');
+            // 最小最大可见高度设置
+            $("#min-visible-height").on("input propertychange", function(){
+                if($.trim($(this).val()) === ''){
+                    selectedLayer.visibleDistanceMin = 0.0;
+                    return;
+                }
+                selectedLayer.visibleDistanceMin = Number($(this).val());
+            });
+            $("#max-visible-height").on("input propertychange", function(){
+                if($.trim($(this).val()) === ''){
+                    selectedLayer.visibleDistanceMax = Number.MAX_VALUE;
+                    return;
+                }
+                selectedLayer.visibleDistanceMax = Number($(this).val());
+            });
 
-            minHeight.onblur = function () {
-                selectedLayer.visibleDistanceMin = Number(minHeight.value);
-            };
-            maxHeight.onblur = function () {
-                selectedLayer.visibleDistanceMax = Number(maxHeight.value);
-            };
-            // document.getElementById('minCurrentHeight').onclick = function () {
-            //     minHeight.value = height;
-            //     selectedLayer.visibleDistanceMin=height;
-            // };
-            // document.getElementById('minClear').onclick = function () {
-            //     minHeight.value = 0;
-            //     selectedLayer.visibleDistanceMin=0;
-            // };
-            // document.getElementById('maxCurrentHeight').onclick = function () {
-            //     maxHeight.value = height;
-            //     selectedLayer.visibleDistanceMax=height;
-            // };
-            // document.getElementById('maxClear').onclick = function () {
-            //     maxHeight.value = "None";
-            //     selectedLayer.visibleDistanceMax=47836027.5;
-            // };
             //LOD缩放比例系数设置
             var LODScale = document.getElementById('LODScale');
             LODScale.oninput = function () {
