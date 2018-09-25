@@ -207,9 +207,15 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                             layer.shadowType = 2;
                             layer.refresh(); // 加这句是因为 不刷新阴影不会立即显示  属于底层问题，待修改
                         }
+                        if($("#shadowType") && ($("#shadowType").val() === 'noShadow')){
+                            $("#shadowType").val('allShadow');
+                        }
                     }else{
                         for(var layer of layers){
                             layer.shadowType = 0;
+                        }
+                        if($("#shadowType") && ($("#shadowType").val() !== 'noShadow')){
+                            $("#shadowType").val('noShadow');
                         }
                     }
                 });
