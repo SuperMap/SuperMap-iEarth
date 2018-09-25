@@ -46,6 +46,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<option value="TOP">'+ Resource.splitTop +'</option>',
         '<option value="BOTTOM">'+ Resource.splitBOTTOM +'</option>',
         '</select>',
+
         '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
         '<div class="param-item" style="display: block;"><span>经度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
         '<div class="param-item" style="display: block;"><span>纬度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>',
@@ -60,6 +61,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
         '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
         '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
+
 
         '</div> ',
         '<div>',
@@ -115,6 +117,8 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">',
         '<label>' + Resource.cameraMinimumZoomDistance + '</label>',
         '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />',
+        '<label >'+ "地表透明度" +'</label>',
+        '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="groundAlpha" min="0" max="1.0" step="0.01" value="1.0">',
         '</div>',
 
         '</div>',
@@ -257,6 +261,9 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                     }else{
                         viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
                     }
+                });
+                $('#groundAlpha').bind('input propertychange', function () {
+                    viewer.scene.globe.globeAlpha = parseFloat(this.value);
                 });
                 $("#camera-minimum-zoom-distance").on("input propertychange", function(){
                     viewer.scene.screenSpaceCameraController.minimumZoomDistance = Number($("#camera-minimum-zoom-distance").val());

@@ -301,9 +301,11 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 var value = $(this).val();
                 if (value == "chooseShadow") {
                     selectedLayer.shadowType = 1;
+                    selectedLayer.refresh();
                 }
                 else if (value == "allShadow") {
                     selectedLayer.shadowType = 2;
+                    selectedLayer.refresh();
                 }
                 else if (value == "noShadow") {
                     selectedLayer.shadowType = 0;
@@ -363,17 +365,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 var chooseIDs = layer.getSelection();
                 selectedLayer.setObjsVisible(chooseIDs, false);
             }
-            viewer.scene.undergroundMode = true;
-            $("#undergroundMode").change(function () {
-                viewer.scene.undergroundMode = !viewer.scene.undergroundMode;
-            });
             viewer.scene.terrainProvider.isCreateSkirt = false;
-            $('#minimumZoomDistance').bind('input propertychange', function () {
-                viewer.scene.screenSpaceCameraController.minimumZoomDistance = -(parseFloat(this.value));
-            });
-            $('#groundAlpha').bind('input propertychange', function () {
-                viewer.scene.globe.globeAlpha = parseFloat(this.value);
-            });
             $('#modelAlpha').bind('input propertychange', function () {
                 selectedLayer.style3D.fillForeColor.alpha = parseFloat(this.value);
             });
