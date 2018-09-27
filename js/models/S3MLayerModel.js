@@ -65,21 +65,21 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
         flyTo : function(){
         	var scpName = this.get('originName');
             if(scpName === '点云'){
-                if(!($("#scene-logo").length > 0)){
-                    $("body").append('<img id="scene-logo" class="secne-logo">');
+                if(!($("#data-source").length > 0)){
+                    $("body").append('<span id="data-source" class="data-source"></span>');
                 }
-                $("#scene-logo").attr("src", "./images/japan.jpg");
+                $("#data-source").text("数据来源：日本超图");
             }else if(scpName === '索菲亚大教堂'){
-                if(!($("#scene-logo").length > 0)){
-                    $("body").append('<img id="scene-logo" class="secne-logo">');
+                if(!($("#data-source").length > 0)){
+                    $("body").append('<span id="data-source" class="data-source"></span>');
                 }
-                $("#scene-logo").attr("src", "./images/hlj.png");
+                $("#data-source").text("数据来源：黑龙江省测绘科学研究院");
             }else if(scpName === '体数据'){
                 this.hypsometricSetting();
             }
             else{
-                if($("#scene-logo").length > 0){
-                    $("#scene-logo").remove();
+                if($("#data-source").length > 0){
+                    $("#data-source").remove();
                 }
             }
         	var cameraParam = Config.CAMERA_PARAM[scpName];

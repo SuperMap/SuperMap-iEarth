@@ -304,7 +304,9 @@ define(function(){
         onlineEditing : '在线编辑',
         interspaceQuery: '空间查询',
         cameraMinimumZoomDistance: '相机最小缩放距离(米)',
-        highlightBarrier: '高亮障碍物'
+        highlightBarrier: '高亮障碍物',
+        supermapLogo: '超图标识',
+        removeInvalidTerrainRegion: '剔除无效地形区域'
     };
     return ResourceCN;
 });

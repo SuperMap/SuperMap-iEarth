@@ -109,6 +109,12 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<div style="display: block;"><input type="radio" id="quad-wireframe-mode" name="layer-wireframe-mode" value="quad"/><label for="quad-wireframe-mode" style="width: auto;margin-left:0.5rem;">四边形线框</label></div>',
         '<div style="display: block;"><input type="radio" id="sketch-wireframe-mode" name="layer-wireframe-mode" value="sketch"/><label for="sketch-wireframe-mode" style="width: auto;margin-left:0.5rem;">草图模式</label></div>',
 
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 60%">多边形偏移</label><br><br>',
+        '<label>偏移因子:</label>',
+        '<input type="number" class="input" id="layer-polygon-factor" min="-100" max="100" step="1" value="0">',
+        '<label>偏移单位:</label>',
+        '<input type="number" class="input" id="layer-polygon-unit" min="-100" max="100" step="1" value="0">',
+
         '</div>',
         '</div></div>'
     ].join('');

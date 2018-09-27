@@ -157,6 +157,7 @@ function init(Cesium, Zlib) {
         $("#loadOverlay").hide();
         $('#loadbar').removeClass('ins');
         $(".cesium-viewer-navigationContainer").hide();
+        $("body").append('<span id="baselayer-source" class="baselayer-source">底图来源：本地图片</span>');
 
         require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm'],
             function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm) {

@@ -37,6 +37,29 @@ define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
             if(imageryLayerCollection.get(1)){
                 imageryLayerCollection.remove(imageryLayerCollection.get(1));
             }
+            switch (this.get('type')){
+                case 'IMAGE': // 本地图片
+                    $("#baselayer-source").text("底图来源：本地图片");
+                    break;
+                case 'BINGMAP': // BingMaps
+                    $("#baselayer-source").text("底图来源：Bing Maps");
+                    break;
+                case 'TIANDITU': // 天地图
+                    $("#baselayer-source").text("底图来源：天地图");
+                    break;
+                case 'OSM': // Open Street Map
+                    $("#baselayer-source").text("底图来源：Open Street Map");
+                    break;
+                case 'SUPERMAPDARK': // SuperMap China Dark
+                    $("#baselayer-source").text("底图来源：SuperMap China Dark");
+                    break;
+                case 'GRIDIMAGERY': // 网格影像
+                    $("#baselayer-source").text("底图来源：网格影像");
+                    break;
+                case 'SUPERMAPLIGHT': // SuperMap China Light
+                    $("#baselayer-source").text("底图来源：SuperMap China Light");
+                    break;
+            }
             if(this.get('type') != "GRIDIMAGERY"){
                 imageryLayerCollection.remove(layer);
                 imageryLayerCollection.addImageryProvider(this.imageryProvider, 0);

@@ -155,7 +155,9 @@ define(function(){
         skyline : 'Skyline',
         graphDisplay : '2D display',
         cameraMinimumZoomDistance: 'camera minimum zoom distance',
-        highlightBarrier: 'highlight barrier'
+        highlightBarrier: 'highlight barrier',
+        supermapLogo: 'SuperMap Logo',
+        removeInvalidTerrainRegion: 'remove invalid terrain region'
     };
     return ResourceEN;
 });

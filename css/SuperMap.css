@@ -953,11 +953,23 @@ ul#progress li:first-child {
 		top: 10%;
 		right:50px;
 	}
-	.secne-logo{
+	/*.secne-logo{
 		left: 20px;
 		bottom: 80px;
 		position: absolute;
 		max-width: 140px;
+	}*/
+	.data-source{
+		bottom: 1.8rem;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.baselayer-source{
+		bottom: 0.2rem;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 }
 
@@ -973,12 +985,12 @@ ul#progress li:first-child {
 		max-height: 400px;
 		overflow:auto;
 	}
-	.secne-logo{
+	/*.secne-logo{
 		left: 10px;
 		bottom: 50px;
 		position: absolute;
 		max-width: 80px;
-	}
+	}*/
 	.cesium-credit-image img{
 		width: 110px;
 	}
@@ -2105,14 +2117,14 @@ input[type=text] {
 	color: darkgrey;
 }
 #layerForm .square,#sceneForm .square{
-    margin-left: 5px;
-    width: 45%;
+    margin-left: 1%;
+    width: 48%;
     height: 40px;
     display: inline-block;
 }
 #layerForm label,#sceneForm label{
     width: 100%;
-    margin: 10px 5px -5px 2px;
+    margin: 10px 0px -5px 2px;
     line-height: 1.5;
     font-size: 12px;
     color: darkgrey;
@@ -2121,7 +2133,7 @@ input[type=text] {
      width:100%; 
  }
  #layerForm .square label, #sceneForm .square label{
-    width: 80px;
+    width: 85%;
     font-size: 12px;
     color: darkgrey;
 }
@@ -2974,7 +2986,7 @@ main .square{
     text-align: left;
 
     width: 80%;
-    padding: 10px 10px;
+    padding-left: 8px;
 }
 
 .tabs-vertical .tabs-content-placeholder div{

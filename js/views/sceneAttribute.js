@@ -60,7 +60,8 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<div class="square" ><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">'+ Resource.skyAtmosphereEffect +'</label></div>',
         '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">'+ Resource.fogEffect +'</label></div>',
         '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
-        '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">Logo</label></div>',
+        '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">' + Resource.supermapLogo + '</label></div>',
+        '<div class="square" ><input type="checkbox" id="removeInvalidTerrainRegion"/><label for="removeInvalidTerrainRegion">' + Resource.removeInvalidTerrainRegion + '</label></div>',
 
 
         '</div> ',
@@ -224,6 +225,12 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                 });
                 $("#depthAgainst").click(function(evt){
                     scene.globe.depthTestAgainstTerrain = !scene.globe.depthTestAgainstTerrain;
+                });
+                $("#removeInvalidTerrainRegion").on("input propertychange", function(){
+                    // alert($(this).prop("checked"));
+                    viewer.terrainProvider.isShowGlobe = !$(this).prop("checked");
+                    // viewer.terrainProvider = new Cesium.CesiumTerrainProvider();
+                    // console.log(viewer.terrainProvider);
                 });
                 $("#earth").click(function(evt){
                     scene.globe.show = !scene.globe.show;

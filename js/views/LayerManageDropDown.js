@@ -470,6 +470,11 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 selectedLayer.refresh();
             });
 
+            $("#layer-polygon-factor,#layer-polygon-unit").on("input propertychange", function(){
+                var polygonOffsetFactor = Number($("#layer-polygon-factor").val());
+                var polygonOffsetUnit = Number($("#layer-polygon-unit").val());
+                selectedLayer.setPolygonoffset(polygonOffsetFactor, polygonOffsetUnit);
+            });
 
             //还原
             initialize.onchange = function () {
