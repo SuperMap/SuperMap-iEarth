@@ -306,7 +306,8 @@ define(function(){
         cameraMinimumZoomDistance: '相机最小缩放距离(米)',
         highlightBarrier: '高亮障碍物',
         supermapLogo: '超图标识',
-        removeInvalidTerrainRegion: '剔除无效地形区域'
+        removeInvalidTerrainRegion: '剔除无效地形区域',
+        polygonSymbolColor: '面颜色'
     };
     return ResourceCN;
 });

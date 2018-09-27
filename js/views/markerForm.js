@@ -91,7 +91,10 @@ define(['./Container',
         '</tr>',
         '</tbody>',
         '</table><br><br><br>',
-        '</div>',
+        '</div><br>',
+        '<a class="ui teal ribbon label">'+ Resource.parameterSetting +'</a>',
+        '<label style="font-size:13px;">'+ Resource.polygonSymbolColor +'</label>',
+        '<input type="text" class="colorPicker" id="polygon-symbol-color"/>',
         '<div>',
         '<button type="button" id="delAllPolygon" class="btn btn-info" style="float: right">'+ Resource.eliminate +'</button>',
         '</div>',
@@ -230,6 +233,15 @@ define(['./Container',
                 $("#stripe").on("click",function(){
                     createPolygonType(2,this);
                 });
+
+                $("#polygon-symbol-color").spectrum({
+                    color: "#fff", // 默认颜色
+                    showPalette: true, //用于存储过往选择的颜色
+                    palette: palette,
+                    showAlpha: true, // 支持透明度选择
+                    chooseText: "选择",
+                    cancelText: "取消"
+                });
             });
 
             Cesium.loadJson('data/models.json').then(function(data){
@@ -249,8 +261,6 @@ define(['./Container',
                 });
                 handlerPoint && handlerPoint.deactivate();
             });
-
-
         },
         render : function(){
             this.$el.html(this.template());
@@ -437,17 +447,23 @@ define(['./Container',
                     position.push(h);
                 }
             }
-
+            var polygonColor = Cesium.Color.fromCssColorString($("#polygon-symbol-color").spectrum('get').toRgbString());
             switch (type){
                 case 0:
-                    handlerPolygon.polygon.show = true;break;
+                    viewer.entities.add({
+                        polygon : {
+                            perPositionHeight :true,
+                            hierarchy : Cesium.Cartesian3.fromDegreesArrayHeights(position),
+                            material : polygonColor
+                        }
+                    });break;
                 case 1:
                     viewer.entities.add({
                         polygon : {
                             perPositionHeight :true,
                             hierarchy : Cesium.Cartesian3.fromDegreesArrayHeights(position),
                             material : new Cesium.GridMaterialProperty({
-
+                                color: polygonColor
                             })
                         }
                     });break;
@@ -457,8 +473,7 @@ define(['./Container',
                             perPositionHeight :true,
                             hierarchy : Cesium.Cartesian3.fromDegreesArrayHeights(position),
                             material : new Cesium.StripeMaterialProperty({
-                                // evenColor : Cesium.Color.WHITE.withAlpha(0.5),
-                                // oddColor : Cesium.Color.BLUE.withAlpha(0.5),
+                                evenColor: polygonColor,
                                 repeat : 30.0
                             })
                         }

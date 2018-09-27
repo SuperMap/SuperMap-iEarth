@@ -157,7 +157,8 @@ define(function(){
         cameraMinimumZoomDistance: 'camera minimum zoom distance',
         highlightBarrier: 'highlight barrier',
         supermapLogo: 'SuperMap Logo',
-        removeInvalidTerrainRegion: 'remove invalid terrain region'
+        removeInvalidTerrainRegion: 'remove invalid terrain region',
+        polygonSymbolColor: 'polygon color'
     };
     return ResourceEN;
 });
