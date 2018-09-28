@@ -158,7 +158,13 @@ define(function(){
         highlightBarrier: 'highlight barrier',
         supermapLogo: 'SuperMap Logo',
         removeInvalidTerrainRegion: 'remove invalid terrain region',
-        polygonSymbolColor: 'polygon color'
+        polygonSymbolColor: 'polygon color',
+        polylineDashSectionLength: 'polyline dash section length',
+        polylineTrailPeriod: 'polyline trail period',
+        polylineTrailPercent: 'polyline trail percent',
+        outlineWidth: 'outline width',
+        pixel: 'pixel',
+        second: 'second'
     };
     return ResourceEN;
 });

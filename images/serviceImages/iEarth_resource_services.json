@@ -19,14 +19,14 @@
       "id": 3,
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_srsb_water.jpg",
-      "proxiedUrl": "http://www.supermapol.com/iserver/services/3D-srsb/rest",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-srsb/rest",
       "sceneName": "萨尔茨堡火车站"
     },
     {
       "id": 4,
       "type": "REALSPACE",
       "thumbnail": "http://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/S3MTiles_niaochao_water.jpg",
-      "proxiedUrl": "http://www.supermapol.com/iserver/services/3D-niaocao_water/rest",
+      "proxiedUrl": "http://www.supermapol.com/realspace/services/3D-niaocao_water/rest",
       "sceneName": "鸟巢"
     },
     {

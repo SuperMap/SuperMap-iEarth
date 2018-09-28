@@ -307,7 +307,13 @@ define(function(){
         highlightBarrier: '高亮障碍物',
         supermapLogo: '超图标识',
         removeInvalidTerrainRegion: '剔除无效地形区域',
-        polygonSymbolColor: '面颜色'
+        polygonSymbolColor: '面颜色',
+        polylineDashSectionLength: '虚线分量长度',
+        polylineTrailPeriod: '尾迹线周期',
+        polylineTrailPercent: '尾迹线占比',
+        outlineWidth: '轮廓宽度',
+        pixel: '像素',
+        second: '秒'
     };
     return ResourceCN;
 });

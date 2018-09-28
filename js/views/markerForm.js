@@ -68,7 +68,15 @@ define(['./Container',
         '</div><br>',
         '<a class="ui teal ribbon label">'+ Resource.parameterSetting +'</a>',
         '<label style="font-size:13px;">'+ Resource.lineWidth +'</label>',
-        '<input id="lineWidth" class="input" type="number" value="5.0" min="0.1" step="0.1">',
+        '<input id="lineWidth" class="input" type="number" value="5.0" min="0.1" step="0.1" style="width: 75%;"><span>&nbsp;&nbsp;' + Resource.pixel + '</span>',
+        '<label style="font-size:13px;">'+ Resource.outlineWidth +'</label>',
+        '<input id="outline-width" class="input" type="number" value="1.0" min="0.1" step="0.1" style="width: 75%;"><span>&nbsp;&nbsp;' + Resource.pixel + '</span>',
+        '<label style="font-size:13px;">'+ Resource.polylineDashSectionLength +'</label>',
+        '<input id="polyline-dash-section-length" class="input" type="number" min="1"  step="1.0" value="16.0" style="width: 75%;"><span>&nbsp;&nbsp;' + Resource.pixel + '</span>',
+        '<label style="font-size:13px;">'+ Resource.polylineTrailPeriod +'</label>',
+        '<input id="polyline-trail-period" class="input" type="number" min="1"  step="1.0" value="2" style="width: 75%;"><span>&nbsp;&nbsp;' + Resource.second + '</span>',
+        '<label style="font-size:13px;">'+ Resource.polylineTrailPercent +'</label>',
+        '<input id="polyline-trail-percent" class="input" type="number" min="0.1" max="1" step="0.1" value="0.3" style="width: 75%;"><span>&nbsp;&nbsp;%</span>',
         '<div class="square">',
         '<label  style="width:100%;">'+ Resource.LineColor +'</label><input class="colorPicker" id="lineColor"/>',
         '</div>',
@@ -324,9 +332,13 @@ define(['./Container',
         });
         handlerLine.drawEvt.addEventListener(function(result){
             handlerLine.polyline.show = false;
-            var linecolor = Cesium.Color.fromCssColorString($("#lineColor").val());
-            var outlinecolor = Cesium.Color.fromCssColorString($("#outlineColor").val());
+            var linecolor = Cesium.Color.fromCssColorString($("#lineColor").spectrum('get').toRgbString());
+            var outlinecolor = Cesium.Color.fromCssColorString($("#outlineColor").spectrum('get').toRgbString());
             var lineWidth = parseFloat($("#lineWidth").val());
+            var outlineWidth = parseFloat($("#outline-width").val());
+            var dashSectionLength = parseFloat($("#polyline-dash-section-length").val());
+            var polylineTrailPeriod = parseFloat($("#polyline-trail-period").val());
+            var polylineTrailPercent = parseFloat($("#polyline-trail-percent").val());
             var array = [].concat(result.object.positions);
             var position = [];
             for(var i = 0, len = array.length; i < len; i ++){
@@ -355,6 +367,7 @@ define(['./Container',
                             positions : Cesium.Cartesian3.fromDegreesArrayHeights(position),
                             width : lineWidth,
                             material : new Cesium.PolylineDashMaterialProperty({
+                                dashLength: dashSectionLength,
                                 color: linecolor?linecolor:Cesium.Color.YELLOW,
                             })
                         }
@@ -366,7 +379,7 @@ define(['./Container',
                             width : lineWidth,
                             material : new Cesium.PolylineOutlineMaterialProperty({
                                 color : linecolor?linecolor:Cesium.Color.YELLOW,
-                                outlineWidth : 2,
+                                outlineWidth : outlineWidth,
                                 outlineColor : outlinecolor?outlinecolor:Cesium.Color.FIREBRICK,
                             })
                         }
@@ -398,8 +411,8 @@ define(['./Container',
                             width : lineWidth,
                             material : new Cesium.PolylineTrailMaterialProperty({
                                  color: linecolor?linecolor:Cesium.Color.YELLOW,
-                                 trailLength : 0.02,
-                                 period :0.3
+                                 trailLength : polylineTrailPercent,
+                                 period :polylineTrailPeriod
                               })
                         }
                     }); break;
