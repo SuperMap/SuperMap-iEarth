@@ -23,7 +23,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                         '<p><span>' + Resource.length + '</span><input type="number" id="box-clip-length" class="input clip-input" min="0" step="1" value="10"><span>&nbsp;米</span></p>',
                         '<p><span>' + Resource.width + '</span><input type="number" id="box-clip-width" class="input clip-input" min="0" step="1" value="10"><span>&nbsp;米</span></p>',
                         '<p><span>' + Resource.height + '</span><input type="number" id="box-clip-height" class="input clip-input" min="0" step="1" value="10"><span>&nbsp;米</span></p>',
-                        '<p><span>' + Resource.rotate + '</span><input type="number" id="box-clip-rotate" class="input clip-input" min="0" max="360" step="1" value="0"><span>&nbsp;度</span></p>',
+                        '<p><span>' + Resource.rotate + '</span><input type="number" id="box-clip-rotate" class="input clip-input" min="-180" max="180" step="1" value="0"><span>&nbsp;度</span></p>',
                         '<a class="ui teal ribbon label">' + Resource.ClipModel + '</a><br><br>',
                         '<select id="box-clip-mode" class="cesium-button" style="font-size: 12px;margin: 0px 0px -5px 0px;width: 90%">',
                             '<option value="clip_behind_all_plane_without_line_frame" selected>' + Resource.CutInsideBoxNOFrame + '</option>',
