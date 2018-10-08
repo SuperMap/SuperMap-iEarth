@@ -93,9 +93,9 @@ define(['./Container',
         '<table>',
         '<tbody>',
         '<tr>',
-        '<td style="padding-top: 10px"><a style="font-size: 25px" id="pureColor" class="iconfont icon-lansekuangicon"></a><label style="margin-right: -18px">'+ Resource.pureColor +'</label></td>',
-        '<td style="padding-top: 10px"><a style="font-size: 25px" id="gridding" class="iconfont icon-plus-gridview"></a><label style="margin-right: -10px">'+ Resource.gridding +'</label></td>',
-        '<td style="padding-top: 10px"><a style="font-size: 25px" id="stripe" class="iconfont icon-ic_texture_px"></a><label style="margin-right: -10px">'+ Resource.stripe +'</label></td>',
+        '<td style="padding-top: 10px" id="pureColor"><a style="font-size: 25px" class="iconfont icon-lansekuangicon"></a><label style="margin-right: -18px">'+ Resource.pureColor +'</label></td>',
+        '<td style="padding-top: 10px" id="gridding"><a style="font-size: 25px" class="iconfont icon-plus-gridview"></a><label style="margin-right: -10px">'+ Resource.gridding +'</label></td>',
+        '<td style="padding-top: 10px" id="stripe"><a style="font-size: 25px" class="iconfont icon-ic_texture_px"></a><label style="margin-right: -10px">'+ Resource.stripe +'</label></td>',
         '</tr>',
         '</tbody>',
         '</table><br><br><br>',
@@ -428,9 +428,8 @@ define(['./Container',
         if($("a").hasClass("selected")){
             $("a").removeClass("selected");
         }
-        else{
-            $(polygon).addClass("selected");
-        }
+        $(polygon).children("a").addClass("selected");
+
         var handlerPolygon = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Polygon,0);
         handlerPolygon.activeEvt.addEventListener(function(isActive){
             if(isActive == true){
