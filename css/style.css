@@ -242,7 +242,7 @@ li.level-one:first-child {
   box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
 } 
 .selected {
-  background: #3f8eb9;
+  background: rgba(63, 142, 185, 0.3);
   -webkit-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
   -moz-box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);
   box-shadow: inset 1px 1px 10px 1px rgba(0,0,0,0.45);

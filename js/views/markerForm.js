@@ -54,14 +54,14 @@ define(['./Container',
         '<table>',
         '<tbody>',
         '<tr>',
-        '<td><a style="font-size: 25px" id="fullLine" class="iconfont icon-line"></a><label style="margin-right: -18px">'+ Resource.fulline +'</label></td>',
-        '<td><a style="font-size: 25px" id="dottedLine" class="iconfont icon-xuxian"></a><label style="margin-right: -10px">'+ Resource.Virtuallinear +'</label></td>',
-        '<td><a style="font-size: 25px" id="outline" class="iconfont icon-xiantiao"></a><label style="margin-right: -10px">'+ Resource.contourline +'</label></td>',
-        '<td><a style="font-size: 25px" id="arrowLine" class="iconfont icon-line-arrow"></a><label style="margin-right: -10px">'+ Resource.arrowline +'</label></td>',
+        '<td id="fullLine"><a style="font-size: 25px" class="iconfont icon-line"></a><label style="margin-right: -18px">'+ Resource.fulline +'</label></td>',
+        '<td id="dottedLine"><a style="font-size: 25px" class="iconfont icon-xuxian"></a><label style="margin-right: -10px">'+ Resource.Virtuallinear +'</label></td>',
+        '<td id="outline"><a style="font-size: 25px" class="iconfont icon-xiantiao"></a><label style="margin-right: -10px">'+ Resource.contourline +'</label></td>',
+        '<td id="arrowLine"><a style="font-size: 25px" class="iconfont icon-line-arrow"></a><label style="margin-right: -10px">'+ Resource.arrowline +'</label></td>',
         '</tr>',
         '<tr>',
-        '<td style="padding-top: 20px"><a style="font-size:25px;" id="glowLine" class="iconfont icon-xiancai5"></a><label style="margin-right: -10px">'+ Resource.Haloline +'</label></td>',
-        '<td style="padding-top: 20px"><a style="font-size:25px;" id="TrailLine" class="iconfont icon-yuanxuxian"></a><label style="margin-right: -10px">'+ Resource.Wakeline +'</label></td>',
+        '<td style="padding-top: 20px" id="glowLine"><a style="font-size:25px;" class="iconfont icon-xiancai5"></a><label style="margin-right: -10px">'+ Resource.Haloline +'</label></td>',
+        '<td style="padding-top: 20px" id="TrailLine"><a style="font-size:25px;" class="iconfont icon-yuanxuxian"></a><label style="margin-right: -10px">'+ Resource.Wakeline +'</label></td>',
         '</tr>',
         '</tbody>',
         '</table>',
@@ -315,9 +315,8 @@ define(['./Container',
         if($("a").hasClass("selected")){
             $("a").removeClass("selected");
         }
-        else{
-            $(line).addClass("selected");
-        }
+        $(line).children("a").addClass("selected");
+
         var  handlerLine = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line);
         handlerLine.activeEvt.addEventListener(function(isActive){
             if(isActive == true){
