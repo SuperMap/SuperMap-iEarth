@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium'],function(Container, Cesium){
+define(['./Container', 'Cesium', '../Util'],function(Container, Cesium, Util){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -16,7 +16,10 @@ define(['./Container', 'Cesium'],function(Container, Cesium){
             if(ua.match(/MicroMessenger/i) == "micromessenger"){
             	me.isWechatBrowser = true;
             }else{
-            	me.isWechatBrowser = false;
+                me.isWechatBrowser = false;
+            }
+            if(window.location.protocol === 'http:'){ // http协议不支持定位服务
+                this.$el.hide();
             }
             this.render();
         },
@@ -38,23 +41,22 @@ define(['./Container', 'Cesium'],function(Container, Cesium){
                 }, function(error){
                     switch(error.code) {
                         case error.PERMISSION_DENIED:
-                            x.innerHTML="User denied the request for Geolocation.";
-                            console.log();
+                            Util.showErrorMsg("用户拒绝了地理定位请求");
                             break;
                         case error.POSITION_UNAVAILABLE:
-                            x.innerHTML="Location information is unavailable."
+                            Util.showErrorMsg("无法获得位置信息");
                             break;
                         case error.TIMEOUT:
-                            x.innerHTML="The request to get user location timed out."
+                            Util.showErrorMsg("请求超时");
                             break;
                         case error.UNKNOWN_ERROR:
-                            x.innerHTML="An unknown error occurred."
+                            Util.showErrorMsg("未知错误");
                             break;
                     }
                 });
             }
             else {
-            	alert(Resource.notSupportLocation);
+                Util.showErrorMsg(Resource.notSupportLocation);
             }
         }
     });

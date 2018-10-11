@@ -176,14 +176,6 @@ function init(Cesium, Zlib) {
                     sceneModel : sceneModel
                 });
                 viewerContainer.addComponent(compassContainer);
-                var locationContainer = new GeoLocation({
-                    sceneModel : sceneModel
-                });
-                viewerContainer.addComponent(locationContainer,new Position({
-                    mode : 'rt',
-                    x : '10px',
-                    y : '150px'
-                }));
                 if(isPCBroswer){
                     var portalFormContainer = new portalForm({
                         sceneModel : sceneModel,
@@ -192,7 +184,23 @@ function init(Cesium, Zlib) {
                     viewerContainer.addComponent(portalFormContainer,new Position({
                         mode : 'rt',
                         x : '10px',
+                        y : '150px'
+                    }));
+                }
+                var locationContainer = new GeoLocation({
+                    sceneModel : sceneModel
+                });
+                if(isPCBroswer){
+                    viewerContainer.addComponent(locationContainer,new Position({
+                        mode : 'rt',
+                        x : '10px',
                         y : '200px'
+                    }));
+                }else{
+                    viewerContainer.addComponent(locationContainer,new Position({
+                        mode : 'rt',
+                        x : '10px',
+                        y : '150px'
                     }));
                 }
 
