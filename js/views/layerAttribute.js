@@ -115,6 +115,8 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<label>偏移单位:</label>',
         '<input type="number" class="input" id="layer-polygon-unit" min="-100" max="100" step="1" value="0">',
 
+        '<label style="font-size: 13px;color: #ffffff;border-bottom: 1px solid #2EC5AD;width: 60%">多边形偏移</label><br><br>',
+
         '</div>',
         '</div></div>'
     ].join('');

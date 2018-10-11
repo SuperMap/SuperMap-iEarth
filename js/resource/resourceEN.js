@@ -164,7 +164,10 @@ define(function(){
         polylineTrailPercent: 'polyline trail percent',
         outlineWidth: 'outline width',
         pixel: 'pixel',
-        second: 'second'
+        second: 'second',
+        PolygonClip: 'polygon clip',
+        PolygonClipOutside: 'clip outside',
+        PolygonClipInside: 'clip inside'
     };
     return ResourceEN;
 });

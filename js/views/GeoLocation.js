@@ -32,13 +32,29 @@ define(['./Container', 'Cesium'],function(Container, Cesium){
         	var me = this;
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                	viewer.scene.camera.flyTo({
-                		destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 500)
-                	});
+                    viewer.scene.camera.flyTo({
+                        destination : Cesium.Cartesian3.fromDegrees(position.coords.longitude, position.coords.latitude, 500)
+                    });
+                }, function(error){
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            x.innerHTML="User denied the request for Geolocation.";
+                            console.log();
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            x.innerHTML="Location information is unavailable."
+                            break;
+                        case error.TIMEOUT:
+                            x.innerHTML="The request to get user location timed out."
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            x.innerHTML="An unknown error occurred."
+                            break;
+                    }
                 });
             }
             else {
-            	laert(Resource.notSupportLocation);
+            	alert(Resource.notSupportLocation);
             }
         }
     });

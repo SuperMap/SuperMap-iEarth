@@ -1,4 +1,4 @@
-define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/PlaneClip'], function (Container, CrossClip, BoxClip, PlaneClip) {
+define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/PlaneClip', '../3DGIS/PolygonClip'], function (Container, CrossClip, BoxClip, PlaneClip, PolygonClip) {
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -16,6 +16,8 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
             '<label for="clipTab2" style="font-size: 13px">' + Resource.PlaneClip + '</label>',
             '<input id="cross-clip-panel-radio" type="radio" name="clipTab">',
             '<label for="cross-clip-panel-radio" id="cross-clip-panel-label" style="font-size: 13px">' + Resource.CrossClip + '</label>',
+            '<input id="polygon-clip-panel-radio" type="radio" name="clipTab">',
+            '<label for="polygon-clip-panel-radio" style="font-size: 13px">' + Resource.PolygonClip + '</label>',
             '<section id="clipContent1" class="params-window-content">',
                 '<div class="ui raised segment" style="margin: 10px; background: #3b4547">',
                     '<div>',
@@ -75,6 +77,21 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                     '</div>',
                 '</div>',
             '</section>',
+            '<section id="polygon-clip-panel">',
+                '<div class="adaptation">',
+                    '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
+                        '<a class="ui blue ribbon label">参数设置</a>',
+                        '<select id="polygon-clip-mode" class="cesium-button" style="font-size: 12px;margin: 0px 0px -5px 0px;width: 90%">',
+                            '<option value="polygon-clip-outside" selected>' + Resource.PolygonClipOutside + '</option>',
+                            '<option value="polygon-clip-inside">' + Resource.PolygonClipInside + '</option>',
+                        '</select><br/><br/>',
+                        '<div>',
+                            '<button id="clear-polygon-clip" class="btn btn-info" style="float:right">清除</button>',
+                            '<button id="choose-polygon-clip-pos" class="btn btn-info" style="float:right">分析</button>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+            '</section/>',
         '</main>'
     ].join('');
     var clipForm = Container.extend({
@@ -88,6 +105,8 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
             'click #clear-box-clip': 'onClearBoxClip',
             'click #choose-cross-clip-pos': 'onCrossClip',
             'click #clear-cross-clip': 'onClearCrossClip',
+            'click #choose-polygon-clip-pos': 'onPolygonClip',
+            'click #clear-polygon-clip': 'onClearPolygonClip',
             'change input[type=file]': 'onInputChange'
         },
         template: _.template(htmlStr),
@@ -129,6 +148,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
             BoxClip.destroy(viewer);
             PlaneClip.destroy(viewer);
             CrossClip.destroy(viewer);
+            PolygonClip.destroy();
         },
         onPlaneClip: function (evt) {
             PlaneClip.startClip(viewer, isPCBroswer);
@@ -156,6 +176,15 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
         },
         onClearCrossClip: function(){
             CrossClip.clear();
+        },
+        onPolygonClip: function(){
+            PolygonClip.startClip(viewer);
+            if (!isPCBroswer) {
+                this.$el.hide();
+            }
+        },
+        onClearPolygonClip: function(){
+            PolygonClip.clear();
         }
     });
     return clipForm;

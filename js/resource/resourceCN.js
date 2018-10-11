@@ -313,7 +313,10 @@ define(function(){
         polylineTrailPercent: '尾迹线占比',
         outlineWidth: '轮廓宽度',
         pixel: '像素',
-        second: '秒'
+        second: '秒',
+        PolygonClip: '多边形裁剪',
+        PolygonClipOutside: '裁剪外部',
+        PolygonClipInside: '裁剪内部'
     };
     return ResourceCN;
 });

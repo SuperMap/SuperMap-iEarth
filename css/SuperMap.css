@@ -2785,7 +2785,8 @@ main input:checked + label {
 
 #clipTab1:checked ~ #clipContent1,
 #clipTab2:checked ~ #clipContent2,
-#cross-clip-panel-radio:checked ~ #cross-clip-panel{
+#cross-clip-panel-radio:checked ~ #cross-clip-panel,
+#polygon-clip-panel-radio:checked ~ #polygon-clip-panel{
 	display: block;
 }
 
