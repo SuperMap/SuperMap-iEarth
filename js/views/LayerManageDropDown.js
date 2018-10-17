@@ -86,27 +86,63 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 color: '#fff',
                 onNodeChecked: function (evt, node) {
                     var layerModel = node.layerModel;
-                    var ids = [];
-                    var url = layerModel.get('url');
-                    var components = nodeListInfo[url];
-                    for (var i = 0; i < components[0].length; i++) {
-                        if (components[0][i] == node.text) {
-                            ids = components[1][i];
+                    if (layerModel){
+                        var url = layerModel.get('url');
+                        if(url) {
+                            var ids = [];
+                            var components = nodeListInfo[url];
+                            for (var i = 0; i < components[0].length; i++) {
+                                if (components[0][i] == node.text) {
+                                    ids = components[1][i];
+                                }
+                            }
+                            layerModel && layerModel.setVisible(true, ids);
+                        } else { // KML
+                            layerModel && layerModel.setVisible(true);
+                        }
+                    } else { // 图层组的显隐
+                        for (var subNode of node.nodes) { // 遍历子节点
+                            if (subNode.nodes) { // 点击的是最顶层节点“图层列表”，subNode对应S3M或KML等的图层组
+                                for (var innerSubNode of subNode.nodes) { // innerSubNode对应具体的S3M或KML图层
+                                    var innerSubLayerModel = innerSubNode.layerModel;
+                                    innerSubLayerModel && innerSubLayerModel.setVisible(true, []);
+                                }
+                            } else { // 点击的是普通图层组，比如“S3M图层”
+                                var subLayerModel = subNode.layerModel; // subNode对应具体的S3M等类型的图层
+                                subLayerModel && subLayerModel.setVisible(true, []);
+                            }
                         }
                     }
-                    layerModel && layerModel.setVisible(true, ids);
                 },
                 onNodeUnchecked: function (evt, node) {
                     var layerModel = node.layerModel;
-                    var ids = [];
-                    var url = layerModel.get('url');
-                    var components = nodeListInfo[url];
-                    for (var i = 0; i < components[0].length; i++) {
-                        if (components[0][i] == node.text) {
-                            ids = components[1][i];
+                    if (layerModel) {
+                        var url = layerModel.get('url');
+                        if (url) {
+                            var ids = [];
+                            var components = nodeListInfo[url];
+                            for (var i = 0; i < components[0].length; i++) {
+                                if (components[0][i] == node.text) {
+                                    ids = components[1][i];
+                                }
+                            }
+                            layerModel && layerModel.setVisible(false, ids);
+                        } else { // KML
+                            layerModel && layerModel.setVisible(false);
+                        }
+                    } else { // 图层组的显隐
+                        for (var subNode of node.nodes) { // 遍历子节点
+                            if (subNode.nodes) { // 点击的是最顶层节点“图层列表”，subNode对应S3M或KML等的图层组
+                                for (var innerSubNode of subNode.nodes) { // innerSubNode对应具体的S3M或KML图层
+                                    var innerSubLayerModel = innerSubNode.layerModel;
+                                    innerSubLayerModel && innerSubLayerModel.setVisible(false, []);
+                                }
+                            } else { // 点击的是普通图层组，比如“S3M图层”
+                                var subLayerModel = subNode.layerModel; // subNode对应具体的S3M等类型的图层
+                                subLayerModel && subLayerModel.setVisible(false, []);
+                            }
                         }
                     }
-                    layerModel && layerModel.setVisible(false, ids);
                 },
                 onNodeRemove: function (evt, node) {
                     var layerModel = node.layerModel;
