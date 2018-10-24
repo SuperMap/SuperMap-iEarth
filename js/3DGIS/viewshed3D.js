@@ -7,6 +7,8 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     var point;
     var vsPointHandler;
     var clickFlag = 0;
+    var longClick=0;
+    var timeOutEvent = 0;
     viewshed.remove = function(viewer){
         var scene = viewer.scene;
         scene.viewFlag = true;
@@ -18,6 +20,48 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             viewshed3D.destroy();
             viewshed3D = undefined;
         }
+    };
+
+    var touchstartFunc = function(e) {
+        longClick=0;//设置初始为0
+        timeOutEvent = setTimeout(function(){
+            //此处为长按事件-----在此显示遮罩层及删除按钮
+            longClick=1;//假如长按，则设置为1
+        },500);
+    };
+
+    var touchmoveFunc = function(e) {
+        clearTimeout(timeOutEvent);
+        timeOutEvent = 0;
+        e.preventDefault();
+    };
+
+    var touchendFunc = function(viewer, store, sceneModel) {
+        clearTimeout(timeOutEvent);
+        if(timeOutEvent!=0 && longClick==1) { // 长按
+            if (!viewer.scene.viewFlag) {
+                viewer.scene.viewFlag = true;
+                $('#direction').val(viewshed3D.direction);
+                $('#viewshed-pitch').val(viewshed3D.pitch);
+                $('#distance').val(viewshed3D.distance);
+                $('#horizontalFov').val(viewshed3D.horizontalFov);
+                $('#verticalFov').val(viewshed3D.verticalFov);
+            }
+            store.viewPosition = viewshed3D.viewPosition;
+            store.distance = viewshed3D.distance;
+            store.pitch = viewshed3D.pitch;
+            store.direction = viewshed3D.direction;
+            store.verticalFov = viewshed3D.verticalFov;
+            store.horizontalFov = viewshed3D.horizontalFov;
+            sceneModel.analysisObjects.viewshed3DStore = store;
+
+            $("#cesiumContainer").off('touchstart');
+            $("#cesiumContainer").off('touchmove');
+            $("#cesiumContainer").off('touchend');
+
+        }
+
+        return false;
     };
     viewshed.initializing = function(viewer, sceneModel){
         var scene = viewer.scene;
@@ -220,6 +264,9 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             viewshed3D.horizontalFov = store.horizontalFov;
         }
 
+        $("#cesiumContainer").on('touchstart', touchstartFunc);
+        $("#cesiumContainer").on('touchmove', touchmoveFunc);
+        $("#cesiumContainer").on('touchend', touchendFunc.bind(this, viewer, store, sceneModel));
 
         vsPointHandler.activate();
     }
