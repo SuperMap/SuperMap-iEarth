@@ -440,11 +440,12 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                         }else{
                             e.returnValue = false;
                         }
+                        let clientY;
                         if(splitDirection === Cesium.SplitDirection.LEFT || splitDirection === Cesium.SplitDirection.RIGHT){
                             verticalSlider.style.left = e.clientX + 'px';
                             splitPosition = e.clientX;
                         }else if(splitDirection === Cesium.SplitDirection.TOP || splitDirection === Cesium.SplitDirection.BOTTOM){
-                            let clientY = e.clientY;
+                            clientY = e.clientY;
                             if(clientY < 0){
                                 clientY = 0;
                             }else if(clientY > windowHeight){

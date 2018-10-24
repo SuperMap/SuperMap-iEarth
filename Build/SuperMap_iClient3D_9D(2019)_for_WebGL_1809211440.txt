@@ -10,7 +10,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  webglreport.html
 ©¦  
 ©À©¤Build
-©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1809131631.txt
+©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1809211440.txt
 ©¦  ©¦  
 ©¦  ©À©¤Cesium
 ©¦  ©¦  ©¦  Cesium.js
@@ -377,6 +377,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  ©¦  ©¦      TouchZoom.svg
 ©¦  ©¦  ©¦  ©¦  ©¦      
 ©¦  ©¦  ©¦  ©¦  ©À©¤PlotImages
+©¦  ©¦  ©¦  ©¦  ©¦      pointRed_Go.png
 ©¦  ©¦  ©¦  ©¦  ©¦      pointWhite_Go.png
 ©¦  ©¦  ©¦  ©¦  ©¦      pointYellow_Go.png
 ©¦  ©¦  ©¦  ©¦  ©¦      
@@ -1005,6 +1006,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  clip.html
     ©¦  clipbox.html
     ©¦  clipCross.html
+    ©¦  clipPolygon.html
     ©¦  colorCorrection.html
     ©¦  config.js
     ©¦  digTerrain.html
@@ -1096,6 +1098,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  viewshed3D.html
     ©¦  windmap.html
     ©¦  windParticle.html
+    ©¦  wireframe.html
     ©¦  
     ©À©¤css
     ©¦      AdminLTE.min.css
@@ -1551,6 +1554,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      clip.jpg
     ©¦      clipbox.jpg
     ©¦      clipCross.jpg
+    ©¦      clipPolygon.jpg
     ©¦      colorCorrection.jpg
     ©¦      digTerrain.jpg
     ©¦      draw.jpg
@@ -1639,6 +1643,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      viewshed3D.jpg
     ©¦      windmap.jpg
     ©¦      windParticle.jpg
+    ©¦      wireframe.jpg
     ©¦      µþ¼Ó¶þÎ¬µØÍ¼.jpg
     ©¦      
     ©À©¤js
@@ -1708,6 +1713,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  ©¦  turf.min.js
     ©¦  ©¦  underscore-min.1.4.4.js
     ©¦  ©¦  utils.js
+    ©¦  ©¦  vue.min.js
     ©¦  ©¦  widgets.js
     ©¦  ©¦  world.js
     ©¦  ©¦  world.json

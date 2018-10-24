@@ -20,7 +20,7 @@ define(['./Container','../lib/qrcode.min'],function(Container){
         '<label style="font-style:italic;">离线服务只为本地分享</label>',
         '</div>',
         '<div style="float: right;text-align:center;margin:0 auto;">',
-        '<div id="qrcode"></div>',
+        '<div class="qrcode"></div>',
         '<label style="float: left">"扫一扫"分享iEarth</label><br>',
         '<div class="m-box" style="float: right;margin-right: 60px">',
         '<div class="icn"><a href="#" class="wb8" id="shareToFacebook"></a></div>',
@@ -79,8 +79,8 @@ define(['./Container','../lib/qrcode.min'],function(Container){
                         $(".secretKey").val(keyLink);
                         $(".webpage").val("<iframe src=" + keyLink + "<iframe>");
                         $(".shareID").html(me.sceneName + "·三维场景分享");
-                        var content = document.getElementById("qrcode");
-                        var qrcode = new QRCode(content, {
+                        var content = document.getElementsByClassName("qrcode");
+                        var qrcode = new QRCode(content[content.length -1], {
                             width: 120,
                             height: 120
                         });

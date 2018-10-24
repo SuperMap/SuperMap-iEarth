@@ -7,13 +7,13 @@ html, body, #cesiumContainer {
     background-color: #000000;
 
     /* 禁止文字被鼠标选中 */
-    moz-user-select: -moz-none;
-    -moz-user-select: none;
-    -o-user-select:none;
-    -khtml-user-select:none;
-    -webkit-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
+    moz-user-select: -moz-none !important;
+    -moz-user-select: none !important;
+    -o-user-select:none !important;
+    -khtml-user-select:none !important;
+    -webkit-user-select:none !important;
+    -ms-user-select:none !important;
+    user-select:none !important;
 }
 
 ul {

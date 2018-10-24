@@ -70,7 +70,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             var me = this;
             $.ajax({
                 type: "GET",
-                url: appsRoot + "/web/scenes.json",
+                url: appsRoot + "/web/mycontent/scenes.json",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success : function (jsonResult) {
@@ -92,7 +92,12 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                               //     sceneModel.parsePortalJson(json);
                               //     me.$el.hide();
                               // });
-                              var thumbnail =  appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
+                              var thumbnail;
+                              if(json.content) {
+                                  thumbnail = appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
+                              }else{
+                                  thumbnail = Window.iportalAppsRoot + '/static/iearth/'+'images/sceneThumbnail.png';
+                              }
                               var sceneThumbnail = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + ' title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel" id = ' + json.name +"label" + '>' + json.name + "·分享"+'</div></div>';
                               $('#scenePreview').append(sceneThumbnail);
                               $("#"+json.name).append("<div id='sceneShare' style='float: right;right: 0px;bottom: 0px;background-color: #3c5876'>" + json.userName + "</div>");
@@ -111,7 +116,15 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                               })
                               $("#"+json.name).on('click',function(){
                                   $("#"+json.name).addClass('service-itemIcon-selected');
-                                  sceneModel.parsePortalJson(json);
+                                  if(json.content){
+                                      sceneModel.parsePortalJson(json);
+                                  }else {
+                                      var cesiumScene =  json.url;
+                                      var url = cesiumScene.match(/realspace(\S*)/)[1];
+                                      var regexp = new RegExp(url);
+                                      cesiumScene = cesiumScene.replace(regexp,"");
+                                      sceneModel.openScene(cesiumScene);
+                                  }
                               });
                           }
                           }

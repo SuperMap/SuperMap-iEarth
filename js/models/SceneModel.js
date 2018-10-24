@@ -51,9 +51,7 @@ define([
                             roll : cameraStore.roll
                         }
                     });
-                    me.analysisObjects = sceneContent.analysisObjects;
-                    me.terrainObjects = sceneContent.terrainObjects;
-                    var parseObject = new parsePortalJson(me);
+                    var parseObject =sceneContent.parseObject;
                     parseObject.initialize();
                 }
             })
@@ -357,6 +355,10 @@ define([
                 this.setBaseLayer(baseLayerModel);
             }
             var layersStore = sceneContent.layers;
+            this.analysisObjects = sceneContent.analysisObjects;
+            this.terrainObjects = sceneContent.terrainObjects;
+            var parseObject = new parsePortalJson(this);
+            sceneContent.parseObject = parseObject;
             for(var i = 0; i < layersStore.length; i++){
                 var layerModel = new LayerModel(layersStore[i]);
                 this.addLayer(layerModel,sceneContent);
