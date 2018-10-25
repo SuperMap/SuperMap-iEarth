@@ -399,7 +399,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             sgline.highlightBarrier(viewer);
         },
         onProfileClk : function(evt){
-            profile.initializing(viewer,parentContainer,sceneModel);
+            profile.initializing(viewer,parentContainer,sceneModel, isPCBroswer);
             if(!isPCBroswer){
                 this.$el.hide();
             }

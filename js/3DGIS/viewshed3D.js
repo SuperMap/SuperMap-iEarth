@@ -23,10 +23,10 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
     };
 
     var touchstartFunc = function(e) {
-        longClick=0;//设置初始为0
+        longClick = 0;//设置初始为0
         timeOutEvent = setTimeout(function(){
             //此处为长按事件-----在此显示遮罩层及删除按钮
-            longClick=1;//假如长按，则设置为1
+            longClick = 1;//假如长按，则设置为1
         },500);
     };
 
@@ -55,12 +55,11 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             store.horizontalFov = viewshed3D.horizontalFov;
             sceneModel.analysisObjects.viewshed3DStore = store;
 
-            $("#cesiumContainer").off('touchstart');
-            $("#cesiumContainer").off('touchmove');
-            $("#cesiumContainer").off('touchend');
+            $('#cesiumContainer').off('touchstart');
+            $('#cesiumContainer').off('touchmove');
+            $('#cesiumContainer').off('touchend');
 
         }
-
         return false;
     };
     viewshed.initializing = function(viewer, sceneModel){
@@ -264,9 +263,9 @@ define(['Cesium','spectrum','drag'],function(Cesium) {
             viewshed3D.horizontalFov = store.horizontalFov;
         }
 
-        $("#cesiumContainer").on('touchstart', touchstartFunc);
-        $("#cesiumContainer").on('touchmove', touchmoveFunc);
-        $("#cesiumContainer").on('touchend', touchendFunc.bind(this, viewer, store, sceneModel));
+        $('#cesiumContainer').on('touchstart', touchstartFunc);
+        $('#cesiumContainer').on('touchmove', touchmoveFunc);
+        $('#cesiumContainer').on('touchend', touchendFunc.bind(this, viewer, store, sceneModel));
 
         vsPointHandler.activate();
     }

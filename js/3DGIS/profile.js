@@ -9,8 +9,8 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
   * 分析结果小窗口显示
   *
   * */
-    var handlerLine;
-    var line
+    var handlerLine, screenSpaceEventHandler = null, positions = [];
+    var line;
     var profile = function () {
     };
     var crossProfile;
@@ -35,7 +35,7 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
         }
     };
 
-    profile.initializing = function(viewer,parent,sceneModel){
+    profile.initializing = function(viewer, parent, sceneModel, isPCBroswer){
         var scene = viewer.scene;
         if(!crossProfile){
             crossProfile = new Cesium.Profile(scene);
@@ -58,9 +58,9 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
         handlerLine.movingEvt.addEventListener(function(windowPosition){
         });
         handlerLine.drawEvt.addEventListener(function(result) {
-            line=result.object;
-            var startPoint = line._positions[0];
-            var endPoint = line._positions[line._positions.length - 1];
+            var linePosition = result.object ? result.object.positions : result;
+            var startPoint = linePosition[0];
+            var endPoint = linePosition[linePosition.length - 1];
 
             //起止点相关信息
             var scartographic = Cesium.Cartographic.fromCartesian(startPoint);
@@ -114,8 +114,21 @@ define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Con
                 }
             });
             crossProfile.build();
+            positions = [];
         });
         handlerLine.activate();
+
+        if(!isPCBroswer) {
+            screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            screenSpaceEventHandler.setInputAction(function (evt) {
+                positions.push(viewer.scene.pickPosition(evt.position));
+                if (positions.length >= 2) {
+                    handlerLine.drawEvt.raiseEvent(positions);
+                    handlerLine.deactivate();
+                    screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        }
 
         var store = {};
         store.startPoint = crossProfile.startPoint;
