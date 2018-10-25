@@ -408,7 +408,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             profile.remove(viewer,parentContainer,sceneModel);
         },
         onChooseViewClk : function(evt){
-            viewshed.initializing(viewer,sceneModel);
+            viewshed.initializing(viewer,sceneModel, isPCBroswer);
             if(!isPCBroswer){
                 this.$el.hide();
             }
