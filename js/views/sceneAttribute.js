@@ -125,12 +125,18 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '</div>',
         '<div>',
         '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
-        '<label style=" text-align: center; font-size: 16px">版本 ： 1.0</label><br><br><br><br>',
+        '<label style=" text-align: center; font-size: 16px">版本 ： 1.1</label><br><br><br><br>',
         '<label>'+Resource.newContent +'</label><br><br>',
         '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
-        "1、支持打开iPortal注册的服务\n"+
-        "2、加速初始化\n"+
-        "3、部分界面调整\n"+
+        "1、增加多边形裁剪功能模块\n"+
+        "2、增加Cross裁剪功能模块\n"+
+        "3、S3M图层支持填充风格和线框模式选择\n"+
+        "4、S3M图层支持选中偏移功能\n"+
+        "5、S3M图层支持模型颜色控制\n"+
+        "6、S3M图层支持模型上的淹没分析\n"+
+        "6、S3M图层支持多边形偏移功能\n"+
+        "7、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n"+
+        "8、支持面符号设置颜色\n"+
         '</textarea>',
         '</div>',
         '</div>',
