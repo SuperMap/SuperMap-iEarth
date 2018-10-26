@@ -152,6 +152,8 @@ define(['Cesium'], function (Cesium) {
             sgLine.remove(viewer);
         };
 
+
+
         if (sceneModel.analysisObjects.sightLineStore && clickFlag < 2) {
             var store = sceneModel.analysisObjects.sightLineStore;
             sightline.viewPosition = store.viewPosition;

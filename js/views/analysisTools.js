@@ -23,7 +23,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         /*'<input id="tab4" type="radio" name="tabs">',
          '<label for="tab4" style="font-size: 13px">' + '视频' + '</label>',*/
         '<section id="content1">',
-        '<div class="adaptation">',
+        '<div class="adaptation" id="content1-adaptation">',
         '<div class="ui raised segment" style="margin: 10px; background: #3b4547 ">',
         '<a class="ui blue ribbon label">' + Resource.ObserverInformation +'</a>',
         '<div>',
@@ -243,7 +243,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
             'click #getSkyline'  : 'onGetSkylineClk',
             'click #skyline-highlight-barrier': 'onSkylineHighlightBarrier',
             'click #profileDel'  : 'onProfileDelClk',
-            'click #clickQuery'  : 'onClickQueryClk',
+            'click #clickQuery'  : 'onClickQueryClk'
         },
         initialize : function(options){
             this.viewer = options.sceneModel.viewer;

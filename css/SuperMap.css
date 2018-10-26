@@ -863,12 +863,19 @@ ul#progress li:first-child {
 	top : 10%;
 	width: 300px;
 }
+
+@media screen and (max-width: 1024px) {
+	#content1-adaptation {
+		max-height: 400px;
+		overflow: auto;
+	}
+}
+
 #layerTree {
 	height: 590px;
 	overflow:auto
 }
-/*---------媒锟斤拷锟窖� start--------------*/
-/*-- iPad 1024X768 锟斤拷锟斤拷*/
+/*--------- start --------------*/
 @media screen and (max-width : 1024px) {
 	.myModal-header ul {
 		display: none;
@@ -910,7 +917,7 @@ ul#progress li:first-child {
     }
 }
 
-/*-- iPad 1024X768 锟斤拷锟斤拷*/
+/* iPad 1024X768 */
 @media screen and (max-width : 768px) {
 	.myModal-header ul {
 		display: none;
@@ -953,12 +960,7 @@ ul#progress li:first-child {
 		top: 10%;
 		right:50px;
 	}
-	/*.secne-logo{
-		left: 20px;
-		bottom: 80px;
-		position: absolute;
-		max-width: 140px;
-	}*/
+
 	.data-source{
 		bottom: 1.8rem;
 		position: absolute;
@@ -985,12 +987,7 @@ ul#progress li:first-child {
 		max-height: 400px;
 		overflow:auto;
 	}
-	/*.secne-logo{
-		left: 10px;
-		bottom: 50px;
-		position: absolute;
-		max-width: 80px;
-	}*/
+
 	.cesium-credit-image img{
 		width: 110px;
 	}
@@ -998,7 +995,7 @@ ul#progress li:first-child {
 
 /*------------------------------------*/
 
-/*-- iphone 6 plus 414x736 锟斤拷锟斤拷*/
+/*-- iphone 6 plus */
 @media screen and (max-width : 414px) and (max-height : 744px) {
 	.myModal-header ul {
 		display: none;
@@ -1024,7 +1021,7 @@ ul#progress li:first-child {
         min-width: 150px;
     }
 }
-/*-- iphone 6 plus 414x736d 锟斤拷锟斤拷*/
+/*-- iphone 6 plus 414x736d */
 @media screen and (max-width : 736px) and (max-height : 414px) {
 	.myModal-header ul {
 		display: none;
@@ -1051,7 +1048,7 @@ ul#progress li:first-child {
     }
 }
 
-/*-- iPhone 6 375x667 锟斤拷锟斤拷*/
+/*-- iPhone 6 375x667 */
 @media screen and (max-width : 375px) and (max-height : 675px) {
 	.service-item {
 		width: 206px;
@@ -1063,7 +1060,7 @@ ul#progress li:first-child {
 		text-align: center;
 	}
 }
-/*-- iPhone 6 375x667 锟斤拷锟斤拷*/
+/*-- iPhone 6 375x667 */
 @media screen and (max-width : 667px) and (max-height : 375px) {
 	.service-item {
 		width: 140px;
@@ -1076,14 +1073,14 @@ ul#progress li:first-child {
     }
 }
 
-/*-- Galaxy S5 360X640 锟斤拷锟斤拷*/
+/*-- Galaxy S5 360X640 */
 @media screen and (max-width : 360px) and (max-height : 648px) {
 	.service-items {
 		max-height: 470px;
 	}
 }
 
-/*-- Galaxy S5 360X640 锟斤拷锟斤拷*/
+/*-- Galaxy S5 360X640 */
 @media screen and (max-width : 640px) and (max-height : 360px) {
 	.service-items {
 		max-height: 200px;
@@ -1096,7 +1093,7 @@ ul#progress li:first-child {
     }
 }
 
-/*-- iPhone 5 320x568 锟斤拷锟斤拷*/
+/*-- iPhone 5 320x568 */
 @media screen and (max-width : 320px) and (max-height : 576px) {
 	.myModal-content {
 		top: 10%;
@@ -1116,7 +1113,7 @@ ul#progress li:first-child {
         min-width:  150px;
     }
 }
-/*-- iPhone 5 320x568 锟斤拷锟斤拷*/
+/*-- iPhone 5 320x568 */
 @media screen and (max-width : 568px) and (max-height : 320px) {
 	.myModal-content {
 		top: 15%;
@@ -1137,13 +1134,13 @@ ul#progress li:first-child {
     }
 }
 
-/*-- huawei p8 360X511 锟斤拷锟斤拷*/
+/*-- huawei p8 360X511 */
 @media screen and (max-width : 360px) and (max-height : 519px) {
 	.service-items {
 		max-height: 360px;
 	}
 }
-/*-- huawei p8 360X511 锟斤拷锟斤拷*/
+/*-- huawei p8 360X511 */
 @media screen and (max-width : 598px) and (max-height : 279px) {
 	.baselayer-container .service-item {
 		width: 100px;
@@ -1162,7 +1159,7 @@ ul#progress li:first-child {
 }
 }
 
-/*---------媒锟斤拷锟窖� END--------------*/
+/*--------- END--------------*/
 .myDropdown-menu {
 	/* background-color : rgba(40,42,43,0.4); */
 	background-color: rgba(38, 38, 38, 0.75);
@@ -2641,7 +2638,6 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     text-decoration: underline;
 }
 
-
 .sp-palette span:hover, .sp-palette span.sp-thumb-active
 {
     border-color: #000;
@@ -2683,10 +2679,6 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 /******ColorPicker end*******/
 .input {
 	width: 90%;
-	/*background-color: rgba(38, 38, 38, 0.75);*/
-	/*color:#ffffff ;*/
-	/*border:1px solid #D3D3D3*/
-
 	height: 25px;
 	color: lightgray;
 	background-color: #333;
@@ -2812,11 +2804,7 @@ main input:checked + label {
     color: #fff;
   }
 }
-/* @media screen and (max-width: 400px) {
-  label {
-    padding: 15px;
-  }
-} */
+
 main section label{
 	width: 100%;
     color: lightgrey;
