@@ -234,7 +234,7 @@ function init(Cesium, Zlib) {
                                             sceneModel.parsePortalJson(json);
                                         }else {
                                             var cesiumScene =  json.url;
-                                            var url = cesiumScene.match(/realspace(\S*)/)[1];
+                                            var url = cesiumScene.match(/\/rest\/realspace(\S*)/)[1];
                                             var regexp = new RegExp(url);
                                             cesiumScene = cesiumScene.replace(regexp,"");
                                             sceneModel.openScene(cesiumScene);
