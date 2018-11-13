@@ -48,9 +48,9 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '</select>',
 
         '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
-        '<div class="param-item" style="display: block;"><span>经度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
-        '<div class="param-item" style="display: block;"><span>纬度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>',
-        '<div class="param-item" style="display: block;"><span>高度</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>',
+        '<div class="param-item" style="display: block;"><span>'+Resource.Spacelongitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
+        '<div class="param-item" style="display: block;"><span>'+Resource.Spacelatitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>',
+        '<div class="param-item" style="display: block;"><span>'+Resource.Spacealtitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>',
         '</div>',
         '<div>',
         '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">'+ Resource.earth +'</label></div>',
