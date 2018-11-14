@@ -183,8 +183,8 @@
         date : 'Date selection',
         time : 'Time',
         length :'Length：',
-        width : 'Width：',
-        height : 'Height：',
+        width : 'Width',
+        height : 'Height',
         firstPoint : 'First point',
         secondPoint : 'Second point',
         thirdPoint : 'Third point',
@@ -351,7 +351,15 @@
         SketchWireframeMode: 'Sketch Wireframe',
         PolygonOffset: 'Polygon Offset',
         PolygonOffsetFactor: 'Polygon Offset Factor',
-        PolygonOffsetUnit: 'Polygon Offset Unit'
+        PolygonOffsetUnit: 'Polygon Offset Unit',
+        SceneSave: 'Scene Save',
+        SaveDate: 'Save Date',
+        SceneName: 'Scene Name',
+        SceneLabel: 'Scene Label',
+        UpdateCurrentScene: 'Update Current Scene',
+        iEarthScene: 'iEarth Scene',
+        ShareErrorMsg: 'get scene failed, please login first...',
+        ClickToSearchAltitude: 'Click To Search Altitude'
     };
     return ResourceEN;
 });

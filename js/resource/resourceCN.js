@@ -351,7 +351,15 @@ define(function(){
         SketchWireframeMode: '草图模式',
         PolygonOffset: '多边形偏移',
         PolygonOffsetFactor: '偏移因子',
-        PolygonOffsetUnit: '偏移单位'
+        PolygonOffsetUnit: '偏移单位',
+        SceneSave: '场景保存',
+        SaveDate: '存储日期',
+        SceneName: '场景名称',
+        SceneLabel: '场景标签',
+        UpdateCurrentScene: '更新当前场景',
+        iEarthScene: 'iEarth场景',
+        ShareErrorMsg: '场景信息获取失败！请先登陆iPortal或Online账户......',
+        ClickToSearchAltitude: '点击查询高程'
     };
     return ResourceCN;
 });

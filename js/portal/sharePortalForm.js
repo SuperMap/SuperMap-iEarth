@@ -11,7 +11,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeShare" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
 
         '<input id="portalTab2" type="radio" name="portalTab">',
-        '<label for="portalTab2" id="portalTab2Lab" style="font-size: 13px;">' + "iEarth场景" + '</label>',
+        '<label for="portalTab2" id="portalTab2Lab" style="font-size: 13px;">' + Resource.iEarthScene + '</label>',
 
         '<section id="portalTabContent2">',
         '<h1 class="title"></h1>',
@@ -133,7 +133,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 },
                 error: function()
                 {
-                    Util.showErrorMsg("场景信息获取失败！请先登陆iPortal或Online账户......");
+                    Util.showErrorMsg(Resource.ShareErrorMsg);
                 },
             });
         }

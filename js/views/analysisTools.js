@@ -130,7 +130,7 @@ define(['./Container','../lib/Semantic/semantic','../lib/knob','../3DGIS/viewshe
         '<a class="ui teal ribbon label">'+ Resource.height +'</a>',
         '<div style="">',
         '<label>'+ Resource.bottomAltitude +'</label>',
-        '<input id="bottomHeight" class="input" value="20" style="width: 55%"/><button id="clickQuery" class="btn btn-info" style="margin-top: -5px">点击查询高程</button>',
+        '<input id="bottomHeight" class="input" value="20" style="width: 55%"/><button id="clickQuery" class="btn btn-info" style="margin-top: -5px">'+Resource.ClickToSearchAltitude+'</button>',
         '</div>',
         '<div style="">',
         '<label>'+ Resource.extrudeHeight +'</label>',
