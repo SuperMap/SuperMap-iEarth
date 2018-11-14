@@ -359,7 +359,10 @@
         UpdateCurrentScene: 'Update Current Scene',
         iEarthScene: 'iEarth Scene',
         ShareErrorMsg: 'get scene failed, please login first...',
-        ClickToSearchAltitude: 'Click To Search Altitude'
+        ClickToSearchAltitude: 'Click To Search Altitude',
+        UnNamed: 'UnNamed',
+        SurfaceTransparency: 'Surface Transparency',
+        Version: 'Version'
     };
     return ResourceEN;
 });

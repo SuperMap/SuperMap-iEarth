@@ -359,7 +359,10 @@ define(function(){
         UpdateCurrentScene: '更新当前场景',
         iEarthScene: 'iEarth场景',
         ShareErrorMsg: '场景信息获取失败！请先登陆iPortal或Online账户......',
-        ClickToSearchAltitude: '点击查询高程'
+        ClickToSearchAltitude: '点击查询高程',
+        UnNamed: '未命名',
+        SurfaceTransparency: '地表透明度',
+        Version: '版本'
     };
     return ResourceCN;
 });

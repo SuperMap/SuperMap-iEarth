@@ -118,14 +118,14 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">',
         '<label>' + Resource.cameraMinimumZoomDistance + '</label>',
         '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />',
-        '<label >'+ "地表透明度" +'</label>',
+        '<label >'+ Resource.SurfaceTransparency +'</label>',
         '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="groundAlpha" min="0" max="1.0" step="0.01" value="1.0">',
         '</div>',
 
         '</div>',
         '<div>',
         '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
-        '<label style=" text-align: center; font-size: 16px">版本 ： 1.1</label><br><br><br><br>',
+        '<label style=" text-align: center; font-size: 16px">'+Resource.Version+' ： 1.1</label><br><br><br><br>',
         '<label>'+Resource.newContent +'</label><br><br>',
         '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
         "1、增加多边形裁剪功能模块\n"+
@@ -359,7 +359,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                     $("#sceneName").val(sceneName);
                 }
                 else{
-                    $("#sceneName")[0].value = "未命名";
+                    $("#sceneName")[0].value = Resource.UnNamed;
                 }
                 $('#sceneMode').change(function(){
                     var value = $(this).val();
