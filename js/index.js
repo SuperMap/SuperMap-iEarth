@@ -157,7 +157,6 @@ function init(Cesium, Zlib) {
         }
         $("#loadOverlay").hide();
         $('#loadbar').removeClass('ins');
-        $(".cesium-viewer-navigationContainer").hide();
         $("body").append('<span id="baselayer-source" class="baselayer-source">底图来源：本地图片</span>');
 
         require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm'],
@@ -173,10 +172,14 @@ function init(Cesium, Zlib) {
                 viewerContainer.addComponent(toolBar, new Position());
                 var errorPannel = new ErrorPannel();
                 viewerContainer.addComponent(errorPannel);
-                var compassContainer = new Compass({
-                    sceneModel : sceneModel
-                });
-                viewerContainer.addComponent(compassContainer);
+
+                if (isPCBroswer) {
+                    var compassContainer = new Compass({
+                        sceneModel : sceneModel
+                    });
+                    viewerContainer.addComponent(compassContainer);
+                }
+
                 if(isPCBroswer){
                     var portalFormContainer = new portalForm({
                         sceneModel : sceneModel,
@@ -187,6 +190,8 @@ function init(Cesium, Zlib) {
                         x : '10px',
                         y : '150px'
                     }));
+
+                    $(".cesium-viewer-navigationContainer").hide();
                 }
                 var locationContainer = new GeoLocation({
                     sceneModel : sceneModel
@@ -197,13 +202,13 @@ function init(Cesium, Zlib) {
                         x : '10px',
                         y : '200px'
                     }));
-                }else{
+                }/*else{
                     viewerContainer.addComponent(locationContainer,new Position({
                         mode : 'rt',
                         x : '10px',
                         y : '150px'
                     }));
-                }
+                }*/
 
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
