@@ -362,7 +362,16 @@ define(function(){
         ClickToSearchAltitude: '点击查询高程',
         UnNamed: '未命名',
         SurfaceTransparency: '地表透明度',
-        Version: '版本'
+        Version: '版本',
+        WhatsNew: "1、增加多边形裁剪功能模块\n"+
+        "2、增加Cross裁剪功能模块\n"+
+        "3、S3M图层支持填充风格和线框模式选择\n"+
+        "4、S3M图层支持选中偏移功能\n"+
+        "5、S3M图层支持模型颜色控制\n"+
+        "6、S3M图层支持模型上的淹没分析\n"+
+        "6、S3M图层支持多边形偏移功能\n"+
+        "7、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n"+
+        "8、支持面符号设置颜色\n"
     };
     return ResourceCN;
 });

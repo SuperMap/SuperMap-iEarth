@@ -362,7 +362,16 @@
         ClickToSearchAltitude: 'Click To Search Altitude',
         UnNamed: 'UnNamed',
         SurfaceTransparency: 'Surface Transparency',
-        Version: 'Version'
+        Version: 'Version',
+        WhatsNew: "1、Add the polygon clipping function module\n"+
+        "2、Add the Cross clip function module\n"+
+        "3、The S3M layer supports fill style and wireframe mode selection\n"+
+        "4、The S3M layer allows you to select offsets\n"+
+        "5、S3M layer supports model color control\n"+
+        "6、The S3M layer supports flooding analysis on the model\n"+
+        "6、The S3M layer supports polygon migration\n"+
+        "7、Increase the contour width of line symbol, the length of component of dash line, the period of wakes, and the proportion of wakes\n"+
+        "8、Support surface symbols to set colors\n"
     };
     return ResourceEN;
 });

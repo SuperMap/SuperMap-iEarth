@@ -83,7 +83,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<label>' + Resource.threshold + '</label>',
         '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.6" step="0.01">',
         '<label>' + Resource.bloomIntensity + '</label>',
-        '<input type="number"  id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.5">',
+        '<input type="number" id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.5">',
         '</div>',
         '<div>',
         '<label>'+ Resource.flyRoute +'</label><br><br>',
@@ -127,17 +127,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
         '<label style=" text-align: center; font-size: 16px">'+Resource.Version+' ： 1.1</label><br><br><br><br>',
         '<label>'+Resource.newContent +'</label><br><br>',
-        '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' +
-        "1、增加多边形裁剪功能模块\n"+
-        "2、增加Cross裁剪功能模块\n"+
-        "3、S3M图层支持填充风格和线框模式选择\n"+
-        "4、S3M图层支持选中偏移功能\n"+
-        "5、S3M图层支持模型颜色控制\n"+
-        "6、S3M图层支持模型上的淹没分析\n"+
-        "6、S3M图层支持多边形偏移功能\n"+
-        "7、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n"+
-        "8、支持面符号设置颜色\n"+
-        '</textarea>',
+        '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">'+Resource.WhatsNew+'</textarea>',
         '</div>',
         '</div>',
         '</div>',

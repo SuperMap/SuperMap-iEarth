@@ -143,6 +143,7 @@ function init(Cesium, Zlib) {
             description: des
         });
     });
+
     require(['jquery'], function ($) {
         if (!isPCBroswer) {
             var supportsOrientationChange = "onorientationchange" in window,
