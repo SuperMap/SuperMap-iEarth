@@ -128,6 +128,7 @@ function init(Cesium, Zlib) {
     }
     viewer.scene.globe.depthTestAgainstTerrain = true;
     viewer.scene.globe.enableLighting = true;
+
     viewer.camera.setView({
         destination: new Cesium.Cartesian3(6788287.844465209, -41980756.10214644, 29619220.04004376)
     });
@@ -164,6 +165,7 @@ function init(Cesium, Zlib) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
+                $(".cesium-viewer-navigationContainer").hide();
 
                 var toolBar = new ToolBar({
                     sceneModel: sceneModel,
@@ -173,7 +175,7 @@ function init(Cesium, Zlib) {
                 var errorPannel = new ErrorPannel();
                 viewerContainer.addComponent(errorPannel);
 
-                if (isPCBroswer) {
+                if(isPCBroswer){
                     var compassContainer = new Compass({
                         sceneModel : sceneModel
                     });
@@ -190,13 +192,12 @@ function init(Cesium, Zlib) {
                         x : '10px',
                         y : '150px'
                     }));
-
-                    $(".cesium-viewer-navigationContainer").hide();
                 }
-                var locationContainer = new GeoLocation({
-                    sceneModel : sceneModel
-                });
+
                 if(isPCBroswer){
+                    var locationContainer = new GeoLocation({
+                        sceneModel : sceneModel
+                    });
                     viewerContainer.addComponent(locationContainer,new Position({
                         mode : 'rt',
                         x : '10px',

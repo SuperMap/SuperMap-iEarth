@@ -39,13 +39,16 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<option value="QUAD">'+ Resource.quadSnap +'</option>',
         '</select>',
         '<label> '+ Resource.split +'</label>',
-        '<select id="splitType" class="cesium-button">',
+        /*'<select id="splitType" class="cesium-button">',
         '<option value="NONE" selected>'+ Resource.splitNONE +'</option>',
         '<option value="LEFT">'+ Resource.splitLEFT +'</option>',
         '<option value="RIGHT">'+ Resource.splitRIGHT +'</option>',
         '<option value="TOP">'+ Resource.splitTop +'</option>',
         '<option value="BOTTOM">'+ Resource.splitBOTTOM +'</option>',
-        '</select>',
+        '</select>',*/
+
+        '<div style="display: block;"><label for="split-horizontal">横向卷帘</label><input type="checkbox" id="split-horizontal"/></div>',
+        '<div style="display: block;"><label for="split-vertical">纵向卷帘</label><input type="checkbox" id="split-vertical"/></div>',
 
         '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
         '<div class="param-item" style="display: block;"><span>'+Resource.Spacelongitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
