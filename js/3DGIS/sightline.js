@@ -26,6 +26,10 @@ define(['Cesium'], function (Cesium) {
         clickFlag += 1;
         sightline.removeAllTargetPoint();
         viewer.entities.removeAll();
+
+        if (handler) {
+            handler.destroy();
+        }
         handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
         // var visibleColor = document.getElementById('visibleColor');

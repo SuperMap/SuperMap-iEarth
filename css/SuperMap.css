@@ -3063,29 +3063,51 @@ td {text-align:center}
 	max-width: 25%;
 }
 /* -----------------卷帘分割条 start------------------- */
-#verticalSlider {
+#verticalSlider-left {
 	position: absolute;
-	left: 50%;
-	top: 0px;
+	left: 2%;
+	top: 0;
 	background-color: #D3D3D3;
 	width: 5px;
 	height: 100%;
 	z-index: 9999;
 }
-#horizontalSlider {
+
+#verticalSlider-right {
+	position: absolute;
+	right: 2%;
+	top: 0;
+	background-color: #D3D3D3;
+	width: 5px;
+	height: 100%;
+	z-index: 9999;
+}
+
+#horizontalSlider-top {
 	position: absolute;
 	left: 0;
-	top: 50%;
+	top: 2%;
 	background-color: #D3D3D3;
 	width: 100%;
 	height: 5px;
 	z-index: 9999;
 }
-#verticalSlider:hover {
+
+#horizontalSlider-bottom {
+	position: absolute;
+	left: 0;
+	bottom: 2%;
+	background-color: #D3D3D3;
+	width: 100%;
+	height: 5px;
+	z-index: 9999;
+}
+
+#verticalSlider-left:hover, #verticalSlider-right:hover {
 	cursor: ew-resize;
 }
 
-#horizontalSlider:hover{
+#horizontalSlider-top:hover, #horizontalSlider-bottom:hover{
 	cursor: ns-resize;
 }
 

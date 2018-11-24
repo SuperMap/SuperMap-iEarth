@@ -46,14 +46,13 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<option value="TOP">'+ Resource.splitTop +'</option>',
         '<option value="BOTTOM">'+ Resource.splitBOTTOM +'</option>',
         '</select>',*/
-
-        '<div style="display: block;"><label for="split-horizontal">横向卷帘</label><input type="checkbox" id="split-horizontal"/></div>',
-        '<div style="display: block;"><label for="split-vertical">纵向卷帘</label><input type="checkbox" id="split-vertical"/></div>',
+        '<label style="text-indent: 1rem;"><input type="checkbox" id="split-horizontal" style="vertical-align: middle"/>&nbsp;<span style="vertical-align: middle">横向卷帘</span></label>',
+        '<label style="text-indent: 1rem;"><input type="checkbox" id="split-vertical" style="vertical-align: middle"/>&nbsp;<span style="vertical-align: middle">纵向卷帘</span></label>',
 
         '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
-        '<div class="param-item" style="display: block;"><span>'+Resource.Spacelongitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
-        '<div class="param-item" style="display: block;"><span>'+Resource.Spacelatitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>',
-        '<div class="param-item" style="display: block;"><span>'+Resource.Spacealtitude+'</span><input type="text" class="input" style="width: 80%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>',
+        '<div class="param-item" style="display: block;text-indent: 1rem;"><span>'+Resource.Spacelongitude+'</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
+        '<div class="param-item" style="display: block;text-indent: 1rem;"><span>'+Resource.Spacelatitude+'</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>',
+        '<div class="param-item" style="display: block;text-indent: 1rem;"><span>'+Resource.Spacealtitude+'</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>',
         '</div>',
         '<div>',
         '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">'+ Resource.earth +'</label></div>',
@@ -65,7 +64,6 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">'+ Resource.depthAgainst +'</label></div>',
         '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">' + Resource.supermapLogo + '</label></div>',
         '<div class="square" ><input type="checkbox" id="removeInvalidTerrainRegion"/><label for="removeInvalidTerrainRegion">' + Resource.removeInvalidTerrainRegion + '</label></div>',
-
 
         '</div> ',
         '<div>',
@@ -370,6 +368,47 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                     var value = $(this).val();
                     scene.multiViewportMode = Cesium.MultiViewportMode[value];
                 });
+
+                $("#split-horizontal, #split-vertical").on("input propertychange", function() {
+                    if ($(this).attr("id") === "split-horizontal") {
+                        if ($(this).prop("checked")) {
+                            if ($("#verticalSlider-left").length === 0) {
+                                $("#cesiumContainer").append("<div id='verticalSlider-left'></div>");
+                            }
+                            if ($("#verticalSlider-right").length === 0) {
+                                $("#cesiumContainer").append("<div id='verticalSlider-right'></div>");
+                            }
+                            var $verticalSliderLeft = $("#verticalSlider-left");
+                            var $verticalSliderRight = $("#verticalSlider-right");
+                            var middleWidth = $("body").width() / 2;
+                            var layers = viewer.scene.layers._layers._array;
+                        } else {
+                            if ($("#verticalSlider-left").length > 0) {
+                                $("#verticalSlider-left").remove();
+                            }
+                            if ($("#verticalSlider-right").length > 0) {
+                                $("#verticalSlider-right").remove();
+                            }
+                        }
+                    } else if ($(this).attr("id") === "split-vertical") {
+                        if ($(this).prop("checked")) {
+                            if ($("#horizontalSlider-top").length === 0) {
+                                $("#cesiumContainer").append("<div id='horizontalSlider-top'></div>")
+                            }
+                            if ($("#horizontalSlider-bottom").length === 0) {
+                                $("#cesiumContainer").append("<div id='horizontalSlider-bottom'></div>")
+                            }
+                        } else {
+                            if ($("#horizontalSlider-top").length > 0) {
+                                $("#horizontalSlider-top").remove();
+                            }
+                            if ($("#horizontalSlider-bottom").length > 0) {
+                                $("#horizontalSlider-bottom").remove();
+                            }
+                        }
+                    }
+                });
+
                 $('#splitType').change(function(){
                     var value = $(this).val();
                     if(!document.getElementById("verticalSlider")){
