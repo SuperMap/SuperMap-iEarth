@@ -40,7 +40,15 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             this.render();
             this.on('componentAdded',function(parent){
             	// var url = "https://www.supermapol.com/web/services.json?enable=true&checkStatus=SUCCESSFUL&orderBy=UPDATETIME&orderType=DESC&types=[REALSPACE,MAP]&userNames=[399055,361143]&pageSize=18";
-                var url = "http://www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services.json";
+                var lang = navigator.language||navigator.userLanguage;//常规浏览器语言和IE浏览器
+                lang = lang.substr(0, 2);//截取lang前2位字符
+				var url = "";
+				if (lang == 'zh') {
+                    url = "http://www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_CN.json";
+				} else {
+                    url = "http://www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_EN.json";
+				}
+
                 me.currentPublicPage = 1;
             	me.totalPublicPage = 0;
             	me.currentPrivatePage = 1;
@@ -146,7 +154,15 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
         		this.layerCollection.fetch(url,this,false);
         	}else if(value === 'effects'){
                 $("#webServicesWraper").children().remove();
-                Cesium.loadJson("./data/specialEffects.json").then(function(data){
+                var lang = navigator.language||navigator.userLanguage;//常规浏览器语言和IE浏览器
+                lang = lang.substr(0, 2);//截取lang前2位字符
+                var effectUrl = "";
+                if (lang == 'zh') {
+                    effectUrl = "./data/specialEffects_CN.json";
+                } else {
+                    effectUrl = "./data/specialEffects_EN.json";
+                }
+                Cesium.loadJson(effectUrl).then(function(data){
                 	var effects = data.effects;
                 	effects.forEach(function(effect){
 						var effectName = effect.name;

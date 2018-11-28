@@ -371,7 +371,15 @@ define(function(){
         "6、S3M图层支持模型上的淹没分析\n"+
         "6、S3M图层支持多边形偏移功能\n"+
         "7、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n"+
-        "8、支持面符号设置颜色\n"
+        "8、支持面符号设置颜色\n",
+        baseLayerSource: '底图来源',
+        localImage: '本地图片',
+        bingMaps: '必应底图',
+        tianditu: '天地图',
+        OpenStreetMap: 'Open Street Map',
+        SuperMapChinaDark: 'SuperMap China Dark',
+        gridImagery: '网格影像',
+        superMapChinaLight: 'SuperMap China Light'
     };
     return ResourceCN;
 });

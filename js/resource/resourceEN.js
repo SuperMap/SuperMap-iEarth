@@ -371,7 +371,15 @@
         "6、The S3M layer supports flooding analysis on the model\n"+
         "6、The S3M layer supports polygon migration\n"+
         "7、Increase the contour width of line symbol, the length of component of dash line, the period of wakes, and the proportion of wakes\n"+
-        "8、Support surface symbols to set colors\n"
+        "8、Support surface symbols to set colors\n",
+        baseLayerSource: 'base layer source',
+        localImage: 'local image',
+        bingMaps: 'Bing Maps',
+        tianditu: 'Map world',
+        OpenStreetMap: 'Open Street Map',
+        SuperMapChinaDark: 'SuperMap China Dark',
+        gridImagery: 'grid imagery',
+        superMapChinaLight: 'SuperMap China Light'
     };
     return ResourceEN;
 });

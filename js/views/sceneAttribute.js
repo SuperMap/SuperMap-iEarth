@@ -39,15 +39,15 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
         '<option value="QUAD">'+ Resource.quadSnap +'</option>',
         '</select>',
         '<label> '+ Resource.split +'</label>',
-        /*'<select id="splitType" class="cesium-button">',
+        '<select id="splitType" class="cesium-button">',
         '<option value="NONE" selected>'+ Resource.splitNONE +'</option>',
         '<option value="LEFT">'+ Resource.splitLEFT +'</option>',
         '<option value="RIGHT">'+ Resource.splitRIGHT +'</option>',
         '<option value="TOP">'+ Resource.splitTop +'</option>',
         '<option value="BOTTOM">'+ Resource.splitBOTTOM +'</option>',
-        '</select>',*/
-        '<label style="text-indent: 1rem;"><input type="checkbox" id="split-horizontal" style="vertical-align: middle"/>&nbsp;<span style="vertical-align: middle">横向卷帘</span></label>',
-        '<label style="text-indent: 1rem;"><input type="checkbox" id="split-vertical" style="vertical-align: middle"/>&nbsp;<span style="vertical-align: middle">纵向卷帘</span></label>',
+        '</select>',
+        /*'<label style="text-indent: 1rem;"><input type="checkbox" id="split-horizontal" style="vertical-align: middle"/>&nbsp;<span style="vertical-align: middle">横向卷帘</span></label>',
+        '<label style="text-indent: 1rem;"><input type="checkbox" id="split-vertical" style="vertical-align: middle"/>&nbsp;<span style="vertical-align: middle">纵向卷帘</span></label>',*/
 
         '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
         '<div class="param-item" style="display: block;text-indent: 1rem;"><span>'+Resource.Spacelongitude+'</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
@@ -369,7 +369,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                     scene.multiViewportMode = Cesium.MultiViewportMode[value];
                 });
 
-                $("#split-horizontal, #split-vertical").on("input propertychange", function() {
+                /*$("#split-horizontal, #split-vertical").on("input propertychange", function() {
                     if ($(this).attr("id") === "split-horizontal") {
                         if ($(this).prop("checked")) {
                             if ($("#verticalSlider-left").length === 0) {
@@ -407,7 +407,7 @@ define(['./Container', 'Cesium','../3DGIS/flyRoute','../3DGIS/dynamicScene','dra
                             }
                         }
                     }
-                });
+                });*/
 
                 $('#splitType').change(function(){
                     var value = $(this).val();

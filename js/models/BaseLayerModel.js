@@ -39,25 +39,25 @@ define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
             }
             switch (this.get('type')){
                 case 'IMAGE': // 本地图片
-                    $("#baselayer-source").text("底图来源：本地图片");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.localImage);
                     break;
                 case 'BINGMAP': // BingMaps
-                    $("#baselayer-source").text("底图来源：Bing Maps");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.bingMaps);
                     break;
                 case 'TIANDITU': // 天地图
-                    $("#baselayer-source").text("底图来源：天地图");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.tianditu);
                     break;
                 case 'OSM': // Open Street Map
-                    $("#baselayer-source").text("底图来源：Open Street Map");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.OpenStreetMap);
                     break;
                 case 'SUPERMAPDARK': // SuperMap China Dark
-                    $("#baselayer-source").text("底图来源：SuperMap China Dark");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.SuperMapChinaDark);
                     break;
                 case 'GRIDIMAGERY': // 网格影像
-                    $("#baselayer-source").text("底图来源：网格影像");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.gridImagery);
                     break;
                 case 'SUPERMAPLIGHT': // SuperMap China Light
-                    $("#baselayer-source").text("底图来源：SuperMap China Light");
+                    $("#baselayer-source").text(Resource.baseLayerSource +  "：" + Resource.superMapChinaLight);
                     break;
             }
             if(this.get('type') != "GRIDIMAGERY"){
