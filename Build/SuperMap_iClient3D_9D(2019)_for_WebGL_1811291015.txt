@@ -10,7 +10,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  webglreport.html
 ©¦  
 ©À©¤Build
-©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1809211440.txt
+©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1811291015.txt
 ©¦  ©¦  
 ©¦  ©À©¤Cesium
 ©¦  ©¦  ©¦  Cesium.js
@@ -257,6 +257,17 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦      ©¦              2.jpg
 ©¦  ©¦  ©¦      ©¦              3.jpg
 ©¦  ©¦  ©¦      ©¦              
+©¦  ©¦  ©¦      ©À©¤PBR_Material
+©¦  ©¦  ©¦      ©¦  ©À©¤metal_plate
+©¦  ©¦  ©¦      ©¦  ©¦      metal_plate_diff_1k.jpg
+©¦  ©¦  ©¦      ©¦  ©¦      metal_plate_disp_1k.jpg
+©¦  ©¦  ©¦      ©¦  ©¦      metal_plate_rough_1k.jpg
+©¦  ©¦  ©¦      ©¦  ©¦      
+©¦  ©¦  ©¦      ©¦  ©¸©¤titanium_scuffed
+©¦  ©¦  ©¦      ©¦          Titanium-Scuffed_basecolor.png
+©¦  ©¦  ©¦      ©¦          Titanium-Scuffed_metallic.png
+©¦  ©¦  ©¦      ©¦          Titanium-Scuffed_roughness.png
+©¦  ©¦  ©¦      ©¦          
 ©¦  ©¦  ©¦      ©¸©¤SkyBox
 ©¦  ©¦  ©¦              tycho2t3_80_mx.jpg
 ©¦  ©¦  ©¦              tycho2t3_80_my.jpg
@@ -467,6 +478,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦          zlib.min.js
 ©¦  ©¦          
 ©¦  ©À©¤Documentation
+©¦  ©¦  ©¦  AlgoSymbol.html
 ©¦  ©¦  ©¦  Animation.html
 ©¦  ©¦  ©¦  AnimationViewModel.html
 ©¦  ©¦  ©¦  Appearance.html
@@ -490,6 +502,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  BlendFunction.html
 ©¦  ©¦  ©¦  BlendingState.html
 ©¦  ©¦  ©¦  BlendOption.html
+©¦  ©¦  ©¦  BlinkAnimationBlinkStyle.html
+©¦  ©¦  ©¦  BlinkAnimationReplaceStyle.html
 ©¦  ©¦  ©¦  BloomEffect.html
 ©¦  ©¦  ©¦  BoundingRectangle.html
 ©¦  ©¦  ©¦  BoundingSphere.html
@@ -499,6 +513,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  BoxGraphics.html
 ©¦  ©¦  ©¦  BoxOutlineGeometry.html
 ©¦  ©¦  ©¦  Buffer.html
+©¦  ©¦  ©¦  BufferManager.html
 ©¦  ©¦  ©¦  CallbackProperty.html
 ©¦  ©¦  ©¦  Camera.html
 ©¦  ©¦  ©¦  CameraEventAggregator.html
@@ -599,6 +614,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  DiscardMissingTileImagePolicy.html
 ©¦  ©¦  ©¦  DistanceDisplayCondition.html
 ©¦  ©¦  ©¦  DistanceDisplayConditionGeometryInstanceAttribute.html
+©¦  ©¦  ©¦  DotMode.html
 ©¦  ©¦  ©¦  DrawHandler.html
 ©¦  ©¦  ©¦  DrawMode.html
 ©¦  ©¦  ©¦  DynamicGeometryUpdater.html
@@ -628,6 +644,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  ExtrapolationType.html
 ©¦  ©¦  ©¦  FeatureDetection.html
 ©¦  ©¦  ©¦  FieldLayer3D.html
+©¦  ©¦  ©¦  FillGradientMode.html
 ©¦  ©¦  ©¦  FillStyle.html
 ©¦  ©¦  ©¦  FlyManager.html
 ©¦  ©¦  ©¦  Fog.html
@@ -646,6 +663,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  GeoCone.html
 ©¦  ©¦  ©¦  GeoCylinder.html
 ©¦  ©¦  ©¦  GeoEllipsoid.html
+©¦  ©¦  ©¦  GeoGraphicObject.html
 ©¦  ©¦  ©¦  GeographicProjection.html
 ©¦  ©¦  ©¦  GeographicTilingScheme.html
 ©¦  ©¦  ©¦  GeoJsonDataSource.html
@@ -672,6 +690,16 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  getTimestamp.html
 ©¦  ©¦  ©¦  global.html
 ©¦  ©¦  ©¦  Globe.html
+©¦  ©¦  ©¦  GOAnimationAttribute.html
+©¦  ©¦  ©¦  GOAnimationBlink.html
+©¦  ©¦  ©¦  GOAnimationGrow.html
+©¦  ©¦  ©¦  GOAnimationManager.html
+©¦  ©¦  ©¦  GOAnimationRotate.html
+©¦  ©¦  ©¦  GOAnimationScale.html
+©¦  ©¦  ©¦  GOAnimationShow.html
+©¦  ©¦  ©¦  GOAnimationState.html
+©¦  ©¦  ©¦  GOAnimationType.html
+©¦  ©¦  ©¦  GOAnimationWay.html
 ©¦  ©¦  ©¦  GoogleEarthEnterpriseImageryProvider.html
 ©¦  ©¦  ©¦  GoogleEarthEnterpriseMapsProvider.html
 ©¦  ©¦  ©¦  GoogleEarthEnterpriseMetadata.html
@@ -703,6 +731,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  IndexDatatype.html
 ©¦  ©¦  ©¦  InfoBox.html
 ©¦  ©¦  ©¦  InfoBoxViewModel.html
+©¦  ©¦  ©¦  InstancedType.html
 ©¦  ©¦  ©¦  InterpolationAlgorithm.html
 ©¦  ©¦  ©¦  Intersect.html
 ©¦  ©¦  ©¦  Intersections2D.html
@@ -767,6 +796,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  NeverTileDiscardPolicy.html
 ©¦  ©¦  ©¦  NodeTransformationProperty.html
 ©¦  ©¦  ©¦  objectToQuery.html
+©¦  ©¦  ©¦  ObjsOperationType.html
 ©¦  ©¦  ©¦  Occluder.html
 ©¦  ©¦  ©¦  OrientedBoundingBox.html
 ©¦  ©¦  ©¦  OrthographicOffCenterFrustum.html
@@ -788,6 +818,10 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  PinBuilder.html
 ©¦  ©¦  ©¦  PixelFormat.html
 ©¦  ©¦  ©¦  Plane.html
+©¦  ©¦  ©¦  PlotDrawControl.html
+©¦  ©¦  ©¦  PlotEditControl.html
+©¦  ©¦  ©¦  Plotting.html
+©¦  ©¦  ©¦  PlottingLayer.html
 ©¦  ©¦  ©¦  Point3D.html
 ©¦  ©¦  ©¦  Point3Ds.html
 ©¦  ©¦  ©¦  PointGraphics.html
@@ -852,13 +886,17 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  RequestErrorEvent.html
 ©¦  ©¦  ©¦  RequestState.html
 ©¦  ©¦  ©¦  RequestType.html
+©¦  ©¦  ©¦  RotateDirection.html
 ©¦  ©¦  ©¦  Rotation.html
 ©¦  ©¦  ©¦  Route.html
 ©¦  ©¦  ©¦  RouteCollection.html
 ©¦  ©¦  ©¦  RouteStop.html
 ©¦  ©¦  ©¦  RuntimeError.html
+©¦  ©¦  ©¦  S3MBloomEffect.html
+©¦  ©¦  ©¦  S3MCompressType.html
 ©¦  ©¦  ©¦  S3MInstance.html
 ©¦  ©¦  ©¦  S3MInstanceCollection.html
+©¦  ©¦  ©¦  S3MPixelFormat.html
 ©¦  ©¦  ©¦  S3MTilesLayer.html
 ©¦  ©¦  ©¦  SampledPositionProperty.html
 ©¦  ©¦  ©¦  SampledProperty.html
@@ -889,6 +927,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  Simon1994PlanetaryPositions.html
 ©¦  ©¦  ©¦  SimplePolylineGeometry.html
 ©¦  ©¦  ©¦  SingleTileImageryProvider.html
+©¦  ©¦  ©¦  SitDataManager.html
 ©¦  ©¦  ©¦  SkyAtmosphere.html
 ©¦  ©¦  ©¦  SkyBox.html
 ©¦  ©¦  ©¦  Skyline.html
@@ -911,10 +950,16 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  Sun.html
 ©¦  ©¦  ©¦  SuperMapImageryProvider.html
 ©¦  ©¦  ©¦  SupportTools.html
+©¦  ©¦  ©¦  SurroundLineType.html
 ©¦  ©¦  ©¦  SvgPathBindingHandler.html
+©¦  ©¦  ©¦  SymbolDot.html
+©¦  ©¦  ©¦  SymbolStyle.html
+©¦  ©¦  ©¦  SymbolTextStyle.html
+©¦  ©¦  ©¦  SymbolType.html
 ©¦  ©¦  ©¦  TaskProcessor.html
 ©¦  ©¦  ©¦  TerrainData.html
 ©¦  ©¦  ©¦  TerrainProvider.html
+©¦  ©¦  ©¦  TextPos.html
 ©¦  ©¦  ©¦  Texture.html
 ©¦  ©¦  ©¦  throttleRequestByServer.html
 ©¦  ©¦  ©¦  TiandituImageryProvider.html
@@ -939,6 +984,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  types.txt
 ©¦  ©¦  ©¦  UniformState.html
 ©¦  ©¦  ©¦  UrlTemplateImageryProvider.html
+©¦  ©¦  ©¦  UrlType.html
 ©¦  ©¦  ©¦  VelocityOrientationProperty.html
 ©¦  ©¦  ©¦  VelocityVectorProperty.html
 ©¦  ©¦  ©¦  VertexArray.html
@@ -962,6 +1008,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  WallGeometryUpdater.html
 ©¦  ©¦  ©¦  WallGraphics.html
 ©¦  ©¦  ©¦  WallOutlineGeometry.html
+©¦  ©¦  ©¦  WayPathType.html
 ©¦  ©¦  ©¦  WebGLConstants.html
 ©¦  ©¦  ©¦  WebMapServiceImageryProvider.html
 ©¦  ©¦  ©¦  WebMapTileServiceImageryProvider.html
@@ -1001,10 +1048,13 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  airlines.html
     ©¦  airlinesTrailLines.html
     ©¦  aqi.html
+    ©¦  backLineAnalysis.html
     ©¦  bingMap.html
     ©¦  bufferAnalyze.html
     ©¦  clip.html
     ©¦  clipbox.html
+    ©¦  clipboxById.html
+    ©¦  clipById.html
     ©¦  clipCross.html
     ©¦  clipPolygon.html
     ©¦  colorCorrection.html
@@ -1038,6 +1088,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  KML_route.html
     ©¦  LandTemChange.html
     ©¦  layerDisplayAdjustment.html
+    ©¦  layerGroup.html
+    ©¦  limitHeightAnalysis.html
     ©¦  location.html
     ©¦  mathExpression.html
     ©¦  measure.html
@@ -1047,15 +1099,20 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  multiViewport.html
     ©¦  Nightlight.html
     ©¦  offset.html
+    ©¦  onLineAnalysis.html
     ©¦  outputScene.html
     ©¦  overlayAnalyze.html
     ©¦  Particle System.html
     ©¦  pickPosition.html
+    ©¦  plot_addfile.html
     ©¦  plot_dynamicPlot.html
+    ©¦  plot_editPlottingLayer.html
     ©¦  plot_filetransfer.html
+    ©¦  plot_loadSymbolLib.html
     ©¦  plot_modifySymbolStyle.html
     ©¦  plot_operPlottingLayer.html
     ©¦  plot_plotGOAnimation.html
+    ©¦  plot_querySymbolLib.html
     ©¦  pm.html
     ©¦  polarizedStereoscopic.html
     ©¦  Polygon.html
@@ -1076,9 +1133,11 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦  S3MTiles_srsb_water.html
     ©¦  S3MTiles_suofeiya.html
     ©¦  S3MTiles_vector.html
+    ©¦  S3M_Encryption.html
     ©¦  S3M_Volume.html
     ©¦  scanEffect.html
     ©¦  sceneModeSwitching.html
+    ©¦  serviceAreaAnalysis.html
     ©¦  shadowQuery.html
     ©¦  showUnderGround.html
     ©¦  sightline.html
@@ -1485,6 +1544,32 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦          ico_SaveMarker.png
     ©¦          ico_Search.png
     ©¦          ico_UploadData.png
+    ©¦          image001.png
+    ©¦          image002.jpg
+    ©¦          image003.png
+    ©¦          image004.jpg
+    ©¦          image005.png
+    ©¦          image006.jpg
+    ©¦          image007.png
+    ©¦          image008.jpg
+    ©¦          image009.png
+    ©¦          image010.jpg
+    ©¦          image011.png
+    ©¦          image012.jpg
+    ©¦          image013.png
+    ©¦          image014.jpg
+    ©¦          image015.png
+    ©¦          image016.jpg
+    ©¦          image017.png
+    ©¦          image018.jpg
+    ©¦          image019.png
+    ©¦          image020.jpg
+    ©¦          image021.png
+    ©¦          image022.jpg
+    ©¦          image023.png
+    ©¦          image024.jpg
+    ©¦          image025.png
+    ©¦          image026.jpg
     ©¦          LoadBIM_BrowseModel.jpg
     ©¦          LoadBIM_OSGB2S3MResult.png
     ©¦          LoadBIM_PublishResult.png
@@ -1515,6 +1600,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦          LoadOblique_CreatSCPDialog.png
     ©¦          LoadOblique_CreatSCPResult.png
     ©¦          LoadOblique_ModifySample.png
+    ©¦          LoadOblique_NewScene.png
     ©¦          LoadOblique_OSGB2S3MDialog.png
     ©¦          LoadOblique_OSGB2S3MResult.png
     ©¦          LoadOblique_OSGB3S3MResult.png
@@ -1549,6 +1635,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      aftertreatment.jpg
     ©¦      airline.jpg
     ©¦      aqi.jpg
+    ©¦      backLineAnalysis.jpg
     ©¦      bingMap.jpg
     ©¦      bufferAnalyze.jpg
     ©¦      clip.jpg
@@ -1582,6 +1669,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      KML_edit.jpg
     ©¦      KML_route.jpg
     ©¦      LandTemChange.jpg
+    ©¦      limitHeightAnalysis.jpg
     ©¦      location.jpg
     ©¦      mathExpression.jpg
     ©¦      measureHandler.jpg
@@ -1590,14 +1678,18 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      multiViewport.jpg
     ©¦      Nightlight.jpg
     ©¦      offset.jpg
+    ©¦      onLineAnalysis.jpg
     ©¦      overlayAnalyze.jpg
     ©¦      Particle.jpg
     ©¦      pickPosition.jpg
     ©¦      plot_dynamicPlot.jpg
+    ©¦      plot_editPlottingLayer.jpg
     ©¦      plot_filetransfer.jpg
+    ©¦      plot_loadSymbolLib.jpg
     ©¦      plot_modifySymbolStyle.jpg
     ©¦      plot_operPlottingLayer.jpg
     ©¦      plot_plotGOAnimation.jpg
+    ©¦      plot_querySymbolLib.jpg
     ©¦      pm.jpg
     ©¦      polarizedStereoscopic.jpg
     ©¦      Polygon.jpg
@@ -1623,6 +1715,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     ©¦      S3M_Volume.jpg
     ©¦      scanEffect.jpg
     ©¦      sceneModeSwitching.jpg
+    ©¦      serviceAreaAnalysis.jpg
     ©¦      shadowQuery.jpg
     ©¦      showUnderGround.jpg
     ©¦      sightline.jpg
@@ -1915,5 +2008,6 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
             LoadImagery_OperateTopic.html
             LoadObliqueModel_OperateTopic.html
             LoadTerrain_OperateTopic.html
+            Local_release_and_operation_manual _of WebGL_API_package.html
             SuperMapEarthFunctionTopic.html
             
