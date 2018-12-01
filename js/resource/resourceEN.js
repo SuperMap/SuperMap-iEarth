@@ -379,7 +379,15 @@
         OpenStreetMap: 'Open Street Map',
         SuperMapChinaDark: 'SuperMap China Dark',
         gridImagery: 'grid imagery',
-        superMapChinaLight: 'SuperMap China Light'
+        superMapChinaLight: 'SuperMap China Light',
+        useRoller: 'use roller',
+        lrRoller: 'left-right roller',
+        leftRoller: 'hide left',
+        rightRoller: 'hide right',
+        tbRoller: 'top-bottom roller',
+        topRoller: 'hide top',
+        bottomRoller: 'hide bottom',
+        imageryRoller: 'imagery roller'
     };
     return ResourceEN;
 });

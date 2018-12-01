@@ -379,7 +379,15 @@ define(function(){
         OpenStreetMap: 'Open Street Map',
         SuperMapChinaDark: 'SuperMap China Dark',
         gridImagery: '网格影像',
-        superMapChinaLight: 'SuperMap China Light'
+        superMapChinaLight: 'SuperMap China Light',
+        useRoller: '使用卷帘',
+        lrRoller: '左右卷帘',
+        leftRoller: '屏蔽左侧',
+        rightRoller: '屏蔽右侧',
+        tbRoller: '上下卷帘',
+        topRoller: '屏蔽上侧',
+        bottomRoller: '屏蔽下侧',
+        imageryRoller: '影像卷帘'
     };
     return ResourceCN;
 });

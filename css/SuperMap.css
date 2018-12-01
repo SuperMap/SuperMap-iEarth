@@ -3070,7 +3070,6 @@ td {text-align:center}
 	background-color: #D3D3D3;
 	width: 5px;
 	height: 100%;
-	z-index: 9999;
 }
 
 #horizontalSlider {
@@ -3080,7 +3079,6 @@ td {text-align:center}
 	background-color: #D3D3D3;
 	width: 100%;
 	height: 5px;
-	z-index: 9999;
 }
 
 #verticalSlider {

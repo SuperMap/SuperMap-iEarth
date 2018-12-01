@@ -128,6 +128,7 @@ function init(Cesium, Zlib) {
     }
     viewer.scene.globe.depthTestAgainstTerrain = true;
     viewer.scene.globe.enableLighting = true;
+    viewer.scene.globe.baseColor = Cesium.Color.BLACK; // 没有影像图层时地球的底色
 
     viewer.camera.setView({
         destination: new Cesium.Cartesian3(6788287.844465209, -41980756.10214644, 29619220.04004376)
