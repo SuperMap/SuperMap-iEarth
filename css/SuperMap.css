@@ -1181,6 +1181,25 @@ ul#progress li:first-child {
 	}
 }
 
+@media screen and (max-width : 1366px) {
+	#customServicePan {
+		overflow: auto;
+		max-height: 280px;
+	}
+	#objectContent1 > .adaptation { /* 点符号面板超出屏幕情况 */
+		overflow: auto;
+		max-height: 480px;
+	}
+	#objectContent2 { /* 面符号面板超出屏幕情况 */
+		overflow: auto;
+		max-height: 480px;
+	}
+	#content1 > .adaptation { /* 可视域分析面板超出屏幕情况 */
+		overflow: auto;
+		max-height: 480px;
+	}
+}
+
 #webServicePan {
 	overflow: auto;
 }
