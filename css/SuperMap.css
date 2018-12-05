@@ -2146,7 +2146,7 @@ input[type=text] {
     color: darkgrey;
 }
  #layerForm select,#layerForm input[type=range], #layerForm input[type=text], #sceneForm input[type=range], #sceneForm input[type=text],#sceneForm select{
-     width:100%; 
+     width:95%;
  }
  #layerForm .square label, #sceneForm .square label{
     width: 85%;
@@ -2987,12 +2987,12 @@ main .square{
 /* The content */
 
 .tabs-vertical .tabs-content-placeholder{
-    overflow: auto;
+	overflow-x: hidden;
+    overflow-y: auto;
     border-left: 1px solid #6b7072;
     font-weight: normal;
     background-color: rgba(38, 38, 38, 0);
     text-align: left;
-
     width: 80%;
     padding-left: 8px;
 }

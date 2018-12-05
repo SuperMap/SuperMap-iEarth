@@ -85,7 +85,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                                         $('#scenePortalTages').val(json.tags);
                                         $('#scenePortalUser').val(json.nickname);
                                         $('#scenePortalDescription').val(json.description);
-                                        $('#saveUser').val("另存为");
+                                        $('#saveUser').val(Resource.saveAs);
                                     }
                                 }
                             )
@@ -115,7 +115,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             appsRoot = appsRoot.replace(new RegExp(pattern), "");
             var me = this;
             if($('#scenePortalName').val() == ""){
-                Util.showErrorMsg("保存场景名称不能为空！");
+                Util.showErrorMsg(Resource.saveErrorWhileSceneEmpty);
                 return;
             }
             var canvas = document.getElementById("sceneCanvas");
@@ -175,18 +175,18 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                         data: base64,
                         success : function (result) {
                             me.$el.hide();
-                            Util.showErrorMsg("场景保存成功！");
+                            Util.showErrorMsg(Resource.saveSceneSuccess);
                             window.location.href= appsRoot + "/apps/earth/" + jsonResult.newResourceID;
                         },
                         error: function(error)
                         {
-                            Util.showErrorMsg("存储失败！请先登陆iPortal或Online账户......");
+                            Util.showErrorMsg(Resource.saveSceneFailed);
                         },
                     });
                 },
                 error: function()
                 {
-                    Util.showErrorMsg("存储失败！请先登陆iPortal或Online账户......");
+                    Util.showErrorMsg(Resource.saveSceneFailed);
                 },
             });
         },
@@ -274,13 +274,13 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                                 data: base64,
                                 success : function (result) {
                                     me.$el.hide();
-                                    Util.showErrorMsg("场景更新成功！");
+                                    Util.showErrorMsg(Resource.updateSceneSuccess);
                                 }
                             })
                         },
                         error: function(error)
                         {
-                            Util.showErrorMsg("场景更新失败，先保存当前场景！");
+                            Util.showErrorMsg(Resource.updateSceneFailed);
                         },
                     })
 

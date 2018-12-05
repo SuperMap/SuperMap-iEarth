@@ -27,7 +27,7 @@ define(['Cesium'], function (Cesium) {
         sightline.removeAllTargetPoint();
         viewer.entities.removeAll();
 
-        if (handler) {
+        if (handler && !handler.isDestroyed()) {
             handler.destroy();
         }
         handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);

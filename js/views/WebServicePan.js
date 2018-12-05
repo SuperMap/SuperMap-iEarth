@@ -1,9 +1,9 @@
-define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','popLayer' , 'Cesium'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,popLayer,Cesium){
+define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','popLayer' , 'Cesium', '../../data/SpecialEffects'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,popLayer,Cesium, SpecialEffects){
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
         '<div class="selTypeContainer">',
-        '<select id="selType" class="cesium-button" style="width : 50%;border-radius : none;">',
+        '<select id="selType" class="cesium-button" style="width : 50%;border-radius : 0;">',
         '</select>',
         '</div>'
     ].join('');
@@ -45,9 +45,9 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
 				var url = "";
 				if (lang == 'zh') {
                     url = "http://www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_CN.json";
-				} else {
+                } else {
                     url = "http://www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_EN.json";
-				}
+                }
 
                 me.currentPublicPage = 1;
             	me.totalPublicPage = 0;
@@ -154,40 +154,32 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
         		this.layerCollection.fetch(url,this,false);
         	}else if(value === 'effects'){
                 $("#webServicesWraper").children().remove();
-                var lang = navigator.language||navigator.userLanguage;//常规浏览器语言和IE浏览器
-                lang = lang.substr(0, 2);//截取lang前2位字符
-                var effectUrl = "";
-                if (lang == 'zh') {
-                    effectUrl = "./data/specialEffects_CN.json";
-                } else {
-                    effectUrl = "./data/specialEffects_EN.json";
-                }
-                Cesium.loadJson(effectUrl).then(function(data){
-                	var effects = data.effects;
-                	effects.forEach(function(effect){
-						var effectName = effect.name;
-						var effectPath = effect.path;
-						var effectThumbnail = effect.thumbnail;
-						var effectDescription = effect.description;
+                var specialEffectsData = SpecialEffects();
+                var effects = specialEffectsData.effects;
 
-						var $effectImg = $("<div class='effect-itemIcon'><div class='effect-itemBg'></div><img src="+ effectThumbnail +"></div>");
-						var $effectLabel = $("<div class='effect-itemLabel'>"+ effectName +"</div>");
-						var $effectItem = $("<div class='effect-item'></div>");
+				effects.forEach(function(effect){
+					var effectName = effect.name;
+					var effectPath = effect.path;
+					var effectThumbnail = effect.thumbnail;
+					var effectDescription = effect.description;
 
-						$effectItem.append($effectImg);
-						$effectItem.append($effectLabel);
+					var $effectImg = $("<div class='effect-itemIcon'><div class='effect-itemBg'></div><img src="+ effectThumbnail +"></div>");
+					var $effectLabel = $("<div class='effect-itemLabel'>"+ effectName +"</div>");
+					var $effectItem = $("<div class='effect-item'></div>");
 
-						$effectItem.click(function(){
-							popLayer.open({
-								title: effectDescription,
-								move: false,
-								area: ['100%', '100%'],
-								type: 2,
-								content: effectPath
-							});
+					$effectItem.append($effectImg);
+					$effectItem.append($effectLabel);
+
+					$effectItem.click(function(){
+						popLayer.open({
+							title: effectDescription,
+							move: false,
+							area: ['100%', '100%'],
+							type: 2,
+							content: effectPath
 						});
-						$("#webServicesWraper").append($effectItem);
 					});
+					$("#webServicesWraper").append($effectItem);
 				});
 			}
         	evt.stopPropagation();

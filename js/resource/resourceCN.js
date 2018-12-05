@@ -387,7 +387,16 @@ define(function(){
         tbRoller: '上下卷帘',
         topRoller: '屏蔽上侧',
         bottomRoller: '屏蔽下侧',
-        imageryRoller: '影像卷帘'
+        imageryRoller: '影像卷帘',
+        windParticle: '风场',
+        trailLines: '尾迹线',
+        scanLine: '扫描线',
+        saveAs: '另存为',
+        saveErrorWhileSceneEmpty: '保存场景名称不能为空！',
+        saveSceneSuccess: '场景保存成功！',
+        saveSceneFailed: '存储失败！请先登陆iPortal或Online账户......',
+        updateSceneSuccess: '场景更新成功！',
+        updateSceneFailed: '场景更新失败，先保存当前场景！'
     };
     return ResourceCN;
 });

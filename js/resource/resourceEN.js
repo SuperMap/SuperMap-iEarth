@@ -387,7 +387,16 @@
         tbRoller: 'top-bottom roller',
         topRoller: 'hide top',
         bottomRoller: 'hide bottom',
-        imageryRoller: 'imagery roller'
+        imageryRoller: 'imagery roller',
+        windParticle: 'wind particle',
+        trailLines: 'trail lines',
+        scanLine: 'scan line',
+        saveAs: 'saveAs',
+        saveErrorWhileSceneEmpty: 'the save scene name cannot be empty!',
+        saveSceneSuccess: 'save scene success！',
+        saveSceneFailed: 'storage scene failed! please login to iPortal or Online account...',
+        updateSceneSuccess: 'scene update success！',
+        updateSceneFailed: 'scene update failed. save the current scene first'
     };
     return ResourceEN;
 });

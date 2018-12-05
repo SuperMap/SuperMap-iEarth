@@ -24,12 +24,11 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
         '</ul>',
         '<div class="tabs-content-placeholder" style="height:100%" id="scene-placeholder">',
         '<div class="tab-content-active">',
-        '<label>' + Resource.sceneName + '</label>',
-        '<input type="text" class="cesium-button" readonly id="sceneName">',
         '<label>' + Resource.viewMode + '</label>',
         '<select id="sceneMode" class="cesium-button">',
-        '<option value="3D">3D</option><option value="2D">2D</option>',
-        '<option value="columbusView">Columbus View</option>',
+        '<option value="3D">3D</option>',
+        '<option value="2D">2D</option>',
+        '<option value="columbusView">2.5D</option>',
         '</select>',
         '<label> ' + Resource.multiViewport + '</label>',
         '<select id="viewportType" class="cesium-button">',
@@ -79,7 +78,6 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
         '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">' + Resource.depthAgainst + '</label></div>',
         '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">' + Resource.supermapLogo + '</label></div>',
         '<div class="square" ><input type="checkbox" id="removeInvalidTerrainRegion"/><label for="removeInvalidTerrainRegion">' + Resource.removeInvalidTerrainRegion + '</label></div>',
-
         '</div> ',
         '<div>',
         '<label>' + Resource.brightness + '</label>',
@@ -102,30 +100,36 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
         '<input type="number" id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.5">',
         '</div>',
         '<div>',
-        '<label>' + Resource.flyRoute + '</label><br><br>',
+        '<label style="margin-bottom: 1rem;">' + Resource.flyRoute + '</label>',
         '<input style="background-color:#2EC5AD; width: 100%;" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
         '<button class="start" id="startFly" title=' + Resource.startFly + ' style="background-color: transparent;border:none;"></button>',
         '<button class="pause" id="pauseFly" title=' + Resource.pauseFly + ' style="background-color: transparent;border:none;"></button>',
         '<button class="stop"  id="stopFly"  title=' + Resource.stopFly + ' style="background-color: transparent;border:none;"></button><br><br>',
         '<select id="stopList" style="background-color:#2EC5AD;width: 100%">',
         '</select>',
-        '<label>' + Resource.observe + '</label><br>',
+        '<label style="margin-bottom: 1rem;">' + Resource.observe + '</label><br>',
         '<table border="0" align="left">',
         '<tr>',
         '<td>',
-        '<button id="spin" class="btn btn-info" style="">' + Resource.rotatePoint + '</button>',
+        '<button id="spin" class="btn btn-info" style="margin: 0 10px 0px 2px;">' + Resource.rotatePoint + '</button>',
         '</td>',
         '<td nowrap="nowrap">',
-        '<input type="checkbox"  id="stopFlyCircle">',
-        '<label style="margin-left: -5px;">' + Resource.pauseFly + '</label>',
+        '<label style="margin: 0 5px 0 -5px;">' +
+        '<input type="checkbox" id="stopFlyCircle" style="display: inline-block;vertical-align: middle;">' +
+        '<span style="display: inline-block;vertical-align: middle;">&nbsp;'+Resource.pauseFly+'</span>' +
+        '</label>',
         '</td>',
         '<td nowrap="nowrap">',
-        '<input type="checkbox" id="circulation" checked = true >',
-        '<label style="margin-left: -5px;">' + Resource.rotateCirculation + '</label>',
+        '<label style="margin: 0 5px 0 -5px;">' +
+        '<input type="checkbox" id="circulation" checked style="display: inline-block;vertical-align: middle;">' +
+        '<span style="display: inline-block;vertical-align: middle;">&nbsp;' + Resource.rotateCirculation + '</span>' +
+        '</label>',
         '</td>',
         '<td nowrap="nowrap">',
-        '<input type="checkbox"  id="interaction">',
-        '<label style="margin-left: -5px;">' + Resource.interactive + '</label>',
+        '<label style="margin: 0 5px 0 -5px;">' +
+        '<input type="checkbox" id="interaction" style="display: inline-block;vertical-align: middle;"/>' +
+        '<span style="display: inline-block;vertical-align: middle;">&nbsp;' + Resource.interactive + '</span>' +
+        '</label>',
         '<canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>',
         '<button id="startHeadControlsButton" style="display: none">' + Resource.enableWebcam + '</button>',
         '</td>',
@@ -371,22 +375,15 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
                             }
                         }
                     });
-                    var sceneName = viewer.scene.name;
-                    if (sceneName) {
-                        $("#sceneName").val(sceneName);
-                    }
-                    else {
-                        $("#sceneName")[0].value = Resource.UnNamed;
-                    }
                     $('#sceneMode').change(function () {
                         var value = $(this).val();
-                        if (value == "2D") {
+                        if (value === "2D") {
                             viewer.scene.mode = Cesium.SceneMode.SCENE2D;
                         }
-                        else if (value == "3D") {
+                        else if (value === "3D") {
                             viewer.scene.mode = Cesium.SceneMode.SCENE3D;
                         }
-                        else if (value == "columbusView") {
+                        else if (value === "columbusView") {
                             viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW;
                         }
                     });
