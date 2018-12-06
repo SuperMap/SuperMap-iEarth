@@ -421,7 +421,7 @@ body.modal-open {
 .service-itemLabel, .effect-itemLabel {
 	display: block;
 	font-family: sans-serif;
-	font-size: 8pt;
+	font-size: 10pt;
 	text-align: center;
 	vertical-align: middle;
 	word-wrap: break-word;
@@ -1736,11 +1736,11 @@ ul,ol{
   /*--------list-group  end------*/
 
 /*--------input label  end------*/
-input[type=checkbox],input[type=radio]{
+/*input[type=checkbox],input[type=radio]{
     margin: 4px 0;
     line-height: normal;
 	padding: 0px;
-}
+}*/
 label{
     font-size: 15px;
     font-weight: 400;
@@ -2131,21 +2131,21 @@ input[type=text] {
 	font-size: 10px;
 	color: darkgrey;
 }
-#layerForm .square,#sceneForm .square{
+#layerForm .square{
     margin-left: 1%;
     width: 48%;
     height: 40px;
     display: inline-block;
 }
-#layerForm label,#sceneForm label{
-    width: 100%;
-    margin: 10px 0px -5px 2px;
+#layerForm label{
+    /*width: 100%;*/
+    /*margin: 10px 0px -5px 2px;*/
     line-height: 1.5;
     font-size: 12px;
     color: darkgrey;
 }
  #layerForm select,#layerForm input[type=range], #layerForm input[type=text], #sceneForm input[type=range], #sceneForm input[type=text],#sceneForm select{
-     width:95%;
+     width:85%;
  }
  #layerForm .square label, #sceneForm .square label{
     width: 85%;
@@ -2948,40 +2948,7 @@ main .square{
 }
 /* The tabs */
 
-.tabs-vertical ul{
-    float: left;
-    list-style: none;
-    text-align: center;
-    width: 20%;
-    margin: 0;
-    padding-left: 0;
-}
 
-.tabs-vertical ul li{
-    margin-right: -1px;
-}
-
-.tabs-vertical ul li a{
-    display: block;
-    text-decoration: none;
-    color: darkgrey;
-    padding: 16px 10px 16px 5px;
-	font-size: 12px;
-}
-
-.tabs-vertical ul li a.tab-active {
-    border-right: 2px solid #298b7b;
-    background-color: rgba(38, 38, 38, 0);
-    color: #298b7b;
-}
-.tabs-vertical ul li a :hover {
-    background-color: rgba(38, 38, 38, 0);
-    color: #fff;
-}
-
-.tabs-vertical ul li:first-child a{
-    border-top: 0;
-}
 
 /* The content */
 
@@ -2996,9 +2963,7 @@ main .square{
     padding-left: 8px;
 }
 
-.tabs-vertical .tabs-content-placeholder div{
-    display: none;
-}
+
 .tabs-vertical .tabs-content-placeholder .sp-replacer{
     display: block;
     width :100%;
@@ -3011,9 +2976,7 @@ main .square{
 .tabs-vertical .tabs-content-placeholder .sp-replacer .sp-preview .sp-preview-inner,.tabs-vertical .tabs-content-placeholder .sp-replacer .sp-dd{
     display: block;
 }
-.tabs-vertical .tabs-content-placeholder div.tab-content-active{
-    display: block;
-}
+
 
 .tabs-vertical .tabs-content-placeholder div p{
     color: #565a5c;

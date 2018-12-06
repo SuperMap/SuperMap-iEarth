@@ -117,10 +117,13 @@
         splitTop : 'Shielding split up-side',
         splitBOTTOM : 'Shielding split down-side',
         coordinates : 'Coordinate value query',
+        queryCoordinates: 'query coordinates',
         underground : 'Underground',
-        sceneFlood : 'Scene floodlight',
+        openUnderground: 'open underground',
+        sceneFlood : 'scene floodlight',
+        openSceneFlood: 'open scene flood',
         threshold : 'Brightness threshold',
-        bloomIntensity : 'Floodlight intensity',
+        Intensity : 'Floodlight intensity',
         flyRoute : 'Fly rounte',
         startFly : 'Start',
         pauseFly : 'Pause',
@@ -369,9 +372,9 @@
         "4、The S3M layer allows you to select offsets\n"+
         "5、S3M layer supports model color control\n"+
         "6、The S3M layer supports flooding analysis on the model\n"+
-        "6、The S3M layer supports polygon migration\n"+
-        "7、Increase the contour width of line symbol, the length of component of dash line, the period of wakes, and the proportion of wakes\n"+
-        "8、Support surface symbols to set colors\n",
+        "7、The S3M layer supports polygon migration\n"+
+        "8、Increase the contour width of line symbol, the length of component of dash line, the period of wakes, and the proportion of wakes\n"+
+        "9、Support surface symbols to set colors\n",
         baseLayerSource: 'base layer source',
         localImage: 'local image',
         bingMaps: 'Bing Maps',

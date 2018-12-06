@@ -11,144 +11,236 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
 
     var htmlStr = [
         '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
-        '<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">' + Resource.sceneOptions + '</label>',
+        '<label style="width: 100%; text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">' + Resource.sceneOptions + '</label>',
         '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
-        '<ul>',
-        '<li><a class="tab-active" data-index="0" href="#">' + Resource.basicOptions + '</a></li>',
-        '<li><a data-index="1" href="#">' + Resource.otherOptions + '</a></li>',
-        '<li><a data-index="2" href="#">' + Resource.sceneColor + '</a></li>',
-
-        '<li style="font-size: 12px"><a data-index="3" href="#">' + Resource.flood + '</a></li>',
-        '<li style="font-size: 12px"><a data-index="4" href="#">' + Resource.camera + '</a></li>',
-        '<li style="font-size: 12px"><a data-index="5" href="#">' + Resource.about + '</a></li>',
+        '<ul class="tabs-menu">',
+            '<li class="tabs-menu-item"><a class="tab-active" data-index="0" href="#">' + Resource.basicOptions + '</a></li>',
+            '<li class="tabs-menu-item"><a data-index="1" href="#">' + Resource.otherOptions + '</a></li>',
+            '<li class="tabs-menu-item"><a data-index="2" href="#">' + Resource.sceneColor + '</a></li>',
+            '<li class="tabs-menu-item"><a data-index="3" href="#">' + Resource.flood + '</a></li>',
+            '<li class="tabs-menu-item"><a data-index="4" href="#">' + Resource.camera + '</a></li>',
+            '<li class="tabs-menu-item"><a data-index="5" href="#">' + Resource.about + '</a></li>',
         '</ul>',
+
         '<div class="tabs-content-placeholder" style="height:100%" id="scene-placeholder">',
-        '<div class="tab-content-active">',
+
+        '<div class="tabs-content-item tabs-content-active">',
         '<label>' + Resource.viewMode + '</label>',
-        '<select id="sceneMode" class="cesium-button">',
+        '<select id="sceneMode" class="cesium-button param-item-first-level">',
         '<option value="3D">3D</option>',
         '<option value="2D">2D</option>',
         '<option value="columbusView">2.5D</option>',
         '</select>',
         '<label> ' + Resource.multiViewport + '</label>',
-        '<select id="viewportType" class="cesium-button">',
+        '<select id="viewportType" class="cesium-button param-item-first-level">',
         '<option value="NONE" selected>' + Resource.onePort + '</option>',
         '<option value="HORIZONTAL">' + Resource.horizontalSnap + '</option>',
         '<option value="VERTICAL">' + Resource.verticalSnap + '</option>',
         '<option value="TRIPLE">' + Resource.tripeSnap + '</option>',
         '<option value="QUAD">' + Resource.quadSnap + '</option>',
         '</select>',
-        '<label> ' + Resource.split + '</label>',
-        '<div style="margin: 0.2rem 0;display:block;">',
-        '<label style="text-indent: 1rem;width: auto;"><input type="checkbox" id="use-roller" style="vertical-align: middle;"/><span style="vertical-align: middle;">&nbsp;' + Resource.useRoller + '</span></label>',
+
+        /* 卷帘 start */
+        '<section id="roller-setting" class="scene-attribute-sub-module">',
+        '<label class="label-block">' + Resource.split + '</label>',
+        '<div class="roller-param-item">',
+            '<label class="param-item-first-level">' +
+                '<input type="checkbox" id="use-roller"/>' +
+                '<span>' + Resource.useRoller + '</span>' +
+            '</label>',
         '</div>',
 
-        '<div style="margin: 0.2rem 0;display:block;">',
-        '<label style="text-indent: 1rem;width: auto;"><input type="checkbox" id="imagery-roller" style="vertical-align: middle;"/><span style="vertical-align: middle;">&nbsp;' + Resource.imageryRoller + '</span></label>',
+        '<div class="roller-param-item tab-content-active">',
+            '<label class="param-item-first-level">' +
+                '<input type="checkbox" id="imagery-roller"/>' +
+                '<span>' + Resource.imageryRoller + '</span>' +
+            '</label>',
         '</div>',
 
-        '<div style="margin: 0.2rem 0;display:block;">',
-        '<label style="text-indent: 1rem;width: auto;"><input type="radio" name="roller-category" value="lr-roller" style="vertical-align: middle;" checked/><span style="vertical-align: middle;">&nbsp;' + Resource.lrRoller + '</span></label>',
-        '<div style="display:block;" id="lr-roller-mode">',
-        '<label style="text-indent: 2.5rem;width: auto;"><input type="radio" name="roller-mode" value="left-roller" style="vertical-align: middle;" checked/><span style="vertical-align: middle;">&nbsp;' + Resource.leftRoller + '</span></label>',
-        '<label style="text-indent: 1.5rem;width: auto;"><input type="radio" name="roller-mode" value="right-roller" style="vertical-align: middle;"/><span style="vertical-align: middle;">&nbsp;' + Resource.rightRoller + '</span></label>',
-        '</div>',
+        '<div class="roller-param-item">',
+            '<label class="param-item-first-level">' +
+                '<input type="radio" name="roller-category" value="lr-roller" checked/>' +
+                '<span>' + Resource.lrRoller + '</span>' +
+            '</label>',
+            '<div class="roller-param-sub-item" id="lr-roller-mode">',
+                '<label class="param-item-second-level">' +
+                    '<input type="radio" name="roller-mode" value="left-roller" checked/>' +
+                    '<span>' + Resource.leftRoller + '</span>' +
+                '</label>',
+                '<label class="param-item-second-level">' +
+                    '<input type="radio" name="roller-mode" value="right-roller"/>' +
+                    '<span>' + Resource.rightRoller + '</span>' +
+                '</label>',
+            '</div>',
         '</div>',
 
-        '<div style="margin: 0.2rem 0;display:block;">',
-        '<label style="text-indent: 1rem;width: auto;"><input type="radio" name="roller-category" value="tb-roller" style="vertical-align: middle;"/><span style="vertical-align: middle;">&nbsp;' + Resource.tbRoller + '</span></label>',
-        '<div style="display:none;" id="tb-roller-mode">',
-        '<label style="text-indent: 2.5rem;width: auto;"><input type="radio" name="roller-mode" value="top-roller" style="vertical-align: middle;"/><span style="vertical-align: middle;">&nbsp;' + Resource.topRoller + '</span></label>',
-        '<label style="text-indent: 1.5rem;width: auto;"><input type="radio" name="roller-mode" value="bottom-roller" style="vertical-align: middle;"/><span style="vertical-align: middle;">&nbsp;' + Resource.bottomRoller + '</span></label>',
+        '<div class="roller-param-item">',
+            '<label class="param-item-first-level">' +
+                '<input type="radio" name="roller-category" value="tb-roller"/>' +
+                '<span>' + Resource.tbRoller + '</span>' +
+            '</label>',
+            '<div class="roller-param-sub-item" style="display:none;" id="tb-roller-mode">',
+                '<label class="param-item-second-level">' +
+                    '<input type="radio" name="roller-mode" value="top-roller"/>' +
+                    '<span>' + Resource.topRoller + '</span>' +
+                '</label>',
+                '<label class="param-item-second-level">' +
+                    '<input type="radio" name="roller-mode" value="bottom-roller"/>' +
+                    '<span>' + Resource.bottomRoller + '</span>' +
+                '</label>',
+            '</div>',
         '</div>',
-        '</div>',
+        '</section>',
+        /* 卷帘 end */
 
+        /* 坐标查询 */
+        '<label class="label-block"> ' + Resource.queryCoordinates + '</label>',
+        '<div class="param-item-first-level">',
         '<button class="btn btn-info" id="queryCoordinates">' + Resource.coordinates + '</button>',
         '<div class="param-item" style="display: block;text-indent: 1rem;"><span>' + Resource.Spacelongitude + '</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-longitude"/></div>',
         '<div class="param-item" style="display: block;text-indent: 1rem;"><span>' + Resource.Spacelatitude + '</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-latitude"/></div>',
         '<div class="param-item" style="display: block;text-indent: 1rem;"><span>' + Resource.Spacealtitude + '</span><input type="text" class="input" style="width: 70%;margin-left: 0.5rem;" disabled id="scene-coordinate-height"/></div>',
         '</div>',
-        '<div>',
-        '<div class="square" ><input type="checkbox" id="earth" checked/><label for="earth">' + Resource.earth + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="shadows"/><label for="shadows">' + Resource.shadowMap + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="lightRender"  checked/><label for="lightRender">' + Resource.sun + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="timeline"  /><label for="timeline">' + Resource.timeline + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="atomsphereRender" checked/><label for="atmosphere">' + Resource.skyAtmosphereEffect + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="fogEnabled" checked/><label for="fogEnabled">' + Resource.fogEffect + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="depthAgainst" checked/><label for="depthAgainst">' + Resource.depthAgainst + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="icon" checked/><label for="icon">' + Resource.supermapLogo + '</label></div>',
-        '<div class="square" ><input type="checkbox" id="removeInvalidTerrainRegion"/><label for="removeInvalidTerrainRegion">' + Resource.removeInvalidTerrainRegion + '</label></div>',
+        '</div>',
+
+        '<div class="tabs-content-item">',
+        '<div class="square" >' +
+            '<label>' +
+                '<input type="checkbox" id="earth" checked/>' +
+                '<span>' + Resource.earth + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square" >' +
+            '<label>' +
+                '<input type="checkbox" id="shadows"/>' +
+                '<span>' + Resource.shadowMap + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square" >' +
+            '<label>' +
+                '<input type="checkbox" id="lightRender" checked/>' +
+                '<span>' + Resource.sun + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square">' +
+            '<label>' +
+                '<input type="checkbox" id="timeline"/>' +
+                '<span>' + Resource.timeline + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square">' +
+            '<label>' +
+                '<input type="checkbox" id="atomsphereRender" checked/>' +
+                '<span>' + Resource.skyAtmosphereEffect + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square">' +
+            '<label>' +
+                '<input type="checkbox" id="fogEnabled" checked/>' +
+                '<span>' + Resource.fogEffect + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square">' +
+            '<label>' +
+                '<input type="checkbox" id="depthAgainst" checked/>' +
+                '<span>' + Resource.depthAgainst + '</span>' +
+            '</label>' +
+        '</div>',
+        '<div class="square">' +
+            '<label>' +
+                '<input type="checkbox" id="icon" checked/>' +
+                '<span>' + Resource.supermapLogo + '</span>' +
+            '</label>' +
+        '</div>',
+        /*'<div class="square">' +
+            '<label>' +
+                '<input type="checkbox" id="removeInvalidTerrainRegion"/>' +
+                '<span>' + Resource.removeInvalidTerrainRegion + '</span>' +
+            '</label>' +
+        '</div>',*/
         '</div> ',
-        '<div>',
-        '<label>' + Resource.brightness + '</label>',
-        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input" >',
-        '<label>' + Resource.contrast + '</label>',
-        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "contrast" class="input" >',
-        '<label>' + Resource.hue + '</label>',
-        '<input type="number" min="0" max="3" step="0.02" value="0.0" id= "hue" class="input">',
-        '<label>' + Resource.saturation + '</label>',
-        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "saturation" class="input" >',
-        '<label>' + Resource.gamma + '</label>',
-        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input" >',
+
+        '<div class="tabs-content-item">',
+            '<label class="label-block">' + Resource.brightness + '</label>',
+            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input" >',
+            '<label class="label-block">' + Resource.contrast + '</label>',
+            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "contrast" class="input" >',
+            '<label class="label-block">' + Resource.hue + '</label>',
+            '<input type="number" min="0" max="3" step="0.02" value="0.0" id= "hue" class="input">',
+            '<label class="label-block">' + Resource.saturation + '</label>',
+            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "saturation" class="input" >',
+            '<label class="label-block">' + Resource.gamma + '</label>',
+            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input" >',
         '</div>',
-        '<div>',
-        '<label style="width: 60px;float: left; margin-top: -0.5px" for="bloom">' + Resource.sceneFlood + '</label>',
-        '<input type="checkbox" id="bloom"/>',
-        '<label>' + Resource.threshold + '</label>',
-        '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.6" step="0.01">',
-        '<label>' + Resource.bloomIntensity + '</label>',
-        '<input type="number" id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.5">',
+
+        '<div class="tabs-content-item">',
+        '<label class="label-block">' + Resource.sceneFlood +'</label>',
+        '<div class="param-item-first-level">',
+            '<label class="label-block">' +
+                '<input type="checkbox" id="bloom"/>' +
+                '<span>' + Resource.openSceneFlood + '</span>' +
+            '</label>',
+            '<label>' + Resource.threshold + '</label>',
+            '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.6" step="0.01">',
+            '<label>' + Resource.bloomIntensity + '</label>',
+            '<input type="number" id="bloomIntensity" class="input" min="0" max="10"  value="2.0" step="0.5">',
         '</div>',
-        '<div>',
-        '<label style="margin-bottom: 1rem;">' + Resource.flyRoute + '</label>',
-        '<input style="background-color:#2EC5AD; width: 100%;" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
+        '</div>',
+
+        '<div class="tabs-content-item">',
+        '<label class="label-block">' + Resource.flyRoute + '</label>',
+        '<div class="param-item-first-level">',
+        '<input style="background-color:#2EC5AD; width: 80%;" type="file" id="flyFile" onchange="" accept=".fpf"  /><br><br>',
         '<button class="start" id="startFly" title=' + Resource.startFly + ' style="background-color: transparent;border:none;"></button>',
         '<button class="pause" id="pauseFly" title=' + Resource.pauseFly + ' style="background-color: transparent;border:none;"></button>',
         '<button class="stop"  id="stopFly"  title=' + Resource.stopFly + ' style="background-color: transparent;border:none;"></button><br><br>',
-        '<select id="stopList" style="background-color:#2EC5AD;width: 100%">',
+        '<select id="stopList" style="background-color:#2EC5AD;width: 80%">',
         '</select>',
-        '<label style="margin-bottom: 1rem;">' + Resource.observe + '</label><br>',
-        '<table border="0" align="left">',
-        '<tr>',
-        '<td>',
+        '</div>',
+
+        '<label class="label-block">' + Resource.observe + '</label>',
+        '<div class="param-item-first-level">',
         '<button id="spin" class="btn btn-info" style="margin: 0 10px 0px 2px;">' + Resource.rotatePoint + '</button>',
-        '</td>',
-        '<td nowrap="nowrap">',
-        '<label style="margin: 0 5px 0 -5px;">' +
-        '<input type="checkbox" id="stopFlyCircle" style="display: inline-block;vertical-align: middle;">' +
-        '<span style="display: inline-block;vertical-align: middle;">&nbsp;'+Resource.pauseFly+'</span>' +
+        '<label style="margin-right: 1rem;">' +
+            '<input type="checkbox" id="stopFlyCircle">' +
+            '<span>'+Resource.pauseFly+'</span>' +
         '</label>',
-        '</td>',
-        '<td nowrap="nowrap">',
-        '<label style="margin: 0 5px 0 -5px;">' +
-        '<input type="checkbox" id="circulation" checked style="display: inline-block;vertical-align: middle;">' +
-        '<span style="display: inline-block;vertical-align: middle;">&nbsp;' + Resource.rotateCirculation + '</span>' +
+        '<label style="margin-right: 0.2rem;">' +
+            '<input type="checkbox" id="circulation" checked>' +
+            '<span>' + Resource.rotateCirculation + '</span>' +
         '</label>',
-        '</td>',
-        '<td nowrap="nowrap">',
-        '<label style="margin: 0 5px 0 -5px;">' +
-        '<input type="checkbox" id="interaction" style="display: inline-block;vertical-align: middle;"/>' +
-        '<span style="display: inline-block;vertical-align: middle;">&nbsp;' + Resource.interactive + '</span>' +
+        '<label style="display: none;">' +
+            '<input type="checkbox" id="interaction"/>' +
+            '<span>' + Resource.interactive + '</span>' +
         '</label>',
         '<canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>',
         '<button id="startHeadControlsButton" style="display: none">' + Resource.enableWebcam + '</button>',
-        '</td>',
-        '</table>',
-        '<div class="square"><input type="checkbox" id="underground"/><label for="underground">' + Resource.underground + '</label></div>',
-        '<div id="camera-minimum-zoom-distance-wrapper" class="param-item" style="display: none;">',
-        '<label>' + Resource.cameraMinimumZoomDistance + '</label>',
-        '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />',
-        '<label >' + Resource.SurfaceTransparency + '</label>',
-        '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="groundAlpha" min="0" max="1.0" step="0.01" value="1.0">',
         '</div>',
 
+        '<label class="label-block">' + Resource.underground + '</label>',
+        '<div class="param-item-first-level">',
+        '<label>' +
+            '<input type="checkbox" id="underground"/>' +
+            '<span>' + Resource.openUnderground + '</span>' +
+        '</label>',
+        '<div id="camera-minimum-zoom-distance-wrapper" class="param-item">',
+            '<label class="label-block">' + Resource.cameraMinimumZoomDistance + '</label>',
+            '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="camera-minimum-zoom-distance" value="-1000" />',
+            '<label class="label-block">' + Resource.SurfaceTransparency + '</label>',
+            '<input type="number" class="input" style="width: 80%;margin-left: 0.5rem;" id="groundAlpha" min="0" max="1.0" step="0.01" value="1.0">',
         '</div>',
-        '<div>',
-        '<label style=" text-align: center; font-size: 20px">SuperMap iEarth</label>',
-        '<label style=" text-align: center; font-size: 16px">' + Resource.Version + ' ： 1.1</label><br><br><br><br>',
-        '<label>' + Resource.newContent + '</label><br><br>',
-        '<textarea id="scenePortalDescription" style="width:220px;height:100px;resize: none;margin-left: 15px;background:transparent">' + Resource.WhatsNew + '</textarea>',
         '</div>',
+        '</div>',
+
+
+        /* 关于 */
+        '<div class="tabs-content-item">',
+            '<label class="label-block text-center" style="font-size: 20px">SuperMap iEarth</label>',
+            '<label class="label-block text-center" style="font-size: 16px">' + Resource.Version + ' ： 1.1</label>',
+            '<label class="label-block">' + Resource.newContent + '</label>',
+            '<textarea id="scenePortalDescription" style="width:220px;height:160px;resize: none;margin-left: 15px;background:transparent">' + Resource.WhatsNew + '</textarea>',
+        '</div>',
+
         '</div>',
         '</div>',
     ].join('');
@@ -187,29 +279,16 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
                 this.on('componentAdded', function (parent) {
                     var icon = true;
                     $(document).ready(function () {
-                        /*var widget = $('#sceneForm');
-                         var tabs = widget.find('ul a'),
-                         content = widget.find('.tabs-content-placeholder > section');
-                         tabs.on('click', function (e) {
-                         e.preventDefault();
-                         // Get the data-index attribute, and show the matching content div
-                         var index = $(this).data('index');
-                         tabs.removeClass('tab-active');
-                         content.removeClass('tab-content-active');
-                         $(this).addClass('tab-active');
-                         content.eq(index).addClass('tab-content-active');
-                         });*/
                         var widget = $('#sceneForm');
-                        var tabs = widget.find('ul a'),
-                            content = widget.find('.tabs-content-placeholder > div');
+                        var tabs = widget.find('.tabs-menu-item > a'); // 左侧的导航菜单
+                        var tabsContent = widget.find('.tabs-content-placeholder > .tabs-content-item'); // 右侧的各个属性模块
                         tabs.on('click', function (e) {
                             e.preventDefault();
-                            // Get the data-index attribute, and show the matching content div
                             var index = $(this).data('index');
                             tabs.removeClass('tab-active');
-                            content.removeClass('tab-content-active');
+                            tabsContent.removeClass('tabs-content-active');
                             $(this).addClass('tab-active');
-                            content.eq(index).addClass('tab-content-active');
+                            tabsContent.eq(index).addClass('tabs-content-active');
                         });
                     });
                     $('#sceneForm').myDrag({
@@ -294,7 +373,6 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
                     $("#underground").on("input propertychange", function (evt) {
                         var isEnableUnderground = $(this).prop("checked");
                         viewer.scene.undergroundMode = isEnableUnderground;
-                        $("#camera-minimum-zoom-distance-wrapper").css("display", isEnableUnderground ? "block" : "none");
                         if (isEnableUnderground) {
                             viewer.scene.screenSpaceCameraController.minimumZoomDistance = Number($("#camera-minimum-zoom-distance").val());
                         } else {

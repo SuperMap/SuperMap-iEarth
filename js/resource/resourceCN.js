@@ -117,8 +117,11 @@ define(function(){
         splitTop : '屏蔽卷帘上侧',
         splitBOTTOM : '屏蔽卷帘下侧',
         coordinates : '查询坐标值',
+        queryCoordinates: '坐标查询',
         underground : '地下',
+        openUnderground: '开启地下',
         sceneFlood : '场景泛光',
+        openSceneFlood: '开启泛光',
         threshold : '亮度阈值',
         bloomIntensity : '泛光强度',
         flyRoute : '飞行线路',
@@ -308,7 +311,7 @@ define(function(){
         cameraMinimumZoomDistance: '相机最小缩放距离(米)',
         highlightBarrier: '高亮障碍物',
         supermapLogo: '超图标识',
-        removeInvalidTerrainRegion: '剔除无效地形区域',
+        removeInvalidTerrainRegion: '剔除无效地形',
         polygonSymbolColor: '面颜色',
         polylineDashSectionLength: '虚线分量长度',
         polylineTrailPeriod: '尾迹线周期',
@@ -369,9 +372,9 @@ define(function(){
         "4、S3M图层支持选中偏移功能\n"+
         "5、S3M图层支持模型颜色控制\n"+
         "6、S3M图层支持模型上的淹没分析\n"+
-        "6、S3M图层支持多边形偏移功能\n"+
-        "7、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n"+
-        "8、支持面符号设置颜色\n",
+        "7、S3M图层支持多边形偏移功能\n"+
+        "8、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n"+
+        "9、支持面符号设置颜色\n",
         baseLayerSource: '底图来源',
         localImage: '本地图片',
         bingMaps: '必应底图',
