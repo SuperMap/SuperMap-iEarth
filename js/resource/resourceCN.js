@@ -396,7 +396,10 @@ define(function(){
         saveSceneSuccess: '场景保存成功！',
         saveSceneFailed: '存储失败！请先登陆iPortal或Online账户......',
         updateSceneSuccess: '场景更新成功！',
-        updateSceneFailed: '场景更新失败，先保存当前场景！'
+        updateSceneFailed: '场景更新失败，先保存当前场景！',
+        layerUrl: '图层URL',
+        layerName: '图层名称',
+        sceneUrl: '场景URL'
     };
     return ResourceCN;
 });

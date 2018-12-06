@@ -20,10 +20,10 @@ define([
          '</span>',*/
         '</div>',
         '<div class="form-group">',
-        '<input id="urlInput" class="my-form-control" type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
+        '<input id="urlInput" class="my-form-control" type="url" placeholder=' + Resource.layerUrl + ' title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
         '</div>',
         '<div class="form-group">',
-        '<input id="nameInput" class="my-form-control" type="text" title="<layer name>" />',
+        '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text" title="<layer name>" />',
         '</div>',
         '<div class="form-group" id="dataUrlDiv" style="display: none;">',
         '<input id="dataUrlInput" style="display: none;"/>',
@@ -37,7 +37,7 @@ define([
         '</div><br>',
         '<div style="padding: 10px; border:1px solid #417BB3">',
         '<label>' + Resource.OpenScene + '</label>',
-        '<input id="sceneUrl" class="my-form-control" type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
+        '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
         '</div><br>',
         '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk" style="float: right">' + Resource.confirm + '</button>',
 

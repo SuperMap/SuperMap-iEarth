@@ -396,7 +396,10 @@
         saveSceneSuccess: 'save scene success！',
         saveSceneFailed: 'storage scene failed! please login to iPortal or Online account...',
         updateSceneSuccess: 'scene update success！',
-        updateSceneFailed: 'scene update failed. save the current scene first'
+        updateSceneFailed: 'scene update failed. save the current scene first',
+        layerUrl: 'layer URL',
+        layerName: 'layer name',
+        sceneUrl: 'scene url'
     };
     return ResourceEN;
 });
