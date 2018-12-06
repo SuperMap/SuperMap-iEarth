@@ -899,9 +899,8 @@ ul#progress li:first-child {
 		display: none;
 	}
 	.myModal-content {
-		top: 20%;
+		top: 15%;
 		width: 80%;
-		margin-left: 10%;
 	}
 	.baselayer-container {
 		left: 10px;
