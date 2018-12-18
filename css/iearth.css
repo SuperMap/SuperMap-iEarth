@@ -26,15 +26,15 @@ label.label-block { /* 宽度为100%的label */
 .text-center { /* 文字居中 */
     text-align: center;
 }
-.param-item-first-level { /* 第一层子项 */
+/*.param-item-first-level { !* 第一层子项 *!
     margin: 0 0 0 1rem;
     width: auto;
 }
-.param-item-second-level { /* 第二层子项 */
+.param-item-second-level { !* 第二层子项 *!
     display: inline-block;
     margin: 0 0 0 2.5rem;
     width: auto;
-}
+}*/
 li {
     color: #898787;
     margin: 0;
@@ -45,7 +45,7 @@ label > input, label > span{ /* 用于控制复选框与文字垂直方向上对
     vertical-align: middle;
 }
 label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start */
-    margin-right: 0.5rem;
+    margin: 0 0.5rem 0 0;
 }
 .disabled { /* 禁用鼠标样式 */
     cursor: not-allowed;
@@ -93,33 +93,33 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 /* 通用样式 end */
 
 /********************* 场景属性相关 start *********************/
-/* 场景属性通用 start */
+/*!* 场景属性通用 start *!
 #sceneForm .square{
     margin-left: 1%;
     width: 48%;
     height: 40px;
     display: inline-block;
 }
-.scene-attribute-sub-module { /* 用于间隔上下两个参数设置部分 */
+.scene-attribute-sub-module { !* 用于间隔上下两个参数设置部分 *!
     margin: 0.3rem;
 }
-/* 场景属性通用 end */
+!* 场景属性通用 end *!
 
-/* 用于场景属性中当前显示的模块 start */
-.tabs-vertical > .tabs-content-placeholder > .tabs-content-item { /* 非当前属性设置模块不可见 */
+!* 用于场景属性中当前显示的模块 start *!
+.tabs-vertical > .tabs-content-placeholder > .tabs-content-item { !* 非当前属性设置模块不可见 *!
     display: none;
 }
-.tabs-vertical > .tabs-content-placeholder > .tabs-content-active{ /* 当前属性设置模块可见 */
+.tabs-vertical > .tabs-content-placeholder > .tabs-content-active{ !* 当前属性设置模块可见 *!
     display: block;
 }
-.tabs-vertical ul li a.tab-active { /* 激活状态下的导航菜单项 */
+.tabs-vertical ul li a.tab-active { !* 激活状态下的导航菜单项 *!
     border-right: 2px solid #298b7b;
     background-color: rgba(38, 38, 38, 0);
     color: #298b7b;
 }
-/* 用于场景属性中当前显示的模块 end */
+!* 用于场景属性中当前显示的模块 end *!
 
-/* 左侧的导航菜单 start */
+!* 左侧的导航菜单 start *!
 ul.tabs-menu {
     border-right: 1px solid #6b7072;
     float: left;
@@ -146,14 +146,14 @@ ul.tabs-menu > li > a:hover {
 ul.tabs-menu > li:first-child a{
     border-top: 0;
 }
-/* 左侧的导航菜单 end */
+!* 左侧的导航菜单 end *!
 
-/* 场景属性-卷帘 start */
+!* 场景属性-卷帘 start *!
 .roller-param-item, .roller-param-sub-item {
      margin: 0.1rem 0;
      display:block;
  }
-/* 场景属性-卷帘 end */
+!* 场景属性-卷帘 end *!*/
 /********************* 场景属性相关 end *********************/
 
 /* 图层列表中的复选框 start */
@@ -243,12 +243,12 @@ ul.tabs-menu > li:first-child a{
     padding: 0;
 }
 .function-module-sub-section-caption-indent {
-    margin: 0 0 8px 0;
+    margin: 0 0 8px 15px;
     padding: 0;
-    text-indent: 15px;
 }
 .function-module-sub-indent-section {
     margin: 0 0 8px 0;
+    overflow: auto;
 }
 .function-module-btn {
     float: right;
@@ -266,6 +266,17 @@ ul.tabs-menu > li:first-child a{
     margin: 0;
     padding: 0;
     border: none;
+}
+.third { /* 用于功能面板一行放三个控件 */
+    width: 33%;
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+.function-module-content input[type=radio] {
+    display: inline-block;
 }
 /* 功能面板 end */
 

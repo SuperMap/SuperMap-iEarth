@@ -1906,9 +1906,9 @@ label{
     font-size: 12px;
     color: darkgrey;
 }
- #layerForm select,#layerForm input[type=range], #layerForm input[type=text], #sceneForm input[type=range], #sceneForm input[type=text],#sceneForm select{
+/* #layerForm select,#layerForm input[type=range], #layerForm input[type=text], #sceneForm input[type=range], #sceneForm input[type=text],#sceneForm select{
      width:85%;
- }
+ }*/
  #layerForm .square label, #sceneForm .square label{
     width: 85%;
     font-size: 12px;
@@ -2548,11 +2548,18 @@ main input:checked + label {
 	display: block;
 }
 
-
 #objectTab1:checked ~ #objectContent1,
 #objectTab2:checked ~ #objectContent2,
 #objectTab3:checked ~ #objectContent3,
 #objectTab4:checked ~ #objectContent4{
+	display: block;
+}
+
+#scene-attribute-basic:checked ~ #scene-attribute-basic-content,
+#scene-attribute-others:checked ~ #scene-attribute-others-content,
+#scene-attribute-color:checked ~ #scene-attribute-color-content,
+#scene-attribute-flood:checked ~ #scene-attribute-flood-content,
+#scene-attribute-camera:checked ~ #scene-attribute-camera-content{
 	display: block;
 }
 

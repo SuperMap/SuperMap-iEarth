@@ -308,7 +308,7 @@ define(function(){
         terrain : '地形',
         onlineEditing : '在线编辑',
         interspaceQuery: '空间查询',
-        cameraMinimumZoomDistance: '相机最小缩放距离(米)',
+        cameraMinimumZoomDistance: '最小缩放距离(米)',
         highlightBarrier: '高亮障碍物',
         supermapLogo: '超图标识',
         removeInvalidTerrainRegion: '剔除无效地形',
@@ -404,7 +404,8 @@ define(function(){
         layerName: '图层名称',
         sceneUrl: '场景URL',
         fullScreen: '全屏',
-        polygonClipMode: '裁剪模式'
+        polygonClipMode: '裁剪模式',
+        clickToSearchCoordination: '点击查询坐标值'
     };
     return ResourceCN;
 });

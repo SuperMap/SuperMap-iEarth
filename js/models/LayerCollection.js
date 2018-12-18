@@ -65,7 +65,7 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
                     else if (item.type == "REALSPACE") {
                         if (location.protocol === "http:" && item.proxiedUrl.indexOf("https") > -1) {
                             item.proxiedUrl = item.proxiedUrl.replace("https", "http");
-                         }
+                        }
                         url = item.proxiedUrl + '/realspace/datas.json';
                     }
                     promise = Cesium.loadJson(url);
@@ -78,9 +78,11 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
                 var model;
                 for (var i = 0; i < parameter.colcParam.length; i++) {
                     var obj = parameter.colcParam[i];
-                      if (location.protocol === "http:" && obj.path.indexOf("https") > -1) {
-                         obj.path = obj.path.replace("https", "http");
-                     }
+                    if (location.protocol === "http:" && obj.path.indexOf("https:") > -1) {
+                        obj.path = obj.path.replace("https", "http");
+                    } else if (location.protocol === "https:" && obj.path.indexOf("http:") > -1) {
+                        obj.path = obj.path.replace("http", "https");
+                    }
                     var name = parameter.sceneName;
                     var subName = obj.name;
                     var typeUrl = obj.path + '.xml';
@@ -91,25 +93,24 @@ define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Bac
                         type: 'GET',
                         async: false,
                         timeout: 3000,
-                        error: function(xml){
+                        error: function (xml) {
                             type = 'OSGB';
                         },
-                        success: function(xml){
-                            $(xml).find("dataType").each(function(j)
-                            {
+                        success: function (xml) {
+                            $(xml).find("dataType").each(function (j) {
                                 var id = $(this).children("id");
                                 type = id.context.innerHTML;
-                                if(type == 'OSGB'){
+                                if (type == 'OSGB') {
                                     type = 'S3M';
-                                    obj.path +=  '/config';
+                                    obj.path += '/config';
                                 }
-                                else if(type == 'IMG'){
+                                else if (type == 'IMG') {
                                     type = 'IMAGERY';
                                 }
-                                else if(type == 'DEM'){
+                                else if (type == 'DEM') {
                                     type = 'TERRAIN';
                                 }
-                                if(i === 0){
+                                if (i === 0) {
                                     model = new LayerModel({
                                         type: 'MULTIS3M',
                                         url: obj.path,

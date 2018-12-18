@@ -18,9 +18,10 @@ define(['./Container', 'Cesium', '../Util'],function(Container, Cesium, Util){
             }else{
                 me.isWechatBrowser = false;
             }
-            if(window.location.protocol === 'http:'){ // http协议不支持定位服务
+            /*if(window.location.protocol === 'http:'){ // http协议不支持定位服务
                 this.$el.hide();
-            }
+            }*/
+            this.$el.hide(); // https下因为要访问谷歌api所以不FQ也访问不到，故暂时将该控件隐藏
             this.render();
         },
         render : function() {

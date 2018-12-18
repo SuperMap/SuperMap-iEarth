@@ -404,7 +404,8 @@
         layerName: 'layer name',
         sceneUrl: 'scene url',
         fullScreen: 'full screen',
-        polygonClipMode: 'clip mode'
+        polygonClipMode: 'clip mode',
+        clickToSearchCoordination: 'click to search coordination'
     };
     return ResourceEN;
 });
