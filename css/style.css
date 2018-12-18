@@ -216,12 +216,7 @@ p.change_link{
   box-shadow:         -2px 3px 2px 0px rgba(5, 0, 0, 0.11);
 }
 
-li {
-   color: #4c7d84;
-   margin: 0;
-   font-family: 'Open Sans', sans-serif;
-   list-style: none;
-}
+
 
 li.level-one {
   font-size: 1.5em;
@@ -250,11 +245,6 @@ li.level-one:first-child {
 i {
   color: #4c7d84;
   margin: 25%;
-}
-
-a {
-  color: #3f8eb9;
-  text-decoration: none;
 }
 
 .level-one {
@@ -376,9 +366,6 @@ input[type=range]::-ms-thumb {
     background: #ffffff;
     margin-top: -5px;
     box-shadow: 0 .125em .125em #3b4547;
-}
-.sp-preview {
-    width: 80%;
 }
 input[type=range]::-ms-fill-lower {
     /*进度条已填充的部分*/

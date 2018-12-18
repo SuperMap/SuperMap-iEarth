@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', 'drag', 'slider', '../lib/tooltip', '../lib/HeadControls', '../lib/jeelizFaceFilter'], function (Container, Cesium, flyRoute, dynamicScene, drag, slider, tooltip, HeadControls, jeelizFaceFilter) {
+define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/tooltip', '../lib/HeadControls', '../lib/jeelizFaceFilter', '../Util'], function (Container, Cesium, flyRoute, drag, slider, tooltip, HeadControls, jeelizFaceFilter, Utils) {
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -12,7 +12,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
     var htmlStr = [
         '<div class="tabs-vertical mainView" id="sceneForm" style="position: absolute;width:350px;z-index: 1;cursor: auto;">',
         '<label style="width: 100%; text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">' + Resource.sceneOptions + '</label>',
-        '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<button style="top: 10px;position: absolute;right: 1rem;" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">&times</span></button>',
         '<ul class="tabs-menu">',
             '<li class="tabs-menu-item"><a class="tab-active" data-index="0" href="#">' + Resource.basicOptions + '</a></li>',
             '<li class="tabs-menu-item"><a data-index="1" href="#">' + Resource.otherOptions + '</a></li>',
@@ -152,12 +152,12 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
                 '<span>' + Resource.supermapLogo + '</span>' +
             '</label>' +
         '</div>',
-        /*'<div class="square">' +
+        '<div class="square">' +
             '<label>' +
-                '<input type="checkbox" id="removeInvalidTerrainRegion"/>' +
-                '<span>' + Resource.removeInvalidTerrainRegion + '</span>' +
+                '<input type="checkbox" id="full-screen"/>' +
+                '<span>' + Resource.fullScreen + '</span>' +
             '</label>' +
-        '</div>',*/
+        '</div>',
         '</div> ',
 
         '<div class="tabs-content-item">',
@@ -334,9 +334,31 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', '../3DGIS/dynamicScene', '
                     $("#depthAgainst").click(function (evt) {
                         scene.globe.depthTestAgainstTerrain = !scene.globe.depthTestAgainstTerrain;
                     });
-                    $("#removeInvalidTerrainRegion").on("input propertychange", function () {
-                        viewer.terrainProvider.isShowGlobe = !$(this).prop("checked");
+                    /* 全屏相关 start */
+                    $("#full-screen").on("input propertychange", function() {
+                        if ($(this).prop("checked")) { // 全屏
+                            Utils.launchFullscreen(document.documentElement);
+                        } else { // 退出全屏
+                            Utils.exitFullscreen();
+                        }
                     });
+                    document.addEventListener("fullscreenchange", function( event ) {
+                        if (!document.fullscreenElement) { // fullscreenElement属性返回正处于全屏状态的Element节点，没有节点处于全屏状态返回null
+                            $("#full-screen").prop("checked", false);
+                        } else {
+                            $("#full-screen").prop("checked", true);
+                        }
+                    });
+                    /*document.addEventListener("keydown", function(e) {
+                        console.log(e.keyCode);
+                        f(e && e.keyCode == 122){ // 按 F11
+                            console.log(document.fullscreenElement);
+                        }
+                    });*/
+                    /*document.addEventListener("resize", function() {
+                       console.log("尺寸变化");
+                    });*/
+                    /* 全屏相关 end */
                     $("#earth").click(function (evt) {
                         scene.globe.show = !scene.globe.show;
                     });

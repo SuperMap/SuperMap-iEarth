@@ -1,15 +1,3 @@
-body {
-	background: #000;
-	color: #eee;
-	font-family: "Microsoft YaHei" !important;
-	font-size: 10pt;
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	cursor: url(../images/cursor/Pan.cur), default;
-}
 *{
 	box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -258,58 +246,11 @@ body.modal-open {
 	border: none;
 }
 
-.myModal {
-	display: none;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-	/* text-align: center; */
-	/* background-color: rgba(0,0,0,0.7); */
-	background-color: rgba(38, 38, 38, 0.75);
-	z-index: 999;
-}
-
-.myModal-header {
-	min-height: 16px;
-	padding: 5px;
-}
-
-.myModal-body {
-	padding: 10px;
-}
-
-.myModal-content {
-	position: absolute;
-	top: 25%;
-	width: 30%;
-	display: inline-block;
-	border: 1px solid #526f82;
-	color: #ffffff;
-	font-size: 10pt;
-	padding: 1em;
-	left: 50%;
-	-webkit-transform: translateX(-50%);
-	-moz-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	-o-transform: translateX(-50%);
-	transform: translateX(-50%);
-}
-
 .myModal:before {
 	display: inline-block;
 	vertical-align: middle;
 	height: 100%;
 	content: "";
-}
-
-.myModal-close {
-	float: right;
-	color: #ffffff;
-	background-color: rgba(38, 38, 38, 0.75);;
-	border: none;
-	font-size: 1.5em;
 }
 
 .myModal-close:hover {
@@ -372,24 +313,7 @@ body.modal-open {
 	cursor: pointer;
 }
 
-.selTypeContainer {
-	display: block;
-	margin-bottom: 20px;
-	text-align: left;
-}
-
-.service-items {
-	display: block;
-	position: relative;
-	top: auto;
-	right: 0;
-	overflow-y: auto;
-	overflow-x: auto;
-	max-height: 260px;
-	text-align: left;
-}
-
-.service-item, .effect-item {
+.effect-item {
 	display: inline-block;
 	vertical-align: top;
 	margin: 5px;
@@ -399,7 +323,7 @@ body.modal-open {
 	position : relative;
 }
 
-.service-itemIcon, .effect-itemIcon {
+.effect-itemIcon {
 	display: inline-block;
 	position: relative;
 	width: inherit;
@@ -418,7 +342,7 @@ body.modal-open {
 	border: 3px solid #00DCFF;
 }
 
-.service-itemLabel, .effect-itemLabel {
+.effect-itemLabel {
 	display: block;
 	font-family: sans-serif;
 	font-size: 10pt;
@@ -427,7 +351,7 @@ body.modal-open {
 	word-wrap: break-word;
 	cursor: pointer;
 }
-.service-itemBg, .effect-itemBg{
+.effect-itemBg{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -436,52 +360,11 @@ body.modal-open {
     top: 0px;
     opacity: 0;
 }
-.service-itemAttr:hover div.service-itemBg{
-    opacity: 1;
-    background-color: rgba(35,36,36,0.7);
-}
 
 .effect-itemIcon:hover>div.effect-itemBg{
 	opacity: 1;
 	background-color: rgba(35,36,36,0.7);
 }
-
-.service-itemDes{
-    position: absolute;
-    left: 5px;
-    top: 20px;
-    color : #fff;
-    font-size : 12px;
-    font-weight : 400;
-    opacity : 0;
-}
-.service-itemAttr:hover div.service-itemDes{
-	opacity : 1;
-}
-.service-itemAdd{
-	position : absolute;
-	right : 0px;
-	bottom : 0px;
-	font-size : 20px;
-	opacity : 0;
-}
-.service-itemAttr:hover div.service-itemAdd{
-	opacity : 1;
-}
-
-
-.service-itemUnSelected{
-	position : absolute;
-	right : 0px;
-	top : 0px;
-	font-size : 16px;
-	color : rgb(26,188,114);
-	opacity : 0;
-}
-.service-itemSelected{
-	opacity : 1;
-}
-
 
 .ztree * {
 	font-size: 10pt;
@@ -787,7 +670,7 @@ ul#progress li:first-child {
 	transfor: translate(0, -20%);
 	opacity: 0;
 	visibility: hidden;
-	border: 1px solid #444;
+	border: 1px solid #526f82;
 	background-color: rgba(38, 38, 38, 0.75);
 	margin: 9px;
 	color: white;
@@ -858,11 +741,6 @@ ul#progress li:first-child {
     min-width: 435px;
 }
 /* ---setting drop down END---*/
-.mainView {
-	right: 45px;
-	top : 10%;
-	width: 300px;
-}
 
 @media screen and (max-width: 1024px) {
 	#content1-adaptation {
@@ -1198,10 +1076,6 @@ ul#progress li:first-child {
 		max-height: 480px;
 	}
 }
-
-#webServicePan {
-	overflow: auto;
-}
 /*--------toolbar------*/
 #toolbar1{
 	margin: 5px;
@@ -1414,9 +1288,11 @@ ul#progress li:first-child {
 }
 
 /*--------toolbar start*/
-a{
-	text-decoration : none;
+a {
+	color: #3f8eb9;
+	text-decoration: none;
 }
+
 .btn-toolbar{
 	margin-left: -5px;
 	z-index: 1;
@@ -1752,53 +1628,7 @@ label{
 /*--------input label  end------*/
 
 /*--------nav tabs  end------*/
-.nav{
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-}
-.nav-tabs{
-	border-bottom: 1px solid #ddd;
-}
-.nav-tabs>li{
-    float: left;
-    margin-bottom: -1px;
-}
-.nav>li{
-    position: relative;
-    display: block;
-}
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
-    color: #555;
-    cursor: default;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-bottom-color: transparent;
-}
-.nav-tabs>li>a{
-    margin-right: 2px;
-    line-height: 1.5;
-    border: 1px solid transparent;
-    border-radius: 4px 4px 0 0;
-}
-.nav>li>a:focus, .nav>li>a:hover{
-    text-decoration: none;
-    background-color: #eee;
-}
-.nav-tabs>li>a:hover{
-    border-color: #eee #eee #ddd;
-}
-.nav>li>a{
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-}
-.tab-content>.tab-pane{
-    display: none;
-}
-.tab-content>.active{
-    display: block;
-}
+
 /*--------nav tabs  end------*/
 
 /*--------glyphicon  end------*/
@@ -1851,86 +1681,22 @@ label{
 }
 /*--------form  end------*/
 
-/* .squaredTwo */
-.squaredTwo {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    position: relative;
-    margin: 5px 5px;
-    background: #fcfff4;
-    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-}
-.squaredTwo label {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    background: -moz-linear-gradient(top, #222222 0%, #45484d 100%);
-    background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
-    background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
-    -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-    -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-}
-.squaredTwo label:after {
-    content: '';
-    width: 9px;
-    height: 5px;
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    border: 3px solid #fcfff4;
-    border-top: none;
-    border-right: none;
-    background: transparent;
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-    opacity: 0;
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-}
-.squaredTwo label:hover::after {
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-    opacity: 0.3;
-}
-.squaredTwo input[type=checkbox] {
-    visibility: hidden;
-}
-.squaredTwo input[type=checkbox] + label:after {
-    filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-    opacity: 0;
-}
-.squaredTwo input[type=checkbox]:checked + label:after {
-    filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-    opacity: 1;
-}
-/* end .squaredTwo */
-
 /*--------tree view  start------*/
 .treeview{
     color: #fff;
 }
+
 .node-layerTree:not(.node-disabled){
-    border : none;
-    padding: 0;
-    font-size: 11pt;
+	border : none;
+	padding: 0;
+	font-size: 14.75px;
 }
+
 .node-unchecked .squaredTwo input[type=checkbox] + label:after {
     filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
     opacity: 0;
 }
-.node-layerTree:not(.node-disabled):hover{
-    color: #000;
-}
+
 .list-group-item>.fui-cross{
 	padding : 2px 7px;
 	visibility : hidden;
@@ -2120,10 +1886,6 @@ label{
     filter: alpha(opacity=40);
 }
 /*------end bootstrap dropdown*/
-input[type=text] {
-    width: 120px;
-     margin: 2.5px;
-}
 #propertyForm label{
 	width: 100%;
 	margin: 10px 5px -5px 2px;
@@ -2720,27 +2482,20 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 	outline:none;
 }
 
-/**/
 main {
     min-width: 320px;
-    /*max-width: 350px;*/
-    /*margin: 0 auto;*/
     border: 1px solid #526f82;
     color: #ffffff;
     font-size: 10pt;
-    padding: 1em;
+    padding: 24px;
     background-color: rgba(38, 38, 38, 0.75);
 }
 .drawCur{
 	cursor: url(../images/cursor/draw.cur), auto;
 }
-#closeMain {
-	background-color: rgba(38, 38, 38, 0.75);
-}
 main section {
   display: none;
-  padding: 0px 0 0;
-  border-top: 1px solid #ddd;
+  padding: 0;
 }
 
 main input[type=radio]{
@@ -2760,15 +2515,10 @@ main label:before {
   font-weight: normal;
 }
 
-main label:hover {
-  color: #fff;
-  cursor: pointer;
-}
-
 main input:checked + label {
-	color: #2ec5ad;
+	color: #009c95;
     cursor: default;
-    border-bottom: 1px solid #2ec5ad;
+    border-bottom: 1px solid #009c95;
     font-weight: bold;
 }
 
@@ -2784,13 +2534,6 @@ main input:checked + label {
 #terrainTab3:checked ~ #terrainContent3,
 #terrainTab4:checked ~ #terrainContent4 {
 	display: block;
-}
-
-#terrainTab1:checked ~ #terrainContent1,
-#terrainTab2:checked ~ #terrainContent2,
-#terrainTab3:checked ~ #terrainContent3,
-#terrainTab4:checked ~ #terrainContent4 {
-    display: block;
 }
 
 #clipTab1:checked ~ #clipContent1,
@@ -2822,18 +2565,6 @@ main input:checked + label {
     color: #fff;
   }
 }
-
-main section label{
-	width: 100%;
-    color: lightgrey;
-    margin: 0px 5px -5px -5px;
-	text-align: left;
-    line-height: 1.5;
-    font-size: 12px;
-}
-#content2 label{
-    margin-left: -5px;
-}
 main section input[type=range]{
     color: grey;
     background: darkgrey;
@@ -2842,13 +2573,13 @@ main section input[type=range]{
 }
 
 main section input[type=text] {
-    margin: 2.5px;
-    width: 15%;
-    background: rgba(0,0,0,0);
-    border: 2px solid #6f7578;
+    /*margin: 2.5px;*/
+    /*width: 15%;*/
+    /*background: rgba(0,0,0,0);
+    border: 2px solid #6f7578;*/
     color: lightgrey;
-	text-align: center;
-	border-radius: 5px;
+	/*text-align: center;
+	border-radius: 5px;*/
 }
 main section button{
   color: #f7f1f1;
@@ -2864,7 +2595,7 @@ main .square{
 }
 
 #selDate, main select{
-    width: 93%;
+    width: 90%;
     height: 30px;
     color: lightgray;
     background-color: #333;

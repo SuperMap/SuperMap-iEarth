@@ -19,26 +19,6 @@ define(['backbone','Cesium','../Util','../Config'],function(Backbone,Cesium,Util
                 name : name
             });
 		return Cesium.when(promise,function(layer){
-            if (me.attrQueryPars) {
-                layer.setQueryParameter(me.attrQueryPars);
-                viewer.pickEvent.addEventListener(function (feature) {
-                    $("#bubble").show();
-                    var table = document.getElementById("tab");
-                    for (i = table.rows.length - 1; i > -1; i--) {
-                        table.deleteRow(i);
-                    }
-                    for (var key in feature) {
-                        var newRow = table.insertRow();
-                        var cell1 = newRow.insertCell();
-                        var cell2 = newRow.insertCell();
-                        cell1.innerHTML = key;
-                        cell2.innerHTML = feature[key];
-                    }
-                });
-            }
-            if(!Cesium.FeatureDetection.isPCBroswer()){
-				layer._supportCompressType = 0;
-            }
 			me.sceneModel.trigger('layerAdded',me);
 			me.sceneModel.layers.add(me);
 			me.layer = layer;

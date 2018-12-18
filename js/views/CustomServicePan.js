@@ -39,7 +39,7 @@ define([
         '<label>' + Resource.OpenScene + '</label>',
         '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
         '</div><br>',
-        '<button class="cesium-button" data-dismiss="myModal-body" id="btnOk" style="float: right">' + Resource.confirm + '</button>',
+        '<button class="btn btn-info function-module-btn-highlight" data-dismiss="myModal-body" id="btnOk" style="float: right;margin-top:28px;">' + Resource.confirm + '</button>',
 
     ].join('');
     var WebServicePan = Container.extend({

@@ -46,7 +46,7 @@
 		borderColor: undefined, // '#dddddd',
 		onhoverColor: '#F5F5F5',
 		selectedColor: '#FFFFFF',
-		selectedBackColor: '#428bca',
+		selectedBackColor: 'transparent',
 		searchResultColor: '#D9534F',
 		searchResultBackColor: undefined, //'#FFFFFF',
 
@@ -561,6 +561,7 @@
 				.attr('data-nodeid', node.nodeId)
 				.attr('style', _this.buildStyleOverride(node));
 
+
 			// Add indent/spacer to mimic tree structure
 			for (var i = 0; i < (level - 1); i++) {
 				treeItem.append(_this.template.indent);
@@ -633,10 +634,8 @@
 					);
 			}
 			else {
-				// otherwise just text
-				//treeItem.append(node.text);
-				treeItem.append($('<span style="white-space:normal;display:inline-block;width:160px;word-break:break-word;">' + node.text + '</span>'));
-				
+				// 图层列表中每一项的文本内容
+                treeItem.append($('<span style="display:inline-block;width:160px;">' + node.text + '</span>'));
 			}
 
 			// Add tags as badges
@@ -653,6 +652,12 @@
 			if(_this.options.showDel && node.showDel && node.level < 4){
 				treeItem.append($(_this.template.del));
 			}
+
+            if (level < 3) {
+                treeItem.css('color', '#fff');
+                treeItem.find('.squaredTwo').addClass('squaredTwo-light');
+                treeItem.find('.check-icon').addClass('check-icon-light');
+            }
 
 			// Add item to the tree
 			_this.$wrapper.append(treeItem);
@@ -773,9 +778,9 @@
 
 		var style = '.node-' + this.elementId + '{';
 
-		if (this.options.color) {
+		/*if (this.options.color) {
 			style += 'color:' + this.options.color + ';';
-		}
+		}*/
 
 		if (this.options.backColor) {
 			style += 'background-color:' + this.options.backColor + ';';
@@ -789,11 +794,11 @@
 		}
 		style += '}';
 
-		if (this.options.onhoverColor) {
+		/*if (this.options.onhoverColor) {
 			style += '.node-' + this.elementId + ':not(.node-disabled):hover{' +
 				'background-color:' + this.options.onhoverColor + ';' +
 			'}';
-		}
+		}*/
 
 		return this.css + style;
 	};

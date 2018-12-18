@@ -32,13 +32,6 @@ define(['Cesium'], function (Cesium) {
         }
         handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
 
-        // var visibleColor = document.getElementById('visibleColor');
-        // var color1 = Cesium.Color.fromCssColorString(visibleColor.value);
-        // sightline.visibleColor = color1;
-        // var hiddenColor = document.getElementById('hiddenColor');
-        // var color2 = Cesium.Color.fromCssColorString(hiddenColor.value);
-        // sightline.hiddenColor = color2;
-
         sightLineHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Line);
         sightLineHandler.activeEvt.addEventListener(function (isActive) {
             if (isActive == true) {
@@ -86,9 +79,10 @@ define(['Cesium'], function (Cesium) {
             longitude = Cesium.Math.toDegrees(cartographic.longitude);
             latitude = Cesium.Math.toDegrees(cartographic.latitude);
             height = cartographic.height;
-            $('#viewPointX').val(longitude.toFixed(4));
-            $('#viewPointY').val(latitude.toFixed(4));
-            $('#viewPointZ').val(height.toFixed(4));
+
+            var sightObservationPlace = longitude.toFixed(4) + ', ' + latitude.toFixed(4) + ', ' + height.toFixed(2);
+            $("#sight-observation-place").val(sightObservationPlace);
+
             sightline.viewPosition = [longitude, latitude, height];
 
             handler.setInputAction(function (evt) {
@@ -117,37 +111,9 @@ define(['Cesium'], function (Cesium) {
             sightline.hiddenColor = color;
         };
 
-        $('#viewPointX').on('input propertychange', function () {
-            if (this.value === "") {
-                $(this).val("0.0");
-            }
-            var cartesian = Cesium.Cartesian3.fromDegrees(parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val()), Cesium.Ellipsoid.WGS84);
-            pointPosition.position._value = cartesian;
-            sightline.viewPosition = [parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val())];
-        })
-
-        $('#viewPointY').on('input propertychange', function () {
-            if (this.value === "") {
-                $(this).val("0.0");
-            }
-            var cartesian = Cesium.Cartesian3.fromDegrees(parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val()), Cesium.Ellipsoid.WGS84);
-            pointPosition.position._value = cartesian;
-            sightline.viewPosition = [parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val())];
-        })
-
-        $('#viewPointZ').on('input propertychange', function () {
-            if (this.value === "") {
-                $(this).val("0.0");
-            }
-            var cartesian = Cesium.Cartesian3.fromDegrees(parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val()), Cesium.Ellipsoid.WGS84);
-            pointPosition.position._value = cartesian;
-            sightline.viewPosition = [parseFloat($('#viewPointX').val()), parseFloat($('#viewPointY').val()), parseFloat($('#viewPointZ').val())];
-        })
 
         document.getElementById("clearSL").onclick = function () {
-            $('#viewPointX').val("0.0");
-            $('#viewPointY').val("0.0");
-            $('#viewPointZ').val("0.0");
+            $("#sight-observation-place").val('');
             viewer.entities.removeAll();
             sightline && sightline.removeAllTargetPoint();
             for (var layer of scene.layers.layerQueue) {

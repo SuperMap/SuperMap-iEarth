@@ -1538,8 +1538,20 @@ define('Handler/PolylineHandler', function() {
     return Cesium['PolylineHandler'];
 });
 
+define('Light/DirectionalLight', function() {
+    return Cesium['DirectionalLight'];
+});
+
+define('Light/LightSource', function() {
+    return Cesium['LightSource'];
+});
+
 define('Light/PointLight', function() {
     return Cesium['PointLight'];
+});
+
+define('Light/SpotLight', function() {
+    return Cesium['SpotLight'];
 });
 
 define('Plot/AlgoSymbol/AlgoSymbol', function() {
@@ -1668,6 +1680,10 @@ define('Plot/Leaflet/SymbolLib', function() {
 
 define('Plot/Leaflet/SymbolLibManager', function() {
     return Cesium['SymbolLibManager'];
+});
+
+define('Plot/Leaflet/SymbolLibService', function() {
+    return Cesium['SymbolLibService'];
 });
 
 define('Plot/PlotAnimation/GOAnimation', function() {
@@ -2034,6 +2050,10 @@ define('S3MTiles/DynamicObjectState', function() {
     return Cesium['DynamicObjectState'];
 });
 
+define('S3MTiles/Enum/ClipPlaneMode', function() {
+    return Cesium['ClipPlaneMode'];
+});
+
 define('S3MTiles/Enum/DataFileType', function() {
     return Cesium['DataFileType'];
 });
@@ -2044,6 +2064,10 @@ define('S3MTiles/Enum/InstancedType', function() {
 
 define('S3MTiles/Enum/InstanceMode', function() {
     return Cesium['InstanceMode'];
+});
+
+define('S3MTiles/Enum/LightSourceType', function() {
+    return Cesium['LightSourceType'];
 });
 
 define('S3MTiles/Enum/LoadState', function() {
@@ -2172,6 +2196,10 @@ define('S3MTiles/S3MRenderStateCreator', function() {
 
 define('S3MTiles/S3MTilesLayer', function() {
     return Cesium['S3MTilesLayer'];
+});
+
+define('S3MTiles/shader/ClipPlaneDepthFp', function() {
+    return Cesium['ClipPlaneDepthFp'];
 });
 
 define('S3MTiles/shader/ClipPlaneFp', function() {
@@ -3002,6 +3030,10 @@ define('Scene/SphereEmitter', function() {
     return Cesium['SphereEmitter'];
 });
 
+define('Scene/SSAOEffect', function() {
+    return Cesium['SSAOEffect'];
+});
+
 define('Scene/StencilFunction', function() {
     return Cesium['StencilFunction'];
 });
@@ -3772,6 +3804,10 @@ define('Shaders/PolylineVS', function() {
 
 define('Shaders/PostProcessFilters/AdditiveBlend', function() {
     return Cesium['AdditiveBlend'];
+});
+
+define('Shaders/PostProcessFilters/AmbientOcclusion', function() {
+    return Cesium['AmbientOcclusion'];
 });
 
 define('Shaders/PostProcessFilters/BloomBrightPass', function() {

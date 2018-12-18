@@ -36,6 +36,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             var me = this;
             this.listenTo(thumbGroup, 'thumbClicked', function(model) {
                 me.model.addLayer(model);
+                /*$("ul.list-group > li").removeClass("node-selected");*/
             });
             this.render();
             this.on('componentAdded',function(parent){

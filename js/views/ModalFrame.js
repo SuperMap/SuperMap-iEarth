@@ -4,19 +4,19 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan','.
     var $ = require('jquery');
     var htmlStr = [
         "<div class='myModal-content'>",
-        "<div class='myModal-header'>",
-        "<button  aria-label='Close' class='myModal-close' title='" + Resource.close + "' id='btnCloseModal'><span aria-hidden='true'>&times;</span></button>",
-        "<ul class='nav nav-tabs' role='tablist'>",
-        '<li role="presentation" id="servicePan" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
-        '<li role="presentation"><a href="#customServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.customService + '</a></li>',
-        '<li role="presentation"><a href="#localFilePan" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.localKML + '</a></li>',
-        '<li role="presentation" id = "getMyScenes" style="display: none"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
-        '</ul>',
-        "</div>",
-        '<div class="myModal-body">',
-        '<div class="tab-content">',
-        '</div>',
-        '</div>',
+            "<div class='myModal-header'>",
+                "<button aria-label='Close' class='myModal-close' title='" + Resource.close + "' id='btnCloseModal'><span aria-hidden='true'>&times;</span></button>",
+                "<ul class='nav nav-tabs' role='tablist'>",
+                    '<li role="presentation" id="servicePan" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
+                    '<li role="presentation"><a href="#customServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.customService + '</a></li>',
+                    '<li role="presentation"><a href="#localFilePan" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.localKML + '</a></li>',
+                    '<li role="presentation" id = "getMyScenes" style="display: none"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
+                '</ul>',
+            "</div>",
+            '<div class="myModal-body">',
+                '<div class="tab-content">',
+                '</div>',
+            '</div>',
         "</div>"
     ].join('');
     var ModalFrame = Container.extend({

@@ -23,7 +23,7 @@ define([
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
                    "<a data-toggle='dropdown' id='clipBtn' title='" + Resource.clip + "' class='btn btn-inverse'><span class='iconfont icon-ai50'></span></a>",
                    "<a data-toggle='dropdown' id='terrainBtn' title='" + Resource.terrain + "' class='btn btn-inverse'><span class='iconfont icon-1'></span></a>",
-                   "<a data-toggle='dropdown' id='analysisBtn'  title='" + Resource.analysis + "' class='btn btn-inverse'><span class='fui-window'></span></a>",
+                   "<a data-toggle='dropdown' id='analysisBtn'  title='" + Resource.analysis + "' class='btn btn-inverse'><span class='iconfont icon-icon-sanweifenxi'></span></a>",
                    "<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='smicon-message'></span></a>",
                   // "<a data-toggle='dropdown' id='bookmarkBtn' title='" + "书签" + "' class='btn btn-inverse'><span class='smicon-bookmark '></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
@@ -61,11 +61,11 @@ define([
             this.on('componentAdded',function(parent){
                 if(parent){
                 	this.parent = parent;
-                    var bubble = new Bubble({
+                    /*var bubble = new Bubble({
                         sceneModel : options.sceneModel
                     });
                     $('body').append(bubble.el);
-                    this.model.viewer.customInfobox = bubble.el;
+                    this.model.viewer.customInfobox = bubble.el;*/
                     
                     var layerManageDropDownView = new LayerManageDropDown({
                         sceneModel : this.model

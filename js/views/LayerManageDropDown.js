@@ -202,7 +202,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             var childNode = this.tree.treeview('addNode', [this.rootNode[type], {
                 text: name,
                 showDel: true,
-                fontSize: '10pt',
+                /*fontSize: '14.75px',*/
                 state: {checked: isVisible}
             }]);
             list = calNode(layerModel.get('url'));
@@ -317,7 +317,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                     selectedLayer.selectColorType = 1;
                 }
             })
-            //图层可见性
+            // 图层可见性
             $("#display").click(function (evt) {
                 selectedLayer.visible = !selectedLayer.visible;
             });
