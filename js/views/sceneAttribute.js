@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/tooltip', '../lib/HeadControls', '../lib/jeelizFaceFilter', '../Util'], function (Container, Cesium, flyRoute, drag, slider, tooltip, HeadControls, jeelizFaceFilter, Utils) {
+define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/tooltip', '../Util'], function (Container, Cesium, flyRoute, drag, slider, tooltip, Utils) {
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
@@ -11,118 +11,18 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
 
     var htmlStr = [
         '<main class="mainView" id="sceneForm">',
-        /*'<label style="width: 100%; text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">' + Resource.sceneOptions + '</label>',*/
         '<button aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">&times</span></button>',
 
         '<input id="scene-attribute-basic" name="scene-attribute" type="radio" checked/>',
         '<label for="scene-attribute-basic" class="function-module-caption">' + Resource.basicOptions + '</label>',
         '<input id="scene-attribute-others" name="scene-attribute" type="radio"/>',
         '<label for="scene-attribute-others" class="function-module-caption">' + Resource.otherOptions + '</label>',
-        '<input id="scene-attribute-color" name="scene-attribute" type="radio"/>',
-        '<label for="scene-attribute-color" class="function-module-caption">' + Resource.sceneColor + '</label>',
-        '<input id="scene-attribute-flood" name="scene-attribute" type="radio"/>',
-        '<label for="scene-attribute-flood" class="function-module-caption">' + Resource.flood + '</label>',
         '<input id="scene-attribute-camera" name="scene-attribute" type="radio"/>',
         '<label for="scene-attribute-camera" class="function-module-caption">' + Resource.camera + '</label>',
-
-        /*'<ul class="tabs-menu">',
-            '<li class="tabs-menu-item"><a class="tab-active" data-index="0" href="#">' + Resource.basicOptions + '</a></li>',
-            '<li class="tabs-menu-item"><a data-index="1" href="#">' + Resource.otherOptions + '</a></li>',
-            '<li class="tabs-menu-item"><a data-index="2" href="#">' + Resource.sceneColor + '</a></li>',
-            '<li class="tabs-menu-item"><a data-index="3" href="#">' + Resource.flood + '</a></li>',
-            '<li class="tabs-menu-item"><a data-index="4" href="#">' + Resource.camera + '</a></li>',
-            '<li class="tabs-menu-item"><a data-index="5" href="#">' + Resource.about + '</a></li>',
-        '</ul>',*/
-
-        /*'<div class="tabs-content-placeholder" style="height:100%" id="scene-placeholder">',*/
 
         '<section id="scene-attribute-basic-content">',
             '<div class="function-module-content">',
                 '<div class="function-module-sub-section">',
-                    '<label class="function-module-sub-section-caption">' + Resource.viewMode + '</label>',
-                    '<select id="sceneMode">',
-                        '<option value="3D">3D</option>',
-                        '<option value="2D">2D</option>',
-                        '<option value="columbusView">2.5D</option>',
-                    '</select>',
-                '</div>',
-                '<div class="function-module-sub-section">',
-                    '<label class="function-module-sub-section-caption">' + Resource.multiViewport + '</label>',
-                    '<select id="viewportType">',
-                        '<option value="NONE" selected>' + Resource.onePort + '</option>',
-                        '<option value="HORIZONTAL">' + Resource.horizontalSnap + '</option>',
-                        '<option value="VERTICAL">' + Resource.verticalSnap + '</option>',
-                        '<option value="TRIPLE">' + Resource.tripeSnap + '</option>',
-                        '<option value="QUAD">' + Resource.quadSnap + '</option>',
-                    '</select>',
-                '</div>',
-                '<div class="function-module-sub-section">',
-                    '<label class="function-module-sub-section-caption">' + Resource.split + '</label>',
-                    '<div>',
-                        '<label class="function-module-sub-section-caption-indent">' +
-                            '<input type="checkbox" id="use-roller"/>' +
-                            '<span>' + Resource.useRoller + '</span>' +
-                        '</label>',
-                    '</div>',
-                    '<div>',
-                        '<label class="function-module-sub-section-caption-indent">' +
-                            '<input type="checkbox" id="imagery-roller"/>' +
-                            '<span>' + Resource.imageryRoller + '</span>' +
-                        '</label>',
-                    '</div>',
-                    '<div>',
-                        '<label class="function-module-sub-section-caption-indent">' +
-                            '<input type="radio" name="roller-category" value="lr-roller" checked/>' +
-                            '<span>' + Resource.lrRoller + '</span>' +
-                        '</label>',
-                        '<div id="lr-roller-mode" style="margin-left: 15px;">',
-                            '<label class="function-module-sub-section-caption-indent">' +
-                                '<input type="radio" name="roller-mode" value="left-roller" checked/>' +
-                                '<span>' + Resource.leftRoller + '</span>' +
-                            '</label>',
-                            '<label class="function-module-sub-section-caption-indent">' +
-                                '<input type="radio" name="roller-mode" value="right-roller"/>' +
-                                '<span>' + Resource.rightRoller + '</span>' +
-                            '</label>',
-                        '</div>',
-                    '</div>',
-                    '<div>',
-                        '<label class="function-module-sub-section-caption-indent">' +
-                            '<input type="radio" name="roller-category" value="tb-roller"/>' +
-                            '<span>' + Resource.tbRoller + '</span>' +
-                        '</label>',
-                        '<div style="display:none;margin-left: 15px;" id="tb-roller-mode">',
-                            '<label class="function-module-sub-section-caption-indent">' +
-                                '<input type="radio" name="roller-mode" value="top-roller"/>' +
-                                '<span>' + Resource.topRoller + '</span>' +
-                            '</label>',
-                            '<label class="function-module-sub-section-caption-indent">' +
-                                '<input type="radio" name="roller-mode" value="bottom-roller"/>' +
-                                '<span>' + Resource.bottomRoller + '</span>' +
-                            '</label>',
-                        '</div>',
-                    '</div>',
-                '</div>',
-                '<div>',
-                    '<label class="function-module-sub-section-caption"> ' + Resource.queryCoordinates + '</label>',
-                    '<div>',
-                        '<div class="function-module-sub-indent-section">',
-                            '<label class="function-module-sub-section-caption-indent">' + Resource.Spacelongitude + ', ' + Resource.Spacelatitude + ', ' + Resource.Spacealtitude + '</label>',
-                            '<input type="text" class="input disabled" disabled id="scene-coordinate-search-result"/>',
-                        '</div>',
-                        '<div style="padding-top: 9px;overflow:auto;">',
-                            '<button class="btn btn-info function-module-btn" id="query-coordinates-clear">' + Resource.clear + '</button>',
-                            '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="queryCoordinates">' + Resource.coordinates + '</button>',
-                        '</div>',
-                    '</div>',
-                '</div>',
-            '</div>',
-        '</section>',
-
-
-        '<section id="scene-attribute-others-content">',
-            '<div class="function-module-content" >',
-                '<div>',
                     '<div class="function-module-sub-indent-section">',
                         '<label class="third">',
                             '<input type="checkbox" id="earth" checked/>',
@@ -166,51 +66,80 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         '</label>',
                     '</div>',
                 '</div>',
-            '</div>',
-        '</section> ',
+                '<div class="function-module-sub-section">',
+                    '<div class="function-module-sub-indent-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.brightness + '</label>',
+                            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption"">' + Resource.contrast + '</label>',
+                            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "contrast" class="input"/>',
+                        '</div>',
+                    '</div>',
+                    '<div class="function-module-sub-indent-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.hue + '</label>',
+                            '<input type="number" min="0" max="3" step="0.02" value="0.0" id= "hue" class="input"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.saturation + '</label>',
+                            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "saturation" class="input"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.gamma + '</label>',
+                            '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
 
-        '<section id="scene-attribute-color-content">',
-            '<div class="function-module-content">',
-                '<div class="function-module-sub-section">',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.brightness + '</label>',
-                        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "brightness" class="input"/>',
-                    '</div>',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption"">' + Resource.contrast + '</label>',
-                        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "contrast" class="input"/>',
-                    '</div>',
-                '</div>',
-                '<div class="function-module-sub-section">',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.hue + '</label>',
-                        '<input type="number" min="0" max="3" step="0.02" value="0.0" id= "hue" class="input"/>',
-                    '</div>',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.saturation + '</label>',
-                        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "saturation" class="input"/>',
-                    '</div>',
-                '</div>',
-                '<div style="overflow: auto;">',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.gamma + '</label>',
-                        '<input type="number" min="0" max="3" step="0.02" value="1.0" id= "gamma" class="input"/>',
+                '<div>',
+                    '<label class="function-module-sub-section-caption"> ' + Resource.queryCoordinates + '</label>',
+                    '<div>',
+                        '<div class="function-module-sub-indent-section">',
+                            '<label class="function-module-sub-section-caption-indent">' + Resource.Spacelongitude + ', ' + Resource.Spacelatitude + ', ' + Resource.Spacealtitude + '</label>',
+                            '<input type="text" class="input disabled" disabled id="scene-coordinate-search-result"/>',
+                        '</div>',
+                        '<div style="padding-top: 9px;overflow:auto;">',
+                            '<button class="btn btn-info function-module-btn" id="query-coordinates-clear">' + Resource.clear + '</button>',
+                            '<button class="btn btn-info function-module-btn" id="queryCoordinates">' + Resource.coordinates + '</button>',
+                        '</div>',
                     '</div>',
                 '</div>',
             '</div>',
         '</section>',
 
-        '<section id="scene-attribute-flood-content">',
+        '<section id="scene-attribute-others-content">',
             '<div class="function-module-content">',
+                '<div class="function-module-sub-section">',
+                    '<label class="function-module-sub-section-caption">' + Resource.viewMode + '</label>',
+                    '<select id="sceneMode">',
+                        '<option value="3D">3D</option>',
+                        '<option value="2D">2D</option>',
+                        '<option value="columbusView">2.5D</option>',
+                    '</select>',
+                '</div>',
+                '<div class="function-module-sub-section">',
+                    '<label class="function-module-sub-section-caption">' + Resource.multiViewport + '</label>',
+                    '<select id="viewportType">',
+                        '<option value="NONE" selected>' + Resource.onePort + '</option>',
+                        '<option value="HORIZONTAL">' + Resource.horizontalSnap + '</option>',
+                        '<option value="VERTICAL">' + Resource.verticalSnap + '</option>',
+                        '<option value="TRIPLE">' + Resource.tripeSnap + '</option>',
+                        '<option value="QUAD">' + Resource.quadSnap + '</option>',
+                    '</select>',
+                '</div>',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">' + Resource.sceneFlood +'</label>',
                     '<div>',
-                        '<label class="function-module-sub-section-caption-indent">' +
-                            '<input type="checkbox" id="bloom"/>' +
-                            '<span>' + Resource.openSceneFlood + '</span>' +
+                        '<label class="function-module-sub-section-caption-indent">',
+                            '<input type="checkbox" id="bloom"/>',
+                            '<span>' + Resource.openSceneFlood + '</span>',
                         '</label>',
                     '</div>',
-                    '<div class="function-module-sub-indent-section">',
+                    '<div style="overflow:auto;">',
                         '<div class="half">',
                             '<label class="function-module-sub-section-caption-indent">' + Resource.threshold + '</label>',
                             '<input type="number" id="threshold" class="input" min="0" max="1"  value="0.6" step="0.01">',
@@ -221,8 +150,55 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         '</div>',
                     '</div>',
                 '</div>',
+                '<div class="function-module-sub-section">',
+                    '<label class="function-module-sub-section-caption">' + Resource.split + '</label>',
+                    '<div>',
+                        '<label class="function-module-sub-section-caption-indent">',
+                            '<input type="checkbox" id="use-roller"/>',
+                            '<span>' + Resource.useRoller + '</span>',
+                        '</label>',
+                    '</div>',
+                    '<div>',
+                        '<label class="function-module-sub-section-caption-indent">' +
+                            '<input type="checkbox" id="imagery-roller"/>' +
+                            '<span>' + Resource.imageryRoller + '</span>' +
+                        '</label>',
+                    '</div>',
+                    '<div>',
+                        '<label class="function-module-sub-section-caption-indent">',
+                            '<input type="radio" name="roller-category" value="lr-roller" checked/>',
+                            '<span>' + Resource.lrRoller + '</span>',
+                        '</label>',
+                        '<div id="lr-roller-mode" style="margin-left: 15px;">',
+                            '<label class="function-module-sub-section-caption-indent">',
+                                '<input type="radio" name="roller-mode" value="left-roller" checked/>',
+                                '<span>' + Resource.leftRoller + '</span>',
+                            '</label>',
+                            '<label class="function-module-sub-section-caption-indent">',
+                                '<input type="radio" name="roller-mode" value="right-roller"/>',
+                                '<span>' + Resource.rightRoller + '</span>',
+                            '</label>',
+                        '</div>',
+                    '</div>',
+                    '<div>',
+                        '<label class="function-module-sub-section-caption-indent">',
+                            '<input type="radio" name="roller-category" value="tb-roller"/>',
+                            '<span>' + Resource.tbRoller + '</span>',
+                        '</label>',
+                        '<div style="display:none;margin-left: 15px;" id="tb-roller-mode">',
+                            '<label class="function-module-sub-section-caption-indent">',
+                                '<input type="radio" name="roller-mode" value="top-roller"/>',
+                                '<span>' + Resource.topRoller + '</span>',
+                            '</label>',
+                            '<label class="function-module-sub-section-caption-indent">',
+                                '<input type="radio" name="roller-mode" value="bottom-roller"/>',
+                                '<span>' + Resource.bottomRoller + '</span>',
+                            '</label>',
+                        '</div>',
+                    '</div>',
+                '</div>',
             '</div>',
-        '</section>',
+        '</section> ',
 
         '<section id="scene-attribute-camera-content">',
             '<div class="function-module-content">',
@@ -244,26 +220,19 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">' + Resource.observe + '</label>',
                     '<div>',
-                        '<label class="function-module-sub-section-caption-indent">',
+                        '<label class="param-item-first-level">',
                             '<input type="checkbox" id="stopFlyCircle">',
                             '<span>'+Resource.pauseFly+'</span>',
                         '</label>',
-                        '<label class="function-module-sub-section-caption-indent">',
+                        '<label class="param-item-first-level">',
                             '<input type="checkbox" id="circulation" checked>',
                             '<span>' + Resource.rotateCirculation + '</span>',
                         '</label>',
                         '<button id="spin" class="btn btn-info" style="margin: 0 0 0 1rem;">' + Resource.rotatePoint + '</button>',
-                        /*'<label style="display: none;">' +
-                            '<input type="checkbox" id="interaction"/>' +
-                            '<span>' + Resource.interactive + '</span>' +
-                        '</label>',*/
                     '</div>',
                 '</div>',
 
-                /*'<canvas id="headControlsCanvas" style="width: 250px;height: 512px;display: none"></canvas>',
-                '<button id="startHeadControlsButton" style="display: none">' + Resource.enableWebcam + '</button>',
-                '</div>',*/
-                '<div class="function-module-sub-section">',
+                '<div>',
                     '<label class="function-module-sub-section-caption">' + Resource.underground + '</label>',
                     '<div>',
                     '<label class="function-module-sub-section-caption-indent">',
@@ -470,64 +439,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             camera.flyCircle(flyCirclePoint);
                         }
                     });
-                    /*$('#interaction').on("input change", function () {
-                        var SETTINGS = {
-                            zoomSensibility: 5.5,
-                            panSensibility: 0.00000015
-                        };
-                        var ISHEADCONTROLSON = false, ISHEADCONTROLSINITIALIZED = false;
-                        $("#startHeadControlsButton").show();
-                        if (!this.checked) {
-                            ISHEADCONTROLSON = true;
-                            $("#headControlsCanvas").hide();
-                            $("#startHeadControlsButton").hide();
-                            toggleHeadControls(!ISHEADCONTROLSON);
-                            return;
-                        }
-                        $("#startHeadControlsButton").on("click", function () {
-                            $("#headControlsCanvas").show();
-                            $("#startHeadControlsButton").hide();
-                            if (ISHEADCONTROLSINITIALIZED) {
-                                toggleHeadControls(!ISHEADCONTROLSON);
-                                return;
-                            }
-                            ISHEADCONTROLSINITIALIZED = true;
-                            HeadControls.init({
-                                canvasId: 'headControlsCanvas',
-                                callbackMove: callbackMove,
-                                callbackReady: function (err) {
-                                    if (err) {
-                                        console.log('ERROR in index.html : HEAD CONTROLS NOT READY. err =', err);
-                                    } else {
-                                        console.log('INFO in index.html : HEAD CONTROLS ARE READY :)');
-                                        toggleHeadControls(true);
-                                    }
-                                },
-                                NNCpath: 'js/lib/',
-                                animateDelay: 2
-                            });
-                        })
-                        function toggleHeadControls(isOn) {
-                            HeadControls.toggle(isOn);
-                            ISHEADCONTROLSON = isOn;
-                        }
 
-                        function callbackMove(mv) {
-                            var cameraHeight = scene.camera.positionCartographic.height / 1000.0
-                            if (mv.dZ !== 0) {
-                                var zoomAmount = mv.dZ * SETTINGS.zoomSensibility * cameraHeight;
-                                camera.moveForward(zoomAmount);
-                            }
-                            if (mv.dRx !== 0) {
-                                var panAmountX = SETTINGS.panSensibility * mv.dRx * cameraHeight;
-                                camera.rotateUp(panAmountX);
-                            }
-                            if (mv.dRy !== 0) {
-                                var panAmountY = SETTINGS.panSensibility * mv.dRy * cameraHeight;
-                                camera.rotate(Cesium.Cartesian3.UNIT_Z, panAmountY);
-                            }
-                        }
-                    });*/
                     $('#sceneMode').change(function () {
                         var value = $(this).val();
                         if (value === "2D") {
@@ -544,7 +456,6 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         var value = $(this).val();
                         scene.multiViewportMode = Cesium.MultiViewportMode[value];
                     });
-
 
                     var brightness = document.getElementById('brightness');
                     brightness.oninput = function () {

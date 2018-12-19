@@ -1617,14 +1617,7 @@ ul,ol{
     line-height: normal;
 	padding: 0px;
 }*/
-label{
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 2.3;
-    display: inline-block;
-    max-width: 100%;
-    margin-bottom: 5px;
-}
+
 /*--------input label  end------*/
 
 /*--------nav tabs  end------*/
@@ -2557,8 +2550,6 @@ main input:checked + label {
 
 #scene-attribute-basic:checked ~ #scene-attribute-basic-content,
 #scene-attribute-others:checked ~ #scene-attribute-others-content,
-#scene-attribute-color:checked ~ #scene-attribute-color-content,
-#scene-attribute-flood:checked ~ #scene-attribute-flood-content,
 #scene-attribute-camera:checked ~ #scene-attribute-camera-content{
 	display: block;
 }
