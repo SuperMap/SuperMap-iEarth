@@ -166,7 +166,7 @@ define(function(){
         selectColor : '高亮颜色',
         onlyShowSlection : '仅选中对象可见',
         onlyHideSlection : '仅选中对象隐藏',
-        showAll : '还原',
+        showAll : '显示全部',
         bottomAltitude : '底部高程(米)',
         fillStyle : '填充风格',
         fillMode : '填充模式',

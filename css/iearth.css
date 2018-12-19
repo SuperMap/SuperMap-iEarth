@@ -42,7 +42,7 @@ label.label-block { /* 宽度为100%的label */
 }
 .param-item-second-level { /* 第二层子项 */
     display: inline-block;
-    margin: 0 0 0 25px;
+    margin: 0 0 0 30px;
     padding: 0;
     width: auto;
 }
@@ -244,6 +244,8 @@ ul.tabs-menu > li:first-child a{
     padding: 14px;
     background-color: rgb(23, 23, 23);
     border: 1px solid rgba(34,36,38,.15);
+    overflow: auto;
+    max-height: 615px;
 }
 .function-module-sub-section {
     margin-bottom: 18px;
@@ -504,7 +506,6 @@ div.mark-list-item > img {
 @media screen and (max-width: 1400px) {
     .function-module-content {
         max-height: 450px;
-        overflow: auto;
     }
 }
 

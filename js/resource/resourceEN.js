@@ -166,7 +166,7 @@
         selectColor : 'Highlight color',
         onlyShowSlection : 'Only selected objects are visible',
         onlyHideSlection : 'Only selected objects are hidden',
-        showAll : 'Reduction',
+        showAll : 'show all',
         bottomAltitude : 'Bottom altitude (m)',
         fillStyle : 'Fill style',
         fillMode : 'Fill mode',

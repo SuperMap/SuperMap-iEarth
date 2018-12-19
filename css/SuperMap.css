@@ -1892,16 +1892,6 @@ ul,ol{
     height: 40px;
     display: inline-block;
 }
-#layerForm label{
-    /*width: 100%;*/
-    /*margin: 10px 0px -5px 2px;*/
-    line-height: 1.5;
-    font-size: 12px;
-    color: darkgrey;
-}
-/* #layerForm select,#layerForm input[type=range], #layerForm input[type=text], #sceneForm input[type=range], #sceneForm input[type=text],#sceneForm select{
-     width:85%;
- }*/
  #layerForm .square label, #sceneForm .square label{
     width: 85%;
     font-size: 12px;
@@ -2551,6 +2541,13 @@ main input:checked + label {
 #scene-attribute-basic:checked ~ #scene-attribute-basic-content,
 #scene-attribute-others:checked ~ #scene-attribute-others-content,
 #scene-attribute-camera:checked ~ #scene-attribute-camera-content{
+	display: block;
+}
+
+#layer-attribute-basic:checked ~ #layer-attribute-basic-content,
+#layer-attribute-visibility:checked ~ #layer-attribute-visibility-content,
+#layer-attribute-style:checked ~ #layer-attribute-style-content,
+#layer-attribute-operation:checked ~ #layer-attribute-operation-content{
 	display: block;
 }
 
