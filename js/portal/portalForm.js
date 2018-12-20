@@ -4,8 +4,8 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
     var $ = require('jquery');
     var viewer;
     var htmlStr = [
-        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-home"></span>',
+        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-iEarth-zhuyemian-"></span>',
         '</a><br><br>',
         '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-yunduan1"></span>',

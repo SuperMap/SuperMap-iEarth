@@ -2545,7 +2545,6 @@ main input:checked + label {
 }
 
 #layer-attribute-basic:checked ~ #layer-attribute-basic-content,
-#layer-attribute-visibility:checked ~ #layer-attribute-visibility-content,
 #layer-attribute-style:checked ~ #layer-attribute-style-content,
 #layer-attribute-operation:checked ~ #layer-attribute-operation-content{
 	display: block;

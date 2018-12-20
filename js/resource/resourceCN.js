@@ -147,6 +147,7 @@ define(function(){
         layerOptions : '图层属性',
         visibility : '可见性',
         layerName : '图层名称',
+        shadow: '阴影',
         shadowMode : '阴影模式',
         noShadow : '无阴影',
         meter : '米',
@@ -158,12 +159,13 @@ define(function(){
         multiSelection : '多选择',
         cullEnabled : '双面渲染',
         bReleaseColor :'释放颜色内存',
-        visibleDistanceMin : '最小可见高度',
-        visibleDistanceMax : '最大可见高度',
-        selectColorType : '高亮颜色模式',
+        visibleDistanceMin : '最小可见高度（米）',
+        visibleDistanceMax : '最大可见高度（米）',
+        selectEffect: '选中效果',
+        selectColorType : '选中颜色模式',
         mix : '混合',
         replace : '替换',
-        selectColor : '高亮颜色',
+        selectColor : '选中颜色',
         onlyShowSlection : '仅选中对象可见',
         onlyHideSlection : '仅选中对象隐藏',
         showAll : '显示全部',
@@ -405,7 +407,8 @@ define(function(){
         sceneUrl: '场景URL',
         fullScreen: '全屏',
         polygonClipMode: '裁剪模式',
-        clickToSearchCoordination: '点击查询坐标值'
+        clickToSearchCoordination: '点击查询坐标值',
+        stopChoose: '站点选择'
     };
     return ResourceCN;
 });

@@ -35,16 +35,16 @@ label.label-block { /* 宽度为100%的label */
     text-align: center;
 }
 .param-item-first-level { /* 第一层子项 */
-    display: inline-block;
-    margin: 0 0 0 15px;
-    padding: 0;
+    margin: 0;
+    padding: 0 0 0 15px;
     width: auto;
+    overflow: auto;
 }
 .param-item-second-level { /* 第二层子项 */
-    display: inline-block;
-    margin: 0 0 0 30px;
-    padding: 0;
+    margin: 0;
+    padding: 0 0 0 30px;
     width: auto;
+    overflow: auto;
 }
 li {
     color: #898787;
@@ -60,6 +60,9 @@ label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start 
 }
 .disabled { /* 禁用鼠标样式 */
     cursor: not-allowed;
+}
+.width-adjust {
+    width: 95%;
 }
 
 /* 滚动条样式 start */
@@ -234,7 +237,7 @@ ul.tabs-menu > li:first-child a{
     position : absolute;
     right: 50px;
     top : 10%;
-    width: 300px;
+    width: 365px;
 }
 .function-module-caption { /* 面板中功能模块的标题 */
     font-size: 14px;

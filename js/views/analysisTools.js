@@ -165,11 +165,8 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">'+ Resource.ObserverInformation +'</label>',
                     '<div>',
-                        /*'<div class="coord" ><label>X</label><input type="number" id="skyviewX" value="0.0" step="0.0001"/></div>',
-                        '<div class="coord"><label>Y</label><input type="number" id="skyviewY" value="0.0" step="0.0001"/></div><br><br>',
-                        '<div class="coord"><label>Z</label><input type="number" id="skyviewZ" value="0.0"/></div>',*/
                         '<label class="function-module-sub-section-caption-indent">'+ Resource.longitude + ', ' + Resource.latitude + ', ' + Resource.altitude + '</label>',
-                        '<input type="text" id="skyview-observation-position" class="input disabled" disabled/>',
+                        '<input type="text" id="skyview-observation-position" class="input disabled width-adjust" disabled/>',
                     '</div>',
                 '</div>',
                 '<div class="function-module-sub-section">',

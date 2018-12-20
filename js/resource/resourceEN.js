@@ -147,6 +147,7 @@
         layerOptions : 'Layer properties',
         visibility : 'Visibility',
         layerName : 'Layer name',
+        shadow: 'shadow',
         shadowMode : 'Shadow mode',
         noShadow : 'No shadow',
         meter : 'Meter',
@@ -158,12 +159,13 @@
         multiSelection : 'Multiple choice',
         cullEnabled : 'Double-sided rendering',
         bReleaseColor :'Free color memory',
-        visibleDistanceMin : 'Minimum visible height',
-        visibleDistanceMax : 'Maximum visible height',
-        selectColorType : 'Highlight color mode',
+        visibleDistanceMin : 'Minimum visible height(Meter)',
+        visibleDistanceMax : 'Maximum visible height(Meter)',
+        selectEffect: 'select effect',
+        selectColorType : 'select color type',
         mix : 'Mixing',
         replace : 'Replace',
-        selectColor : 'Highlight color',
+        selectColor : 'select color',
         onlyShowSlection : 'Only selected objects are visible',
         onlyHideSlection : 'Only selected objects are hidden',
         showAll : 'show all',
@@ -405,7 +407,8 @@
         sceneUrl: 'scene url',
         fullScreen: 'full screen',
         polygonClipMode: 'clip mode',
-        clickToSearchCoordination: 'click to search coordination'
+        clickToSearchCoordination: 'click to search coordination',
+        stopChoose: 'stop choose'
     };
     return ResourceEN;
 });

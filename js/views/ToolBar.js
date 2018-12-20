@@ -13,23 +13,34 @@ define([
     var _ = require('underscore');
     var htmlStr = [
                    "<div id='toolbar' class='toolbar' style='margin: 5px 5px 5px 8px;'>",
-                   "<a data-toggle='dropdown' id='layerMangerBtn' title='" + Resource.layerList + "' class='btn btn-inverse'><span style='font-size : 16px;' class='iconfont icon-tuceng' ></span></a>",
+                   /*"<a data-toggle='dropdown' id='layerMangerBtn' title='" + Resource.layerList + "' class='btn btn-inverse'><span style='font-size : 16px;' class='iconfont icon-tuceng' ></span></a>",*/
+                   "<a data-toggle='dropdown' id='layerMangerBtn' title='" + Resource.layerList + "' class='btn btn-inverse'><span style='font-size : 16px;' class='iconfont icon-iEarth-R-xiugai_tuceng' ></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
-                   "<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanzhankai'></span></a>",
+                   /*"<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanzhankai'></span></a>",*/
+                    "<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_zhankai'></span></a>",
                    "<div id='btnGroup' class='btn-group'>",
-                   "<a id='addLayerBtn'  title='" + Resource.addLayer + "' class='btn btn-inverse'><span class='iconfont icon-tianjia'></span></a>",
-                   "<a data-toggle='dropdown' id='baseLayerBtn' title='" + Resource.setBaseLayer + "' class='btn btn-inverse' ><span class='fui-list-large-thumbnails'></span></a>",
-                   "<a data-toggle='dropdown' id='settingBtn'  title='" + Resource.scene + "' class='btn btn-inverse'><span class='iconfont icon-shezhi'></span></a>",
+                   /*"<a id='addLayerBtn'  title='" + Resource.addLayer + "' class='btn btn-inverse'><span class='iconfont icon-tianjia'></span></a>",*/
+                   "<a id='addLayerBtn'  title='" + Resource.addLayer + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-tianjia'></span></a>",
+                   /*"<a data-toggle='dropdown' id='baseLayerBtn' title='" + Resource.setBaseLayer + "' class='btn btn-inverse' ><span class='fui-list-large-thumbnails'></span></a>",*/
+                   "<a data-toggle='dropdown' id='baseLayerBtn' title='" + Resource.setBaseLayer + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_ditu'></span></a>",
+                   /*"<a data-toggle='dropdown' id='settingBtn'  title='" + Resource.scene + "' class='btn btn-inverse'><span class='iconfont icon-shezhi'></span></a>",*/
+                   "<a data-toggle='dropdown' id='settingBtn'  title='" + Resource.scene + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_shezhi'></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
-                   "<a data-toggle='dropdown' id='clipBtn' title='" + Resource.clip + "' class='btn btn-inverse'><span class='iconfont icon-ai50'></span></a>",
-                   "<a data-toggle='dropdown' id='terrainBtn' title='" + Resource.terrain + "' class='btn btn-inverse'><span class='iconfont icon-1'></span></a>",
-                   "<a data-toggle='dropdown' id='analysisBtn'  title='" + Resource.analysis + "' class='btn btn-inverse'><span class='iconfont icon-icon-sanweifenxi'></span></a>",
-                   "<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='smicon-message'></span></a>",
+                   /*"<a data-toggle='dropdown' id='clipBtn' title='" + Resource.clip + "' class='btn btn-inverse'><span class='iconfont icon-ai50'></span></a>",*/
+                   "<a data-toggle='dropdown' id='clipBtn' title='" + Resource.clip + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_caijian'></span></a>",
+                   /*"<a data-toggle='dropdown' id='terrainBtn' title='" + Resource.terrain + "' class='btn btn-inverse'><span class='iconfont icon-1'></span></a>",*/
+                   "<a data-toggle='dropdown' id='terrainBtn' title='" + Resource.terrain + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_dixing'></span></a>",
+                   /*"<a data-toggle='dropdown' id='analysisBtn'  title='" + Resource.analysis + "' class='btn btn-inverse'><span class='iconfont icon-icon-sanweifenxi'></span></a>",*/
+                   "<a data-toggle='dropdown' id='analysisBtn'  title='" + Resource.analysis + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_kongjianfen'></span></a>",
+                   /*"<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='smicon-message'></span></a>",*/
+                   "<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_liangsuan'></span></a>",
                   // "<a data-toggle='dropdown' id='bookmarkBtn' title='" + "书签" + "' class='btn btn-inverse'><span class='smicon-bookmark '></span></a>",
                    "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
-                   "<a id='addMarkerBtn' title='" + Resource.onlineEditing + "' class='btn btn-inverse'><span class='iconfont icon-edit'></span></a>",
+                   /*"<a id='addMarkerBtn' title='" + Resource.onlineEditing + "' class='btn btn-inverse'><span class='iconfont icon-edit'></span></a>",*/
+                   "<a id='addMarkerBtn' title='" + Resource.onlineEditing + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_bianji'></span></a>",
                    /*"<a data-toggle='dropdown' id='propertyBtn' title='" + Resource.interspaceQuery + "' class='btn btn-inverse'><span class='iconfont icon-zhcc_chaxun'></span></a>",*/
-                   "<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanshouqi'></span></a>",
+                   /*"<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='iconfont icon-cebianlanshouqi'></span></a>",*/
+                   "<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='iconfont icon-iEarth-R-xiugai_shouqi'></span></a>",
                    "</div>",
                    "</div>"
                    ].join('');
