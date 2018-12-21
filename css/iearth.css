@@ -506,15 +506,50 @@ div.mark-list-item > img {
 }
 /* 资源面板 end */
 
-@media screen and (max-width: 1400px) {
+#baseLayerGroup {
+    width: 650px;
+}
+
+@media screen and (max-width: 1366px) { /* 普通分辨率的笔记本电脑 */
     .function-module-content {
         max-height: 450px;
     }
 }
 
-@media screen and (min-width: 1400px) {
-
+@media screen and (max-width: 1024px) { /* iPad */
+    .myModal-content {
+        width: 70%;
+        top: 12%;
+    }
+    #webServicePan .service-item {
+        width: 33.3%;
+    }
+    #baseLayerGroup {
+        width: 515px;
+    }
 }
+
+@media screen and (max-width: 414px) { /* 大部分手机 */
+    .myModal-content {
+        width: 90%;
+        top: 10%;
+    }
+    #webServicePan .service-item {
+        width: 48.5%;
+    }
+    #webServicePan .service-itemIcon {
+        height: 90px;
+    }
+    .mainView {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #baseLayerGroup {
+        width: 100%;
+    }
+}
+
 
 
 

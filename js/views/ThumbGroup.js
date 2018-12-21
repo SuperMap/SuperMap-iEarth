@@ -1,4 +1,4 @@
-define(['./Container','jquery','./ThumbnailItem','iScroll'],function(Container,$,ThumbnailItem,iScroll){
+define(['./Container','jquery','./ThumbnailItem'],function(Container,$,ThumbnailItem){
     var _ = require('underscore');
     var ThumbGroup = Container.extend({
         tagName : 'div',
@@ -31,10 +31,10 @@ define(['./Container','jquery','./ThumbnailItem','iScroll'],function(Container,$
                 	thumbnail.$el.find('.service-itemUnSelected').removeClass('service-itemSelected').addClass('service-itemSelected');
                 }
             });
-            if(!this.isPCBroswer){
+            /*if(!this.isPCBroswer){
             	this.scroll = new iScroll(this.el);
             	this.trigger('addScroll',null);
-            }
+            }*/
         }
     });
     return ThumbGroup;
