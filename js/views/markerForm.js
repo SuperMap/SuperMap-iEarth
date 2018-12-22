@@ -172,14 +172,14 @@ define(['./Container',
                     }
                 });
                 $("#lineColor").spectrum({
-                    color: "FFFF00",
+                    color: "b6d7a8",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
                     palette: palette
                 });
                 $("#outlineColor").spectrum({
-                    color: "CC0000",
+                    color: "5d6d56",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",

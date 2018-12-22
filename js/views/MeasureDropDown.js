@@ -19,9 +19,9 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                "<a id='delResBtn' title='" + Resource.close + "' class='btn btn-inverse' style='margin : 5px;'><span class='iconfont icon-qingchu-'></span></a>",
            "</div>",
        "</div>",
-        '<div style="margin:10px 0 0 -12px;">',
-        '<label style="font-size: 12px;vertical-align: middle;" id="singleIsolineLabel"><input type="radio" id="singleIsoline" name="showIsoline" <%= isolineMode == "singleIsoline" ? "checked" : "" %>/><span>'+ Resource.SingleContour +'</span></label>',
-        '<label style="font-size: 12px;vertical-align: middle;margin-left: 10px" id="multiIsolineLabel"><input type="radio" id="multiIsoline" name="showIsoline" <%= isolineMode == "multiIsoline" ? "checked" : "" %>/><span>'+ Resource.MoreContour +'</span></label>',
+        '<div style="display: flex;flex-direction:row;align-items:center;margin: 10px 0 0 10px;">',
+            '<label style="font-size: 12px;vertical-align: middle;" id="singleIsolineLabel"><input type="radio" id="singleIsoline" name="showIsoline" <%= isolineMode == "singleIsoline" ? "checked" : "" %>/><span>'+ Resource.SingleContour +'</span></label>',
+            '<label style="font-size: 12px;vertical-align: middle;margin-left: 10px" id="multiIsolineLabel"><input type="radio" id="multiIsoline" name="showIsoline" <%= isolineMode == "multiIsoline" ? "checked" : "" %>/><span>'+ Resource.MoreContour +'</span></label>',
         '</div>',
         '<div id="isoline-interval-setting" style="display: flex;flex-direction:row;align-items:center;">',
             "<div class='measure-title' style='float:left;font-size: 12px'>" + Resource.heightInterval + "</div>",
@@ -55,7 +55,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
         render : function(){
         	this.$el.html(this.template({isolineMode: isolineMode}));
         	this.$el.addClass('dropDown-container');
-        	this.$el.css('min-width','180px');
+        	this.$el.css('min-width','210px');
             return this;
         },
         onMeasureDisBtnClk : function(evt){

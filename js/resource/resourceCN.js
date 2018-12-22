@@ -408,7 +408,8 @@ define(function(){
         fullScreen: '全屏',
         polygonClipMode: '裁剪模式',
         clickToSearchCoordination: '点击查询坐标值',
-        stopChoose: '站点选择'
+        stopChoose: '站点选择',
+        searchPlaceHolder: '输入地址或地标...'
     };
     return ResourceCN;
 });

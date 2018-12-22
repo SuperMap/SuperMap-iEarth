@@ -6,7 +6,7 @@ define(['./Container','../models/BaseLayerCollection','./ThumbGroup','iScroll'],
         '<div id="baseLayerGroup">',
         '</div>',
         '<div>',
-        '<div style="text-align : left;"><div class="squaredTwo" id="chkTerrain"><input type="checkbox" ><label class="check-icon"></label></div><label>' + Resource.stkTerrain + '</label></div>'
+        '<div style="text-align: left;"><div class="squaredTwo squaredTwo-light" id="chkTerrain"><input type="checkbox" ><label class="check-icon check-icon-light"></label></div><label>' + Resource.stkTerrain + '</label></div>'
     ].join('');
     var Menu = Container.extend({
         template : _.template(htmlStr),

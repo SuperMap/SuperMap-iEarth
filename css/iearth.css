@@ -62,7 +62,28 @@ label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start 
     cursor: not-allowed;
 }
 .width-adjust {
-    width: 95%;
+    width: 95% !important;
+}
+/* 覆盖原生Cesium查询控件的样式 start */
+.cesium-geocoder-searchButton {
+    background-color: rgba(38, 38, 38, 0.75);
+}
+.cesium-viewer-toolbar {
+    top: 35px;
+}
+/* 覆盖原生Cesium查询控件的样式 end */
+
+.input {
+    width: 90%;
+    height: 25px;
+    color: lightgray;
+    background-color: #333;
+    border: 1px solid #686363;
+    padding: 0px 3px
+}
+.input:focus {
+    outline:none;
+    border: 1px solid #009c95;
 }
 
 /* 滚动条样式 start */
@@ -218,6 +239,8 @@ ul.tabs-menu > li:first-child a{
     border-top: none !important;
     border-right: none !important;
 }
+
+/* 自定义复选框 */
 .squaredTwo label:hover::after {
     opacity: 0.3;
 }
@@ -229,6 +252,9 @@ ul.tabs-menu > li:first-child a{
 }
 .squaredTwo input[type=checkbox]:checked + label:after {
     opacity: 1;
+}
+.node-unchecked .squaredTwo input[type=checkbox] + label:after {
+    opacity: 0;
 }
 /* 图层列表中的复选框 end */
 
@@ -375,7 +401,7 @@ div.mark-list-item > img {
     text-align: center;
     position : relative;
 }
-#webServicePan .service-item {
+#webServicePan .service-item{
     width: 24.5%;
     float: left;
     margin-bottom: 15px;
@@ -508,6 +534,10 @@ div.mark-list-item > img {
 
 #baseLayerGroup {
     width: 650px;
+}
+
+#baseLayerBtn > .dropDown-container { /* 底图选择面板 */
+    padding: 5px 10px;
 }
 
 @media screen and (max-width: 1366px) { /* 普通分辨率的笔记本电脑 */

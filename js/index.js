@@ -125,6 +125,7 @@ function init(Cesium, Zlib) {
     if (viewer.geocoder) {
         // 请开发者自行到supermap online官网（http://www.supermapol.com/）申请key
         viewer.geocoder.viewModel.geoKey = 'fvV2osxwuZWlY0wJb8FEb2i5';
+        document.querySelector('.cesium-geocoder-input').placeholder = Resource.searchPlaceHolder;
     }
     viewer.scene.globe.depthTestAgainstTerrain = true;
     viewer.scene.globe.enableLighting = true;

@@ -408,7 +408,8 @@
         fullScreen: 'full screen',
         polygonClipMode: 'clip mode',
         clickToSearchCoordination: 'click to search coordination',
-        stopChoose: 'stop choose'
+        stopChoose: 'stop choose',
+        searchPlaceHolder: 'Enter an address or landmark...'
     };
     return ResourceEN;
 });

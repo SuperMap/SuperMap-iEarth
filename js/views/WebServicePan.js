@@ -164,9 +164,12 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
 					var effectThumbnail = effect.thumbnail;
 					var effectDescription = effect.description;
 
-					var $effectImg = $("<div class='effect-itemIcon'><div class='effect-itemBg'></div><img src="+ effectThumbnail +"></div>");
+					/*var $effectImg = $("<div class='effect-itemIcon'><div class='effect-itemBg'></div><img src="+ effectThumbnail +"></div>");
 					var $effectLabel = $("<div class='effect-itemLabel'>"+ effectName +"</div>");
-					var $effectItem = $("<div class='effect-item'></div>");
+					var $effectItem = $("<div class='effect-item'></div>");*/
+                    var $effectImg = $("<div class='service-itemIcon'><div class='service-itemBg'></div><img src="+ effectThumbnail +"></div>");
+                    var $effectLabel = $("<div class='service-itemLabel'>"+ effectName +"</div>");
+                    var $effectItem = $("<div class='service-item'></div>");
 
 					$effectItem.append($effectImg);
 					$effectItem.append($effectLabel);

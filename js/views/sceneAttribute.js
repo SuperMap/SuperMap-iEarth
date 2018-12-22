@@ -206,7 +206,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     '<label class="function-module-sub-section-caption">' + Resource.flyRoute + '</label>',
                     '<div>',
                         '<div class="function-module-sub-indent-section">',
-                            '<input type="file" id="flyFile" class="input width-adjust" onchange="" accept=".fpf"/>',
+                            '<input type="file" id="flyFile" class="input width-adjust" onchange="" accept=".fpf" style="border: none;"/>',
                         '</div>',
                         '<div class="function-module-sub-indent-section">',
                             '<button class="start" id="startFly" title=' + Resource.startFly + ' style="background-color: transparent;border:none;"></button>',
