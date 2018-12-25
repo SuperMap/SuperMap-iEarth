@@ -7,13 +7,13 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
         '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-iEarth-zhuyemian-"></span>',
         '</a><br><br>',
-        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-yunduan1"></span>',
         '</a><br><br>',
-        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-fenxiang"></span>',
         '</a><br><br>',
-        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;border-radius : 32px;padding : 5px 8px;">',
+        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
         '<span class="iconfont icon-home"></span>',
         '</a>'
     ].join('');

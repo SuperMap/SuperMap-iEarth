@@ -7,15 +7,16 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
     var appsRoot;
     var isPCBroswer;
     var htmlStr = [
-        '<main style="position : absolute;margin:auto;right: 0;left: 0; bottom:0; top : 0;width: 600px;height: 400px">',
-        '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeShare" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
-
+        '<main class="myModal-content">',
+        '<button aria-label="Close" id="closeShare" class="myModal-close"><span aria-hidden="true">&times;</span></button>',
         '<input id="portalTab2" type="radio" name="portalTab">',
-        '<label for="portalTab2" id="portalTab2Lab" style="font-size: 13px;">' + Resource.iEarthScene + '</label>',
-
+        '<label for="portalTab2" class="function-module-caption">' + Resource.iEarthScene + '</label>',
         '<section id="portalTabContent2">',
-        '<h1 class="title"></h1>',
-            '<div id="scenePreview" class="service-items">',
+            '<div class="function-module-content">',
+                '<div>',
+                    '<div id="scenePreview" class="service-items">',
+                    '</div>',
+                '</div>',
             '</div>',
         '</section>',
    '</main>',

@@ -64,6 +64,12 @@ label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start 
 .width-adjust {
     width: 95% !important;
 }
+.italic {
+    font-style:italic;
+}
+.block {
+    width: 100% !important;
+}
 /* 覆盖原生Cesium查询控件的样式 start */
 .cesium-geocoder-searchButton {
     background-color: rgba(38, 38, 38, 0.75);
@@ -124,72 +130,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
     border: none;
     font-size: 1.5em;
 }
-
 /* 通用样式 end */
-
-/********************* 场景属性相关 start *********************/
-/*!* 场景属性通用 start *!
-#sceneForm .square{
-    margin-left: 1%;
-    width: 48%;
-    height: 40px;
-    display: inline-block;
-}
-.scene-attribute-sub-module { !* 用于间隔上下两个参数设置部分 *!
-    margin: 0.3rem;
-}
-!* 场景属性通用 end *!
-
-!* 用于场景属性中当前显示的模块 start *!
-.tabs-vertical > .tabs-content-placeholder > .tabs-content-item { !* 非当前属性设置模块不可见 *!
-    display: none;
-}
-.tabs-vertical > .tabs-content-placeholder > .tabs-content-active{ !* 当前属性设置模块可见 *!
-    display: block;
-}
-.tabs-vertical ul li a.tab-active { !* 激活状态下的导航菜单项 *!
-    border-right: 2px solid #298b7b;
-    background-color: rgba(38, 38, 38, 0);
-    color: #298b7b;
-}
-!* 用于场景属性中当前显示的模块 end *!
-
-!* 左侧的导航菜单 start *!
-ul.tabs-menu {
-    border-right: 1px solid #6b7072;
-    float: left;
-    list-style: none;
-    text-align: center;
-    width: 20%;
-    margin: 0;
-    padding-left: 0;
-}
-ul.tabs-menu > li {
-    margin-right: -2px;
-}
-ul.tabs-menu > li > a {
-    display: block;
-    text-decoration: none;
-    color: darkgrey;
-    padding: 16px 10px 16px 5px;
-    font-size: 12px;
-}
-ul.tabs-menu > li > a:hover {
-    background-color: rgba(38, 38, 38, 0);
-    color: #fff;
-}
-ul.tabs-menu > li:first-child a{
-    border-top: 0;
-}
-!* 左侧的导航菜单 end *!
-
-!* 场景属性-卷帘 start *!
-.roller-param-item, .roller-param-sub-item {
-     margin: 0.1rem 0;
-     display:block;
- }
-!* 场景属性-卷帘 end *!*/
-/********************* 场景属性相关 end *********************/
 
 /* 图层列表中的复选框 start */
 .squaredTwo {
@@ -392,7 +333,7 @@ div.mark-list-item > img {
     overflow-x: auto;
     text-align: left;
 }
-#webServicePan .service-items {
+.myModal-content .service-items {
     max-height: 350px;
 }
 .service-item {
@@ -401,7 +342,7 @@ div.mark-list-item > img {
     text-align: center;
     position : relative;
 }
-#webServicePan .service-item{
+.myModal-content .service-item{
     width: 24.5%;
     float: left;
     margin-bottom: 15px;
@@ -421,8 +362,9 @@ div.mark-list-item > img {
     box-sizing: border-box;
     border: 3px solid #ffffff;
 }
-#webServicePan .service-itemIcon {
+.myModal-content .service-itemIcon {
     width: 90%;
+    height: 129px;
     cursor: pointer;
 }
 #baselayerWraper .service-itemIcon {
@@ -501,7 +443,7 @@ div.mark-list-item > img {
 .nav>li{
     position: relative;
     display: block;
-    width: 33.33%;
+    width: 25%;
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     color: #009c95;

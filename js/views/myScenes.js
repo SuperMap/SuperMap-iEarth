@@ -2,7 +2,6 @@ define(['./Container','jquery','../models/LayerModel','../Util','./shareForm'],f
     var _ = require('underscore');
     var htmlStr = [
         '<div class="form-group has-success">',
-        '<h1 class="title"></h1>',
         '<div id="scenePreview" class="service-items">',
         '</div>',
         '</div>'

@@ -181,13 +181,13 @@ define(['./Container',
             this.on('componentAdded',function(parent){
                 $('main').each(function(index){
                     $(this).myDrag({
-                        parent:'body', //å®šä¹‰æ‹–åŠ¨ä¸èƒ½è¶…å‡ºçš„å¤–æ¡†,æ‹–åŠ¨èŒƒå›´
-                        randomPosition:false, //åˆå§‹åŒ–éšæœºä½ç½®
-                        direction:'all', //æ–¹å‘
-                        handler:false, //æŠŠæ‰‹
-                        dragStart:function(x,y){}, //æ‹–åŠ¨å¼€å§‹ x,yä¸ºå½“å‰åæ ‡
-                        dragEnd:function(x,y){}, //æ‹–åŠ¨åœæ­¢ x,yä¸ºå½“å‰åæ ‡
-                        dragMove:function(x,y){} //æ‹–åŠ¨è¿›è¡Œä¸­ x,yä¸ºå½“å‰åæ ‡
+                        parent:'body', //¶¨ÒåÍÏ¶¯²»ÄÜ³¬³öµÄÍâ¿ò,ÍÏ¶¯·¶Î§
+                        randomPosition:false, //³õÊ¼»¯Ëæ»úÎ»ÖÃ
+                        direction:'all', //·½Ïò
+                        handler:false, //°ÑÊÖ
+                        dragStart:function(x,y){}, //ÍÏ¶¯¿ªÊ¼ x,yÎªµ±Ç°×ø±ê
+                        dragEnd:function(x,y){}, //ÍÏ¶¯Í£Ö¹ x,yÎªµ±Ç°×ø±ê
+                        dragMove:function(x,y){} //ÍÏ¶¯½øĞĞÖĞ x,yÎªµ±Ç°×ø±ê
                     });
                 });
 

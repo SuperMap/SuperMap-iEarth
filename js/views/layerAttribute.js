@@ -321,7 +321,6 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                 shadowMap.softShadows = false;
                 var shadowDarkness = document.getElementById("darkness");
                 shadowDarkness.oninput = function(){
-                    console.log(shadowDarkness.value);
                     var darkness = shadowDarkness.value;
                     shadowMap.darkness = darkness;
                 };
