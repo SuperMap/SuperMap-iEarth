@@ -423,15 +423,26 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             $("#clear-flood").click(function () { // 清除淹没分析
                 ModelFlood.clear(selectedLayer);
             });
+            var offsetScreenSpaceEventHandler = null;
             $("#choose-offset").on("input propertychange", function () {
                 if ($(this).prop("checked")) {
                     var xOffset = Number($("#choose-x-offset").val());
                     var yOffset = Number($("#choose-y-offset").val());
                     var zOffset = Number($("#choose-z-offset").val());
-                    selectedLayer.selectColorType = 1.0; // 替换模式
                     selectedLayer.selectedTranslate = new Cesium.Cartesian3(xOffset, yOffset, zOffset);
+                    selectedLayer.selectColorType = 1.0; // 替换模式
+                    offsetScreenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+                    offsetScreenSpaceEventHandler.setInputAction(function() {
+                        selectedLayer.removeAllObjsOffset(); // 移除所有图元的偏移
+                        if (selectedLayer.getSelection().length > 0) {
+                            var selectedId = Number(selectedLayer.getSelection()[0]);
+                            selectedLayer.setObjsOffset([selectedId]);
+                        }
+                    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
                 } else {
+                    offsetScreenSpaceEventHandler.destroy();
                     selectedLayer.selectedTranslate = new Cesium.Cartesian3(0, 0, 0);
+                    selectedLayer.removeAllObjsOffset();
                     selectedLayer.selectColorType = 0.0; // 混合模式
                     selectedLayer.releaseSelection(); // 释放选择集
                 }

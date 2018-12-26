@@ -443,7 +443,7 @@ div.mark-list-item > img {
 .nav>li{
     position: relative;
     display: block;
-    width: 25%;
+    width: 33.33%;
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     color: #009c95;

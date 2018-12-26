@@ -21,9 +21,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         var height = cartographic.height;
         // 天际线分析的视口位置设置成当前相机位置
         skyline.viewPosition = [longitude, latitude, height];
-        $('#skyviewX').val(longitude.toFixed(4));
-        $('#skyviewY').val(latitude.toFixed(4));
-        $('#skyviewZ').val(height.toFixed(4));
+        $("#skyview-observation-position").val(longitude.toFixed(4) + ', ' + latitude.toFixed(4) + ', ' + height.toFixed(2));
         //设置俯仰和方向
         skyline.pitch = Cesium.Math.toDegrees(scene.camera.pitch);
         skyline.direction = Cesium.Math.toDegrees(scene.camera.heading);
@@ -89,6 +87,7 @@ define(['Cesium','echartsMin'],function(Cesium,echarts) {
         $('#clearSkyline').click(clear);
 
         function clear(){
+            $("#skyview-observation-position").val('');
             viewer.entities.removeAll();
             if(parent.skylineForm){
                 parent.skylineForm.$el.hide();
