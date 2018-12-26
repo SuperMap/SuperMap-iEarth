@@ -70,6 +70,12 @@ label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start 
 .block {
     width: 100% !important;
 }
+input.disabled{
+    background-image: url(../images/input-forbidden.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-right: 5px;
+}
 /* 覆盖原生Cesium查询控件的样式 start */
 .cesium-geocoder-searchButton {
     background-color: rgba(38, 38, 38, 0.75);
@@ -205,6 +211,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
     right: 50px;
     top : 10%;
     width: 365px;
+    z-index: 100;
 }
 .function-module-caption { /* 面板中功能模块的标题 */
     font-size: 14px;
@@ -481,6 +488,28 @@ div.mark-list-item > img {
 #baseLayerBtn > .dropDown-container { /* 底图选择面板 */
     padding: 5px 10px;
 }
+
+/* 卷帘分割条 start */
+#verticalSlider {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    background-color: #D3D3D3;
+    width: 5px;
+    height: 100%;
+    cursor: ew-resize;
+}
+#horizontalSlider {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background-color: #D3D3D3;
+    width: 100%;
+    height: 5px;
+    cursor: ns-resize;
+}
+/* 卷帘分割条 end */
+
 
 @media screen and (max-width: 1366px) { /* 普通分辨率的笔记本电脑 */
     .function-module-content {

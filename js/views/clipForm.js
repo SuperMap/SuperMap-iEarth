@@ -38,7 +38,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                     '</div>',
                     '<div>',
                         '<label class="function-module-sub-section-caption">' + Resource.ClipModel + '</label>',
-                        '<select id="box-clip-mode" class="cesium-button" style="font-size: 12px;margin: 0px 0px -5px 0px;width: 90%">',
+                        '<select id="box-clip-mode" class="input" style="font-size: 12px;margin: 0px 0px -5px 0px;">',
                             '<option value="clip_behind_all_plane_without_line_frame" selected>' + Resource.CutInsideBoxNOFrame + '</option>',
                             '<option value="clip_behind_any_plane_without_line_frame">' + Resource.CutOutBoxNOFrame + '</option>',
                             '<option value="clip_behind_all_plane_with_line_frame">' + Resource.CutInsideBoxFrame + '</option>',

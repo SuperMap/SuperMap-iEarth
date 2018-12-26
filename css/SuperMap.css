@@ -2756,31 +2756,7 @@ td {text-align:center}
 	max-width: 25%;
 }
 /* -----------------卷帘分割条 start------------------- */
-#verticalSlider {
-	position: absolute;
-	left: 50%;
-	top: 0;
-	background-color: #D3D3D3;
-	width: 5px;
-	height: 100%;
-}
 
-#horizontalSlider {
-	position: absolute;
-	left: 0;
-	top: 50%;
-	background-color: #D3D3D3;
-	width: 100%;
-	height: 5px;
-}
-
-#verticalSlider {
-	cursor: ew-resize;
-}
-
-#horizontalSlider {
-	cursor: ns-resize;
-}
 
 /* -----------------卷帘分割条 end------------------- */
 /*--------tooltip----------------*/

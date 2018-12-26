@@ -25,6 +25,8 @@ define(['Cesium'], function (Cesium) {
         }
         clickFlag += 1;
         sightline.removeAllTargetPoint();
+        sightline.visibleColor = Cesium.Color.fromCssColorString(visibleColor.value);
+        sightline.hiddenColor = Cesium.Color.fromCssColorString(hiddenColor.value);
         viewer.entities.removeAll();
 
         if (handler && !handler.isDestroyed()) {
