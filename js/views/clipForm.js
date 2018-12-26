@@ -111,7 +111,7 @@ define(['./Container', '../3DGIS/CrossClip', '../3DGIS/BoxClip', '../3DGIS/Plane
                 '<div class="function-module-content">',
                     '<div>',
                         '<label class="function-module-sub-section-caption">' + Resource.polygonClipMode + '</label>',
-                        '<select id="polygon-clip-mode" class="cesium-button">',
+                        '<select id="polygon-clip-mode" class="input">',
                             '<option value="polygon-clip-outside" selected>' + Resource.PolygonClipOutside + '</option>',
                             '<option value="polygon-clip-inside">' + Resource.PolygonClipInside + '</option>',
                         '</select>',

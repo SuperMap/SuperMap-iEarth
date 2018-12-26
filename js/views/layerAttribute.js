@@ -65,7 +65,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                             '<span>'+ Resource.display +'</span>',
                         '</label>',
                         '<label class="half">',
-                            '<input type="checkbox" id="multiChoose" checked/>',
+                            '<input type="checkbox" id="multiChoose"/>',
                             '<span>'+ Resource.multiSelection +'</span>',
                         '</label>',
                     '</div>',

@@ -38,6 +38,8 @@ define(['Cesium', 'spectrum', 'drag'], function (Cesium) {
         }
         vsPointHandler && vsPointHandler.clear();
         viewshed3D.distance = 0.1;
+        viewshed3D.visibleAreaColor = Cesium.Color.fromCssColorString($('#colorPicker1').spectrum("get").toRgbString());
+        viewshed3D.hiddenAreaColor = Cesium.Color.fromCssColorString($('#colorPicker2').spectrum("get").toRgbString());
         var store = {};
         $("#clearVS").click(function () {
             viewshed.remove(viewer);

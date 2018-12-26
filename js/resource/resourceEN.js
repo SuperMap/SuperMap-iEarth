@@ -292,7 +292,7 @@
         TheSpaceField : 'Spatial field',
         Spacelongitude : 'Longitude(Degree)',
         Spacelatitude : 'Latitude(Degree)',
-        Spacealtitude : 'Elevation(Degree)',
+        Spacealtitude : 'Elevation(Meter)',
         StartQuery : 'Start query',
         CleanCharts : 'Clean up the chart',
         home : 'Reset',

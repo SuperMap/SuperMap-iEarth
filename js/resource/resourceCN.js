@@ -292,7 +292,7 @@ define(function(){
         TheSpaceField : '空间字段',
         Spacelongitude : '经度（度）',
         Spacelatitude : '纬度（度）',
-        Spacealtitude : '高程（度）',
+        Spacealtitude : '高程（米）',
         StartQuery : '启动查询',
         CleanCharts : '清理图表',
         home : '重置',
