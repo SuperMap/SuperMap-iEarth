@@ -1650,28 +1650,8 @@ ul,ol{
 /*--------glyphicon  end------*/
 
 /*--------form  end------*/
-.form-group{
-	position: relative;
-    margin-bottom: 20px;
-}
-.my-form-control {
-	border: solid 1px #444;
-	/* background-color: rgba(40,40,40,0.7); */
-	background-color: rgba(38, 38, 38, 0.75);
-	color: #ffffff;
-	display: inline-block;
-	vertical-align: middle;
-	height: 38px;
-	width: 100%;
-	margin: 0;
-	padding: 2px 6px;
-	box-sizing: border-box;
-}
 
-.my-form-control:hover {
-	border-color: #aef;
-	box-shadow: 0 0 8px #fff;
-}
+
 /*--------form  end------*/
 
 /*--------tree view  start------*/
@@ -2554,13 +2534,7 @@ main section input[type=range]{
 }
 
 main section input[type=text] {
-    /*margin: 2.5px;*/
-    /*width: 15%;*/
-    /*background: rgba(0,0,0,0);
-    border: 2px solid #6f7578;*/
     color: lightgrey;
-	/*text-align: center;
-	border-radius: 5px;*/
 }
 main section button{
   color: #f7f1f1;

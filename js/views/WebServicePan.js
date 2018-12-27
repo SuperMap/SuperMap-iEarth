@@ -3,7 +3,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
     var $ = require('jquery');
     var htmlStr = [
         '<div class="selTypeContainer">',
-        '<select id="selType" class="cesium-button" style="width : 50%;border-radius : 0;">',
+        '<select id="selType" class="my-form-control" style="width: 50%;">',
         '</select>',
         '</div>'
     ].join('');

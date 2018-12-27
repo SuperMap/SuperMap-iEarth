@@ -7,40 +7,38 @@ define([
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
-        '<div style="padding: 10px; border:1px solid #417BB3">',
-        '<label>' + Resource.OpenLayer + '</label>',
-        '<div class="form-group" style="text-align: left;">',
-        '<select class="cesium-button" style="width : 50%;" id="typeInput">',
-        '<option value="S3M">' + Resource.s3mLayer + '</option>',
-        '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
-        '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
-        '</select>',
-        /*'<span id="queryFeatureSpan">',
-         '<div class="squaredTwo" id="chkContainer"> <input type="checkbox" id="queryFeatureChk"> <label class="check-icon"></label></div>' + Resource.featureQuery,
-         '</span>',*/
+        '<div class="function-module-content">',
+            '<div class="function-module-sub-section function-module-part">',
+                '<label>' + Resource.OpenLayer + '</label>',
+                '<div class="form-group">',
+                    '<select class="my-form-control" style="width:50%;" id="typeInput">',
+                        '<option value="S3M">' + Resource.s3mLayer + '</option>',
+                        '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
+                        '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
+                    '</select>',
+                '</div>',
+                '<div class="form-group">',
+                    '<input id="urlInput" class="my-form-control" type="url" placeholder=' + Resource.layerUrl + ' title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
+                '</div>',
+                '<div>',
+                    '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text"/>',
+                '</div>',
+                /*'<div class="form-group" id="dataUrlDiv" style="display: none;">',
+                    '<input id="dataUrlInput" style="display: none;"/>',
+                    '<select class="cesium-button" id="datasourceSel" style="width: 48%;float: left">',
+                        '<option selected="selected" value="undefined">--' + Resource.selDataSource + '--</option>',
+                    '</select>',
+                    '<select class="cesium-button" id="datasetSel" style="width: 48%">',
+                        '<option selected="selected" value="undefined">--' + Resource.selDataSet + '--</option>',
+                    '</select>',
+                '</div>',*/
+            '</div>',
+            '<div class="function-module-part">',
+                '<label>' + Resource.OpenScene + '</label>',
+                '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
+            '</div>',
         '</div>',
-        '<div class="form-group">',
-        '<input id="urlInput" class="my-form-control" type="url" placeholder=' + Resource.layerUrl + ' title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
-        '</div>',
-        '<div class="form-group">',
-        '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text" title="<layer name>" />',
-        '</div>',
-        '<div class="form-group" id="dataUrlDiv" style="display: none;">',
-        '<input id="dataUrlInput" style="display: none;"/>',
-        '<select class="cesium-button" id="datasourceSel" style="width: 48%;float: left">',
-        '<option selected="selected" value="undefined">--' + Resource.selDataSource + '--</option>',
-        '</select>',
-        '<select class="cesium-button" id="datasetSel" style="width: 48%">',
-        '<option selected="selected" value="undefined">--' + Resource.selDataSet + '--</option>',
-        '</select>',
-        '</div>',
-        '</div><br>',
-        '<div style="padding: 10px; border:1px solid #417BB3">',
-        '<label>' + Resource.OpenScene + '</label>',
-        '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
-        '</div><br>',
-        '<button class="btn btn-info function-module-btn-highlight" data-dismiss="myModal-body" id="btnOk" style="float: right;margin-top:28px;">' + Resource.confirm + '</button>',
-
+        '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="btnOk">' + Resource.confirm + '</button>',
     ].join('');
     var WebServicePan = Container.extend({
         tagName: 'div',
@@ -101,12 +99,6 @@ define([
                             datasource: datasource,
                             dataset: dataset
                         };
-                        /*layerModel.strategy.attrQueryPars = {
-                         url: dataUrl,
-                         dataSourceName: datasource,
-                         dataSetName: dataset,
-                         keyWorld: 'SmID'
-                         };*/
                         if (dataset === 'merge') {
                             layerModel.strategy.attrQueryPars = {
                                 url: dataUrl,

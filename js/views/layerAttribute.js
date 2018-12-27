@@ -18,7 +18,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
             '<div class="function-module-content">',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">'+ Resource.layerName +'</label>',
-                    '<input id="layerName" class="input disabled" type="text" disabled/>',
+                    '<input id="layerName" class="input disabled width-adjust" type="text" disabled/>',
                 '</div>',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">'+ Resource.shadow +'</label>',
@@ -347,7 +347,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                     change:function(){
                         $('#selectColorPicker').trigger('input');
                     },
-                    color: "#fff",
+                    color: "rgba(178.5, 178.5, 255, 1)",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",

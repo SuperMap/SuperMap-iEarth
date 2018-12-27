@@ -122,6 +122,7 @@ function init(Cesium, Zlib) {
             e.preventDefault();
         }, false);
     }
+
     if (viewer.geocoder) {
         // 请开发者自行到supermap online官网（http://www.supermapol.com/）申请key
         viewer.geocoder.viewModel.geoKey = 'fvV2osxwuZWlY0wJb8FEb2i5';
@@ -174,6 +175,7 @@ function init(Cesium, Zlib) {
                     isPCBroswer: isPCBroswer
                 });
                 viewerContainer.addComponent(toolBar, new Position());
+                document.body.removeChild(document.getElementById('loading')); // 加载完菜单栏再把加载动画移除
                 var errorPannel = new ErrorPannel();
                 viewerContainer.addComponent(errorPannel);
 
