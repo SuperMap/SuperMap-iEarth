@@ -1,7 +1,7 @@
 define(['./Container','jquery','../models/LayerModel'],function(Container,$,LayerModel){
     var _ = require('underscore');
     var htmlStr = [
-        '<div class="form-group has-success">',
+        '<div class="has-success">',
         '<label>'+ Resource.KMLData +'</label>',
         '<input class="my-form-control" type="file" accept=".kml"  placeholder="' + Resource.selLocalFile + '" style="padding: 8px;"/>',
         '</div>'
@@ -19,7 +19,7 @@ define(['./Container','jquery','../models/LayerModel'],function(Container,$,Laye
         render : function(){
             this.$el.html(this.template());
             this.$el.attr({'id' : 'localFilePan','role' : 'tabpanel'});
-            this.$el.addClass('tab-pane');
+            this.$el.addClass('tab-pane function-module-content');
             return this;
         },
         onInputChange : function(evt){
