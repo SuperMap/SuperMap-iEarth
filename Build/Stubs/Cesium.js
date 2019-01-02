@@ -170,6 +170,10 @@ define('Core/Credential', function() {
     return Cesium['Credential'];
 });
 
+define('Core/CredentialType', function() {
+    return Cesium['CredentialType'];
+});
+
 define('Core/Credit', function() {
     return Cesium['Credit'];
 });
@@ -1552,258 +1556,6 @@ define('Light/PointLight', function() {
 
 define('Light/SpotLight', function() {
     return Cesium['SpotLight'];
-});
-
-define('Plot/AlgoSymbol/AlgoSymbol', function() {
-    return Cesium['AlgoSymbol'];
-});
-
-define('Plot/Cell/SymbolAlgoUtil', function() {
-    return Cesium['SymbolAlgoUtil'];
-});
-
-define('Plot/Cell/SymbolArbitraryPolygon', function() {
-    return Cesium['SymbolArbitraryPolygon'];
-});
-
-define('Plot/Cell/SymbolArc', function() {
-    return Cesium['SymbolArc'];
-});
-
-define('Plot/Cell/SymbolBrace', function() {
-    return Cesium['SymbolBrace'];
-});
-
-define('Plot/Cell/SymbolCell', function() {
-    return Cesium['SymbolCell'];
-});
-
-define('Plot/Cell/SymbolChord', function() {
-    return Cesium['SymbolChord'];
-});
-
-define('Plot/Cell/SymbolCircle', function() {
-    return Cesium['SymbolCircle'];
-});
-
-define('Plot/Cell/SymbolConcentricCircle', function() {
-    return Cesium['SymbolConcentricCircle'];
-});
-
-define('Plot/Cell/SymbolCurveEight', function() {
-    return Cesium['SymbolCurveEight'];
-});
-
-define('Plot/Cell/SymbolEllipse', function() {
-    return Cesium['SymbolEllipse'];
-});
-
-define('Plot/Cell/SymbolKidney', function() {
-    return Cesium['SymbolKidney'];
-});
-
-define('Plot/Cell/SymbolParallelogram', function() {
-    return Cesium['SymbolParallelogram'];
-});
-
-define('Plot/Cell/SymbolPie', function() {
-    return Cesium['SymbolPie'];
-});
-
-define('Plot/Cell/SymbolPolyBezier', function() {
-    return Cesium['SymbolPolyBezier'];
-});
-
-define('Plot/Cell/SymbolPolyBezierClosed', function() {
-    return Cesium['SymbolPolyBezierClosed'];
-});
-
-define('Plot/Cell/SymbolPolyline', function() {
-    return Cesium['SymbolPolyline'];
-});
-
-define('Plot/Cell/SymbolRectangle', function() {
-    return Cesium['SymbolRectangle'];
-});
-
-define('Plot/Cell/SymbolRegularPolygon', function() {
-    return Cesium['SymbolRegularPolygon'];
-});
-
-define('Plot/Cell/SymbolRunWay', function() {
-    return Cesium['SymbolRunWay'];
-});
-
-define('Plot/Cell/SymbolTrapezoid', function() {
-    return Cesium['SymbolTrapezoid'];
-});
-
-define('Plot/Convert/GeoGraphicObjectConvert', function() {
-    return Cesium['GeoGraphicObjectConvert'];
-});
-
-define('Plot/Convert/LayerDataStruct', function() {
-    return Cesium['LayerDataStruct'];
-});
-
-define('Plot/Convert/SitDataManager', function() {
-    return Cesium['SitDataManager'];
-});
-
-define('Plot/Convert/SitDataStruct', function() {
-    return Cesium['SitDataStruct'];
-});
-
-define('Plot/Convert/SmlInfoStruct', function() {
-    return Cesium['SmlInfoStruct'];
-});
-
-define('Plot/GeoGraphicObject', function() {
-    return Cesium['GeoGraphicObject'];
-});
-
-define('Plot/Handler/PlotDrawControl', function() {
-    return Cesium['PlotDrawControl'];
-});
-
-define('Plot/Handler/PlotEditControl', function() {
-    return Cesium['PlotEditControl'];
-});
-
-define('Plot/Leaflet/AlgoInclude', function() {
-    return Cesium['AlgoInclude'];
-});
-
-define('Plot/Leaflet/SymbolLib', function() {
-    return Cesium['SymbolLib'];
-});
-
-define('Plot/Leaflet/SymbolLibManager', function() {
-    return Cesium['SymbolLibManager'];
-});
-
-define('Plot/Leaflet/SymbolLibService', function() {
-    return Cesium['SymbolLibService'];
-});
-
-define('Plot/PlotAnimation/GOAnimation', function() {
-    return Cesium['GOAnimation'];
-});
-
-define('Plot/PlotAnimation/GOAnimationAttribute', function() {
-    return Cesium['GOAnimationAttribute'];
-});
-
-define('Plot/PlotAnimation/GOAnimationBlink', function() {
-    return Cesium['GOAnimationBlink'];
-});
-
-define('Plot/PlotAnimation/GOAnimationGrow', function() {
-    return Cesium['GOAnimationGrow'];
-});
-
-define('Plot/PlotAnimation/GOAnimationManager', function() {
-    return Cesium['GOAnimationManager'];
-});
-
-define('Plot/PlotAnimation/GOAnimationRotate', function() {
-    return Cesium['GOAnimationRotate'];
-});
-
-define('Plot/PlotAnimation/GOAnimationScale', function() {
-    return Cesium['GOAnimationScale'];
-});
-
-define('Plot/PlotAnimation/GOAnimationShow', function() {
-    return Cesium['GOAnimationShow'];
-});
-
-define('Plot/PlotAnimation/GOAnimationWay', function() {
-    return Cesium['GOAnimationWay'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationDefine/BlinkAnimationBlinkStyle', function() {
-    return Cesium['BlinkAnimationBlinkStyle'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationDefine/BlinkAnimationReplaceStyle', function() {
-    return Cesium['BlinkAnimationReplaceStyle'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationDefine/GOAnimationState', function() {
-    return Cesium['GOAnimationState'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationDefine/GOAnimationType', function() {
-    return Cesium['GOAnimationType'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationDefine/RotateDirection', function() {
-    return Cesium['RotateDirection'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationDefine/WayPathType', function() {
-    return Cesium['WayPathType'];
-});
-
-define('Plot/PlotAnimation/PlotAnimationLayer', function() {
-    return Cesium['PlotAnimationLayer'];
-});
-
-define('Plot/PlotDefine/DotMode', function() {
-    return Cesium['DotMode'];
-});
-
-define('Plot/PlotDefine/FillGradientMode', function() {
-    return Cesium['FillGradientMode'];
-});
-
-define('Plot/PlotDefine/SurroundLineType', function() {
-    return Cesium['SurroundLineType'];
-});
-
-define('Plot/PlotDefine/SymbolType', function() {
-    return Cesium['SymbolType'];
-});
-
-define('Plot/PlotDefine/TextPos', function() {
-    return Cesium['TextPos'];
-});
-
-define('Plot/Plotting', function() {
-    return Cesium['Plotting'];
-});
-
-define('Plot/PlottingLayer', function() {
-    return Cesium['PlottingLayer'];
-});
-
-define('Plot/Styles/DefaultStyle', function() {
-    return Cesium['DefaultStyle'];
-});
-
-define('Plot/Styles/SymbolStyle', function() {
-    return Cesium['SymbolStyle'];
-});
-
-define('Plot/Styles/SymbolTextStyle', function() {
-    return Cesium['SymbolTextStyle'];
-});
-
-define('Plot/SymbolDot/SymbolDot', function() {
-    return Cesium['SymbolDot'];
-});
-
-define('Plot/SymbolDot/SymbolDotGraphic', function() {
-    return Cesium['SymbolDotGraphic'];
-});
-
-define('Plot/SymbolDot/SymbolDotPicture', function() {
-    return Cesium['SymbolDotPicture'];
-});
-
-define('Plot/SymbolDot/SymbolDotVector', function() {
-    return Cesium['SymbolDotVector'];
 });
 
 define('Renderer/AutomaticUniforms', function() {
@@ -3420,6 +3172,10 @@ define('Shaders/Builtin/Functions/columbusViewMorph', function() {
 
 define('Shaders/Builtin/Functions/computeLightColorInFP', function() {
     return Cesium['computeLightColorInFP'];
+});
+
+define('Shaders/Builtin/Functions/computeLightColorInstanceInFP', function() {
+    return Cesium['computeLightColorInstanceInFP'];
 });
 
 define('Shaders/Builtin/Functions/computeNormal', function() {

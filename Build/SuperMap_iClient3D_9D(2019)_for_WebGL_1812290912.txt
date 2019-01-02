@@ -10,7 +10,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  webglreport.html
 ©¦  
 ©À©¤Build
-©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1812141320.txt
+©¦  ©¦  SuperMap_iClient3D_9D(2019)_for_WebGL_1812290912.txt
 ©¦  ©¦  
 ©¦  ©À©¤Cesium
 ©¦  ©¦  ©¦  Cesium.js
@@ -296,15 +296,11 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 ©¦  ©¦  ©¦  ©¦  draco_decoder.wasm
 ©¦  ©¦  ©¦  ©¦  
 ©¦  ©¦  ©¦  ©¸©¤Workers
-©¦  ©¦  ©¦      ©¦  deflate.js
-©¦  ©¦  ©¦      ©¦  draco_decoder.js
-©¦  ©¦  ©¦      ©¦  draco_wasm_wrapper.js
-©¦  ©¦  ©¦      ©¦  inflate.js
-©¦  ©¦  ©¦      ©¦  
-©¦  ©¦  ©¦      ©¸©¤PlotAlgo
-©¦  ©¦  ©¦              PlotAlgoInclude.js
-©¦  ©¦  ©¦              PlotAlgoInclude_NoCommon.js
-©¦  ©¦  ©¦              
+©¦  ©¦  ©¦          deflate.js
+©¦  ©¦  ©¦          draco_decoder.js
+©¦  ©¦  ©¦          draco_wasm_wrapper.js
+©¦  ©¦  ©¦          inflate.js
+©¦  ©¦  ©¦          
 ©¦  ©¦  ©À©¤Widgets
 ©¦  ©¦  ©¦  ©¦  lighter.css
 ©¦  ©¦  ©¦  ©¦  lighterShared.css

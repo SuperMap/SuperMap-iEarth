@@ -3,10 +3,10 @@ define(['./Container', 'Cesium'],function(Container, Cesium){
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-                   '<a id="btnCompass" title="' + Resource.compass + '" class="btn btn-inverse" style="width: 32px;height : 32px;padding : 5px 8px;">',
-                   '<span id="compass" class="iconfont icon-iEarth-zhibeizhen-" style="transform : rotate(-45deg);display : inline-block;"></span>',
-                   '</a>',
-               ].join('');
+       '<a id="btnCompass" title="' + Resource.compass + '" class="btn btn-inverse" style="width: 32px;height : 32px;padding : 5px 8px;">',
+        '<span id="compass" class="iconfont icon-side-toolbar_compass" style="transform : rotate(-45deg);display : inline-block;"></span>',
+        '</a>',
+    ].join('');
     var Compass = Container.extend({
         template : _.template(htmlStr),
         initialize : function(options){
@@ -14,7 +14,6 @@ define(['./Container', 'Cesium'],function(Container, Cesium){
             var scene = this.viewer.scene;
             scene.postRender.addEventListener(function(){
                 var heading = scene.camera.heading;
-                // var x = Cesium.Math.toDegrees(heading) - 45;
                 var x = Cesium.Math.toDegrees(heading);
                 var degrees = "rotate(" + x + "deg)";
                 $("#compass").css("transform", degrees);

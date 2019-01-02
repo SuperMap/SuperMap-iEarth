@@ -25,8 +25,8 @@ define(['Cesium'], function (Cesium) {
         }
         clickFlag += 1;
         sightline.removeAllTargetPoint();
-        sightline.visibleColor = Cesium.Color.fromCssColorString(visibleColor.value);
-        sightline.hiddenColor = Cesium.Color.fromCssColorString(hiddenColor.value);
+        sightline.visibleColor = Cesium.Color.fromCssColorString($('#visibleColor').spectrum("get").toRgbString());
+        sightline.hiddenColor = Cesium.Color.fromCssColorString($('#hiddenColor').spectrum("get").toRgbString());
         viewer.entities.removeAll();
 
         if (handler && !handler.isDestroyed()) {
@@ -104,15 +104,14 @@ define(['Cesium'], function (Cesium) {
         pointHandler.activate();
 
         visibleColor.oninput = function () {
-            var color = Cesium.Color.fromCssColorString(visibleColor.value);
+            var color = Cesium.Color.fromCssColorString($('#visibleColor').spectrum("get").toRgbString());
             sightline.visibleColor = color;
         };
 
         hiddenColor.oninput = function () {
-            var color = Cesium.Color.fromCssColorString(hiddenColor.value);
+            var color = Cesium.Color.fromCssColorString($('#hiddenColor').spectrum("get").toRgbString());
             sightline.hiddenColor = color;
         };
-
 
         document.getElementById("clearSL").onclick = function () {
             $("#sight-observation-place").val('');
@@ -123,8 +122,6 @@ define(['Cesium'], function (Cesium) {
             }
             sgLine.remove(viewer);
         };
-
-
 
         if (sceneModel.analysisObjects.sightLineStore && clickFlag < 2) {
             var store = sceneModel.analysisObjects.sightLineStore;

@@ -97,14 +97,16 @@ function init(Cesium, Zlib) {
             baseLayerPicker: false,
             shadows: true,
             infoBox: false,
-            geocoder : true
+            geocoder : true,
+            skyBox: false
         });
         viewer.animation.container.style.visibility = 'hidden';
         viewer.timeline.container.style.visibility = 'hidden';
     }
     else {
         viewer = new Cesium.Viewer('cesiumContainer', {
-            infoBox: false
+            infoBox: false,
+            skyBox: false
         });
 
         var scene = viewer.scene;
@@ -113,9 +115,6 @@ function init(Cesium, Zlib) {
         }
         if (Cesium.defined(scene.moon)) {
             scene.moon.show = false;
-        }
-        if (Cesium.defined(scene.skyBox)) {
-            scene.skyBox.show = false;
         }
         document.documentElement.style.height = window.innerHeight + 'px';
         document.addEventListener('touchmove', function (e) {

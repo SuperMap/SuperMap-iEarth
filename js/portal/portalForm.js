@@ -5,16 +5,16 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
     var viewer;
     var htmlStr = [
         '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-iEarth-zhuyemian-"></span>',
+        '<span class="iconfont icon-side-toolbar_home"></span>',
         '</a><br><br>',
         '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-ic_save"></span>',
+        '<span class="iconfont icon-side-toolbar_storage"></span>',
         '</a><br><br>',
         '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-fenxiang"></span>',
+        '<span class="iconfont icon-side-toolbar_share"></span>',
         '</a><br><br>',
         '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-denglu"></span>',
+        '<span class="iconfont icon-side-toolbar_login"></span>',
         '</a>'
     ].join('');
     var portalForm = Container.extend({
