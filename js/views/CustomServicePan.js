@@ -23,28 +23,21 @@ define([
                 '<div>',
                     '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text"/>',
                 '</div>',
-                /*'<div class="form-group" id="dataUrlDiv" style="display: none;">',
-                    '<input id="dataUrlInput" style="display: none;"/>',
-                    '<select class="cesium-button" id="datasourceSel" style="width: 48%;float: left">',
-                        '<option selected="selected" value="undefined">--' + Resource.selDataSource + '--</option>',
-                    '</select>',
-                    '<select class="cesium-button" id="datasetSel" style="width: 48%">',
-                        '<option selected="selected" value="undefined">--' + Resource.selDataSet + '--</option>',
-                    '</select>',
-                '</div>',*/
+                '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="open-layer" style="margin-top:10px;">' + Resource.confirm + '</button>',
             '</div>',
             '<div class="function-module-part">',
                 '<label>' + Resource.OpenScene + '</label>',
                 '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
+                '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="open-scene" style="margin-top:10px;">' + Resource.confirm + '</button>',
             '</div>',
         '</div>',
-        '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="btnOk">' + Resource.confirm + '</button>',
     ].join('');
     var WebServicePan = Container.extend({
         tagName: 'div',
         template: _.template(htmlStr),
         events: {
-            'click #btnOk': 'onBtnOkClk',
+            'click #open-layer': 'onOpenLayer',
+            'click #open-scene': 'onOpenScene',
             'change #typeInput': 'onSelectChange',
             'click #chkContainer': 'onCheckboxChange',
             'blur #urlInput': 'onUrlInputBlur'
@@ -60,163 +53,147 @@ define([
             this.$el.addClass('tab-pane');
             return this;
         },
-        onBtnOkClk: function (evt) {
+        onOpenLayer: function () { // 打开图层
+            var type = $('#typeInput').val();
             var url = $('#urlInput').val();
-            var sceneUrl = $('#sceneUrl').val();
             var name = $('#nameInput').val();
-            if (url === '' && name != '') {
+
+            if (url === '') {
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
             }
-            if (name === '' && url != '') {
+            if (name === '') {
                 Util.showErrorMsg(Resource.layerNameNotNullMsg);
                 return;
             }
-            if (url === '' && sceneUrl === '') {
+            var s3mLayerUrlPattern = /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace\/datas\/\S+\/config$/; // S3M图层URL正则表达式
+            var imageryOrTerrainLayerUrlPattern = /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace\/datas((?!\/config).)*$/; // 影像或地形图层URL正则表达式
+
+            if (type === 'S3M') {
+                if (!s3mLayerUrlPattern.test(url)) {
+                    Util.showErrorMsg(Resource.urlMismatchingPattern);
+                    return;
+                }
+            } else {
+                if (!imageryOrTerrainLayerUrlPattern.test(url)) {
+                    Util.showErrorMsg(Resource.urlMismatchingPattern);
+                    return;
+                }
+            }
+            var layerModel = new LayerModel({
+                url: url,
+                sceneUrl: sceneUrl,
+                name: name,
+                type: type,
+                realName: name
+            });
+            this.model.addLayer(layerModel);
+        },
+        onOpenScene: function (evt) { // 打开场景
+            var sceneUrl = $('#sceneUrl').val();
+            if (sceneUrl === '') {
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
             }
-            if (name === '' && sceneUrl === '') {
-                Util.showErrorMsg(Resource.layerNameNotNullMsg);
+            var sceneUrlPattern = /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace$/; // 场景URL正则表达式
+            if (!sceneUrlPattern.test(sceneUrl)) {
+                Util.showErrorMsg(Resource.urlMismatchingPattern);
                 return;
+            }
+            var allUrl = sceneUrl + "/datas.xml";
+            var namelist = new Array();
+            var pathlist = new Array();
+            $.ajax({
+                url: allUrl,
+                dataType: 'xml',
+                type: 'GET',
+                async: false,
+                timeout: 3000,
+                error: function (xml) {
+
+                },
+                success: function (xml) {
+                    $(xml).find("name").each(function (i) {
+                        var id = $(this).children("id");
+                        namelist[i] = id.context.innerHTML;
+                    });
+                    $(xml).find("path").each(function (i) {
+                        var id = $(this).children("id");
+                        pathlist[i] = id.context.innerHTML;
+                    });
+                }
+            });
+
+            var jsonUrl = sceneUrl + '/scenes.xml';
+            var jsonPath;
+            $.ajax({
+                url: jsonUrl,
+                dataType: 'xml',
+                type: 'GET',
+                async: false,
+                timeout: 3000,
+                error: function (xml) {
+
+                },
+                success: function (xml) {
+                    $(xml).find("path").each(function (i) {
+                        var id = $(this).children("id");
+                        jsonPath = id.context.innerHTML;
+                    });
+
+                }
+            });
+            var typeUrl = jsonPath + '/layers.xml';
+            var typelist = new Array();
+            var typeLayerName = new Array();
+
+            $.ajax({
+                url: typeUrl,
+                dataType: 'xml',
+                type: 'GET',
+                async: false,
+                timeout: 3000,
+                error: function (xml) {
+                },
+                success: function (xml) {
+                    $(xml).find("name").each(function(i){
+                        var id = $(this).children("id");
+                        typeLayerName[i] = id.context.innerHTML;
+                    });
+                    $(xml).find("layer3DType").each(function (i) {
+                        var id = $(this).children("id");
+                        typelist[i] = id.context.innerHTML;
+                    });
+                }
+            });
+            for (var j = 0; j < typelist.length; j++) {
+                if (typelist[j] == 'OSGBLayer') {
+                    typelist[j] = 'S3M';
+                }
+                else if (typelist[j] == 'ImageFileLayer') {
+                    typelist[j] = 'IMAGERY';
+                }
+                else if (typelist[j] == 'TerrainFileLayer') {
+                    typelist[j] = 'TERRAIN';
+                }
             }
 
-            if (url != '' && name != '') {
-                var type = $('#typeInput').val();
+            for (var i = 0; i < namelist.length; i++) {
+                var typeIndex = typeLayerName.indexOf(namelist[i]);
+                var type = typelist[typeIndex];
+                if (type == 'S3M') {
+                    pathlist[i] = pathlist[i] + "/config";
+                }
+
                 var layerModel = new LayerModel({
-                    url: url,
-                    sceneUrl: sceneUrl,
-                    name: name,
+                    url: pathlist[i],
+                    name: namelist[i],
                     type: type,
                     realName: name
                 });
-                if ("S3M" == type) {
-                    if ($('#queryFeatureChk').is(':checked') && $('#dataUrlInput').val() !== '' && $('#datasourceSel').val() && $('#datasetSel').val()) {
-                        var dataUrl = $('#dataUrlInput').val(), datasource = $('#datasourceSel').val(),
-                            dataset = $('#datasetSel').val();
-                        Util.SCPURL_SET[name] = {
-                            dataUrl: dataUrl,
-                            datasource: datasource,
-                            dataset: dataset
-                        };
-                        if (dataset === 'merge') {
-                            layerModel.strategy.attrQueryPars = {
-                                url: dataUrl,
-                                dataSourceName: datasource,
-                                isMerge: true
-                            };
-                        } else {
-                            layerModel.strategy.attrQueryPars = {
-                                url: dataUrl,
-                                dataSourceName: datasource,
-                                dataSetName: dataset,
-                                keyWord: 'SmID'
-                            };
-                        }
-                    }
-                }
                 this.model.addLayer(layerModel);
             }
-
-            if (sceneUrl != '') {
-                var allUrl = sceneUrl + "/datas.xml";
-                var namelist = new Array();
-                var pathlist = new Array();
-                $.ajax({
-                    url: allUrl,
-                    dataType: 'xml',
-                    type: 'GET',
-                    async: false,
-                    timeout: 3000,
-                    error: function (xml) {
-
-                    },
-                    success: function (xml) {
-                        $(xml).find("name").each(function (i) {
-                            var id = $(this).children("id");
-                            namelist[i] = id.context.innerHTML;
-                        });
-                        $(xml).find("path").each(function (i) {
-                            var id = $(this).children("id");
-                            pathlist[i] = id.context.innerHTML;
-                        });
-
-                    }
-                });
-
-                var jsonUrl = sceneUrl + '/scenes.xml';
-                var jsonPath;
-                $.ajax({
-                    url: jsonUrl,
-                    dataType: 'xml',
-                    type: 'GET',
-                    async: false,
-                    timeout: 3000,
-                    error: function (xml) {
-
-                    },
-                    success: function (xml) {
-                        $(xml).find("path").each(function (i) {
-                            var id = $(this).children("id");
-                            jsonPath = id.context.innerHTML;
-                        });
-
-                    }
-                });
-                var typeUrl = jsonPath + '/layers.xml';
-                var typelist = new Array();
-                var typeLayerName = new Array();
-
-                $.ajax({
-                    url: typeUrl,
-                    dataType: 'xml',
-                    type: 'GET',
-                    async: false,
-                    timeout: 3000,
-                    error: function (xml) {
-                    },
-                    success: function (xml) {
-                        $(xml).find("name").each(function(i){
-                            var id = $(this).children("id");
-                            typeLayerName[i] = id.context.innerHTML;
-                        });
-                        $(xml).find("layer3DType").each(function (i) {
-                            var id = $(this).children("id");
-                            typelist[i] = id.context.innerHTML;
-                        });
-                    }
-                });
-                for (var j = 0; j < typelist.length; j++) {
-                    if (typelist[j] == 'OSGBLayer') {
-                        typelist[j] = 'S3M';
-                    }
-                    else if (typelist[j] == 'ImageFileLayer') {
-                        typelist[j] = 'IMAGERY';
-                    }
-                    else if (typelist[j] == 'TerrainFileLayer') {
-                        typelist[j] = 'TERRAIN';
-                    }
-                }
-
-                for (var i = 0; i < namelist.length; i++) {
-                    var typeIndex = typeLayerName.indexOf(namelist[i]);
-                    var type = typelist[typeIndex];
-                    if (type == 'S3M') {
-                        pathlist[i] = pathlist[i] + "/config";
-                    }
-
-                    var layerModel = new LayerModel({
-                        url: pathlist[i],
-                        name: namelist[i],
-                        type: type,
-                        realName: name
-                    });
-                    this.model.addLayer(layerModel);
-                }
-                $('#sceneUrl').val("");
-            }
-
-            evt.stopPropagation();
+            $('#sceneUrl').val("");
         },
         onSelectChange: function (evt) {
             var target = evt.target;

@@ -409,7 +409,8 @@
         polygonClipMode: 'clip mode',
         clickToSearchCoordination: 'click to search coordination',
         stopChoose: 'stop choose',
-        searchPlaceHolder: 'Enter an address or landmark...'
+        searchPlaceHolder: 'Enter an address or landmark...',
+        urlMismatchingPattern: 'please enter the correct URL format'
     };
     return ResourceEN;
 });

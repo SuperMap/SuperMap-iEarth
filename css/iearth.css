@@ -413,6 +413,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 .function-module-part {
     border: 1px solid #009c95;
     padding: 15px;
+    overflow: auto;
 }
 .half { /* 用于功能面板一行放两个控件 */
     width: 50%;

@@ -409,7 +409,8 @@ define(function(){
         polygonClipMode: '裁剪模式',
         clickToSearchCoordination: '点击查询坐标值',
         stopChoose: '站点选择',
-        searchPlaceHolder: '输入地址或地标...'
+        searchPlaceHolder: '输入地址或地标...',
+        urlMismatchingPattern: '请输入正确的URL格式'
     };
     return ResourceCN;
 });
