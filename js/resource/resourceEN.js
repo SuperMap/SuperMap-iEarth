@@ -200,7 +200,7 @@
         sunlight : 'Sunshine effect',
         viewPosition : 'Observation point position',
         additionalHeight : 'Additional height (m)',
-        visualRange : 'Visible distance',
+        visualRange : 'Visible distance(m)',
         directionAngle : 'Direction angle (degrees)',
         ElevationAngle : 'Pitch angle (degrees)',
         hideenColor : 'Invisible color',

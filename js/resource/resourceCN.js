@@ -200,7 +200,7 @@ define(function(){
         sunlight : '日照效果',
         viewPosition : '观察点位置',
         additionalHeight : '附加高度(米)',
-        visualRange : '可视距离',
+        visualRange : '可视距离（米）',
         directionAngle : '方向角(度)',
         ElevationAngle : '俯仰角(度)',
         hideenColor : '不可视颜色',

@@ -88,7 +88,7 @@ define(['Cesium', 'spectrum', 'drag'], function (Cesium) {
             viewshed3D.verticalFov = parseFloat(this.value);
         });
 
-        $('#horizonalFov').on('input propertychange', function () {
+        $('#horizontalFov').on('input propertychange', function () {
             if (Number(this.value) < 1) {
                 $(this).val("1");
             }
@@ -168,11 +168,11 @@ define(['Cesium', 'spectrum', 'drag'], function (Cesium) {
             vsHandler.setInputAction(function (e) {
                 if (!scene.viewFlag) {
                     scene.viewFlag = true;
-                    $('#direction').val(viewshed3D.direction);
-                    $('#viewshed-pitch').val(viewshed3D.pitch);
-                    $('#distance').val(viewshed3D.distance);
-                    $('#horizontalFov').val(viewshed3D.horizontalFov);
-                    $('#verticalFov').val(viewshed3D.verticalFov);
+                    $('#direction').val(viewshed3D.direction.toFixed(2));
+                    $('#viewshed-pitch').val(viewshed3D.pitch.toFixed(2));
+                    $('#distance').val(viewshed3D.distance.toFixed(2));
+                    $('#horizontalFov').val(viewshed3D.horizontalFov.toFixed(2));
+                    $('#verticalFov').val(viewshed3D.verticalFov.toFixed(2));
                 }
                 store.viewPosition = viewshed3D.viewPosition;
                 store.distance = viewshed3D.distance;

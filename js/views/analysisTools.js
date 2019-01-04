@@ -54,7 +54,7 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                 '<div class="function-module-sub-section">',
                     '<div class="half">',
                         '<label class="function-module-sub-section-caption">'+ Resource.horizontalFov +'</label>',
-                        '<input type="number" id="horizonalFov" class="input" min="1" max="120" step="1.0" value="90" title='+Resource.horizontalFov +'>',
+                        '<input type="number" id="horizontalFov" class="input" min="1" max="120" step="1.0" value="90" title='+Resource.horizontalFov +'>',
                     '</div>',
                     '<div class="half">',
                         '<label class="function-module-sub-section-caption">'+ Resource.verticalFov +'</label>',
