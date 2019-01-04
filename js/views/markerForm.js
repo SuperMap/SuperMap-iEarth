@@ -160,6 +160,8 @@ define(['./Container',
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
                     palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
                     change: function(color) {
                         var color = Cesium.Color.fromCssColorString(color.toRgbString());
                         if (viewer.selectedEntity) {
@@ -174,14 +176,18 @@ define(['./Container',
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
                 $("#outlineColor").spectrum({
                     color: "5d6d56",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
 
                 $("#pitch,#roll,#heading").on("input propertychange", updatePointMarkerRotation);

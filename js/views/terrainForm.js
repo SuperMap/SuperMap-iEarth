@@ -181,13 +181,13 @@ define(['./Container',
             this.on('componentAdded',function(parent){
                 $('main').each(function(index){
                     $(this).myDrag({
-                        parent:'body', //定义拖动不能超出的外框,拖动范围
-                        randomPosition:false, //初始化随机位置
-                        direction:'all', //方向
-                        handler:false, //把手
-                        dragStart:function(x,y){}, //拖动开始 x,y为当前坐标
-                        dragEnd:function(x,y){}, //拖动停止 x,y为当前坐标
-                        dragMove:function(x,y){} //拖动进行中 x,y为当前坐标
+                        parent:'body',
+                        randomPosition:false,
+                        direction:'all',
+                        handler:false,
+                        dragStart:function(x,y){},
+                        dragEnd:function(x,y){},
+                        dragMove:function(x,y){}
                     });
                 });
 
@@ -196,7 +196,9 @@ define(['./Container',
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
             });
         },

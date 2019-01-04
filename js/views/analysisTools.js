@@ -273,7 +273,9 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
                 });
                 $("#hiddenColor").spectrum({
                     change:function(){
@@ -283,7 +285,9 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
                 $("#colorPicker1").spectrum({
                     change:function(){
@@ -293,7 +297,9 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
                 $('#colorPicker2').spectrum({
                     change:function(){
@@ -303,7 +309,9 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
                 $("#skylineColor").spectrum({
                     change:function(){
@@ -313,7 +321,9 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
                 $("#selDate").val(getNowFormatDate());
                 if(sceneModel.analysisObjects.viewshed3DStore){
