@@ -66,16 +66,14 @@ define([
                 Util.showErrorMsg(Resource.layerNameNotNullMsg);
                 return;
             }
-            var s3mLayerUrlPattern = /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace\/datas\/\S+\/config$/; // S3M图层URL正则表达式
-            var imageryOrTerrainLayerUrlPattern = /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace\/datas((?!\/config).)*$/; // 影像或地形图层URL正则表达式
 
             if (type === 'S3M') {
-                if (!s3mLayerUrlPattern.test(url)) {
+                if (!Util.s3mLayerUrlPattern.test(url)) {
                     Util.showErrorMsg(Resource.urlMismatchingPattern);
                     return;
                 }
             } else {
-                if (!imageryOrTerrainLayerUrlPattern.test(url)) {
+                if (!Util.imageryOrTerrainLayerUrlPattern.test(url)) {
                     Util.showErrorMsg(Resource.urlMismatchingPattern);
                     return;
                 }
@@ -95,14 +93,16 @@ define([
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
             }
-            var sceneUrlPattern = /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace$/; // 场景URL正则表达式
-            if (!sceneUrlPattern.test(sceneUrl)) {
+
+            if (!Util.sceneUrlPattern.test(sceneUrl)) {
                 Util.showErrorMsg(Resource.urlMismatchingPattern);
                 return;
             }
             var allUrl = sceneUrl + "/datas.xml";
-            var namelist = new Array();
-            var pathlist = new Array();
+
+            // namelist和pathlist下标一一对应
+            var namelist = new Array(); // 图层的名称
+            var pathlist = new Array(); // 图层的URL
             $.ajax({
                 url: allUrl,
                 dataType: 'xml',
@@ -140,12 +140,12 @@ define([
                         var id = $(this).children("id");
                         jsonPath = id.context.innerHTML;
                     });
-
                 }
             });
             var typeUrl = jsonPath + '/layers.xml';
-            var typelist = new Array();
-            var typeLayerName = new Array();
+            // typeLayerName和typelist下标一一对应
+            var typelist = new Array(); // 图层的类型
+            var typeLayerName = new Array(); // 图层的名称
 
             $.ajax({
                 url: typeUrl,
@@ -162,22 +162,23 @@ define([
                     });
                     $(xml).find("layer3DType").each(function (i) {
                         var id = $(this).children("id");
-                        typelist[i] = id.context.innerHTML;
+                        switch (id.context.innerHTML) {
+                            case 'OSGBLayer':
+                                typelist[i] = 'S3M';
+                                break;
+                            case 'ImageFileLayer':
+                                typelist[i] = 'IMAGERY';
+                                break;
+                            case 'TerrainFileLayer':
+                                typelist[i] = 'TERRAIN'
+                                break;
+                            default:
+                                break;
+                        }
                     });
                 }
             });
-            for (var j = 0; j < typelist.length; j++) {
-                if (typelist[j] == 'OSGBLayer') {
-                    typelist[j] = 'S3M';
-                }
-                else if (typelist[j] == 'ImageFileLayer') {
-                    typelist[j] = 'IMAGERY';
-                }
-                else if (typelist[j] == 'TerrainFileLayer') {
-                    typelist[j] = 'TERRAIN';
-                }
-            }
-
+            // 将图层的名称、类型和URL联系起来
             for (var i = 0; i < namelist.length; i++) {
                 var typeIndex = typeLayerName.indexOf(namelist[i]);
                 var type = typelist[typeIndex];

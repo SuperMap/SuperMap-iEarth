@@ -45,7 +45,10 @@ define([], function () {
             } else if (document.webkitExitFullscreen) {
                 document.webkitExitFullscreen();
             }
-        }
+        },
+        s3mLayerUrlPattern: /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace\/datas\/\S+\/config$/, // S3M图层URL正则表达式
+        imageryOrTerrainLayerUrlPattern: /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace\/datas((?!\/config).)*$/, // 影像或地形图层URL正则表达式
+        sceneUrlPattern: /^http(s?):\/\/\S+\/(realspace|iserver)\/services\/3D-\S+\/rest\/realspace$/ // 场景URL正则表达式
     };
     return Util;
 });
