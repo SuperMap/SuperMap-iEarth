@@ -98,7 +98,8 @@ function init(Cesium, Zlib) {
             shadows: true,
             infoBox: false,
             geocoder : true,
-            skyBox: false
+            skyBox: false,
+            navigation: false
         });
         viewer.animation.container.style.visibility = 'hidden';
         viewer.timeline.container.style.visibility = 'hidden';
@@ -106,7 +107,8 @@ function init(Cesium, Zlib) {
     else {
         viewer = new Cesium.Viewer('cesiumContainer', {
             infoBox: false,
-            skyBox: false
+            skyBox: false,
+            navigation: false
         });
 
         var scene = viewer.scene;
@@ -167,8 +169,6 @@ function init(Cesium, Zlib) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
-                $(".cesium-viewer-navigationContainer").hide();
-
                 var toolBar = new ToolBar({
                     sceneModel: sceneModel,
                     isPCBroswer: isPCBroswer
