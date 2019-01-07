@@ -12,6 +12,7 @@ define(['./Container',
     var handlerPoint;
     var isPCBroswer;
     var me;
+    var selectEntityScreenSpaceEventHandler;
     var htmlStr = [
         '<main class="mainView">',
         '<button aria-label="Close" id="closeScene" class="myModal-close"><span aria-hidden="true">&times;</span></button>',
@@ -269,7 +270,19 @@ define(['./Container',
                     palette: palette,
                     showAlpha: true, // 支持透明度选择
                     chooseText: "选择",
-                    cancelText: "取消"
+                    cancelText: "取消",
+                    change: function(color) {
+                        var color = Cesium.Color.fromCssColorString(color.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol') === 0) {
+                            if (viewer.selectedEntity.id.indexOf('polygon-symbol-pure') === 0) { // 纯色
+                                viewer.selectedEntity.polygon.material = color;
+                            } else if (viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) { // 网格
+                                viewer.selectedEntity.polygon.material.color = color;
+                            } else if (viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) { // 条纹
+                                viewer.selectedEntity.polygon.material.evenColor = color;
+                            }
+                        }
+                    }
                 });
             });
 
@@ -298,14 +311,12 @@ define(['./Container',
         onCloseSceneClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             this.$el.hide();
             return false;
-        },
-
+        }
     });
 
     function addItem(data) {
@@ -490,6 +501,7 @@ define(['./Container',
             switch (type) {
                 case 0:
                     viewer.entities.add({
+                        id: 'polygon-symbol-pure-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
                             hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(position),
@@ -499,6 +511,7 @@ define(['./Container',
                     break;
                 case 1:
                     viewer.entities.add({
+                        id: 'polygon-symbol-grid-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
                             hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(position),
@@ -510,6 +523,7 @@ define(['./Container',
                     break;
                 case 2:
                     viewer.entities.add({
+                        id: 'polygon-symbol-stripe-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
                             hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(position),
