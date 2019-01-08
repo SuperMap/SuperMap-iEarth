@@ -12,7 +12,8 @@ define(['./Container',
     var handlerPoint;
     var isPCBroswer;
     var me;
-    var selectEntityScreenSpaceEventHandler;
+    var polygonSymbolDrawHandler = null;
+    var polygonSymbolType = 0;
     var htmlStr = [
         '<main class="mainView">',
         '<button aria-label="Close" id="closeScene" class="myModal-close"><span aria-hidden="true">&times;</span></button>',
@@ -108,18 +109,74 @@ define(['./Container',
             '<div class="function-module-content">',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
-                    '<div class="mark-list">',
-                        '<div id="pureColor" class="mark-list-item"><a class="iconfont icon-online-edit_pure-color-plane"></a><label>' + Resource.pureColor + '</label></div>',
-                        '<div id="gridding" class="mark-list-item"><a class="iconfont icon-online-edit_gridview-plane"></a><label>' + Resource.gridding + '</label></div>',
-                        '<div id="stripe" class="mark-list-item"><a class="iconfont icon-online-edit_stripe-plane"></a><label>' + Resource.stripe + '</label></div>',
+                    '<div class="mark-list width-adjust" id="polygon-symbol-list">',
+                        '<div id="pureColor" class="mark-list-item polygon-symbol-font-normal polygon-symbol-font-selected"><a class="iconfont icon-online-edit_pure-color-plane"></a><label>' + Resource.pureColor + '</label></div>',
+                        '<div id="gridding" class="mark-list-item polygon-symbol-font-normal"><a class="iconfont icon-online-edit_gridview-plane"></a><label>' + Resource.gridding + '</label></div>',
+                        '<div id="stripe" class="mark-list-item polygon-symbol-font-normal"><a class="iconfont icon-online-edit_stripe-plane"></a><label>' + Resource.stripe + '</label></div>',
                     '</div>',
                 '</div>',
-                '<div>',
-                    '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolColor + '</label>',
-                    '<input type="text" class="colorPicker" id="polygon-symbol-color"/>',
+                '<div id="polygon-symbol-common-params">',
+                    '<div>',
+                        '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolColor + '</label>',
+                        '<input type="text" class="colorPicker width-adjust" id="polygon-symbol-color"/>',
+                    '</div>',
+                '</div>',
+                '<div id="polygon-symbol-grid-params" style="display: none;">',
+                    '<div class="function-module-sub-section" style="margin-top: 18px;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridCellAlpha + '</label>',
+                            '<input type="number" class="input" id="polygon-symbol-grid-cell-alpha" value="0.1" min="0.1" max="1" step="0.1"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridLineCount + '</label>',
+                            '<input type="number" class="input" id="polygon-symbol-grid-line-count" value="8" min="2"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridLineThickness + '</label>',
+                            '<input type="number" class="input" id="polygon-symbol-grid-line-thickness" value="1" min="1"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridLineOffset + '</label>',
+                            '<input type="number" class="input" id="polygon-symbol-grid-line-offset" value="0"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="polygon-symbol-stripe-params" style="display: none;">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolStripeEvenColor + '</label>',
+                            '<input type="text" class="colorPicker" id="polygon-symbol-stripe-even-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolStripeOddColor + '</label>',
+                            '<input type="text" class="colorPicker" id="polygon-symbol-stripe-odd-color"/>',
+                        '</div>',
+                    '</div>',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolStripeRepeat + '</label>',
+                            '<input type="number" class="input" id="polygon-symbol-stripe-repeat" value="12" min="1"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolStripeOffset + '</label>',
+                            '<input type="number" class="input" id="polygon-symbol-stripe-offset" value="0"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolStripeOrientation + '</label>',
+                            '<select id="polygon-symbol-stripe-orientation" class="input">',
+                                '<option selected value='+ Cesium.StripeOrientation.HORIZONTAL +'>' + Resource.horizontal + '</optionselected>',
+                                '<option value=' + Cesium.StripeOrientation.VERTICAL + '>' + Resource.vertical + '</option>',
+                            '</select>',
+                        '</div>',
+                    '</div>',
                 '</div>',
             '</div>',
             '<button type="button" id="delAllPolygon" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
+            '<button type="button" id="draw-polygon-symbol" class="btn btn-info function-module-btn function-module-btn-highlight">' + Resource.draw + '</button>',
         '</section>',
         '</main>',
     ].join('');
@@ -247,21 +304,34 @@ define(['./Container',
                 $("#TrailLine").on("click", function () {
                     createLineType(5, this);
                 });
-
                 $("#lineWidth").blur(function () {
                     if ($.trim(this.value) === "") {
                         $(this).val("1.0");
                     }
                 });
-
                 $("#pureColor").on("click", function () {
-                    createPolygonType(0, this);
+                    $("#polygon-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
+                    $(this).addClass('polygon-symbol-font-selected');
+                    $("#polygon-symbol-grid-params").css("display", "none");
+                    $("#polygon-symbol-stripe-params").css("display", "none");
+                    $("#polygon-symbol-common-params").css("display", "block");
+                    createPolygonType(0);
                 });
                 $("#gridding").on("click", function () {
-                    createPolygonType(1, this);
+                    $("#polygon-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
+                    $(this).addClass('polygon-symbol-font-selected');
+                    $("#polygon-symbol-stripe-params").css("display", "none");
+                    $("#polygon-symbol-common-params").css("display", "block");
+                    $("#polygon-symbol-grid-params").css("display", "block");
+                    createPolygonType(1);
                 });
                 $("#stripe").on("click", function () {
-                    createPolygonType(2, this);
+                    $("#polygon-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
+                    $(this).addClass('polygon-symbol-font-selected');
+                    $("#polygon-symbol-common-params").css("display", "none");
+                    $("#polygon-symbol-grid-params").css("display", "none");
+                    $("#polygon-symbol-stripe-params").css("display", "block");
+                    createPolygonType(2);
                 });
 
                 $("#polygon-symbol-color").spectrum({
@@ -278,11 +348,93 @@ define(['./Container',
                                 viewer.selectedEntity.polygon.material = color;
                             } else if (viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) { // 网格
                                 viewer.selectedEntity.polygon.material.color = color;
-                            } else if (viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) { // 条纹
-                                viewer.selectedEntity.polygon.material.evenColor = color;
                             }
                         }
                     }
+                });
+                $('#polygon-symbol-grid-cell-alpha').on('input propertychange', function() {
+                    if ($(this).val() !== '' && Number($(this).val()) >= 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) {
+                            viewer.selectedEntity.polygon.material.cellAlpha = Number($(this).val());
+                        }
+                    }
+                });
+                $('#polygon-symbol-grid-line-count').on('input propertychange', function() {
+                    if ($(this).val() !== '' && Number($(this).val()) >= 2) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) {
+                            viewer.selectedEntity.polygon.material.lineCount = new Cesium.Cartesian2(Number($(this).val()), Number($(this).val()));
+                        }
+                    }
+                });
+                $('#polygon-symbol-grid-line-thickness').on('input propertychange', function () {
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) {
+                            viewer.selectedEntity.polygon.material.lineThickness = new Cesium.Cartesian2(Number($(this).val()), Number($(this).val()));
+                        }
+                    }
+                });
+                $('#polygon-symbol-grid-line-offset').on('input propertychange', function() {
+                    if ($(this).val() !== '') {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) {
+                            viewer.selectedEntity.polygon.material.lineOffset = new Cesium.Cartesian2(Number($(this).val()), Number($(this).val()));
+                        }
+                    }
+                });
+                $("#polygon-symbol-stripe-even-color").spectrum({
+                    color: '#fff',
+                    showPalette: true, //用于存储过往选择的颜色
+                    palette: palette,
+                    showAlpha: true, // 支持透明度选择
+                    chooseText: "选择",
+                    cancelText: "取消",
+                    change: function(color) {
+                        var color = Cesium.Color.fromCssColorString(color.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {
+                            viewer.selectedEntity.polygon.material.evenColor = color;
+                        }
+                    }
+                });
+                $("#polygon-symbol-stripe-odd-color").spectrum({
+                    color: '#000',
+                    showPalette: true, //用于存储过往选择的颜色
+                    palette: palette,
+                    showAlpha: true, // 支持透明度选择
+                    chooseText: "选择",
+                    cancelText: "取消",
+                    change: function(color) {
+                        var color = Cesium.Color.fromCssColorString(color.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {
+                            viewer.selectedEntity.polygon.material.oddColor = color;
+                        }
+                    }
+                });
+                $('#polygon-symbol-stripe-repeat').on('input propertychange', function() {
+                    if ($(this).val() !== '' && Number($(this).val()) > 1) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {
+                            viewer.selectedEntity.polygon.material.repeat = Number($(this).val());
+                        }
+                    }
+                });
+                $('#polygon-symbol-stripe-offset').on('input propertychange', function() {
+                    if ($(this).val() !== '') {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {
+                            viewer.selectedEntity.polygon.material.offset = Number($(this).val());
+                        }
+                    }
+                });
+                $('#polygon-symbol-stripe-orientation').on('input propertychange', function () {
+                    if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {
+                        viewer.selectedEntity.polygon.material.orientation = Number($(this).val());
+                    }
+                });
+                $("#draw-polygon-symbol").click(function() {
+                    if (!isPCBroswer) {
+                        me.$el.hide();
+                    }
+                    if (!polygonSymbolDrawHandler) {
+                        initPolygonSymbolDrawHandler();
+                    }
+                    polygonSymbolDrawHandler.activate();
                 });
             });
 
@@ -460,30 +612,21 @@ define(['./Container',
         handlerLine.activate();
     }
 
-    function createPolygonType(type, polygon) {
-        if (!isPCBroswer) {
-            me.$el.hide();
-        }
-        if ($("a").hasClass("selected")) {
-            $("a").removeClass("selected");
-        }
-        $(polygon).children("a").addClass("selected");
-
-        var handlerPolygon = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Polygon, 0);
-        handlerPolygon.activeEvt.addEventListener(function (isActive) {
+    function initPolygonSymbolDrawHandler() {
+        polygonSymbolDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Polygon, 0);
+        polygonSymbolDrawHandler.activeEvt.addEventListener(function (isActive) {
             if (isActive == true) {
                 viewer.enableCursorStyle = false;
                 viewer._element.style.cursor = '';
                 $('body').removeClass('drawCur').addClass('drawCur');
-            }
-            else {
+            } else {
                 viewer.enableCursorStyle = true;
                 $('body').removeClass('drawCur');
             }
         });
-        handlerPolygon.drawEvt.addEventListener(function (result) {
-            handlerPolygon.polygon.show = false;
-            handlerPolygon.polyline.show = false;
+        polygonSymbolDrawHandler.drawEvt.addEventListener(function (result) {
+            polygonSymbolDrawHandler.polygon.show = false;
+            polygonSymbolDrawHandler.polyline.show = false;
             var array = [].concat(result.object.positions);
             var position = [];
             for (var i = 0, len = array.length; i < len; i++) {
@@ -497,39 +640,56 @@ define(['./Container',
                     position.push(h);
                 }
             }
-            var polygonColor = Cesium.Color.fromCssColorString($("#polygon-symbol-color").spectrum('get').toRgbString());
-            switch (type) {
+            switch (polygonSymbolType) {
                 case 0:
+                    var polygonSymbolPureColor = Cesium.Color.fromCssColorString($("#polygon-symbol-color").spectrum('get').toRgbString());
                     viewer.entities.add({
                         id: 'polygon-symbol-pure-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
                             hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            material: polygonColor
+                            material: polygonSymbolPureColor
                         }
                     });
                     break;
                 case 1:
+                    var polygonSymbolGridColor = Cesium.Color.fromCssColorString($("#polygon-symbol-color").spectrum('get').toRgbString());
+                    var polygonSymbolGridCellAlpha = Number($('#polygon-symbol-grid-cell-alpha').val());
+                    var polygonSymbolGridLineCount = Number($('#polygon-symbol-grid-line-count').val());
+                    var polygonSymbolGridLineThickness = Number($('#polygon-symbol-grid-line-thickness').val());
+                    var polygonSymbolGridLineOffset = Number($('#polygon-symbol-grid-line-offset').val());
                     viewer.entities.add({
                         id: 'polygon-symbol-grid-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
                             hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(position),
                             material: new Cesium.GridMaterialProperty({
-                                color: polygonColor
+                                color: polygonSymbolGridColor,
+                                cellAlpha: polygonSymbolGridCellAlpha,
+                                lineCount: new Cesium.Cartesian2(polygonSymbolGridLineCount, polygonSymbolGridLineCount),
+                                lineThickness: new Cesium.Cartesian2(polygonSymbolGridLineThickness, polygonSymbolGridLineThickness),
+                                lineOffset: new Cesium.Cartesian2(polygonSymbolGridLineOffset, polygonSymbolGridLineOffset)
                             })
                         }
                     });
                     break;
                 case 2:
+                    var polygonSymbolStripeEvenColor = Cesium.Color.fromCssColorString($("#polygon-symbol-stripe-even-color").spectrum('get').toRgbString());
+                    var polygonSymbolStripeOddColor = Cesium.Color.fromCssColorString($("#polygon-symbol-stripe-odd-color").spectrum('get').toRgbString());
+                    var polygonSymbolStripeRepeat = Number($('#polygon-symbol-stripe-repeat').val());
+                    var polygonSymbolStripeOffset = Number($('#polygon-symbol-stripe-offset').val());
+                    var polygonSymbolStripeOrientation = Number($('#polygon-symbol-stripe-orientation').val());
                     viewer.entities.add({
                         id: 'polygon-symbol-stripe-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
                             hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(position),
                             material: new Cesium.StripeMaterialProperty({
-                                evenColor: polygonColor,
-                                repeat: 30.0
+                                evenColor: polygonSymbolStripeEvenColor,
+                                oddColor: polygonSymbolStripeOddColor,
+                                repeat: polygonSymbolStripeRepeat,
+                                offset: polygonSymbolStripeOffset,
+                                orientation: polygonSymbolStripeOrientation
                             })
                         }
                     });
@@ -537,9 +697,11 @@ define(['./Container',
                 default:
                     break;
             }
-
         });
-        handlerPolygon.activate();
+    }
+
+    function createPolygonType(type) {
+        polygonSymbolType = type;
     }
 
     function updatePointMarkerRotation() {

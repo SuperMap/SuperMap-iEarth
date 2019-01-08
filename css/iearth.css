@@ -61,7 +61,7 @@ label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start 
 .disabled { /* 禁用鼠标样式 */
     cursor: not-allowed;
 }
-.width-adjust {
+.width-adjust, .width-adjust + .sp-replacer {
     width: 95% !important;
 }
 .italic {
@@ -71,10 +71,19 @@ label > input{ /* 用于控制复选框与文字垂直方向上对齐 2-2 start 
     width: 100% !important;
 }
 input.disabled{ /* 禁用状态下的输入框 */
-    background-image: url(../images/input-forbidden.png);
-    background-repeat: no-repeat;
-    background-position: center right;
-    padding-right: 5px;
+     background-image: url(../images/input-forbidden.png);
+     background-repeat: no-repeat;
+     background-position: center right;
+     padding-right: 5px;
+ }
+.polygon-symbol-font-normal , .polygon-symbol-font-normal > *{
+    color: #777;
+}
+.polygon-symbol-font-selected, .polygon-symbol-font-selected > a {
+    color: #3f8eb9 !important;
+}
+.polygon-symbol-font-selected > label {
+    color: #fff;
 }
 /* 覆盖原生Cesium查询控件的样式 start */
 .cesium-geocoder-searchButton {

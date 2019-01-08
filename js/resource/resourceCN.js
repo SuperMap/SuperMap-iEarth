@@ -410,7 +410,19 @@ define(function(){
         clickToSearchCoordination: '点击查询坐标值',
         stopChoose: '站点选择',
         searchPlaceHolder: '输入地址或地标...',
-        urlMismatchingPattern: '请输入正确的URL格式'
+        urlMismatchingPattern: '请输入正确的URL格式',
+        polygonSymbolGridCellAlpha: '单元透明度',
+        polygonSymbolGridLineCount: '网格线数',
+        polygonSymbolGridLineThickness: '网格线宽度',
+        polygonSymbolGridLineOffset: '网格线偏移',
+        polygonSymbolStripeEvenColor: '偶数条带颜色',
+        polygonSymbolStripeOddColor: '奇数条带颜色',
+        polygonSymbolStripeOffset: '条带偏移量',
+        polygonSymbolStripeOrientation: '条带方向',
+        polygonSymbolStripeRepeat: '条带重复数',
+        horizontal: '水平方向',
+        vertical: '垂直方向',
+        draw: '绘制'
     };
     return ResourceCN;
 });

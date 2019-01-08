@@ -410,7 +410,19 @@
         clickToSearchCoordination: 'click to search coordination',
         stopChoose: 'stop choose',
         searchPlaceHolder: 'Enter an address or landmark...',
-        urlMismatchingPattern: 'please enter the correct URL format'
+        urlMismatchingPattern: 'please enter the correct URL format',
+        polygonSymbolGridCellAlpha: 'grid cell alpha',
+        polygonSymbolGridLineCount: 'grid line count',
+        polygonSymbolGridLineThickness: 'grid line thickness',
+        polygonSymbolGridLineOffset: 'grid line offset',
+        polygonSymbolStripeEvenColor: 'even stripe color',
+        polygonSymbolStripeOddColor: 'odd stripe color',
+        polygonSymbolStripeOffset: 'stripe offset',
+        polygonSymbolStripeOrientation: 'stripe orientation',
+        polygonSymbolStripeRepeat: 'stripe repeat',
+        horizontal: 'horizontal',
+        vertical: 'vertical',
+        draw: 'draw'
     };
     return ResourceEN;
 });
