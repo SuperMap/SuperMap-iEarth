@@ -76,15 +76,17 @@ input.disabled{ /* 禁用状态下的输入框 */
      background-position: center right;
      padding-right: 5px;
  }
-.polygon-symbol-font-normal , .polygon-symbol-font-normal > *{
+/* 符号库 start */
+.polygon-symbol-font-normal , .polygon-symbol-font-normal > *, .polyline-symbol-font-normal , .polyline-symbol-font-normal > *{
     color: #777;
 }
-.polygon-symbol-font-selected, .polygon-symbol-font-selected > a {
+.polygon-symbol-font-selected, .polygon-symbol-font-selected > a, .polyline-symbol-font-selected, .polyline-symbol-font-selected > a {
     color: #3f8eb9 !important;
 }
-.polygon-symbol-font-selected > label {
+.polygon-symbol-font-selected > label, .polyline-symbol-font-selected > label {
     color: #fff;
 }
+/* 符号库 end */
 /* 覆盖原生Cesium查询控件的样式 start */
 .cesium-geocoder-searchButton {
     background-color: rgba(38, 38, 38, 0.75);
@@ -312,7 +314,7 @@ body ::-webkit-scrollbar-thumb:window-inactive {
     margin:0;
     overflow:hidden;
     cursor:pointer;
-    padding: 4px;
+    padding: 3.5px;
     display:inline-block;
     color: #333;
     vertical-align: middle;

@@ -12,6 +12,8 @@ define(['./Container',
     var handlerPoint;
     var isPCBroswer;
     var me;
+    var polylineSymbolDrawHandler = null;
+    var polylineSymbolType = 0;
     var polygonSymbolDrawHandler = null;
     var polygonSymbolType = 0;
     var htmlStr = [
@@ -59,57 +61,142 @@ define(['./Container',
             '<div class="function-module-content">',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
-                    '<div class="mark-list">',
-                        '<div id="fullLine" class="mark-list-item"><a class="iconfont icon-online-edit_full-line"></a><label>' + Resource.fulline + '</label></div>',
-                        '<div id="dottedLine" class="mark-list-item"><a class="iconfont icon-online-edit_dotted-line"></a><label>' + Resource.Virtuallinear + '</label></div>',
-                        '<div id="outline" class="mark-list-item"><a class="iconfont icon-online-edit_contour-line"></a><label>' + Resource.contourline + '</label></div>',
-                        '<div id="arrowLine" class="mark-list-item"><a class="iconfont icon-online-edit_arrow-line"></a><label>' + Resource.arrowline + '</label></div>',
-                        '<div id="glowLine" class="mark-list-item"><a class="iconfont icon-online-edit_halo-line"></a><label>' + Resource.Haloline + '</label></div>',
-                        '<div id="TrailLine" class="mark-list-item"><a class="iconfont icon-online-edit_wake-line"></a><label>' + Resource.Wakeline + '</label></div>',
+                    '<div class="mark-list" id="polyline-symbol-list">',
+                        '<div id="fullLine" class="mark-list-item polyline-symbol-font-normal polyline-symbol-font-selected"><a class="iconfont icon-online-edit_full-line"></a><label>' + Resource.fulline + '</label></div>',
+                        '<div id="dottedLine" class="mark-list-item polyline-symbol-font-normal"><a class="iconfont icon-online-edit_dotted-line"></a><label>' + Resource.Virtuallinear + '</label></div>',
+                        '<div id="outline" class="mark-list-item polyline-symbol-font-normal"><a class="iconfont icon-online-edit_contour-line"></a><label>' + Resource.contourline + '</label></div>',
+                        '<div id="arrowLine" class="mark-list-item polyline-symbol-font-normal"><a class="iconfont icon-online-edit_arrow-line"></a><label>' + Resource.arrowline + '</label></div>',
+                        '<div id="glowLine" class="mark-list-item polyline-symbol-font-normal"><a class="iconfont icon-online-edit_halo-line"></a><label>' + Resource.Haloline + '</label></div>',
+                        '<div id="TrailLine" class="mark-list-item polyline-symbol-font-normal"><a class="iconfont icon-online-edit_wake-line"></a><label>' + Resource.Wakeline + '</label></div>',
                     '</div>',
                 '</div>',
-                '<div class="function-module-sub-section">',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.lineWidth + '</label>',
-                        '<input id="lineWidth" class="input" type="number" value="5.0" min="0.1" step="0.1" style="height: 30px;">',
-                    '</div>',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.LineColor + '</label>',
-                        '<input class="colorPicker" id="lineColor"/>',
-                    '</div>',
-                '</div>',
-                '<div class="function-module-sub-section">',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.outlineWidth + '</label>',
-                        '<input id="outline-width" class="input" type="number" value="1.0" min="0.1" step="0.1" style="height: 30px;">',
-                    '</div>',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.outlineColor + '</label>',
-                        '<input class="colorPicker" id="outlineColor"/>',
+                '<div id="polyline-symbol-common-params">',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineColor + '</label>',
+                            '<input class="colorPicker" id="polyline-symbol-line-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
+                            '<input id="polyline-symbol-line-width" class="input" type="number" min="1" step="1.0" value="5" style="height: 29px;"/>',
+                        '</div>',
                     '</div>',
                 '</div>',
-                '<div class="function-module-sub-section">',
-                    '<label class="function-module-sub-section-caption">' + Resource.polylineDashSectionLength + '</label>',
-                    '<input id="polyline-dash-section-length" class="input" type="number" min="1"  step="1.0" value="16.0" style="width:95%;">',
-                '</div>',
-                '<div style="overflow: auto;">',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.polylineTrailPeriod + '</label>',
-                        '<input id="polyline-trail-period" class="input" type="number" min="1"  step="1.0" value="2">',
+                '<div id="polyline-symbol-dash-params" style="display: none;">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineColor + '</label>',
+                            '<input id="polyline-symbol-dash-color" class="colorPicker"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolGapColor + '</label>',
+                            '<input id="polyline-symbol-gap-color" class="colorPicker"/>',
+                        '</div>',
                     '</div>',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">' + Resource.polylineTrailPercent + '</label>',
-                        '<input id="polyline-trail-percent" class="input" type="number" min="0.1" max="1" step="0.1" value="0.3">',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
+                            '<input id="polyline-symbol-dash-line-width" class="input" type="number" min="1" step="1.0" value="5"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineDashSectionLength + '</label>',
+                            '<input id="polyline-dash-section-length" class="input" type="number" min="1"  step="1.0" value="16.0"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="polyline-symbol-outline-params" style="display:none;">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineColor + '</label>',
+                            '<input class="colorPicker" id="polyline-symbol-outline-inner-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolOutlineColor + '</label>',
+                            '<input class="colorPicker" id="polyline-symbol-outline-color"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
+                            '<input id="polyline-symbol-outline-inner-width" class="input" type="number" min="1" step="1.0" value="5"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolOutlineWdith + '</label>',
+                            '<input id="polyline-symbol-outline-width" class="input" type="number" value="2" min="1" step="1"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="polyline-symbol-arrow-params" style="display: none;">',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineColor + '</label>',
+                            '<input class="colorPicker" id="polyline-symbol-arror-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
+                            '<input id="polyline-symbol-arrow-width" class="input" type="number" min="1" step="1.0" value="5" style="height: 29px;"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="polyline-symbol-glow-params" style="display: none;">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineColor + '</label>',
+                            '<input class="colorPicker" id="polyline-symbol-glow-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
+                            '<input id="polyline-symbol-glow-width" class="input" type="number" min="1" step="1" value="5" style="height: 29px;"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolGlowPower + '</label>',
+                            '<input id="polyline-symbol-glow-power" class="input" type="number" value="0.5" min="0.05" max="1" step="0.05"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="polyline-symbol-trail-params" style="display: none;">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineColor + '</label>',
+                            '<input id="polyline-symbol-trail-line-color" class="colorPicker"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolOutlineColor + '</label>',
+                            '<input id="polyline-symbol-trail-outline-color" class="colorPicker"/>',
+                        '</div>',
+                    '</div>',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
+                            '<input id="polyline-symbol-trail-width" class="input" type="number" min="1" step="1" value="5" style="height: 29px;"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolOutlineWdith + '</label>',
+                            '<input id="polyline-symbol-trail-outline-width" class="input" type="number" min="1"  step="1" value="2"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineTrailPercent + '</label>',
+                            '<input id="polyline-trail-percent" class="input" type="number" min="0.1" max="1" step="0.1" value="0.3">',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.polylineTrailPeriod + '</label>',
+                            '<input id="polyline-trail-period" class="input" type="number" min="1"  step="1.0" value="2">',
+                        '</div>',
                     '</div>',
                 '</div>',
             '</div>',
             '<button type="button" id="delAllLine" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
+            '<button type="button" id="draw-polyline-symbol" class="btn btn-info function-module-btn function-module-btn-highlight">' + Resource.draw + '</button>',
         '</section>',
         '<section id="objectContent3">',
             '<div class="function-module-content">',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
-                    '<div class="mark-list width-adjust" id="polygon-symbol-list">',
+                    '<div class="mark-list" id="polygon-symbol-list">',
                         '<div id="pureColor" class="mark-list-item polygon-symbol-font-normal polygon-symbol-font-selected"><a class="iconfont icon-online-edit_pure-color-plane"></a><label>' + Resource.pureColor + '</label></div>',
                         '<div id="gridding" class="mark-list-item polygon-symbol-font-normal"><a class="iconfont icon-online-edit_gridview-plane"></a><label>' + Resource.gridding + '</label></div>',
                         '<div id="stripe" class="mark-list-item polygon-symbol-font-normal"><a class="iconfont icon-online-edit_stripe-plane"></a><label>' + Resource.stripe + '</label></div>',
@@ -229,23 +316,253 @@ define(['./Container',
                         }
                     }
                 });
-                $("#lineColor").spectrum({
+                $("#polyline-symbol-line-color").spectrum({ // 实线颜色
                     color: "b6d7a8",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
                     palette: palette,
                     cancelText: Resource.cancel,
-                    chooseText: Resource.confirm
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-full') === 0) {
+                            viewer.selectedEntity.polyline.material = color;
+                        }
+                    }
                 });
-                $("#outlineColor").spectrum({
+                $('#polyline-symbol-line-width').on('input propertychange', function() { // 实线宽度
+                   if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                       if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-full') === 0) {
+                           viewer.selectedEntity.polyline.width = Number($(this).val());
+                       }
+                   }
+                });
+
+                $('#polyline-symbol-dash-color').spectrum({ // 虚线颜色
                     color: "5d6d56",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
                     palette: palette,
                     cancelText: Resource.cancel,
-                    chooseText: Resource.confirm
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-dash') === 0) {
+                            viewer.selectedEntity.polyline.material.color = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-gap-color').spectrum({ // 虚线间隔颜色
+                    color: "rgba(255, 255, 255, 0)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-dash') === 0) {
+                            viewer.selectedEntity.polyline.material.gapColor = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-dash-line-width').on('input propertychange', function() { // 虚线宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-dash') === 0) {
+                            viewer.selectedEntity.polyline.width = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-dash-section-length').on('input propertychange', function() { // 虚线分量长度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-dash') === 0) {
+                            viewer.selectedEntity.polyline.material.dashLength = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-outline-inner-color').spectrum({ // 轮廓线内层颜色
+                    color: "5d6d56",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-outline') === 0) {
+                            viewer.selectedEntity.polyline.material.color = color;
+                        }
+                    }
+                });
+
+                $("#polyline-symbol-outline-color").spectrum({ // 轮廓线轮廓颜色
+                    color: "5d6d56",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-outline') === 0) {
+                            viewer.selectedEntity.polyline.material.outlineColor = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-outline-inner-width').on('input propertychange', function() { // 轮廓线内层宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-outline') === 0) {
+                            viewer.selectedEntity.polyline.width = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-outline-width').on('input propertychange', function() { // 轮廓线轮廓宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-outline') === 0) {
+                            viewer.selectedEntity.polyline.material.outlineWidth = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-arror-color').spectrum({ // 箭头线颜色
+                    color: "5d6d56",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-arrow') === 0) {
+                            viewer.selectedEntity.polyline.material.color = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-arrow-width').on('input propertychange', function() { // 箭头线宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-arrow') === 0) {
+                            viewer.selectedEntity.polyline.width = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-glow-color').spectrum({ // 光晕线颜色
+                    color: "5d6d56",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-glow') === 0) {
+                            viewer.selectedEntity.polyline.material.color = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-glow-width').on('input propertychange', function() { // 光晕线宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-glow') === 0) {
+                            viewer.selectedEntity.polyline.width = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-glow-power').on('input propertychange', function() { // 光晕线强度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-glow') === 0) {
+                            viewer.selectedEntity.polyline.material.glowPower = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-trail-line-color').spectrum({ // 尾迹线颜色
+                    color: "5d6d56",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
+                            viewer.selectedEntity.polyline.material.color = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-trail-outline-color').spectrum({ // 尾迹线轮廓颜色
+                    color: "5d6d56",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(clr) {
+                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
+                            viewer.selectedEntity.polyline.material.outlineColor = color;
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-trail-width').on('input propertychange', function() { // 尾迹线宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
+                            viewer.selectedEntity.polyline.width = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-symbol-trail-outline-width').on('input propertychange', function() { // 尾迹线轮廓宽度
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
+                            viewer.selectedEntity.polyline.material.outlineWidth = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-trail-percent').on('input propertychange', function() { // 尾迹占比
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
+                            viewer.selectedEntity.polyline.material.trailLength = Number($(this).val());
+                        }
+                    }
+                });
+
+                $('#polyline-trail-period').on('input propertychange', function() { // 尾迹周期
+                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
+                            viewer.selectedEntity.polyline.material.period = Number($(this).val());
+                        }
+                    }
+                });
+
+                $("#draw-polyline-symbol").click(function() {
+                    if (!isPCBroswer) {
+                        me.$el.hide();
+                    }
+                    if (!polylineSymbolDrawHandler) {
+                        initPolylineSymbolDrawHandler();
+                    }
+                    polylineSymbolDrawHandler.activate();
                 });
 
                 $("#pitch,#roll,#heading").on("input propertychange", updatePointMarkerRotation);
@@ -287,28 +604,84 @@ define(['./Container',
                     }
                 });
                 $("#fullLine").on("click", function () {
+                    $('#polyline-symbol-list > .mark-list-item').removeClass('polyline-symbol-font-selected');
+                    $(this).addClass('polyline-symbol-font-selected');
+
+                    $('#polyline-symbol-common-params').css('display', 'block');
+                    $('#polyline-symbol-dash-params').css('display', 'none');
+                    $('#polyline-symbol-outline-params').css('display', 'none');
+                    $('#polyline-symbol-arrow-params').css('display', 'none');
+                    $('#polyline-symbol-glow-params').css('display', 'none');
+                    $('#polyline-symbol-trail-params').css('display', 'none');
+
                     createLineType(0, this);
                 });
                 $("#dottedLine").on("click", function () {
+                    $('#polyline-symbol-list > .mark-list-item').removeClass('polyline-symbol-font-selected');
+                    $(this).addClass('polyline-symbol-font-selected');
+
+                    $('#polyline-symbol-dash-params').css('display', 'block');
+                    $('#polyline-symbol-common-params').css('display', 'none');
+                    $('#polyline-symbol-outline-params').css('display', 'none');
+                    $('#polyline-symbol-arrow-params').css('display', 'none');
+                    $('#polyline-symbol-glow-params').css('display', 'none');
+                    $('#polyline-symbol-trail-params').css('display', 'none');
+
                     createLineType(1, this);
                 });
                 $("#outline").on("click", function () {
+                    $('#polyline-symbol-list > .mark-list-item').removeClass('polyline-symbol-font-selected');
+                    $(this).addClass('polyline-symbol-font-selected');
+
+                    $('#polyline-symbol-outline-params').css('display', 'block');
+                    $('#polyline-symbol-dash-params').css('display', 'none');
+                    $('#polyline-symbol-arrow-params').css('display', 'none');
+                    $('#polyline-symbol-common-params').css('display', 'none');
+                    $('#polyline-symbol-glow-params').css('display', 'none');
+                    $('#polyline-symbol-trail-params').css('display', 'none');
+
                     createLineType(2, this);
                 });
                 $("#arrowLine").on("click", function () {
+                    $('#polyline-symbol-list > .mark-list-item').removeClass('polyline-symbol-font-selected');
+                    $(this).addClass('polyline-symbol-font-selected');
+
+                    $('#polyline-symbol-arrow-params').css('display', 'block');
+                    $('#polyline-symbol-common-params').css('display', 'none');
+                    $('#polyline-symbol-outline-params').css('display', 'none');
+                    $('#polyline-symbol-dash-params').css('display', 'none');
+                    $('#polyline-symbol-glow-params').css('display', 'none');
+                    $('#polyline-symbol-trail-params').css('display', 'none');
+
                     createLineType(3, this);
                 });
                 $("#glowLine").on("click", function () {
+                    $('#polyline-symbol-list > .mark-list-item').removeClass('polyline-symbol-font-selected');
+                    $(this).addClass('polyline-symbol-font-selected');
+
+                    $('#polyline-symbol-glow-params').css('display', 'block');
+                    $('#polyline-symbol-common-params').css('display', 'none');
+                    $('#polyline-symbol-outline-params').css('display', 'none');
+                    $('#polyline-symbol-arrow-params').css('display', 'none');
+                    $('#polyline-symbol-dash-params').css('display', 'none');
+                    $('#polyline-symbol-trail-params').css('display', 'none');
+
                     createLineType(4, this);
                 });
                 $("#TrailLine").on("click", function () {
+                    $('#polyline-symbol-list > .mark-list-item').removeClass('polyline-symbol-font-selected');
+                    $(this).addClass('polyline-symbol-font-selected');
+
+                    $('#polyline-symbol-trail-params').css('display', 'block');
+                    $('#polyline-symbol-glow-params').css('display', 'none');
+                    $('#polyline-symbol-common-params').css('display', 'none');
+                    $('#polyline-symbol-outline-params').css('display', 'none');
+                    $('#polyline-symbol-arrow-params').css('display', 'none');
+                    $('#polyline-symbol-dash-params').css('display', 'none');
+
                     createLineType(5, this);
                 });
-                $("#lineWidth").blur(function () {
-                    if ($.trim(this.value) === "") {
-                        $(this).val("1.0");
-                    }
-                });
+
                 $("#pureColor").on("click", function () {
                     $("#polygon-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
                     $(this).addClass('polygon-symbol-font-selected');
@@ -492,36 +865,21 @@ define(['./Container',
             handlerPoint.activate();
         });
     };
-    function createLineType(type, line) {
-        if (!isPCBroswer) {
-            me.$el.hide();
-        }
-        if ($("a").hasClass("selected")) {
-            $("a").removeClass("selected");
-        }
-        $(line).children("a").addClass("selected");
 
-        var handlerLine = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Line);
-        handlerLine.activeEvt.addEventListener(function (isActive) {
+    function initPolylineSymbolDrawHandler() {
+        polylineSymbolDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Line);
+        polylineSymbolDrawHandler.activeEvt.addEventListener(function (isActive) {
             if (isActive == true) {
                 viewer.enableCursorStyle = false;
                 viewer._element.style.cursor = '';
                 $('body').removeClass('drawCur').addClass('drawCur');
-            }
-            else {
+            } else {
                 viewer.enableCursorStyle = true;
                 $('body').removeClass('drawCur');
             }
         });
-        handlerLine.drawEvt.addEventListener(function (result) {
-            handlerLine.polyline.show = false;
-            var linecolor = Cesium.Color.fromCssColorString($("#lineColor").spectrum('get').toRgbString());
-            var outlinecolor = Cesium.Color.fromCssColorString($("#outlineColor").spectrum('get').toRgbString());
-            var lineWidth = parseFloat($("#lineWidth").val());
-            var outlineWidth = parseFloat($("#outline-width").val());
-            var dashSectionLength = parseFloat($("#polyline-dash-section-length").val());
-            var polylineTrailPeriod = parseFloat($("#polyline-trail-period").val());
-            var polylineTrailPercent = parseFloat($("#polyline-trail-percent").val());
+        polylineSymbolDrawHandler.drawEvt.addEventListener(function (result) {
+            polylineSymbolDrawHandler.polyline.show = false;
             var array = [].concat(result.object.positions);
             var position = [];
             for (var i = 0, len = array.length; i < len; i++) {
@@ -535,72 +893,102 @@ define(['./Container',
                     position.push(h);
                 }
             }
-            switch (type) {
+            switch (polylineSymbolType) {
                 case 0:
+                    var fullLineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-line-color").spectrum('get').toRgbString());
+                    var fullLineWidth = Number($('#polyline-symbol-line-width').val());
                     viewer.entities.add({
+                        id: 'polyline-symbol-full-' + (new Date()).getTime(),
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width: lineWidth,
-                            material: linecolor ? linecolor : Cesium.Color.YELLOW,
+                            width: fullLineWidth,
+                            material: fullLineColor,
                         }
                     });
                     break;
                 case 1:
+                    var dashLineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-dash-color").spectrum('get').toRgbString());
+                    var dashLineGapColor = Cesium.Color.fromCssColorString($("#polyline-symbol-gap-color").spectrum('get').toRgbString());
+                    var dashLineWidth = Number($('#polyline-symbol-dash-line-width').val());
+                    var dashLineDashSectionLength = Number($('#polyline-dash-section-length').val());
                     viewer.entities.add({
+                        id: 'polyline-symbol-dash-' + (new Date()).getTime(),
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width: lineWidth,
+                            width: dashLineWidth,
                             material: new Cesium.PolylineDashMaterialProperty({
-                                dashLength: dashSectionLength,
-                                color: linecolor ? linecolor : Cesium.Color.YELLOW,
+                                color: dashLineColor,
+                                gapColor: dashLineGapColor,
+                                dashLength: dashLineDashSectionLength
                             })
                         }
                     });
                     break;
                 case 2:
+                    var outlineInnerColor = Cesium.Color.fromCssColorString($("#polyline-symbol-outline-inner-color").spectrum('get').toRgbString());
+                    var outlineOuterColor = Cesium.Color.fromCssColorString($("#polyline-symbol-outline-color").spectrum('get').toRgbString());
+                    var outlineInnerWidth = Number($('#polyline-symbol-outline-inner-width').val());
+                    var outlineOuterWidth = Number($('#polyline-symbol-outline-width').val());
                     viewer.entities.add({
+                        id: 'polyline-symbol-outline-' + (new Date()).getTime(),
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width: lineWidth,
+                            width: outlineInnerWidth,
                             material: new Cesium.PolylineOutlineMaterialProperty({
-                                color: linecolor ? linecolor : Cesium.Color.YELLOW,
-                                outlineWidth: outlineWidth,
-                                outlineColor: outlinecolor ? outlinecolor : Cesium.Color.FIREBRICK,
+                                color: outlineInnerColor,
+                                outlineWidth: outlineOuterWidth,
+                                outlineColor: outlineOuterColor,
                             })
                         }
                     });
                     break;
                 case 3:
+                    var arrowLineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-arror-color").spectrum('get').toRgbString());
+                    var arrowLineWidth = Number($('#polyline-symbol-arrow-width').val());
                     viewer.entities.add({
+                        id: 'polyline-symbol-arrow-' + (new Date()).getTime(),
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width: lineWidth * 2.0,
+                            width: arrowLineWidth,
                             followSurface: false,
-                            material: new Cesium.PolylineArrowMaterialProperty(linecolor ? linecolor : Cesium.Color.YELLOW)
+                            material: new Cesium.PolylineArrowMaterialProperty(arrowLineColor)
                         }
                     });
                     break;
                 case 4:
+                    var glowLineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-glow-color").spectrum('get').toRgbString());
+                    var glowLineWidth = Number($('#polyline-symbol-glow-width').val());
+                    var glowLinePower = Number($('#polyline-symbol-glow-power').val());
                     viewer.entities.add({
+                        id: 'polyline-symbol-glow-' + (new Date()).getTime(),
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width: lineWidth * 2.0,
+                            width: glowLineWidth,
                             material: new Cesium.PolylineGlowMaterialProperty({
-                                glowPower: 0.25,
-                                color: linecolor ? linecolor : Cesium.Color.YELLOW,
+                                glowPower: glowLinePower,
+                                color: glowLineColor,
                             })
                         }
                     });
                     break;
                 case 5:
+                    var trailLineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-trail-line-color").spectrum('get').toRgbString());
+                    var trailLineOutlineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-trail-outline-color").spectrum('get').toRgbString());
+                    var trailLineWidth = Number($('#polyline-symbol-trail-width').val());
+                    var trailLineOutlineWidth = Number($('#polyline-symbol-trail-outline-width').val());
+                    var trailLinePercent = Number($('#polyline-trail-percent').val());
+                    var trailLinePeroid = Number($('#polyline-trail-period').val());
                     viewer.entities.add({
+                        id: 'polyline-symbol-trail-' + (new Date()).getTime(),
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArrayHeights(position),
-                            width: lineWidth,
+                            width: trailLineWidth,
                             material: new Cesium.PolylineTrailMaterialProperty({
-                                color: linecolor ? linecolor : Cesium.Color.YELLOW,
-                                trailLength: polylineTrailPercent,
-                                period: polylineTrailPeriod
+                                color: trailLineColor,
+                                outlineColor: trailLineOutlineColor,
+                                outlineWidth: trailLineOutlineWidth,
+                                trailLength: trailLinePercent,
+                                period: trailLinePeroid
                             })
                         }
                     });
@@ -609,7 +997,9 @@ define(['./Container',
                     break;
             }
         });
-        handlerLine.activate();
+    }
+    function createLineType(type) {
+        polylineSymbolType = type;
     }
 
     function initPolygonSymbolDrawHandler() {

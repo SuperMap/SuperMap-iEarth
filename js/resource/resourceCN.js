@@ -272,9 +272,7 @@ define(function(){
         Zrotation : '绕Z轴旋转（度）',
         zoom : '缩放',
         delete : '删除',
-        lineWidth : '线宽（像素）',
-        LineColor : '线条颜色',
-        outlineColor : '轮廓颜色',
+        polylineSymbolLineColor : '线条颜色',
         fulline : '实线',
         Virtuallinear : '虚线型',
         contourline : '轮廓线',
@@ -318,7 +316,7 @@ define(function(){
         polylineDashSectionLength: '虚线分量长度（像素）',
         polylineTrailPeriod: '尾迹线周期（秒）',
         polylineTrailPercent: '尾迹线占比（%）',
-        outlineWidth: '轮廓宽度（像素）',
+        polylineSymbolOutlineWdith: '轮廓宽度（像素）',
         pixel: '像素',
         second: '秒',
         PolygonClip: '多边形裁剪',
@@ -422,7 +420,11 @@ define(function(){
         polygonSymbolStripeRepeat: '条带重复数',
         horizontal: '水平方向',
         vertical: '垂直方向',
-        draw: '绘制'
+        draw: '绘制',
+        polylineSymbolGapColor: '间隔颜色',
+        polylineSymbolOutlineColor: '轮廓颜色',
+        polylineSymbolGlowPower: '光晕强度',
+        polylineSymbolLineWidth: '线宽（像素）'
     };
     return ResourceCN;
 });

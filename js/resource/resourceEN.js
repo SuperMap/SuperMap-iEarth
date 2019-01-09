@@ -272,9 +272,7 @@
         Zrotation : 'Rotate around the Z axis(Degree)',
         zoom : 'Zoom',
         delete : 'Delete',
-        lineWidth : 'Line width(Pixel)',
-        LineColor : 'Line color',
-        outlineColor : 'Outline color',
+        polylineSymbolLineColor : 'Line color',
         fulline : 'Solid line',
         Virtuallinear : 'Dotted type',
         contourline : 'Contour line',
@@ -318,7 +316,7 @@
         polylineDashSectionLength: 'Dotted component length(Pixel)',
         polylineTrailPeriod: 'Tail trace period(Second)',
         polylineTrailPercent: 'Polyline Trail percent(%)',
-        outlineWidth: 'Outline width(Pixel)',
+        polylineSymbolOutlineWdith: 'Outline width(Pixel)',
         pixel: 'Pixel',
         second: 'Second',
         PolygonClip: 'Polygon clip',
@@ -422,7 +420,11 @@
         polygonSymbolStripeRepeat: 'stripe repeat',
         horizontal: 'horizontal',
         vertical: 'vertical',
-        draw: 'draw'
+        draw: 'draw',
+        polylineSymbolGapColor: 'gap color',
+        polylineSymbolOutlineColor: 'outline color',
+        polylineSymbolGlowPower: 'glow power',
+        polylineSymbolLineWidth: 'line width(px)'
     };
     return ResourceEN;
 });
