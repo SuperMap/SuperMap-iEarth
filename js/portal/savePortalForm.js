@@ -71,7 +71,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                     var img = new Image();
                     img.src = buffer;
                     img.onload = function () {
-                        ctx.drawImage(img,0,0,290,150)
+                        ctx.drawImage(img,0,0,298,150)
                     }
                 })
                 if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
@@ -129,7 +129,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 return;
             }
             var canvas = document.getElementById("sceneCanvas");
-            var base64 =  canvas.toDataURL("image/jpeg",0.1);
+            var base64 =  canvas.toDataURL("image/jpeg");
             base64 = base64.split(",")[1];
             var data = {};
             data.layers = [];

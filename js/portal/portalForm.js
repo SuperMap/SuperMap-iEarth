@@ -5,16 +5,16 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
     var viewer;
     var htmlStr = [
         '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-side-toolbar_home"></span>',
+        '<span class="iconfont icon-iEarth-zhuyemian-"></span>',
         '</a><br><br>',
-        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-side-toolbar_storage"></span>',
+        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-ic_save"></span>',
         '</a><br><br>',
-        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-side-toolbar_share"></span>',
+        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-fenxiang"></span>',
         '</a><br><br>',
-        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-side-toolbar_login"></span>',
+        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-denglu"></span>',
         '</a>'
     ].join('');
     var portalForm = Container.extend({
@@ -54,7 +54,7 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                     var img = new Image();
                     img.src = buffer;
                     img.onload = function () {
-                        ctx.drawImage(img,0,0,290,150)
+                        ctx.drawImage(img,0,0,298,150)
                     }
                 })
             }
