@@ -265,7 +265,6 @@ define(function(){
         AddLine : '添加线',
         AddFaces : '添加面',
         symbolicLibrary : '符号库',
-        colorPicker : '颜色选择器：',
         conversion : '变换',
         Xrotation : '绕X轴旋转（度）',
         Yrotation : '绕Y轴旋转（度）',
@@ -315,7 +314,7 @@ define(function(){
         polygonSymbolColor: '面颜色',
         polylineDashSectionLength: '虚线分量长度（像素）',
         polylineTrailPeriod: '尾迹线周期（秒）',
-        polylineTrailPercent: '尾迹线占比（%）',
+        polylineTrailPercent: '尾迹线占比',
         polylineSymbolOutlineWdith: '轮廓宽度（像素）',
         pixel: '像素',
         second: '秒',
@@ -424,7 +423,8 @@ define(function(){
         polylineSymbolGapColor: '间隔颜色',
         polylineSymbolOutlineColor: '轮廓颜色',
         polylineSymbolGlowPower: '光晕强度',
-        polylineSymbolLineWidth: '线宽（像素）'
+        polylineSymbolLineWidth: '线宽（像素）',
+        pointSymbolColor: '点符号颜色'
     };
     return ResourceCN;
 });

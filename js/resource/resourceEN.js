@@ -265,7 +265,6 @@
         AddLine : 'Add line',
         AddFaces : 'Add region',
         symbolicLibrary : 'Symbol library',
-        colorPicker : 'Color selector：',
         conversion : 'Transformation',
         Xrotation : 'Rotate around the X axis(Degree)',
         Yrotation : 'Rotate around the Y axis(Degree)',
@@ -315,7 +314,7 @@
         polygonSymbolColor: 'Polygon symbol color',
         polylineDashSectionLength: 'Dotted component length(Pixel)',
         polylineTrailPeriod: 'Tail trace period(Second)',
-        polylineTrailPercent: 'Polyline Trail percent(%)',
+        polylineTrailPercent: 'Polyline Trail percent',
         polylineSymbolOutlineWdith: 'Outline width(Pixel)',
         pixel: 'Pixel',
         second: 'Second',
@@ -424,7 +423,8 @@
         polylineSymbolGapColor: 'gap color',
         polylineSymbolOutlineColor: 'outline color',
         polylineSymbolGlowPower: 'glow power',
-        polylineSymbolLineWidth: 'line width(px)'
+        polylineSymbolLineWidth: 'line width(px)',
+        pointSymbolColor: 'point symbol color'
     };
     return ResourceEN;
 });

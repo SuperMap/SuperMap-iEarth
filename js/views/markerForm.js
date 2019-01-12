@@ -32,7 +32,7 @@ define(['./Container',
                 '<div id="icons" class="mark-list"></div>',
             '</div>',
             '<div class="function-module-sub-section">',
-                '<label class="function-module-sub-section-caption">' + Resource.colorPicker + '</label>',
+                '<label class="function-module-sub-section-caption">' + Resource.pointSymbolColor + '</label>',
                 '<input class="colorPicker" size="8" data-bind="value: material," id="colorPicker">',
             '</div>',
             '<div>',
@@ -163,18 +163,8 @@ define(['./Container',
                             '<input id="polyline-symbol-trail-line-color" class="colorPicker"/>',
                         '</div>',
                         '<div class="half">',
-                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolOutlineColor + '</label>',
-                            '<input id="polyline-symbol-trail-outline-color" class="colorPicker"/>',
-                        '</div>',
-                    '</div>',
-                    '<div class="function-module-sub-section">',
-                        '<div class="half">',
                             '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolLineWidth + '</label>',
                             '<input id="polyline-symbol-trail-width" class="input" type="number" min="1" step="1" value="5" style="height: 29px;"/>',
-                        '</div>',
-                        '<div class="half">',
-                            '<label class="function-module-sub-section-caption">' + Resource.polylineSymbolOutlineWdith + '</label>',
-                            '<input id="polyline-symbol-trail-outline-width" class="input" type="number" min="1"  step="1" value="2"/>',
                         '</div>',
                     '</div>',
                     '<div style="overflow: auto;">',
@@ -182,7 +172,7 @@ define(['./Container',
                             '<label class="function-module-sub-section-caption">' + Resource.polylineTrailPercent + '</label>',
                             '<input id="polyline-trail-percent" class="input" type="number" min="0.1" max="1" step="0.1" value="0.3">',
                         '</div>',
-                        '<div class="half">',
+                        '<div class="half" style="display:none;">', /* 调整闪烁缺陷 */
                             '<label class="function-module-sub-section-caption">' + Resource.polylineTrailPeriod + '</label>',
                             '<input id="polyline-trail-period" class="input" type="number" min="1"  step="1.0" value="2">',
                         '</div>',
@@ -205,11 +195,15 @@ define(['./Container',
                 '<div id="polygon-symbol-common-params">',
                     '<div>',
                         '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolColor + '</label>',
-                        '<input type="text" class="colorPicker width-adjust" id="polygon-symbol-color"/>',
+                        '<input type="text" class="colorPicker width-adjust" id="polygon-symbol-full-color"/>',
                     '</div>',
                 '</div>',
                 '<div id="polygon-symbol-grid-params" style="display: none;">',
-                    '<div class="function-module-sub-section" style="margin-top: 18px;">',
+                    '<div class="function-module-sub-section">',
+                        '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolColor + '</label>',
+                        '<input type="text" class="colorPicker width-adjust" id="polygon-symbol-grid-color"/>',
+                    '</div>',
+                    '<div class="function-module-sub-section">',
                         '<div class="half">',
                             '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridCellAlpha + '</label>',
                             '<input type="number" class="input" id="polygon-symbol-grid-cell-alpha" value="0.1" min="0.1" max="1" step="0.1"/>',
@@ -224,7 +218,7 @@ define(['./Container',
                             '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridLineThickness + '</label>',
                             '<input type="number" class="input" id="polygon-symbol-grid-line-thickness" value="1" min="1"/>',
                         '</div>',
-                        '<div class="half">',
+                        '<div class="half" style="display: none;">', /* 该接口不起作用 */
                             '<label class="function-module-sub-section-caption">' + Resource.polygonSymbolGridLineOffset + '</label>',
                             '<input type="number" class="input" id="polygon-symbol-grid-line-offset" value="0"/>',
                         '</div>',
@@ -300,7 +294,7 @@ define(['./Container',
                     });
                 });
                 $("#colorPicker").spectrum({
-                    color: "2EC5AD",
+                    color: "rgba(255, 255, 255, 1)",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -309,7 +303,7 @@ define(['./Container',
                     chooseText: Resource.confirm,
                     change: function(color) {
                         var color = Cesium.Color.fromCssColorString(color.toRgbString());
-                        if (viewer.selectedEntity) {
+                        if (viewer.selectedEntity && viewer.selectedEntity.primitive.type === 'Instanced_Object') {
                             var instance = viewer.selectedEntity.primitive;
                             var index = viewer.selectedEntity.id;
                             instance.updateColor(color, index);
@@ -317,7 +311,7 @@ define(['./Container',
                     }
                 });
                 $("#polyline-symbol-line-color").spectrum({ // 实线颜色
-                    color: "b6d7a8",
+                    color: "cf9932",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -340,7 +334,7 @@ define(['./Container',
                 });
 
                 $('#polyline-symbol-dash-color').spectrum({ // 虚线颜色
-                    color: "5d6d56",
+                    color: "cf9932",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -388,7 +382,7 @@ define(['./Container',
                 });
 
                 $('#polyline-symbol-outline-inner-color').spectrum({ // 轮廓线内层颜色
-                    color: "5d6d56",
+                    color: "cf9932",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -404,7 +398,7 @@ define(['./Container',
                 });
 
                 $("#polyline-symbol-outline-color").spectrum({ // 轮廓线轮廓颜色
-                    color: "5d6d56",
+                    color: "3478bc",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -436,7 +430,7 @@ define(['./Container',
                 });
 
                 $('#polyline-symbol-arror-color').spectrum({ // 箭头线颜色
-                    color: "5d6d56",
+                    color: "cf9932",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -460,7 +454,7 @@ define(['./Container',
                 });
 
                 $('#polyline-symbol-glow-color').spectrum({ // 光晕线颜色
-                    color: "5d6d56",
+                    color: "cf9932",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -492,7 +486,7 @@ define(['./Container',
                 });
 
                 $('#polyline-symbol-trail-line-color').spectrum({ // 尾迹线颜色
-                    color: "5d6d56",
+                    color: "cf9932",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -507,34 +501,10 @@ define(['./Container',
                     }
                 });
 
-                $('#polyline-symbol-trail-outline-color').spectrum({ // 尾迹线轮廓颜色
-                    color: "5d6d56",
-                    showPalette: true,
-                    showAlpha: true,
-                    localStorageKey: "spectrum.demo",
-                    palette: palette,
-                    cancelText: Resource.cancel,
-                    chooseText: Resource.confirm,
-                    change: function(clr) {
-                        var color = Cesium.Color.fromCssColorString(clr.toRgbString());
-                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
-                            viewer.selectedEntity.polyline.material.outlineColor = color;
-                        }
-                    }
-                });
-
                 $('#polyline-symbol-trail-width').on('input propertychange', function() { // 尾迹线宽度
                     if ($(this).val() !== '' && Number($(this).val()) > 0) {
                         if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
                             viewer.selectedEntity.polyline.width = Number($(this).val());
-                        }
-                    }
-                });
-
-                $('#polyline-symbol-trail-outline-width').on('input propertychange', function() { // 尾迹线轮廓宽度
-                    if ($(this).val() !== '' && Number($(this).val()) > 0) {
-                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polyline-symbol-trail') === 0) {
-                            viewer.selectedEntity.polyline.material.outlineWidth = Number($(this).val());
                         }
                     }
                 });
@@ -694,7 +664,7 @@ define(['./Container',
                     $("#polygon-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
                     $(this).addClass('polygon-symbol-font-selected');
                     $("#polygon-symbol-stripe-params").css("display", "none");
-                    $("#polygon-symbol-common-params").css("display", "block");
+                    $("#polygon-symbol-common-params").css("display", "none");
                     $("#polygon-symbol-grid-params").css("display", "block");
                     createPolygonType(1);
                 });
@@ -707,8 +677,8 @@ define(['./Container',
                     createPolygonType(2);
                 });
 
-                $("#polygon-symbol-color").spectrum({
-                    color: "#fff", // 默认颜色
+                $("#polygon-symbol-full-color").spectrum({ // 纯色面颜色
+                    color: "cf9932", // 默认颜色
                     showPalette: true, //用于存储过往选择的颜色
                     palette: palette,
                     showAlpha: true, // 支持透明度选择
@@ -716,15 +686,27 @@ define(['./Container',
                     cancelText: "取消",
                     change: function(color) {
                         var color = Cesium.Color.fromCssColorString(color.toRgbString());
-                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol') === 0) {
-                            if (viewer.selectedEntity.id.indexOf('polygon-symbol-pure') === 0) { // 纯色
-                                viewer.selectedEntity.polygon.material = color;
-                            } else if (viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) { // 网格
-                                viewer.selectedEntity.polygon.material.color = color;
-                            }
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-pure') === 0) {
+                            viewer.selectedEntity.polygon.material = color;
                         }
                     }
                 });
+
+                $("#polygon-symbol-grid-color").spectrum({ // 网格面颜色
+                    color: "cf9932", // 默认颜色
+                    showPalette: true, //用于存储过往选择的颜色
+                    palette: palette,
+                    showAlpha: true, // 支持透明度选择
+                    chooseText: "选择",
+                    cancelText: "取消",
+                    change: function(color) {
+                        var color = Cesium.Color.fromCssColorString(color.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) {
+                            viewer.selectedEntity.polygon.material.color = color;
+                        }
+                    }
+                });
+
                 $('#polygon-symbol-grid-cell-alpha').on('input propertychange', function() {
                     if ($(this).val() !== '' && Number($(this).val()) >= 0) {
                         if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-grid') === 0) {
@@ -754,7 +736,7 @@ define(['./Container',
                     }
                 });
                 $("#polygon-symbol-stripe-even-color").spectrum({
-                    color: '#fff',
+                    color: 'cf9932',
                     showPalette: true, //用于存储过往选择的颜色
                     palette: palette,
                     showAlpha: true, // 支持透明度选择
@@ -768,7 +750,7 @@ define(['./Container',
                     }
                 });
                 $("#polygon-symbol-stripe-odd-color").spectrum({
-                    color: '#000',
+                    color: '3478bc',
                     showPalette: true, //用于存储过往选择的颜色
                     palette: palette,
                     showAlpha: true, // 支持透明度选择
@@ -864,7 +846,7 @@ define(['./Container',
             $("#scale").val(1);
             handlerPoint.activate();
         });
-    };
+    }
 
     function initPolylineSymbolDrawHandler() {
         polylineSymbolDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Line);
@@ -973,9 +955,7 @@ define(['./Container',
                     break;
                 case 5:
                     var trailLineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-trail-line-color").spectrum('get').toRgbString());
-                    var trailLineOutlineColor = Cesium.Color.fromCssColorString($("#polyline-symbol-trail-outline-color").spectrum('get').toRgbString());
                     var trailLineWidth = Number($('#polyline-symbol-trail-width').val());
-                    var trailLineOutlineWidth = Number($('#polyline-symbol-trail-outline-width').val());
                     var trailLinePercent = Number($('#polyline-trail-percent').val());
                     var trailLinePeroid = Number($('#polyline-trail-period').val());
                     viewer.entities.add({
@@ -985,8 +965,8 @@ define(['./Container',
                             width: trailLineWidth,
                             material: new Cesium.PolylineTrailMaterialProperty({
                                 color: trailLineColor,
-                                outlineColor: trailLineOutlineColor,
-                                outlineWidth: trailLineOutlineWidth,
+                                // outlineColor: trailLineOutlineColor, // 不存在这个属性，文档上写错了
+                                // outlineWidth: trailLineOutlineWidth,
                                 trailLength: trailLinePercent,
                                 period: trailLinePeroid
                             })
@@ -1032,7 +1012,7 @@ define(['./Container',
             }
             switch (polygonSymbolType) {
                 case 0:
-                    var polygonSymbolPureColor = Cesium.Color.fromCssColorString($("#polygon-symbol-color").spectrum('get').toRgbString());
+                    var polygonSymbolPureColor = Cesium.Color.fromCssColorString($("#polygon-symbol-full-color").spectrum('get').toRgbString());
                     viewer.entities.add({
                         id: 'polygon-symbol-pure-' + (new Date()).getTime(),
                         polygon: {
@@ -1043,7 +1023,7 @@ define(['./Container',
                     });
                     break;
                 case 1:
-                    var polygonSymbolGridColor = Cesium.Color.fromCssColorString($("#polygon-symbol-color").spectrum('get').toRgbString());
+                    var polygonSymbolGridColor = Cesium.Color.fromCssColorString($("#polygon-symbol-grid-color").spectrum('get').toRgbString());
                     var polygonSymbolGridCellAlpha = Number($('#polygon-symbol-grid-cell-alpha').val());
                     var polygonSymbolGridLineCount = Number($('#polygon-symbol-grid-line-count').val());
                     var polygonSymbolGridLineThickness = Number($('#polygon-symbol-grid-line-thickness').val());
