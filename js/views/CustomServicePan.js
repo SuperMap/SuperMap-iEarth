@@ -80,7 +80,6 @@ define([
             }
             var layerModel = new LayerModel({
                 url: url,
-                sceneUrl: sceneUrl,
                 name: name,
                 type: type,
                 realName: name

@@ -424,7 +424,8 @@ define(function(){
         polylineSymbolOutlineColor: '轮廓颜色',
         polylineSymbolGlowPower: '光晕强度',
         polylineSymbolLineWidth: '线宽（像素）',
-        pointSymbolColor: '点符号颜色'
+        pointSymbolColor: '点符号颜色',
+        highlightBarrierColor: '障碍物高亮颜色'
     };
     return ResourceCN;
 });

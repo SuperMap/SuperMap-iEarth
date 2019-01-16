@@ -142,12 +142,13 @@ define(['Cesium'], function (Cesium) {
                 pointHandler.deactivate();
             }
             handler && (!handler.isDestroyed()) && handler.destroy();
+            var sightlineHighlightBarrierColor = Cesium.Color.fromCssColorString($("#sightline-highlight-barrier-color").spectrum('get').toRgbString());
             for (var index in sightline.getObjectIds()) {
                 var layer = viewer.scene.layers.findByIndex(index - 3); // 底层索引从3开始
-                layer.setObjsColor(sightline.getObjectIds()[index], new Cesium.Color(255 / 255, 105 / 255, 180 / 255, 1.0));
+                layer.setObjsColor(sightline.getObjectIds()[index], sightlineHighlightBarrierColor);
             }
         }
-    }
+    };
 
     sgLine.remove = function (viewer) {
         /*$("#skyForm").hide();*/

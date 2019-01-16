@@ -20,8 +20,6 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
         '<label for="tab5" class="function-module-caption">' + Resource.profile + '</label>',
         '<input id="tab4" type="radio" name="tabs">',
         '<label for="tab4" class="function-module-caption">' + Resource.skyline + '</label>',
-        /*'<input id="tab4" type="radio" name="tabs">',
-         '<label for="tab4" style="font-size: 13px">' + '视频' + '</label>',*/
         '<section id="content1">',
             '<div class="function-module-content">',
                 '<div class="function-module-sub-section">',
@@ -144,14 +142,20 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                         '<input type="text" id="sight-observation-place" class="input disabled" disabled style="width: 95%;"/>',
                     '</div>',
                 '</div>',
-                '<div style="overflow: auto;">',
+                '<div class="function-module-sub-section">',
                     '<div class="half">',
                         '<label class="function-module-sub-section-caption">'+ Resource.visibleColor +'</label>',
-                        '<input class="colorPicker" data-bind="value: visibleColor,valueUpdate: "input""  id="visibleColor"/>',
+                        '<input class="colorPicker" id="visibleColor"/>',
                     '</div>',
                     '<div class="half">',
                         '<label class="function-module-sub-section-caption">'+ Resource.hideenColor +'</label>',
-                        '<input class="colorPicker" data-bind="value: hiddenColor,valueUpdate: "input""  id="hiddenColor"/>',
+                        '<input class="colorPicker" id="hiddenColor"/>',
+                    '</div>',
+                '</div>',
+                '<div style="overflow: auto;">',
+                    '<div class="half">',
+                        '<label class="function-module-sub-section-caption">'+ Resource.highlightBarrierColor +'</label>',
+                        '<input class="colorPicker" id="sightline-highlight-barrier-color"/>',
                     '</div>',
                 '</div>',
             '</div>',
@@ -171,6 +175,16 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                 '</div>',
                 '<div class="function-module-sub-section">',
                     '<div class="half">',
+                        '<label class="function-module-sub-section-caption">'+ Resource.skylineColor +'</label>',
+                        '<input class="colorPicker" id="skylineColor"/>',
+                    "</div>",
+                    '<div class="half">',
+                        '<label class="function-module-sub-section-caption">'+ Resource.highlightBarrierColor +'</label>',
+                        '<input class="colorPicker" id="skyline-highlight-barrier-color"/>',
+                    "</div>",
+                '</div>',
+                '<div style="overflow: hidden;">',
+                    '<div class="half">',
                         '<label class="function-module-sub-section-caption">'+ Resource.displayMode +'</label>',
                         '<select id="skylineMode">',
                             '<option value="0" selected>'+ Resource.polyline +'</option>',
@@ -178,12 +192,6 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                             /*'<option value="2">'+ Resource.skylinesectorbody +'</option>', // 需要iServer910支持 */
                         '</select>',
                     '</div>',
-                    '<div class="half">',
-                        '<label class="function-module-sub-section-caption">'+ Resource.skylineColor +'</label>',
-                        '<input class="colorPicker" data-bind="value: skylineColor,valueUpdate: "input""  id="skylineColor"/>',
-                    "</div>",
-                '</div>',
-                '<div style="overflow: hidden;">',
                     '<div class="half">',
                         '<label class="function-module-sub-section-caption">'+ Resource.skylineRadius +'</label>',
                         '<input class="input" type="number" value="1000" step="10" id="skylineRadius"/>',
@@ -289,6 +297,18 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     cancelText: Resource.cancel,
                     chooseText: Resource.confirm
                 });
+                $('#sightline-highlight-barrier-color').spectrum({ // 通视分析障碍物高亮颜色
+                    color: "rgba(255, 255, 255, 1)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(color) {
+                        sgline.highlightBarrier(viewer);
+                    }
+                });
                 $("#colorPicker1").spectrum({
                     change:function(){
                         $('#colorPicker1').trigger('input');
@@ -324,6 +344,19 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     palette: palette,
                     cancelText: Resource.cancel,
                     chooseText: Resource.confirm
+                });
+
+                $("#skyline-highlight-barrier-color").spectrum({ // 天际线高亮障碍物颜色
+                    color: "rgb(200, 0, 0, 100)",
+                    showPalette: true,
+                    showAlpha: true,
+                    localStorageKey: "spectrum.demo",
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
+                    change: function(color) {
+                        skyLine.highlightBarrier(viewer);
+                    }
                 });
                 $("#selDate").val(getNowFormatDate());
                 if(sceneModel.analysisObjects.viewshed3DStore){

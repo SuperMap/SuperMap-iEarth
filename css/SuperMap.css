@@ -2029,14 +2029,7 @@ main .square{
     display: inline-block;
 }
 
-#selDate, main select{
-    width: 90%;
-    height: 30px;
-    color: lightgray;
-    background-color: #333;
-    border: 1px solid #686363;
-    padding: 0px 3px
-}
+
 .coord{
     border: 1px solid #D3D3D3;
     width: 44%;

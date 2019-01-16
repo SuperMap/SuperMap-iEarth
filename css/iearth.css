@@ -76,6 +76,14 @@ input.disabled{ /* 禁用状态下的输入框 */
      background-position: center right;
      padding-right: 5px;
  }
+#selDate, main select{
+    width: 90%;
+    height: 25px;
+    color: lightgray;
+    background-color: #333;
+    border: 1px solid #686363;
+    padding: 0 3px
+}
 /* 符号库 start */
 .polygon-symbol-font-normal , .polygon-symbol-font-normal > *, .polyline-symbol-font-normal , .polyline-symbol-font-normal > *{
     color: #777;

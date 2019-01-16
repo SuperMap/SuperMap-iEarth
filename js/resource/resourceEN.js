@@ -424,7 +424,8 @@
         polylineSymbolOutlineColor: 'outline color',
         polylineSymbolGlowPower: 'glow power',
         polylineSymbolLineWidth: 'line width(px)',
-        pointSymbolColor: 'point symbol color'
+        pointSymbolColor: 'point symbol color',
+        highlightBarrierColor: 'highlight barrier color'
     };
     return ResourceEN;
 });
