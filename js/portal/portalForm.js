@@ -1,21 +1,24 @@
-define(['../views/Container','../portal/loginWindow'],function(Container,SuperMapSSO){
+define(['../views/Container','../portal/loginWindow', '../Util'],function(Container,SuperMapSSO, Utils){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
     var viewer;
     var htmlStr = [
-        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;display: block; margin-bottom: 18px;">',
         '<span class="iconfont icon-side-toolbar_home"></span>',
-        '</a><br><br>',
-        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
+        '</a>',
+        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px; margin-bottom: 18px;">',
         '<span class="iconfont icon-side-toolbar_storage"></span>',
-        '</a><br><br>',
-        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
+        '</a>',
+        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;margin-bottom: 18px;">',
         '<span class="iconfont icon-side-toolbar_share"></span>',
-        '</a><br><br>',
-        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;">',
+        '</a>',
+        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;margin-bottom: 18px;">',
         '<span class="iconfont icon-side-toolbar_login"></span>',
-        '</a>'
+        '</a>',
+        '<a id="toggle-fullscreen-btn" class="btn btn-inverse" title="' + Resource.fullScreenToggle + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-side-toolbar_fullscreen"></span>',
+        '</a>',
     ].join('');
     var portalForm = Container.extend({
         template : _.template(htmlStr),
@@ -39,7 +42,8 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
             'click #home' : 'home',
             'click #portalOpen' : 'portalOpen',
             'click #portalShare' : 'portalShare',
-            'click #login' : 'login'
+            'click #login' : 'login',
+            'click #toggle-fullscreen-btn': 'toggleFullscreen'
         },
         portalOpen : function() {
             var me = this;
@@ -57,9 +61,7 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                         ctx.drawImage(img,0,0,298,150)
                     }
                 })
-            }
-            else
-            {
+            } else {
                 require(['./portal/savePortalForm'],function(savePortalForm){
                     var savePortalForm = new savePortalForm({
                         sceneModel : me.model,
@@ -72,15 +74,12 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                 });
             }
         },
-
         portalShare : function() {
             var me = this;
             if(me.sharePortalForm){
                 $("#portalTab2").click();
                 me.sharePortalForm.$el.show();
-            }
-            else
-            {
+            } else {
                 require(['./portal/sharePortalForm'],function(sharePortalForm){
                     var sharePortalForm = new sharePortalForm({
                         sceneModel : me.model,
@@ -94,14 +93,12 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
             }
 
         },
-
         home : function () {
             viewer.camera.flyTo({
                 destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
                 duration: 5
             });
         },
-
         login : function (event) {
             window.reCallBack = function(){
                 window.location.href = window.location.href;
@@ -119,6 +116,13 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                 window.event.returnValue = false;
             }
             return false;
+        },
+        toggleFullscreen: function() {
+            if (document.fullscreenElement) { // 存在全屏状态下的节点
+                Utils.exitFullscreen();
+            } else {
+                Utils.launchFullscreen(document.documentElement);
+            }
         }
     });
     return portalForm;

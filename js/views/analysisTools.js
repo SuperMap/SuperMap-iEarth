@@ -298,7 +298,7 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                     chooseText: Resource.confirm
                 });
                 $('#sightline-highlight-barrier-color').spectrum({ // 通视分析障碍物高亮颜色
-                    color: "rgba(255, 255, 255, 1)",
+                    color: "rgba(255, 186, 1, 1)",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
@@ -347,7 +347,7 @@ define(['./Container','../lib/knob','../3DGIS/viewshed3D','../3DGIS/skyline','..
                 });
 
                 $("#skyline-highlight-barrier-color").spectrum({ // 天际线高亮障碍物颜色
-                    color: "rgb(200, 0, 0, 100)",
+                    color: "rgb(255, 186, 1, 1)",
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",

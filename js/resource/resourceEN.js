@@ -425,7 +425,8 @@
         polylineSymbolGlowPower: 'glow power',
         polylineSymbolLineWidth: 'line width(px)',
         pointSymbolColor: 'point symbol color',
-        highlightBarrierColor: 'highlight barrier color'
+        highlightBarrierColor: 'highlight barrier color',
+        fullScreenToggle: 'full screen toggle'
     };
     return ResourceEN;
 });
