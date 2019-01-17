@@ -15,7 +15,7 @@ define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
 	        		url : url,
 	        		key : "AqgBIfrBG50dl7Ykc9nANoj5UJnIxg5YyEZu-UE7sY_sHoZT1db1jGZAalBsU73w"
 	        		});break;
-	        	case 'TIANDITU' : this.imageryProvider = new Cesium.TiandituImageryProvider();break;
+	        	case 'TIANDITU' : this.imageryProvider = new Cesium.TiandituImageryProvider({token: '4a00a1dc5387b8ed8adba3374bd87e5e'});break;
 	        	case 'IMAGE' : this.imageryProvider = new Cesium.SingleTileImageryProvider({url : url});break;
 	        	case 'OSM' : this.imageryProvider = new Cesium.createOpenStreetMapImageryProvider({url : url});break;
                 case 'MAPBOX' : this.imageryProvider = new Cesium.MapboxImageryProvider({mapId: 'mapbox.dark'});break;
