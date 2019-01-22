@@ -31,7 +31,16 @@ define(['../views/Container','../portal/loginWindow', '../Util'],function(Contai
                 if(Window.isSuperMapOL == "true"){
                     $("#portalShare").show();
                     $("#login").show();
-                 }
+                }
+
+                // 监听全屏切换事件
+                document.addEventListener("fullscreenchange", function( event ) {
+                    if (!document.fullscreenElement) { // fullscreenElement属性返回正处于全屏状态的Element节点，没有节点处于全屏状态返回null
+                        $('#toggle-fullscreen-btn > span.iconfont').removeClass('icon-side-toolbar_cancel-fullscreen').addClass('icon-side-toolbar_fullscreen');
+                    } else {
+                        $('#toggle-fullscreen-btn > span.iconfont').removeClass('icon-side-toolbar_fullscreen').addClass('icon-side-toolbar_cancel-fullscreen');
+                    }
+                });
             });
         },
         render : function() {

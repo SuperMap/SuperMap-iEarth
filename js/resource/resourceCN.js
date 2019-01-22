@@ -426,7 +426,16 @@ define(function(){
         polylineSymbolLineWidth: '线宽（像素）',
         pointSymbolColor: '点符号颜色',
         highlightBarrierColor: '障碍物高亮颜色',
-        fullScreenToggle: '全屏切换'
+        fullScreenToggle: '全屏切换',
+        light: '灯光',
+        pointLight: '点光源',
+        spotLight: '聚光灯',
+        directionalLight: '平行光',
+        cutoffDistance: '扩散距离',
+        decay: '衰减因子',
+        intensity: '光源强度',
+        lightSourceColor: '光源颜色',
+        spotLightAngle: '聚光范围'
     };
     return ResourceCN;
 });

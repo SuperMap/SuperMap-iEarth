@@ -174,7 +174,7 @@ function init(Cesium, Zlib) {
                     isPCBroswer: isPCBroswer
                 });
                 viewerContainer.addComponent(toolBar, new Position());
-                document.body.removeChild(document.getElementById('loading')); // 加载完菜单栏再把加载动画移除
+
                 var errorPannel = new ErrorPannel();
                 viewerContainer.addComponent(errorPannel);
 
@@ -196,6 +196,8 @@ function init(Cesium, Zlib) {
                         y : '150px'
                     }));
                 }
+
+                document.body.removeChild(document.getElementById('transition-loader')); // 移除加载动画
 
                 if(isPCBroswer){
                     var locationContainer = new GeoLocation({

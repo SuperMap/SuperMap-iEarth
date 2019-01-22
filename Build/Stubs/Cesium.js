@@ -1786,6 +1786,10 @@ define('Plot/Styles/DefaultStyle', function() {
     return Cesium['DefaultStyle'];
 });
 
+define('Plot/Styles/ExtendProperty', function() {
+    return Cesium['ExtendProperty'];
+});
+
 define('Plot/Styles/SymbolStyle', function() {
     return Cesium['SymbolStyle'];
 });
@@ -2054,6 +2058,10 @@ define('S3MTiles/DynamicObjectState', function() {
     return Cesium['DynamicObjectState'];
 });
 
+define('S3MTiles/Enum/CategoryVisibleMode', function() {
+    return Cesium['CategoryVisibleMode'];
+});
+
 define('S3MTiles/Enum/ClipPlaneMode', function() {
     return Cesium['ClipPlaneMode'];
 });
@@ -2076,6 +2084,10 @@ define('S3MTiles/Enum/LightSourceType', function() {
 
 define('S3MTiles/Enum/LoadState', function() {
     return Cesium['LoadState'];
+});
+
+define('S3MTiles/Enum/MixColorType', function() {
+    return Cesium['MixColorType'];
 });
 
 define('S3MTiles/Enum/ModifyRegionMode', function() {
@@ -2392,6 +2404,10 @@ define('S3MTiles/shader/ViewShedAnalysisVp', function() {
 
 define('S3MTiles/ShaderProgramCreator', function() {
     return Cesium['ShaderProgramCreator'];
+});
+
+define('S3MTiles/ThreeDModeling', function() {
+    return Cesium['ThreeDModeling'];
 });
 
 define('Scene/Appearance', function() {

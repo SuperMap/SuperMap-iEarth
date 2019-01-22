@@ -426,7 +426,16 @@
         polylineSymbolLineWidth: 'line width(px)',
         pointSymbolColor: 'point symbol color',
         highlightBarrierColor: 'highlight barrier color',
-        fullScreenToggle: 'full screen toggle'
+        fullScreenToggle: 'full screen toggle',
+        light: 'light',
+        pointLight: 'point light',
+        spotLight: 'spot light',
+        directionalLight: 'directional light',
+        cutoffDistance: 'cutoff distance',
+        decay: 'decay',
+        intensity: 'intensity',
+        lightSourceColor: 'light source color',
+        spotLightAngle: 'angle'
     };
     return ResourceEN;
 });
