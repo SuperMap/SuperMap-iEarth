@@ -98,7 +98,7 @@ function init(Cesium, Zlib) {
             shadows: true,
             infoBox: false,
             geocoder : true,
-            skyBox: false,
+            // skyBox: false, // 关闭天空盒会一同关闭太阳，场景会变暗
             navigation: false
         });
         viewer.animation.container.style.visibility = 'hidden';

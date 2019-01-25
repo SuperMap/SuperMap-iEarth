@@ -274,15 +274,15 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
                     '<div class="mark-list" id="light-source-list">',
                         '<div id="point-light" class="mark-list-item light-source-font-normal light-source-font-selected">',
-                            '<a class="iconfont icon-online-edit_pure-color-plane"></a>',
+                            '<a class="iconfont icon-point-light-source"></a>',
                             '<label>' + Resource.pointLight + '</label>',
                         '</div>',
                         '<div id="spot-light" class="mark-list-item light-source-font-normal">',
-                            '<a class="iconfont icon-online-edit_pure-color-plane"></a>',
+                            '<a class="iconfont icon-spot-light-source"></a>',
                             '<label>' + Resource.spotLight + '</label>',
                         '</div>',
                         '<div id="directional-light" class="mark-list-item light-source-font-normal">',
-                            '<a class="iconfont icon-online-edit_pure-color-plane"></a>',
+                            '<a class="iconfont icon-directional-light-source"></a>',
                             '<label>' + Resource.directionalLight + '</label>',
                         '</div>',
                     '</div>',
@@ -323,11 +323,11 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     '<div class="function-module-sub-section">',
                         '<div class="half">',
                             '<label class="function-module-sub-section-caption">' + Resource.decay + '</label>',
-                            '<input type="number" class="input" id="spot-light-decay" value="1" min="0.1" step="0.1"/>',
+                            '<input type="number" class="input" id="spot-light-decay" value="3" min="0" max="50" step="1"/>',
                         '</div>',
                         '<div class="half">',
                             '<label class="function-module-sub-section-caption">' + Resource.intensity + '</label>',
-                            '<input type="number" class="input" id="spot-light-intensity" value="3" min="0.1" step="0.1"/>',
+                            '<input type="number" class="input" id="spot-light-intensity" value="3" min="0" step="1" max="30"/>',
                         '</div>',
                     '</div>',
                     '<div style="overflow: auto;">',
@@ -345,7 +345,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         '</div>',
                         '<div class="half">',
                             '<label class="function-module-sub-section-caption">' + Resource.intensity + '</label>',
-                            '<input type="number" class="input" id="directional-light-intensity" value="3" min="0.1" step="0.1" style="height: 29px;"/>',
+                            '<input type="number" class="input" id="directional-light-intensity" value="3" min="0" step="1" max="30" style="height: 29px;"/>',
                         '</div>',
                     '</div>',
                 '</div>',
@@ -647,7 +647,33 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         chooseText: Resource.confirm,
                         change: function(clr) {
                             var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                            if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                                entitySpotLightPairs.get(viewer.selectedEntity).color = color;
+                            }
+                        }
+                    });
 
+                    $('#spot-light-cutoff-distance').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).distance = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-decay').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).decay = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-intensity').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).intensity = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-angle').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).angle = Cesium.Math.toRadians(Number($(this).val()));
                         }
                     });
 
@@ -661,7 +687,15 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         chooseText: Resource.confirm,
                         change: function(clr) {
                             var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                            if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('directional-light') === 0) {
+                                entityDirectionalLightPairs.get(viewer.selectedEntity).color = color;
+                            }
+                        }
+                    });
 
+                    $('#directional-light-intensity').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('directional-light') === 0) {
+                            entityDirectionalLightPairs.get(viewer.selectedEntity).intensity = Number($(this).val());
                         }
                     });
 
@@ -977,6 +1011,18 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 while(scene.lightSource.directionalLight.values.length > 0) {
                     scene.removeLightSource(scene.lightSource.directionalLight.values[0]);
                 }
+                for(let key of entityPointLightPairs.keys()) {
+                    viewer.entities.remove(key);
+                }
+                entityPointLightPairs.clear();
+                for(let key of entitySpotLightPairs.keys()) {
+                    viewer.entities.remove(key);
+                }
+                entitySpotLightPairs.clear();
+                for(let key of entityDirectionalLightPairs.keys()) {
+                    viewer.entities.remove(key);
+                }
+                entityDirectionalLightPairs.clear();
             }
         });
         function initPointLightSourceDrawHandler() {
@@ -1040,6 +1086,14 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     };
                     var spotLight = new Cesium.SpotLight(positions[0], positions[1], spotLightOptions);
                     scene.addLightSource(spotLight);
+                    var entityAsKey = viewer.entities.add({
+                        id: 'spot-light-' + (new Date()).getTime(),
+                        position: positions[0],
+                        point: {
+                            pixelSize: 10
+                        }
+                    });
+                    entitySpotLightPairs.set(entityAsKey, spotLight);
                 } else if (lightSourceType === 2) {
                     var directionalLightOptions = {
                         targetPosition: positions[1],
@@ -1048,6 +1102,14 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     };
                     var directionalLight = new Cesium.DirectionalLight(positions[0], directionalLightOptions);
                     scene.addLightSource(directionalLight);
+                    var entityAsKey = viewer.entities.add({
+                        id: 'directional-light-' + (new Date()).getTime(),
+                        position: positions[0],
+                        point: {
+                            pixelSize: 10
+                        }
+                    });
+                    entityDirectionalLightPairs.set(entityAsKey, directionalLight);
                 }
                 spotOrDirectionalLightPositions = [];
                 spotOrDirectionalLightSourceDrawHandler.clear();
