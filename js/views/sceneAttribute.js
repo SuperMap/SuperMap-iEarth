@@ -1050,8 +1050,10 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 var entityAsKey = viewer.entities.add({
                     id: 'point-light-' + (new Date()).getTime(),
                     position: cartesian,
-                    point: {
-                        pixelSize: 10
+                    billboard: {
+                        image: 'images/lightSource/pointLight.png',
+                        scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1),
+                        disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
                     }
                 });
                 entityPointLightPairs.set(entityAsKey, pointLight);
@@ -1089,8 +1091,10 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     var entityAsKey = viewer.entities.add({
                         id: 'spot-light-' + (new Date()).getTime(),
                         position: positions[0],
-                        point: {
-                            pixelSize: 10
+                        billboard: {
+                            image: 'images/lightSource/spotLight.png',
+                            scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1), // 按照距离调整图片的大小
+                            disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
                         }
                     });
                     entitySpotLightPairs.set(entityAsKey, spotLight);
@@ -1105,8 +1109,10 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     var entityAsKey = viewer.entities.add({
                         id: 'directional-light-' + (new Date()).getTime(),
                         position: positions[0],
-                        point: {
-                            pixelSize: 10
+                        billboard: {
+                            image: 'images/lightSource/directionalLight.png',
+                            scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1),
+                            disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
                         }
                     });
                     entityDirectionalLightPairs.set(entityAsKey, directionalLight);
