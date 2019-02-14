@@ -30,7 +30,24 @@ define(['backbone', 'Cesium', '../Util', '../Config'], function (Backbone, Cesiu
                     layer.visible = false;
                 }
                 return defer.resolve(layer);
-            })
+            }, function(error) {
+                var s3mbPromise = viewer.scene.addS3MBTilesLayer(scpUrl, {
+                    name: name
+                });
+                return Cesium.when(s3mbPromise, function (layer) {
+                    me.sceneModel.trigger('layerAdded', me);
+                    me.sceneModel.layers.add(me);
+                    me.layer = layer;
+                    if (isFlyMode) {
+                        me.flyTo();
+                    }
+                    Util.S3M_CACHE[scpUrl] = name;
+                    if (me.get('isVisible') == false) {
+                        layer.visible = false;
+                    }
+                    return defer.resolve(layer);
+                });
+            });
         },
         removeLayer: function (viewer) {
             var name = this.get('name');

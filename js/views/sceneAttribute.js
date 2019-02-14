@@ -7,7 +7,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
     var camera;
     var handler;
     var me;
-    var flyCirclePoint;
+    var flyCirclePoint = null;
     var rollerShutterConfig = null;
     var isPCBroswer;
     var lightSourceType = 0; // 光源类型，初始时为点光源
@@ -19,6 +19,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
     var entityPointLightPairs = new Map(); // Entity和点光源对象的键值对
     var entitySpotLightPairs = new Map(); // Entity和聚光灯对象的键值对
     var entityDirectionalLightPairs = new Map(); // Entity和平行光对象的键值对
+    var flyCircleDrawHandler = null;
 
 
     var htmlStr = [
@@ -244,6 +245,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             '<span>' + Resource.rotateCirculation + '</span>',
                         '</label>',
                         '<button id="spin" class="btn btn-info" style="margin: 0 0 0 1rem;">' + Resource.rotatePoint + '</button>',
+                        '<button id="cancel-spin" class="btn btn-info" style="margin: 0 0 0 1rem;">' + Resource.cancelRotatePoint + '</button>',
                     '</div>',
                 '</div>',
 
@@ -379,6 +381,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 'click #pauseFly': 'onPauseFlyClk',
                 'click #stopFly': 'onStopFlyClk',
                 'click #spin': 'onSpinClk',
+                'click #cancel-spin': 'onCancelSpinClk',
                 'click #clear-light-source': 'clearLightSource'
             },
             template: _.template(htmlStr),
@@ -509,14 +512,16 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     $("#camera-minimum-zoom-distance").on("input propertychange", function () {
                         viewer.scene.screenSpaceCameraController.minimumZoomDistance = Number($("#camera-minimum-zoom-distance").val());
                     });
-                    $('#circulation').on("input change", function () {
+                    $('#circulation').on("input propertychange", function () {
                         camera.flyCircleLoop = this.checked;
                     });
-                    $('#stopFlyCircle').on("input change", function () {
+                    $('#stopFlyCircle').on("input propertychange", function () {
                         if (this.checked) {
                             camera.stopFlyCircle();
                         } else {
-                            camera.flyCircle(flyCirclePoint);
+                            if (flyCirclePoint) {
+                                camera.flyCircle(flyCirclePoint);
+                            }
                         }
                     });
                     $('#sceneMode').change(function () {
@@ -770,14 +775,41 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 flyRoute.stop(viewer);
             },
             onSpinClk: function (evt) {
-                var center = new Cesium.Cartesian3(0, 0, 0);
-                var flyCircle = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
-                flyCircle.drawEvt.addEventListener(function (result) {
-                    center = result.object.position;
-                    flyCirclePoint = center;
-                    camera.flyCircle(center);
-                });
-                flyCircle.activate();
+                if (!flyCircleDrawHandler) {
+                    flyCircleDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
+                    flyCircleDrawHandler.activeEvt.addEventListener(function (isActive) {
+                        if (isActive == true) {
+                            viewer.enableCursorStyle = false;
+                            viewer._element.style.cursor = '';
+                            $('body').removeClass('drawCur').addClass('drawCur');
+                        } else {
+                            viewer.enableCursorStyle = true;
+                            $('body').removeClass('drawCur');
+                        }
+                    });
+                    flyCircleDrawHandler.drawEvt.addEventListener(function (result) {
+                        flyCirclePoint = result.object.position;
+                        viewer.entities.removeById('fly-circle-point');
+                        viewer.entities.add({
+                            id: 'fly-circle-point',
+                            position: flyCirclePoint,
+                            billboard: {
+                                image: 'images/flyCircle.png',
+                                scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1),
+                                disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
+                            }
+                        });
+                        camera.stopFlyCircle(); // 先停止之前的旋转，再开始新的旋转
+                        camera.flyCircle(flyCirclePoint);
+                        flyCircleDrawHandler.clear();
+                    });
+                }
+                flyCircleDrawHandler.activate();
+            },
+            onCancelSpinClk: function() {
+                camera.stopFlyCircle();
+                viewer.entities.removeById('fly-circle-point');
+                flyCirclePoint = null;
             },
             /**
              * 初始化卷帘。设置分割条初始位置及绑定相关事件。
