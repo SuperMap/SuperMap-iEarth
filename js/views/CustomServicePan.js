@@ -16,18 +16,28 @@ define([
                         '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
                         '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
                     '</select>',
+                    '<div class="squaredTwo squaredTwo-light" id="has-token" style="margin-left: 20px;"><input type="checkbox"><label class="check-icon check-icon-light"></label></div><label id="add-token-caption">' + Resource.addToken + '</label>',
                 '</div>',
                 '<div class="form-group">',
                     '<input id="urlInput" class="my-form-control" type="url" placeholder=' + Resource.layerUrl + ' title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
                 '</div>',
-                '<div>',
+                '<div class="form-group">',
                     '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text"/>',
+                '</div>',
+                '<div id="token-input-wrapper" style="display: none;">',
+                    '<input id="tokenInput" class="my-form-control" placeholder=' + Resource.addToken + ' type="text"/>',
                 '</div>',
                 '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="open-layer" style="margin-top:10px;">' + Resource.confirm + '</button>',
             '</div>',
             '<div class="function-module-part">',
                 '<label>' + Resource.OpenScene + '</label>',
-                '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
+                '<div class="form-group">',
+                    '<input id="sceneUrl" class="my-form-control" style="width: 80%;" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
+                    '<div class="squaredTwo squaredTwo-light" id="has-scene-token" style="margin-left: 20px;"><input type="checkbox"><label class="check-icon check-icon-light"></label></div><label id="add-scene-token-caption">' + Resource.addToken + '</label>',
+                '</div>',
+                '<div id="scene-token-input-wrapper" style="display: none;">',
+                    '<input id="sceneTokenInput" class="my-form-control" placeholder=' + Resource.addToken + ' type="text"/>',
+                '</div>',
                 '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="open-scene" style="margin-top:10px;">' + Resource.confirm + '</button>',
             '</div>',
         '</div>',
@@ -40,7 +50,9 @@ define([
             'click #open-scene': 'onOpenScene',
             'change #typeInput': 'onSelectChange',
             'click #chkContainer': 'onCheckboxChange',
-            'blur #urlInput': 'onUrlInputBlur'
+            'blur #urlInput': 'onUrlInputBlur',
+            'click #has-token, #add-token-caption': 'onAddToken',
+            'click #has-scene-token, #add-scene-token-caption': 'onAddSceneToken'
         },
         initialize: function (options) {
             this.model = options.sceneModel;
@@ -57,7 +69,11 @@ define([
             var type = $('#typeInput').val();
             var url = $('#urlInput').val();
             var name = $('#nameInput').val();
-
+            var isHasToken = $('#has-token').find('input[type=checkbox]')[0].checked;
+            var token = '';
+            if(isHasToken) {
+                token = $.trim($('#tokenInput').val());
+            }
             if (url === '') {
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
@@ -84,10 +100,17 @@ define([
                 type: type,
                 realName: name
             });
+            Cesium.Credential.CREDENTIAL = new Cesium.Credential(token);
             this.model.addLayer(layerModel);
         },
         onOpenScene: function (evt) { // 打开场景
             var sceneUrl = $('#sceneUrl').val();
+            var isHasToken = $('#has-scene-token').find('input[type=checkbox]')[0].checked;
+            var token = '';
+            if(isHasToken) {
+                token = $.trim($('#sceneTokenInput').val());
+            }
+            Cesium.Credential.CREDENTIAL = new Cesium.Credential(token);
             if (sceneUrl === '') {
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
@@ -98,6 +121,9 @@ define([
                 return;
             }
             var allUrl = sceneUrl + "/datas.xml";
+            if(isHasToken && token !== ''){
+                allUrl = allUrl + '?token=' + token;
+            }
 
             // namelist和pathlist下标一一对应
             var namelist = new Array(); // 图层的名称
@@ -109,7 +135,7 @@ define([
                 async: false,
                 timeout: 3000,
                 error: function (xml) {
-
+                    Util.showErrorMsg(Resource.loadException);
                 },
                 success: function (xml) {
                     $(xml).find("name").each(function (i) {
@@ -124,6 +150,9 @@ define([
             });
 
             var jsonUrl = sceneUrl + '/scenes.xml';
+            if(isHasToken && token !== ''){
+                jsonUrl = jsonUrl + '?token=' + token;
+            }
             var jsonPath;
             $.ajax({
                 url: jsonUrl,
@@ -132,7 +161,7 @@ define([
                 async: false,
                 timeout: 3000,
                 error: function (xml) {
-
+                    Util.showErrorMsg(Resource.loadException);
                 },
                 success: function (xml) {
                     $(xml).find("path").each(function (i) {
@@ -142,6 +171,9 @@ define([
                 }
             });
             var typeUrl = jsonPath + '/layers.xml';
+            if(isHasToken && token !== ''){
+                typeUrl = typeUrl + '?token=' + token;
+            }
             // typeLayerName和typelist下标一一对应
             var typelist = new Array(); // 图层的类型
             var typeLayerName = new Array(); // 图层的名称
@@ -153,6 +185,7 @@ define([
                 async: false,
                 timeout: 3000,
                 error: function (xml) {
+                    Util.showErrorMsg(Resource.loadException);
                 },
                 success: function (xml) {
                     $(xml).find("name").each(function(i){
@@ -169,7 +202,7 @@ define([
                                 typelist[i] = 'IMAGERY';
                                 break;
                             case 'TerrainFileLayer':
-                                typelist[i] = 'TERRAIN'
+                                typelist[i] = 'TERRAIN';
                                 break;
                             default:
                                 break;
@@ -280,6 +313,8 @@ define([
             $('#typeInput option:first').prop('selected', 'selected');
             $('#urlInput').val('');
             $('#nameInput').val('');
+            $('#tokenInput').val('');
+            $('#sceneTokenInput').val('');
             $('#queryFeatureChk').attr('checked', false);
             $('#dataUrlDiv').hide();
             $('#datasourceSel option').each(function () {
@@ -294,6 +329,41 @@ define([
                 }
             });
             $('#dataUrlInput').val();
+        },
+        onAddToken: function(evt) {
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            var chk = $('#has-token').find('input[type=checkbox]');
+            if(chk && chk[0]){
+                chk[0].checked = !chk[0].checked;
+                if(chk[0].checked) {
+                    $('#token-input-wrapper').css('display', 'block');
+                } else {
+                    $('#token-input-wrapper').css('display', 'none');
+                }
+            }
+
+        },
+        onAddSceneToken: function(evt) {
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            var chk = $('#has-scene-token').find('input[type=checkbox]');
+            if(chk && chk[0]){
+                chk[0].checked = !chk[0].checked;
+                if(chk[0].checked) {
+                    $('#scene-token-input-wrapper').css('display', 'block');
+                } else {
+                    $('#scene-token-input-wrapper').css('display', 'none');
+                }
+            }
         }
     });
 

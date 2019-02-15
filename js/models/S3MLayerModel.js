@@ -46,6 +46,9 @@ define(['backbone', 'Cesium', '../Util', '../Config'], function (Backbone, Cesiu
                         layer.visible = false;
                     }
                     return defer.resolve(layer);
+                }, function() {
+                    Util.showErrorMsg(Resource.loadException);
+                    return;
                 });
             });
         },

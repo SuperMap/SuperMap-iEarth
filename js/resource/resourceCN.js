@@ -20,7 +20,7 @@ define(function(){
         objectEditor : '对象编辑',
         description : '描述',
         compass : '罗盘',
-        s3mLayer : 'S3M/S3MB图层',
+        s3mLayer : 'S3M / S3MB图层',
         imageryLayer : '影像图层',
         terrainLayer : '地形图层',
         sctTerrainLayer : '地形图层',
@@ -436,7 +436,9 @@ define(function(){
         decay: '衰减因子',
         intensity: '光源强度',
         lightSourceColor: '光源颜色',
-        spotLightAngle: '聚光范围'
+        spotLightAngle: '聚光范围',
+        addToken: '添加token',
+        loadException: '加载异常，请检查数据或token'
     };
     return ResourceCN;
 });

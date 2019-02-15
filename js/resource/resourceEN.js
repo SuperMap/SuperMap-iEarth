@@ -20,7 +20,7 @@
         objectEditor : 'Object editor',
         description : 'Description',
         compass : 'Compass',
-        s3mLayer : 'S3M/S3MB Layer',
+        s3mLayer : 'S3M / S3MB Layer',
         imageryLayer : 'Imagery Layer',
         terrainLayer : 'Terrain layer',
         sctTerrainLayer : 'terrain layer',
@@ -436,7 +436,9 @@
         decay: 'decay',
         intensity: 'intensity',
         lightSourceColor: 'light source color',
-        spotLightAngle: 'angle'
+        spotLightAngle: 'angle',
+        addToken: 'add token',
+        loadException: 'load failed, please check data or token'
     };
     return ResourceEN;
 });
