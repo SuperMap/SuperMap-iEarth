@@ -1049,6 +1049,11 @@ div.mark-list-item > img {
     cursor: ns-resize;
 }
 /* 卷帘分割条 end */
+@media screen and (max-width: 1440px) { /* 低分辨率台式机显示器 */
+    #customServicePan > div.function-module-content:first-child {
+        max-height: 430px;
+    }
+}
 
 @media screen and (max-width: 1366px) { /* 普通分辨率的笔记本电脑 */
     .function-module-content {
