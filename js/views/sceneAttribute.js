@@ -75,9 +75,9 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             '<input type="checkbox" id="icon" checked/>',
                             '<span>' + Resource.supermapLogo + '</span>',
                         '</label>',
-                        /*'<label class="third">',
-                            '<input type="checkbox" id="full-screen"/>',
-                            '<span>' + Resource.fullScreen + '</span>',
+                        /*'<label class="third" style="display:none;">',
+                            '<input type="checkbox" id="hdr"/>',
+                            '<span>' + Resource.hdr + '</span>',
                         '</label>',*/
                     '</div>',
                 '</div>',
@@ -351,6 +351,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         '</div>',
                     '</div>',
                 '</div>',
+                '<p style="margin-bottom: 0;">' + Resource.obliqueLightWarning + '</p>',
             '</div>',
             '<div id="light-param-btns" class="light-param-btns">',
                 '<button type="button" id="clear-light-source" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
@@ -464,6 +465,9 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     $("#depthAgainst").click(function (evt) {
                         scene.globe.depthTestAgainstTerrain = !scene.globe.depthTestAgainstTerrain;
                     });
+                    /*$("#hdr").on('input propertychange', function() {
+                       scene.hdrEnabled = $(this).prop('checked');
+                    });*/
                     $("#earth").click(function (evt) {
                         scene.globe.show = !scene.globe.show;
                     });
@@ -486,8 +490,11 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             icon = true;
                         }
                     });
-                    $("#bloom").click(function (evt) {
-                        viewer.scene.bloomEffect.show = !viewer.scene.bloomEffect.show;
+                    $("#bloom").on('input propertychange', function (evt) {
+                        var isOpenBloom = $(this).prop('checked');
+                        viewer.scene.bloomEffect.show = isOpenBloom;
+                        viewer.scene.hdrEnabled = isOpenBloom;
+                        viewer.scene.toneMappingEnabled = isOpenBloom;
                         viewer.scene.bloomEffect.threshold = Number($("#threshold").val());
                         viewer.scene.bloomEffect.bloomIntensity = Number($("#bloomIntensity").val());
                     });

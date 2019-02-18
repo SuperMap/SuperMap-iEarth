@@ -20,7 +20,7 @@ define(function(){
         objectEditor : '对象编辑',
         description : '描述',
         compass : '罗盘',
-        s3mLayer : 'S3M / S3MB图层',
+        s3mLayer : 'S3M图层',
         imageryLayer : '影像图层',
         terrainLayer : '地形图层',
         sctTerrainLayer : '地形图层',
@@ -438,7 +438,9 @@ define(function(){
         lightSourceColor: '光源颜色',
         spotLightAngle: '聚光范围',
         addToken: '添加token',
-        loadException: '加载异常，请检查数据或token'
+        loadException: '加载异常，请检查数据或token',
+        obliqueLightWarning: '注：倾斜摄影数据没有灯光效果',
+        hdr: '高动态范围'
     };
     return ResourceCN;
 });

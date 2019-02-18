@@ -20,7 +20,7 @@
         objectEditor : 'Object editor',
         description : 'Description',
         compass : 'Compass',
-        s3mLayer : 'S3M / S3MB Layer',
+        s3mLayer : 'S3M Layer',
         imageryLayer : 'Imagery Layer',
         terrainLayer : 'Terrain layer',
         sctTerrainLayer : 'terrain layer',
@@ -438,7 +438,9 @@
         lightSourceColor: 'light source color',
         spotLightAngle: 'angle',
         addToken: 'add token',
-        loadException: 'load failed, please check data or token'
+        loadException: 'load failed, please check data or token',
+        obliqueLightWarning: 'Note: oblique photographic data has no lighting effect',
+        hdr: 'high dynamic range'
     };
     return ResourceEN;
 });

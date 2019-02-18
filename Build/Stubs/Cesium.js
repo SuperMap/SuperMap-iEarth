@@ -1174,6 +1174,10 @@ define('DataSources/EllipsoidGraphics', function() {
     return Cesium['EllipsoidGraphics'];
 });
 
+define('DataSources/EmissionMaterialProperty', function() {
+    return Cesium['EmissionMaterialProperty'];
+});
+
 define('DataSources/Entity', function() {
     return Cesium['Entity'];
 });
@@ -1564,6 +1568,10 @@ define('Plot/AlgoSymbol/AlgoSymbol', function() {
 
 define('Plot/Cell/SymbolAlgoUtil', function() {
     return Cesium['SymbolAlgoUtil'];
+});
+
+define('Plot/Cell/SymbolAnnotation', function() {
+    return Cesium['SymbolAnnotation'];
 });
 
 define('Plot/Cell/SymbolArbitraryPolygon', function() {
@@ -2180,6 +2188,10 @@ define('S3MTiles/S3MDataParser', function() {
 
 define('S3MTiles/S3MEntity', function() {
     return Cesium['S3MEntity'];
+});
+
+define('S3MTiles/S3MGroupLayer', function() {
+    return Cesium['S3MGroupLayer'];
 });
 
 define('S3MTiles/S3MInstance', function() {
@@ -3762,6 +3774,10 @@ define('Shaders/Materials/ElevationRampMaterial', function() {
     return Cesium['ElevationRampMaterial'];
 });
 
+define('Shaders/Materials/EmissionMaterial', function() {
+    return Cesium['EmissionMaterial'];
+});
+
 define('Shaders/Materials/FadeMaterial', function() {
     return Cesium['FadeMaterial'];
 });
@@ -3836,6 +3852,18 @@ define('Shaders/PostProcessFilters/AmbientOcclusion', function() {
 
 define('Shaders/PostProcessFilters/BloomBrightPass', function() {
     return Cesium['BloomBrightPass'];
+});
+
+define('Shaders/PostProcessFilters/BloomDownsample', function() {
+    return Cesium['BloomDownsample'];
+});
+
+define('Shaders/PostProcessFilters/BloomPrefilter', function() {
+    return Cesium['BloomPrefilter'];
+});
+
+define('Shaders/PostProcessFilters/BloomUpsample', function() {
+    return Cesium['BloomUpsample'];
 });
 
 define('Shaders/PostProcessFilters/BrightPass', function() {
