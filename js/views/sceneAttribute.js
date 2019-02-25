@@ -471,13 +471,14 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     $("#earth").click(function (evt) {
                         scene.globe.show = !scene.globe.show;
                     });
-                    $("#timeline").click(function () {
-                        var timeline = viewer.timeline.container.style.visibility;
-                        if (timeline == "visible") {
-                            viewer.timeline.container.style.visibility = 'hidden';
-                        }
-                        else {
+                    $("#timeline").on("input propertychange", function () {
+                        var isTimelineShow = $(this).prop('checked');
+                        if(isTimelineShow) {
+                            $("#baselayer-source").addClass('baselayer-source-adjust');
                             viewer.timeline.container.style.visibility = 'visible';
+                        } else {
+                            $("#baselayer-source").removeClass('baselayer-source-adjust');
+                            viewer.timeline.container.style.visibility = 'hidden';
                         }
                     });
                     $("#icon").click(function (evt) {

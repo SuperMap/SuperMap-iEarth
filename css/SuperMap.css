@@ -850,6 +850,9 @@ ul#progress li:first-child {
 		left: 50%;
 		transform: translateX(-50%);
 	}
+	.baselayer-source-adjust {
+		bottom: 35px !important;
+	}
 }
 
 @media screen and (max-width: 600px){

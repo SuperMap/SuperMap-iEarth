@@ -31,7 +31,7 @@ define(['backbone', 'Cesium', '../Util', '../Config'], function (Backbone, Cesiu
                 }
                 return defer.resolve(layer);
             }, function(error) {
-                var s3mbPromise = viewer.scene.addS3MBTilesLayer(scpUrl, {
+                /*var s3mbPromise = viewer.scene.addS3MBTilesLayer(scpUrl, {
                     name: name
                 });
                 return Cesium.when(s3mbPromise, function (layer) {
@@ -49,7 +49,8 @@ define(['backbone', 'Cesium', '../Util', '../Config'], function (Backbone, Cesiu
                 }, function() {
                     Util.showErrorMsg(Resource.loadException);
                     return;
-                });
+                });*/
+                console.log(error);
             });
         },
         removeLayer: function (viewer) {
