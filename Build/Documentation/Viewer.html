@@ -1,0 +1,4637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Viewer - Cesium Documentation</title>
+
+    <!--[if lt IE 9]>
+      <script src="javascript/html5.js"></script>
+    <![endif]-->
+    <link href="styles/jsdoc-default.css" rel="stylesheet">
+    <link href="styles/prism.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">
+        <a href="index.html"><img src="images/SuperMapLogo.png" class="SuperMapLogo"></a>
+        Viewer
+        <div class="titleCenterer"></div>
+    </h1>
+
+    
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="Viewer">
+        <a href="#Viewer" class="doc-link"></a>
+        new Cesium.Viewer<span class="signature">(container, <span class="optional">options</span>)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Viewer是用于构建应用程序的基础部件，它将所有标准的Cesium部件组合成一个可重复使用的包。viewer部件通常可以利用mixin来扩展，以此增加对各种应用程序有用的功能函数。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>container</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                
+
+                
+            
+                指定容纳viewer部件的HTML元素的文档对象模型（DOM）或ID。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                对象具有以下属性:
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>clock</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Clock.html">Clock</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">new Clock()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                用于控制当前时间的时钟。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>selectedImageryProviderViewModel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="ProviderViewModel.html">ProviderViewModel</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                当前基础图像图层的视图模型，如若未提供，则使用第一个可用基础图层。此值仅在 options.baseLayerPicker 设置为true时有效。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>imageryProviderViewModels</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="ProviderViewModel.html">ProviderViewModel</a>></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">createDefaultImageryProviderViewModels()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                ProviderViewModels数组可从BaseLayerPicker中选择。此值仅在 options.baseLayerPicker 设置为true时有效。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>selectedTerrainProviderViewModel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="ProviderViewModel.html">ProviderViewModel</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                当前基础地形图层的视图模型，如若未提供，则使用第一个可用基础图层。此值仅在 options.baseLayerPicker 设置为true时有效。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>terrainProviderViewModels</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="ProviderViewModel.html">ProviderViewModel</a>></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">createDefaultTerrainProviderViewModels()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                ProviderViewModels数组可从BaseLayerPicker中选择。此值仅在 options.baseLayerPicker 设置为true时有效。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>imageryProvider</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="ImageryProvider.html">ImageryProvider</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">new BingMapsImageryProvider()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                使用的影像提供者。此值仅在 options.baseLayerPicker 设置为 false 时有效。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>terrainProvider</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="TerrainProvider.html">TerrainProvider</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">new EllipsoidTerrainProvider()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                使用的地形提供者。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skyBox</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="SkyBox.html">SkyBox</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                用于渲染星辰的天空盒，未定义时，使用默认星辰效果。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skyAtmosphere</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="SkyAtmosphere.html">SkyAtmosphere</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                环绕地球边缘的蓝天和光晕效果，设置为false可将其关闭。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>useDefaultRenderLoop</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">true</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                如果此部件能够控制渲染循环，设置为true，反之设置为false。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>targetFrameRate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                使用默认渲染循环时的目标帧速率。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>showRenderLoopErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">true</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                如果设置为true，发生渲染循环错误时，将自动给用户显示一个包含错误信息的HTML面板。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>automaticallyTrackDataSourceClocks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">true</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                如果设置为true，将自动跟踪新添加数据源的时钟设置，如果数据源的时钟变更，则更新。如需单独设置时钟，请将此项设置为false。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contextOptions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                Context and WebGL 创建属性与传递给<a href="Scene.html"><code>Scene</code></a>匹配的选项.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mapProjection</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="MapProjection.html">MapProjection</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">new GeographicProjection()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                在二维和Columbus视图模式下所使用的地图投影。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>globe</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Globe.html">Globe</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">new Globe(mapProjection.ellipsoid)</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                场景中的地球，如果此项设置为false，将不添加球体对象。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>orderIndependentTranslucency</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">true</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                如果此项设置为true，并且使用设备支持，将使用与顺序无关的半透明。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>creditContainer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                指定包含<a href="CreditDisplay.html"><code>CreditDisplay</code></a>信息的DOM元素或ID。如若未指定，credit信息将添加到部件底部。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dataSources</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="DataSourceCollection.html">DataSourceCollection</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">new DataSourceCollection()</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                指定由viewer部件可视化的数据源集合。如果提供此参数，实例由调用者拥有，并且viewer被销毁时此实例不被销毁。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>terrainExaggeration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">1.0</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                用于夸大地形的标量。请注意，设置地形夸张不会修改其它任何数据。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>shadows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">false</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                确定阴影是否由太阳投射形成。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>terrainShadows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="ShadowMode.html">ShadowMode</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">ShadowMode.RECEIVE_ONLY</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                确定地形是否投射或接受来自太阳的阴影。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mapMode2D</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="MapMode2D.html">MapMode2D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">MapMode2D.INFINITE_SCROLL</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                确定二维地图是可旋转的或是可以在在水平方向上无限滚动。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>navigation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">false</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                是否显示导航罗盘控件。如需显示，需在初始化viewer时此项设置为true。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type"><a href="DeveloperError.html">DeveloperError</a></span>
+
+: 文档中不存在具有该标识的"container"元素。
+    </div>
+
+</li>
+        
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type"><a href="DeveloperError.html">DeveloperError</a></span>
+
+: 在使用BaseLayerPicker部件时，options.imageryProvider不可用，请更改为指定options.selectedImageryProviderViewModel。
+    </div>
+
+</li>
+        
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type"><a href="DeveloperError.html">DeveloperError</a></span>
+
+: 在使用BaseLayerPicker部件时，options.terrainProvider不可用，请更改为指定options.selectedTerrainProviderViewModel。
+    </div>
+
+</li>
+        
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type"><a href="DeveloperError.html">DeveloperError</a></span>
+
+: 在使用BaseLayerPicker部件时，options.selectedImageryProviderViewModel不可用，请更改为指定options.imageryProvider。
+    </div>
+
+</li>
+        
+            <li>
+
+    <div class="param-desc">
+        
+<span class="param-type"><a href="DeveloperError.html">DeveloperError</a></span>
+
+: 在使用BaseLayerPicker部件时，options.selectedTerrainProviderViewModel不可用，请更改为指定options.terrainProvider 。
+    </div>
+
+</li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Example:</h5>
+        
+    <pre><code class="language-javascript">//初始化viewer部件var viewer = new Cesium.Viewer('cesiumContainer', {    //使用 STK World Terrain    terrainProvider : new Cesium.CesiumTerrainProvider({        url : 'https://assets.agi.com/stk-terrain/world'    }),    //使用OpenStreetMaps    imageryProvider : Cesium.createOpenStreetMapImageryProvider({        url : 'https://a.tile.openstreetmap.org/'    }),});//添加基础拖放功能viewer.extend(Cesium.viewerDragDropMixin);//处理删除文件时遇到错误，显示弹出式警告。viewer.dropError.addEventListener(function(dropHandler, name, error) {    console.log(error);    window.alert(error);});</code></pre>
+
+    
+
+    
+
+    
+
+    
+    <h5>See:</h5>
+    <ul class="see-list">
+        <li><a href="Animation.html">Animation</a></li>
+    
+        <li><a href="BaseLayerPicker.html">BaseLayerPicker</a></li>
+    
+        <li><a href="CesiumWidget.html">CesiumWidget</a></li>
+    
+        <li><a href="FullscreenButton.html">FullscreenButton</a></li>
+    
+        <li><a href="HomeButton.html">HomeButton</a></li>
+    
+        <li><a href="SceneModePicker.html">SceneModePicker</a></li>
+    
+        <li><a href="Timeline.html">Timeline</a></li>
+    
+        <li><a href="viewerDragDropMixin.html">viewerDragDropMixin</a></li>
+    </ul>
+    
+
+    
+</dl>
+
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="allowDataSourcesToSuspendAnimation">
+        <a href="#allowDataSourcesToSuspendAnimation" class="doc-link"></a>
+        allowDataSourcesToSuspendAnimation<span class="type-signature"> : Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置数据源是否可以暂时暂停动画，以避免向用户显示不完整的图片。例如，假如后台正在处理异步函数，在几何图形准备就绪前，时钟不会前进。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="animation">
+        <a href="#animation" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>animation<span class="type-signature"> : <a href="Animation.html">Animation</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取动画(Animation)部件。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="baseLayerPicker">
+        <a href="#baseLayerPicker" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>baseLayerPicker<span class="type-signature"> : <a href="BaseLayerPicker.html">BaseLayerPicker</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取基础图层拾取器(BaseLayerPicker)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="bottomContainer">
+        <a href="#bottomContainer" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>bottomContainer<span class="type-signature"> : Element</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取窗口底部包含<a href="CreditDisplay.html"><code>CreditDisplay</code></a>及其他潜在信息的DOM元素。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="camera">
+        <a href="#camera" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>camera<span class="type-signature"> : <a href="Camera.html">Camera</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取相机(camera)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="canvas">
+        <a href="#canvas" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>canvas<span class="type-signature"> : Canvas</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取画布(canvas)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="cesiumLogo">
+        <a href="#cesiumLogo" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>cesiumLogo<span class="type-signature"> : Element</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取Cesium商标元素。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="cesiumWidget">
+        <a href="#cesiumWidget" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>cesiumWidget<span class="type-signature"> : <a href="CesiumWidget.html">CesiumWidget</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取CesiumWidget对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="clock">
+        <a href="#clock" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>clock<span class="type-signature"> : <a href="Clock.html">Clock</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取时钟(clock)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="clockViewModel">
+        <a href="#clockViewModel" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>clockViewModel<span class="type-signature"> : <a href="ClockViewModel.html">ClockViewModel</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取时钟视图模型。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="container">
+        <a href="#container" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>container<span class="type-signature"> : Element</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取父容器。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="dataSourceDisplay">
+        <a href="#dataSourceDisplay" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>dataSourceDisplay<span class="type-signature"> : <a href="DataSourceDisplay.html">DataSourceDisplay</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取用于<a href="DataSource.html"><code>DataSource</code></a>的显示。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="dataSources">
+        <a href="#dataSources" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>dataSources<span class="type-signature"> : <a href="DataSourceCollection.html">DataSourceCollection</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置将要被可视化的数据源<a href="DataSource.html"><code>DataSource</code></a>实例集合。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="entities">
+        <a href="#entities" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>entities<span class="type-signature"> : <a href="EntityCollection.html">EntityCollection</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取与特定数据源无关的实体集合。这是访问<a href="Viewer.html#dataSourceDisplay"><code>dataSourceDisplay.defaultDataSource.entities</code></a>的快捷方式。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="fullscreenButton">
+        <a href="#fullscreenButton" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>fullscreenButton<span class="type-signature"> : <a href="FullscreenButton.html">FullscreenButton</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取全屏按钮(FullscreenButton)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="geocoder">
+        <a href="#geocoder" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>geocoder<span class="type-signature"> : <a href="Geocoder.html">Geocoder</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取地理编码器(Geocoder)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="homeButton">
+        <a href="#homeButton" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>homeButton<span class="type-signature"> : <a href="HomeButton.html">HomeButton</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取主页按钮(HomeButton)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="imageryLayers">
+        <a href="#imageryLayers" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>imageryLayers<span class="type-signature"> : <a href="ImageryLayerCollection.html">ImageryLayerCollection</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取将在地球上渲染的影像图层集合。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="infoBox">
+        <a href="#infoBox" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>infoBox<span class="type-signature"> : <a href="InfoBox.html">InfoBox</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取信息框(InfoBox)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="navigationHelpButton">
+        <a href="#navigationHelpButton" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>navigationHelpButton<span class="type-signature"> : <a href="NavigationHelpButton.html">NavigationHelpButton</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取导航帮助按钮(NavigationHelpButton)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="projectionPicker">
+        <a href="#projectionPicker" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>projectionPicker<span class="type-signature"> : <a href="ProjectionPicker.html">ProjectionPicker</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取投影拾取器。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="resolutionScale">
+        <a href="#resolutionScale" class="doc-link"></a>
+        resolutionScale<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置渲染分辨率的缩放因子。值小于1.0时能够在不太强大的设备上提高性能；相反，值大于1.0时将会以更高分辨率渲染，然后按比例缩小，以此提高视觉保真度。例如窗口部件以640x480的大小布设，将此属性设置为0.5，将导致场景以320x240分辨率渲染，场景按比例放大，而将其设置为2.0将导致场景以1280x960渲染，场景按比例缩小。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <span class="details-header">Default Value:</span>
+    <code class="language-javascript">1.0</code>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="scene">
+        <a href="#scene" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>scene<span class="type-signature"> : <a href="Scene.html">Scene</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取场景(scene)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="sceneModePicker">
+        <a href="#sceneModePicker" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>sceneModePicker<span class="type-signature"> : <a href="SceneModePicker.html">SceneModePicker</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取场景模式拾取器(SceneModePicker)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="screenSpaceEventHandler">
+        <a href="#screenSpaceEventHandler" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>screenSpaceEventHandler<span class="type-signature"> : <a href="ScreenSpaceEventHandler.html">ScreenSpaceEventHandler</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取屏幕空间事件处理程序。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="selectedEntity">
+        <a href="#selectedEntity" class="doc-link"></a>
+        selectedEntity<span class="type-signature"> : <a href="Entity.html">Entity</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置为其显示选择指示符的对象实例。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="selectedEntityChanged">
+        <a href="#selectedEntityChanged" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>selectedEntityChanged<span class="type-signature"> : <a href="Event.html">Event</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取选择实体对象变化时引发的事件。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="selectionIndicator">
+        <a href="#selectionIndicator" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>selectionIndicator<span class="type-signature"> : <a href="SelectionIndicator.html">SelectionIndicator</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取选择指示符(SelectionIndicator)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="shadowMap">
+        <a href="#shadowMap" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>shadowMap<span class="type-signature"> : <a href="ShadowMap.html">ShadowMap</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取场景的阴影地图。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="shadows">
+        <a href="#shadows" class="doc-link"></a>
+        shadows<span class="type-signature"> : Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        确定阴影是否由太阳投射形成。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="targetFrameRate">
+        <a href="#targetFrameRate" class="doc-link"></a>
+        targetFrameRate<span class="type-signature"> : Number</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        当useDefaultRenderLoop设置为true时，获取或设置部件的目标帧速率。如果未定义此属性，由浏览器的<a href="requestAnimationFrame.html"><code>requestAnimationFrame</code></a>实现确定帧速率；如果已定义此属性，该值应大于0，并且大于底层requestAnimationFrame的值将不起作用。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="terrainProvider">
+        <a href="#terrainProvider" class="doc-link"></a>
+        terrainProvider<span class="type-signature"> : <a href="TerrainProvider.html">TerrainProvider</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        为地球提供表面几何图形的地形提供者(TerrainProvider)对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="terrainShadows">
+        <a href="#terrainShadows" class="doc-link"></a>
+        terrainShadows<span class="type-signature"> : <a href="ShadowMode.html">ShadowMode</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        确定地形是否投射或接受来自太阳的阴影。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="timeline">
+        <a href="#timeline" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>timeline<span class="type-signature"> : <a href="Timeline.html">Timeline</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取时间轴(Timeline)部件。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="trackedEntity">
+        <a href="#trackedEntity" class="doc-link"></a>
+        trackedEntity<span class="type-signature"> : <a href="Entity.html">Entity</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置当前由相机跟踪的实体实例。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="trackedEntityChanged">
+        <a href="#trackedEntityChanged" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>trackedEntityChanged<span class="type-signature"> : <a href="Event.html">Event</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取跟踪实体对象变化时引发的事件。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="useDefaultRenderLoop">
+        <a href="#useDefaultRenderLoop" class="doc-link"></a>
+        useDefaultRenderLoop<span class="type-signature"> : Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取或设置部件是否能够控制渲染循环。<br></br>设置为true时，部件将使用requestAnimationFrame来执行渲染和调整部件大小，以及驱动时钟模拟；设置为false时，则必须手动调用render、resize方法来作为自定义循环渲染的一部分。<br></br>如果渲染期间发生错误，将触发Scene的renderError事件，并且此属性将更改为false，错误发生后此属性必须改回true才能继续渲染。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="vrButton">
+        <a href="#vrButton" class="doc-link"></a>
+        <span class="type-signature attribute-readonly">readonly</span>vrButton<span class="type-signature"> : <a href="VRButton.html">VRButton</a></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        获取VRButton对象。
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="destroy">
+        <a href="#destroy" class="doc-link"></a>
+        destroy<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        释放对象占用的资源。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="extend">
+        <a href="#extend" class="doc-link"></a>
+        extend<span class="signature">(mixin, <span class="optional">options</span>)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        使用提供的mixin来扩展基础viewer功能。mixin 可以向提供的viewer实例增加额外的属性、功能或者其他行为。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>mixin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Viewer.html#~ViewerMixin">Viewer~ViewerMixin</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                
+
+                
+            
+                指定将要被添加到实例的Viewer mixin对象。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                指定传递给mixin函数的options对象。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>See:</h5>
+    <ul class="see-list">
+        <li><a href="viewerDragDropMixin.html">viewerDragDropMixin</a></li>
+    </ul>
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="flyTo">
+        <a href="#flyTo" class="doc-link"></a>
+        flyTo<span class="signature">(target, <span class="optional">options</span>)</span> &rarr; <span class="type-signature returnType">Promise.&lt;Boolean></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        相机飞向指定的实体、实体集或数据源。如果数据源仍在加载中，或者可视化仍在进行，此方法在执行飞行前需等待数据准备就绪。<p>offset变量由在局部“东-北-上”参考系（中心点为包围球中心）中的“方位角/俯仰角/范围”表示。方位角和俯仰角的角度在局部“东-北-上”参考系中定义。方位角heading是从y轴开始并朝向x轴增加的角度值。俯仰角pitch是从xy平面开始的旋转角度，俯仰角为正表示位于平面上方，为负表示位于平面下方。距离range表示距中心点的距离，如果range为0，则将计算一个范围使得整个包围球可见。</p><p>在二维中必须有自上而下的视图。相机位于俯视目标上方。range为在目标上方的高度；headingy由偏移量确定，若不能根据偏移量确定方位角，heading为北方向。</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Entity.html">Entity</a></span>
+|
+
+<span class="param-type">Array.&lt;<a href="Entity.html">Entity</a>></span>
+|
+
+<span class="param-type"><a href="EntityCollection.html">EntityCollection</a></span>
+|
+
+<span class="param-type"><a href="DataSource.html">DataSource</a></span>
+|
+
+<span class="param-type"><a href="ImageryLayer.html">ImageryLayer</a></span>
+|
+
+<span class="param-type">Promise.&lt;(<a href="Entity.html">Entity</a>|Array.&lt;<a href="Entity.html">Entity</a>>|<a href="EntityCollection.html">EntityCollection</a>|<a href="DataSource.html">DataSource</a>|<a href="ImageryLayer.html">ImageryLayer</a>)></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                
+
+                
+            
+                指定要查看的实体、实体集、数据源或影像图层。还可以指定一个promise来解析前述类型之一。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                对象具有以下属性:
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                    <code class="language-javascript">3.0</code>
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行持续时间（以秒为单位）。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maximumHeight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                飞行中的最大高度。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="HeadingPitchRange.html">HeadingPitchRange</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                在以目标为中心的局部“东-北-上”参考系中，距离目标的偏移量。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    飞行成功时，promise被解析为true；如果实体未在场景中可视化或飞行取消，promise被解析为false。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="forceResize">
+        <a href="#forceResize" class="doc-link"></a>
+        forceResize<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        强制重调，使得部件重新考虑包括部件大小、credit放置等布局。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="isDestroyed">
+        <a href="#isDestroyed" class="doc-link"></a>
+        isDestroyed<span class="signature">()</span> &rarr; <span class="type-signature returnType">Boolean</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        返回是否释放对象占用的资源。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true表示已释放占用资源，否则返回false。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="render">
+        <a href="#render" class="doc-link"></a>
+        render<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        渲染场景。除非useDefaultRenderLoop设置为false，否则将自动调用此函数。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="resize">
+        <a href="#resize" class="doc-link"></a>
+        resize<span class="signature">()</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        调整部件大小以匹配容器。此函数将根据需求自动调用，除非<code>useDefaultRenderLoop</code> 设置为false。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="zoomTo">
+        <a href="#zoomTo" class="doc-link"></a>
+        zoomTo<span class="signature">(target, <span class="optional">offset</span>)</span> &rarr; <span class="type-signature returnType">Promise.&lt;Boolean></span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        异步设置相机，以查看指定的实体、实体集或数据源。如果数据源仍在加载中，或者可视化仍在进行，此方法在执行缩放前需等待数据准备就绪。<p>offset变量由在局部“东-北-上”参考系（中心点为包围球中心）中的“方位角/俯仰角/范围”表示。方位角和俯仰角的角度在局部“东-北-上”参考系中定义。方位角heading是从y轴开始并朝向x轴增加的角度值。俯仰角pitch是从xy平面开始的旋转角度，俯仰角为正表示位于平面上方，为负表示位于平面下方。距离range表示距中心点的距离，如果range为0，则将计算一个范围使得整个包围球可见。</p><p>在二维中必须有自上而下的视图。相机位于俯视目标的上方。range 为在目标上方的高度；heading有偏移量确定，不然不能根据偏移量确定方位角，heading为北方向。</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Entity.html">Entity</a></span>
+|
+
+<span class="param-type">Array.&lt;<a href="Entity.html">Entity</a>></span>
+|
+
+<span class="param-type"><a href="EntityCollection.html">EntityCollection</a></span>
+|
+
+<span class="param-type"><a href="DataSource.html">DataSource</a></span>
+|
+
+<span class="param-type"><a href="ImageryLayer.html">ImageryLayer</a></span>
+|
+
+<span class="param-type">Promise.&lt;(<a href="Entity.html">Entity</a>|Array.&lt;<a href="Entity.html">Entity</a>>|<a href="EntityCollection.html">EntityCollection</a>|<a href="DataSource.html">DataSource</a>|<a href="ImageryLayer.html">ImageryLayer</a>)></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                
+
+                
+            
+                指定要查看的实体、实体集、数据源或影像图层。还可以指定一个promise来解析前述类型之一。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="HeadingPitchRange.html">HeadingPitchRange</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                
+                        <span class="optional">optional</span>
+                
+                
+
+                
+            
+                指定距局部“东-北-上”参考系中心的偏移量。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    缩放成功时，promise被解析为true；如果实体未在场景中可视化或缩放取消，promise被解析为false。
+</div>
+
+
+        
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+<dt>
+    <div class="nameContainer">
+    <h4 class="name" id="~ViewerMixin">
+        <a href="#~ViewerMixin" class="doc-link"></a>
+        ViewerMixin<span class="signature">(viewer, options)</span>
+        
+
+
+    </h4>
+
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        增加具有附加功能的Viewer实例的函数。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>viewer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Viewer.html">Viewer</a></span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                viewer实例对象。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            <td class="description last">
+            
+                传递给mixin函数的options对象。</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>See:</h5>
+    <ul class="see-list">
+        <li><a href="Viewer.html#extend">Viewer#extend</a></li>
+    </ul>
+    
+
+    
+</dl>
+
+</dd>
+
+            </dl>
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+    <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+    </footer>
+</div>
+
+<div class="nav">
+    <div class="menu">
+        <input type="text" class="classFilter" id="ClassFilter" placeholder="Search">
+        <ul id="ClassList"><li data-name="AlgoSymbol"><a href="AlgoSymbol.html">AlgoSymbol</a></li><li data-name="Animation"><a href="Animation.html">Animation</a></li><li data-name="AnimationViewModel"><a href="AnimationViewModel.html">AnimationViewModel</a></li><li data-name="Appearance"><a href="Appearance.html">Appearance</a></li><li data-name="ArcGisMapServerImageryProvider"><a href="ArcGisMapServerImageryProvider.html">ArcGisMapServerImageryProvider</a></li><li data-name="AssociativeArray"><a href="AssociativeArray.html">AssociativeArray</a></li><li data-name="AutomaticUniforms"><a href="AutomaticUniforms.html">AutomaticUniforms</a></li><li data-name="AxisAlignedBoundingBox"><a href="AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a></li><li data-name="barycentricCoordinates"><a href="barycentricCoordinates.html">barycentricCoordinates</a></li><li data-name="BaseLayerPicker"><a href="BaseLayerPicker.html">BaseLayerPicker</a></li><li data-name="BaseLayerPickerViewModel"><a href="BaseLayerPickerViewModel.html">BaseLayerPickerViewModel</a></li><li data-name="Billboard"><a href="Billboard.html">Billboard</a></li><li data-name="BillboardCollection"><a href="BillboardCollection.html">BillboardCollection</a></li><li data-name="BillboardGraphics"><a href="BillboardGraphics.html">BillboardGraphics</a></li><li data-name="BillboardVisualizer"><a href="BillboardVisualizer.html">BillboardVisualizer</a></li><li data-name="binarySearch"><a href="binarySearch.html">binarySearch</a></li><li data-name="BingMapsApi"><a href="BingMapsApi.html">BingMapsApi</a></li><li data-name="BingMapsGeocoderService"><a href="BingMapsGeocoderService.html">BingMapsGeocoderService</a></li><li data-name="BingMapsImageryProvider"><a href="BingMapsImageryProvider.html">BingMapsImageryProvider</a></li><li data-name="BingMapsStyle"><a href="BingMapsStyle.html">BingMapsStyle</a></li><li data-name="BlendEquation"><a href="BlendEquation.html">BlendEquation</a></li><li data-name="BlendFunction"><a href="BlendFunction.html">BlendFunction</a></li><li data-name="BlendingState"><a href="BlendingState.html">BlendingState</a></li><li data-name="BlendOption"><a href="BlendOption.html">BlendOption</a></li><li data-name="BlinkAnimationBlinkStyle"><a href="BlinkAnimationBlinkStyle.html">BlinkAnimationBlinkStyle</a></li><li data-name="BlinkAnimationReplaceStyle"><a href="BlinkAnimationReplaceStyle.html">BlinkAnimationReplaceStyle</a></li><li data-name="BloomEffect"><a href="BloomEffect.html">BloomEffect</a></li><li data-name="BoundingRectangle"><a href="BoundingRectangle.html">BoundingRectangle</a></li><li data-name="BoundingSphere"><a href="BoundingSphere.html">BoundingSphere</a></li><li data-name="BoxEmitter"><a href="BoxEmitter.html">BoxEmitter</a></li><li data-name="BoxGeometry"><a href="BoxGeometry.html">BoxGeometry</a></li><li data-name="BoxGeometryUpdater"><a href="BoxGeometryUpdater.html">BoxGeometryUpdater</a></li><li data-name="BoxGraphics"><a href="BoxGraphics.html">BoxGraphics</a></li><li data-name="BoxOutlineGeometry"><a href="BoxOutlineGeometry.html">BoxOutlineGeometry</a></li><li data-name="Buffer"><a href="Buffer.html">Buffer</a></li><li data-name="BufferManager"><a href="BufferManager.html">BufferManager</a></li><li data-name="CallbackProperty"><a href="CallbackProperty.html">CallbackProperty</a></li><li data-name="Camera"><a href="Camera.html">Camera</a></li><li data-name="CameraEventAggregator"><a href="CameraEventAggregator.html">CameraEventAggregator</a></li><li data-name="CameraEventType"><a href="CameraEventType.html">CameraEventType</a></li><li data-name="cancelAnimationFrame"><a href="cancelAnimationFrame.html">cancelAnimationFrame</a></li><li data-name="Cartesian2"><a href="Cartesian2.html">Cartesian2</a></li><li data-name="Cartesian3"><a href="Cartesian3.html">Cartesian3</a></li><li data-name="Cartesian4"><a href="Cartesian4.html">Cartesian4</a></li><li data-name="Cartographic"><a href="Cartographic.html">Cartographic</a></li><li data-name="CartographicGeocoderService"><a href="CartographicGeocoderService.html">CartographicGeocoderService</a></li><li data-name="CatmullRomSpline"><a href="CatmullRomSpline.html">CatmullRomSpline</a></li><li data-name="Cesium3DTile"><a href="Cesium3DTile.html">Cesium3DTile</a></li><li data-name="Cesium3DTileColorBlendMode"><a href="Cesium3DTileColorBlendMode.html">Cesium3DTileColorBlendMode</a></li><li data-name="Cesium3DTileContent"><a href="Cesium3DTileContent.html">Cesium3DTileContent</a></li><li data-name="Cesium3DTileFeature"><a href="Cesium3DTileFeature.html">Cesium3DTileFeature</a></li><li data-name="Cesium3DTileset"><a href="Cesium3DTileset.html">Cesium3DTileset</a></li><li data-name="Cesium3DTilesInspector"><a href="Cesium3DTilesInspector.html">Cesium3DTilesInspector</a></li><li data-name="Cesium3DTilesInspectorViewModel"><a href="Cesium3DTilesInspectorViewModel.html">Cesium3DTilesInspectorViewModel</a></li><li data-name="Cesium3DTileStyle"><a href="Cesium3DTileStyle.html">Cesium3DTileStyle</a></li><li data-name="CesiumInspector"><a href="CesiumInspector.html">CesiumInspector</a></li><li data-name="CesiumInspectorViewModel"><a href="CesiumInspectorViewModel.html">CesiumInspectorViewModel</a></li><li data-name="CesiumMath"><a href="CesiumMath.html">CesiumMath</a></li><li data-name="CesiumTerrainProvider"><a href="CesiumTerrainProvider.html">CesiumTerrainProvider</a></li><li data-name="CesiumWidget"><a href="CesiumWidget.html">CesiumWidget</a></li><li data-name="CheckerboardMaterialProperty"><a href="CheckerboardMaterialProperty.html">CheckerboardMaterialProperty</a></li><li data-name="CircleEmitter"><a href="CircleEmitter.html">CircleEmitter</a></li><li data-name="CircleGeometry"><a href="CircleGeometry.html">CircleGeometry</a></li><li data-name="CircleOutlineGeometry"><a href="CircleOutlineGeometry.html">CircleOutlineGeometry</a></li><li data-name="ClampMode"><a href="ClampMode.html">ClampMode</a></li><li data-name="ClearCommand"><a href="ClearCommand.html">ClearCommand</a></li><li data-name="Clock"><a href="Clock.html">Clock</a></li><li data-name="ClockRange"><a href="ClockRange.html">ClockRange</a></li><li data-name="ClockStep"><a href="ClockStep.html">ClockStep</a></li><li data-name="ClockViewModel"><a href="ClockViewModel.html">ClockViewModel</a></li><li data-name="clone"><a href="clone.html">clone</a></li><li data-name="Color"><a href="Color.html">Color</a></li><li data-name="ColorBlendMode"><a href="ColorBlendMode.html">ColorBlendMode</a></li><li data-name="ColorCorrection"><a href="ColorCorrection.html">ColorCorrection</a></li><li data-name="ColorGeometryInstanceAttribute"><a href="ColorGeometryInstanceAttribute.html">ColorGeometryInstanceAttribute</a></li><li data-name="ColorMaterialProperty"><a href="ColorMaterialProperty.html">ColorMaterialProperty</a></li><li data-name="ColorTable"><a href="ColorTable.html">ColorTable</a></li><li data-name="combine"><a href="combine.html">combine</a></li><li data-name="Command"><a href="Command.html">Command</a></li><li data-name="ComponentDatatype"><a href="ComponentDatatype.html">ComponentDatatype</a></li><li data-name="CompositeEntityCollection"><a href="CompositeEntityCollection.html">CompositeEntityCollection</a></li><li data-name="CompositeMaterialProperty"><a href="CompositeMaterialProperty.html">CompositeMaterialProperty</a></li><li data-name="CompositePositionProperty"><a href="CompositePositionProperty.html">CompositePositionProperty</a></li><li data-name="CompositeProperty"><a href="CompositeProperty.html">CompositeProperty</a></li><li data-name="ComputeCommand"><a href="ComputeCommand.html">ComputeCommand</a></li><li data-name="ConditionsExpression"><a href="ConditionsExpression.html">ConditionsExpression</a></li><li data-name="ConeEmitter"><a href="ConeEmitter.html">ConeEmitter</a></li><li data-name="ConstantPositionProperty"><a href="ConstantPositionProperty.html">ConstantPositionProperty</a></li><li data-name="ConstantProperty"><a href="ConstantProperty.html">ConstantProperty</a></li><li data-name="Context"><a href="Context.html">Context</a></li><li data-name="ContextLimits"><a href="ContextLimits.html">ContextLimits</a></li><li data-name="CornerType"><a href="CornerType.html">CornerType</a></li><li data-name="CorridorGeometry"><a href="CorridorGeometry.html">CorridorGeometry</a></li><li data-name="CorridorGeometryUpdater"><a href="CorridorGeometryUpdater.html">CorridorGeometryUpdater</a></li><li data-name="CorridorGraphics"><a href="CorridorGraphics.html">CorridorGraphics</a></li><li data-name="CorridorOutlineGeometry"><a href="CorridorOutlineGeometry.html">CorridorOutlineGeometry</a></li><li data-name="createCommand"><a href="createCommand.html">createCommand</a></li><li data-name="createGuid"><a href="createGuid.html">createGuid</a></li><li data-name="createOpenStreetMapImageryProvider"><a href="createOpenStreetMapImageryProvider.html">createOpenStreetMapImageryProvider</a></li><li data-name="createTangentSpaceDebugPrimitive"><a href="createTangentSpaceDebugPrimitive.html">createTangentSpaceDebugPrimitive</a></li><li data-name="createTileMapServiceImageryProvider"><a href="createTileMapServiceImageryProvider.html">createTileMapServiceImageryProvider</a></li><li data-name="createUniform"><a href="createUniform.html">createUniform</a></li><li data-name="createUniformArray"><a href="createUniformArray.html">createUniformArray</a></li><li data-name="Credential"><a href="Credential.html">Credential</a></li><li data-name="Credit"><a href="Credit.html">Credit</a></li><li data-name="CreditDisplay"><a href="CreditDisplay.html">CreditDisplay</a></li><li data-name="CubeMap"><a href="CubeMap.html">CubeMap</a></li><li data-name="CubeMapFace"><a href="CubeMapFace.html">CubeMapFace</a></li><li data-name="CubicRealPolynomial"><a href="CubicRealPolynomial.html">CubicRealPolynomial</a></li><li data-name="CullFace"><a href="CullFace.html">CullFace</a></li><li data-name="CullingVolume"><a href="CullingVolume.html">CullingVolume</a></li><li data-name="CustomDataSource"><a href="CustomDataSource.html">CustomDataSource</a></li><li data-name="CylinderGeometry"><a href="CylinderGeometry.html">CylinderGeometry</a></li><li data-name="CylinderGeometryUpdater"><a href="CylinderGeometryUpdater.html">CylinderGeometryUpdater</a></li><li data-name="CylinderGraphics"><a href="CylinderGraphics.html">CylinderGraphics</a></li><li data-name="CylinderOutlineGeometry"><a href="CylinderOutlineGeometry.html">CylinderOutlineGeometry</a></li><li data-name="CzmlDataSource"><a href="CzmlDataSource.html">CzmlDataSource</a></li><li data-name="DataSource"><a href="DataSource.html">DataSource</a></li><li data-name="DataSourceClock"><a href="DataSourceClock.html">DataSourceClock</a></li><li data-name="DataSourceCollection"><a href="DataSourceCollection.html">DataSourceCollection</a></li><li data-name="DataSourceDisplay"><a href="DataSourceDisplay.html">DataSourceDisplay</a></li><li data-name="DDSTexture"><a href="DDSTexture.html">DDSTexture</a></li><li data-name="DDSTextureManager"><a href="DDSTextureManager.html">DDSTextureManager</a></li><li data-name="DebugAppearance"><a href="DebugAppearance.html">DebugAppearance</a></li><li data-name="DebugCameraPrimitive"><a href="DebugCameraPrimitive.html">DebugCameraPrimitive</a></li><li data-name="DebugModelMatrixPrimitive"><a href="DebugModelMatrixPrimitive.html">DebugModelMatrixPrimitive</a></li><li data-name="DefaultProxy"><a href="DefaultProxy.html">DefaultProxy</a></li><li data-name="defaultValue"><a href="defaultValue.html">defaultValue</a></li><li data-name="defined"><a href="defined.html">defined</a></li><li data-name="DepthFunction"><a href="DepthFunction.html">DepthFunction</a></li><li data-name="DepthOfFieldEffect"><a href="DepthOfFieldEffect.html">DepthOfFieldEffect</a></li><li data-name="destroyObject"><a href="destroyObject.html">destroyObject</a></li><li data-name="DeveloperError"><a href="DeveloperError.html">DeveloperError</a></li><li data-name="DiscardMissingTileImagePolicy"><a href="DiscardMissingTileImagePolicy.html">DiscardMissingTileImagePolicy</a></li><li data-name="DistanceDisplayCondition"><a href="DistanceDisplayCondition.html">DistanceDisplayCondition</a></li><li data-name="DistanceDisplayConditionGeometryInstanceAttribute"><a href="DistanceDisplayConditionGeometryInstanceAttribute.html">DistanceDisplayConditionGeometryInstanceAttribute</a></li><li data-name="DotMode"><a href="DotMode.html">DotMode</a></li><li data-name="DrawHandler"><a href="DrawHandler.html">DrawHandler</a></li><li data-name="DrawMode"><a href="DrawMode.html">DrawMode</a></li><li data-name="DynamicGeometryUpdater"><a href="DynamicGeometryUpdater.html">DynamicGeometryUpdater</a></li><li data-name="DynamicLayer3D"><a href="DynamicLayer3D.html">DynamicLayer3D</a></li><li data-name="DynamicObjectState"><a href="DynamicObjectState.html">DynamicObjectState</a></li><li data-name="EasingFunction"><a href="EasingFunction.html">EasingFunction</a></li><li data-name="EllipseGeometry"><a href="EllipseGeometry.html">EllipseGeometry</a></li><li data-name="EllipseGeometryUpdater"><a href="EllipseGeometryUpdater.html">EllipseGeometryUpdater</a></li><li data-name="EllipseGraphics"><a href="EllipseGraphics.html">EllipseGraphics</a></li><li data-name="EllipseOutlineGeometry"><a href="EllipseOutlineGeometry.html">EllipseOutlineGeometry</a></li><li data-name="Ellipsoid"><a href="Ellipsoid.html">Ellipsoid</a></li><li data-name="EllipsoidGeodesic"><a href="EllipsoidGeodesic.html">EllipsoidGeodesic</a></li><li data-name="EllipsoidGeometry"><a href="EllipsoidGeometry.html">EllipsoidGeometry</a></li><li data-name="EllipsoidGeometryUpdater"><a href="EllipsoidGeometryUpdater.html">EllipsoidGeometryUpdater</a></li><li data-name="EllipsoidGraphics"><a href="EllipsoidGraphics.html">EllipsoidGraphics</a></li><li data-name="EllipsoidOutlineGeometry"><a href="EllipsoidOutlineGeometry.html">EllipsoidOutlineGeometry</a></li><li data-name="EllipsoidSurfaceAppearance"><a href="EllipsoidSurfaceAppearance.html">EllipsoidSurfaceAppearance</a></li><li data-name="EllipsoidTangentPlane"><a href="EllipsoidTangentPlane.html">EllipsoidTangentPlane</a></li><li data-name="EllipsoidTerrainProvider"><a href="EllipsoidTerrainProvider.html">EllipsoidTerrainProvider</a></li><li data-name="Entity"><a href="Entity.html">Entity</a></li><li data-name="EntityCluster"><a href="EntityCluster.html">EntityCluster</a></li><li data-name="EntityCollection"><a href="EntityCollection.html">EntityCollection</a></li><li data-name="EntityView"><a href="EntityView.html">EntityView</a></li><li data-name="Event"><a href="Event.html">Event</a></li><li data-name="EventHelper"><a href="EventHelper.html">EventHelper</a></li><li data-name="Expression"><a href="Expression.html">Expression</a></li><li data-name="ExtrapolationType"><a href="ExtrapolationType.html">ExtrapolationType</a></li><li data-name="FeatureDetection"><a href="FeatureDetection.html">FeatureDetection</a></li><li data-name="FieldLayer3D"><a href="FieldLayer3D.html">FieldLayer3D</a></li><li data-name="FillGradientMode"><a href="FillGradientMode.html">FillGradientMode</a></li><li data-name="FillStyle"><a href="FillStyle.html">FillStyle</a></li><li data-name="FlyManager"><a href="FlyManager.html">FlyManager</a></li><li data-name="Fog"><a href="Fog.html">Fog</a></li><li data-name="formatError"><a href="formatError.html">formatError</a></li><li data-name="Framebuffer"><a href="Framebuffer.html">Framebuffer</a></li><li data-name="FrameRateMonitor"><a href="FrameRateMonitor.html">FrameRateMonitor</a></li><li data-name="freezeRenderState"><a href="freezeRenderState.html">freezeRenderState</a></li><li data-name="Fullscreen"><a href="Fullscreen.html">Fullscreen</a></li><li data-name="FullscreenButton"><a href="FullscreenButton.html">FullscreenButton</a></li><li data-name="FullscreenButtonViewModel"><a href="FullscreenButtonViewModel.html">FullscreenButtonViewModel</a></li><li data-name="GeoBillboard"><a href="GeoBillboard.html">GeoBillboard</a></li><li data-name="GeoBox"><a href="GeoBox.html">GeoBox</a></li><li data-name="Geocoder"><a href="Geocoder.html">Geocoder</a></li><li data-name="GeocoderService"><a href="GeocoderService.html">GeocoderService</a></li><li data-name="GeocoderViewModel"><a href="GeocoderViewModel.html">GeocoderViewModel</a></li><li data-name="GeoCone"><a href="GeoCone.html">GeoCone</a></li><li data-name="GeoCylinder"><a href="GeoCylinder.html">GeoCylinder</a></li><li data-name="GeoEllipsoid"><a href="GeoEllipsoid.html">GeoEllipsoid</a></li><li data-name="GeoGraphicObject"><a href="GeoGraphicObject.html">GeoGraphicObject</a></li><li data-name="GeographicProjection"><a href="GeographicProjection.html">GeographicProjection</a></li><li data-name="GeographicTilingScheme"><a href="GeographicTilingScheme.html">GeographicTilingScheme</a></li><li data-name="GeoJsonDataSource"><a href="GeoJsonDataSource.html">GeoJsonDataSource</a></li><li data-name="GeoLine3D"><a href="GeoLine3D.html">GeoLine3D</a></li><li data-name="Geometry"><a href="Geometry.html">Geometry</a></li><li data-name="Geometry3D"><a href="Geometry3D.html">Geometry3D</a></li><li data-name="GeometryAttribute"><a href="GeometryAttribute.html">GeometryAttribute</a></li><li data-name="GeometryAttributes"><a href="GeometryAttributes.html">GeometryAttributes</a></li><li data-name="GeometryInstance"><a href="GeometryInstance.html">GeometryInstance</a></li><li data-name="GeometryInstanceAttribute"><a href="GeometryInstanceAttribute.html">GeometryInstanceAttribute</a></li><li data-name="GeometryPipeline"><a href="GeometryPipeline.html">GeometryPipeline</a></li><li data-name="GeometryUpdater"><a href="GeometryUpdater.html">GeometryUpdater</a></li><li data-name="GeometryVisualizer"><a href="GeometryVisualizer.html">GeometryVisualizer</a></li><li data-name="GeoModel3D"><a href="GeoModel3D.html">GeoModel3D</a></li><li data-name="GeoPoint3D"><a href="GeoPoint3D.html">GeoPoint3D</a></li><li data-name="GeoRegion3D"><a href="GeoRegion3D.html">GeoRegion3D</a></li><li data-name="GeoSphere"><a href="GeoSphere.html">GeoSphere</a></li><li data-name="getAbsoluteUri"><a href="getAbsoluteUri.html">getAbsoluteUri</a></li><li data-name="getBaseUri"><a href="getBaseUri.html">getBaseUri</a></li><li data-name="getExtensionFromUri"><a href="getExtensionFromUri.html">getExtensionFromUri</a></li><li data-name="GetFeatureInfoFormat"><a href="GetFeatureInfoFormat.html">GetFeatureInfoFormat</a></li><li data-name="getFilenameFromUri"><a href="getFilenameFromUri.html">getFilenameFromUri</a></li><li data-name="getImagePixels"><a href="getImagePixels.html">getImagePixels</a></li><li data-name="getTimestamp"><a href="getTimestamp.html">getTimestamp</a></li><li data-name="Globe"><a href="Globe.html">Globe</a></li><li data-name="GOAnimationAttribute"><a href="GOAnimationAttribute.html">GOAnimationAttribute</a></li><li data-name="GOAnimationBlink"><a href="GOAnimationBlink.html">GOAnimationBlink</a></li><li data-name="GOAnimationGrow"><a href="GOAnimationGrow.html">GOAnimationGrow</a></li><li data-name="GOAnimationManager"><a href="GOAnimationManager.html">GOAnimationManager</a></li><li data-name="GOAnimationRotate"><a href="GOAnimationRotate.html">GOAnimationRotate</a></li><li data-name="GOAnimationScale"><a href="GOAnimationScale.html">GOAnimationScale</a></li><li data-name="GOAnimationShow"><a href="GOAnimationShow.html">GOAnimationShow</a></li><li data-name="GOAnimationState"><a href="GOAnimationState.html">GOAnimationState</a></li><li data-name="GOAnimationType"><a href="GOAnimationType.html">GOAnimationType</a></li><li data-name="GOAnimationWay"><a href="GOAnimationWay.html">GOAnimationWay</a></li><li data-name="GoogleEarthEnterpriseImageryProvider"><a href="GoogleEarthEnterpriseImageryProvider.html">GoogleEarthEnterpriseImageryProvider</a></li><li data-name="GoogleEarthEnterpriseMapsProvider"><a href="GoogleEarthEnterpriseMapsProvider.html">GoogleEarthEnterpriseMapsProvider</a></li><li data-name="GoogleEarthEnterpriseMetadata"><a href="GoogleEarthEnterpriseMetadata.html">GoogleEarthEnterpriseMetadata</a></li><li data-name="GoogleEarthEnterpriseTerrainData"><a href="GoogleEarthEnterpriseTerrainData.html">GoogleEarthEnterpriseTerrainData</a></li><li data-name="GoogleEarthEnterpriseTerrainProvider"><a href="GoogleEarthEnterpriseTerrainProvider.html">GoogleEarthEnterpriseTerrainProvider</a></li><li data-name="GoogleEarthImageryProvider"><a href="GoogleEarthImageryProvider.html">GoogleEarthImageryProvider</a></li><li data-name="GregorianDate"><a href="GregorianDate.html">GregorianDate</a></li><li data-name="GridImageryProvider"><a href="GridImageryProvider.html">GridImageryProvider</a></li><li data-name="GridMaterialProperty"><a href="GridMaterialProperty.html">GridMaterialProperty</a></li><li data-name="GroundPrimitive"><a href="GroundPrimitive.html">GroundPrimitive</a></li><li data-name="HeadingPitchRange"><a href="HeadingPitchRange.html">HeadingPitchRange</a></li><li data-name="HeadingPitchRoll"><a href="HeadingPitchRoll.html">HeadingPitchRoll</a></li><li data-name="HeightmapTerrainData"><a href="HeightmapTerrainData.html">HeightmapTerrainData</a></li><li data-name="HeightReference"><a href="HeightReference.html">HeightReference</a></li><li data-name="HermitePolynomialApproximation"><a href="HermitePolynomialApproximation.html">HermitePolynomialApproximation</a></li><li data-name="HermiteSpline"><a href="HermiteSpline.html">HermiteSpline</a></li><li data-name="HomeButton"><a href="HomeButton.html">HomeButton</a></li><li data-name="HomeButtonViewModel"><a href="HomeButtonViewModel.html">HomeButtonViewModel</a></li><li data-name="HorizontalOrigin"><a href="HorizontalOrigin.html">HorizontalOrigin</a></li><li data-name="HypsometricSetting"><a href="HypsometricSetting.html">HypsometricSetting</a></li><li data-name="HypsometricSettingEnum"><a href="HypsometricSettingEnum.html">HypsometricSettingEnum</a></li><li data-name="ImageMaterialProperty"><a href="ImageMaterialProperty.html">ImageMaterialProperty</a></li><li data-name="ImageryLayer"><a href="ImageryLayer.html">ImageryLayer</a></li><li data-name="ImageryLayerCollection"><a href="ImageryLayerCollection.html">ImageryLayerCollection</a></li><li data-name="ImageryLayerFeatureInfo"><a href="ImageryLayerFeatureInfo.html">ImageryLayerFeatureInfo</a></li><li data-name="ImageryProvider"><a href="ImageryProvider.html">ImageryProvider</a></li><li data-name="ImagerySplitDirection"><a href="ImagerySplitDirection.html">ImagerySplitDirection</a></li><li data-name="IndexDatatype"><a href="IndexDatatype.html">IndexDatatype</a></li><li data-name="InfoBox"><a href="InfoBox.html">InfoBox</a></li><li data-name="InfoBoxViewModel"><a href="InfoBoxViewModel.html">InfoBoxViewModel</a></li><li data-name="InstancedType"><a href="InstancedType.html">InstancedType</a></li><li data-name="InterpolationAlgorithm"><a href="InterpolationAlgorithm.html">InterpolationAlgorithm</a></li><li data-name="Intersect"><a href="Intersect.html">Intersect</a></li><li data-name="Intersections2D"><a href="Intersections2D.html">Intersections2D</a></li><li data-name="IntersectionTests"><a href="IntersectionTests.html">IntersectionTests</a></li><li data-name="Interval"><a href="Interval.html">Interval</a></li><li data-name="isArray"><a href="isArray.html">isArray</a></li><li data-name="isLeapYear"><a href="isLeapYear.html">isLeapYear</a></li><li data-name="Iso8601"><a href="Iso8601.html">Iso8601</a></li><li data-name="JulianDate"><a href="JulianDate.html">JulianDate</a></li><li data-name="KeyboardEventModifier"><a href="KeyboardEventModifier.html">KeyboardEventModifier</a></li><li data-name="KmlDataSource"><a href="KmlDataSource.html">KmlDataSource</a></li><li data-name="KmlFeatureData"><a href="KmlFeatureData.html">KmlFeatureData</a></li><li data-name="Label"><a href="Label.html">Label</a></li><li data-name="LabelCollection"><a href="LabelCollection.html">LabelCollection</a></li><li data-name="LabelGraphics"><a href="LabelGraphics.html">LabelGraphics</a></li><li data-name="LabelStyle"><a href="LabelStyle.html">LabelStyle</a></li><li data-name="LabelVisualizer"><a href="LabelVisualizer.html">LabelVisualizer</a></li><li data-name="LagrangePolynomialApproximation"><a href="LagrangePolynomialApproximation.html">LagrangePolynomialApproximation</a></li><li data-name="Layers"><a href="Layers.html">Layers</a></li><li data-name="LeapSecond"><a href="LeapSecond.html">LeapSecond</a></li><li data-name="LinearApproximation"><a href="LinearApproximation.html">LinearApproximation</a></li><li data-name="LinearSpline"><a href="LinearSpline.html">LinearSpline</a></li><li data-name="loadArrayBuffer"><a href="loadArrayBuffer.html">loadArrayBuffer</a></li><li data-name="loadBlob"><a href="loadBlob.html">loadBlob</a></li><li data-name="loadCRN"><a href="loadCRN.html">loadCRN</a></li><li data-name="loadCubeMap"><a href="loadCubeMap.html">loadCubeMap</a></li><li data-name="loadImage"><a href="loadImage.html">loadImage</a></li><li data-name="loadImageViaBlob"><a href="loadImageViaBlob.html">loadImageViaBlob</a></li><li data-name="loadJson"><a href="loadJson.html">loadJson</a></li><li data-name="loadJsonp"><a href="loadJsonp.html">loadJsonp</a></li><li data-name="loadKTX"><a href="loadKTX.html">loadKTX</a></li><li data-name="loadText"><a href="loadText.html">loadText</a></li><li data-name="loadWithXhr"><a href="loadWithXhr.html">loadWithXhr</a></li><li data-name="loadXML"><a href="loadXML.html">loadXML</a></li><li data-name="MapboxImageryProvider"><a href="MapboxImageryProvider.html">MapboxImageryProvider</a></li><li data-name="MapMode2D"><a href="MapMode2D.html">MapMode2D</a></li><li data-name="MapProjection"><a href="MapProjection.html">MapProjection</a></li><li data-name="Material"><a href="Material.html">Material</a></li><li data-name="MaterialAppearance"><a href="MaterialAppearance.html">MaterialAppearance</a></li><li data-name="MaterialProperty"><a href="MaterialProperty.html">MaterialProperty</a></li><li data-name="Matrix2"><a href="Matrix2.html">Matrix2</a></li><li data-name="Matrix3"><a href="Matrix3.html">Matrix3</a></li><li data-name="Matrix4"><a href="Matrix4.html">Matrix4</a></li><li data-name="MeasureHandler"><a href="MeasureHandler.html">MeasureHandler</a></li><li data-name="MeasureMode"><a href="MeasureMode.html">MeasureMode</a></li><li data-name="mergeSort"><a href="mergeSort.html">mergeSort</a></li><li data-name="Model"><a href="Model.html">Model</a></li><li data-name="ModelAnimation"><a href="ModelAnimation.html">ModelAnimation</a></li><li data-name="ModelAnimationCollection"><a href="ModelAnimationCollection.html">ModelAnimationCollection</a></li><li data-name="ModelAnimationLoop"><a href="ModelAnimationLoop.html">ModelAnimationLoop</a></li><li data-name="ModelGraphics"><a href="ModelGraphics.html">ModelGraphics</a></li><li data-name="ModelMaterial"><a href="ModelMaterial.html">ModelMaterial</a></li><li data-name="ModelMesh"><a href="ModelMesh.html">ModelMesh</a></li><li data-name="ModelNode"><a href="ModelNode.html">ModelNode</a></li><li data-name="ModelVisualizer"><a href="ModelVisualizer.html">ModelVisualizer</a></li><li data-name="ModifyRegionMode"><a href="ModifyRegionMode.html">ModifyRegionMode</a></li><li data-name="Moon"><a href="Moon.html">Moon</a></li><li data-name="MultiViewportMode"><a href="MultiViewportMode.html">MultiViewportMode</a></li><li data-name="NavigationHelpButton"><a href="NavigationHelpButton.html">NavigationHelpButton</a></li><li data-name="NavigationHelpButtonViewModel"><a href="NavigationHelpButtonViewModel.html">NavigationHelpButtonViewModel</a></li><li data-name="NearFarScalar"><a href="NearFarScalar.html">NearFarScalar</a></li><li data-name="NeverTileDiscardPolicy"><a href="NeverTileDiscardPolicy.html">NeverTileDiscardPolicy</a></li><li data-name="NodeTransformationProperty"><a href="NodeTransformationProperty.html">NodeTransformationProperty</a></li><li data-name="objectToQuery"><a href="objectToQuery.html">objectToQuery</a></li><li data-name="ObjsOperationType"><a href="ObjsOperationType.html">ObjsOperationType</a></li><li data-name="Occluder"><a href="Occluder.html">Occluder</a></li><li data-name="OrientedBoundingBox"><a href="OrientedBoundingBox.html">OrientedBoundingBox</a></li><li data-name="OrthographicOffCenterFrustum"><a href="OrthographicOffCenterFrustum.html">OrthographicOffCenterFrustum</a></li><li data-name="Packable"><a href="Packable.html">Packable</a></li><li data-name="PackableForInterpolation"><a href="PackableForInterpolation.html">PackableForInterpolation</a></li><li data-name="Particle"><a href="Particle.html">Particle</a></li><li data-name="ParticleBurst"><a href="ParticleBurst.html">ParticleBurst</a></li><li data-name="ParticleEmitter"><a href="ParticleEmitter.html">ParticleEmitter</a></li><li data-name="ParticleSystem"><a href="ParticleSystem.html">ParticleSystem</a></li><li data-name="ParticleVelocityFieldEffect"><a href="ParticleVelocityFieldEffect.html">ParticleVelocityFieldEffect</a></li><li data-name="PassState"><a href="PassState.html">PassState</a></li><li data-name="PathGraphics"><a href="PathGraphics.html">PathGraphics</a></li><li data-name="PathVisualizer"><a href="PathVisualizer.html">PathVisualizer</a></li><li data-name="PerformanceWatchdog"><a href="PerformanceWatchdog.html">PerformanceWatchdog</a></li><li data-name="PerformanceWatchdogViewModel"><a href="PerformanceWatchdogViewModel.html">PerformanceWatchdogViewModel</a></li><li data-name="PerInstanceColorAppearance"><a href="PerInstanceColorAppearance.html">PerInstanceColorAppearance</a></li><li data-name="PerspectiveFrustum"><a href="PerspectiveFrustum.html">PerspectiveFrustum</a></li><li data-name="PerspectiveOffCenterFrustum"><a href="PerspectiveOffCenterFrustum.html">PerspectiveOffCenterFrustum</a></li><li data-name="PinBuilder"><a href="PinBuilder.html">PinBuilder</a></li><li data-name="PixelFormat"><a href="PixelFormat.html">PixelFormat</a></li><li data-name="Plane"><a href="Plane.html">Plane</a></li><li data-name="PlotDrawControl"><a href="PlotDrawControl.html">PlotDrawControl</a></li><li data-name="PlotEditControl"><a href="PlotEditControl.html">PlotEditControl</a></li><li data-name="Plotting"><a href="Plotting.html">Plotting</a></li><li data-name="PlottingLayer"><a href="PlottingLayer.html">PlottingLayer</a></li><li data-name="Point3D"><a href="Point3D.html">Point3D</a></li><li data-name="Point3Ds"><a href="Point3Ds.html">Point3Ds</a></li><li data-name="PointGraphics"><a href="PointGraphics.html">PointGraphics</a></li><li data-name="pointInsideTriangle"><a href="pointInsideTriangle.html">pointInsideTriangle</a></li><li data-name="PointLight"><a href="PointLight.html">PointLight</a></li><li data-name="PointPrimitive"><a href="PointPrimitive.html">PointPrimitive</a></li><li data-name="PointPrimitiveCollection"><a href="PointPrimitiveCollection.html">PointPrimitiveCollection</a></li><li data-name="PointVisualizer"><a href="PointVisualizer.html">PointVisualizer</a></li><li data-name="Polygon"><a href="Polygon.html">Polygon</a></li><li data-name="PolygonGeometry"><a href="PolygonGeometry.html">PolygonGeometry</a></li><li data-name="PolygonGeometryUpdater"><a href="PolygonGeometryUpdater.html">PolygonGeometryUpdater</a></li><li data-name="PolygonGraphics"><a href="PolygonGraphics.html">PolygonGraphics</a></li><li data-name="PolygonHierarchy"><a href="PolygonHierarchy.html">PolygonHierarchy</a></li><li data-name="PolygonOutlineGeometry"><a href="PolygonOutlineGeometry.html">PolygonOutlineGeometry</a></li><li data-name="Polyline"><a href="Polyline.html">Polyline</a></li><li data-name="PolylineArrowMaterialProperty"><a href="PolylineArrowMaterialProperty.html">PolylineArrowMaterialProperty</a></li><li data-name="PolylineCollection"><a href="PolylineCollection.html">PolylineCollection</a></li><li data-name="PolylineColorAppearance"><a href="PolylineColorAppearance.html">PolylineColorAppearance</a></li><li data-name="PolylineDashMaterialProperty"><a href="PolylineDashMaterialProperty.html">PolylineDashMaterialProperty</a></li><li data-name="PolylineDynamicMaterialProperty"><a href="PolylineDynamicMaterialProperty.html">PolylineDynamicMaterialProperty</a></li><li data-name="PolylineGeometry"><a href="PolylineGeometry.html">PolylineGeometry</a></li><li data-name="PolylineGeometryUpdater"><a href="PolylineGeometryUpdater.html">PolylineGeometryUpdater</a></li><li data-name="PolylineGlowMaterialProperty"><a href="PolylineGlowMaterialProperty.html">PolylineGlowMaterialProperty</a></li><li data-name="PolylineGraphics"><a href="PolylineGraphics.html">PolylineGraphics</a></li><li data-name="PolylineMaterialAppearance"><a href="PolylineMaterialAppearance.html">PolylineMaterialAppearance</a></li><li data-name="PolylineOutlineMaterialProperty"><a href="PolylineOutlineMaterialProperty.html">PolylineOutlineMaterialProperty</a></li><li data-name="PolylineTrailMaterialProperty"><a href="PolylineTrailMaterialProperty.html">PolylineTrailMaterialProperty</a></li><li data-name="PolylineVolumeGeometry"><a href="PolylineVolumeGeometry.html">PolylineVolumeGeometry</a></li><li data-name="PolylineVolumeGeometryUpdater"><a href="PolylineVolumeGeometryUpdater.html">PolylineVolumeGeometryUpdater</a></li><li data-name="PolylineVolumeGraphics"><a href="PolylineVolumeGraphics.html">PolylineVolumeGraphics</a></li><li data-name="PolylineVolumeOutlineGeometry"><a href="PolylineVolumeOutlineGeometry.html">PolylineVolumeOutlineGeometry</a></li><li data-name="PositionProperty"><a href="PositionProperty.html">PositionProperty</a></li><li data-name="PositionPropertyArray"><a href="PositionPropertyArray.html">PositionPropertyArray</a></li><li data-name="Primitive"><a href="Primitive.html">Primitive</a></li><li data-name="PrimitiveCollection"><a href="PrimitiveCollection.html">PrimitiveCollection</a></li><li data-name="PrimitiveType"><a href="PrimitiveType.html">PrimitiveType</a></li><li data-name="Profile"><a href="Profile.html">Profile</a></li><li data-name="ProjectionImage"><a href="ProjectionImage.html">ProjectionImage</a></li><li data-name="ProjectionPicker"><a href="ProjectionPicker.html">ProjectionPicker</a></li><li data-name="ProjectionPickerViewModel"><a href="ProjectionPickerViewModel.html">ProjectionPickerViewModel</a></li><li data-name="Property"><a href="Property.html">Property</a></li><li data-name="PropertyArray"><a href="PropertyArray.html">PropertyArray</a></li><li data-name="PropertyBag"><a href="PropertyBag.html">PropertyBag</a></li><li data-name="ProviderViewModel"><a href="ProviderViewModel.html">ProviderViewModel</a></li><li data-name="QuadraticRealPolynomial"><a href="QuadraticRealPolynomial.html">QuadraticRealPolynomial</a></li><li data-name="QuantizedMeshTerrainData"><a href="QuantizedMeshTerrainData.html">QuantizedMeshTerrainData</a></li><li data-name="QuarticRealPolynomial"><a href="QuarticRealPolynomial.html">QuarticRealPolynomial</a></li><li data-name="Quaternion"><a href="Quaternion.html">Quaternion</a></li><li data-name="QuaternionSpline"><a href="QuaternionSpline.html">QuaternionSpline</a></li><li data-name="queryToObject"><a href="queryToObject.html">queryToObject</a></li><li data-name="Queue"><a href="Queue.html">Queue</a></li><li data-name="Ray"><a href="Ray.html">Ray</a></li><li data-name="Rectangle"><a href="Rectangle.html">Rectangle</a></li><li data-name="RectangleGeometry"><a href="RectangleGeometry.html">RectangleGeometry</a></li><li data-name="RectangleGeometryUpdater"><a href="RectangleGeometryUpdater.html">RectangleGeometryUpdater</a></li><li data-name="RectangleGraphics"><a href="RectangleGraphics.html">RectangleGraphics</a></li><li data-name="RectangleOutlineGeometry"><a href="RectangleOutlineGeometry.html">RectangleOutlineGeometry</a></li><li data-name="ReferenceFrame"><a href="ReferenceFrame.html">ReferenceFrame</a></li><li data-name="ReferenceProperty"><a href="ReferenceProperty.html">ReferenceProperty</a></li><li data-name="RenderState"><a href="RenderState.html">RenderState</a></li><li data-name="Request"><a href="Request.html">Request</a></li><li data-name="requestAnimationFrame"><a href="requestAnimationFrame.html">requestAnimationFrame</a></li><li data-name="RequestErrorEvent"><a href="RequestErrorEvent.html">RequestErrorEvent</a></li><li data-name="RequestState"><a href="RequestState.html">RequestState</a></li><li data-name="RequestType"><a href="RequestType.html">RequestType</a></li><li data-name="RotateDirection"><a href="RotateDirection.html">RotateDirection</a></li><li data-name="Rotation"><a href="Rotation.html">Rotation</a></li><li data-name="Route"><a href="Route.html">Route</a></li><li data-name="RouteCollection"><a href="RouteCollection.html">RouteCollection</a></li><li data-name="RouteStop"><a href="RouteStop.html">RouteStop</a></li><li data-name="RuntimeError"><a href="RuntimeError.html">RuntimeError</a></li><li data-name="S3MBloomEffect"><a href="S3MBloomEffect.html">S3MBloomEffect</a></li><li data-name="S3MCompressType"><a href="S3MCompressType.html">S3MCompressType</a></li><li data-name="S3MInstance"><a href="S3MInstance.html">S3MInstance</a></li><li data-name="S3MInstanceCollection"><a href="S3MInstanceCollection.html">S3MInstanceCollection</a></li><li data-name="S3MPixelFormat"><a href="S3MPixelFormat.html">S3MPixelFormat</a></li><li data-name="S3MTilesLayer"><a href="S3MTilesLayer.html">S3MTilesLayer</a></li><li data-name="SampledPositionProperty"><a href="SampledPositionProperty.html">SampledPositionProperty</a></li><li data-name="SampledProperty"><a href="SampledProperty.html">SampledProperty</a></li><li data-name="sampleTerrain"><a href="sampleTerrain.html">sampleTerrain</a></li><li data-name="sampleTerrainMostDetailed"><a href="sampleTerrainMostDetailed.html">sampleTerrainMostDetailed</a></li><li data-name="ScanEffect"><a href="ScanEffect.html">ScanEffect</a></li><li data-name="ScanEffectMode"><a href="ScanEffectMode.html">ScanEffectMode</a></li><li data-name="Scene"><a href="Scene.html">Scene</a></li><li data-name="SceneMode"><a href="SceneMode.html">SceneMode</a></li><li data-name="SceneModePicker"><a href="SceneModePicker.html">SceneModePicker</a></li><li data-name="SceneModePickerViewModel"><a href="SceneModePickerViewModel.html">SceneModePickerViewModel</a></li><li data-name="SceneTransforms"><a href="SceneTransforms.html">SceneTransforms</a></li><li data-name="ScreenSpaceCameraController"><a href="ScreenSpaceCameraController.html">ScreenSpaceCameraController</a></li><li data-name="ScreenSpaceEventHandler"><a href="ScreenSpaceEventHandler.html">ScreenSpaceEventHandler</a></li><li data-name="ScreenSpaceEventType"><a href="ScreenSpaceEventType.html">ScreenSpaceEventType</a></li><li data-name="SelctColorType"><a href="SelctColorType.html">SelctColorType</a></li><li data-name="SelectionIndicator"><a href="SelectionIndicator.html">SelectionIndicator</a></li><li data-name="SelectionIndicatorViewModel"><a href="SelectionIndicatorViewModel.html">SelectionIndicatorViewModel</a></li><li data-name="ShaderCache"><a href="ShaderCache.html">ShaderCache</a></li><li data-name="ShaderProgram"><a href="ShaderProgram.html">ShaderProgram</a></li><li data-name="ShaderSource"><a href="ShaderSource.html">ShaderSource</a></li><li data-name="ShadowMap"><a href="ShadowMap.html">ShadowMap</a></li><li data-name="ShadowMode"><a href="ShadowMode.html">ShadowMode</a></li><li data-name="ShadowQueryPoints"><a href="ShadowQueryPoints.html">ShadowQueryPoints</a></li><li data-name="SHADOWTYPE"><a href="SHADOWTYPE.html">SHADOWTYPE</a></li><li data-name="ShowGeometryInstanceAttribute"><a href="ShowGeometryInstanceAttribute.html">ShowGeometryInstanceAttribute</a></li><li data-name="Sightline"><a href="Sightline.html">Sightline</a></li><li data-name="Simon1994PlanetaryPositions"><a href="Simon1994PlanetaryPositions.html">Simon1994PlanetaryPositions</a></li><li data-name="SimplePolylineGeometry"><a href="SimplePolylineGeometry.html">SimplePolylineGeometry</a></li><li data-name="SingleTileImageryProvider"><a href="SingleTileImageryProvider.html">SingleTileImageryProvider</a></li><li data-name="SitDataManager"><a href="SitDataManager.html">SitDataManager</a></li><li data-name="SkyAtmosphere"><a href="SkyAtmosphere.html">SkyAtmosphere</a></li><li data-name="SkyBox"><a href="SkyBox.html">SkyBox</a></li><li data-name="Skyline"><a href="Skyline.html">Skyline</a></li><li data-name="SlopeSetting"><a href="SlopeSetting.html">SlopeSetting</a></li><li data-name="SlopeSettingEnum"><a href="SlopeSettingEnum.html">SlopeSettingEnum</a></li><li data-name="SphereEmitter"><a href="SphereEmitter.html">SphereEmitter</a></li><li data-name="SphereGeometry"><a href="SphereGeometry.html">SphereGeometry</a></li><li data-name="SphereOutlineGeometry"><a href="SphereOutlineGeometry.html">SphereOutlineGeometry</a></li><li data-name="Spherical"><a href="Spherical.html">Spherical</a></li><li data-name="Spline"><a href="Spline.html">Spline</a></li><li data-name="SplitDirection"><a href="SplitDirection.html">SplitDirection</a></li><li data-name="StencilFunction"><a href="StencilFunction.html">StencilFunction</a></li><li data-name="StencilOperation"><a href="StencilOperation.html">StencilOperation</a></li><li data-name="StopPlayMode"><a href="StopPlayMode.html">StopPlayMode</a></li><li data-name="StripeMaterialProperty"><a href="StripeMaterialProperty.html">StripeMaterialProperty</a></li><li data-name="StripeOrientation"><a href="StripeOrientation.html">StripeOrientation</a></li><li data-name="Style3D"><a href="Style3D.html">Style3D</a></li><li data-name="StyleExpression"><a href="StyleExpression.html">StyleExpression</a></li><li data-name="subdivideArray"><a href="subdivideArray.html">subdivideArray</a></li><li data-name="Sun"><a href="Sun.html">Sun</a></li><li data-name="SuperMapImageryProvider"><a href="SuperMapImageryProvider.html">SuperMapImageryProvider</a></li><li data-name="SupportTools"><a href="SupportTools.html">SupportTools</a></li><li data-name="SurroundLineType"><a href="SurroundLineType.html">SurroundLineType</a></li><li data-name="SvgPathBindingHandler"><a href="SvgPathBindingHandler.html">SvgPathBindingHandler</a></li><li data-name="SymbolDot"><a href="SymbolDot.html">SymbolDot</a></li><li data-name="SymbolStyle"><a href="SymbolStyle.html">SymbolStyle</a></li><li data-name="SymbolTextStyle"><a href="SymbolTextStyle.html">SymbolTextStyle</a></li><li data-name="SymbolType"><a href="SymbolType.html">SymbolType</a></li><li data-name="TaskProcessor"><a href="TaskProcessor.html">TaskProcessor</a></li><li data-name="TerrainData"><a href="TerrainData.html">TerrainData</a></li><li data-name="TerrainProvider"><a href="TerrainProvider.html">TerrainProvider</a></li><li data-name="TextPos"><a href="TextPos.html">TextPos</a></li><li data-name="Texture"><a href="Texture.html">Texture</a></li><li data-name="throttleRequestByServer"><a href="throttleRequestByServer.html">throttleRequestByServer</a></li><li data-name="TiandituImageryProvider"><a href="TiandituImageryProvider.html">TiandituImageryProvider</a></li><li data-name="TiandituMapsStyle"><a href="TiandituMapsStyle.html">TiandituMapsStyle</a></li><li data-name="TileAvailability"><a href="TileAvailability.html">TileAvailability</a></li><li data-name="TileCoordinatesImageryProvider"><a href="TileCoordinatesImageryProvider.html">TileCoordinatesImageryProvider</a></li><li data-name="TileDiscardPolicy"><a href="TileDiscardPolicy.html">TileDiscardPolicy</a></li><li data-name="TileProviderError"><a href="TileProviderError.html">TileProviderError</a></li><li data-name="TilingScheme"><a href="TilingScheme.html">TilingScheme</a></li><li data-name="TimeDynamicImagery"><a href="TimeDynamicImagery.html">TimeDynamicImagery</a></li><li data-name="TimeInterval"><a href="TimeInterval.html">TimeInterval</a></li><li data-name="TimeIntervalCollection"><a href="TimeIntervalCollection.html">TimeIntervalCollection</a></li><li data-name="TimeIntervalCollectionPositionProperty"><a href="TimeIntervalCollectionPositionProperty.html">TimeIntervalCollectionPositionProperty</a></li><li data-name="TimeIntervalCollectionProperty"><a href="TimeIntervalCollectionProperty.html">TimeIntervalCollectionProperty</a></li><li data-name="Timeline"><a href="Timeline.html">Timeline</a></li><li data-name="TimeStandard"><a href="TimeStandard.html">TimeStandard</a></li><li data-name="ToggleButtonViewModel"><a href="ToggleButtonViewModel.html">ToggleButtonViewModel</a></li><li data-name="Transforms"><a href="Transforms.html">Transforms</a></li><li data-name="TranslationRotationScale"><a href="TranslationRotationScale.html">TranslationRotationScale</a></li><li data-name="TridiagonalSystemSolver"><a href="TridiagonalSystemSolver.html">TridiagonalSystemSolver</a></li><li data-name="TrustedServers"><a href="TrustedServers.html">TrustedServers</a></li><li data-name="UniformState"><a href="UniformState.html">UniformState</a></li><li data-name="UrlTemplateImageryProvider"><a href="UrlTemplateImageryProvider.html">UrlTemplateImageryProvider</a></li><li data-name="UrlType"><a href="UrlType.html">UrlType</a></li><li data-name="VelocityOrientationProperty"><a href="VelocityOrientationProperty.html">VelocityOrientationProperty</a></li><li data-name="VelocityVectorProperty"><a href="VelocityVectorProperty.html">VelocityVectorProperty</a></li><li data-name="VertexArray"><a href="VertexArray.html">VertexArray</a></li><li data-name="VertexArrayFacade"><a href="VertexArrayFacade.html">VertexArrayFacade</a></li><li data-name="VertexFormat"><a href="VertexFormat.html">VertexFormat</a></li><li data-name="VerticalOrigin"><a href="VerticalOrigin.html">VerticalOrigin</a></li><li data-name="VideoSynchronizer"><a href="VideoSynchronizer.html">VideoSynchronizer</a></li><li data-name="Viewer"><a href="Viewer.html">Viewer</a></li><li data-name="viewerCesium3DTilesInspectorMixin"><a href="viewerCesium3DTilesInspectorMixin.html">viewerCesium3DTilesInspectorMixin</a></li><li data-name="viewerCesiumInspectorMixin"><a href="viewerCesiumInspectorMixin.html">viewerCesiumInspectorMixin</a></li><li data-name="viewerDragDropMixin"><a href="viewerDragDropMixin.html">viewerDragDropMixin</a></li><li data-name="viewerPerformanceWatchdogMixin"><a href="viewerPerformanceWatchdogMixin.html">viewerPerformanceWatchdogMixin</a></li><li data-name="ViewportQuad"><a href="ViewportQuad.html">ViewportQuad</a></li><li data-name="ViewShed3D"><a href="ViewShed3D.html">ViewShed3D</a></li><li data-name="Visibility"><a href="Visibility.html">Visibility</a></li><li data-name="Visualizer"><a href="Visualizer.html">Visualizer</a></li><li data-name="VRButton"><a href="VRButton.html">VRButton</a></li><li data-name="VRButtonViewModel"><a href="VRButtonViewModel.html">VRButtonViewModel</a></li><li data-name="VRTheWorldTerrainProvider"><a href="VRTheWorldTerrainProvider.html">VRTheWorldTerrainProvider</a></li><li data-name="WallGeometry"><a href="WallGeometry.html">WallGeometry</a></li><li data-name="WallGeometryUpdater"><a href="WallGeometryUpdater.html">WallGeometryUpdater</a></li><li data-name="WallGraphics"><a href="WallGraphics.html">WallGraphics</a></li><li data-name="WallOutlineGeometry"><a href="WallOutlineGeometry.html">WallOutlineGeometry</a></li><li data-name="WayPathType"><a href="WayPathType.html">WayPathType</a></li><li data-name="WebGLConstants"><a href="WebGLConstants.html">WebGLConstants</a></li><li data-name="WebMapServiceImageryProvider"><a href="WebMapServiceImageryProvider.html">WebMapServiceImageryProvider</a></li><li data-name="WebMapTileServiceImageryProvider"><a href="WebMapTileServiceImageryProvider.html">WebMapTileServiceImageryProvider</a></li><li data-name="WebMercatorProjection"><a href="WebMercatorProjection.html">WebMercatorProjection</a></li><li data-name="WebMercatorTilingScheme"><a href="WebMercatorTilingScheme.html">WebMercatorTilingScheme</a></li><li data-name="WindingOrder"><a href="WindingOrder.html">WindingOrder</a></li><li data-name="WireFrameType"><a href="WireFrameType.html">WireFrameType</a></li></ul>
+    </div>
+</div>
+
+<script>
+if (window.frameElement) {
+    document.body.className = 'embedded';
+
+    var ele = document.createElement('a');
+    ele.className = 'popout';
+    ele.target = '_blank';
+    ele.href = window.location.href;
+    ele.title = 'Pop out';
+    document.getElementById('main').appendChild(ele);
+}
+
+// Set targets on external links.  Sandcastle and GitHub shouldn't be embedded in any iframe.
+Array.prototype.forEach.call(document.getElementsByTagName('a'), function(a) {
+    if (/^https?:/i.test(a.getAttribute('href'))) {
+        a.target='_blank';
+    }
+});
+</script>
+
+<script src="javascript/prism.js"></script>
+<script src="javascript/cesiumDoc.js"></script>
+
+</body>
+</html>
