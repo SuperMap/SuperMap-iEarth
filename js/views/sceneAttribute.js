@@ -6,8 +6,21 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
     var viewer;
     var camera;
     var handler;
-    var flyCirclePoint;
+    var me;
+    var flyCirclePoint = null;
     var rollerShutterConfig = null;
+    var isPCBroswer;
+    var lightSourceType = 0; // 光源类型，初始时为点光源
+    var pointLightSourceDrawHandler = null; // 绘制点光源位置工具
+    var spotOrDirectionalLightSourceDrawHandler = null; // 绘制聚光灯的工具
+    var spotOrDirectionalLightSourceCountHandler = null;
+    var spotOrDirectionalLightSourceAdding = false;
+    var spotOrDirectionalLightPositions = [];
+    var entityPointLightPairs = new Map(); // Entity和点光源对象的键值对
+    var entitySpotLightPairs = new Map(); // Entity和聚光灯对象的键值对
+    var entityDirectionalLightPairs = new Map(); // Entity和平行光对象的键值对
+    var flyCircleDrawHandler = null;
+
 
     var htmlStr = [
         '<main class="mainView" id="sceneForm">',
@@ -15,10 +28,12 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
 
         '<input id="scene-attribute-basic" name="scene-attribute" type="radio" checked/>',
         '<label for="scene-attribute-basic" class="function-module-caption">' + Resource.basicOptions + '</label>',
-        '<input id="scene-attribute-others" name="scene-attribute" type="radio"/>',
-        '<label for="scene-attribute-others" class="function-module-caption">' + Resource.otherOptions + '</label>',
         '<input id="scene-attribute-camera" name="scene-attribute" type="radio"/>',
         '<label for="scene-attribute-camera" class="function-module-caption">' + Resource.camera + '</label>',
+        '<input id="scene-attribute-light" name="scene-attribute" type="radio"/>',
+        '<label for="scene-attribute-light" class="function-module-caption">' + Resource.light + '</label>',
+        '<input id="scene-attribute-others" name="scene-attribute" type="radio"/>',
+        '<label for="scene-attribute-others" class="function-module-caption">' + Resource.otherOptions + '</label>',
 
         '<section id="scene-attribute-basic-content">',
             '<div class="function-module-content">',
@@ -56,14 +71,14 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             '<input type="checkbox" id="depthAgainst" checked/>',
                             '<span>' + Resource.depthAgainst + '</span>',
                         '</label>',
-                        '<label class="third">',
+                        '<label class="third" style="display:none;">',
                             '<input type="checkbox" id="icon" checked/>',
                             '<span>' + Resource.supermapLogo + '</span>',
                         '</label>',
-                        '<label class="third">',
-                            '<input type="checkbox" id="full-screen"/>',
-                            '<span>' + Resource.fullScreen + '</span>',
-                        '</label>',
+                        /*'<label class="third" style="display:none;">',
+                            '<input type="checkbox" id="hdr"/>',
+                            '<span>' + Resource.hdr + '</span>',
+                        '</label>',*/
                     '</div>',
                 '</div>',
                 '<div class="function-module-sub-section">',
@@ -230,6 +245,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             '<span>' + Resource.rotateCirculation + '</span>',
                         '</label>',
                         '<button id="spin" class="btn btn-info" style="margin: 0 0 0 1rem;">' + Resource.rotatePoint + '</button>',
+                        '<button id="cancel-spin" class="btn btn-info" style="margin: 0 0 0 1rem;">' + Resource.cancelRotatePoint + '</button>',
                     '</div>',
                 '</div>',
 
@@ -254,6 +270,94 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
             '</div>',
         '</section>',
 
+        '<section id="scene-attribute-light-content">',
+            '<div class="function-module-content">',
+                '<div class="function-module-sub-section">',
+                    '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
+                    '<div class="mark-list" id="light-source-list">',
+                        '<div id="point-light" class="mark-list-item light-source-font-normal light-source-font-selected">',
+                            '<a class="iconfont icon-point-light-source"></a>',
+                            '<label>' + Resource.pointLight + '</label>',
+                        '</div>',
+                        '<div id="spot-light" class="mark-list-item light-source-font-normal">',
+                            '<a class="iconfont icon-spot-light-source"></a>',
+                            '<label>' + Resource.spotLight + '</label>',
+                        '</div>',
+                        '<div id="directional-light" class="mark-list-item light-source-font-normal">',
+                            '<a class="iconfont icon-directional-light-source"></a>',
+                            '<label>' + Resource.directionalLight + '</label>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="point-light-params">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.lightSourceColor + '</label>',
+                            '<input class="colorPicker" id="point-light-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.cutoffDistance + '</label>',
+                            '<input type="number" class="input" id="point-light-cutoff-distance" value="100" min="1" step="1" style="height: 29px;"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.decay + '</label>',
+                            '<input type="number" class="input" id="point-light-decay" value="5" max="30" min="0" step="1"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.intensity + '</label>',
+                            '<input type="number" class="input" id="point-light-intensity" value="5" min="1" max="100" step="1"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="spot-light-params" style="display: none;">',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.lightSourceColor + '</label>',
+                            '<input class="colorPicker" id="spot-light-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.cutoffDistance + '</label>',
+                            '<input type="number" class="input" id="spot-light-cutoff-distance" value="300" min="1" step="1" style="height: 29px;"/>',
+                        '</div>',
+                    '</div>',
+                    '<div class="function-module-sub-section">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.decay + '</label>',
+                            '<input type="number" class="input" id="spot-light-decay" value="3" min="0" max="50" step="1"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.intensity + '</label>',
+                            '<input type="number" class="input" id="spot-light-intensity" value="3" min="0" step="1" max="30"/>',
+                        '</div>',
+                    '</div>',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.spotLightAngle + '</label>',
+                            '<input type="number" class="input" id="spot-light-angle" value="30" min="1" max="180" step="1"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<div id="directional-light-params" style="display: none;">',
+                    '<div style="overflow: auto;">',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.lightSourceColor + '</label>',
+                            '<input class="colorPicker" id="directional-light-color"/>',
+                        '</div>',
+                        '<div class="half">',
+                            '<label class="function-module-sub-section-caption">' + Resource.intensity + '</label>',
+                            '<input type="number" class="input" id="directional-light-intensity" value="3" min="0" step="1" max="30" style="height: 29px;"/>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+                '<p style="margin-bottom: 0;">' + Resource.obliqueLightWarning + '</p>',
+            '</div>',
+            '<div id="light-param-btns" class="light-param-btns">',
+                '<button type="button" id="clear-light-source" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
+                '<button type="button" id="add-light-source" class="btn btn-info function-module-btn function-module-btn-highlight">' + Resource.Add + '</button>',
+            '</div>',
+        '</section>',
 
         /*/!* 关于 *!/
         '<div class="tabs-content-item">',
@@ -278,11 +382,15 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 'click #pauseFly': 'onPauseFlyClk',
                 'click #stopFly': 'onStopFlyClk',
                 'click #spin': 'onSpinClk',
+                'click #cancel-spin': 'onCancelSpinClk',
+                'click #clear-light-source': 'clearLightSource'
             },
             template: _.template(htmlStr),
             initialize: function (options) {
                 viewer = options.sceneModel.viewer;
                 scene = viewer.scene;
+                isPCBroswer = options.isPCBroswer;
+                me = this;
                 viewer.scene.bloomEffect.show = false;
                 var layers = scene.layers.layerQueue;
                 handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
@@ -357,41 +465,20 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     $("#depthAgainst").click(function (evt) {
                         scene.globe.depthTestAgainstTerrain = !scene.globe.depthTestAgainstTerrain;
                     });
-                    /* 全屏相关 start */
-                    $("#full-screen").on("input propertychange", function() {
-                        if ($(this).prop("checked")) { // 全屏
-                            Utils.launchFullscreen(document.documentElement);
-                        } else { // 退出全屏
-                            Utils.exitFullscreen();
-                        }
-                    });
-                    document.addEventListener("fullscreenchange", function( event ) {
-                        if (!document.fullscreenElement) { // fullscreenElement属性返回正处于全屏状态的Element节点，没有节点处于全屏状态返回null
-                            $("#full-screen").prop("checked", false);
-                        } else {
-                            $("#full-screen").prop("checked", true);
-                        }
-                    });
-                    /*document.addEventListener("keydown", function(e) {
-                        console.log(e.keyCode);
-                        f(e && e.keyCode == 122){ // 按 F11
-                            console.log(document.fullscreenElement);
-                        }
+                    /*$("#hdr").on('input propertychange', function() {
+                       scene.hdrEnabled = $(this).prop('checked');
                     });*/
-                    /*document.addEventListener("resize", function() {
-                       console.log("尺寸变化");
-                    });*/
-                    /* 全屏相关 end */
                     $("#earth").click(function (evt) {
                         scene.globe.show = !scene.globe.show;
                     });
-                    $("#timeline").click(function () {
-                        var timeline = viewer.timeline.container.style.visibility;
-                        if (timeline == "visible") {
-                            viewer.timeline.container.style.visibility = 'hidden';
-                        }
-                        else {
+                    $("#timeline").on("input propertychange", function () {
+                        var isTimelineShow = $(this).prop('checked');
+                        if(isTimelineShow) {
+                            $("#baselayer-source").addClass('baselayer-source-adjust');
                             viewer.timeline.container.style.visibility = 'visible';
+                        } else {
+                            $("#baselayer-source").removeClass('baselayer-source-adjust');
+                            viewer.timeline.container.style.visibility = 'hidden';
                         }
                     });
                     $("#icon").click(function (evt) {
@@ -404,8 +491,11 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                             icon = true;
                         }
                     });
-                    $("#bloom").click(function (evt) {
-                        viewer.scene.bloomEffect.show = !viewer.scene.bloomEffect.show;
+                    $("#bloom").on('input propertychange', function (evt) {
+                        var isOpenBloom = $(this).prop('checked');
+                        viewer.scene.bloomEffect.show = isOpenBloom;
+                        viewer.scene.hdrEnabled = isOpenBloom;
+                        viewer.scene.toneMappingEnabled = isOpenBloom;
                         viewer.scene.bloomEffect.threshold = Number($("#threshold").val());
                         viewer.scene.bloomEffect.bloomIntensity = Number($("#bloomIntensity").val());
                     });
@@ -430,17 +520,18 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     $("#camera-minimum-zoom-distance").on("input propertychange", function () {
                         viewer.scene.screenSpaceCameraController.minimumZoomDistance = Number($("#camera-minimum-zoom-distance").val());
                     });
-                    $('#circulation').on("input change", function () {
+                    $('#circulation').on("input propertychange", function () {
                         camera.flyCircleLoop = this.checked;
                     });
-                    $('#stopFlyCircle').on("input change", function () {
+                    $('#stopFlyCircle').on("input propertychange", function () {
                         if (this.checked) {
                             camera.stopFlyCircle();
                         } else {
-                            camera.flyCircle(flyCirclePoint);
+                            if (flyCirclePoint) {
+                                camera.flyCircle(flyCirclePoint);
+                            }
                         }
                     });
-
                     $('#sceneMode').change(function () {
                         var value = $(this).val();
                         if (value === "2D") {
@@ -494,6 +585,156 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         }
                     };
                     this.initRollerShutter(); // 初始化卷帘
+
+                    $('#point-light').click(function() {
+                        $('#light-source-list > .mark-list-item').removeClass('light-source-font-selected');
+                        $(this).addClass('light-source-font-selected');
+
+                        $('#point-light-params').css('display', 'block');
+                        $('#spot-light-params').css('display', 'none');
+                        $('#directional-light-params').css('display', 'none');
+
+                        lightSourceType = 0;
+                    });
+
+                    $('#spot-light').click(function() {
+                        $('#light-source-list > .mark-list-item').removeClass('light-source-font-selected');
+                        $(this).addClass('light-source-font-selected');
+
+                        $('#point-light-params').css('display', 'none');
+                        $('#spot-light-params').css('display', 'block');
+                        $('#directional-light-params').css('display', 'none');
+
+                        lightSourceType = 1;
+                    });
+
+                    $('#directional-light').click(function() {
+                        $('#light-source-list > .mark-list-item').removeClass('light-source-font-selected');
+                        $(this).addClass('light-source-font-selected');
+
+                        $('#point-light-params').css('display', 'none');
+                        $('#spot-light-params').css('display', 'none');
+                        $('#directional-light-params').css('display', 'block');
+
+                        lightSourceType = 2;
+                    });
+
+                    $('#point-light-color').spectrum({
+                        color: "cf9932",
+                        showPalette: true,
+                        showAlpha: true,
+                        localStorageKey: "spectrum.demo",
+                        palette: palette,
+                        cancelText: Resource.cancel,
+                        chooseText: Resource.confirm,
+                        change: function(clr) {
+                            var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                            if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('point-light') === 0) {
+                                entityPointLightPairs.get(viewer.selectedEntity).color = color;
+                            }
+                        }
+                    });
+                    $('#point-light-cutoff-distance').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('point-light') === 0) {
+                            entityPointLightPairs.get(viewer.selectedEntity).cutoffDistance = Number($(this).val());
+                        }
+                    });
+                    $('#point-light-decay').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('point-light') === 0) {
+                            entityPointLightPairs.get(viewer.selectedEntity).decay = Number($(this).val());
+                        }
+                    });
+                    $('#point-light-intensity').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('point-light') === 0) {
+                            entityPointLightPairs.get(viewer.selectedEntity).intensity = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-color').spectrum({
+                        color: "cf9932",
+                        showPalette: true,
+                        showAlpha: true,
+                        localStorageKey: "spectrum.demo",
+                        palette: palette,
+                        cancelText: Resource.cancel,
+                        chooseText: Resource.confirm,
+                        change: function(clr) {
+                            var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                            if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                                entitySpotLightPairs.get(viewer.selectedEntity).color = color;
+                            }
+                        }
+                    });
+
+                    $('#spot-light-cutoff-distance').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).distance = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-decay').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).decay = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-intensity').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).intensity = Number($(this).val());
+                        }
+                    });
+
+                    $('#spot-light-angle').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('spot-light') === 0) {
+                            entitySpotLightPairs.get(viewer.selectedEntity).angle = Cesium.Math.toRadians(Number($(this).val()));
+                        }
+                    });
+
+                    $('#directional-light-color').spectrum({
+                        color: "cf9932",
+                        showPalette: true,
+                        showAlpha: true,
+                        localStorageKey: "spectrum.demo",
+                        palette: palette,
+                        cancelText: Resource.cancel,
+                        chooseText: Resource.confirm,
+                        change: function(clr) {
+                            var color = Cesium.Color.fromCssColorString(clr.toRgbString());
+                            if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('directional-light') === 0) {
+                                entityDirectionalLightPairs.get(viewer.selectedEntity).color = color;
+                            }
+                        }
+                    });
+
+                    $('#directional-light-intensity').on('input propertychange', function() {
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('directional-light') === 0) {
+                            entityDirectionalLightPairs.get(viewer.selectedEntity).intensity = Number($(this).val());
+                        }
+                    });
+
+                    $('#add-light-source').click(function() {
+                        if (!isPCBroswer) {
+                            me.$el.hide();
+                        }
+                        switch (lightSourceType) {
+                            case 0:
+                                if (!pointLightSourceDrawHandler) {
+                                    initPointLightSourceDrawHandler();
+                                }
+                                pointLightSourceDrawHandler.activate();
+                                break;
+                            case 1:
+                            case 2:
+                                if (!spotOrDirectionalLightSourceDrawHandler) {
+                                    initSpotOrDirectionalLightSourceDrawHandler();
+                                }
+                                spotOrDirectionalLightSourceAdding = true;
+                                spotOrDirectionalLightSourceDrawHandler.activate();
+                                break;
+                            default:
+                                break;
+                        }
+                    });
                 });
             },
             render: function () {
@@ -542,14 +783,41 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 flyRoute.stop(viewer);
             },
             onSpinClk: function (evt) {
-                var center = new Cesium.Cartesian3(0, 0, 0);
-                var flyCircle = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
-                flyCircle.drawEvt.addEventListener(function (result) {
-                    center = result.object.position;
-                    flyCirclePoint = center;
-                    camera.flyCircle(center);
-                });
-                flyCircle.activate();
+                if (!flyCircleDrawHandler) {
+                    flyCircleDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
+                    flyCircleDrawHandler.activeEvt.addEventListener(function (isActive) {
+                        if (isActive == true) {
+                            viewer.enableCursorStyle = false;
+                            viewer._element.style.cursor = '';
+                            $('body').removeClass('drawCur').addClass('drawCur');
+                        } else {
+                            viewer.enableCursorStyle = true;
+                            $('body').removeClass('drawCur');
+                        }
+                    });
+                    flyCircleDrawHandler.drawEvt.addEventListener(function (result) {
+                        flyCirclePoint = result.object.position;
+                        viewer.entities.removeById('fly-circle-point');
+                        viewer.entities.add({
+                            id: 'fly-circle-point',
+                            position: flyCirclePoint,
+                            billboard: {
+                                image: 'images/flyCircle.png',
+                                scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1),
+                                disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
+                            }
+                        });
+                        camera.stopFlyCircle(); // 先停止之前的旋转，再开始新的旋转
+                        camera.flyCircle(flyCirclePoint);
+                        flyCircleDrawHandler.clear();
+                    });
+                }
+                flyCircleDrawHandler.activate();
+            },
+            onCancelSpinClk: function() {
+                camera.stopFlyCircle();
+                viewer.entities.removeById('fly-circle-point');
+                flyCirclePoint = null;
             },
             /**
              * 初始化卷帘。设置分割条初始位置及绑定相关事件。
@@ -772,8 +1040,137 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                         imageryLayer.splitDirection = new Cesium.Cartesian2(Cesium.ImagerySplitDirection.NONE, Cesium.ImagerySplitDirection.NONE);
                     }
                 }
+            },
+            clearLightSource: function() {
+                while(scene.lightSource.pointLight.values.length > 0) {
+                    scene.removeLightSource(scene.lightSource.pointLight.values[0]);
+                }
+                while(scene.lightSource.spotLight.values.length > 0) {
+                    scene.removeLightSource(scene.lightSource.spotLight.values[0]);
+                }
+                while(scene.lightSource.directionalLight.values.length > 0) {
+                    scene.removeLightSource(scene.lightSource.directionalLight.values[0]);
+                }
+                for(let key of entityPointLightPairs.keys()) {
+                    viewer.entities.remove(key);
+                }
+                entityPointLightPairs.clear();
+                for(let key of entitySpotLightPairs.keys()) {
+                    viewer.entities.remove(key);
+                }
+                entitySpotLightPairs.clear();
+                for(let key of entityDirectionalLightPairs.keys()) {
+                    viewer.entities.remove(key);
+                }
+                entityDirectionalLightPairs.clear();
             }
-        })
-    ;
-    return sceneAttribute;
+        });
+        function initPointLightSourceDrawHandler() {
+            pointLightSourceDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
+            pointLightSourceDrawHandler.activeEvt.addEventListener(function (isActive) {
+                if (isActive == true) {
+                    viewer.enableCursorStyle = false;
+                    viewer._element.style.cursor = '';
+                    $('body').removeClass('drawCur').addClass('drawCur');
+                } else {
+                    viewer.enableCursorStyle = true;
+                    $('body').removeClass('drawCur');
+                }
+            });
+            pointLightSourceDrawHandler.drawEvt.addEventListener(function (result) {
+                var cartesian = result.object.position;
+                var option = {
+                    color: Cesium.Color.fromCssColorString($("#point-light-color").spectrum('get').toRgbString()),
+                    cutoffDistance: Number($('#point-light-cutoff-distance').val()),
+                    decay: Number($('#point-light-decay').val()),
+                    intensity: Number($('#point-light-intensity').val())
+                };
+                var pointLight = new Cesium.PointLight(cartesian, option);
+                scene.addLightSource(pointLight);
+                var entityAsKey = viewer.entities.add({
+                    id: 'point-light-' + (new Date()).getTime(),
+                    position: cartesian,
+                    billboard: {
+                        image: 'images/lightSource/pointLight.png',
+                        scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1),
+                        disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
+                    }
+                });
+                entityPointLightPairs.set(entityAsKey, pointLight);
+                pointLightSourceDrawHandler.clear();
+            });
+        }
+        function initSpotOrDirectionalLightSourceDrawHandler() {
+            spotOrDirectionalLightSourceDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Line);
+            spotOrDirectionalLightSourceCountHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            spotOrDirectionalLightSourceDrawHandler.activeEvt.addEventListener(function (isActive) {
+                if (isActive == true) {
+                    viewer.enableCursorStyle = false;
+                    viewer._element.style.cursor = '';
+                    $('body').removeClass('drawCur').addClass('drawCur');
+                } else {
+                    viewer.enableCursorStyle = true;
+                    $('body').removeClass('drawCur');
+                }
+            });
+            spotOrDirectionalLightSourceDrawHandler.drawEvt.addEventListener(function (result) {
+                var positions = (result.object && result.object.positions) || result;
+                if (positions.length !== 2) {
+                    return;
+                }
+                if (lightSourceType === 1){
+                    var spotLightOptions = {
+                        color: Cesium.Color.fromCssColorString($("#spot-light-color").spectrum('get').toRgbString()),
+                        distance: Number($('#spot-light-cutoff-distance').val()),
+                        decay: Number($('#spot-light-decay').val()),
+                        intensity: Number($('#spot-light-intensity').val()),
+                        angle: Cesium.Math.toRadians(Number($('#spot-light-angle').val()))
+                    };
+                    var spotLight = new Cesium.SpotLight(positions[0], positions[1], spotLightOptions);
+                    scene.addLightSource(spotLight);
+                    var entityAsKey = viewer.entities.add({
+                        id: 'spot-light-' + (new Date()).getTime(),
+                        position: positions[0],
+                        billboard: {
+                            image: 'images/lightSource/spotLight.png',
+                            scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1), // 按照距离调整图片的大小
+                            disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
+                        }
+                    });
+                    entitySpotLightPairs.set(entityAsKey, spotLight);
+                } else if (lightSourceType === 2) {
+                    var directionalLightOptions = {
+                        targetPosition: positions[1],
+                        color: Cesium.Color.fromCssColorString($("#directional-light-color").spectrum('get').toRgbString()),
+                        intensity: Number($('#directional-light-intensity').val())
+                    };
+                    var directionalLight = new Cesium.DirectionalLight(positions[0], directionalLightOptions);
+                    scene.addLightSource(directionalLight);
+                    var entityAsKey = viewer.entities.add({
+                        id: 'directional-light-' + (new Date()).getTime(),
+                        position: positions[0],
+                        billboard: {
+                            image: 'images/lightSource/directionalLight.png',
+                            scaleByDistance: new Cesium.NearFarScalar(10, 1.0, 1000, 0.1),
+                            disableDepthTestDistance : Number.POSITIVE_INFINITY, // 关闭深度检测，使billboard不至于被裁剪
+                        }
+                    });
+                    entityDirectionalLightPairs.set(entityAsKey, directionalLight);
+                }
+                spotOrDirectionalLightPositions = [];
+                spotOrDirectionalLightSourceDrawHandler.clear();
+            });
+
+            spotOrDirectionalLightSourceCountHandler.setInputAction(function(e) {
+                if (spotOrDirectionalLightSourceAdding){
+                    spotOrDirectionalLightPositions.push(scene.pickPosition(e.position));
+                    if (spotOrDirectionalLightPositions.length === 2) {
+                        spotOrDirectionalLightSourceDrawHandler.deactivate();
+                        spotOrDirectionalLightSourceAdding = false;
+                        spotOrDirectionalLightSourceDrawHandler.drawEvt.raiseEvent(spotOrDirectionalLightPositions);
+                    }
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        }
+        return sceneAttribute;
 });

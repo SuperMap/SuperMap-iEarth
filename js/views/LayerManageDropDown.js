@@ -258,29 +258,28 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             document.getElementById('layer-hue').value = selectedLayer.hue;
             document.getElementById('layer-saturation').value = selectedLayer.saturation;
 
-            // 这里有问题：DOM改变了界面不会改变，可能和Backbone的模板渲染有关系
             switch (selectedLayer.style3D.fillStyle){
                 case Cesium.FillStyle.Fill:
-                    $('input[name="layer-fill-style"][value="fill"]').attr("checked", "checked");
+                    $('#fillStyle').val("fill");
                     break;
                 case Cesium.FillStyle.WireFrame:
-                    $('input[name="layer-fill-style"][value="wireframe"]').attr("checked", "checked");
+                    $('#fillStyle').val("wireframe");
                     break;
                 case Cesium.FillStyle.Fill_And_WireFrame:
-                    $('input[name="layer-fill-style"][value="fill-and-wireframe"]').attr("checked", "checked");
+                    $('#fillStyle').val("fill-and-wireframe");
                     break;
                 default:
                     break;
             }
             switch (selectedLayer.wireFrameMode){
                 case Cesium.WireFrameType.Triangle:
-                    $('input[name="layer-wireframe-mode"][value="triangle"]').attr("checked", "checked");
+                    $('#wireframe-mode').val("triangle");
                     break;
                 case Cesium.FillStyle.WireFrame:
-                    $('input[name="layer-wireframe-mode"][value="quad"]').attr("checked", "checked");
+                    $('#wireframe-mode').val("quad");
                     break;
                 case Cesium.WireFrameType.Sketch:
-                    $('input[name="layer-wireframe-mode"][value="sketch"]').attr("checked", "checked");
+                    $('#wireframe-mode').val("sketch");
                     break;
                 default:
                     break;
@@ -307,7 +306,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             selectColor.oninput = function () {
                 var color = Cesium.Color.fromCssColorString(selectColor.value);
                 selectedLayer.selectedColor = color;
-            }
+            };
             $("#colorStyle").change(function () {
                 var value = $(this).val();
                 if (value == "0") {
@@ -316,7 +315,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 else if (value == "1") {
                     selectedLayer.selectColorType = 1;
                 }
-            })
+            });
             // 图层可见性
             $("#display").click(function (evt) {
                 selectedLayer.visible = !selectedLayer.visible;
@@ -350,21 +349,40 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
 
             $('#fillStyle').change(function () {
                 var value = $(this).val();
-                if (value == "0") {
-                    selectedLayer.style3D.fillStyle = 0;
+                if (value == "fill") {
+                    selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill;
                 }
-                else if (value == "1") {
-                    selectedLayer.style3D.fillStyle = 1;
+                else if (value == "wireframe") {
+                    selectedLayer.style3D.fillStyle = Cesium.FillStyle.WireFrame;
                 }
-                else if (value == "2") {
-                    selectedLayer.style3D.fillStyle = 2;
+                else if (value == "fill-and-wireframe") {
+                    selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
                 }
+                selectedLayer.refresh();
             });
+            $('#wireframe-mode').on('input propertychange', function() {
+                var layerWireframeMode = $(this).val();
+                switch (layerWireframeMode) {
+                    case "triangle":
+                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Triangle;
+                        break;
+                    case "quad":
+                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Quad;
+                        break;
+                    case "sketch":
+                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Sketch;
+                        break;
+                    default:
+                        break;
+                }
+                selectedLayer.refresh();
+            });
+
             var bottomAltitude = document.getElementById('bottomAltitude');
             bottomAltitude.onblur = function () {
                 selectedLayer.style3D.bottomAltitude = parseInt(bottomAltitude.value);
                 selectedLayer.refresh();
-            }
+            };
 
             // 最小最大可见高度设置
             $("#min-visible-height").on("input propertychange", function(){
@@ -481,42 +499,6 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 selectedLayer.saturation = Number($(this).val());
             });
 
-            // 线框模式
-            $("input[name='layer-fill-style']").on('input propertychange', function(){
-                var layerFillStyle = $(this).val();
-                switch (layerFillStyle){
-                    case 'fill':
-                        selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill;
-                        break;
-                    case 'wireframe':
-                        selectedLayer.style3D.fillStyle = Cesium.FillStyle.WireFrame;
-                        break;
-                    case 'fill-and-wireframe':
-                        selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
-                        break;
-                    default:
-                        break;
-                }
-                selectedLayer.refresh();
-            });
-            $("input[name='layer-wireframe-mode']").on('input propertychange', function(){
-                var layerWireframeMode = $(this).val();
-                switch (layerWireframeMode){
-                    case 'triangle':
-                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Triangle;
-                        break;
-                    case 'quad':
-                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Quad;
-                        break;
-                    case 'sketch':
-                        selectedLayer.wireFrameMode = Cesium.WireFrameType.Sketch;
-                        break;
-                    default:
-                        break;
-                }
-                selectedLayer.refresh();
-            });
-
             $("#layer-polygon-factor,#layer-polygon-unit").on("input propertychange", function(){
                 var polygonOffsetFactor = Number($("#layer-polygon-factor").val());
                 var polygonOffsetUnit = Number($("#layer-polygon-unit").val());
@@ -526,7 +508,7 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
             //还原
             initialize.onchange = function () {
                 selectedLayer.setObjsVisible([], false);
-            }
+            };
             initialization = true;
         }
 

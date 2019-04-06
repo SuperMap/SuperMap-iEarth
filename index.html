@@ -13,21 +13,20 @@
     <meta http-equiv="Access-Control-Allow-Origin" content="*"/>
     <title>SuperMap iEarth</title>
     <link href="./Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-    <link href="./css/pretty.css" rel="stylesheet"/>
     <link href="css/SuperMap.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <!-- CSS代码整理，未来主体的CSS代码将放在该CSS文件中 -->
+    <link href="css/style.css" rel="stylesheet">
     <link href="./css/iearth.css" rel="stylesheet"/>
-    <link href="./css/geoFont/iconfont.css" rel="stylesheet">
-    <link href="//at.alicdn.com/t/font_964040_er4plilapt8.css" rel="stylesheet"/>
+    <link href="css/geoFont/iconfont.css" rel="stylesheet"/>
     <link rel="shortcut icon" href="./images/SuperMapiEarth.ico"/>
 </head>
 <body>
 <div id="cesiumContainer"></div>
-<script>
-    Window.iportalAppsRoot = "${resource.rootPath}";
-    Window.isSuperMapOL = "${resource.customVariables.isSuperMapOL?c}";
-</script>
+<div id="transition-loader" class="transition-loader">
+    <label></label>
+    <label></label>
+    <label></label>
+    <label></label>
+</div>
 <script src="js/lib/require.min.js" data-main="js/index"></script>
 </body>
 </html>

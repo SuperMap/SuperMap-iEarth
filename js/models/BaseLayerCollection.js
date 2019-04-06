@@ -6,9 +6,9 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
         fetch : function(){
             var models = [
 				new BaseLayerModel({
-				    url : Window.iportalAppsRoot + '/static/iearth/' + 'images/baseImage.png',
+				    url : './images/baseImage.png',
 				    name : 'Image',
-				    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/Image.png',
+                    thumbnail : './images/Image.png',
 				    title : 'Image',
 				    type : 'IMAGE',
 				    serviceType : Resource.imgServiceType
@@ -16,7 +16,7 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                 new BaseLayerModel({
                     url : '//dev.virtualearth.net',
                     name : 'BingMap',
-                    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/Bing.png',
+                    thumbnail : './images/Bing.png',
                     title : 'BingMap',
                     type : 'BINGMAP',
                     serviceType : Resource.bingServiceType
@@ -24,7 +24,7 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                 new BaseLayerModel({
                     url : 'https://[subdomain].tianditu.com/img_w/wmts',
                     name : Resource.tianditu,
-                    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/tianditu.png',
+                    thumbnail : './images/tianditu.png',
                     title : Resource.tianditu,
                     type : 'TIANDITU',
                     serviceType : Resource.tdtServiceType
@@ -32,7 +32,7 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                 new BaseLayerModel({
                     url : 'https://a.tile.openstreetmap.org/',
                     name : 'Open Street Map',
-                    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/OSM.png',
+                    thumbnail : './images/OSM.png',
                     title : 'Open Street Map',
                     type : 'OSM',
                     serviceType : Resource.osmServiceType
@@ -40,21 +40,21 @@ define(['backbone','./BaseLayerModel'],function(Backbone,BaseLayerModel){
                 new BaseLayerModel({
                     url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Dark',
                     name : 'Open Street Map',
-                    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/SuperMapDark.jpg',
+                    thumbnail : './images/SuperMapDark.jpg',
                     title : 'SuperMap China_Dark Map',
                     type : 'SUPERMAPDARK'
                 }),
                 new BaseLayerModel({
                     url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
                     name : 'Open Street Map',
-                    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/grad.jpg',
+                    thumbnail : './images/grad.jpg',
                     title : 'Grid Image Map',
                     type : 'GRIDIMAGERY'
                 }),
                 new BaseLayerModel({
                     url : 'https://www.supermapol.com/iserver/services/map_China/rest/maps/China_Light',
                     name : 'Open Street Map',
-                    thumbnail : Window.iportalAppsRoot + '/static/iearth/' + 'images/SuperMapLight.jpg',
+                    thumbnail : './images/SuperMapLight.jpg',
                     title : 'SuperMap China_Light Map',
                     type : 'SUPERMAPLIGHT'
                 })

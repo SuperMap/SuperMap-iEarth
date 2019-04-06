@@ -55,7 +55,7 @@ define(['./Container',
         '<div class="function-module-content">',
             '<div class="function-module-sub-section">',
                 '<label class="function-module-sub-section-caption">'+ Resource.analysisArea +'</label>',
-                '<select id="calMode" class="cesium-button" style="margin: 0;font-size: 12px;width: 90%">',
+                '<select id="calMode" style="margin: 0;font-size: 12px;width: 90%">',
                     '<option value="calModeall_plane" >'+ Resource.SpecifyPolygon +'</option>',
                     '<option value="calModeall_any">' + Resource.AllRegionsAnalysis + '</option>',
                     '<option value="calModeall_none">' + Resource.AllRegionsNOAnalysis + '</option>',
@@ -76,7 +76,7 @@ define(['./Container',
                 '<label class="function-module-sub-section-caption">' + Resource.displayStyle + '</label>',
                 '<div class="function-module-sub-indent-section">',
                     '<label class="function-module-sub-section-caption-indent">'+ Resource.fill +'</label>',
-                    '<select id="showMode" class="cesium-button" style="font-size: 12px;margin: 0;width: 90%">',
+                    '<select id="showMode" style="font-size: 12px;margin: 0;width: 90%">',
                         ' <option value="calModeall_plane">' + Resource.ShowFillColor +'</option>',
                         '<option value="calModeall_any">' + Resource.ShowSlopeArrow +'</option>',
                         '<option value="calModeall_none">' + Resource.ShowColorArrow + '</option>',
@@ -140,7 +140,7 @@ define(['./Container',
         '</div>',
         '<div>',
             '<label class="function-module-sub-section-caption">'+ Resource.displayMode +'</label>',
-            '<select id="fillOptions" class="cesium-button" style="font-size: 12px;margin: 0;width: 90%">',
+            '<select id="fillOptions" style="font-size: 12px;margin: 0;width: 90%">',
                 '<option selected value="Line">'+ Resource.ContourFilling +'</option>',
                 '<option value="Region">'+ Resource.panelFilling +'</option>',
                 '<option value="Line_Region">'+ Resource.ContourPanelFilling +'</option>',
@@ -181,13 +181,13 @@ define(['./Container',
             this.on('componentAdded',function(parent){
                 $('main').each(function(index){
                     $(this).myDrag({
-                        parent:'body', //定义拖动不能超出的外框,拖动范围
-                        randomPosition:false, //初始化随机位置
-                        direction:'all', //方向
-                        handler:false, //把手
-                        dragStart:function(x,y){}, //拖动开始 x,y为当前坐标
-                        dragEnd:function(x,y){}, //拖动停止 x,y为当前坐标
-                        dragMove:function(x,y){} //拖动进行中 x,y为当前坐标
+                        parent:'body',
+                        randomPosition:false,
+                        direction:'all',
+                        handler:false,
+                        dragStart:function(x,y){},
+                        dragEnd:function(x,y){},
+                        dragMove:function(x,y){}
                     });
                 });
 
@@ -196,7 +196,9 @@ define(['./Container',
                     showPalette: true,
                     showAlpha: true,
                     localStorageKey: "spectrum.demo",
-                    palette: palette
+                    palette: palette,
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm
                 });
             });
         },

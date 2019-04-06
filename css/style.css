@@ -1,13 +1,4 @@
-/* remove codrops styles and reset the whole thing */
-#container_demo{
-	 text-align: left;
-	 margin: 0;
-	 padding: 0;
-	 margin: 0 auto;
-	 font-family: "Trebuchet MS","Myriad Pro",Arial,sans-serif;
-}
-
-/** fonts used for the icons **/ 
+/** fonts used for the icons **/
 @font-face {
     font-family: 'FontomasCustomRegular';
     src: url('fonts/fontomas-webfont.eot');
@@ -28,61 +19,6 @@
     font-weight: normal;
     font-style: normal;
 
-}
-
-/** The wrapper that will contain our two forms **/
-
-/**** Styling the form elements **/
- .first-label{
-	left: 5px;
-    top: 0px;
-    width: auto;
-    font-weight: bold;
-    
-}
-/**** general text styling ****/
-.login a{
-	color: rgb(95, 155, 198);
-	text-decoration: underline;
-}
-
-.login h1{
-	font-size: 19px;
-	color: rgb(6, 106, 117);
-	padding: 2px 0 15px 0;
-	font-family: 'FranchiseRegular','Arial Narrow',Arial,sans-serif;
-	font-weight: bold;
-	text-align: center;
-}
-/** For the moment only webkit supports the background-clip:text; */
-.login h1{
-    background: -webkit-repeating-linear-gradient(-45deg, rgb(46, 197, 173) , rgb(46, 197, 173) 20px, rgb(46, 197, 173) 20px, rgb(46, 197, 173) 40px, rgb(111, 217, 163) 40px);
-	-webkit-text-fill-color: transparent;
-	-webkit-background-clip: text;
-}
-.login h1:after{
-	content: ' ';
-	display: block;
-	width: 100%;
-	height: 2px;
-	margin-top: 10px;
-	background: -moz-linear-gradient(left, rgba(147,184,189,0) 0%, rgba(147,184,189,0.8) 20%, rgba(147,184,189,1) 53%, rgba(147,184,189,0.8) 79%, rgba(147,184,189,0) 100%); 
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(147,184,189,0)), color-stop(20%,rgba(147,184,189,0.8)), color-stop(53%,rgba(147,184,189,1)), color-stop(79%,rgba(147,184,189,0.8)), color-stop(100%,rgba(147,184,189,0))); 
-	background: -webkit-linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%); 
-	background: -o-linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%); 
-	background: -ms-linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%); 
-	background: linear-gradient(left, rgba(147,184,189,0) 0%,rgba(147,184,189,0.8) 20%,rgba(147,184,189,1) 53%,rgba(147,184,189,0.8) 79%,rgba(147,184,189,0) 100%); 
-}
-
-.login p{
-	margin-bottom:15px;
-}
-.login p:first-child{
-	margin: 0px;
-}
-.login label{
-	color: lightgrey;
-	position: relative;
 }
 
 /** the magic icon trick ! **/

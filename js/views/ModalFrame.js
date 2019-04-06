@@ -10,7 +10,7 @@ define(['./Container','./WebServicePan','./CustomServicePan','./LocalFilePan','.
                     '<li role="presentation" id="servicePan" class="active"><a href="#webServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.smOnlineService + '</a></li>',
                     '<li role="presentation"><a href="#customServicePan" aria-controls="home" role="tab" data-toggle="tab">' + Resource.customService + '</a></li>',
                     '<li role="presentation"><a href="#localFilePan" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.localKML + '</a></li>',
-                    '<li role="presentation" id = "getMyScenes"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
+                    '<li role="presentation" id = "getMyScenes" style="display: none"><a href="#myScenes" aria-controls="profile" role="tab" data-toggle="tab">' + Resource.myScenes + '</a></li>',
                 '</ul>',
             "</div>",
             '<div class="myModal-body">',

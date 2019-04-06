@@ -4,7 +4,6 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
     var $ = require('jquery');
     var viewer;
     var sceneModel;
-    var appsRoot;
     var isPCBroswer;
     var htmlStr = [
         '<main class="myModal-content">',
@@ -34,23 +33,6 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             sceneModel = options.sceneModel;
             isPCBroswer = options.isPCBroswer
             this.render();
-            this.on('componentAdded',function(parent){
-                // $('main').each(function(index){
-                //     $(this).myDrag({
-                //         parent:'body',
-                //         randomPosition:false,
-                //         direction:'all',
-                //         handler:false,
-                //         dragStart:function(x,y){},
-                //         dragEnd:function(x,y){},
-                //         dragMove:function(x,y){}
-                //     });
-                // });
-                var that = viewer.scene;
-                appsRoot =Window.iportalAppsRoot;
-                var pattern = "/apps";
-                appsRoot = appsRoot.replace(new RegExp(pattern), "");
-            });
         },
         render : function(){
             this.$el.html(this.template());
@@ -71,7 +53,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             var me = this;
             $.ajax({
                 type: "GET",
-                url: appsRoot + "/web/mycontent/scenes.json",
+                url: "../../web/mycontent/scenes.json",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success : function (jsonResult) {
@@ -81,23 +63,15 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                       var id = item.id;
                       $.ajax({
                           type: "GET",
-                          url: appsRoot + "/web/scenes/" + id + ".json",
+                          url: "../../web/scenes/" + id + ".json",
                           contentType: "application/json;charset=utf-8",
                           dataType: "json",
                           success : function (json) {
-                              // var thumbnail =  appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
-                              // var str = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + '  title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel">' + json.name + '</div></div>';
-                              // $('#scenePreview').append(str);
-                              // $("#"+json.name).on('click',function(){
-                              //     $("#"+json.name).addClass('service-itemIcon-selected');
-                              //     sceneModel.parsePortalJson(json);
-                              //     me.$el.hide();
-                              // });
                               var thumbnail;
                               if(json.content) {
-                                  thumbnail = appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
+                                  thumbnail = "../../resources/thumbnail/scene/scene" + json.id + ".png";
                               }else{
-                                  thumbnail = Window.iportalAppsRoot + '/static/iearth/'+'images/sceneThumbnail.png';
+                                  thumbnail = '../../images/sceneThumbnail.png';
                               }
                               var sceneThumbnail = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + ' title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel" id = ' + json.name +"label" + '>' + json.name + "·分享"+'</div></div>';
                               $('#scenePreview').append(sceneThumbnail);

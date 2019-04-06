@@ -1,21 +1,24 @@
-define(['../views/Container','../portal/loginWindow'],function(Container,SuperMapSSO){
+define(['../views/Container','../portal/loginWindow', '../Util'],function(Container,SuperMapSSO, Utils){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
     var viewer;
     var htmlStr = [
-        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-iEarth-zhuyemian-"></span>',
-        '</a><br><br>',
-        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-ic_save"></span>',
-        '</a><br><br>',
-        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-fenxiang"></span>',
-        '</a><br><br>',
-        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
-        '<span class="iconfont icon-denglu"></span>',
-        '</a>'
+        '<a id="home" class="btn btn-inverse" title="' + Resource.home + '" style="width : 32px;height : 32px;padding : 5px 8px;display: block; margin-bottom: 18px;">',
+        '<span class="iconfont icon-side-toolbar_home"></span>',
+        '</a>',
+        '<a id="portalOpen" class="btn btn-inverse" title="' + Resource.storage + '" style="display: block; width : 32px;height : 32px;padding : 5px 8px; margin-bottom: 18px;">',
+        '<span class="iconfont icon-side-toolbar_storage"></span>',
+        '</a>',
+        '<a id="portalShare" class="btn btn-inverse" title="' + Resource.share + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;margin-bottom: 18px;">',
+        '<span class="iconfont icon-side-toolbar_share"></span>',
+        '</a>',
+        '<a id="login" class="btn btn-inverse" title="' + Resource.login + '" style="display: none; width : 32px;height : 32px;padding : 5px 8px;margin-bottom: 18px;">',
+        '<span class="iconfont icon-side-toolbar_login"></span>',
+        '</a>',
+        '<a id="toggle-fullscreen-btn" class="btn btn-inverse" title="' + Resource.fullScreenToggle + '" style="width : 32px;height : 32px;padding : 5px 8px;">',
+        '<span class="iconfont icon-side-toolbar_fullscreen"></span>',
+        '</a>',
     ].join('');
     var portalForm = Container.extend({
         template : _.template(htmlStr),
@@ -25,10 +28,19 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
             viewer = options.sceneModel.viewer;
             this.render();
             this.on('componentAdded',function(parent){
-                if(Window.isSuperMapOL == "true"){
-                    $("#portalShare").show();
-                    $("#login").show();
-                 }
+                if(Window.isSuperMapOL === true){
+                    $("#portalShare").css('display', 'block');
+                    $("#login").css('display', 'block');
+                }
+
+                // 监听全屏切换事件
+                document.addEventListener("fullscreenchange", function( event ) {
+                    if (!document.fullscreenElement) { // fullscreenElement属性返回正处于全屏状态的Element节点，没有节点处于全屏状态返回null
+                        $('#toggle-fullscreen-btn > span.iconfont').removeClass('icon-side-toolbar_cancel-fullscreen').addClass('icon-side-toolbar_fullscreen');
+                    } else {
+                        $('#toggle-fullscreen-btn > span.iconfont').removeClass('icon-side-toolbar_fullscreen').addClass('icon-side-toolbar_cancel-fullscreen');
+                    }
+                });
             });
         },
         render : function() {
@@ -39,7 +51,8 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
             'click #home' : 'home',
             'click #portalOpen' : 'portalOpen',
             'click #portalShare' : 'portalShare',
-            'click #login' : 'login'
+            'click #login' : 'login',
+            'click #toggle-fullscreen-btn': 'toggleFullscreen'
         },
         portalOpen : function() {
             var me = this;
@@ -54,12 +67,10 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                     var img = new Image();
                     img.src = buffer;
                     img.onload = function () {
-                        ctx.drawImage(img,0,0,290,150)
+                        ctx.drawImage(img,0,0,298,150)
                     }
                 })
-            }
-            else
-            {
+            } else {
                 require(['./portal/savePortalForm'],function(savePortalForm){
                     var savePortalForm = new savePortalForm({
                         sceneModel : me.model,
@@ -72,15 +83,12 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                 });
             }
         },
-
         portalShare : function() {
             var me = this;
             if(me.sharePortalForm){
                 $("#portalTab2").click();
                 me.sharePortalForm.$el.show();
-            }
-            else
-            {
+            } else {
                 require(['./portal/sharePortalForm'],function(sharePortalForm){
                     var sharePortalForm = new sharePortalForm({
                         sceneModel : me.model,
@@ -94,22 +102,18 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
             }
 
         },
-
         home : function () {
             viewer.camera.flyTo({
                 destination: new Cesium.Cartesian3.fromDegrees(110.60396458865515,34.54408834959379,30644793.325518917),
                 duration: 5
             });
         },
-
         login : function (event) {
             window.reCallBack = function(){
                 window.location.href = window.location.href;
-            }
-            var appsRoot =Window.iportalAppsRoot;
-            var pattern = "/apps";
-            appsRoot = appsRoot.replace(new RegExp(pattern), "");
-            var loginURL = appsRoot + "/web/login?popup=true";
+            };
+
+            var loginURL = "../../web/login?popup=true";
             SuperMapSSO.setLoginUrl(loginURL);
             SuperMapSSO.doSynchronize("reCallBack");
             SuperMapSSO.doLogin("reCallBack");
@@ -119,6 +123,13 @@ define(['../views/Container','../portal/loginWindow'],function(Container,SuperMa
                 window.event.returnValue = false;
             }
             return false;
+        },
+        toggleFullscreen: function() {
+            if (document.fullscreenElement) { // 存在全屏状态下的节点
+                Utils.exitFullscreen();
+            } else {
+                Utils.launchFullscreen(document.documentElement);
+            }
         }
     });
     return portalForm;

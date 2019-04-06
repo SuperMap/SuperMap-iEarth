@@ -4,7 +4,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
     var $ = require('jquery');
     var viewer;
     var sceneModel;
-    var appsRoot;
+    // var appsRoot;
     var isPCBroswer;
     var htmlStr = [
         '<main class="myModal-content">',
@@ -56,14 +56,14 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         initialize : function(options){
             viewer = options.sceneModel.viewer;
             sceneModel = options.sceneModel;
-            isPCBroswer = options.isPCBroswer
+            isPCBroswer = options.isPCBroswer;
             this.render();
             this.on('componentAdded',function(parent){
                 var that = viewer.scene;
                 document.getElementById("saveDate").innerText = getNowFormatDate();
-                appsRoot =Window.iportalAppsRoot;
-                var pattern = "/apps";
-                appsRoot = appsRoot.replace(new RegExp(pattern), "");
+                // appsRoot =Window.iportalAppsRoot;
+                // var pattern = "/apps";
+                // appsRoot = appsRoot.replace(new RegExp(pattern), "");
                 var promise = that.outputSceneToFile();
                 Cesium.when(promise,function (buffer) {
                     var canvas = document.getElementById("sceneCanvas");
@@ -71,10 +71,36 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                     var img = new Image();
                     img.src = buffer;
                     img.onload = function () {
-                        ctx.drawImage(img,0,0,290,150)
+                        ctx.drawImage(img,0,0,298,150);
                     }
-                })
-                if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
+                });
+                var sceneViewerUrl = window.location.href;
+                if (sceneViewerUrl.indexOf("?action=") == -1) {
+                    /*var appsRoot =Window.iportalAppsRoot;
+                    var pattern = "/apps";
+                    appsRoot = appsRoot.replace(new RegExp(pattern), "");*/
+                    sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+                    if(sceneViewerUrl != '/'){
+                        var regexp = new RegExp("/");
+                        var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
+                        $.ajax({
+                                type: "GET",
+                                url: "../../web/scenes/" + sceneViewerUrl + ".json",
+                                contentType: "application/json;charset=utf-8",
+                                dataType: "json",
+                                async: false,
+                                success : function (json) {
+                                    $('#scenePortalName').val(json.name);
+                                    $('#scenePortalTages').val(json.tags);
+                                    $('#scenePortalUser').val(json.nickname);
+                                    $('#scenePortalDescription').val(json.description);
+                                    $('#saveUser').val(Resource.saveAs);
+                                }
+                            }
+                        )
+                    }
+                }
+                /*if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
                     var sceneViewerUrl = window.location.href;
                     if (sceneViewerUrl.indexOf("?action=") == -1) {
                         var appsRoot =Window.iportalAppsRoot;
@@ -101,7 +127,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                             )
                         }
                     }
-                }
+                }*/
             });
         },
         render : function(){
@@ -120,16 +146,13 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
         },
 
         onSaveUserClk : function(evt){
-            appsRoot =Window.iportalAppsRoot;
-            var pattern = "/apps";
-            appsRoot = appsRoot.replace(new RegExp(pattern), "");
             var me = this;
             if($('#scenePortalName').val() == ""){
                 Util.showErrorMsg(Resource.saveErrorWhileSceneEmpty);
                 return;
             }
             var canvas = document.getElementById("sceneCanvas");
-            var base64 =  canvas.toDataURL("image/jpeg",0.1);
+            var base64 =  canvas.toDataURL("image/jpeg");
             base64 = base64.split(",")[1];
             var data = {};
             data.layers = [];
@@ -172,21 +195,21 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             saveData =  JSON.stringify(saveData);
             $.ajax({
                 type: "POST",
-                url: appsRoot + "/web/scenes.json",
+                url: "../../web/scenes.json",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 data: saveData,
                 success : function (jsonResult) {
                     $.ajax({
                         type: "PUT",
-                        url: appsRoot + "/web/scenes/" + parseInt(jsonResult.newResourceID) + "/thumbnail.json",
+                        url: "../../web/scenes/" + parseInt(jsonResult.newResourceID) + "/thumbnail.json",
                         contentType: "application/json;charset=utf-8",
                         dataType: "json",
                         data: base64,
                         success : function (result) {
                             me.$el.hide();
                             Util.showErrorMsg(Resource.saveSceneSuccess);
-                            window.location.href= appsRoot + "/apps/earth/" + jsonResult.newResourceID;
+                            window.location.href= "../../apps/earth/index.html?id=" + jsonResult.newResourceID;
                         },
                         error: function(error)
                         {
@@ -203,9 +226,6 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
 
         onUpdateUserClk : function(evt){
             var me = this;
-            appsRoot =Window.iportalAppsRoot;
-            var pattern = "/apps";
-            appsRoot = appsRoot.replace(new RegExp(pattern), "");
             var canvas = document.getElementById("sceneCanvas");
             var base64 =  canvas.toDataURL("image/jpeg",0.1);
             base64 = base64.split(",")[1];
@@ -248,21 +268,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 "description":$('#scenePortalDescription').val(),
                 "content": JSON.stringify(data)
             };
-            // var updateData = {};
-            // if($('#scenePortalName').val() != ""){
-            //     updateData.name = $('#scenePortalName').val();
-            // }
-            // if($('#scenePortalTages').val() != ""){
-            //     updateData.tags = $('#scenePortalTages').val();
-            // }
-            // if($('#scenePortalUser').val() != ""){
-            //     updateData.userName = $('#scenePortalUser').val();
-            // }
-            // if($('#scenePortalDescription').val() != ""){
-            //     updateData.description = $('#scenePortalDescription').val();
-            // }
-            // updateData.content = JSON.stringify(data)
-             updateData =  JSON.stringify(updateData);
+            updateData =  JSON.stringify(updateData);
 
             var sceneViewerUrl = window.location.href;
             sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
@@ -271,14 +277,14 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
                 var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
                 $.ajax({
                         type: "PUT",
-                        url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
+                        url: "../../web/scenes/" + sceneViewerUrl + ".json",
                         contentType: "application/json;charset=utf-8",
                         dataType: "json",
                         data: updateData,
                         success : function (json) {
                             $.ajax({
                                 type: "PUT",
-                                url: appsRoot + "/web/scenes/" + sceneViewerUrl + "/thumbnail.json",
+                                url: "../../web/scenes/" + sceneViewerUrl + "/thumbnail.json",
                                 contentType: "application/json;charset=utf-8",
                                 dataType: "json",
                                 data: base64,

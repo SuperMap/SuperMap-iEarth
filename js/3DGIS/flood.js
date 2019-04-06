@@ -1,4 +1,4 @@
-define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Convert) {
+define(['Cesium','../lib/Convert'],function(Cesium, Convert) {
     'use strict';
   /*
   * 淹没分析对象，和等值线同源

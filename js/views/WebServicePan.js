@@ -2,10 +2,10 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [
-        '<div class="selTypeContainer">',
-        '<select id="selType" class="cesium-button" style="width : 50%;border-radius : 0;">',
-        '</select>',
-        '</div>'
+		'<div class="selTypeContainer">',
+			'<select id="selType" class="my-form-control" style="width: 50%;">',
+			'</select>',
+		'</div>',
     ].join('');
 
     popLayer.config({ //  通过模块化方式调用该插件时配置layer.js所在的目录，从而去加载它的一些配件
@@ -132,7 +132,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
             }
             this.$el.prop({'id' : 'webServicePan'});
             this.$el.attr({'role' : 'tabpanel'});
-            this.$el.addClass('tab-pane active');
+            this.$el.addClass('tab-pane active function-module-content');
             this.$el.append(this.thumbGroup.$el);
             return this;
         },
@@ -154,7 +154,8 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
         		this.layerCollection.fetch(url,this,false);
         	}else if(value === 'effects'){
                 $("#webServicesWraper").children().remove();
-				var specialEffectsData = SpecialEffects(Window.iportalAppsRoot + '/static/iearth');
+				// var specialEffectsData = SpecialEffects(Window.iportalAppsRoot + '/static/iearth');
+                var specialEffectsData = SpecialEffects('.');
 				var effects = specialEffectsData.effects;
 				effects.forEach(function(effect){
 					var effectName = effect.name;
@@ -162,9 +163,6 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
 					var effectThumbnail = effect.thumbnail;
 					var effectDescription = effect.description;
 
-					/*var $effectImg = $("<div class='effect-itemIcon'><div class='effect-itemBg'></div><img src="+ effectThumbnail +"></div>");
-					var $effectLabel = $("<div class='effect-itemLabel'>"+ effectName +"</div>");
-					var $effectItem = $("<div class='effect-item'></div>");*/
                     var $effectImg = $("<div class='service-itemIcon'><div class='service-itemBg'></div><img src="+ effectThumbnail +"></div>");
                     var $effectLabel = $("<div class='service-itemLabel'>"+ effectName +"</div>");
                     var $effectItem = $("<div class='service-item'></div>");

@@ -1,4 +1,4 @@
-define(['Cesium','../lib/SuperMap','../lib/Convert'],function(Cesium, Super, Convert) {
+define(['Cesium','../lib/Convert'],function(Cesium, Convert) {
     'use strict';
 
     /*

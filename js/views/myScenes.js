@@ -19,13 +19,10 @@ define(['./Container','jquery','../models/LayerModel','../Util','./shareForm'],f
             this.render();
             this.on('componentAdded',function(parent){
                     var me = this;
-                    var appsRoot =Window.iportalAppsRoot;
-                    var pattern = "/apps";
-                    appsRoot = appsRoot.replace(new RegExp(pattern), "");
                     $("#getMyScenes").on("click",function(){
                         $.ajax({
                             type: "GET",
-                            url: appsRoot + "/web/mycontent/scenes.json",
+                            url: "../../web/mycontent/scenes.json",
                             contentType: "application/json;charset=utf-8",
                             dataType: "json",
                             success : function (jsonResult) {
@@ -43,7 +40,8 @@ define(['./Container','jquery','../models/LayerModel','../Util','./shareForm'],f
                                                 if(json.content) {
                                                     thumbnail = appsRoot + "/resources/thumbnail/scene/scene" + json.id + ".png";
                                                 }else{
-                                                    thumbnail = Window.iportalAppsRoot + '/static/iearth/'+'images/sceneThumbnail.png';
+                                                    // thumbnail = Window.iportalAppsRoot + '/static/iearth/'+'images/sceneThumbnail.png';
+                                                    thumbnail = './images/sceneThumbnail.png';
                                                 }
                                                 var sceneThumbnail = '<div class="service-item"><div class="service-itemIcon"><img style="width:100%;height:100%;" src= ' + thumbnail + ' title=' + json.name + '><div class="service-itemAttr"><div class="service-itemBg"  id=' + json.name + '  ></div><div class="service-itemDes">iEarth:analyze scene</div><div class="service-itemUnSelected"><span class="fui-check"></span></div></div></div><div class="service-itemLabel" id = ' + json.name +"label" + '>' + json.name + "·分享"+'</div></div>';
                                                 $('#scenePreview').append(sceneThumbnail);

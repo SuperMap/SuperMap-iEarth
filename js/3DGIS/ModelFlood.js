@@ -13,7 +13,7 @@ define(['Cesium'], function(){
         colorTable.insert(0, new Cesium.Color(149/255, 232/255, 249/255));
         hyp.ColorTable = colorTable;
         hyp.DisplayMode = Cesium.HypsometricSettingEnum.DisplayMode.FACE;
-        hyp.Opacity = 0.5;
+        hyp.Opacity = 0.7;
         hyp.LineInterval = 10.0;
 
         hasInitialized = true;

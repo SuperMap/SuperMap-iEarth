@@ -63,11 +63,11 @@ define(['./Container','../lib/qrcode.min'],function(Container){
                     dragEnd:function(x,y){},
                     dragMove:function(x,y){}
                 });
-                var appsRoot =Window.iportalAppsRoot;
-                var pattern = "apps";
-                appsRoot = appsRoot.replace(new RegExp(pattern), "");
-                var keyUrl = appsRoot + "web/mycontent/keys/default.json";
-                var  sceneLink = appsRoot + "apps/earth/" + sceneID;
+                var keyUrl = "../../web/mycontent/keys/default.json";
+                var location = window.location;
+                var protocol = location.protocol;
+                var host = location.host;
+                var sceneLink = `${protocol}//${host}/apps/earth/index.html?id=${sceneID}`;
                 $.ajax({
                     type: "GET",
                     url: keyUrl,

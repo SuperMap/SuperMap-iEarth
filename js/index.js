@@ -88,6 +88,14 @@
       });
   }
 function init(Cesium, Zlib) {
+    var location = window.location;
+    var protocol = location.protocol;
+    var host = location.host;
+    var systemJSONUrl = `${protocol}//${host}/iportal/web/config/system.json`;
+    Cesium.loadJson(systemJSONUrl).then(function(jsonData) {
+        Window.isSuperMapOL = jsonData.isSuperMapOL
+    });
+    Window.isSuperMapOL = "${resource.customVariables.isSuperMapOL?c}";
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
     var viewer;
     if (isPCBroswer) {
@@ -97,14 +105,18 @@ function init(Cesium, Zlib) {
             baseLayerPicker: false,
             shadows: true,
             infoBox: false,
-            geocoder : true
+            geocoder : true,
+            // skyBox: false, // 关闭天空盒会一同关闭太阳，场景会变暗
+            navigation: false
         });
         viewer.animation.container.style.visibility = 'hidden';
         viewer.timeline.container.style.visibility = 'hidden';
     }
     else {
         viewer = new Cesium.Viewer('cesiumContainer', {
-            infoBox: false
+            infoBox: false,
+            skyBox: false,
+            navigation: false
         });
 
         var scene = viewer.scene;
@@ -114,14 +126,12 @@ function init(Cesium, Zlib) {
         if (Cesium.defined(scene.moon)) {
             scene.moon.show = false;
         }
-        if (Cesium.defined(scene.skyBox)) {
-            scene.skyBox.show = false;
-        }
         document.documentElement.style.height = window.innerHeight + 'px';
         document.addEventListener('touchmove', function (e) {
             e.preventDefault();
         }, false);
     }
+
     if (viewer.geocoder) {
         // 请开发者自行到supermap online官网（http://www.supermapol.com/）申请key
         viewer.geocoder.viewModel.geoKey = 'fvV2osxwuZWlY0wJb8FEb2i5';
@@ -167,13 +177,12 @@ function init(Cesium, Zlib) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
-                $(".cesium-viewer-navigationContainer").hide();
-
                 var toolBar = new ToolBar({
                     sceneModel: sceneModel,
                     isPCBroswer: isPCBroswer
                 });
                 viewerContainer.addComponent(toolBar, new Position());
+
                 var errorPannel = new ErrorPannel();
                 viewerContainer.addComponent(errorPannel);
 
@@ -196,6 +205,8 @@ function init(Cesium, Zlib) {
                     }));
                 }
 
+                document.body.removeChild(document.getElementById('transition-loader')); // 移除加载动画
+
                 if(isPCBroswer){
                     var locationContainer = new GeoLocation({
                         sceneModel : sceneModel
@@ -205,26 +216,18 @@ function init(Cesium, Zlib) {
                         x : '10px',
                         y : '200px'
                     }));
-                }/*else{
-                    viewerContainer.addComponent(locationContainer,new Position({
-                        mode : 'rt',
-                        x : '10px',
-                        y : '150px'
-                    }));
-                }*/
+                }
 
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });
                 viewerContainer.addComponent(layerContainer);
 
-                if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
-                    var sceneViewerUrl = window.location.href;
-                    if (sceneViewerUrl.indexOf("?action=") == -1) {
-                        var appsRoot =Window.iportalAppsRoot;
-                        var pattern = "/apps";
-                        appsRoot = appsRoot.replace(new RegExp(pattern), "");
-                        sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+                var sceneViewerUrl = window.location.href;
+                if (sceneViewerUrl.indexOf("?action=") == -1) {
+                    sceneViewerUrl = sceneViewerUrl.match(/id=(\S*)/);
+                    if(sceneViewerUrl) {
+                        sceneViewerUrl = sceneViewerUrl[1];
                         if(sceneViewerUrl != '/'){
                             var regexp = new RegExp("/");
                             sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
@@ -234,7 +237,7 @@ function init(Cesium, Zlib) {
                             }
                             $.ajax({
                                     type: "GET",
-                                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
+                                    url: "../../web/scenes/" + sceneViewerUrl + ".json",
                                     contentType: "application/json;charset=utf-8",
                                     dataType: "json",
                                     async: false,
@@ -248,7 +251,6 @@ function init(Cesium, Zlib) {
                                             cesiumScene = cesiumScene.replace(regexp,"");
                                             sceneModel.openScene(cesiumScene);
                                         }
-
                                     }
                                 }
                             )

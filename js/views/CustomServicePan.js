@@ -7,49 +7,52 @@ define([
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
-        '<div style="padding: 10px; border:1px solid #417BB3">',
-        '<label>' + Resource.OpenLayer + '</label>',
-        '<div class="form-group" style="text-align: left;">',
-        '<select class="cesium-button" style="width : 50%;" id="typeInput">',
-        '<option value="S3M">' + Resource.s3mLayer + '</option>',
-        '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
-        '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
-        '</select>',
-        /*'<span id="queryFeatureSpan">',
-         '<div class="squaredTwo" id="chkContainer"> <input type="checkbox" id="queryFeatureChk"> <label class="check-icon"></label></div>' + Resource.featureQuery,
-         '</span>',*/
+        '<div class="function-module-content">',
+            '<div class="function-module-sub-section function-module-part">',
+                '<label>' + Resource.OpenLayer + '</label>',
+                '<div class="form-group">',
+                    '<select class="my-form-control" style="width:50%;" id="typeInput">',
+                        '<option value="S3M">' + Resource.s3mLayer + '</option>',
+                        '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
+                        '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
+                    '</select>',
+                    '<div class="squaredTwo squaredTwo-light" id="has-token" style="margin-left: 20px;"><input type="checkbox"><label class="check-icon check-icon-light"></label></div><label id="add-token-caption">' + Resource.addToken + '</label>',
+                '</div>',
+                '<div class="form-group">',
+                    '<input id="urlInput" class="my-form-control" type="url" placeholder=' + Resource.layerUrl + ' title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
+                '</div>',
+                '<div class="form-group">',
+                    '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text"/>',
+                '</div>',
+                '<div id="token-input-wrapper" class="form-group" style="display: none;">',
+                    '<input id="tokenInput" class="my-form-control" placeholder=' + Resource.addToken + ' type="text"/>',
+                '</div>',
+                '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="open-layer" style="margin-top:10px;">' + Resource.confirm + '</button>',
+            '</div>',
+            '<div class="function-module-part">',
+                '<label>' + Resource.OpenScene + '</label>',
+                '<div class="form-group">',
+                    '<input id="sceneUrl" class="my-form-control" style="width: 80%;" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
+                    '<div class="squaredTwo squaredTwo-light" id="has-scene-token" style="margin-left: 20px;"><input type="checkbox"><label class="check-icon check-icon-light"></label></div><label id="add-scene-token-caption">' + Resource.addToken + '</label>',
+                '</div>',
+                '<div id="scene-token-input-wrapper" class="form-group" style="display: none;">',
+                    '<input id="sceneTokenInput" class="my-form-control" placeholder=' + Resource.addToken + ' type="text"/>',
+                '</div>',
+                '<button class="btn btn-info function-module-btn function-module-btn-highlight" id="open-scene" style="margin-top:10px;">' + Resource.confirm + '</button>',
+            '</div>',
         '</div>',
-        '<div class="form-group">',
-        '<input id="urlInput" class="my-form-control" type="url" placeholder=' + Resource.layerUrl + ' title="http://<server>:<port>/iserver/servers/***/rest/realspace/datas/<name>/config"/>',
-        '</div>',
-        '<div class="form-group">',
-        '<input id="nameInput" class="my-form-control" placeholder=' + Resource.layerName + ' type="text" title="<layer name>" />',
-        '</div>',
-        '<div class="form-group" id="dataUrlDiv" style="display: none;">',
-        '<input id="dataUrlInput" style="display: none;"/>',
-        '<select class="cesium-button" id="datasourceSel" style="width: 48%;float: left">',
-        '<option selected="selected" value="undefined">--' + Resource.selDataSource + '--</option>',
-        '</select>',
-        '<select class="cesium-button" id="datasetSel" style="width: 48%">',
-        '<option selected="selected" value="undefined">--' + Resource.selDataSet + '--</option>',
-        '</select>',
-        '</div>',
-        '</div><br>',
-        '<div style="padding: 10px; border:1px solid #417BB3">',
-        '<label>' + Resource.OpenScene + '</label>',
-        '<input id="sceneUrl" class="my-form-control" placeholder=' + Resource.sceneUrl + ' type="url" title="http://<server>:<port>/iserver/servers/***/rest/realspace"/>',
-        '</div><br>',
-        '<button class="btn btn-info function-module-btn-highlight" data-dismiss="myModal-body" id="btnOk" style="float: right;margin-top:28px;">' + Resource.confirm + '</button>',
-
     ].join('');
     var WebServicePan = Container.extend({
         tagName: 'div',
         template: _.template(htmlStr),
         events: {
-            'click #btnOk': 'onBtnOkClk',
+            'click #open-layer': 'onOpenLayer',
+            'click #open-scene': 'onOpenScene',
             'change #typeInput': 'onSelectChange',
             'click #chkContainer': 'onCheckboxChange',
-            'blur #urlInput': 'onUrlInputBlur'
+            'blur #urlInput': 'onUrlInputBlur',
+            'click #has-token, #add-token-caption': 'onAddToken',
+            'click #has-scene-token, #add-scene-token-caption': 'onAddSceneToken'
         },
         initialize: function (options) {
             this.model = options.sceneModel;
@@ -62,169 +65,168 @@ define([
             this.$el.addClass('tab-pane');
             return this;
         },
-        onBtnOkClk: function (evt) {
+        onOpenLayer: function () { // 打开图层
+            var type = $('#typeInput').val();
             var url = $('#urlInput').val();
-            var sceneUrl = $('#sceneUrl').val();
             var name = $('#nameInput').val();
-            if (url === '' && name != '') {
+            var isHasToken = $('#has-token').find('input[type=checkbox]')[0].checked;
+            var token = '';
+            if(isHasToken) {
+                token = $.trim($('#tokenInput').val());
+            }
+            if (url === '') {
                 Util.showErrorMsg(Resource.urlNotNullMsg);
                 return;
             }
-            if (name === '' && url != '') {
-                Util.showErrorMsg(Resource.layerNameNotNullMsg);
-                return;
-            }
-            if (url === '' && sceneUrl === '') {
-                Util.showErrorMsg(Resource.urlNotNullMsg);
-                return;
-            }
-            if (name === '' && sceneUrl === '') {
+            if (name === '') {
                 Util.showErrorMsg(Resource.layerNameNotNullMsg);
                 return;
             }
 
-            if (url != '' && name != '') {
-                var type = $('#typeInput').val();
+            if (type === 'S3M') {
+                if (!Util.s3mLayerUrlPattern.test(url)) {
+                    Util.showErrorMsg(Resource.urlMismatchingPattern);
+                    return;
+                }
+            } else {
+                if (!Util.imageryOrTerrainLayerUrlPattern.test(url)) {
+                    Util.showErrorMsg(Resource.urlMismatchingPattern);
+                    return;
+                }
+            }
+            var layerModel = new LayerModel({
+                url: url,
+                name: name,
+                type: type,
+                realName: name
+            });
+            Cesium.Credential.CREDENTIAL = new Cesium.Credential(token);
+            this.model.addLayer(layerModel);
+        },
+        onOpenScene: function (evt) { // 打开场景
+            var sceneUrl = $('#sceneUrl').val();
+            var isHasToken = $('#has-scene-token').find('input[type=checkbox]')[0].checked;
+            var token = '';
+            if(isHasToken) {
+                token = $.trim($('#sceneTokenInput').val());
+            }
+            Cesium.Credential.CREDENTIAL = new Cesium.Credential(token);
+            if (sceneUrl === '') {
+                Util.showErrorMsg(Resource.urlNotNullMsg);
+                return;
+            }
+
+            if (!Util.sceneUrlPattern.test(sceneUrl)) {
+                Util.showErrorMsg(Resource.urlMismatchingPattern);
+                return;
+            }
+            var allUrl = sceneUrl + "/datas.xml";
+            if(isHasToken && token !== ''){
+                allUrl = allUrl + '?token=' + token;
+            }
+
+            // namelist和pathlist下标一一对应
+            var namelist = new Array(); // 图层的名称
+            var pathlist = new Array(); // 图层的URL
+            $.ajax({
+                url: allUrl,
+                dataType: 'xml',
+                type: 'GET',
+                async: false,
+                timeout: 3000,
+                error: function (xml) {
+                    Util.showErrorMsg(Resource.loadException);
+                },
+                success: function (xml) {
+                    $(xml).find("name").each(function (i) {
+                        var id = $(this).children("id");
+                        namelist[i] = id.context.innerHTML;
+                    });
+                    $(xml).find("path").each(function (i) {
+                        var id = $(this).children("id");
+                        pathlist[i] = id.context.innerHTML;
+                    });
+                }
+            });
+
+            var jsonUrl = sceneUrl + '/scenes.xml';
+            if(isHasToken && token !== ''){
+                jsonUrl = jsonUrl + '?token=' + token;
+            }
+            var jsonPath;
+            $.ajax({
+                url: jsonUrl,
+                dataType: 'xml',
+                type: 'GET',
+                async: false,
+                timeout: 3000,
+                error: function (xml) {
+                    Util.showErrorMsg(Resource.loadException);
+                },
+                success: function (xml) {
+                    $(xml).find("path").each(function (i) {
+                        var id = $(this).children("id");
+                        jsonPath = id.context.innerHTML;
+                    });
+                }
+            });
+            var typeUrl = jsonPath + '/layers.xml';
+            if(isHasToken && token !== ''){
+                typeUrl = typeUrl + '?token=' + token;
+            }
+            // typeLayerName和typelist下标一一对应
+            var typelist = new Array(); // 图层的类型
+            var typeLayerName = new Array(); // 图层的名称
+
+            $.ajax({
+                url: typeUrl,
+                dataType: 'xml',
+                type: 'GET',
+                async: false,
+                timeout: 3000,
+                error: function (xml) {
+                    Util.showErrorMsg(Resource.loadException);
+                },
+                success: function (xml) {
+                    $(xml).find("name").each(function(i){
+                        var id = $(this).children("id");
+                        typeLayerName[i] = id.context.innerHTML;
+                    });
+                    $(xml).find("layer3DType").each(function (i) {
+                        var id = $(this).children("id");
+                        switch (id.context.innerHTML) {
+                            case 'OSGBLayer':
+                                typelist[i] = 'S3M';
+                                break;
+                            case 'ImageFileLayer':
+                                typelist[i] = 'IMAGERY';
+                                break;
+                            case 'TerrainFileLayer':
+                                typelist[i] = 'TERRAIN';
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                }
+            });
+            // 将图层的名称、类型和URL联系起来
+            for (var i = 0; i < namelist.length; i++) {
+                var typeIndex = typeLayerName.indexOf(namelist[i]);
+                var type = typelist[typeIndex];
+                if (type == 'S3M') {
+                    pathlist[i] = pathlist[i] + "/config";
+                }
+
                 var layerModel = new LayerModel({
-                    url: url,
-                    sceneUrl: sceneUrl,
-                    name: name,
+                    url: pathlist[i],
+                    name: namelist[i],
                     type: type,
                     realName: name
                 });
-                if ("S3M" == type) {
-                    if ($('#queryFeatureChk').is(':checked') && $('#dataUrlInput').val() !== '' && $('#datasourceSel').val() && $('#datasetSel').val()) {
-                        var dataUrl = $('#dataUrlInput').val(), datasource = $('#datasourceSel').val(),
-                            dataset = $('#datasetSel').val();
-                        Util.SCPURL_SET[name] = {
-                            dataUrl: dataUrl,
-                            datasource: datasource,
-                            dataset: dataset
-                        };
-                        /*layerModel.strategy.attrQueryPars = {
-                         url: dataUrl,
-                         dataSourceName: datasource,
-                         dataSetName: dataset,
-                         keyWorld: 'SmID'
-                         };*/
-                        if (dataset === 'merge') {
-                            layerModel.strategy.attrQueryPars = {
-                                url: dataUrl,
-                                dataSourceName: datasource,
-                                isMerge: true
-                            };
-                        } else {
-                            layerModel.strategy.attrQueryPars = {
-                                url: dataUrl,
-                                dataSourceName: datasource,
-                                dataSetName: dataset,
-                                keyWord: 'SmID'
-                            };
-                        }
-                    }
-                }
                 this.model.addLayer(layerModel);
             }
-
-            if (sceneUrl != '') {
-                var allUrl = sceneUrl + "/datas.xml";
-                var namelist = new Array();
-                var pathlist = new Array();
-                $.ajax({
-                    url: allUrl,
-                    dataType: 'xml',
-                    type: 'GET',
-                    async: false,
-                    timeout: 3000,
-                    error: function (xml) {
-
-                    },
-                    success: function (xml) {
-                        $(xml).find("name").each(function (i) {
-                            var id = $(this).children("id");
-                            namelist[i] = id.context.innerHTML;
-                        });
-                        $(xml).find("path").each(function (i) {
-                            var id = $(this).children("id");
-                            pathlist[i] = id.context.innerHTML;
-                        });
-
-                    }
-                });
-
-                var jsonUrl = sceneUrl + '/scenes.xml';
-                var jsonPath;
-                $.ajax({
-                    url: jsonUrl,
-                    dataType: 'xml',
-                    type: 'GET',
-                    async: false,
-                    timeout: 3000,
-                    error: function (xml) {
-
-                    },
-                    success: function (xml) {
-                        $(xml).find("path").each(function (i) {
-                            var id = $(this).children("id");
-                            jsonPath = id.context.innerHTML;
-                        });
-
-                    }
-                });
-                var typeUrl = jsonPath + '/layers.xml';
-                var typelist = new Array();
-                var typeLayerName = new Array();
-
-                $.ajax({
-                    url: typeUrl,
-                    dataType: 'xml',
-                    type: 'GET',
-                    async: false,
-                    timeout: 3000,
-                    error: function (xml) {
-                    },
-                    success: function (xml) {
-                        $(xml).find("name").each(function(i){
-                            var id = $(this).children("id");
-                            typeLayerName[i] = id.context.innerHTML;
-                        });
-                        $(xml).find("layer3DType").each(function (i) {
-                            var id = $(this).children("id");
-                            typelist[i] = id.context.innerHTML;
-                        });
-                    }
-                });
-                for (var j = 0; j < typelist.length; j++) {
-                    if (typelist[j] == 'OSGBLayer') {
-                        typelist[j] = 'S3M';
-                    }
-                    else if (typelist[j] == 'ImageFileLayer') {
-                        typelist[j] = 'IMAGERY';
-                    }
-                    else if (typelist[j] == 'TerrainFileLayer') {
-                        typelist[j] = 'TERRAIN';
-                    }
-                }
-
-                for (var i = 0; i < namelist.length; i++) {
-                    var typeIndex = typeLayerName.indexOf(namelist[i]);
-                    var type = typelist[typeIndex];
-                    if (type == 'S3M') {
-                        pathlist[i] = pathlist[i] + "/config";
-                    }
-
-                    var layerModel = new LayerModel({
-                        url: pathlist[i],
-                        name: namelist[i],
-                        type: type,
-                        realName: name
-                    });
-                    this.model.addLayer(layerModel);
-                }
-                $('#sceneUrl').val("");
-            }
-
-            evt.stopPropagation();
+            $('#sceneUrl').val("");
         },
         onSelectChange: function (evt) {
             var target = evt.target;
@@ -311,6 +313,8 @@ define([
             $('#typeInput option:first').prop('selected', 'selected');
             $('#urlInput').val('');
             $('#nameInput').val('');
+            $('#tokenInput').val('');
+            $('#sceneTokenInput').val('');
             $('#queryFeatureChk').attr('checked', false);
             $('#dataUrlDiv').hide();
             $('#datasourceSel option').each(function () {
@@ -325,6 +329,41 @@ define([
                 }
             });
             $('#dataUrlInput').val();
+        },
+        onAddToken: function(evt) {
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            var chk = $('#has-token').find('input[type=checkbox]');
+            if(chk && chk[0]){
+                chk[0].checked = !chk[0].checked;
+                if(chk[0].checked) {
+                    $('#token-input-wrapper').css('display', 'block');
+                } else {
+                    $('#token-input-wrapper').css('display', 'none');
+                }
+            }
+
+        },
+        onAddSceneToken: function(evt) {
+            if(evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            else{
+                window.event.returnValue = false;
+            }
+            var chk = $('#has-scene-token').find('input[type=checkbox]');
+            if(chk && chk[0]){
+                chk[0].checked = !chk[0].checked;
+                if(chk[0].checked) {
+                    $('#scene-token-input-wrapper').css('display', 'block');
+                } else {
+                    $('#scene-token-input-wrapper').css('display', 'none');
+                }
+            }
         }
     });
 
