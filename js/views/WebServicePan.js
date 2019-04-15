@@ -9,7 +9,7 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
     ].join('');
 
     popLayer.config({ //  通过模块化方式调用该插件时配置layer.js所在的目录，从而去加载它的一些配件
-        path: Window.iportalAppsRoot + '/static/iearth/' + "js/lib/layer/src/"
+        path:  "../static/iearth/js/lib/layer/src/"
     });
 
     var WebServicePan = Container.extend({

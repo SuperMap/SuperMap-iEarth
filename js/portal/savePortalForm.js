@@ -271,7 +271,7 @@ define(['../views/Container', '../Util','./parsePortalJson'],function(Container,
             updateData =  JSON.stringify(updateData);
 
             var sceneViewerUrl = window.location.href;
-            sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+            sceneViewerUrl = sceneViewerUrl.match(/id=(\S*)/)[1];
             if(sceneViewerUrl != '/'){
                 var regexp = new RegExp("/");
                 var sceneViewerUrl = sceneViewerUrl.replace(regexp,"");

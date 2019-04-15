@@ -92,8 +92,13 @@ function init(Cesium, Zlib) {
     var protocol = location.protocol;
     var host = location.host;
     var systemJSONUrl = `${protocol}//${host}/iportal/web/config/system.json`;
+    var systemJSONUrlPotential = `${protocol}//${host}/web/config/system.json`;
     Cesium.loadJson(systemJSONUrl).then(function(jsonData) {
         Window.isSuperMapOL = jsonData.isSuperMapOL
+    }).otherwise(function(error) {
+        Cesium.loadJson(systemJSONUrlPotential).then(function(jsonDataPotential) {
+            Window.isSuperMapOL = jsonDataPotential.isSuperMapOL
+        });
     });
     Window.isSuperMapOL = "${resource.customVariables.isSuperMapOL?c}";
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();

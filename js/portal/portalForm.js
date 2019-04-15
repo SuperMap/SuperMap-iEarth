@@ -62,12 +62,33 @@ define(['../views/Container','../portal/loginWindow', '../Util'],function(Contai
                 var promise = viewer.scene.outputSceneToFile();
                 Cesium.when(promise,function (buffer) {
                     var canvas = document.getElementById("sceneCanvas");
-                    //canvas.css("background","url(" + buffer + ")") ;
                     var ctx = canvas.getContext("2d");
                     var img = new Image();
                     img.src = buffer;
                     img.onload = function () {
                         ctx.drawImage(img,0,0,298,150)
+                    }
+                    var sceneViewerUrl = window.location.href;
+                    if(sceneViewerUrl.indexOf('?id=') !== -1) {
+                        sceneViewerUrl = sceneViewerUrl.match(/id=(\S*)/);
+                        sceneViewerUrl = sceneViewerUrl[1];
+                        $.ajax({
+                            type: "GET",
+                            url: "../../web/scenes/" + sceneViewerUrl + ".json",
+                            contentType: "application/json;charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            success : function (json) {
+                                var sceneName = json.name;
+                                var sceneTag = json.tags[0];
+                                var username = json.userName;
+                                var description = json.description;
+                                $("#scenePortalName").val(sceneName);
+                                $("#scenePortalTages").val(sceneTag);
+                                $("#scenePortalUser").val(username);
+                                $("#scenePortalDescription").val(description);
+                            }
+                        })
                     }
                 })
             } else {
@@ -80,8 +101,31 @@ define(['../views/Container','../portal/loginWindow', '../Util'],function(Contai
                     me.savePortalForm = savePortalForm;
                     $("#portalTab1").click();
                     savePortalForm.$el.show();
+                    var sceneViewerUrl = window.location.href;
+                    if(sceneViewerUrl.indexOf('?id=') !== -1) {
+                        sceneViewerUrl = sceneViewerUrl.match(/id=(\S*)/);
+                        sceneViewerUrl = sceneViewerUrl[1];
+                        $.ajax({
+                            type: "GET",
+                            url: "../../web/scenes/" + sceneViewerUrl + ".json",
+                            contentType: "application/json;charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            success : function (json) {
+                                var sceneName = json.name;
+                                var sceneTag = json.tags[0];
+                                var username = json.userName;
+                                var description = json.description;
+                                $("#scenePortalName").val(sceneName);
+                                $("#scenePortalTages").val(sceneTag);
+                                $("#scenePortalUser").val(username);
+                                $("#scenePortalDescription").val(description);
+                            }
+                        })
+                    }
                 });
             }
+
         },
         portalShare : function() {
             var me = this;
