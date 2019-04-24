@@ -440,7 +440,9 @@
         addToken: 'add token',
         loadException: 'load failed, please check data or token',
         obliqueLightWarning: 'Note: oblique photographic data has no lighting effect',
-        hdr: 'high dynamic range'
+        hdr: 'high dynamic range',
+        accessSceneFailedWithoutPermission: 'please log in for access',
+        accessSceneFailedNoScene: 'the scene you are accessing does not exist'
     };
     return ResourceEN;
 });

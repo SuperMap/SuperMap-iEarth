@@ -440,7 +440,9 @@ define(function(){
         addToken: '添加token',
         loadException: '加载异常，请检查数据或token',
         obliqueLightWarning: '注：倾斜摄影数据没有灯光效果',
-        hdr: '高动态范围'
+        hdr: '高动态范围',
+        accessSceneFailedWithoutPermission: '请登陆以获得访问权限',
+        accessSceneFailedNoScene: '您访问的场景不存在'
     };
     return ResourceCN;
 });

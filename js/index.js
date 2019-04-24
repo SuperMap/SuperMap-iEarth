@@ -177,8 +177,8 @@ function init(Cesium, Zlib) {
         $('#loadbar').removeClass('ins');
         $("body").append('<span id="baselayer-source" class="baselayer-source">' + Resource.baseLayerSource + '：' + Resource.localImage + '</span>');
 
-        require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm'],
-            function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm) {
+        require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm', './Util'],
+            function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm,Util) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
@@ -255,6 +255,13 @@ function init(Cesium, Zlib) {
                                             var regexp = new RegExp(url);
                                             cesiumScene = cesiumScene.replace(regexp,"");
                                             sceneModel.openScene(cesiumScene);
+                                        }
+                                    },
+                                    error: function(error) {
+                                        if(error.status === 401) { // 没有权限
+                                            Util.showErrorMsg(Resource.accessSceneFailedWithoutPermission);
+                                        } else if(error.status === 404) { // 访问的场景不存在
+                                            Util.showErrorMsg(Resource.accessSceneFailedNoScene);
                                         }
                                     }
                                 }

@@ -1,6 +1,6 @@
 文件夹 PATH 列表
 卷序列号为 9690-2C49
-E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
+E:\WEBGLUPGRADETOCESIUM154\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)HBSJ_FOR_WEBGL
 │  CHANGES.md
 │  download.html
 │  index.html
@@ -10,7 +10,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  webglreport.html
 │  
 ├─Build
-│  │  SuperMap_iClient3D_9D(2019)_for_WebGL_1812261017.txt
+│  │  SuperMap_iClient3D_9D(2019)HBSJ_for_WebGL_1904241029.txt
 │  │  
 │  ├─Cesium
 │  │  │  Cesium.js
@@ -48,6 +48,20 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │  │      IAU2006_XYS_8.json
 │  │  │  │      IAU2006_XYS_9.json
 │  │  │  │      
+│  │  │  ├─Images
+│  │  │  │      bing_maps_credit.png
+│  │  │  │      cesium_credit.png
+│  │  │  │      google_earth_credit.png
+│  │  │  │      ion-credit.png
+│  │  │  │      
+│  │  │  ├─Terrain
+│  │  │  │  └─0
+│  │  │  │      ├─0
+│  │  │  │      │      0.terrain
+│  │  │  │      │      
+│  │  │  │      └─1
+│  │  │  │              0.terrain
+│  │  │  │              
 │  │  │  └─Textures
 │  │  │      │  arrow.png
 │  │  │      │  excavationregion_side.jpg
@@ -56,10 +70,15 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │      │  logo.png
 │  │  │      │  moonSmall.jpg
 │  │  │      │  noise.png
+│  │  │      │  NoiseAndGrain.png
 │  │  │      │  pin.svg
 │  │  │      │  waterNormals.jpg
 │  │  │      │  waterNormalsSmall.jpg
 │  │  │      │  
+│  │  │      ├─LensFlare
+│  │  │      │      DirtMask.jpg
+│  │  │      │      StarBurst.jpg
+│  │  │      │      
 │  │  │      ├─maki
 │  │  │      │      airfield.png
 │  │  │      │      airport.png
@@ -73,7 +92,6 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │      │      basketball.png
 │  │  │      │      beer.png
 │  │  │      │      bicycle.png
-│  │  │      │      blu-diamond.png
 │  │  │      │      building.png
 │  │  │      │      bus.png
 │  │  │      │      cafe.png
@@ -257,17 +275,6 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │      │              2.jpg
 │  │  │      │              3.jpg
 │  │  │      │              
-│  │  │      ├─PBR_Material
-│  │  │      │  ├─metal_plate
-│  │  │      │  │      metal_plate_diff_1k.jpg
-│  │  │      │  │      metal_plate_disp_1k.jpg
-│  │  │      │  │      metal_plate_rough_1k.jpg
-│  │  │      │  │      
-│  │  │      │  └─titanium_scuffed
-│  │  │      │          Titanium-Scuffed_basecolor.png
-│  │  │      │          Titanium-Scuffed_metallic.png
-│  │  │      │          Titanium-Scuffed_roughness.png
-│  │  │      │          
 │  │  │      └─SkyBox
 │  │  │              tycho2t3_80_mx.jpg
 │  │  │              tycho2t3_80_my.jpg
@@ -276,35 +283,16 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │              tycho2t3_80_py.jpg
 │  │  │              tycho2t3_80_pz.jpg
 │  │  │              
-│  │  ├─Terrain
-│  │  │  └─0
-│  │  │      ├─0
-│  │  │      │      0.terrain
-│  │  │      │      
-│  │  │      └─1
-│  │  │              0.terrain
-│  │  │              
-│  │  ├─Terrain_STK
-│  │  │  └─0
-│  │  │      ├─0
-│  │  │      │      0.terrain
-│  │  │      │      
-│  │  │      └─1
-│  │  │              0.terrain
-│  │  │              
 │  │  ├─ThirdParty
 │  │  │  │  draco_decoder.wasm
+│  │  │  │  google-earth-dbroot-parser.js
 │  │  │  │  
 │  │  │  └─Workers
-│  │  │      │  deflate.js
-│  │  │      │  draco_decoder.js
-│  │  │      │  draco_wasm_wrapper.js
-│  │  │      │  inflate.js
-│  │  │      │  
-│  │  │      └─PlotAlgo
-│  │  │              PlotAlgoInclude.js
-│  │  │              PlotAlgoInclude_NoCommon.js
-│  │  │              
+│  │  │          deflate.js
+│  │  │          draco_decoder.js
+│  │  │          draco_wasm_wrapper.js
+│  │  │          inflate.js
+│  │  │          
 │  │  ├─Widgets
 │  │  │  │  lighter.css
 │  │  │  │  lighterShared.css
@@ -349,7 +337,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │  │  │      bingAerial.png
 │  │  │  │  │      bingAerialLabels.png
 │  │  │  │  │      bingRoads.png
-│  │  │  │  │      blackMarble.png
+│  │  │  │  │      blueMarble.png
+│  │  │  │  │      earthAtNight.png
 │  │  │  │  │      esriNationalGeographic.png
 │  │  │  │  │      esriWorldImagery.png
 │  │  │  │  │      esriWorldStreetMap.png
@@ -359,6 +348,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │  │  │      mapQuestOpenStreetMap.png
 │  │  │  │  │      naturalEarthII.png
 │  │  │  │  │      openStreetMap.png
+│  │  │  │  │      sentinel-2.png
 │  │  │  │  │      stamenToner.png
 │  │  │  │  │      stamenWatercolor.png
 │  │  │  │  │      
@@ -394,8 +384,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │  │  │      pointYellow_Go.png
 │  │  │  │  │      
 │  │  │  │  ├─TerrainProviders
+│  │  │  │  │      CesiumWorldTerrain.png
 │  │  │  │  │      Ellipsoid.png
-│  │  │  │  │      STK.png
 │  │  │  │  │      
 │  │  │  │  └─ZoomIndicator
 │  │  │  │          zoom_Identifiers.png
@@ -443,6 +433,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │          createBoxOutlineGeometry.js
 │  │          createCircleGeometry.js
 │  │          createCircleOutlineGeometry.js
+│  │          createCoplanarPolygonGeometry.js
+│  │          createCoplanarPolygonOutlineGeometry.js
 │  │          createCorridorGeometry.js
 │  │          createCorridorOutlineGeometry.js
 │  │          createCylinderGeometry.js
@@ -454,6 +446,9 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │          createFrustumGeometry.js
 │  │          createFrustumOutlineGeometry.js
 │  │          createGeometry.js
+│  │          createGroundPolylineGeometry.js
+│  │          createPlaneGeometry.js
+│  │          createPlaneOutlineGeometry.js
 │  │          createPolygonGeometry.js
 │  │          createPolygonOutlineGeometry.js
 │  │          createPolylineGeometry.js
@@ -464,6 +459,10 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │          createSimplePolylineGeometry.js
 │  │          createSphereGeometry.js
 │  │          createSphereOutlineGeometry.js
+│  │          createVectorTileGeometries.js
+│  │          createVectorTilePoints.js
+│  │          createVectorTilePolygons.js
+│  │          createVectorTilePolylines.js
 │  │          createVerticesFromGoogleEarthEnterpriseBuffer.js
 │  │          createVerticesFromHeightmap.js
 │  │          createVerticesFromQuantizedTerrainMesh.js
@@ -954,6 +953,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
 │  │  │  SupportTools.html
 │  │  │  SurroundLineType.html
 │  │  │  SvgPathBindingHandler.html
+│  │  │  SymbolAnnotation.html
 │  │  │  SymbolDot.html
 │  │  │  SymbolStyle.html
 │  │  │  SymbolTextStyle.html
@@ -1053,11 +1053,14 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  backLineAnalysis.html
     │  bingMap.html
     │  bufferAnalyze.html
+    │  carLamp.html
     │  clip.html
     │  clipbox.html
     │  clipboxById.html
+    │  clipById.html
     │  clipCross.html
     │  clipPolygon.html
+    │  clipWithSeal.html
     │  colorCorrection.html
     │  config.js
     │  digTerrain.html
@@ -1067,6 +1070,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  dynamicLayer.html
     │  dynamicTime.html
     │  editor.html
+    │  emissionTexture.html
     │  entry.js
     │  examples.html
     │  extrude.html
@@ -1090,6 +1094,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  LandTemChange.html
     │  layerDisplayAdjustment.html
     │  layerGroup.html
+    │  lightSource.html
     │  limitHeightAnalysis.html
     │  location.html
     │  mathExpression.html
@@ -1106,6 +1111,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  Particle System.html
     │  pickPosition.html
     │  plot_addfile.html
+    │  plot_Annotations.html
+    │  plot_defaultStyle.html
     │  plot_dynamicPlot.html
     │  plot_editPlottingLayer.html
     │  plot_filetransfer.html
@@ -1114,6 +1121,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  plot_operPlottingLayer.html
     │  plot_plotGOAnimation.html
     │  plot_querySymbolLib.html
+    │  plot_symbolExtendProperty.html
     │  pm.html
     │  polarizedStereoscopic.html
     │  Polygon.html
@@ -1122,6 +1130,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  profile.html
     │  profileAnalyze.html
     │  projectionImage.html
+    │  Project_heatmap-1.html
     │  Project_heatmap.html
     │  rollerShutter.html
     │  RTSP.html
@@ -1137,24 +1146,30 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  S3M_Encryption.html
     │  S3M_Volume.html
     │  scanEffect.html
+    │  scanLine.html
     │  sceneModeSwitching.html
     │  serviceAreaAnalysis.html
     │  shadowQuery.html
     │  showUnderGround.html
     │  sightline.html
     │  skyline.html
+    │  split.html
     │  STKterrain.html
     │  SuperMapTileImagery.html
     │  switchGlobeMode.html
     │  switchSceneMode.html
     │  taxiFlow.html
     │  terrainAndImagery.html
+    │  terrainAndImagery_test.html
     │  terrainCurvature.html
     │  terrainSlopeAnalysis.html
     │  tianditu.html
     │  tokenCredential.html
     │  trafficSimulation.html
+    │  transparentRendering.html
+    │  tx_lightSource.html
     │  viewshed3D.html
+    │  visibleByFeatureValue.html
     │  windmap.html
     │  windParticle.html
     │  wireframe.html
@@ -1165,6 +1180,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      bootstrap-new.min.css
     │      bootstrap-responsive.min.css
     │      bootstrap-select.min.css
+    │      bootstrap.css
     │      bootstrap.min.css
     │      common.css
     │      css-loader.css
@@ -1290,9 +1306,11 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  │  play.png
     │  │  point.png
     │  │  polygon.png
+    │  │  ring-2.jpg
     │  │  rotate.png
     │  │  saveAsKml.png
     │  │  smaller.png
+    │  │  speedline.jpg
     │  │  splitShow.gif
     │  │  station.png
     │  │  stop.png
@@ -1304,6 +1322,10 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │  │  宿舍.jpg
     │  │  库房.jpg
     │  │  民房.jpg
+    │  │  环状扫描纹理1.jpg
+    │  │  环状扫描纹理2.jpg
+    │  │  线状扫描纹理1.jpg
+    │  │  线状扫描纹理2.jpg
     │  │  
     │  ├─cur
     │  │      draw.cur
@@ -1638,17 +1660,22 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      backLineAnalysis.jpg
     │      bingMap.jpg
     │      bufferAnalyze.jpg
+    │      carLamp.jpg
     │      clip.jpg
     │      clipbox.jpg
+    │      clipById.jpg
     │      clipCross.jpg
     │      clipPolygon.jpg
+    │      clipWithSeal.jpg
     │      colorCorrection.jpg
+    │      colorpicker.png
     │      digTerrain.jpg
     │      draw.jpg
     │      drawHandler.jpg
     │      dynamicDTH.jpg
     │      dynamicLayer.jpg
     │      dynamicTime.jpg
+    │      emissionTexture.jpg
     │      extrude.jpg
     │      fan.jpg
     │      flame.jpg
@@ -1669,6 +1696,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      KML_edit.jpg
     │      KML_route.jpg
     │      LandTemChange.jpg
+    │      lightSource.jpg
     │      limitHeightAnalysis.jpg
     │      location.jpg
     │      mathExpression.jpg
@@ -1683,6 +1711,8 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      Particle.jpg
     │      pickPosition.jpg
     │      plot_addfile.jpg
+    │      plot_Annotations.jpg
+    │      plot_defaultStyle.jpg
     │      plot_dynamicPlot.jpg
     │      plot_editPlottingLayer.jpg
     │      plot_filetransfer.jpg
@@ -1691,6 +1721,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      plot_operPlottingLayer.jpg
     │      plot_plotGOAnimation.jpg
     │      plot_querySymbolLib.jpg
+    │      plot_symbolExtendProperty.jpg
     │      pm.jpg
     │      polarizedStereoscopic.jpg
     │      Polygon.jpg
@@ -1715,6 +1746,7 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      S3MTiles_vector.jpg
     │      S3M_Volume.jpg
     │      scanEffect.jpg
+    │      scanLine.jpg
     │      sceneModeSwitching.jpg
     │      serviceAreaAnalysis.jpg
     │      shadowQuery.jpg
@@ -1734,7 +1766,11 @@ E:\NEWWEBGL\PACKAGE\SUPERMAP_ICLIENT3D_9D(2019)_FOR_WEBGL
     │      tianditu.jpg
     │      tokenCredential.jpg
     │      trafficSimulation.jpg
+    │      trailLine.jpg
+    │      transparentRendering.jpg
+    │      tx_lightSource.jpg
     │      viewshed3D.jpg
+    │      visibleByFeatureValue.jpg
     │      windmap.jpg
     │      windParticle.jpg
     │      wireframe.jpg
