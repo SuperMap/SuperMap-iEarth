@@ -798,6 +798,19 @@ define(['./Container',
                 for (var i = 0, j = result.length; i < j; i++) {
                     addItem(result[i]);
                 }
+                var screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+                screenSpaceEventHandler.setInputAction(function(evt) {
+                    var result = scene.pick(evt.position);
+                    if(result && result.primitive.type === 'Instanced_Object') {
+                        var heading = Math.round(Cesium.Math.toDegrees(result.primitive.hpr.heading));
+                        var pitch = Math.round(Cesium.Math.toDegrees(result.primitive.hpr.pitch));
+                        var roll = Math.round(Cesium.Math.toDegrees(result.primitive.hpr.roll));
+                        $("#heading").val(heading);
+                        $("#pitch").val(pitch);
+                        $("#roll").val(roll);
+                        $("#scale").val(result.primitive.scale.x);
+                    }
+                }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             });
 
             handlerPoint.drawEvt.addEventListener(function (result) {
@@ -1088,6 +1101,10 @@ define(['./Container',
         if ($("#heading").val() === "" || $("#pitch").val() === "" || $("#roll").val() === "") {
             return;
         }
+        // 转换为整数
+        $("#heading").val($("#heading").val().replace(/(\..*)/g,''));
+        $("#pitch").val($("#pitch").val().replace(/(\..*)/g,''));
+        $("#roll").val($("#roll").val().replace(/(\..*)/g,''));
         var headingValue = Cesium.Math.toRadians($("#heading").val());
         var pitchValue = Cesium.Math.toRadians($("#pitch").val());
         var rollValue = Cesium.Math.toRadians($("#roll").val());
