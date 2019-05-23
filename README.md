@@ -10,13 +10,11 @@
 SuperMap iEarth全面支持倾斜摄影数据、BIM数据、激光点云数据、三维场数据、三维地形数据、手工建模三维数据、符号化三维场景、地下管线三维数据等多种数据，实现多源数据融合，构建逼真的三维场景。
 
 
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/dataSupport.jpg)
+![](./images/docImages/dataSupport.jpg)
 <center>全数据支持</center>
 
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/baseLayers.jpg)
+![](./images/docImages/baseLayers.jpg)
 <center>多种底图支持</center>
-
-
 
 
 ## 2. 三维分析
@@ -32,11 +30,10 @@ SuperMap iEarth支持多种形式的三维空间分析功能。
 - 淹没分析
 
 
-
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/viewshed.JPG)
+![](./images/docImages/viewshed.JPG)
 <center>可视域分析</center>
 
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/isoheight.JPG)
+![](./images/docImages/isoheight.JPG)
 <center>等值分析</center>
 
 ## 3. 裁剪
@@ -48,7 +45,7 @@ SuperMap iEarth支持多种裁剪方式。
 - Cross裁剪
 - 多边形裁剪
 
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/CrossClip.JPG)
+![](./images/docImages/CrossClip.JPG)
 <center>Cross裁剪</center>
     
 ## 4. 辅助功能
@@ -62,10 +59,10 @@ SuperMap iEarth支持多种裁剪方式。
 - 空间量算
 - 模型/地形的修改/开挖
 
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/lightSource.JPG)
+![](./images/docImages/lightSource.JPG)
 <center>灯光</center>
 
-![](http://www.supermapol.com/earth/iEarth_resource_temp_location/docImages/symbol.JPG)
+![](./images/docImages/symbol.JPG)
 <center>符号化</center>
 
 # 部署方式
