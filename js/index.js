@@ -2,7 +2,7 @@
         waitSeconds: 60, // 加载超时时间，单位为秒
         paths: {
             Cesium: '../Build/Cesium/Cesium',
-            Zlib: '../Build/Cesium/Workers/zlib.min',
+            // Zlib: '../Build/Cesium/Workers/zlib.min',
             jquery: "lib/jquery.min",
             underscore: "lib/underscore-min.1.4.4",
             backbone: "lib/backbone-min",
@@ -43,9 +43,9 @@
             Cesium: {
                 exports: 'Cesium'
             },
-            Zlib: {
-                exports: 'Zlib'
-            },
+            // Zlib: {
+            //     exports: 'Zlib'
+            // },
             colorPicker: {
                 exports: 'colorPicker'
             },
@@ -77,17 +77,17 @@
     });
   var currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
   if (currentLanguage == 'zh-cn') {
-      require(['resourceCN', 'Cesium', 'Zlib'], function (ResourceCN, Cesium, Zlib) {
+      require(['resourceCN', 'Cesium'], function (ResourceCN, Cesium) {
           window.Resource = ResourceCN;
-          init(Cesium, Zlib);
+          init(Cesium);
       });
   } else {
-      require(['resourceEN', 'Cesium', 'Zlib'], function (ResourceEN, Cesium, Zlib) {
+      require(['resourceEN', 'Cesium'], function (ResourceEN, Cesium) {
           window.Resource = ResourceEN;
-          init(Cesium, Zlib);
+          init(Cesium);
       });
   }
-function init(Cesium, Zlib) {
+function init(Cesium) {
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
     var viewer;
     if (isPCBroswer) {
@@ -95,7 +95,7 @@ function init(Cesium, Zlib) {
             animation: true,
             timeline: true,
             baseLayerPicker: false,
-            shadows: true,
+            //shadows: true,
             infoBox: false,
             geocoder : true,
             // skyBox: false, // 关闭天空盒会一同关闭太阳，场景会变暗

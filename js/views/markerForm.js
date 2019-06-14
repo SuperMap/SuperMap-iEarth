@@ -798,6 +798,19 @@ define(['./Container',
                 for (var i = 0, j = result.length; i < j; i++) {
                     addItem(result[i]);
                 }
+                var screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+                screenSpaceEventHandler.setInputAction(function(evt) {
+                    var result = scene.pick(evt.position);
+                    if(result && result.primitive.type === 'Instanced_Object') {
+                        var heading = Math.round(Cesium.Math.toDegrees(result.primitive.hpr.heading));
+                        var pitch = Math.round(Cesium.Math.toDegrees(result.primitive.hpr.pitch));
+                        var roll = Math.round(Cesium.Math.toDegrees(result.primitive.hpr.roll));
+                        $("#heading").val(heading);
+                        $("#pitch").val(pitch);
+                        $("#roll").val(roll);
+                        $("#scale").val(result.primitive.scale.x);
+                    }
+                }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
             });
 
             handlerPoint.drawEvt.addEventListener(function (result) {
@@ -999,6 +1012,8 @@ define(['./Container',
             polygonSymbolDrawHandler.polyline.show = false;
             var array = [].concat(result.object.positions);
             var position = [];
+            var maxHeight = Number.MIN_VALUE;
+            var minHeight = Number.MAX_VALUE;
             for (var i = 0, len = array.length; i < len; i++) {
                 var cartographic = Cesium.Cartographic.fromCartesian(array[i]);
                 var longitude = Cesium.Math.toDegrees(cartographic.longitude);
@@ -1008,12 +1023,20 @@ define(['./Container',
                     position.push(longitude);
                     position.push(latitude);
                     position.push(h);
+                    maxHeight = h > maxHeight ? h : maxHeight;
+                    minHeight = h < minHeight ? h : minHeight;
                 }
             }
+            if (maxHeight - minHeight < 1) {
+                for(i = 2; i < position.length; i+= 3) {
+                    position[i] += 0.4;
+                }
+            }
+            var currentPolygonSymbol = null;
             switch (polygonSymbolType) {
                 case 0:
                     var polygonSymbolPureColor = Cesium.Color.fromCssColorString($("#polygon-symbol-full-color").spectrum('get').toRgbString());
-                    viewer.entities.add({
+                    currentPolygonSymbol = viewer.entities.add({
                         id: 'polygon-symbol-pure-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
@@ -1028,7 +1051,7 @@ define(['./Container',
                     var polygonSymbolGridLineCount = Number($('#polygon-symbol-grid-line-count').val());
                     var polygonSymbolGridLineThickness = Number($('#polygon-symbol-grid-line-thickness').val());
                     var polygonSymbolGridLineOffset = Number($('#polygon-symbol-grid-line-offset').val());
-                    viewer.entities.add({
+                    currentPolygonSymbol = viewer.entities.add({
                         id: 'polygon-symbol-grid-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
@@ -1049,7 +1072,7 @@ define(['./Container',
                     var polygonSymbolStripeRepeat = Number($('#polygon-symbol-stripe-repeat').val());
                     var polygonSymbolStripeOffset = Number($('#polygon-symbol-stripe-offset').val());
                     var polygonSymbolStripeOrientation = Number($('#polygon-symbol-stripe-orientation').val());
-                    viewer.entities.add({
+                    currentPolygonSymbol = viewer.entities.add({
                         id: 'polygon-symbol-stripe-' + (new Date()).getTime(),
                         polygon: {
                             perPositionHeight: true,
@@ -1078,6 +1101,10 @@ define(['./Container',
         if ($("#heading").val() === "" || $("#pitch").val() === "" || $("#roll").val() === "") {
             return;
         }
+        // 转换为整数
+        $("#heading").val($("#heading").val().replace(/(\..*)/g,''));
+        $("#pitch").val($("#pitch").val().replace(/(\..*)/g,''));
+        $("#roll").val($("#roll").val().replace(/(\..*)/g,''));
         var headingValue = Cesium.Math.toRadians($("#heading").val());
         var pitchValue = Cesium.Math.toRadians($("#pitch").val());
         var rollValue = Cesium.Math.toRadians($("#roll").val());
