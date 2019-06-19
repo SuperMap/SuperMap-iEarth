@@ -589,6 +589,7 @@ define(function() {
         'S3MTiles/S3MGroupLayer' : '../Stubs/Cesium',
         'S3MTiles/S3MInstance' : '../Stubs/Cesium',
         'S3MTiles/S3MInstanceCollection' : '../Stubs/Cesium',
+        'S3MTiles/S3MInstanceParser' : '../Stubs/Cesium',
         'S3MTiles/S3MLayerScheduler' : '../Stubs/Cesium',
         'S3MTiles/S3MPBRMaterialLib' : '../Stubs/Cesium',
         'S3MTiles/S3MPolylineEffect' : '../Stubs/Cesium',

@@ -2353,6 +2353,10 @@ define('S3MTiles/S3MInstanceCollection', function() {
     return Cesium['S3MInstanceCollection'];
 });
 
+define('S3MTiles/S3MInstanceParser', function() {
+    return Cesium['S3MInstanceParser'];
+});
+
 define('S3MTiles/S3MLayerScheduler', function() {
     return Cesium['S3MLayerScheduler'];
 });
