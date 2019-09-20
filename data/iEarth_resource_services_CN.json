@@ -70,6 +70,13 @@
       "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/offset.jpg",
       "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-individualHouse_VectorOnly/rest",
       "sceneName": "分层分户"
+    },
+    {
+      "id": 13,
+      "type": "REALSPACE",
+      "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/ThematicMap.jpg",
+      "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-five-vector/rest",
+      "sceneName": "矢量专题图"
     }
   ]
 }

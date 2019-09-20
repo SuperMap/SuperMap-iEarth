@@ -2,6 +2,11 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');
+    var viewer;
+    var isPCBroswer;
+    var me;
+    var thematicMapType = 'color'; // 专题图类型
+
     var htmlStr = [
         '<main class="mainView" id="layerForm" style="display: none;">',
         /*'<label style="text-align: left;margin-bottom: 10px;margin-top: -10px;font-size: 13px;color: lightgrey;">'+ Resource.layerOptions +'</label>',*/
@@ -13,6 +18,8 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         '<label for="layer-attribute-style" class="function-module-caption">' + Resource.styleSetting + '</label>',
         '<input id="layer-attribute-operation" type="radio" name="layer-attribute-tab"/>',
         '<label for="layer-attribute-operation" class="function-module-caption">' + Resource.LayerOperation + '</label>',
+        '<input id="layer-attribute-Thematicmap" type="radio" name="layer-attribute-tab"/>',
+        '<label for="layer-attribute-Thematicmap" class="function-module-caption">' + Resource.Thematicmap + '</label>',
 
         '<section id="layer-attribute-basic-content">',
             '<div class="function-module-content">',
@@ -256,6 +263,36 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
             '</div>',
         '</section>',
 
+        '<section id="layer-attribute-Thematicmap-content">',
+        '<div class="function-module-content">',
+        '<div class="function-module-sub-section">',
+        '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
+        '<div class="mark-list" id="Thematicmap-symbol-list">',
+        '<div id="ThematicmapColor" class="mark-list-item polygon-symbol-font-normal polygon-symbol-font-selected"><a class="iconfont icon-online-edit_pure-color-plane"></a><label>' + Resource.ThematicmapColor + '</label></div>',
+        '<div id="ThematicmapImage" class="mark-list-item polygon-symbol-font-normal"><a class="iconfont icon-online-edit_stripe-plane"></a><label>' + Resource.ThematicmapImage + '</label></div>',
+        '</div>',
+        '</div>',
+        '<div id="Thematicmap-color-common-params">',
+        '<div>',
+        '<label class="function-module-sub-section-caption">' + Resource.ThematicmapColor + '</label>',
+        '<input type="text" class="colorPicker width-adjust" id="Thematicmap-full-color"/>',
+        '</div>',
+        '</div>',
+
+        '<div id="Thematicmap-Image-stripe-params" style="display: none;">',
+        '<div class="function-module-sub-section">',
+        '<div class="has-success">',
+        '<label>'+ Resource.ImageData +'</label>',
+        '<input class="my-form-control" type="file" accept=".jpg,.png"  placeholder="' + Resource.selLocalFile + '" style="padding: 8px;"/>',
+        '</div>',
+        '</div>',
+        '</div>',
+        '</div>',
+        '<button type="button" id="delAllThematicmap" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
+        '<button type="button" id="set-Thematicmap" class="btn btn-info function-module-btn function-module-btn-highlight">' + Resource.Setting + '</button>',
+        '</section>',
+
+
         '</main>',
     ].join('');
     var layerAttribute = Container.extend({
@@ -263,7 +300,12 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
         id: 'layerAttribute',
         template: _.template(htmlStr),
         initialize : function(options){
-            this.viewer = options.sceneModel.viewer;
+            viewer = options.sceneModel.viewer;
+            viewer.infobox = false;
+            var scene = viewer.scene;
+            isPCBroswer = options.sceneModel.isPCBroswer;
+            me = this;
+
             this.render();
             this.on('componentAdded',function(parent){
 				$(document).ready(function() {
@@ -280,7 +322,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
 						content.eq(index).addClass('tab-content-active');
 					});
                 });
-                var shadowMap = this.viewer.shadowMap;
+                var shadowMap = viewer.shadowMap;
                 shadowMap.darkness = 0.3;
                 shadowMap.size = 2048;
                 shadowMap.softShadows = false;
@@ -328,6 +370,83 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                     localStorageKey: "spectrum.demo",
                     palette: palette
                 });
+
+
+                /**
+                 *专题图
+                 * */
+                $("#Thematicmap-full-color").spectrum({
+                    color: 'cf9932',
+                    showPalette: true, //用于存储过往选择的颜色
+                    palette: palette,
+                    showAlpha: true, // 支持透明度选择
+                    chooseText: "选择",
+                    cancelText: "取消",
+                    change: function (color) {
+                        var color = Cesium.Color.fromCssColorString(color.toRgbString());
+                        if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {
+                            viewer.selectedEntity.polygon.material.evenColor = color;
+                        }
+                    }
+                });
+
+
+                $("#ThematicmapColor").on("click", function () {
+                    $("#Thematicmap-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
+                    $(this).addClass('polygon-symbol-font-selected');
+                    $("#Thematicmap-Image-stripe-params").css("display", "none");
+                    $("#Thematicmap-color-common-params").css("display", "block");
+
+                    thematicMapType='color';
+                });
+
+                $("#ThematicmapImage").on("click", function () {
+                    $("#Thematicmap-symbol-list > .mark-list-item").removeClass('polygon-symbol-font-selected');
+                    $(this).addClass('polygon-symbol-font-selected');
+                    $("#Thematicmap-Image-stripe-params").css("display", "block");
+                    $("#Thematicmap-color-common-params").css("display", "none");
+
+                    thematicMapType='image';
+                });
+
+                $("#set-Thematicmap").click(function () {
+                    // if (!isPCBroswer) {
+                    //     me.$el.hide();
+                    // }
+                    //设置专题图
+                    switch (thematicMapType) {
+                        case 'color':
+                            var size = scene.layers._layerQueue.length;
+                            for (var i = 0; i < size; i++) {
+                                var curlayer = scene.layers.findByIndex(i);
+                                curlayer.themeStyle = colorByID();
+                                curlayer.refresh();
+                            }
+                            break;
+                        case 'image':
+                            var size = scene.layers._layerQueue.length;
+                            for (var i = 0; i < size; i++) {
+                                var curlayer = scene.layers.findByIndex(i);
+                                curlayer.themeStyle = imageByID();
+                                curlayer.refresh();
+                            }
+                            break;
+                    }
+                });
+
+                $("#delAllThematicmap").click(function () {
+                    // if (!isPCBroswer) {
+                    //     me.$el.hide();
+                    // }
+                    //清除专题图
+                    var size = scene.layers._layerQueue.length;
+                    for (var i = 0; i < size; i++) {
+                        var curlayer = scene.layers.findByIndex(i);
+                        curlayer.themeStyle = [];
+                        curlayer.refresh();
+                    }
+                });
+
             });
         },
         render : function(){
@@ -335,5 +454,68 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
             return this;
         }
     });
+
+    function GetcolorConditions() {
+        var colorConditions = [];
+
+        var colorValue1 = "rgb(45, 0, 75, 0.5)";
+        var colorValue2 = "rgb(102, 71, 151)";
+        var colorValue3 = "rgb(170, 162, 204)";
+        var colorValue4 = "rgb(224, 226, 238)";
+        var colorValue5 = "rgb(252, 230, 200)";
+        var colorValue6 = "rgb(127, 59, 8)";
+        var colorValues = [colorValue1, colorValue2, colorValue3, colorValue4, colorValue5];
+        for (var i = 1; i < 6; i++) {
+            var condition = [];
+            var idKey = "${id} === '" + i + "'";
+            var colorKey = colorValues[i % 5];
+            condition.push(idKey);
+            condition.push(colorKey);
+            colorConditions.push(condition);
+        }
+        // colorConditions.push(["true", "rgb(127, 59, 8)"]);
+        return colorConditions;
+    }
+
+    function GetimageConditions() {
+        var imageConditions = [];
+
+        var imageUrl1 = '"./images/cesiumStyleImages/1.png"';
+        var imageUrl2 = '"./images/cesiumStyleImages/2.png"';
+        var imageUrl3 = '"./images/cesiumStyleImages/3.png"';
+        var imageUrl4 = '"./images/cesiumStyleImages/4.png"';
+        var imageUrl5 = '"./images/cesiumStyleImages/5.jpg"';
+        var imageUrls = [imageUrl1, imageUrl2, imageUrl3, imageUrl4, imageUrl5];
+        for (var i = 1; i < 6; i++) {
+            var condition = [];
+            var idKey = "${id} === '" + i + "'";
+            var imageKey = imageUrls[i % 5];
+            condition.push(idKey);
+            condition.push(imageKey);
+            imageConditions.push(condition);
+        }
+        return imageConditions;
+    }
+
+
+    function imageByID() {
+        var cesiumStyle = new Cesium.Cesium3DTileStyle({
+            image: {
+                conditions: GetimageConditions()
+            }
+        });
+        return cesiumStyle;
+    }
+
+    function colorByID() {
+        var cesiumStyle = new Cesium.Cesium3DTileStyle({
+            color: {
+                conditions: GetcolorConditions()
+            }
+        });
+        return cesiumStyle;
+    }
+
+
     return layerAttribute;
 });

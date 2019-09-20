@@ -97,7 +97,7 @@ define(['backbone', 'Cesium', '../Util', '../Config'], function (Backbone, Cesiu
                 return;
             } else {
                 var ceterCartesianPosition = this.layer._position;
-                var boundingSphere = new Cesium.BoundingSphere(ceterCartesianPosition, 200);
+                var boundingSphere = new Cesium.BoundingSphere(Cesium.Cartesian3.fromDegrees(ceterCartesianPosition.x, ceterCartesianPosition.y, ceterCartesianPosition.z), 200);
                 var camera = this.viewer.scene.camera;
                 camera.flyToBoundingSphere(boundingSphere);
             }

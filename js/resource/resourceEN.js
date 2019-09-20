@@ -266,7 +266,7 @@
         AddPoint : 'Add point',
         AddLine : 'Add line',
         AddFaces : 'Add region',
-		Thematicmaps : 'Thematicmaps',
+		Thematicmap : 'Thematicmap',
         symbolicLibrary : 'Symbol library',
         conversion : 'Transformation',
         Xrotation : 'Rotate around the X axis(Degree)',

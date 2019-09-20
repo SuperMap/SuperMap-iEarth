@@ -266,7 +266,7 @@ define(function(){
         AddPoint : '添加点',
         AddLine : '添加线',
         AddFaces : '添加面',
-        Thematicmaps : '专题图',
+        Thematicmap : '专题图',
         symbolicLibrary : '符号库',
         conversion : '变换',
         Xrotation : '绕X轴旋转（度）',
