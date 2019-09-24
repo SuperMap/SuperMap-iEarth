@@ -2,7 +2,7 @@
         waitSeconds: 60, // 加载超时时间，单位为秒
         paths: {
             Cesium: '../Build/Cesium/Cesium',
-            Zlib: '../Build/Cesium/Workers/zlib.min',
+            // Zlib: '../Build/Cesium/Workers/zlib.min',
             jquery: "lib/jquery.min",
             underscore: "lib/underscore-min.1.4.4",
             backbone: "lib/backbone-min",
@@ -43,9 +43,9 @@
             Cesium: {
                 exports: 'Cesium'
             },
-            Zlib: {
-                exports: 'Zlib'
-            },
+            // Zlib: {
+            //     exports: 'Zlib'
+            // },
             colorPicker: {
                 exports: 'colorPicker'
             },
@@ -75,32 +75,28 @@
             }
         }
     });
-  var currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
-  if (currentLanguage == 'zh-cn') {
-      require(['resourceCN', 'Cesium', 'Zlib'], function (ResourceCN, Cesium, Zlib) {
+
+  var currentLanguage;
+  var cookieLanguage = getLang().toLowerCase();
+  if(cookieLanguage !== undefined) {
+      currentLanguage = cookieLanguage;
+  } else {
+      currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
+  }
+
+  // if (currentLanguage == 'zh-cn') {
+  if (currentLanguage.startsWith('zh')) {
+      require(['resourceCN', 'Cesium'], function (ResourceCN, Cesium) {
           window.Resource = ResourceCN;
-          init(Cesium, Zlib);
+          init(Cesium);
       });
   } else {
-      require(['resourceEN', 'Cesium', 'Zlib'], function (ResourceEN, Cesium, Zlib) {
+      require(['resourceEN', 'Cesium'], function (ResourceEN, Cesium) {
           window.Resource = ResourceEN;
-          init(Cesium, Zlib);
+          init(Cesium);
       });
   }
-function init(Cesium, Zlib) {
-    var location = window.location;
-    var protocol = location.protocol;
-    var host = location.host;
-    var systemJSONUrl = `${protocol}//${host}/iportal/web/config/system.json`;
-    var systemJSONUrlPotential = `${protocol}//${host}/web/config/system.json`;
-    Cesium.loadJson(systemJSONUrl).then(function(jsonData) {
-        Window.isSuperMapOL = jsonData.isSuperMapOL
-    }).otherwise(function(error) {
-        Cesium.loadJson(systemJSONUrlPotential).then(function(jsonDataPotential) {
-            Window.isSuperMapOL = jsonDataPotential.isSuperMapOL
-        });
-    });
-    Window.isSuperMapOL = "${resource.customVariables.isSuperMapOL?c}";
+function init(Cesium) {
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
     var viewer;
     if (isPCBroswer) {
@@ -108,7 +104,7 @@ function init(Cesium, Zlib) {
             animation: true,
             timeline: true,
             baseLayerPicker: false,
-            shadows: true,
+            //shadows: true,
             infoBox: false,
             geocoder : true,
             // skyBox: false, // 关闭天空盒会一同关闭太阳，场景会变暗
@@ -177,8 +173,8 @@ function init(Cesium, Zlib) {
         $('#loadbar').removeClass('ins');
         $("body").append('<span id="baselayer-source" class="baselayer-source">' + Resource.baseLayerSource + '：' + Resource.localImage + '</span>');
 
-        require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm', './Util'],
-            function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm,Util) {
+        require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm'],
+            function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
@@ -221,18 +217,26 @@ function init(Cesium, Zlib) {
                         x : '10px',
                         y : '200px'
                     }));
-                }
+                }/*else{
+                    viewerContainer.addComponent(locationContainer,new Position({
+                        mode : 'rt',
+                        x : '10px',
+                        y : '150px'
+                    }));
+                }*/
 
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });
                 viewerContainer.addComponent(layerContainer);
 
-                var sceneViewerUrl = window.location.href;
-                if (sceneViewerUrl.indexOf("?action=") == -1) {
-                    sceneViewerUrl = sceneViewerUrl.match(/id=(\S*)/);
-                    if(sceneViewerUrl) {
-                        sceneViewerUrl = sceneViewerUrl[1];
+                if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
+                    var sceneViewerUrl = window.location.href;
+                    if (sceneViewerUrl.indexOf("?action=") == -1) {
+                        var appsRoot =Window.iportalAppsRoot;
+                        var pattern = "/apps";
+                        appsRoot = appsRoot.replace(new RegExp(pattern), "");
+                        sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
                         if(sceneViewerUrl != '/'){
                             var regexp = new RegExp("/");
                             sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
@@ -242,7 +246,7 @@ function init(Cesium, Zlib) {
                             }
                             $.ajax({
                                     type: "GET",
-                                    url: "../../web/scenes/" + sceneViewerUrl + ".json",
+                                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
                                     contentType: "application/json;charset=utf-8",
                                     dataType: "json",
                                     async: false,
@@ -256,13 +260,7 @@ function init(Cesium, Zlib) {
                                             cesiumScene = cesiumScene.replace(regexp,"");
                                             sceneModel.openScene(cesiumScene);
                                         }
-                                    },
-                                    error: function(error) {
-                                        if(error.status === 401) { // 没有权限
-                                            Util.showErrorMsg(Resource.accessSceneFailedWithoutPermission);
-                                        } else if(error.status === 404) { // 访问的场景不存在
-                                            Util.showErrorMsg(Resource.accessSceneFailedNoScene);
-                                        }
+
                                     }
                                 }
                             )
@@ -292,3 +290,23 @@ function getDescription(feature) {
     }
     return html;
 }
+
+  /**
+   * 获取iPortal的语言环境
+   * */
+  function getLang() {
+      //浏览器语言  IE用browserLanguage，非IE使用language进行判断
+      let lang = navigator.language || navigator.browserLanguage;
+      //判断portal设置语言 通过cookie获取
+      const cookies = document.cookie.split(';');
+      if (cookies.length > 0) {
+          cookies.forEach(function (cookie) {
+              const arr = cookie.split('=');
+              if (arr[0].toLowerCase().trim() === 'language') {
+                  lang = arr[1];
+                  return;
+              }
+          });
+      }
+      return lang;
+  }
