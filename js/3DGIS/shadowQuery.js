@@ -7,6 +7,9 @@ define(['Cesium'],function(Cesium) {
     var handlerPolygon;
     var positions;
     shadow.initializing = function(viewer,sceneModel){
+        if (viewer.shadows == false) {
+            viewer.shadows = true;//开启场景阴影
+        }
         var scene = viewer.scene;
         var layers = scene.layers.layerQueue;
 

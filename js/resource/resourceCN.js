@@ -50,6 +50,9 @@ define(function(){
         kmUnit : '千米',
         mUnit : '米',
         distance : '距离',
+        spaceDistance: '空间距离',
+        verticalHeight: '垂直高度',
+        horizontalDistance: '水平距离',
         sqkmUnit : '平方公里',
         sqmUnit : '平方米',
         area : '面积',
@@ -442,7 +445,17 @@ define(function(){
         obliqueLightWarning: '注：倾斜摄影数据没有灯光效果',
         hdr: '高动态范围',
         accessSceneFailedWithoutPermission: '请登陆以获得访问权限',
-        accessSceneFailedNoScene: '您访问的场景不存在'
+        accessSceneFailedNoScene: '您访问的场景不存在',
+        Setting : '设置',
+        Thematicmap : '专题图',
+        ThematicmapColor : '颜色',
+        ThematicmapImage : '图片',
+        gridding : '网格',
+        ImageData : '本地图片',
+        ParticleSystem: '粒子',
+        Fire:'火焰',
+        Fountain:'喷泉',
+
     };
     return ResourceCN;
 });

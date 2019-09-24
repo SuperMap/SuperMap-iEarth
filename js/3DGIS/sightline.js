@@ -74,13 +74,25 @@ define(['Cesium'], function (Cesium) {
 
         pointHandler = new Cesium.PointHandler(viewer);
 
-        pointHandler.drawCompletedEvent.addEventListener(function (point) {
+        //鼠标点击第一下，调用drawEvt；再点击，调用handler.setInputAction
+        pointHandler.drawEvt.addEventListener(function(result){
+            var point = result.object;
+            point.show = false;
+
             pointPosition = point;
-            var position = point.position._value;
+            var position = point.position;
             var cartographic = Cesium.Cartographic.fromCartesian(position);
             longitude = Cesium.Math.toDegrees(cartographic.longitude);
             latitude = Cesium.Math.toDegrees(cartographic.latitude);
             height = cartographic.height;
+
+            viewer.entities.add({
+                position: position,
+                point: {
+                    pixelSize: 10,
+                    color: Cesium.Color.WHITE
+                }
+            });
 
             var sightObservationPlace = longitude.toFixed(4) + ', ' + latitude.toFixed(4) + ', ' + height.toFixed(2);
             $("#sight-observation-place").val(sightObservationPlace);

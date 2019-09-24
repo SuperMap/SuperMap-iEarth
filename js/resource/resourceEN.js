@@ -50,6 +50,9 @@
         kmUnit : 'kilometer',
         mUnit : 'Meter',
         distance : 'Distance',
+        spaceDistance: 'space distance',
+        verticalHeight: 'vertical height',
+        horizontalDistance: 'horizontal distance',
         sqkmUnit : 'Square kilometer',
         sqmUnit : 'Square meter',
         area : 'Area',
@@ -442,7 +445,15 @@
         obliqueLightWarning: 'Note: oblique photographic data has no lighting effect',
         hdr: 'high dynamic range',
         accessSceneFailedWithoutPermission: 'please log in for access',
-        accessSceneFailedNoScene: 'the scene you are accessing does not exist'
+        accessSceneFailedNoScene: 'the scene you are accessing does not exist',
+        Setting : 'Setting',
+        Thematicmap : 'Thematicmap',
+        ThematicmapColor : 'ThematicmapColor',
+        ThematicmapImage : 'ThematicmapImage',
+        ImageData : 'ImageData',
+        ParticleSystem: 'ParticleSystem',
+        Fire:'Fire',
+        Fountain:'Fountain',
     };
     return ResourceEN;
 });

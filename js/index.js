@@ -2,7 +2,7 @@
         waitSeconds: 60, // 加载超时时间，单位为秒
         paths: {
             Cesium: '../Build/Cesium/Cesium',
-            // Zlib: '../Build/Cesium/Workers/zlib.min',
+            Zlib: '../Build/Cesium/Workers/zlib.min',
             jquery: "lib/jquery.min",
             underscore: "lib/underscore-min.1.4.4",
             backbone: "lib/backbone-min",
@@ -43,9 +43,9 @@
             Cesium: {
                 exports: 'Cesium'
             },
-            // Zlib: {
-            //     exports: 'Zlib'
-            // },
+            Zlib: {
+                exports: 'Zlib'
+            },
             colorPicker: {
                 exports: 'colorPicker'
             },
@@ -75,7 +75,6 @@
             }
         }
     });
-
   var currentLanguage;
   var cookieLanguage = getLang().toLowerCase();
   if(cookieLanguage !== undefined) {
@@ -84,7 +83,6 @@
       currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
   }
 
-  // if (currentLanguage == 'zh-cn') {
   if (currentLanguage.startsWith('zh')) {
       require(['resourceCN', 'Cesium'], function (ResourceCN, Cesium) {
           window.Resource = ResourceCN;
@@ -96,7 +94,20 @@
           init(Cesium);
       });
   }
-function init(Cesium) {
+function init(Cesium, Zlib) {
+    var location = window.location;
+    var protocol = location.protocol;
+    var host = location.host;
+    var systemJSONUrl = `${protocol}//${host}/iportal/web/config/system.json`;
+    var systemJSONUrlPotential = `${protocol}//${host}/web/config/system.json`;
+    Cesium.loadJson(systemJSONUrl).then(function(jsonData) {
+        Window.isSuperMapOL = jsonData.isSuperMapOL
+    }).otherwise(function(error) {
+        Cesium.loadJson(systemJSONUrlPotential).then(function(jsonDataPotential) {
+            Window.isSuperMapOL = jsonDataPotential.isSuperMapOL
+        });
+    });
+    Window.isSuperMapOL = "${resource.customVariables.isSuperMapOL?c}";
     var isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
     var viewer;
     if (isPCBroswer) {
@@ -104,7 +115,7 @@ function init(Cesium) {
             animation: true,
             timeline: true,
             baseLayerPicker: false,
-            //shadows: true,
+            shadows: true,
             infoBox: false,
             geocoder : true,
             // skyBox: false, // 关闭天空盒会一同关闭太阳，场景会变暗
@@ -173,8 +184,8 @@ function init(Cesium) {
         $('#loadbar').removeClass('ins');
         $("body").append('<span id="baselayer-source" class="baselayer-source">' + Resource.baseLayerSource + '：' + Resource.localImage + '</span>');
 
-        require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm'],
-            function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm) {
+        require(['Tabs', 'dropdown', './views/ToolBar', './tools/Position', './views/ViewerContainer', './models/SceneModel', './views/ErrorPannel', './views/layerAttribute','./views/Compass','./views/GeoLocation','./portal/portalForm', './Util'],
+            function (Tabs, dropdown, ToolBar, Position, ViewerContainer, SceneModel, ErrorPannel,layerAttribute,Compass,GeoLocation,portalForm,Util) {
                 var sceneModel = new SceneModel(viewer);
                 var viewerContainer = new ViewerContainer();
                 sceneModel.viewerContainer =  viewerContainer;
@@ -217,26 +228,18 @@ function init(Cesium) {
                         x : '10px',
                         y : '200px'
                     }));
-                }/*else{
-                    viewerContainer.addComponent(locationContainer,new Position({
-                        mode : 'rt',
-                        x : '10px',
-                        y : '150px'
-                    }));
-                }*/
+                }
 
                 var layerContainer = new layerAttribute({
                     sceneModel: sceneModel
                 });
                 viewerContainer.addComponent(layerContainer);
 
-                if(Window.iportalAppsRoot && Window.iportalAppsRoot != "${resource.rootPath}"){
-                    var sceneViewerUrl = window.location.href;
-                    if (sceneViewerUrl.indexOf("?action=") == -1) {
-                        var appsRoot =Window.iportalAppsRoot;
-                        var pattern = "/apps";
-                        appsRoot = appsRoot.replace(new RegExp(pattern), "");
-                        sceneViewerUrl = sceneViewerUrl.match(/earth(\S*)/)[1];
+                var sceneViewerUrl = window.location.href;
+                if (sceneViewerUrl.indexOf("?action=") == -1) {
+                    sceneViewerUrl = sceneViewerUrl.match(/id=(\S*)/);
+                    if(sceneViewerUrl) {
+                        sceneViewerUrl = sceneViewerUrl[1];
                         if(sceneViewerUrl != '/'){
                             var regexp = new RegExp("/");
                             sceneViewerUrl = sceneViewerUrl.replace(regexp,"");
@@ -246,7 +249,7 @@ function init(Cesium) {
                             }
                             $.ajax({
                                     type: "GET",
-                                    url: appsRoot + "/web/scenes/" + sceneViewerUrl + ".json",
+                                    url: "../../web/scenes/" + sceneViewerUrl + ".json",
                                     contentType: "application/json;charset=utf-8",
                                     dataType: "json",
                                     async: false,
@@ -260,7 +263,13 @@ function init(Cesium) {
                                             cesiumScene = cesiumScene.replace(regexp,"");
                                             sceneModel.openScene(cesiumScene);
                                         }
-
+                                    },
+                                    error: function(error) {
+                                        if(error.status === 401) { // 没有权限
+                                            Util.showErrorMsg(Resource.accessSceneFailedWithoutPermission);
+                                        } else if(error.status === 404) { // 访问的场景不存在
+                                            Util.showErrorMsg(Resource.accessSceneFailedNoScene);
+                                        }
                                     }
                                 }
                             )

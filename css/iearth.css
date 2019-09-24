@@ -1029,6 +1029,11 @@ div.mark-list-item > img {
     padding: 5px 10px;
 }
 
+.range{
+    vertical-align: middle;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
 /* 卷帘分割条 start */
 #verticalSlider {
     position: absolute;

@@ -1991,7 +1991,8 @@ main input:checked + label {
 #scene-attribute-basic:checked ~ #scene-attribute-basic-content,
 #scene-attribute-others:checked ~ #scene-attribute-others-content,
 #scene-attribute-camera:checked ~ #scene-attribute-camera-content,
-#scene-attribute-light:checked ~ #scene-attribute-light-content{
+#scene-attribute-light:checked ~ #scene-attribute-light-content,
+#scene-attribute-ParticleSystem:checked ~ #scene-attribute-ParticleSystem-content{
 	display: block;
 }
 
@@ -2001,6 +2002,7 @@ main input:checked + label {
 
 #layer-attribute-basic:checked ~ #layer-attribute-basic-content,
 #layer-attribute-style:checked ~ #layer-attribute-style-content,
+#layer-attribute-Thematicmap:checked ~ #layer-attribute-Thematicmap-content,
 #layer-attribute-operation:checked ~ #layer-attribute-operation-content{
 	display: block;
 }

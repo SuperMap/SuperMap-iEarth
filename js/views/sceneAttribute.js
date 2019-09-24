@@ -11,15 +11,21 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
     var rollerShutterConfig = null;
     var isPCBroswer;
     var lightSourceType = 0; // 光源类型，初始时为点光源
+    var ParticleSystemSourceType = 0; // 粒子特效类型，初始时为火焰
     var pointLightSourceDrawHandler = null; // 绘制点光源位置工具
+    var pointParticleSystemDrawHandler = null; // 绘制点粒子特效位置工具
     var spotOrDirectionalLightSourceDrawHandler = null; // 绘制聚光灯的工具
     var spotOrDirectionalLightSourceCountHandler = null;
     var spotOrDirectionalLightSourceAdding = false;
     var spotOrDirectionalLightPositions = [];
     var entityPointLightPairs = new Map(); // Entity和点光源对象的键值对
     var entitySpotLightPairs = new Map(); // Entity和聚光灯对象的键值对
+    var entityParticleSystemPairs = new Map(); // Entity和粒子特效对象的键值对
+    var selectedParticleSystem = null; //选中的粒子
     var entityDirectionalLightPairs = new Map(); // Entity和平行光对象的键值对
     var flyCircleDrawHandler = null;
+    var viewModelFire;
+    var viewModelFountain;
 
 
     var htmlStr = [
@@ -32,6 +38,8 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '<label for="scene-attribute-camera" class="function-module-caption">' + Resource.camera + '</label>',
         '<input id="scene-attribute-light" name="scene-attribute" type="radio"/>',
         '<label for="scene-attribute-light" class="function-module-caption">' + Resource.light + '</label>',
+        '<input id="scene-attribute-ParticleSystem" name="scene-attribute" type="radio"/>',
+        '<label for="scene-attribute-ParticleSystem" class="function-module-caption">' + Resource.ParticleSystem + '</label>',
         '<input id="scene-attribute-others" name="scene-attribute" type="radio"/>',
         '<label for="scene-attribute-others" class="function-module-caption">' + Resource.otherOptions + '</label>',
 
@@ -357,6 +365,142 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 '<button type="button" id="clear-light-source" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
                 '<button type="button" id="add-light-source" class="btn btn-info function-module-btn function-module-btn-highlight">' + Resource.Add + '</button>',
             '</div>',
+'</section>',
+
+        '<section id="scene-attribute-ParticleSystem-content">',
+        '<div class="function-module-content">',
+        '<div class="function-module-sub-section">',
+        '<label class="function-module-sub-section-caption">' + Resource.symbolicLibrary + '</label>',
+        '<div class="mark-list" id="ParticleSystem-source-list">',
+        '<div id="point-Fire-select" class="mark-list-item light-source-font-normal light-source-font-selected">',
+        '<a class="iconfont icon-ICON_huoyan-shangchuan"></a>',
+        '<label>' + Resource.Fire + '</label>',
+        '</div>',
+        '<div id="point-Fountain-select" class="mark-list-item light-source-font-normal">',
+        '<a class="iconfont icon-ICON_penquan-shangchuan"></a>',
+        '<label>' + Resource.Fountain + '</label>',
+        '</div>',
+        '</div>',
+        '</div>',
+
+        '<div id="toolbar" class="params-setting-container">',
+        '<span class="fui-expand"></span>',
+        '</div>',
+        '<div class="params-setting">',
+        '<table>',
+        '<tbody>',
+        '<tr>',
+        '<td style="text-align:left;">数量</td>',
+        '<td>',
+        '<input type="range" min="0.0" max="1000.0" step="1" style="width: 140px;text-align:center;" id="emissionRate" value="200">',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="emissionRateValue" style=" float:right;" value="200">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">粒子大小</td>',
+        '<td>',
+        '<input type="range" id="particleSize" min="0" max="60.0" step="0.1" style="width: 140px;text-align:center;" value="2">',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="particleSizeValue" style=" float:right;" value="2">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">最小生命周期</td>',
+        '<td>',
+        '<input type="range" id="minimumParticleLife" min="0.1" max="30.0" step="1" style="width: 140px;text-align:center;" value="1.5">',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="minimumParticleLifeValue" style=" float:right;" value="1.5">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">最大生命周期</td>',
+        '<td>',
+        '<input type="range" id="maximumParticleLife" min="0.1" max="30.0" step="1" style="width: 140px;text-align:center;" value="1.8">',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="maximumParticleLifeValue" style=" float:right;" value="1.8">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">最小速度</td>',
+        '<td>',
+        '<input type="range" min="0.0" max="30.0" step="1" style="width: 140px;text-align:center;" id="minimumSpeed" value="7"> ',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="minimumSpeedValue" style=" float:right;" value="7">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">最大速度</td>',
+        '<td>',
+        '<input type="range" min="0.0" max="30.0" step="1" style="width: 140px;text-align:center;" id="maximumSpeed" value="9"> ',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="maximumSpeedValue" style=" float:right;" value="9">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">初始比例</td>',
+        '<td>',
+        '<input type="range" min="0.0" max="10.0" step="1" style="width: 140px;text-align:center;" id="startScale" value="3"> ',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="startScaleValue" style=" float:right;" value="3">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">终止比例</td>',
+        '<td>',
+        '<input type="range" min="0.0" max="10.0" step="1" style="width: 140px;text-align:center;"  id="endScale" value="1.5"> ',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="endScaleValue" style=" float:right;" value="1.5">',
+        '</td>',
+        '</tr>',
+
+        '<tr>',
+        '<td style="text-align:left;">重力</td>',
+        '<td>',
+        '<input type="range" min="-10.0" max="10.0" step="1" style="width: 140px;text-align:center;"   id="gravity" value="0"> ',
+        '</td>',
+        '<td>',
+        '<input type="text" size="2" id="gravityValue" style=" float:right;" value="0">',
+        '</td>',
+        '</tr>',
+
+
+        '<tr>',
+        '<td style="text-align:left;">发射类型</td>',
+        '<td>',
+        '<select  id="particleSystemType">',
+        '<option value="圆形放射">圆形放射</option>',
+        '<option value="球体放射">球体放射</option>',
+        '<option value="圆锥体放射" selected>圆锥体放射</option>',
+        '<option value="盒状放射">盒状放射</option>',
+        '</select>',
+        '</td>',
+        '</tr>',
+        '</tbody>',
+        '</table>',
+
+        '</div>',
+        '</div>',
+
+        '<div>',
+        '<button type="button" id="clear-ParticleSystem-source" class="btn btn-info function-module-btn">' + Resource.eliminate + '</button>',
+        '<button type="button" id="add-ParticleSystem-source" class="btn btn-info function-module-btn function-module-btn-highlight">' + Resource.Add + '</button>',
+        '</div>',
         '</section>',
 
         /*/!* 关于 *!/
@@ -383,7 +527,8 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 'click #stopFly': 'onStopFlyClk',
                 'click #spin': 'onSpinClk',
                 'click #cancel-spin': 'onCancelSpinClk',
-                'click #clear-light-source': 'clearLightSource'
+                'click #clear-light-source': 'clearLightSource',
+                'click #clear-ParticleSystem-source': 'clearParticleSystemSource'
             },
             template: _.template(htmlStr),
             initialize: function (options) {
@@ -735,7 +880,319 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                                 break;
                         }
                     });
+
+                    viewer.selectedEntityChanged.addEventListener(function (entity) {
+                        var entityID = entity.collection._textureAtlasGUID;
+                        var p = viewer.selectedEntity;
+                        console.log(entityID);
+                        console.log(p);
+                    });
+
+                    //特效相关
+                    $('#point-Fire-select').click(function () {
+                        $('#ParticleSystem-source-list > .mark-list-item').removeClass('light-source-font-selected');
+                        $(this).addClass('light-source-font-selected');
+
+                        ParticleSystemSourceType = 0;
+
+                        //默认参数
+                        $("#emissionRate").val(viewModelFire.emissionRate);
+                        $("#emissionRateValue").val(viewModelFire.emissionRate);
+                        $("#particleSize").val(viewModelFire.particleSize);
+                        $("#particleSizeValue").val(viewModelFire.particleSize);
+                        $("#minimumParticleLife").val(viewModelFire.minimumParticleLife);
+                        $("#minimumParticleLifeValue").val(viewModelFire.minimumParticleLife);
+                        $("#maximumParticleLife").val(viewModelFire.maximumParticleLife);
+                        $("#maximumParticleLifeValue").val(viewModelFire.maximumParticleLife);
+                        $("#minimumSpeed").val(viewModelFire.minimumSpeed);
+                        $("#minimumSpeedValue").val(viewModelFire.minimumSpeed);
+                        $("#maximumSpeed").val(viewModelFire.maximumSpeed);
+                        $("#maximumSpeedValue").val(viewModelFire.maximumSpeed);
+                        $("#startScale").val(viewModelFire.startScale);
+                        $("#startScaleValue").val(viewModelFire.startScale);
+                        $("#endScale").val(viewModelFire.endScale);
+                        $("#endScaleValue").val(viewModelFire.endScale);
+                        $("#gravity").val(viewModelFire.gravity);
+                        $("#gravityValue").val(viewModelFire.gravity);
+                        console.log($("#particleSystemType").find("option:contains('圆锥体放射')"));
+                        $("#particleSystemType").find("option:contains('放射')").attr("selected", false);
+                        $("#particleSystemType").find("option:contains('圆锥体放射')").attr("selected", true);
+
+                    });
+
+                    $('#point-Fountain-select').click(function () {
+                        $('#ParticleSystem-source-list > .mark-list-item').removeClass('light-source-font-selected');
+                        $(this).addClass('light-source-font-selected');
+
+                        ParticleSystemSourceType = 1;
+
+                        //默认参数
+                        $("#emissionRate").val(viewModelFountain.emissionRate);
+                        $("#emissionRateValue").val(viewModelFountain.emissionRate);
+                        $("#particleSize").val(viewModelFountain.particleSize);
+                        $("#particleSizeValue").val(viewModelFountain.particleSize);
+                        $("#minimumParticleLife").val(viewModelFountain.minimumParticleLife);
+                        $("#minimumParticleLifeValue").val(viewModelFountain.minimumParticleLife);
+                        $("#maximumParticleLife").val(viewModelFountain.maximumParticleLife);
+                        $("#maximumParticleLifeValue").val(viewModelFountain.maximumParticleLife);
+                        $("#minimumSpeed").val(viewModelFountain.minimumSpeed);
+                        $("#minimumSpeedValue").val(viewModelFountain.minimumSpeed);
+                        $("#maximumSpeed").val(viewModelFountain.maximumSpeed);
+                        $("#maximumSpeedValue").val(viewModelFountain.maximumSpeed);
+                        $("#startScale").val(viewModelFountain.startScale);
+                        $("#startScaleValue").val(viewModelFountain.startScale);
+                        $("#endScale").val(viewModelFountain.endScale);
+                        $("#endScaleValue").val(viewModelFountain.endScale);
+                        $("#gravity").val(viewModelFountain.gravity);
+                        $("#gravityValue").val(viewModelFountain.gravity);
+
+
+                        $("#particleSystemType").find("option:contains('放射')").attr("selected", false);
+                        // $("#particleSystemType option:first").prop("selected", 'selected');
+                        // $("#particleSystemType").find("option:contains('圆形放射')").attr("selected",true);
+
+                    });
+
+                    //特效调节
+                    $('#add-ParticleSystem-source').click(function () {
+                        if (!isPCBroswer) {
+                            me.$el.hide();
+                        }
+                        if (!pointParticleSystemDrawHandler) {
+                            initParticleSystemDrawHandler();
+                        }
+                        pointParticleSystemDrawHandler.activate();
+                    });
+
+
+                    //粒子参数编辑
+                    $("#emissionRate").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#emissionRateValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.emissionRate = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+                    $("#particleSize").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#particleSizeValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                var particleSize = parseFloat(newValue);
+                                particleSystem.minimumImageSize.x = particleSize;
+                                particleSystem.minimumImageSize.y = particleSize;
+                                particleSystem.maximumImageSize.x = particleSize;
+                                particleSystem.maximumImageSize.y = particleSize;
+                            }
+                        }
+                    });
+
+                    $("#minimumParticleLife").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#minimumParticleLifeValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.minimumParticleLife = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+                    $("#maximumParticleLife").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#maximumParticleLifeValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.maximumParticleLife = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+
+                    $("#minimumSpeed").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#minimumSpeedValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.minimumSpeed = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+                    $("#maximumSpeed").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#maximumSpeedValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.maximumSpeed = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+                    $("#startScale").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#startScaleValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.startScale = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+                    $("#endScale").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#endScaleValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                particleSystem.endScale = parseFloat(newValue);
+                            }
+                        }
+                    });
+
+                    $("#gravity").on('input propertychange', function () {
+                        var newValue = $(this).val();
+                        $("#gravityValue").val(newValue);
+                        if (selectedParticleSystem) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                //更新重力，待完成
+                            }
+                        }
+                    });
+
+
+                    $("#particleSystemType").change(function () {
+                        if (viewer.selectedEntity) {
+                            var particleSystem = selectedParticleSystem;
+                            if (particleSystem) {
+                                var newValue = $(this).val();
+                                switch (newValue) {
+                                    case "圆形放射":
+                                        particleSystem.emitter = new Cesium.CircleEmitter(2.0);
+                                        break;
+                                    case "球体放射":
+                                        particleSystem.emitter = new Cesium.SphereEmitter(2.5);
+                                        break;
+                                    case "圆锥体放射":
+                                        particleSystem.emitter = new Cesium.ConeEmitter(Cesium.Math.toRadians(45.0));
+                                        break;
+                                    case "盒状放射":
+                                        particleSystem.emitter = new Cesium.BoxEmitter(new Cesium.Cartesian3(10.0, 10.0, 10.0));
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    });
                 });
+
+                //火焰粒子特效
+                viewModelFire = {
+                    emissionRate: 200.0,
+                    gravity: 0.0,
+                    minimumParticleLife: 1.5,
+                    maximumParticleLife: 1.8,
+                    minimumSpeed: 7.0,
+                    maximumSpeed: 9.0,
+                    startScale: 3.0,
+                    endScale: 1.5,
+                    particleSize: 2,
+                };
+
+                //喷泉粒子特效
+                viewModelFountain = {
+                    emissionRate: 20.0,
+                    gravity: -3.5,
+                    minimumParticleLife: 6,
+                    maximumParticleLife: 7,
+                    minimumSpeed: 9,
+                    maximumSpeed: 9.5,
+                    startScale: 1,
+                    endScale: 15,
+                    particleSize: 1,
+                };
+
+                //获取选中的粒子
+                viewer.selectedEntityChanged.addEventListener(function (selectedEntity) {
+                    var entityID = selectedEntity.collection._textureAtlasGUID;
+                    if (entityParticleSystemPairs) {
+                        for (let key of entityParticleSystemPairs.keys()) {
+                            var particleSystem = entityParticleSystemPairs.get(key);
+                            if (particleSystem) {
+                                if (particleSystem._billboardCollection._textureAtlasGUID == entityID) {
+                                    selectedParticleSystem = particleSystem;
+
+                                    //默认参数
+                                    $("#emissionRate").val(selectedParticleSystem.emissionRate);
+                                    $("#emissionRateValue").val(viewModelFire.emissionRate);
+                                    $("#particleSize").val(viewModelFire.particleSize);
+                                    $("#particleSizeValue").val(viewModelFire.particleSize);
+                                    $("#minimumParticleLife").val(viewModelFire.minimumParticleLife);
+                                    $("#minimumParticleLifeValue").val(viewModelFire.minimumParticleLife);
+                                    $("#maximumParticleLife").val(viewModelFire.maximumParticleLife);
+                                    $("#maximumParticleLifeValue").val(viewModelFire.maximumParticleLife);
+                                    $("#minimumSpeed").val(viewModelFire.minimumSpeed);
+                                    $("#minimumSpeedValue").val(viewModelFire.minimumSpeed);
+                                    $("#maximumSpeed").val(viewModelFire.maximumSpeed);
+                                    $("#maximumSpeedValue").val(viewModelFire.maximumSpeed);
+                                    $("#startScale").val(viewModelFire.startScale);
+                                    $("#startScaleValue").val(viewModelFire.startScale);
+                                    $("#endScale").val(viewModelFire.endScale);
+                                    $("#endScaleValue").val(viewModelFire.endScale);
+                                    $("#gravity").val(viewModelFire.gravity);
+                                    $("#gravityValue").val(viewModelFire.gravity);
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+                viewer.scene.postRender.addEventListener(function (scene, time) {
+                    //循循环数组
+                    if (entityParticleSystemPairs) {
+                        for (let key of entityParticleSystemPairs.keys()) {
+                            var particleSystem = entityParticleSystemPairs.get(key);
+                            if (particleSystem) {
+                                particleSystem.modelMatrix = computeModelMatrix(key, time);
+                                // Account for any changes to the emitter model matrix.
+                                // particleSystem.emitterModelMatrix = computeEmitterModelMatrix();
+                            }
+                        }
+                    }
+                });
+
+                function computeModelMatrix(entity, time) {
+                    return entity.computeModelMatrix(time, new Cesium.Matrix4());
+                }
+
+                var emitterModelMatrix = new Cesium.Matrix4();
+                var translation = new Cesium.Cartesian3();
+                var rotation = new Cesium.Quaternion();
+                var hpr = new Cesium.HeadingPitchRoll();
+                var trs = new Cesium.TranslationRotationScale();
+
+                //改变粒子系统的位置
+                function computeEmitterModelMatrix() {
+                    hpr = Cesium.HeadingPitchRoll.fromDegrees(0.0, 0.0, 0.0, hpr);
+                    trs.translation = Cesium.Cartesian3.fromElements(0, 0, 0.5, translation);
+                    trs.rotation = Cesium.Quaternion.fromHeadingPitchRoll(hpr, rotation);
+                    return Cesium.Matrix4.fromTranslationRotationScale(trs, emitterModelMatrix);
+                }
+
             },
             render: function () {
                 this.$el.html(this.template());
@@ -1063,7 +1520,15 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                     viewer.entities.remove(key);
                 }
                 entityDirectionalLightPairs.clear();
+            },
+        clearParticleSystemSource: function () {
+            for (let key of entityParticleSystemPairs.keys()) {
+                viewer.entities.remove(key);
+                var particleSystem = entityParticleSystemPairs.get(key);
+                scene._primitives.remove(particleSystem);
             }
+            entityParticleSystemPairs.clear();
+        }
         });
         function initPointLightSourceDrawHandler() {
             pointLightSourceDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
@@ -1172,5 +1637,128 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
                 }
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         }
+
+    function initParticleSystemDrawHandler() {
+        pointParticleSystemDrawHandler = new Cesium.DrawHandler(viewer, Cesium.DrawMode.Point);
+        pointParticleSystemDrawHandler.activeEvt.addEventListener(function (isActive) {
+            if (isActive == true) {
+                viewer.enableCursorStyle = false;
+                viewer._element.style.cursor = '';
+                $('body').removeClass('drawCur').addClass('drawCur');
+            } else {
+                viewer.enableCursorStyle = true;
+                $('body').removeClass('drawCur');
+            }
+        });
+        pointParticleSystemDrawHandler.drawEvt.addEventListener(function (result) {
+            var cartesian = result.object.position;
+
+            var entityFire;
+            var entityFountain;
+
+            var imageurl;
+            switch (ParticleSystemSourceType) {
+                case 0:
+                    entityFire = viewer.entities.add({
+                        id: 'Particle-System-' + (new Date()).getTime(),
+                        // position: cartesian,
+                        position: new Cesium.Cartesian3(cartesian.x, cartesian.y, cartesian.z + 5),
+                    });
+
+
+                    imageurl = './images/ParticleSystem/fire.png';
+                    var particleSystemFire = scene.primitives.add(new Cesium.ParticleSystem({
+                        image: imageurl,
+                        startColor: new Cesium.Color(1, 1, 1, 1),
+                        endColor: new Cesium.Color(1, 0, 0, 0),
+                        startScale: viewModelFire.startScale,
+                        endScale: viewModelFire.endScale,
+                        minimumParticleLife: viewModelFire.minimumParticleLife,
+                        maximumParticleLife: viewModelFire.maximumParticleLife,
+                        minimumSpeed: viewModelFire.minimumSpeed,
+                        maximumSpeed: viewModelFire.maximumSpeed,
+                        imageSize: new Cesium.Cartesian2(viewModelFire.particleSize, viewModelFire.particleSize),
+                        emissionRate: viewModelFire.emissionRate,
+                        lifetime: 6.0,
+                        //循环是否开启
+                        loop: true,
+                        emitter: new Cesium.ConeEmitter(Cesium.Math.toRadians(45.0)),
+                        // emitterModelMatrix: computeEmitterModelMatrix(),
+                        updateCallback: applyGravityFire,
+                        sizeInMeters: true,
+                        performance: false,
+                    }));
+                    entityParticleSystemPairs.set(entityFire, particleSystemFire);
+                    break;
+                case 1:
+                    entityFountain = viewer.entities.add({
+                        id: 'Particle-System2-' + (new Date()).getTime(),
+                        // position: cartesian,
+                        position: new Cesium.Cartesian3(cartesian.x, cartesian.y, cartesian.z + 5),
+                    });
+
+                    imageurl = './images/ParticleSystem/fountain.png';
+                    var particleSystemFountain = scene.primitives.add(new Cesium.ParticleSystem({
+                        image: imageurl,
+                        startColor: new Cesium.Color(1, 1, 1, 0.6),
+                        endColor: new Cesium.Color(0.80, 0.86, 1, 0.4),
+                        startScale: viewModelFountain.startScale,
+                        endScale: viewModelFountain.endScale,
+                        minimumParticleLife: viewModelFountain.minimumParticleLife,
+                        maximumParticleLife: viewModelFountain.maximumParticleLife,
+                        minimumSpeed: viewModelFountain.minimumSpeed,
+                        maximumSpeed: viewModelFountain.maximumSpeed,
+                        imageSize: new Cesium.Cartesian2(viewModelFountain.particleSize, viewModelFountain.particleSize),
+                        emissionRate: viewModelFountain.emissionRate,
+                        lifetime: 16.0,
+                        //粒子发射器
+                        emitter: new Cesium.CircleEmitter(0.2),
+                        // emitterModelMatrix: computeEmitterModelMatrix(),
+                        updateCallback: applyGravityFountain,
+                        sizeInMeters: true,
+                        performance: false,
+                    }));
+                    entityParticleSystemPairs.set(entityFountain, particleSystemFountain);
+                    break;
+            }
+
+            var gravityScratchFire = new Cesium.Cartesian3();
+
+            function applyGravityFire(p, dt) {
+                // We need to compute a local up vector for each particle in geocentric space.
+                var position = p.position;
+                Cesium.Cartesian3.normalize(position, gravityScratchFire);
+                Cesium.Cartesian3.multiplyByScalar(gravityScratchFire, viewModelFire.gravity * dt, gravityScratchFire);
+                p.velocity = Cesium.Cartesian3.add(p.velocity, gravityScratchFire, p.velocity);
+
+                // if (selectedParticleSystem){
+                //     var pp = selectedParticleSystem;
+                //     Cesium.Cartesian3.normalize(selectedParticleSystem.position, gravityScratchFire);
+                //     Cesium.Cartesian3.multiplyByScalar(gravityScratchFire, viewModelFire.gravity * dt, gravityScratchFire);
+                //     selectedParticleSystem.velocity = Cesium.Cartesian3.add(pp.velocity, gravityScratchFire, pp.velocity);
+                // }
+            };
+
+            var gravityScratchFountain = new Cesium.Cartesian3();
+
+            function applyGravityFountain(p, dt) {
+                // We need to compute a local up vector for each particle in geocentric space.
+                var position = p.position;
+                Cesium.Cartesian3.normalize(position, gravityScratchFountain);
+                Cesium.Cartesian3.multiplyByScalar(gravityScratchFountain, viewModelFountain.gravity * dt, gravityScratchFountain);
+                p.velocity = Cesium.Cartesian3.add(p.velocity, gravityScratchFountain, p.velocity);
+
+                // if (selectedParticleSystem){
+                //     var pp = selectedParticleSystem;
+                //     Cesium.Cartesian3.normalize(selectedParticleSystem.position, gravityScratchFountain);
+                //     Cesium.Cartesian3.multiplyByScalar(gravityScratchFountain, viewModelFountain.gravity * dt, gravityScratchFountain);
+                //     selectedParticleSystem.velocity = Cesium.Cartesian3.add(pp.velocity, gravityScratchFountain, pp.velocity);
+                // }
+            };
+
+            pointParticleSystemDrawHandler.clear();
+        });
+    }
+
         return sceneAttribute;
 });
