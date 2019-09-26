@@ -454,6 +454,20 @@
         ParticleSystem: 'ParticleSystem',
         Fire:'Fire',
         Fountain:'Fountain',
+        emissionRate:'emissionRate',
+        particleSize:'particleSize',
+        minimumParticleLife:'minimumParticleLife',
+        maximumParticleLife:'maximumParticleLife',
+        minimumSpeed:'minimumSpeed',
+        maximumSpeed:'maximumSpeed',
+        startScale:'startScale',
+        endScale:'endScale',
+        gravity:'gravity',
+        LaunchType:'LaunchType',
+        CircularRadiation:'CircularRadiation',
+        SpheroidRadiation:'SpheroidRadiation',
+        ConicalRadiation:'ConicalRadiation',
+        BoxedRadiation:'BoxedRadiation',
     };
     return ResourceEN;
 });

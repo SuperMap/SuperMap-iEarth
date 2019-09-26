@@ -378,8 +378,8 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                     showPalette: true, //用于存储过往选择的颜色
                     palette: palette,
                     showAlpha: true, // 支持透明度选择
-                    chooseText: "选择",
-                    cancelText: "取消",
+                    cancelText: Resource.cancel,
+                    chooseText: Resource.confirm,
                     change: function (color) {
                         var color = Cesium.Color.fromCssColorString(color.toRgbString());
                         if (viewer.selectedEntity && viewer.selectedEntity.id && viewer.selectedEntity.id.indexOf('polygon-symbol-stripe') === 0) {

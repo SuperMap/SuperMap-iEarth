@@ -455,7 +455,20 @@ define(function(){
         ParticleSystem: '粒子',
         Fire:'火焰',
         Fountain:'喷泉',
-
+        emissionRate:'数量',
+        particleSize:'粒子大小',
+        minimumParticleLife:'最小生命周期',
+        maximumParticleLife:'最大生命周期',
+        minimumSpeed:'最小速度',
+        maximumSpeed:'最大速度',
+        startScale:'初始比例',
+        endScale:'终止比例',
+        gravity:'重力',
+        LaunchType:'发射类型',
+        CircularRadiation:'圆形放射',
+        SpheroidRadiation:'球体放射',
+        ConicalRadiation:'球体放射',
+        BoxedRadiation:'盒状放射',
     };
     return ResourceCN;
 });
