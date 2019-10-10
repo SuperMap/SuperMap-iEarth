@@ -75,8 +75,15 @@
             }
         }
     });
-  var currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
-  if (currentLanguage == 'zh-cn') {
+  var currentLanguage;
+  var cookieLanguage = getLang().toLowerCase();
+  if(cookieLanguage !== undefined) {
+      currentLanguage = cookieLanguage;
+  } else {
+      currentLanguage = (navigator.language || navigator.browserLanguage).toLowerCase(); // 获取当前浏览器的语言
+  }
+
+  if (currentLanguage.startsWith('zh')) {
       require(['resourceCN', 'Cesium'], function (ResourceCN, Cesium) {
           window.Resource = ResourceCN;
           init(Cesium);
@@ -281,3 +288,24 @@ function getDescription(feature) {
     }
     return html;
 }
+
+  /**
+   * 获取iPortal的语言环境
+   * */
+  function getLang() {
+      //浏览器语言  IE用browserLanguage，非IE使用language进行判断
+      let lang = navigator.language || navigator.browserLanguage;
+      //判断portal设置语言 通过cookie获取
+      const cookies = document.cookie.split(';');
+      if (cookies.length > 0) {
+          cookies.forEach(function (cookie) {
+              const arr = cookie.split('=');
+              if (arr[0].toLowerCase().trim() === 'language') {
+                  lang = arr[1];
+                  return;
+              }
+          });
+      }
+      return lang;
+  }
+  

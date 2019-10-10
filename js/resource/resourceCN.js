@@ -448,7 +448,21 @@ define(function(){
         addToken: '添加token',
         loadException: '加载异常，请检查数据或token',
         obliqueLightWarning: '注：倾斜摄影数据没有灯光效果',
-        hdr: '高动态范围'
+        hdr: '高动态范围',
+        emissionRate:'数量',
+        particleSize:'粒子大小',
+        minimumParticleLife:'最小生命周期',
+        maximumParticleLife:'最大生命周期',
+        minimumSpeed:'最小速度',
+        maximumSpeed:'最大速度',
+        startScale:'初始比例',
+        endScale:'终止比例',
+        gravity:'重力',
+        LaunchType:'发射类型',
+        CircularRadiation:'圆形放射',
+        SpheroidRadiation:'球体放射',
+        ConicalRadiation:'球体放射',
+        BoxedRadiation:'盒状放射',
     };
     return ResourceCN;
 });

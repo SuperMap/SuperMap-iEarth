@@ -448,7 +448,21 @@
         addToken: 'add token',
         loadException: 'load failed, please check data or token',
         obliqueLightWarning: 'Note: oblique photographic data has no lighting effect',
-        hdr: 'high dynamic range'
+        hdr: 'high dynamic range',
+        emissionRate:'emissionRate',
+        particleSize:'particleSize',
+        minimumParticleLife:'minimumParticleLife',
+        maximumParticleLife:'maximumParticleLife',
+        minimumSpeed:'minimumSpeed',
+        maximumSpeed:'maximumSpeed',
+        startScale:'startScale',
+        endScale:'endScale',
+        gravity:'gravity',
+        LaunchType:'LaunchType',
+        CircularRadiation:'CircularRadiation',
+        SpheroidRadiation:'SpheroidRadiation',
+        ConicalRadiation:'ConicalRadiation',
+        BoxedRadiation:'BoxedRadiation',
     };
     return ResourceEN;
 });

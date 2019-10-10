@@ -390,7 +390,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '<table>',
         '<tbody>',
         '<tr>',
-        '<td style="text-align:left;">数量</td>',
+        '<td style="text-align:left;">' + Resource.emissionRate + '</td>',
         '<td>',
         '<input type="range" min="0.0" max="1000.0" step="1" style="width: 140px;text-align:center;" id="emissionRate" value="200">',
         '</td>',
@@ -400,7 +400,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">粒子大小</td>',
+        '<td style="text-align:left;">' + Resource.particleSize + '</td>',
         '<td>',
         '<input type="range" id="particleSize" min="0" max="60.0" step="0.1" style="width: 140px;text-align:center;" value="2">',
         '</td>',
@@ -410,7 +410,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">最小生命周期</td>',
+        '<td style="text-align:left;">' + Resource.minimumParticleLife + '</td>',
         '<td>',
         '<input type="range" id="minimumParticleLife" min="0.1" max="30.0" step="1" style="width: 140px;text-align:center;" value="1.5">',
         '</td>',
@@ -420,7 +420,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">最大生命周期</td>',
+        '<td style="text-align:left;">' + Resource.maximumParticleLife + '</td>',
         '<td>',
         '<input type="range" id="maximumParticleLife" min="0.1" max="30.0" step="1" style="width: 140px;text-align:center;" value="1.8">',
         '</td>',
@@ -430,7 +430,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">最小速度</td>',
+        '<td style="text-align:left;">' + Resource.minimumSpeed + '</td>',
         '<td>',
         '<input type="range" min="0.0" max="30.0" step="1" style="width: 140px;text-align:center;" id="minimumSpeed" value="7"> ',
         '</td>',
@@ -440,7 +440,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">最大速度</td>',
+        '<td style="text-align:left;">' + Resource.maximumSpeed + '</td>',
         '<td>',
         '<input type="range" min="0.0" max="30.0" step="1" style="width: 140px;text-align:center;" id="maximumSpeed" value="9"> ',
         '</td>',
@@ -450,7 +450,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">初始比例</td>',
+        '<td style="text-align:left;">' + Resource.startScale + '</td>',
         '<td>',
         '<input type="range" min="0.0" max="10.0" step="1" style="width: 140px;text-align:center;" id="startScale" value="3"> ',
         '</td>',
@@ -460,7 +460,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">终止比例</td>',
+        '<td style="text-align:left;">' + Resource.endScale + '</td>',
         '<td>',
         '<input type="range" min="0.0" max="10.0" step="1" style="width: 140px;text-align:center;"  id="endScale" value="1.5"> ',
         '</td>',
@@ -470,7 +470,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
         '</tr>',
 
         '<tr>',
-        '<td style="text-align:left;">重力</td>',
+        '<td style="text-align:left;">' + Resource.gravity + '</td>',
         '<td>',
         '<input type="range" min="-10.0" max="10.0" step="1" style="width: 140px;text-align:center;"   id="gravity" value="0"> ',
         '</td>',
@@ -481,13 +481,13 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
 
 
         '<tr>',
-        '<td style="text-align:left;">发射类型</td>',
+        '<td style="text-align:left;">' + Resource.LaunchType + '</td>',
         '<td>',
         '<select  id="particleSystemType">',
-        '<option value="圆形放射">圆形放射</option>',
-        '<option value="球体放射">球体放射</option>',
-        '<option value="圆锥体放射" selected>圆锥体放射</option>',
-        '<option value="盒状放射">盒状放射</option>',
+        '<option value="圆形放射">' + Resource.CircularRadiation + '</option>',
+        '<option value="球体放射">' + Resource.SpheroidRadiation + '</option>',
+        '<option value="圆锥体放射" selected>' + Resource.ConicalRadiation + '</option>',
+        '<option value="盒状放射">' + Resource.BoxedRadiation + '</option>',
         '</select>',
         '</td>',
         '</tr>',
