@@ -469,6 +469,7 @@ define(function(){
         SpheroidRadiation:'球体放射',
         ConicalRadiation:'球体放射',
         BoxedRadiation:'盒状放射',
+        TwoDimensionalSkyline:'二维天际线',
     };
     return ResourceCN;
 });
