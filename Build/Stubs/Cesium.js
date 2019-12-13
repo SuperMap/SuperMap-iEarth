@@ -9,6 +9,10 @@ define('Core/ApproximateTerrainHeights', function() {
     return Cesium['ApproximateTerrainHeights'];
 });
 
+define('Core/ArcGisGeographicTilingScheme', function() {
+    return Cesium['ArcGisGeographicTilingScheme'];
+});
+
 define('Core/ArcType', function() {
     return Cesium['ArcType'];
 });
@@ -759,6 +763,10 @@ define('Core/Packable', function() {
 
 define('Core/PackableForInterpolation', function() {
     return Cesium['PackableForInterpolation'];
+});
+
+define('Core/PackingRequest', function() {
+    return Cesium['PackingRequest'];
 });
 
 define('Core/parseResponseHeaders', function() {
@@ -1569,8 +1577,16 @@ define('DataSources/WallGraphics', function() {
     return Cesium['WallGraphics'];
 });
 
+define('Fly/FlyInterpolationMode', function() {
+    return Cesium['FlyInterpolationMode'];
+});
+
 define('Fly/FlyManager', function() {
     return Cesium['FlyManager'];
+});
+
+define('Fly/FlyTurningMode', function() {
+    return Cesium['FlyTurningMode'];
 });
 
 define('Fly/Route', function() {
@@ -1667,6 +1683,10 @@ define('Handler/DrawHandler', function() {
 
 define('Handler/DrawMode', function() {
     return Cesium['DrawMode'];
+});
+
+define('Handler/EditHandler', function() {
+    return Cesium['EditHandler'];
 });
 
 define('Handler/MeasureHandler', function() {
@@ -2079,6 +2099,10 @@ define('Renderer/MipmapHint', function() {
 
 define('Renderer/modernizeShader', function() {
     return Cesium['modernizeShader'];
+});
+
+define('Renderer/MultiViewShed3D', function() {
+    return Cesium['MultiViewShed3D'];
 });
 
 define('Renderer/NormalFramebuffer', function() {
@@ -2547,6 +2571,10 @@ define('S3MTiles/shader/ModifyRegionSideFp', function() {
 
 define('S3MTiles/shader/ModifyRegionSideVp', function() {
     return Cesium['ModifyRegionSideVp'];
+});
+
+define('S3MTiles/shader/MultiViewShedAnalysisFp', function() {
+    return Cesium['MultiViewShedAnalysisFp'];
 });
 
 define('S3MTiles/shader/PolylineFp', function() {
@@ -3109,8 +3137,28 @@ define('Scene/GoogleEarthEnterpriseMapsProvider', function() {
     return Cesium['GoogleEarthEnterpriseMapsProvider'];
 });
 
+define('Scene/GridImagery', function() {
+    return Cesium['GridImagery'];
+});
+
 define('Scene/GridImageryProvider', function() {
     return Cesium['GridImageryProvider'];
+});
+
+define('Scene/GridLayer', function() {
+    return Cesium['GridLayer'];
+});
+
+define('Scene/GridProvider', function() {
+    return Cesium['GridProvider'];
+});
+
+define('Scene/GridState', function() {
+    return Cesium['GridState'];
+});
+
+define('Scene/GridTileImagery', function() {
+    return Cesium['GridTileImagery'];
 });
 
 define('Scene/GroundPolylinePrimitive', function() {
@@ -3271,6 +3319,10 @@ define('Scene/Moon', function() {
 
 define('Scene/MultiViewportMode', function() {
     return Cesium['MultiViewportMode'];
+});
+
+define('Scene/MvtFilter', function() {
+    return Cesium['MvtFilter'];
 });
 
 define('Scene/MvtProvider', function() {
@@ -3719,6 +3771,10 @@ define('Scene/VoxelGridPostRenderer', function() {
 
 define('Scene/VoxelGridTile', function() {
     return Cesium['VoxelGridTile'];
+});
+
+define('Scene/WalkingMode', function() {
+    return Cesium['WalkingMode'];
 });
 
 define('Scene/WebMapServiceImageryProvider', function() {
@@ -4981,6 +5037,10 @@ define('ThirdParty/NoSleep', function() {
     return Cesium['NoSleep'];
 });
 
+define('ThirdParty/pbf', function() {
+    return Cesium['pbf'];
+});
+
 define('ThirdParty/protobuf-minimal', function() {
     return Cesium['protobuf-minimal'];
 });
@@ -5003,6 +5063,10 @@ define('ThirdParty/Shaders/FXAA3_11', function() {
 
 define('ThirdParty/sprintf', function() {
     return Cesium['sprintf'];
+});
+
+define('ThirdParty/supermap3D-openlayer-4.6.5', function() {
+    return Cesium['supermap3D-openlayer-4.6.5'];
 });
 
 define('ThirdParty/topojson', function() {
