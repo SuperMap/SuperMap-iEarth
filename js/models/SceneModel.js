@@ -415,7 +415,11 @@ define([
                     }
                 });
                 var typeUrl = jsonPath + '/layers.xml';
-                var typelist = new Array()
+
+                // typeLayerName和typelist下标一一对应
+                var typelist = new Array(); // 图层的类型
+                var typeLayerName = new Array(); // 图层的名称
+
                 $.ajax({
                     url: typeUrl,
                     dataType: 'xml',
@@ -425,30 +429,39 @@ define([
                     error: function(xml){
                     },
                     success: function(xml){
+                        $(xml).find("name").each(function(i){
+                            var id = $(this).children("id");
+                            typeLayerName[i] = id.context.innerHTML;
+                        });
+
                         $(xml).find("layer3DType").each(function(i)
                         {
                             var id = $(this).children("id");
-                            typelist[i] = id.context.innerHTML;
+                            switch (id.context.innerHTML) {
+                                case 'OSGBLayer':
+                                    typelist[i] = 'S3M';
+                                    break;
+                                case 'ImageFileLayer':
+                                    typelist[i] = 'IMAGERY';
+                                    break;
+                                case 'TerrainFileLayer':
+                                    typelist[i] = 'TERRAIN';
+                                    break;
+                                default:
+                                    break;
+                            }
                         });
 
                     }
                 });
-                for(var j = 0;j < typelist.length;j++){
-                    if(typelist[j] == 'OSGBLayer'){
-                        typelist[j] = 'S3M';
-                    }
-                    else if(typelist[j] == 'ImageFileLayer'){
-                        typelist[j] = 'IMAGERY';
-                    }
-                    else if(typelist[j] == 'TerrainFileLayer'){
-                        typelist[j] = 'TERRAIN';
-                    }
-                }
 
                 for(var i = 0;i < namelist.length;i++){
-                    if(typelist[i] == 'S3M'){
-                        pathlist[i] = pathlist[i] +"/config";
+                    var typeIndex = typeLayerName.indexOf(namelist[i]);
+                    var type = typelist[typeIndex];
+                    if (type == 'S3M') {
+                        pathlist[i] = pathlist[i] + "/config";
                     }
+
                     var layerModel = new LayerModel({
                         url : pathlist[i],
                         name : namelist[i],

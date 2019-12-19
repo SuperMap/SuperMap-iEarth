@@ -12,7 +12,7 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
             var name = this.get('name');
             var defer = Cesium.when.defer();
             if(Util.TERRAIN_CACHE[url]){
-            	Util.showErrorMsg('改图层已经存在，请勿重复加载！');
+            	Util.showErrorMsg('该图层已经存在，请勿重复加载！');
                 return defer.reject();
             }
             var terrainProvider = new Cesium.CesiumTerrainProvider({
