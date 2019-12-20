@@ -464,7 +464,7 @@ define([
                     var layerModel = new LayerModel({
                         url : pathlist[i],
                         name : namelist[i],
-                        type : typelist[i],
+                        type : type,
                         realName : name
                     });
                     that.addLayer(layerModel);
