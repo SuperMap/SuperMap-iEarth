@@ -464,6 +464,11 @@ define(function(){
         ConicalRadiation:'球体放射',
         BoxedRadiation:'盒状放射',
         TwoDimensionalSkyline:'二维天际线',
+        SpatialDistance:'空间距离',
+        VerticalHeight:'垂直高度',
+        HorizontalDistance:'水平距离',
+        LayerRepeat:'该图层已经存在，请勿重复加载！',
+        SCTFailed:'SCT URL 错误，地形加载失败！'
     };
     return ResourceCN;
 });

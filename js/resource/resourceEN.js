@@ -464,6 +464,11 @@ define(function(){
         ConicalRadiation:'Conical radiation',
         BoxedRadiation:'Boxed radiation',
 		TwoDimensionalSkyline:'2D skyline',
+        SpatialDistance:'Spatial distance',
+        VerticalHeight:'Vertical height',
+        HorizontalDistance:'Horizontal distance',
+        LayerRepeat:'This layer already exists, please do not load it repeatedly!',
+        SCTFailed:'SCT URL error, terrain loading failed!'
     };
     return ResourceEN;
 });

@@ -12,7 +12,7 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
             var name = this.get('name');
             var defer = Cesium.when.defer();
             if(Util.TERRAIN_CACHE[url]){
-            	Util.showErrorMsg('该图层已经存在，请勿重复加载！');
+            	Util.showErrorMsg(Resource.LayerRepeat);
                 return defer.reject();
             }
             var terrainProvider = new Cesium.CesiumTerrainProvider({
@@ -33,7 +33,7 @@ define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium
                 }
                 return defer.resolve(terrainProvider);
             },function(error){
-                Util.showErrorMsg('SCT URL 错误，地形加载失败！');
+                Util.showErrorMsg(Resource.SCTFailed);
                 return defer.reject();
             });
         },

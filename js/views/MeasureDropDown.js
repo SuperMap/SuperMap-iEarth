@@ -72,7 +72,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             });
             handlerDis.measureEvt.addEventListener(function(result){
                 var distance = result.distance > 1000 ? (result.distance/1000).toFixed(2) + 'km' : result.distance + 'm';
-                handlerDis.disLabel.text = '距离:' + distance;
+                handlerDis.disLabel.text = Resource.distance + ':' + distance;
             });
             handlerDis.activeEvt.addEventListener(function(isActive){
                 if(isActive == true){
@@ -102,7 +102,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
             handlerArea.measureEvt.addEventListener(function(result){
                 var mj = Number(result.area);
                 var area = mj > 1000000 ? (mj/1000000).toFixed(2) + 'km²' : mj.toFixed(2) + '㎡';
-                handlerArea.areaLabel.text = '面积:' + area;
+                handlerArea.areaLabel.text = Resource.area+ ':' + area;
             });
             handlerArea.activeEvt.addEventListener(function(isActive){
                 if(isActive == true){
@@ -131,9 +131,9 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                 var vHeight = result.verticalHeight > 1000 ? (result.verticalHeight/1000).toFixed(2) + 'km' : result.verticalHeight + 'm';
                 var hDistance = result.horizontalDistance > 1000 ? (result.horizontalDistance/1000).toFixed(2) + 'km' : result.horizontalDistance + 'm';
                 createIsoline(result.verticalHeight);
-                handlerHeight.disLabel.text = '空间距离:' + distance;
-                handlerHeight.vLabel.text = '垂直高度:' + vHeight;
-                handlerHeight.hLabel.text = '水平距离:' + hDistance;
+                handlerHeight.disLabel.text = Resource.SpatialDistance +':' + distance;
+                handlerHeight.vLabel.text = Resource.VerticalHeight +':' + vHeight;
+                handlerHeight.hLabel.text = Resource.HorizontalDistance +':' + hDistance;
             });
             handlerHeight.activeEvt.addEventListener(function(isActive){
                 if(isActive == true){
