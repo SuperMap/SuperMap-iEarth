@@ -50,6 +50,9 @@ define(function(){
         kmUnit : 'kilometer',
         mUnit : 'Meter',
         distance : 'Distance',
+        spaceDistance: 'Space Distance',
+        verticalHeight: 'Vertical Height',
+        horizontalDistance: 'Horizontal Distance',
         sqkmUnit : 'Square kilometer',
         sqmUnit : 'Square meter',
         area : 'Area',
@@ -180,7 +183,6 @@ define(function(){
         lineColor : 'Line color',
         direction : 'Direction',
         roll : 'Roll',
-        distance : 'Distance',
         horizontalFov : 'Horizontal viewing angle (degrees)',
         verticalFov : 'Vertical viewing angle (degrees)',
         visibleColor : 'Visible area color',
@@ -464,6 +466,8 @@ define(function(){
         ConicalRadiation:'Conical radiation',
         BoxedRadiation:'Boxed radiation',
 		TwoDimensionalSkyline:'2D skyline',
+        LayerRepeat:'This layer already exists, please do not load it repeatedly!',
+        SCTFailed:'SCT URL error, terrain loading failed!'
     };
     return ResourceEN;
 });
