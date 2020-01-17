@@ -88,7 +88,12 @@
           window.Resource = ResourceCN;
           init(Cesium);
       });
-  } else {
+  }else if (currentLanguage.startsWith('ja')) {
+      require(['ResourceJA', 'Cesium'], function (ResourceJA, Cesium) {
+          window.Resource = ResourceJA;
+          init(Cesium);
+      });
+  }else {
       require(['resourceEN', 'Cesium'], function (ResourceEN, Cesium) {
           window.Resource = ResourceEN;
           init(Cesium);
