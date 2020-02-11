@@ -45,7 +45,6 @@ define(function(){
         heightInterval: '等高距(米)：',
         SingleContour : '单等高线',
         MoreContour : '多等高线',
-        close : '关闭',
         measure : '量算',
         kmUnit : '千米',
         mUnit : '米',

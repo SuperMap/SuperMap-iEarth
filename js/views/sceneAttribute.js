@@ -30,7 +30,7 @@ define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/
 
     var htmlStr = [
         '<main class="mainView" id="sceneForm">',
-        '<button aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">&times</span></button>',
+        '<button aria-label="Close" id="closeScene" class="myModal-close" title=' + Resource.close + '><span aria-hidden="true">&times</span></button>',
 
         '<input id="scene-attribute-basic" name="scene-attribute" type="radio" checked/>',
         '<label for="scene-attribute-basic" class="function-module-caption">' + Resource.basicOptions + '</label>',
