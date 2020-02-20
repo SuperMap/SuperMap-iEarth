@@ -69,7 +69,7 @@ window.SuperMapSSO={
         //加入随机数，避免和客户端id冲突
         windowDiv.innerHTML="<style>.supermapSSO_loginWindow_cross{position:fixed;top:calc(25% + 12px); right:calc(50% - 180px + 12px); line-height: 0.6em; cursor:pointer; z-index:1;color:#c5c5c5; font-size:26px;font-family:microsoft yahei;transition:color 0.3s; } .supermapSSO_loginWindow_cross:hover{ color:#818181;}</style>"
                             +"<div style='position: fixed;top:0;left:0;width:100%; height:100%;background:rgba(0,0,0,0.6);"+displayHtml+"'></div>"
-                            +"<span class='supermapSSO_loginWindow_cross' title=' + Resource.close + ' style='z-index:100001;"+displayHtml+"' onclick='SuperMapSSO.closeMe(\""+windowDiv.id+"\")'>&times;</span>"
+                            +"<span class='supermapSSO_loginWindow_cross' title='" + Resource.close + "' style='z-index:100001;"+displayHtml+"' onclick='SuperMapSSO.closeMe(\""+windowDiv.id+"\")'>&times;</span>"
                             +"<iframe style='position: fixed; top:0;left:0; width:100%; height:100%; border:none;z-index:100000;"+displayHtml+"' src='"+fullUrl+"'></iframe>";
         document.body.appendChild(windowDiv);
 

@@ -8,7 +8,7 @@ define(['./Container','../lib/qrcode.min'],function(Container){
     var htmlStr = [
         '<div class="graphing" id="skyForm" style="position: absolute;margin:auto; top: 0;left: 0;right: 0;bottom: 0;;width:600px;height: 250px;z-index: 9999;background-color: rgba(38, 38, 38,1);">',
         '<label class="shareID" style="float:left; text-align:left;font-size: 13px;color: #4183C4;">'+ "三维场景分享" +'</label>',
-        '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeShareForm" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button><br><br><br>',
+        '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeShareForm" class="myModal-close" title="'+ Resource.close +'"><span aria-hidden="true">×</span></button><br><br><br>',
         '<div>',
         '<div id="map" style="height:220px;margin: 20px;float:left " >',
         '<label>密钥共享</label>',
