@@ -102,7 +102,6 @@ define(function(){
         flood : '泛光',
         camera : '相机',
         about : '关于',
-        close : '关闭',
         basicOptions : '基本属性',
         styleSetting : '风格设置',
         sceneName : '场景名称',

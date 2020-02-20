@@ -5,7 +5,7 @@ define(['./Container'],function(Container){
     var viewer;
     var htmlStr = [
    '<main style="position : absolute;left : 5%; top : 50%;width: 350px">',
-       '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button><br><br>',
+       '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeScene" class="myModal-close" title="'+ Resource.close +'"><span aria-hidden="true">×</span></button><br><br>',
        '<canvas style="background-color:rgba(38, 38, 38, 0.0)" id="pro" height="0" width="0"></canvas>',
    '</main>',
     ].join('');

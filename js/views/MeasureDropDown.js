@@ -16,7 +16,7 @@ define(['./Container','Cesium','../tools/Area'],function(Container,Cesium,Area){
                "<a id='measureDisBtn' title='" + Resource.measureDis + "' class='btn btn-inverse' style='margin: 5px;'><span class='iconfont icon-measure_length'></span></a>",
                "<a id='measureAreaBtn'  title='" + Resource.measureArea + "' class='btn btn-inverse' style='margin : 5px;'><span class='iconfont icon-measure_area'></span></a>",
                "<a id='measureHeightBtn'  title='" + Resource.measureHeight + "' class='btn btn-inverse' style='margin: 5px;'><span class='iconfont icon-measure_height'></span></a>",
-               "<a id='delResBtn' title='" + Resource.close + "' class='btn btn-inverse' style='margin: 5px;'><span class='iconfont icon-measure_clear'></span></a>",
+               "<a id='delResBtn' title='"+ Resource.close +"' class='btn btn-inverse' style='margin: 5px;'><span class='iconfont icon-measure_clear'></span></a>",
            "</div>",
        "</div>",
         '<div style="display: flex;flex-direction:row;align-items:center;margin: 10px 0 0 10px;">',

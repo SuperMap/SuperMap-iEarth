@@ -6,7 +6,7 @@ define(['./Container','Cesium','drag','slider','echartsMin'],function(Container,
     var htmlStr = [
         '<div class="graphing" id="skyForm" style="position: absolute;left : 5%; top : 50%;;width:330px;height: 250px;background-color: rgba(38, 38, 38, 0.75);">',
         '<label style="float:left; text-align:left;font-size: 13px;color: lightgrey;">'+ Resource.TwoDimensionalSkyline +'</label>',
-        '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeSkylineForm" class="myModal-close" title="关闭"><span aria-hidden="true">×</span></button>',
+        '<button style="top: 10px;position: absolute;left: 90%;background-color: rgba(38, 38, 38, 0.75);" aria-label="Close" id="closeSkylineForm" class="myModal-close" title="'+ Resource.close +'"><span aria-hidden="true">×</span></button>',
         '<div id="map" style="height:220px;width: 280px;margin: 20px" >',
         '</div>'
     ].join('');
