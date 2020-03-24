@@ -20,7 +20,8 @@
             slider: 'lib/slider',
             popLayer: 'lib/layer/src/layer',
             resourceCN: 'resource/resourceCN',
-            resourceEN: 'resource/resourceEN'
+            resourceEN: 'resource/resourceEN',
+            resourceJA: 'resource/resourceJA'
         },
         shim: { // 配置非AMD规范模块
             underscore: {
@@ -89,7 +90,7 @@
           init(Cesium);
       });
   }else if (currentLanguage.startsWith('ja')) {
-      require(['ResourceJA', 'Cesium'], function (ResourceJA, Cesium) {
+      require(['resourceJA', 'Cesium'], function (ResourceJA, Cesium) {
           window.Resource = ResourceJA;
           init(Cesium);
       });

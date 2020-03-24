@@ -1,5 +1,5 @@
 ﻿define(function(){
-    var ResourceJP = {
+    var ResourceJA = {
         longitude : '経度(度)',
         latitude : '緯度(度)',
         altitude : '標高(m)',
@@ -473,5 +473,5 @@
         LayerRepeat:'当レイヤーは存在しています',
         SCTFailed:'SCTのURLがエラー。地形ロードに失敗。'
     };
-    return ResourceJP;
+    return ResourceJA;
 });
