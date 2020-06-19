@@ -1,6 +1,5 @@
 define([
     './Container',
-    'Cesium',
     'jquery',
     '../models/LayerModel',
     '../Util'], function (Container, Cesium, $, LayerModel, Util) {

@@ -1,4 +1,4 @@
-define(['./Container','Cesium','drag','slider','echartsMin'],function(Container,Cesium, drag, slider,echarts){
+define(['./Container','drag','slider','echartsMin'],function(Container, drag, slider,echarts){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');

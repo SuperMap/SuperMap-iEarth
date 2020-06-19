@@ -1,7 +1,7 @@
 /**
  * 模型上的淹没分析
  */
-define(['Cesium'], function(){
+define([], function(){
     var ModelFlood = function(){
     };
 

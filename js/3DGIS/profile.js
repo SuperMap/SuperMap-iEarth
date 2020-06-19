@@ -1,4 +1,4 @@
-define(['Cesium','../lib/Convert'],function(Cesium, Convert) {
+define(['../lib/Convert'],function(Convert) {
     'use strict';
     var $ = require('jquery');
 

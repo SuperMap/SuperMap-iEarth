@@ -85,17 +85,17 @@
   }
 
   if (currentLanguage.startsWith('zh')) {
-      require(['resourceCN', 'Cesium'], function (ResourceCN, Cesium) {
+      require(['resourceCN'], function (ResourceCN) {
           window.Resource = ResourceCN;
           init(Cesium);
       });
   }else if (currentLanguage.startsWith('ja')) {
-      require(['resourceJA', 'Cesium'], function (ResourceJA, Cesium) {
+      require(['resourceJA'], function (ResourceJA) {
           window.Resource = ResourceJA;
           init(Cesium);
       });
   }else {
-      require(['resourceEN', 'Cesium'], function (ResourceEN, Cesium) {
+      require(['resourceEN'], function (ResourceEN) {
           window.Resource = ResourceEN;
           init(Cesium);
       });

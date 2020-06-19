@@ -1,4 +1,4 @@
-define(['backbone', 'jquery', 'Config', 'Cesium', './LayerModel'], function (Backbone, $, Config, Cesium, LayerModel) {
+define(['backbone', 'jquery', 'Config', './LayerModel'], function (Backbone, $, Config, LayerModel) {
     var TexSupportType = {
         NOT: 0,
         DXT: 1,

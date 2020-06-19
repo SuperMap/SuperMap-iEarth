@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/tooltip', '../Util'], function (Container, Cesium, flyRoute, drag, slider, tooltip, Utils) {
+define(['./Container', '../3DGIS/flyRoute', 'drag', 'slider', '../lib/tooltip', '../Util'], function (Container, flyRoute, drag, slider, tooltip, Utils) {
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');

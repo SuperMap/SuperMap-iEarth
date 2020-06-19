@@ -1,4 +1,4 @@
-define(['Cesium','echarts'],function(Cesium,echarts) {
+define(['echarts'],function(echarts) {
     var animationLand = function () {
     };
     var imageryLayers;

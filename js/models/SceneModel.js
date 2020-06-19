@@ -1,6 +1,5 @@
 define([
         'backbone',
-        'Cesium',
         'jquery',
         '../Util',
         '../lib/WriteKml',
@@ -10,7 +9,7 @@ define([
         '../models/BaseLayerModel',
         './LayerModel',
         '../portal/parsePortalJson'],
-        function(Backbone,Cesium,$,Util,WriteKml,LayerCollection,KmlLayerModel,MarkerModel,BaseLayerModel,LayerModel,parsePortalJson){
+        function(Backbone,$,Util,WriteKml,LayerCollection,KmlLayerModel,MarkerModel,BaseLayerModel,LayerModel,parsePortalJson){
 	var _ = require('underscore');
     var SceneModel = Backbone.Model.extend({
         initialize : function(viewer,isPCBroswer){

@@ -1,4 +1,4 @@
-define(['Cesium'],function(Cesium) {
+define([],function() {
     'use strict';
    /*
    * 地形开挖对象，比较简单，目前只提供了开挖深度接口

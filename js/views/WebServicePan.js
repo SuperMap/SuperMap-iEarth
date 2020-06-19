@@ -1,4 +1,4 @@
-define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','popLayer' , 'Cesium', '../../data/SpecialEffects'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,popLayer,Cesium, SpecialEffects){
+define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgress','iScroll','popLayer' , '../../data/SpecialEffects'],function(Container,ThumbGroup,LayerCollection,LoadingProgress,iScroll,popLayer,SpecialEffects){
     var _ = require('underscore');
     var $ = require('jquery');
     var htmlStr = [

@@ -1,4 +1,4 @@
-define(['backbone','Cesium'],function(Backbone,Cesium){
+define(['backbone'],function(Backbone){
     var KmlLayerModel = Backbone.Model.extend({
     	defaults : {
             type : 'KML'

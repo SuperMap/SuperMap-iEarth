@@ -1,7 +1,7 @@
 /**
  * Box裁剪
  */
-define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
+define(['jquery', '../Util'], function($, Util){
     var BoxClip = function(){};
     var hasInitialized = false, startClip = false, hasClipped = false, layers = [], screenSpaceEventHandler = null, position = null;
     var width, height, length, rotate, clipMode;

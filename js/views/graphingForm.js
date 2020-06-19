@@ -1,4 +1,4 @@
-define(['./Container','Cesium','drag','slider','echartsMin','underscore','jquery'],function(Container,Cesium, drag, slider,echarts,_,$){
+define(['./Container','drag','slider','echartsMin','underscore','jquery'],function(Container, drag, slider,echarts,_,$){
     "use strict";
     var viewer;
     var layers = [];

@@ -1,7 +1,7 @@
 /**
  * Cross裁剪
  */
-define(['Cesium', 'jquery', '../Util'], function(Cesium, $, Util){
+define(['jquery', '../Util'], function($, Util){
 
     var CrossClip = function(){
     };

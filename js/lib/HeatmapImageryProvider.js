@@ -11,9 +11,9 @@
 
 /*global define*/
 define([
-        'Cesium'
+
     ], function(
-        Cesium) {
+        ) {
     "use strict";
 
     var HeatmapImageryProvider = function(options) {

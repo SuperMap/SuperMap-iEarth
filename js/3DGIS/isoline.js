@@ -1,4 +1,4 @@
-define(['Cesium'],function(Cesium) {
+define([],function() {
     'use strict';
   /*
   * 等值线分析对象，分层设色运用

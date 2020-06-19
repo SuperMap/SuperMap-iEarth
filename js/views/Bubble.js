@@ -5,7 +5,7 @@ define(['backbone','jquery','../models/MarkerModel','../models/KmlLayerModel'],f
         '<div id="tools" style="text-align : right">',
             '<span style="color: rgb(95, 74, 121);padding: 5px;position: absolute;left: 10px;top: 4px;">对象属性</span>',
             '<span class="fui-export" id="bubblePosition" style="color: darkgrey; padding:5px" title="停靠"></span>',
-            '<span class="fui-cross" title="' + Resource.close + '" id="bubbleClose" style="color: darkgrey;padding:5px"></span>'
+            '<span class="fui-cross" title="' + Resource.close + '" id="bubbleClose" style="color: darkgrey;padding:5px"></span>',
         '</div>',
         '<div style="overflow-y:scroll;height:150px" id="tableContainer">',
             '<table id="tab"></table>',

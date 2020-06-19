@@ -1,4 +1,4 @@
-define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
+define(['backbone','../Util'],function(Backbone,Util){
     var MultiS3MLayerModel = Backbone.Model.extend({
         addLayer : function(viewer,isFlyMode){
         	var len = this.children.length;
