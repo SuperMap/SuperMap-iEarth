@@ -1,4 +1,4 @@
-define(['Cesium', 'spectrum', 'drag'], function (Cesium) {
+define([ 'spectrum', 'drag'], function () {
     'use strict';
 
     var viewshed = function () {

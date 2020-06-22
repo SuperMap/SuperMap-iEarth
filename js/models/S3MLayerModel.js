@@ -1,4 +1,4 @@
-define(['backbone', 'Cesium', '../Util', '../Config'], function (Backbone, Cesium, Util, Config) {
+define(['backbone',  '../Util', '../Config'], function (Backbone, Util, Config) {
     var S3MLayerModel = Backbone.Model.extend({
         addLayer: function (sceneModel, isFlyMode) {
             var viewer = sceneModel.viewer;

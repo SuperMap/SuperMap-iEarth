@@ -1,4 +1,4 @@
-define(['backbone','Cesium'],function(Backbone,Cesium){
+define(['backbone'],function(Backbone){
 	var MarkerModel = Backbone.Model.extend({
 		defaults : {
             name : '',

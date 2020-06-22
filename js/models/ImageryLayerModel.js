@@ -1,4 +1,4 @@
-define(['backbone','../Util','Cesium','../Config'],function(Backbone,Util,Cesium, Config){
+define(['backbone','../Util','../Config'],function(Backbone,Util,Config){
     var ImageryLayerModel = Backbone.Model.extend({
         addLayer : function(sceneModel,isFlyMode){
         	var viewer = sceneModel.viewer;

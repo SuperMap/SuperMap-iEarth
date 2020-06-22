@@ -1,4 +1,4 @@
-define(['Cesium','../lib/Convert'],function(Cesium, Convert) {
+define(['../lib/Convert'],function(Convert) {
     'use strict';
   /*
   * 淹没分析对象，和等值线同源

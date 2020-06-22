@@ -1,4 +1,4 @@
-define(['Cesium','echartsMin'],function(Cesium,echarts) {
+define(['echartsMin'],function(echarts) {
     'use strict';
     var skyLine = function () {
     };

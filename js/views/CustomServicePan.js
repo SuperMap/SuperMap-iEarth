@@ -1,9 +1,9 @@
 define([
     './Container',
-    'Cesium',
+
     'jquery',
     '../models/LayerModel',
-    '../Util'], function (Container, Cesium, $, LayerModel, Util) {
+    '../Util'], function (Container, $, LayerModel, Util) {
     "use strict";
     var _ = require('underscore');
     var htmlStr = [

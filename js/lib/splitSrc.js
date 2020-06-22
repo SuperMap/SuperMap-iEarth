@@ -1,4 +1,4 @@
-define(['Cesium'],function(Cesium) {
+define([],function() {
     var splitSrc = function () {
     };
     var layers;

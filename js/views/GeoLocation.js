@@ -1,4 +1,4 @@
-define(['./Container', 'Cesium', '../Util'],function(Container, Cesium, Util){
+define(['./Container',  '../Util'],function(Container,  Util){
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');

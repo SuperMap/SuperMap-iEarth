@@ -1,4 +1,4 @@
-define(['Cesium'],function(Cesium) {
+define([],function() {
     'use strict';
     var $ = require('jquery');
 

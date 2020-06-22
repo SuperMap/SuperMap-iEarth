@@ -1,4 +1,4 @@
-define(['Cesium','CesiumHeatmap','./HeatmapImageryProvider'],function(Cesium,CesiumHeatmap,HeatmapImageryProvider){
+define(['CesiumHeatmap','./HeatmapImageryProvider'],function(CesiumHeatmap,HeatmapImageryProvider){
 	var AqiService = function(){
 		
 	};

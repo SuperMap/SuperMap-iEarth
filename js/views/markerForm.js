@@ -1,8 +1,7 @@
 define(['./Container',
-    'Cesium',
     'spectrum'
-], function (Container,
-             Cesium) {
+], function (Container
+             ) {
     "use strict";
     var _ = require('underscore');
     var $ = require('jquery');

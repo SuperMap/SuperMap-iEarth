@@ -1,4 +1,4 @@
-define(['backbone','Cesium','../Util'],function(Backbone,Cesium,Util){
+define(['backbone','../Util'],function(Backbone,Util){
     var BaseLayerModel = Backbone.Model.extend({
         defaults : {
             title : '',
