@@ -15,47 +15,33 @@ define(['backbone', '../Util', '../Config'], function (Backbone, Util, Config) {
                 Util.showErrorMsg(Resource.layerExistMsg);
                 return defer.reject();
             }
-            var promise;
+
             var styleUrl = this.attributes.sceneUrl + '/scenes/' + this.attributes.sceneName + '/layers/' + name + '/extendxml.xml';
-            this.getS3MLayerConfig(styleUrl).then(function (config) {
-                promise = viewer.scene.addS3MTilesLayerByScp(scpUrl, config)
+            var promise = this.getS3MLayerConfig(styleUrl).then(function (config) {
+                return viewer.scene.addS3MTilesLayerByScp(scpUrl, config)
             }).otherwise(function () {
-                promise = viewer.scene.addS3MTilesLayerByScp(scpUrl, {name: name})
-            });
-            return Cesium.when(promise, function (layer) {
-                me.sceneModel.trigger('layerAdded', me);
-                me.sceneModel.layers.add(me);
-                me.layer = layer;
-                if (isFlyMode) {
-                    me.flyTo();
-                }
-                Util.S3M_CACHE[scpUrl] = name;
-                if (me.get('isVisible') == false) {
-                    layer.visible = false;
-                }
-                return defer.resolve(layer);
-            }, function(error) {
-                /*var s3mbPromise = viewer.scene.addS3MBTilesLayer(scpUrl, {
-                    name: name
-                });
-                return Cesium.when(s3mbPromise, function (layer) {
+                return viewer.scene.addS3MTilesLayerByScp(scpUrl, {name: name})
+            }).then(function (res) {
+                return Cesium.when(res, function (layer) {
                     me.sceneModel.trigger('layerAdded', me);
                     me.sceneModel.layers.add(me);
                     me.layer = layer;
                     if (isFlyMode) {
                         me.flyTo();
                     }
+
+                    var name = me.get('name');
+
                     Util.S3M_CACHE[scpUrl] = name;
                     if (me.get('isVisible') == false) {
                         layer.visible = false;
                     }
                     return defer.resolve(layer);
-                }, function() {
-                    Util.showErrorMsg(Resource.loadException);
-                    return;
-                });*/
-                console.log(error);
+                }, function (error) {
+                    console.log(error);
+                });
             });
+            return promise;
         },
         removeLayer: function (viewer) {
             var name = this.get('name');
