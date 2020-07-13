@@ -1,6 +1,5 @@
 define([
     './Container',
-
     'jquery',
     '../models/LayerModel',
     '../Util'], function (Container, $, LayerModel, Util) {
@@ -89,10 +88,10 @@ define([
                     return;
                 }
             } else {
-                if (!Util.imageryOrTerrainLayerUrlPattern.test(url)) {
-                    Util.showErrorMsg(Resource.urlMismatchingPattern);
-                    return;
-                }
+                // if (!Util.imageryOrTerrainLayerUrlPattern.test(url)) {
+                //     Util.showErrorMsg(Resource.urlMismatchingPattern);
+                //     return;
+                // }
             }
             var layerModel = new LayerModel({
                 url: url,
@@ -153,7 +152,7 @@ define([
             if(isHasToken && token !== ''){
                 jsonUrl = jsonUrl + '?token=' + token;
             }
-            var jsonPath;
+            var jsonPath, sceneName;
             $.ajax({
                 url: jsonUrl,
                 dataType: 'xml',
@@ -168,6 +167,10 @@ define([
                         var id = $(this).children("id");
                         jsonPath = id.context.innerHTML;
                     });
+                    $(xml).find("name").each(function (i) {
+                        var id = $(this).children("id");
+                        sceneName = id.context.innerHTML;
+                    });
                 }
             });
             var typeUrl = jsonPath + '/layers.xml';
@@ -176,8 +179,7 @@ define([
             }
             // typeLayerName和typelist下标一一对应
             var typelist = new Array(); // 图层的类型
-            var typeLayerName = new Array(); // 图层的名称
-
+            var typeLayerName = new Array(); /* 图层的名称*/
             $.ajax({
                 url: typeUrl,
                 dataType: 'xml',
@@ -211,18 +213,24 @@ define([
                 }
             });
             // 将图层的名称、类型和URL联系起来
-            for (var i = 0; i < namelist.length; i++) {
-                var typeIndex = typeLayerName.indexOf(namelist[i]);
-                var type = typelist[typeIndex];
+            for (var i = 0; i < typeLayerName.length; i++) {
+                // var typeIndex = typeLayerName.indexOf(namelist[i]);
+                var type = typelist[i];
+                var url = sceneUrl + '/datas/' + encodeURIComponent(typeLayerName[i]);
+                // if (type == 'S3M') {
+                //     pathlist[i] = pathlist[i] + "/config";
+                // }
                 if (type == 'S3M') {
-                    pathlist[i] = pathlist[i] + "/config";
+                    url = url + "/config";
                 }
 
                 var layerModel = new LayerModel({
-                    url: pathlist[i],
-                    name: namelist[i],
+                    url: url,
+                    name: typeLayerName[i],
                     type: type,
-                    realName: name
+                    realName: name,
+                    sceneName: sceneName,
+                    sceneUrl: sceneUrl
                 });
                 this.model.addLayer(layerModel);
             }
