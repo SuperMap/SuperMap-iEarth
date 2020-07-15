@@ -1,19 +1,27 @@
-define([ 'backbone', 
-         './S3MLayerModel',
-         './MultiS3MLayerModel',
-         './ImageryLayerModel',
-         './TerrainLayerModel',
-         './KmlLayerModel',
-         './MultiImageryLayerModel'
-         ], function(Backbone,S3MLayerModel,MultiS3MLayerModel,ImageryLayerModel,TerrainLayerModel,KmlLayerModel,MultiImageryLayerModel) {
+define(['backbone',
+    './S3MLayerModel',
+    './MultiS3MLayerModel',
+    './ImageryLayerModel',
+    './TerrainLayerModel',
+    './KmlLayerModel',
+    './MultiImageryLayerModel',
+    './WmsLayerModel',
+    './WmtsLayerModel',
+    './arcgisLayerModel',
+    './SuperMapLayerModel'
+], function (Backbone, S3MLayerModel, MultiS3MLayerModel, ImageryLayerModel, TerrainLayerModel, KmlLayerModel, MultiImageryLayerModel, WmsLayerModel,WmtsLayerModel, arcgisLayerModel,SuperMapLayerModel) {
     var _ = require('underscore');
     var typeToLayer = {
-        'S3M' : S3MLayerModel,
-        'MULTIS3M' : MultiS3MLayerModel,
-        'IMAGERY' : ImageryLayerModel,
-        'TERRAIN' : TerrainLayerModel,
-        'KML' : KmlLayerModel,
-        'MULTIIMAGERY' : MultiImageryLayerModel
+        'S3M': S3MLayerModel,
+        'MULTIS3M': MultiS3MLayerModel,
+        'IMAGERY': ImageryLayerModel,
+        'TERRAIN': TerrainLayerModel,
+        'KML': KmlLayerModel,
+        'MULTIIMAGERY': MultiImageryLayerModel,
+        'wms': WmsLayerModel,
+        'wmts': WmtsLayerModel,
+        'arcgis': arcgisLayerModel,
+        'supermap': SuperMapLayerModel
     };
     var LayerModel = Backbone.Model.extend({
         defaults : {

@@ -1,5 +1,6 @@
 define([
     './Container',
+
     'jquery',
     '../models/LayerModel',
     '../Util'], function (Container, $, LayerModel, Util) {
@@ -14,6 +15,10 @@ define([
                         '<option value="S3M">' + Resource.s3mLayer + '</option>',
                         '<option value="IMAGERY">' + Resource.imageryLayer + '</option>',
                         '<option value="TERRAIN">' + Resource.sctTerrainLayer + '</option>',
+                        '<option value="wms">' + Resource.wmsLayer + '</option>',
+                        '<option value="wmts">' + Resource.wmtsLayer + '</option>',
+                        '<option value="arcgis">' + Resource.arcgisLayer + '</option>',
+                        '<option value="supermap">' + Resource.supermaprestLayer + '</option>',
                     '</select>',
                     '<div class="squaredTwo squaredTwo-light" id="has-token" style="margin-left: 20px;"><input type="checkbox"><label class="check-icon check-icon-light"></label></div><label id="add-token-caption">' + Resource.addToken + '</label>',
                 '</div>',
@@ -87,12 +92,13 @@ define([
                     Util.showErrorMsg(Resource.urlMismatchingPattern);
                     return;
                 }
-            } else {
-                // if (!Util.imageryOrTerrainLayerUrlPattern.test(url)) {
-                //     Util.showErrorMsg(Resource.urlMismatchingPattern);
-                //     return;
-                // }
+            } else if(type === 'IMAGERY' || type === 'TERRAIN') {
+                if (!Util.imageryOrTerrainLayerUrlPattern.test(url)) {
+                    Util.showErrorMsg(Resource.urlMismatchingPattern);
+                    return;
+                }
             }
+            
             var layerModel = new LayerModel({
                 url: url,
                 name: name,
@@ -152,7 +158,7 @@ define([
             if(isHasToken && token !== ''){
                 jsonUrl = jsonUrl + '?token=' + token;
             }
-            var jsonPath, sceneName;
+            var jsonPath;
             $.ajax({
                 url: jsonUrl,
                 dataType: 'xml',
@@ -167,10 +173,6 @@ define([
                         var id = $(this).children("id");
                         jsonPath = id.context.innerHTML;
                     });
-                    $(xml).find("name").each(function (i) {
-                        var id = $(this).children("id");
-                        sceneName = id.context.innerHTML;
-                    });
                 }
             });
             var typeUrl = jsonPath + '/layers.xml';
@@ -179,7 +181,8 @@ define([
             }
             // typeLayerName和typelist下标一一对应
             var typelist = new Array(); // 图层的类型
-            var typeLayerName = new Array(); /* 图层的名称*/
+            var typeLayerName = new Array(); // 图层的名称
+
             $.ajax({
                 url: typeUrl,
                 dataType: 'xml',
@@ -213,24 +216,18 @@ define([
                 }
             });
             // 将图层的名称、类型和URL联系起来
-            for (var i = 0; i < typeLayerName.length; i++) {
-                // var typeIndex = typeLayerName.indexOf(namelist[i]);
-                var type = typelist[i];
-                var url = sceneUrl + '/datas/' + encodeURIComponent(typeLayerName[i]);
-                // if (type == 'S3M') {
-                //     pathlist[i] = pathlist[i] + "/config";
-                // }
+            for (var i = 0; i < namelist.length; i++) {
+                var typeIndex = typeLayerName.indexOf(namelist[i]);
+                var type = typelist[typeIndex];
                 if (type == 'S3M') {
-                    url = url + "/config";
+                    pathlist[i] = pathlist[i] + "/config";
                 }
 
                 var layerModel = new LayerModel({
-                    url: url,
-                    name: typeLayerName[i],
+                    url: pathlist[i],
+                    name: namelist[i],
                     type: type,
-                    realName: name,
-                    sceneName: sceneName,
-                    sceneUrl: sceneUrl
+                    realName: name
                 });
                 this.model.addLayer(layerModel);
             }
