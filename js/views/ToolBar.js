@@ -11,22 +11,22 @@ define([
     var _ = require('underscore');
     var htmlStr = [
         "<div id='toolbar' class='toolbar' style='margin: 5px 5px 5px 8px;'>",
-            "<a data-toggle='dropdown' id='layerMangerBtn' title='" + Resource.layerList + "' class='btn btn-inverse'><span style='font-size : 16px;' class='iconfont icon-toolbar_layer-list' ></span></a>",
-            "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
-            "<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-toolbar_expand'></span></a>",
-            "<div id='btnGroup' class='btn-group'>",
-                "<a id='addLayerBtn'  title='" + Resource.addLayer + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-add_layer'></span></a>",
-                "<a data-toggle='dropdown' id='baseLayerBtn' title='" + Resource.setBaseLayer + "' class='btn btn-inverse'><span class='iconfont icon-toolbar_base-layer'></span></a>",
-                "<a data-toggle='dropdown' id='settingBtn' title='" + Resource.scene + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-setting'></span></a>",
-                "<a class='btn btn-inverse' style='padding: 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
-                "<a data-toggle='dropdown' id='clipBtn' title='" + Resource.clip + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-clip'></span></a>",
-                "<a data-toggle='dropdown' id='terrainBtn' title='" + Resource.terrain + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-terrain'></span></a>",
-                "<a data-toggle='dropdown' id='analysisBtn' title='" + Resource.analysis + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-analysis'></span></a>",
-                "<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-measure'></span></a>",
-                "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left: 1px solid #dddddd;'></span></a>",
-                "<a id='addMarkerBtn' title='" + Resource.onlineEditing + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-online-edit'></span></a>",
-                "<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-fold'></span></a>",
-            "</div>",
+        "<a data-toggle='dropdown' id='layerMangerBtn' title='" + Resource.layerList + "' class='btn btn-inverse'><span style='font-size : 16px;' class='iconfont icon-toolbar_layer-list' ></span></a>",
+        "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
+        "<a id='expandBtn' style='display : none;' title='" + Resource.expand + "' class='btn btn-inverse'><span class='iconfont icon-toolbar_expand'></span></a>",
+        "<div id='btnGroup' class='btn-group'>",
+        "<a id='addLayerBtn'  title='" + Resource.addLayer + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-add_layer'></span></a>",
+        "<a data-toggle='dropdown' id='baseLayerBtn' title='" + Resource.setBaseLayer + "' class='btn btn-inverse'><span class='iconfont icon-toolbar_base-layer'></span></a>",
+        "<a data-toggle='dropdown' id='settingBtn' title='" + Resource.scene + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-setting'></span></a>",
+        "<a class='btn btn-inverse' style='padding: 10px 0px;'><span style='border-left : 1px solid #dddddd;'></span></a>",
+        "<a data-toggle='dropdown' id='clipBtn' title='" + Resource.clip + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-clip'></span></a>",
+        "<a data-toggle='dropdown' id='terrainBtn' title='" + Resource.terrain + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-terrain'></span></a>",
+        "<a data-toggle='dropdown' id='analysisBtn' title='" + Resource.analysis + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-analysis'></span></a>",
+        "<a data-toggle='dropdown' id='measureBtn' title='" + Resource.measure + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-measure'></span></a>",
+        "<a class='btn btn-inverse' style='padding : 10px 0px;'><span style='border-left: 1px solid #dddddd;'></span></a>",
+        "<a id='addMarkerBtn' title='" + Resource.onlineEditing + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-online-edit'></span></a>",
+        "<a id='foldBtn' title='" + Resource.fold + "' class='btn btn-inverse'><span class='iconfont icon-toolbar-fold'></span></a>",
+        "</div>",
         "</div>"
     ].join('');
     var ToolBar = Container.extend({
@@ -58,10 +58,10 @@ define([
                 if (parent) {
                     this.parent = parent;
                     /*var bubble = new Bubble({
-                     sceneModel : options.sceneModel
-                     });
-                     $('body').append(bubble.el);
-                     this.model.viewer.customInfobox = bubble.el;*/
+                        sceneModel: options.sceneModel
+                    });
+                    $('body').append(bubble.el);
+                    this.model.viewer.customInfobox = bubble.el;*/
 
                     var layerManageDropDownView = new LayerManageDropDown({
                         sceneModel: this.model
@@ -114,8 +114,7 @@ define([
         onLayerMangerBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             var target = evt.target;
@@ -132,8 +131,7 @@ define([
         onExpandBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             $('#btnGroup').show();
@@ -146,8 +144,7 @@ define([
         onFoldBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             $('#btnGroup').hide();
@@ -157,15 +154,13 @@ define([
         onAddLayerBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.modal) {
                 this.modal.$el.show();
                 this.model.trigger('modalOpen', this.model);
-            }
-            else {
+            } else {
                 var me = this;
                 require(['./views/ModalFrame'], function (ModalFrame) {
                     var modal = new ModalFrame({
@@ -178,13 +173,30 @@ define([
                     me.model.trigger('modalOpen', me.model);
                 });
             }
+
+            if (this.Bubble) {
+                this.Bubble.$el.show();
+                this.Bubble.trigger('modalOpen', this.model);
+            } else {
+                var me = this;
+                require(['./views/Bubble'], function (Bubble) {
+                    var Bubble = new Bubble({
+                        sceneModel: me.model,
+                        isPCBroswer: me.isPCBroswer
+                    });
+                    me.parent.addComponent(Bubble);
+                    me.Bubble = Bubble;
+                    Bubble.$el.show();
+                    me.model.trigger('modalOpen', me.model);
+                });
+            }
+
         },
 
         onAddMarkerBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.markerForm) {
@@ -207,8 +219,7 @@ define([
         onBaseLayerBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (!this.baselayerDropDown) {
@@ -229,8 +240,7 @@ define([
         onMeasureBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             var target = evt.target;
@@ -253,8 +263,7 @@ define([
         onTerrainBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.terrainForm) {
@@ -278,8 +287,7 @@ define([
         onBookmarkBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             var target = evt.target;
@@ -302,8 +310,7 @@ define([
         onPropertyBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.propertyForm) {
@@ -327,8 +334,7 @@ define([
         onVisBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (!this.visualization) {
@@ -355,8 +361,7 @@ define([
         onAnalysisBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.analysisTools) {
@@ -380,8 +385,7 @@ define([
         onClipBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.clipForm) {
@@ -405,8 +409,7 @@ define([
         onSettingBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
                 evt.preventDefault();
-            }
-            else {
+            } else {
                 window.event.returnValue = false;
             }
             if (this.sceneAttribute) {

@@ -2,6 +2,7 @@ define(['backbone',  '../Util', '../Config'], function (Backbone, Util, Config) 
     var S3MLayerModel = Backbone.Model.extend({
         addLayer: function (sceneModel, isFlyMode) {
             var viewer = sceneModel.viewer;
+            window.viewer = viewer;
             if (!this.viewer) {
                 this.viewer = viewer;
                 this.sceneModel = sceneModel;

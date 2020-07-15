@@ -175,10 +175,12 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 },
                 onNodeSelected: function (evt, node) {
                     var layerModel = node.layerModel;
+                    window.selectedLayer = layerModel.layer;
                     layerModel && layerModel.flyTo();
                 },
                 onNodeRightClicked: function (evt, node) {
                     var layerModel = node.layerModel;
+                    window.selectedLayer = layerModel.layer;
                     $("#sceneForm").hide();
                     $("#layerForm").show();
                     showLayerAttribute(layerModel.layer, me.viewer);
