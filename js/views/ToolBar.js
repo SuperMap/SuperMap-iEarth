@@ -4,9 +4,9 @@ define([
     './Bubble',
     './LayerManageDropDown'
 ], function (Container,
-             Position,
-             Bubble,
-             LayerManageDropDown) {
+    Position,
+    Bubble,
+    LayerManageDropDown) {
     "use strict";
     var _ = require('underscore');
     var htmlStr = [
@@ -48,7 +48,9 @@ define([
             'click #analysisBtn': 'onAnalysisBtnClk',
             'click #clipBtn': 'onClipBtnClk',
             'click #settingBtn': 'onSettingBtnClk',
-            'click #foldBtn': 'onFoldBtnClk'
+            'click #foldBtn': 'onFoldBtnClk',
+            'touchstart #measureBtn': 'onMeasureBtnClk',
+
         },
         initialize: function (options) {
             this.model = options.sceneModel;
@@ -78,26 +80,38 @@ define([
             //         $('#expandBtn').show();
             //     });
             // }
-            $(document).on('click.dropDown-container touchstart.dropDown-container', function (evt) {
+            var eventType;  //判断手机或PC事件
+            if (this.isPCBroswer) {
+                eventType = "click"
+            }else{
+                eventType = "touch"
+            }
+
+            $(document).on(eventType+'.dropDown-container touchstart.dropDown-container', function (evt) {
+                evt.stopPropagation();
+                // $('.dropDown-container').removeClass('dropDown-visible');
                 var len = $('#layerMangerBtn div.dropDown-visible').length + $('#measureBtn div.dropDown-visible').length;
                 if (len > 0) {
                     return;
                 }
                 $('.dropDown-container').removeClass('dropDown-visible');
-            }).on('click.dropDown-container touchstart.dropDown-container', '[data-toggle=dropdown]', function (evt) {
-                evt.stopPropagation();
+            })
+            $(document).on(eventType+'.dropDown-container touchstart.dropDown-container', '[data-toggle=dropdown]', function (evt) {
+                // evt.stopPropagation();
                 var target = evt.target;
                 if (!target.contains(evt.currentTarget) && target.parentNode.tagName != 'A') {
-                    return;
+                    return false;
                 }
                 var $this = $(this), $parent, isActive;
                 var $target = $this.children('div.dropDown-container');
                 if ($target.length == 0) {
                     $('.dropDown-container').removeClass('dropDown-visible');
-                    return;
+                    return false;
                 }
                 isActive = $target.hasClass('dropDown-visible');
+
                 $('.dropDown-container').removeClass('dropDown-visible');
+
                 if (!isActive) {
                     $target.addClass('dropDown-visible');
                 }
@@ -136,9 +150,9 @@ define([
             }
             $('#btnGroup').show();
             $('#expandBtn').hide();
-            if (!this.isPCBroswer) {
-                $('#measureBtn').hide();
-            }
+            // if (!this.isPCBroswer) {
+            //     $('#measureBtn').hide();
+            // }
         },
 
         onFoldBtnClk: function (evt) {
@@ -222,6 +236,8 @@ define([
             } else {
                 window.event.returnValue = false;
             }
+            
+
             if (!this.baselayerDropDown) {
                 var me = this;
                 require(['./views/BaseLayerDropDown'], function (BaseLayerDropDown) {
@@ -258,7 +274,11 @@ define([
                     measureDropDown.$el.addClass('dropDown-visible');
                 });
             }
+
         },
+
+
+
 
         onTerrainBtnClk: function (evt) {
             if (evt && evt.preventDefault) {
@@ -305,6 +325,7 @@ define([
                     book.$el.addClass('dropDown-visible');
                 });
             }
+
         },
 
         onPropertyBtnClk: function (evt) {

@@ -771,7 +771,7 @@ ul#progress li:first-child {
 		display: none;
 	}
 	#measureBtn {
-		display: none;
+		/*display: none;*/
     }
 	#tab2Label {
 		display: none;
@@ -1398,7 +1398,7 @@ a {
 	margin-left : 0;
 }
 .btn-group-vertical>.btn, .btn-group>.btn{
-	position: relative;
+	/*position: relative;*/
     float: left;
 }
 /*--------toolbar end*/

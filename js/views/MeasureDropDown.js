@@ -39,7 +39,14 @@ define(['./Container','../tools/Area'],function(Container,Area){
             'click #measureHeightBtn' : 'onMeasureHeightBtnClk',
             'click #delResBtn' : 'onDelResBtnClk',
             'click #singleIsolineLabel': 'onShowSingleIsoline',
-            'click #multiIsolineLabel': 'onShowMultiIsoline'
+            'click #multiIsolineLabel': 'onShowMultiIsoline',
+            
+            'touchstart #measureDisBtn' : 'onMeasureDisBtnClk',
+            'touchstart #measureAreaBtn' : 'onMeasureAreaBtnClk',
+            'touchstart #measureHeightBtn' : 'onMeasureHeightBtnClk',
+            'touchstart #delResBtn' : 'onDelResBtnClk',
+            'touchstart #singleIsolineLabel': 'onShowSingleIsoline',
+            'touchstart #multiIsolineLabel': 'onShowMultiIsoline'
         },
         initialize : function(options){
         	sceneModel = options.sceneModel;
