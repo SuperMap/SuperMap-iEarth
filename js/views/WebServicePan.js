@@ -44,10 +44,12 @@ define(['./Container','./ThumbGroup','../models/LayerCollection','./LoadingProgr
                 lang = lang.substr(0, 2);//截取lang前2位字符
 				var url = "";
 				if (lang == 'zh') {
-                    url = location.protocol + "//www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_CN.json";
-                } else {
-                    url = location.protocol + "//www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_EN.json";
-                }
+					url = "./data/iEarth_resource_services_CN.json";
+					// url = location.protocol + "//www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_CN.json";
+				} else {
+					url = "./data/iEarth_resource_services_EN.json";
+					// url = location.protocol + "//www.supermapol.com/earth/iEarth_resource_temp_location/iEarth_resource_services_EN.json";
+				}
 
                 me.currentPublicPage = 1;
             	me.totalPublicPage = 0;

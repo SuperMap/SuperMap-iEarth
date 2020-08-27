@@ -20,7 +20,8 @@ define([
             	url : 'https://www.supermapol.com/realspace/services/3D-stk_terrain/rest/realspace/datas/info/data/path',
                 requestWaterMask : true,
                 requestVertexNormals : true,
-                credit : ''
+                credit : '',
+                isSct : false
             });
             this.ellipsoidTerrainProvider = new Cesium.EllipsoidTerrainProvider({
                 ellipsoid : viewer.scene.globe.ellipsoid
