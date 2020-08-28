@@ -1,3 +1,22 @@
+html, body, #cesiumContainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+
+    /* 禁止文字被鼠标选中 */
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+
 ul {
     list-style: none;
 }
@@ -548,6 +567,94 @@ input[type=range]:focus::-ms-fill-upper {
     top: -10px;
     white-space: nowrap;
 }
+
+/*------------container-----------*/
+
+.param-container{
+    background-color: rgba(38, 38, 38, 0.75);
+    padding: 20px 20px 10px 20px;
+    color: #ffffff;
+    border: 1px solid #526f82;
+}
+
+.param-container .param-item{
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.tool-bar{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 10000;
+}
+
+.params-setting-container {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: #ffffff;
+}
+.params-setting{
+    overflow: auto;
+    max-width: 340px;
+    border: 1px solid #526f82;
+    padding: 30px 20px 10px 20px;
+    background-color: rgba(38, 38, 38, 0.75);
+}
+.params-setting-hide{
+    padding: 0;
+    height: 0;
+    border: none;
+    overflow: hidden;
+}
+.params-setting-anchor{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+    border-right: 1px solid #526f82;
+    border-bottom: 1px solid #526f82;
+    background-color: rgba(38, 38, 38, 0.75);
+    text-align: center;
+}
+.params-setting-anchor>span{
+    height: 23px;
+    line-height: 23px;
+}
+.param-item{
+    margin-bottom: 15px;
+}
+.param-item>label, .param-item>input{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.params-setting td span{
+    display: inline-block;
+    margin: 0 0.5rem;
+    min-width: 1.5rem;
+}
+
+.params-setting::-webkit-scrollbar {/*æ»šåŠ¨æ¡æ•´ä½“æ ·å¼*/
+    width: 10px;     /*é«˜å®½åˆ†åˆ«å¯¹åº”æ¨ªç«–æ»šåŠ¨æ¡çš„å°ºå¯¸*/
+    height: 1px;
+}
+.params-setting::-webkit-scrollbar-thumb {/*æ»šåŠ¨æ¡é‡Œé¢å°æ–¹å—*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #535353;
+}
+.params-setting::-webkit-scrollbar-track {/*æ»šåŠ¨æ¡é‡Œé¢è½¨é“*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #EDEDED;
+}
+/*------------container-----------*/
+
+
 /*----------container---------------*/
 
 /*---------progress bar-----------*/
