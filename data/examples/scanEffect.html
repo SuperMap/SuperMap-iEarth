@@ -8,23 +8,27 @@
     <script src="./js/config.js"></script>
     <script src="../../js/lib/tooltip.js"></script>
     <script src="../../js/lib/spectrum/spectrum.js"></script>
-    <script type="text/javascript" src="../../js/lib/require.min.js" data-main="./js/main"></script>
+    <script src="../../Build/Cesium/Cesium.js"></script>
     <style>
+        label {
+            font-size: 10px;
+        }
+
         @font-face {
             font-family: 'Flat-UI-Icons';
             src: url('../../fonts/glyphicons/flat-ui-icons-regular.eot');
             src: url('../../fonts/glyphicons/flat-ui-icons-regular.eot?#iefix') format('embedded-opentype'), url('../../fonts/glyphicons/flat-ui-icons-regular.woff') format('woff'), url('../../fonts/glyphicons/flat-ui-icons-regular.ttf') format('truetype'), url('../../fonts/glyphicons/flat-ui-icons-regular.svg#flat-ui-icons-regular') format('svg');
         }
         [class^=fui-],[class*=fui-]{
-             font-family : Flat-UI-Icons;
-             font-style : normal;
-             font-weight : 400;
-             font-variant : normal;
-             text-transform : none;
-             speak : none;
-             -webkit-font-smoothing : antialiased;
-             -moz-osx-font-smoothing : grayscale;
-         }
+            font-family : Flat-UI-Icons;
+            font-style : normal;
+            font-weight : 400;
+            font-variant : normal;
+            text-transform : none;
+            speak : none;
+            -webkit-font-smoothing : antialiased;
+            -moz-osx-font-smoothing : grayscale;
+        }
         .fui-expand:before{
             content: "\e61A";
         }
@@ -145,12 +149,12 @@
         </div>
         <div class="param-item">
             <label>饱和度</label>
-            <input type="range" id="saturation" min="-10" max="30" value="3.9" step="0.1" style="width: 170px">
+            <input type="range" id="saturation" min="-10" max="30" value="1.4" step="0.1" style="width: 170px">
             <label id ="saturation_label"></label>
         </div>
         <div class="param-item">
             <label>亮度</label>
-            <input type="range" id="brightness" min="-1" max="1" value="0" step="0.01" style="width: 170px">
+            <input type="range" id="brightness" min="0" max="1" value="1" step="0.01" style="width: 170px">
             <label id ="brightness_label"></label>
         </div>
         <div class="param-item">
@@ -212,9 +216,10 @@
             $(".params-setting").toggleClass("params-setting-hide");
         });
 
-        var viewer = new Cesium.Viewer('cesiumContainer', {
-             infobox:false
+        var viewer = new Cesium.Viewer('cesiumContainer',{
+            infobox:false
         });
+
         var scene = viewer.scene;
         scene.fxaa = true;
         scene.skyAtmosphere.show = false;
@@ -393,6 +398,10 @@
                 tooltipMsg = "点选设置扫描中心";
             });
         });
+    }
+    if (typeof Cesium !== 'undefined') {
+        window.startupCalled = true;
+        onload(Cesium);
     }
 </script>
 </body>

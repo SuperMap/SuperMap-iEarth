@@ -1,139 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <title>航班尾迹线效果图</title>
-    <link rel="stylesheet" href="../../Build/Cesium/Widgets/widgets.css">
-    <link rel="stylesheet" href="../../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/pretty.css">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>泛光尾迹线</title>
+    <link href="../../Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link href="../../css/pretty.css" rel="stylesheet">
     <script src="../../js/jquery.min.js"></script>
-    <script src="../../js/lib/bootstrap.min.js"></script>
-    <script src="../../js/lib/bootstrap-select.min.js"></script>
     <script src="./js/config.js"></script>
-    <script type="text/javascript" src="../../js/lib/require.min.js" data-main="./js/main"></script>
-    <style>
-        html, body, #cesiumContainer {
-            width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;background-color: #000000;
-        }
-        .params-control{
-            margion-bottom: 20px;
-        }
-    </style>
+    <!--    <script src="../../js/tooltip.js"></script>-->
+    <script type="text/javascript" src="../../Build/Cesium/Cesium.js"></script>
 </head>
+
 <body>
 <div id="cesiumContainer"></div>
-<div class="applyImg" id="imgApply">
-    尾迹线
-</div>
-<div class="closeDiv">
-    <div class="closeImg" id="closeFun">
+<div class="params-setting-container">
+    <div class="params-setting-anchor" title="显示/隐藏参数面板"><span class="fui-expand"></span></div>
+    <div class="params-setting">
+        <div class="param-item">
+            <select id="airlineOptions" style="height: 35px;background-color:gainsboro;">
+                <option selected value="Air China">中国国际航空（Air China）</option>
+                <option value="China Eastern Airlines">中国东方航空（China Eastern Airlines）</option>
+                <option value="China Southern Airlines">中国南方航空（China Southern Airlines）</option>
+                <option value="American Airlines" selected>美国航空公司（American Airlines）</option>
+                <option value="Southwest Airlines">美国西南航空（Southwest Airlines）</option>
+                <option value="Delta Air Lines">美国达美航空（Delta Air Lines）</option>
+                <option value="US Airways">美国全美航空（US Airways）</option>
+                <option value="United Airlines">美国联合航空（United Airlines）</option>
+                <option value="easyJet">英国易捷航空（easyJet）</option>
+                <option value="Ryanair">爱尔兰瑞安航空（Ryanair）</option>
+            </select>
+        </div>
+        <div class="divider"></div>
+        <div class="param-item">
+            <label for="bloomShow">开启泛光</label>
+            <input type="checkbox" id="bloomShow" checked>
+        </div>
+        <div class="param-item">
+            <label>亮度阈值</label>
+            <input type="range" id="bloom-threshold" min="0" max="1" value="0.01" step="0.01" style="width: 150px">
+            <label id="bloom-threshold-label"></label>
+        </div>
+        <div class="param-item">
+            <label>泛光强度</label>
+            <input type="range" id="bloom-intensity" min="0" max="5" value="0.5" step="0.02" style="width: 150px">
+            <label id="bloom-intensity-label"></label>
+        </div>
+        <div class="param-item">
+            <label for="bloomShow">开启HDR</label>
+            <input type="checkbox" id="openHDR" checked>
+        </div>
+        <div class="param-item">
+            <label for="trail-line-color">尾迹线颜色</label>
+            <input type="checkbox" id="trail-line-color" checked>
+        </div>
     </div>
 </div>
-<div class="applyContainer" id="comApply" style="background-color: #FFFFFF;height: 300px">
-<div id="toolbar" style="position: absolute;left: 5px;top: 5px;padding: 20px 5px;">
-    <p class="params-control">
-        <label>
-            <input type="checkbox" id="show" style="vertical-align: middle;margin-right: 10px;"><span style="vertical-align: middle">场景泛光</span>
-        </label>
-    </p>
-    <p class="params-control">
-        <label>亮度阈值: </label>
-        <input type="range" id="threshold" min="0" max="1" value="0.9" step="0.01" style="width: 210px">
-        <span id="current_threshold" style="color: #FFFFFF"></span>
-    </p>
-    <p class="params-control">
-        <label>泛光强度: </label>
-        <input type="range" id="bloomIntensity" min="0" max="10" value="1" step="0.01" style="width: 210px">
-        <span id="current_bloomIntensity" style="color: #FFFFFF"></span>
-    </p><br>
-    <label>航空公司: </label>
-    <select id="airlineOptions" class="selectpicker show-tick form-control">
-        <option selected value="Air China" selected>中国国际航空（Air China）</option>
-        <option value="China Eastern Airlines">中国东方航空（China Eastern Airlines）</option>
-        <option value="China Southern Airlines">中国南方航空（China Southern Airlines）</option>
-        <option value="American Airlines">美国航空公司（American Airlines）</option>
-        <option value="Southwest Airlines">美国西南航空（Southwest Airlines）</option>
-        <option value="Delta Air Lines">美国达美航空（Delta Air Lines）</option>
-        <option value="US Airways">美国全美航空（US Airways）</option>
-        <option value="United Airlines">美国联合航空（United Airlines）</option>
-        <option value="easyJet">英国易捷航空（easyJet）</option>
-        <option value="Ryanair">爱尔兰瑞安航空（Ryanair）</option>
-    </select>
-  </div>
-</div>
 <script type="text/javascript">
-    /* 示范代码说明：
-     * 本示范程序用“尾迹线”描述管线中液体的流动。
-     *
-     * 主要涉及接口：
-     *  Cesium.PolylineTrailMaterialProperty 尾迹线材质
-     * 用法：
-     *    new Cesium.PolylineTrailMaterialProperty({
-     *      color: new Cesium.Color(1.0, 0.0, 0.0, 1.0), // 颜色
-     *      trailLength : 0.2, // 尾迹线占所在线段的长度比例（0.0-1.0）
-     *      period : 8.0 // 轨迹从起点到终点运行一次的时间，单位秒
-     *    })
-     *
-     * 示范代码：
-     */
+    var trailLineColor = null;
+
     function onload(Cesium) {
-        try{
-            let viewer = new Cesium.Viewer('cesiumContainer', {
-                infoBox: false,
-                selectionIndicator: false
+        try {
+            //初始化三维球
+            var viewer = new Cesium.Viewer('cesiumContainer', {
+                infobox: false,
             });
-            let scene = viewer.scene;
-            scene.imageryLayers.removeAll(true);
-            scene.globe.baseColor = new Cesium.Color(0.0, 0.0, 0.0, 1.0); // 没有影像时地球的基础颜色，默认为蓝色
-            scene.skyBox.show = false;
 
-            viewer.scene.fxaa = true;
-            $("#current_threshold").text($("#threshold").val());
-            $("#current_bloomIntensity").text($("#bloomIntensity").val());
+            var scene = viewer.scene;
+            scene.sun.show = false;
+            trailLineColor = new Cesium.Color(0, 2.88, 23.9, 1.0);//初始化尾迹线颜色
+            scene.camera.setView({
+                destination: new Cesium.Cartesian3(-1027827.1490632605, -16765160.375307877, 10382141.027765635),
+                orientation: {
+                    heading: 6.076454193121397,
+                    pitch: -1.5670024568705059,
+                    roll: 0
+                }
+            });
 
-            //场景泛光效果的开关
-            $("#show").on("input change", function() {
+            scene.bloomEffect.show = true;//开启泛光
+            var threshold = $("#bloom-threshold").val();
+            var intensity = $("#bloom-intensity").val();
+            scene.bloomEffect.threshold = threshold;
+            scene.bloomEffect.bloomIntensity = intensity;
+            scene.hdrEnabled = true; // 开启hdr
+
+            //泛光开关
+            $("#bloomShow").on("input change", function () {
                 viewer.scene.bloomEffect.show = this.checked;
-                viewer.scene.bloomEffect.threshold = $("#threshold").val();
-                viewer.scene.bloomEffect.bloomIntensity = $("#bloomIntensity").val();
+                viewer.scene.bloomEffect.threshold = $("#bloom-threshold").val();
+                viewer.scene.bloomEffect.bloomIntensity = $("#bloom-intensity").val();
+            });
+            //调节泛光阈值
+            $("#bloom-threshold").on("input change", function () {
+                viewer.scene.bloomEffect.threshold = $("#bloom-threshold").val();
+            });
+            //调节泛光强度
+            $("#bloom-intensity").on("input change", function () {
+                viewer.scene.bloomEffect.bloomIntensity = $("#bloom-intensity").val();
+            });
+            //HDR开关
+            $("#openHDR").on('input propertychange', function () {
+                scene.hdrEnabled = this.checked;
             });
 
-            //泛光亮度阈值调节
-            $("#threshold").on("input change", function() {
-                $("#current_threshold").text(this.value);
-                viewer.scene.bloomEffect.threshold = this.value;
+            $(".params-setting-anchor").click(function () {
+                $(".params-setting").toggleClass("params-setting-hide");
             });
 
-            //泛光强度
-            $("#bloomIntensity").on("input change", function() {
-                $("#current_bloomIntensity").text(this.value);
-                viewer.scene.bloomEffect.bloomIntensity = this.value;
-            });
-
-            let promiseBaseLayer = scene.addS3MTilesLayerByScp(URL_CONFIG.SCP_WORLD_COUNTRY_VECTOR, {
-                name: "baseLayer"
-            });
-            promiseBaseLayer.then(function(layer){
+            var promise = scene.open(URL_CONFIG.SCP_WORLD_COUNTRY_VECTOR2);
+            Cesium.when.all(promise, function (layers) {
                 scene.camera.setView({
-                    destination : new Cesium.Cartesian3(-4511826.162646529, 16838364.473915376, 10064576.385825634),
-                    orientation : {
-                        heading : 6.283185307179586,
-                        pitch : -1.5707963267948966,
-                        roll : 0
+                    destination: new Cesium.Cartesian3(-4511826.162646529, 16838364.473915376, 10064576.385825634),
+                    orientation: {
+                        heading: 6.283185307179586,
+                        pitch: -1.5707963267948966,
+                        roll: 0
                     }
                 });
-                Cesium.loadJson("./json/flights.json").then(function(jsonData){
 
-                    function getAirportCoord(idx){ // 获得具体机场的坐标
+                //加载航线数据
+                Cesium.loadJson("./json/flights.json").then(function (jsonData) {
+                    let airlineName = "American Airlines";
+
+                    function getAirportCoord(idx) { // 获得具体机场的坐标
                         return Cesium.Cartesian3.fromDegrees(jsonData.airports[idx][3], jsonData.airports[idx][4]);
                     }
+
                     let routesGroupByAirline = {}; // 包含每一个航空公司的所有航线
-                    jsonData.routes.forEach(function(route){
+                    jsonData.routes.forEach(function (route) {
                         let airline = jsonData.airlines[route[0]];
                         let airlineName = airline[0]; // 航空公司的名称
-                        if(!routesGroupByAirline[airlineName]){
+                        if (!routesGroupByAirline[airlineName]) {
                             routesGroupByAirline[airlineName] = [];
                         }
                         let start = getAirportCoord(route[1]);
@@ -141,19 +142,19 @@
                         routesGroupByAirline[airlineName].push([start, end]);
                     });
 
-                    $("#airlineOptions").change(function(e){
-                        let airlineName = $("#airlineOptions").val();
+                    $("#airlineOptions").change(function (e) {
+                        airlineName = $("#airlineOptions").val();
 
-                        switch(airlineName){
+                        switch (airlineName) {
                             case "Air China":
                             case "China Eastern Airlines":
                             case "China Southern Airlines":
                                 scene.camera.flyTo({
-                                    destination : new Cesium.Cartesian3(-4511826.162646529, 16838364.473915376, 10064576.385825634),
-                                    orientation : {
-                                        heading : 6.283185307179586,
-                                        pitch : -1.5707963267948966,
-                                        roll : 0
+                                    destination: new Cesium.Cartesian3(-4511826.162646529, 16838364.473915376, 10064576.385825634),
+                                    orientation: {
+                                        heading: 6.283185307179586,
+                                        pitch: -1.5707963267948966,
+                                        roll: 0
                                     }
                                 });
                                 break;
@@ -163,95 +164,85 @@
                             case "US Airways":
                             case "United Airlines":
                                 scene.camera.flyTo({
-                                    destination : new Cesium.Cartesian3(-1027827.1490632605, -16765160.375307877, 10382141.027765635),
-                                    orientation : {
-                                        heading : 6.076454193121397,
-                                        pitch : -1.5670024568705059,
-                                        roll : 0
+                                    destination: new Cesium.Cartesian3(-1027827.1490632605, -16765160.375307877, 10382141.027765635),
+                                    orientation: {
+                                        heading: 6.076454193121397,
+                                        pitch: -1.5670024568705059,
+                                        roll: 0
                                     }
                                 });
                                 break;
                             case "easyJet":
                             case "Ryanair":
                                 scene.camera.flyTo({
-                                    destination : new Cesium.Cartesian3(14446265.13308438, 1417618.1947955855, 13386996.143159749),
-                                    orientation : {
-                                        heading : 5.944835562437463,
-                                        pitch : -1.5670024568705059,
-                                        roll : 0
+                                    destination: new Cesium.Cartesian3(14446265.13308438, 1417618.1947955855, 13386996.143159749),
+                                    orientation: {
+                                        heading: 5.944835562437463,
+                                        pitch: -1.5670024568705059,
+                                        roll: 0
                                     }
                                 });
                                 break;
                             default:
                                 break;
                         }
-                        drawLines(airlineName);
+                        drawLines(airlineName, trailLineColor);
                     });
 
-                    drawLines("Air China");
+                    drawLines(airlineName, trailLineColor);
+                    //颜色拾取器
+                    $("#trail-line-color").spectrum({
+                        color: trailLineColor,
+                        chooseText: "确定",
+                        cancelText: "取消",
+                        showAlpha: false,
+                        change: function (color) {
+                            var colorObj = color.toRgb();
+                            trailLineColor = new Cesium.Color(colorObj.r, colorObj.g, colorObj.b, 1);
+                            drawLines(airlineName, trailLineColor);
+                            ;
+                        }
+                    });
 
-                    function drawLines(airlineName){
+                    function drawLines(airlineName, lineColor) {
                         viewer.entities.removeAll();
-                        drawPoints();
-                        for(let line of routesGroupByAirline[airlineName]){
+                        for (let line of routesGroupByAirline[airlineName]) {
                             viewer.entities.add({ // 用于打底的线
-                                polyline : {
-                                    positions : [line[0], line[1]],
-                                    width : 2, // 线的宽度，像素为单位
-                                    material : Cesium.Color.fromCssColorString("rgba(118, 233, 241, 0.1)")
+                                polyline: {
+                                    positions: [line[0], line[1]],
+                                    width: 0.5, // 线的宽度，像素为单位
+                                    material: Cesium.Color.fromCssColorString("rgba(118, 233, 241, 0.1)")
                                 }
                             });
 
                             viewer.entities.add({ // 尾迹线
-                                polyline : {
-                                    positions : [line[0], line[1]],
-                                    width : 2, // 线的宽度，像素为单位
-                                    material : new Cesium.PolylineTrailMaterialProperty({ // 尾迹线材质
-                                        color: Cesium.Color.fromCssColorString("rgba(118, 233, 241, 1.0)"),
-                                        trailLength : 0.2,
-                                        period : 5.0
+                                polyline: {
+                                    positions: [line[0], line[1]],
+                                    width: 4, // 线的宽度，像素为单位
+                                    material: new Cesium.PolylineTrailMaterialProperty({ // 尾迹线材质
+                                        color: lineColor,
+                                        trailLength: 0.2,
+                                        period: 5.0
                                     })
                                 }
                             });
                         }
                     }
 
-                    function drawPoints(){
-                        jsonData.airports.forEach(function(item){ // 绘制表示每一个机场的点
-                            if(item[3] && item[4]){
-                                viewer.entities.add({
-                                    position: Cesium.Cartesian3.fromDegrees(item[3], item[4]),
-                                    point: {
-                                        color: Cesium.Color.YELLOWGREEN,
-                                        pixelSize: 2
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                    $('#toolbar').show();
-                    $('#loadingbar').remove();
-
                 });
-            });
-            $("#imgApply").on("click",function () {
-                    $("#coverLayer").show("slow");
-                    $("#comApply").show("slow");
-                    $(".closeDiv").show("slow");
-                }
-            )
 
-            $("#closeFun").on("click",function () {
-                    $("#coverLayer").hide("slow");
-                    $("#comApply").hide("slow");
-                    $(".closeDiv").hide("slow");
-                }
-            )
-        }catch(e){
+            });
+
+        } catch (e) {
             console.log(e);
         }
     }
+
+    if (typeof Cesium !== 'undefined') {
+        window.startupCalled = true;
+        onload(Cesium);
+    }
 </script>
 </body>
+
 </html>
