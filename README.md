@@ -28,8 +28,7 @@ SuperMap iEarth支持多种形式的三维空间分析功能。
 - 等值分析
 - 坡度坡向分析
 - 淹没分析
-
-可视域分析
+- 可视域分析
 
 ![](./images/docImages/viewshed.JPG)
 
@@ -46,8 +45,7 @@ SuperMap iEarth支持多种裁剪方式。
 - 平面裁剪
 - Cross裁剪
 - 多边形裁剪
-
-Cross裁剪
+- Cross裁剪
 
 ![](./images/docImages/CrossClip.JPG)
 
@@ -62,8 +60,7 @@ Cross裁剪
 - 符号化
 - 空间量算
 - 模型/地形的修改/开挖
-
-灯光
+- 灯光
 
 ![](./images/docImages/lightSource.JPG)
 
