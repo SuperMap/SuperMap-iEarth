@@ -26,9 +26,9 @@ define(['backbone', '../Util', '../Config'], function (Backbone, Util, Config) {
                     me.sceneModel.trigger('layerAdded', me);
                     me.sceneModel.layers.add(me);
                     me.layer = layer;
-                    if (isFlyMode) {
-                        me.flyTo();
-                    }
+                    // if (isFlyMode) {
+                    //     me.flyTo();
+                    // }
 
                     var name = me.get('name');
 

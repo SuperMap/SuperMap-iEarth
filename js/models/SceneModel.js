@@ -41,6 +41,8 @@ define([
            var promise =  layerModel.addLayer(this,isFlyMode);
             Cesium.when(promise,function(layer){
                 if(Window.iportalAppsRoot != "${resource.rootPath}"){
+                    var sceneUrl = layerModel.attributes.sceneUrl;
+                    me.viewer.scene.open(sceneUrl);
                     var cameraStore = sceneContent.camera;
                     var camera = me.viewer.scene.camera;
                     camera.flyTo({
@@ -53,6 +55,9 @@ define([
                     });
                     var parseObject =sceneContent.parseObject;
                     parseObject.initialize();
+                }else{
+                    var sceneUrl = layerModel.attributes.sceneUrl;
+                    me.viewer.scene.open(sceneUrl);
                 }
             })
         },
