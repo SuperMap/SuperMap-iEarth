@@ -1,0 +1,97 @@
+
+.span-box2 {
+    font-family: Microsoft YaHei;
+    margin-left: 8px;
+    margin-top: 12px;
+}
+
+.mleft {
+    margin-left: 10px;
+}
+
+.editBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.function-content{
+  padding-top:5px;
+  padding-bottom:5px;
+  padding-left:15px;
+  padding-right:15px;
+  overflow:auto;
+  max-height:528px;
+  background-color:rgba(38,38,38,0.75);
+  margin-bottom:8px;
+}
+
+.operation{
+  margin-left:8px;
+  margin-right:8px;
+}
+
+.terrainModify{
+  margin-left:30px;
+  width:40%;
+}
+
+.terrainDig{
+  position:absolute;
+  right:20px;
+  width:40%;
+}
+
+.choose {
+  position: relative;
+  width:235px;
+  right:125px;
+  z-index: 99;
+}
+
+.choose .radio {
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  padding-left: 25px;
+  cursor: pointer;
+}
+
+.choose .radio input {
+  width: 0.00001px;
+  position: absolute;
+  left: -9999px;
+}
+
+.choose .radio i {
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  outline: 0;
+  border: 1px solid #009c95;
+  border-radius: 50%;
+  transition: border-color .3s;
+  -webkit-transition: border-color .3s;
+}
+
+.choose .radio input+i:after {
+  position: absolute;
+  content: '';
+  top: 4px;
+  left: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #009c95;
+  zoom:80%;
+  opacity: 0;
+  transition: opacity .1s;
+  -webkit-transition: opacity .1s;
+}
+
+.choose .radio input:checked+i:after {
+  opacity: 1;
+}

@@ -1,0 +1,55 @@
+@import "../../../common/scss/globe.scss";
+
+.sm-viewshed-panel {
+  @extend .sm-panel;
+}
+
+.sm-viewshed-toggle-btn {
+  @extend .sm-toggle-btn;
+}
+
+.sm-viewshed-toggle-btn-only {
+  @extend .sm-toggle-btn-only;
+}
+
+.sm-viewshed-content {
+  @extend .sm-content;
+}
+
+.sm-viewshed-content-hidden {
+  @extend .sm-content-hidden;
+}
+
+.sm-viewshed-panel-header {
+  @extend .sm-panel-header;
+}
+
+.terrainAnalysis{
+  background-color:rgba(23,23,23,0.5);
+}
+
+.combinationHear{
+  margin-right:8px;
+  margin-left:8px;
+  background-color: rgba(38,38,38,0.75);
+}
+
+.terrainTitle{
+  margin-left:8px;
+  margin-top:5px;
+  font-size:16px;
+}
+
+.terrainBtn{
+    position:absolute;
+    top:8px;
+    right:5px;
+    color:#ffffff;
+    border:none;
+    font-size:25px;
+    width:20px;
+    height:20px;
+    line-height:20px;
+    padding:0px;
+    text-align:center;
+}
