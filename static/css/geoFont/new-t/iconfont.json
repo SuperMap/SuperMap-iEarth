@@ -1,0 +1,471 @@
+{
+  "id": "1854854",
+  "name": "Vue组件及iEarth",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "19592095",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "19592096",
+      "name": "罗盘",
+      "font_class": "luopan",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
+      "icon_id": "19592097",
+      "name": "全屏",
+      "font_class": "quanping",
+      "unicode": "e6d3",
+      "unicode_decimal": 59091
+    },
+    {
+      "icon_id": "19592098",
+      "name": "重置",
+      "font_class": "zhongzhi",
+      "unicode": "e6d4",
+      "unicode_decimal": 59092
+    },
+    {
+      "icon_id": "18164891",
+      "name": "特效",
+      "font_class": "texiaobianji",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "17990995",
+      "name": "空间分析",
+      "font_class": "kongjianfenxi",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "17943172",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "17943173",
+      "name": "播放",
+      "font_class": "bofang",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "17942822",
+      "name": "日历",
+      "font_class": "rili",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "17740413",
+      "name": "添加长方体",
+      "font_class": "tianjiachangfangti",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "17739564",
+      "name": "投影面积",
+      "font_class": "touyingmianji",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "17739565",
+      "name": "添加球体",
+      "font_class": "tianjiaqiuti",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "17739566",
+      "name": "添加椎体",
+      "font_class": "tianjiazhuiti",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "17739567",
+      "name": "添加柱体",
+      "font_class": "tianjiazhuti",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "16514332",
+      "name": "ICON_火焰",
+      "font_class": "ICON_huoyan",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "16514333",
+      "name": "ICON_点光源",
+      "font_class": "ICON_dianguangyuan",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "16514334",
+      "name": "ICON_聚光灯",
+      "font_class": "ICON_juguangdeng",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "16514335",
+      "name": "ICON_喷泉",
+      "font_class": "ICON_penquan",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "16514336",
+      "name": "ICON_平行光",
+      "font_class": "ICON_pinghangguang",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "16514337",
+      "name": "qingchu-01",
+      "font_class": "qingchu-01",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "16514338",
+      "name": "ICON_全屏",
+      "font_class": "ICON_quanping",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "16514339",
+      "name": "iEarth-zhibeizhen-01",
+      "font_class": "iEarth-zhibeizhen-01",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "16514340",
+      "name": "iEarth-zhuyemian-01",
+      "font_class": "iEarth-zhuyemian-01",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "16514341",
+      "name": "光晕线",
+      "font_class": "guangyunxian",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "16514342",
+      "name": "纯色",
+      "font_class": "chunse",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "16514343",
+      "name": "箭头线",
+      "font_class": "jiantouxian",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "16514344",
+      "name": "轮廓线",
+      "font_class": "lunkuoxian",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "16514345",
+      "name": "ICON_退出全屏",
+      "font_class": "ICON_tuichuquanping",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "16514346",
+      "name": "实线",
+      "font_class": "shixian",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "16514348",
+      "name": "网格",
+      "font_class": "wangge",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "16514349",
+      "name": "条纹",
+      "font_class": "tiaowen",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "16514350",
+      "name": "尾迹线",
+      "font_class": "weijixian",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "16514351",
+      "name": "虚线",
+      "font_class": "xuxian",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "15466264",
+      "name": "在线编辑",
+      "font_class": "zaixianbianji",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "15466265",
+      "name": "裁剪",
+      "font_class": "caijian",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "15466266",
+      "name": "地形",
+      "font_class": "dixing",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "15466267",
+      "name": "加载图层",
+      "font_class": "jiazaituceng",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "15466268",
+      "name": "量算",
+      "font_class": "liangsuan",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "15466269",
+      "name": "三维分析",
+      "font_class": "sanweifenxi",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "15466270",
+      "name": "图层",
+      "font_class": "tuceng",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "15461625",
+      "name": "场景设置",
+      "font_class": "changjingshezhi",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "15461514",
+      "name": "底图设置",
+      "font_class": "ditushezhi",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "15365623",
+      "name": "Vue组件-地质体裁剪分析",
+      "font_class": "Vue-geologicBodyClip",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "15138566",
+      "name": "iEarth-R8-xiugai_展开",
+      "font_class": "iEarth-R8-xiugai_zhankai",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "15138542",
+      "name": "三维分析",
+      "font_class": "toolbar-analysis",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "15138464",
+      "name": "iEarth-R8-xiugai_编辑",
+      "font_class": "iEarth-R8-xiugai_bianji",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "15138465",
+      "name": "iEarth-R8-xiugai_裁剪",
+      "font_class": "iEarth-R8-xiugai_caijian",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "15138466",
+      "name": "iEarth-R8-xiugai_收起",
+      "font_class": "iEarth-R8-xiugai_shouqi",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "15138467",
+      "name": "iEarth-R8-xiugai_量算",
+      "font_class": "iEarth-R8-xiugai_liangsuan",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "15138468",
+      "name": "iEarth-tianjia",
+      "font_class": "iEarth-tianjia",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "15138469",
+      "name": "iEarth-R8-xiugai_地形",
+      "font_class": "iEarth-R8-xiugai_dixing",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "15138470",
+      "name": "iEarth-R8-xiugai_图层",
+      "font_class": "iEarth-R8-xiugai_tuceng",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "15138471",
+      "name": "iEarth-R8-xiugai_底图",
+      "font_class": "iEarth-R8-xiugai_ditu",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "15138472",
+      "name": "iEarth-R8-xiugai_设置",
+      "font_class": "iEarth-R8-xiugai_shezhi",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "15062334",
+      "name": "Vue组件-阴影分析-1.0",
+      "font_class": "Vue-shadowquery",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "15035697",
+      "name": "Vue组件-量算-空间面积-1.0",
+      "font_class": "Vue-measure-area",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "15033312",
+      "name": "Vue组件-剖面分析-1.0",
+      "font_class": "Vue-Profile",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "15033313",
+      "name": "Vue组件-量算-依地面积-1.0",
+      "font_class": "Vue-measure-GroundArea",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "15033314",
+      "name": "Vue组件-量算-空间距离-1.0",
+      "font_class": "Vue-measure-distance",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "15033315",
+      "name": "Vue组件-量算-高度测量-1.0",
+      "font_class": "Vue-measure-height",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "15033316",
+      "name": "Vue组件-天际线分析-1.0",
+      "font_class": "Vue-Skyline",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "15033317",
+      "name": "Vue组件-量算-清除-1.0",
+      "font_class": "Vue-measure-clear",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "15033318",
+      "name": "Vue组件-量算-依地距离-1.0",
+      "font_class": "Vue-measure-GroundDistance",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "15033146",
+      "name": "Vue组件-通视分析-1.0 ",
+      "font_class": "Vue-sightline",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "15032626",
+      "name": "Vue组件-量算-1.0",
+      "font_class": "Vue-measure",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "15032020",
+      "name": "Vue组件-可视域分析-1.0",
+      "font_class": "Vue-viewshed",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    }
+  ]
+}
