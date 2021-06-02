@@ -1,0 +1,93 @@
+{
+    "totalPage": 1,
+    "content": [{
+            "id": 1,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/索菲亚大教堂.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-suofeiya_church/rest/realspace",
+            "sceneName": "ソフィア大聖堂",
+            "state": 0
+        },
+        {
+            "id": 2,
+            "type": "SCP",
+            "thumbnail": "static/images/webServeImg/科技园.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-yanmofenxi/rest/realspace/datas/sci_park/config",
+            "sceneName": "科学技術公園",
+            "state": 0
+        },
+        {
+            "id": 5,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/矢量.jpg",
+            "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-GuangZhou/rest/realspace",
+            "sceneName": "ベクター",
+            "state": 0
+        },
+        {
+            "id": 6,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/珠峰地形影像.jpg",
+            "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-ZF_normal/rest/realspace",
+            "sceneName": "エベレスト山の地形画像",
+            "state": 0
+        },
+        {
+            "id": 7,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/BIM建筑.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-wireFrame/rest/realspace",
+            "sceneName": "BIMビル",
+            "state": 0
+        },
+        {
+            "id": 8,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/点云.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-cloud/rest/realspace",
+            "sceneName": "ポイントクラウド",
+            "state": 0
+        },
+        {
+            "id": 9,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/体渲染.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-tishuju/rest/realspace",
+            "sceneName": "ボリュームデータ",
+            "state": 0
+        },
+        {
+            "id": 10,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/柱状图.jpg",
+            "proxiedUrl": " https://www.supermapol.com/realspace/services/3D-Histogram/rest/realspace",
+            "sceneName": "柱状",
+            "state": 0
+        },
+        {
+            "id": 11,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/CBD.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-CBDCache20200416/rest/realspace",
+            "sceneName": "CBD",
+            "state": 0
+        },
+        {
+            "id": 12,
+            "type": "SCP",
+            "thumbnail": "static/images/webServeImg/分层分户.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-FCFH_Shangdong/rest/realspace/datas/config/config",
+            "sceneName": "階層型世帯",
+            "state": 0
+        },
+        {
+            "id": 13,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/专题图.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-five-vector/rest/realspace",
+            "sceneName": "ベクトル主題マップ",
+            "state": 0
+        }
+  
+    ]
+  }

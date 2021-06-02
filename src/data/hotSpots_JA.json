@@ -1,0 +1,19 @@
+{
+    "hotSpots":[{
+         "id": 0,
+         "type": "REALSPACE",
+         "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/橙色.jpg",
+         "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace",
+         "sceneName": "中国流行マップ",
+         "state": 0
+       },
+       {
+         "id": 1,
+         "type": "REALSPACE",
+         "thumbnail": "static/images/webServeImg/世界疫情.jpg",
+         "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-worldmapJianHua/rest/realspace",
+         "sceneName": "世界的な流行マップ",
+         "state": 0
+       }
+     ]
+ }
