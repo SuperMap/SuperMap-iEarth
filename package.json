@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@ispeco/authentication-sdk": "^1.0.28",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "echarts": "^4.8.0",
         "lodash": "^4.17.21",
         "lodash.clonedeep": "^4.5.0",
