@@ -1,5 +1,17 @@
 # <center>SuperMap Vue-iEarth</center>
+## Build Setup
 
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+```
 # 简介
 [SuperMap iEarth](http://www.supermapol.com/earth/vue-iEarth/)是基于全功能三维“零客户端”[SuperMap iClient3D for WebGL](http://support.supermap.com.cn:8090/webgl/examples/webgl/examples.html#layer)开发的一款三维在线应用程序。在多源数据加载、三维空间分析以及多种可视化效果等功能的支撑下，用户可以通过SuperMap iEarth在浏览器上进行三维浏览及应用。
 
