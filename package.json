@@ -10,7 +10,6 @@
         "build": "node build/build.js"
     },
     "dependencies": {
-        "@ispeco/authentication-sdk": "^1.0.28",
         "axios": "^0.21.1",
         "echarts": "^4.9.0",
         "lodash": "^4.17.21",
