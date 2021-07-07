@@ -1,0 +1,27 @@
+{
+   "hotSpots":[{
+        "id": 0,
+        "type": "HOT",
+        "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/橙色.jpg",
+        "proxiedUrl": ["https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace/datas/%E5%B8%82%E7%BA%A7%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92_%E7%AE%80%E5%8C%96@AdministrativeArea/config",
+                       "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace/datas/China_Boundary_C_ln@China/config",
+                       "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace/datas/%E6%96%87%E5%AD%97%E6%A0%87%E7%AD%BEpng/config",
+                       "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace/datas/%E5%B8%82%E7%BA%A7%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92%E6%A0%87%E7%AD%BE/config",
+                       "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace/datas/Province_R@China/config"],
+        "name": ["市级行政区划_简化@AdministrativeArea", "China_Boundary_C_ln@China", "文字标签png", "市级行政区划标签", "Province_R@China"],
+        "sceneName": "中国疫情地图",
+        "state": 0
+      },
+      {
+        "id": 1,
+        "type": "HOT",
+        "thumbnail": "static/images/webServeImg/WorldEpidemic.jpg",
+        "proxiedUrl": ["https://www.supermapol.com/realspace/services/3D-worldmapJianHua/rest/realspace/datas/China_Boundary_C_ln@China/config",
+                        "https://www.supermapol.com/realspace/services/3D-worldmapJianHua/rest/realspace/datas/World%E6%A0%87%E7%AD%BE/config",
+                        "https://www.supermapol.com/realspace/services/3D-worldmapJianHua/rest/realspace/datas/World_%E7%AE%80%E5%8C%96/config"],
+        "name": ["China_Boundary_C_ln@China","World标签","World_简化"],
+        "sceneName": "全球疫情地图",
+        "state": 0
+      }
+    ]
+}

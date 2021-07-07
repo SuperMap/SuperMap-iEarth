@@ -1,0 +1,15 @@
+.label-right {
+    margin-left: 10px;
+}
+
+.sm-shadowquery-select {
+    width: 40%
+}
+
+.sm-input-long {
+    float: right;
+    width: 35%;
+    @media (max-width: 750px) {
+        width: 32%;
+    }
+}

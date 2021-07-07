@@ -1,0 +1,61 @@
+
+.label2{
+  display: inline;
+  padding: 0.4em 6em .2em 6em;
+  font-size: 110%;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  line-height: 1.1;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border-radius: 0;
+}
+
+.terrainLabel{
+    display:inline;
+    padding:0.4em 4em 0.01em 6em;
+    font-size:15px;
+    color:#fff;
+    text-align:center;
+    white-space:nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+   line-height:1.1;
+}
+
+.terrainSelect-select{
+    display:-webkit-box;
+    display:flex;
+    flex-wrap: wrap;
+    position:absolute;
+    -webkit-box-pack:center;
+    justify-content: center;
+    width:50%;
+    background-color:#2a2a2a;
+    right:39px;
+    z-index:1000;
+    border:1px solid #3C8DBC;
+}
+
+.function-content{
+  padding-top: 5px;
+  padding-bottom:5px;
+  padding-left: 15px;
+  padding-right:15px;
+  overflow:auto;
+  max-height:528px;
+  background-color:rgba(38,38,38,0.75);
+  margin-bottom:8px;
+}
+
+.floodConent{
+  margin-left:8px;
+  margin-right:8px;
+}
+
+.right{
+  margin-right: 1px;
+}

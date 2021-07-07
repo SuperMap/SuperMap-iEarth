@@ -1,0 +1,74 @@
+
+.sm-tool-btn {
+  width: 50px;
+  height: 45px;
+  box-sizing: border-box;
+  background: transparent;
+  z-index: 100;
+  display: flex;
+  background-color: rgba(36,35,35,1);
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 750px) {
+    width: 35px;
+    height: 35px;
+  }
+  @media (max-height: 750px) {
+    width: 37px;
+    height: 35px;
+  }
+  @media (max-height: 480px) {
+    width: 37px;
+    height: 35px;
+  }
+  @media (max-height: 300px) {
+    width: 30px;
+    height: 30px;
+  }
+  .iconfont{
+      font-size: 30px;
+    @media (max-width: 750px) {
+      font-size: 30px;
+    }
+    @media (max-height: 750px) {
+      font-size: 25px;
+    }
+    @media (max-height: 480px) {
+      font-size: 25px;
+    }
+    @media (max-height: 300px) {
+      font-size: 25px;
+    }
+  }
+}
+
+.toolBar{
+    width: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content:flex-start;
+    // background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 8px 0 0 8px;
+}
+ul{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

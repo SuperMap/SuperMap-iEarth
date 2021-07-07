@@ -1,0 +1,19 @@
+{
+    "hotSpots":[{
+         "id": 0,
+         "type": "REALSPACE",
+         "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/橙色.jpg",
+         "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace",
+         "sceneName": "China Epidemic Map",
+         "state": 0
+       },
+       {
+         "id": 1,
+         "type": "REALSPACE",
+         "thumbnail": "static/images/webServeImg/WorldEpidemic.jpg",
+         "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-worldmapJianHua/rest/realspace",
+         "sceneName": "World Epidemic Map",
+         "state": 0
+       }
+     ]
+ }

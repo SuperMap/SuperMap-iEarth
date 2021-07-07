@@ -1,0 +1,105 @@
+{
+    "s3mModels": [{
+            "id": 0,
+            "name": "椅子",
+            "thumbnail": "@/../static/images/S3MData/bench.png",
+            "path": "@/../static/images/S3MData/Chair.s3m"
+        },
+        {
+            "id": 1,
+            "name": "垃圾箱",
+            "thumbnail": "@/../static/images/S3MData/Dustbin.png",
+            "path": "@/../static/images/S3MData/Dustbin.s3m"
+        },
+        {
+            "id": 2,
+            "name": "垃圾箱2",
+            "thumbnail": "@/../static/images/S3MData/paper-bucket.png",
+            "path": "@/../static/images/S3MData/Dustbin2.s3m"
+        },
+        {
+            "id": 3,
+            "name": "垃圾桶",
+            "thumbnail": "@/../static/images/S3MData/dustbin1.png",
+            "path": "@/../static/images/S3MData/GarbageCan.s3m"
+        },
+        {
+            "id": 4,
+            "name": "报亭",
+            "thumbnail": "@/../static/images/S3MData/newspaper.png",
+            "path": "@/../static/images/S3MData/NewsStand.s3m"
+        },
+        {
+            "id": 5,
+            "name": "邮政信箱",
+            "thumbnail": "@/../static/images/S3MData/mailbox.png",
+            "path": "@/../static/images/S3MData/PO-Box.s3m"
+        },
+        {
+            "id": 6,
+            "name": "限速牌",
+            "thumbnail": "@/../static/images/S3MData/speed-limit.png",
+            "path": "@/../static/images/S3MData/RestrictionBoard.s3m"
+        },
+        {
+            "id": 7,
+            "name": "路灯",
+            "thumbnail": "@/../static/images/S3MData/lamp-post.png",
+            "path": "@/../static/images/S3MData/StreetLight.s3m"
+        },
+        {
+            "id": 8,
+            "name": "红绿灯",
+            "thumbnail": "@/../static/images/S3MData/traffic-light.png",
+            "path": "@/../static/images/S3MData/TrafficLight.s3m"
+        },
+        {
+            "id": 9,
+            "name": "电信电话亭",
+            "thumbnail": "@/../static/images/S3MData/phone-booth.png",
+            "path": "@/../static/images/S3MData/T-TelBooth.s3m"
+        },
+        {
+            "id": 10,
+            "name": "树1",
+            "thumbnail": "@/../static/images/S3MData/tree.png",
+            "path": "@/../static/images/S3MData/tree1.s3m"
+        },
+        {
+            "id": 11,
+            "name": "树2",
+            "thumbnail": "@/../static/images/S3MData/pine.png",
+            "path": "@/../static/images/S3MData/tree2.s3m"
+        },
+        {
+            "id": 12,
+            "name": "树3",
+            "thumbnail": "@/../static/images/S3MData/tree3.png",
+            "path": "@/../static/images/S3MData/tree3.s3m"
+        },
+        {
+            "id": 13,
+            "name": "树4",
+            "thumbnail": "@/../static/images/S3MData/tree2.png",
+            "path": "@/../static/images/S3MData/tree4.s3m"
+        },
+        {
+            "id": 14,
+            "name": "springTree",
+            "thumbnail": "@/../static/images/S3MData/springTree.png",
+            "path": "@/../static/images/S3MData/springTree.s3m"
+        },
+        {
+            "id": 15,
+            "name": "autumnTree",
+            "thumbnail": "@/../static/images/S3MData/autumnTree.png",
+            "path": "@/../static/images/S3MData/autumnTree.s3m"
+        },
+        {
+            "id": 16,
+            "name": "winterTree",
+            "thumbnail": "@/../static/images/S3MData/winterTree.png",
+            "path": "@/../static/images/S3MData/winterTree.s3m"
+        }
+    ]
+}

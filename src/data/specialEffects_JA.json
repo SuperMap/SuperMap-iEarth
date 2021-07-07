@@ -1,0 +1,22 @@
+{
+    "effects": [
+      {
+        "name": "トレイルライン",
+        "id": 0,
+        "thumbnail": "static/images/thumbnails/airlinesTrailLines.jpg",
+        "description": "フライトトレイル"
+      },
+      {
+        "name": "スキャンライン",
+        "id": 1,
+        "thumbnail": "static/images/thumbnails/scanEffect.jpg",
+        "description": "スキャンライン"
+      },
+      {
+        "name": "風の場",
+        "id": 2,
+        "thumbnail": "static/images/thumbnails/windParticle.jpg",
+        "description": "風の場"
+      }
+    ]
+  }

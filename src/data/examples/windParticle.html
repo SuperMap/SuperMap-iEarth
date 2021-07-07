@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<title>Wind Field</title>
+		<link href="../../../static/cesium//Widgets/widgets.css" rel="stylesheet">
+		<script src="../../../static/js/config.js"></script>
+		<!-- <link rel="stylesheet" href="../../Build/Cesium/Widgets/widgets.css"/>
+		<link href="../../css/pretty.css" rel="stylesheet"/>
+		<script src="./js/config.js"></script>
+		<script src="../../js/jquery.min.js"></script>
+		<link href="../../css/semantic.min.css" rel="stylesheet">
+		<script type="text/javascript" src="../../js/lib/require.min.js" data-main="./js/main"></script> -->
+		<style>
+			html, body, #cesiumContainer {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #000000;
+			}
+			.param-group{
+				margin-bottom: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<div class="applyImg" id="imgApply">
+			风场管理
+		</div>
+		<div class="closeDiv">
+			<div class="closeImg" id="closeFun">
+			</div>
+		</div>
+		<div class="applyContainer" id="comApply" style="background-color: #FFFFFF">
+		<div style="margin: 10px">
+			<div class="ui black empty circular label"></div>
+			<div class="ui green empty circular label"></div>
+			<div class="ui red empty circular label"></div>
+			<div class="ui blue empty circular label"></div>
+			<div class="ui purple empty circular label"></div>
+			<div class="ui teal empty circular label"></div><br>
+			<div class="param-group">
+				<label class="labelText">粒子大小:</label>
+				<input type="number" id="particleSize" min="0" value="0.5" step="0.1" style="width: 210px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">生命周期:</label>
+				<input type="number" id="particleLife" min="1"  value="5" step="1" style="width: 210px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">粒子密度:</label>
+				<input type="number" id="particleDensity" min="0" value="1.5" step="0.1" style="width: 210px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">粒子速度: </label>
+				<input type="number" id="particleVelocityScale" min="0" value="1" step="0.1" style="width: 210px">
+			</div>
+			<label class="checkbox param-group">
+				<input type="checkbox" id="fieldLayerVisible" checked>图层可见性
+			</label>
+			<label class="checkbox param-group">
+				<input type="checkbox" id="show" checked>场景泛光
+			</label><br><br>
+			<div class="param-group">
+				<label class="labelText">亮度阈值:</label>
+				<input type="range" id="threshold" min="0" value="0.2" max="1" value="1" step="0.01" style="width: 170px">
+			</div>
+			<div class="param-group">
+				<label class="labelText">泛光强度: </label>
+				<input type="range" id="bloomIntensity" min="0" max="10" value="2" step="0.01" style="width: 170px">
+			</div>
+			<input type="button" id="startField" class="btn btn-default" style="float: right;background-color: #FFFFFF;border: green 1px solid;" value="启动风场">
+			<input type="button" id="changeFieldData" class="btn btn-default" style="float: right;background-color: #FFFFFF;border: green 1px solid;margin-right: 10px" value="切换数据">
+
+		</div>
+	   </div>
+		<script>
+			/*示范代码说明：
+			 *本示范程序为全球风场可视化效果，可实时控制显示粒子样式与活动信息
+			 *
+			 *主要涉及接口：
+			 * FieldLayer3D
+			 * ParticleVelocityFieldEffect
+			 *
+			 * 示范代码：
+			 */
+			function onload(Cesium) {
+				var viewer = new Cesium.Viewer('cesiumContainer', {
+					contextOptions: {
+						requestWebgl2: true
+					},
+					infobox: false
+				});
+				var scene = viewer.scene;
+				scene.imageryLayers.removeAll(true);
+				scene.globe.baseColor = new Cesium.Color(0.0, 0.0, 0.0, 1.0); // 没有影像时地球的基础颜色，默认为蓝色
+				scene.skyBox.show = false;
+
+				viewer.scene.skyBox.show = false;
+				viewer.scene.sun.show = false;
+				viewer.scene.bloomEffect.show = true; //启用泛光效果
+				viewer.scene.bloomEffect.threshold=$("#threshold").val();
+				viewer.scene.bloomEffect.bloomIntensity=$("#bloomIntensity").val();
+
+				var promiseBaseLayer = scene.addS3MTilesLayerByScp(URL_CONFIG.SCP_WORLD_COUNTRY_VECTOR, {
+					name: "baseLayer"
+				});
+
+				var colorTable = new Cesium.ColorTable();
+				colorTable.insert(0, new Cesium.Color(3/255, 0/255, 255/255));
+				colorTable.insert(1, new Cesium.Color(255/255, 128/255, 200/255));
+				colorTable.insert(2, new Cesium.Color(0/255, 120/255, 255/255));
+				colorTable.insert(4, new Cesium.Color(0, 255/255, 128/255));
+				colorTable.insert(7, new Cesium.Color(255/255, 0/255, 255/255));
+				colorTable.insert(10, new Cesium.Color(255/255, 255/255, 0/255));
+				colorTable.insert(15, new Cesium.Color(255/255, 0/255, 0/255));
+
+				var fieldLayer = new Cesium.FieldLayer3D(scene.context); //场数据图层
+				fieldLayer.particleVelocityFieldEffect.velocityScale = 100.0; //初始化效果
+				fieldLayer.particleVelocityFieldEffect.particleSize = 0.5;
+				fieldLayer.particleVelocityFieldEffect.paricleCountPerDegree = 1.5;
+				scene.primitives.add(fieldLayer); //添加场图层
+				var particleWindField = [];
+				var particleWindInverseField = [];
+				var dataChanged = false;
+
+				fieldLayer.particleVelocityFieldEffect.colorTable = colorTable;
+
+				//加载风场数据
+				$.ajax({
+					url: './json/winds.json',
+					success: function(data) {
+						var p = 0;
+						for(var j = 0; j < data.ny; j++) {
+							particleWindField[j] = [];
+							particleWindInverseField[j] = [];
+							for(var i = 0; i < data.nx; i++, p++) {
+								particleWindField[j][i] = data.data[p];
+								particleWindInverseField[j][i] = [-data.data[p][0], -data.data[p][1]];
+							}
+						}
+						$('#toolbar').show();
+						$('#loadingbar').remove();
+						document.getElementById("startField").onclick = function() {
+							fieldLayer.fieldData = particleWindField;
+						};
+					}
+				});
+
+				$("#show").on("input change", function() {
+					viewer.scene.bloomEffect.show = this.checked;
+				});
+
+				//泛光亮度阈值调节
+				$("#threshold").on("input change", function() {
+					viewer.scene.bloomEffect.threshold = this.value;
+				});
+
+				//泛光强度
+				$("#bloomIntensity").on("input change", function() {
+					$("#current_bloomIntensity").text(this.value);
+					viewer.scene.bloomEffect.bloomIntensity = this.value;
+				});
+
+				//场图层的可见性
+				$("#fieldLayerVisible").on("input change", function() {
+					fieldLayer.visible = this.checked;
+				});
+
+				//场图层数据切换
+				$("#changeFieldData").on("click", function() {
+					if(dataChanged) {
+						fieldLayer.fieldData = particleWindField;
+					} else {
+						fieldLayer.fieldData = particleWindInverseField;
+					}
+					dataChanged = !dataChanged;
+				});
+
+				//粒子大小控制
+				$("#particleSize").on("input change", function() {
+					fieldLayer.particleVelocityFieldEffect.particleSize = this.value;
+				});
+
+				//粒子的生命周期
+				$("#particleLife").on("input change", function() {
+					var lifeRange = [this.value * 1000.0, this.value * 1000.0 + 5000.0];
+					fieldLayer.particleVelocityFieldEffect.particleLifeRange = lifeRange;
+				});
+
+				//粒子密度
+				$("#particleDensity").on("input change", function() {
+					fieldLayer.particleVelocityFieldEffect.paricleCountPerDegree = this.value;
+				});
+
+				//粒子速度
+				$("#particleVelocityScale").on("input change", function() {
+					fieldLayer.particleVelocityFieldEffect.velocityScale = this.value * 100.0;
+				});
+
+				$("#imgApply").on("click",function () {
+                        $("#coverLayer").show("slow");
+                        $("#comApply").show("slow");
+                        $(".closeDiv").show("slow");
+                    }
+				)
+
+                $("#closeFun").on("click",function () {
+                        $("#coverLayer").hide("slow");
+                        $("#comApply").hide("slow");
+                        $(".closeDiv").hide("slow");
+                    }
+				)
+
+
+			}
+		</script>
+	</body>
+</html>
