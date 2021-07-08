@@ -1,0 +1,89 @@
+{
+  "s3mModels": [   
+	{
+       "name": "椅子",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/Chair.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/Chair.s3m"
+    },
+	{
+       "name": "垃圾箱",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/Dustbin.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/Dustbin.s3m"
+    },
+	{
+       "name": "垃圾箱2",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/Dustbin2.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/Dustbin2.s3m"
+    },
+	{
+       "name": "垃圾桶",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/GarbageCan.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/GarbageCan.s3m"
+    },
+	{
+       "name": "报亭",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/NewsStand.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/NewsStand.s3m"
+    },
+	{
+       "name": "邮政信箱",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/PO-Box.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/PO-Box.s3m"
+    },
+	{
+       "name": "限速牌",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/RestrictionBoard.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/RestrictionBoard.s3m"
+    },
+	{
+       "name": "路灯",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/StreetLight.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/StreetLight.s3m"
+    },
+	{
+       "name": "红绿灯",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/TrafficLight.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/TrafficLight.s3m"
+    },
+	{
+       "name": "电信电话亭",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/T-TelBooth.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/T-TelBooth.s3m"
+    },
+	{
+       "name": "树",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/tree1.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/tree1.s3m"
+    },
+	{
+       "name": "树",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/tree2.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/tree2.s3m"
+    },
+	{
+       "name": "树",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/tree3.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/tree3.s3m"
+    },
+	{
+       "name": "树",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/tree4.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/tree4.s3m"
+    },
+	{
+      "name": "springTree",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/springTree.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/springTree.s3m"
+    },
+    {
+       "name": "autumnTree",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/autumnTree.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/autumnTree.s3m"
+    },
+    {
+       "name": "winterTree",
+      "thumbnail": "http://support.supermap.com:8090/plugin/s3mLibrary/winterTree.jpg",
+      "path": "http://support.supermap.com:8090/plugin/s3mLibrary/winterTree.s3m"
+    }
+  ]
+}
