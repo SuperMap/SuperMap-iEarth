@@ -43,8 +43,8 @@
     </pluginManagement>
 	<resources>
       <resource>
-        <directory>${project.basedir}/../dist/</directory>
-        <targetPath>META-INF/resources/apps/earth</targetPath>
+        <directory>${project.basedir}/dist/</directory>
+        <targetPath>META-INF/resources/apps/earth/v2</targetPath>
 		<excludes>
 			<exclude>pom.xml</exclude>
 		</excludes>
