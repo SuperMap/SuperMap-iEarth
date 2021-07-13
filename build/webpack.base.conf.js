@@ -109,7 +109,7 @@ module.exports = {
         "echarts": "echarts",
     },
     //  启动依赖关系可视化窗口，绑定端口8919
-    plugins: [
-      new BundleAnalyzerPlugin({ analyzerPort: 8920 }),
-    ]
+    // plugins: [
+    //   new BundleAnalyzerPlugin({ analyzerPort: 8920 }),
+    // ]
 }
