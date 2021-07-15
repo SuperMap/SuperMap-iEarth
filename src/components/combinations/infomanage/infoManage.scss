@@ -60,6 +60,62 @@
         color: #2ec5ad;
         background-color: rgba(71, 71, 71, 0.75);
     }
+  .storageScene {
+    width: 50px;
+    height: 50px;
+    padding-top:2px;
+    padding-left:2px;
+    padding-right:2px;
+    padding-bottom:1px;
+    background-color: rgb(36, 35, 35);
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.4;
+    border: none;
+    vertical-align: middle;
+    margin-bottom: 18px;
+    border-radius:4px;
+    @media (max-height:750px){
+      width:38px;
+      height:35px;
+      margin-bottom: 15px;
+    }
+    @media (max-height:480px){
+      width:38px;
+      height:35px;
+      padding-top:2px;
+      padding-left:2px;
+      padding-right:2px;
+      padding-bottom:1px;
+      background-color: rgba(38, 38, 38, 0.75);
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+      touch-action: manipulation;
+      cursor: pointer;
+      background-image: none;
+      font-weight: 400;
+      line-height: 1.4;
+      border: none;
+      vertical-align: middle;
+      margin-bottom: 10px;
+    }
+    @media(max-height:300px){
+      width:30px;
+      height:35px;
+      margin-bottom: 5px;
+    }
+  }
+  .storageScene:hover {
+    color: #2ec5ad;
+    background-color: rgba(71, 71, 71, 0.75);
+  }
 }
 
 .infoManagetb{
@@ -80,3 +136,88 @@
   }
 }
 
+#storageScene{
+  display: none;
+}
+
+.storageScene{
+  display: block;
+}
+.storageScene-panel{
+   width:800px;
+   display:inline-block;
+   position:absolute;
+   right:550px;
+   top:-200px;
+   z-index:99;
+   cursor:pointer;
+   background-color:rgba(38, 38, 38, 0.75);
+   border:1px solid #526f82;
+   height:400px;
+}
+
+.half{
+  width:50%;
+  display:inline-block;
+  float:left;
+  margin:0;
+  padding:0;
+  border:none;
+}
+
+
+label{
+  display:inline-block;
+  font-size:12px;
+  border:1px solid transparent;
+  color:#fff;
+  font-weight:400;
+  line-height:1.8;
+  max-width:100%;
+}
+
+label .label-block{
+  width:100%;
+}
+
+.sm-function-module-storageInfo{
+  margin:0;
+  padding:0;
+}
+
+.storageScene-half{
+  width:100%;
+  display:inline-block;
+  float:left;
+  margin-top:5px;
+  margin-right:0px;
+  margin-bottom:0px;
+  margin-left:0px;
+  padding:0;
+  border:none;
+}
+
+.sm-function-module-storageScene{
+  margin:0.5rem 1rem 1rem 1rem;
+  padding:5px 10px;
+  overflow:auto;
+  max-height:528px;
+  background-color:rgb(23,23,23);
+}
+
+.StorageTb{
+  font-weight:400;
+  background-color:#2a2a2a;
+  margin-left:5px;
+  border-radius:4px;
+  color:darkgrey;
+  border:1px solid #686363;
+  height:26px;
+  width:80px;
+  font-size:13px;
+  overflow: hidden;
+}
+
+.openSave{
+  margin-right:25px;
+}

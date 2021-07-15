@@ -86,11 +86,16 @@ export default {
       this.$emit("childEvent");
 
       if (viewer) {
+        let s;
         let promiseArray = [];
         let serviceProxy = window.store.portalConfig.serviceProxy;
         let withCredentials = this.isIportalProxyServiceUrl(this.SceneURL,serviceProxy);
         let config = { withCredentials:withCredentials};
-        let s = viewer.scene.open(this.SceneURL, this.LayerNmae, config);
+        if(withCredentials){
+          s = viewer.scene.open(this.SceneURL, this.LayerNmae, config);
+        }else{
+          s = viewer.scene.open(this.SceneURL, this.LayerNmae);
+        }
         promiseArray.push(s);
         this.promiseWhen(promiseArray);
       }

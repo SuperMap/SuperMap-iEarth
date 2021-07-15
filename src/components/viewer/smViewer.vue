@@ -160,15 +160,15 @@ export default {
       let systemJSONUrl = this.getRootUrl()+ "web/config/system.json";
       Cesium.loadJson(systemJSONUrl).then(function(jsonData){
         if (jsonData && !jsonData.isSuperMapOL){ // iportal
-           document.getElementById("infoManageLogin").style.display = "block";
+            that.getSceneState("block");
             that.getIportalConfig();
         } else if (jsonData && jsonData.isSuperMapOL){ // online
-          document.getElementById("infoManageLogin").style.display = "none";
+          that.getSceneState("block");
         } else { // earth
-          document.getElementById("infoManageLogin").style.display = "none";
+          that.getSceneState("block");
         }
       }).otherwise(function(e){ // earth
-        document.getElementById("infoManageLogin").style.display = "none";
+        that.getSceneState("block");
       })
     },
     getRootUrl () {
@@ -185,6 +185,10 @@ export default {
         }
       }
         return url;
+    },
+    getSceneState(state){
+      document.getElementById("infoManageLogin").style.display = state;
+      document.getElementById("storageInfo").style.display = state;
     },
     getIportalConfig(){
       let portalConfigUrl = this.getRootUrl()+ "web/config/portal.json";

@@ -207,7 +207,6 @@
       lineColor: '线颜色',
       direction: '方向',
       roll: '翻转',
-      distance: '距离',
       horizontalFov: '水平视角(°)',
       verticalFov: '垂直视角(°)',
       colorSetting: '颜色设置',
@@ -428,7 +427,6 @@
       PolygonOffsetUnit: '偏移单位',
       SceneSave: '场景保存',
       SaveDate: '存储日期',
-      SceneName: '场景名称',
       SceneLabel: '场景标签',
       UpdateCurrentScene: '更新当前场景',
       iEarthScene: 'iEarth场景',
@@ -449,7 +447,6 @@
       baseLayerSource: '底图来源',
       localImage: '本地图片',
       bingMaps: '必应底图',
-      tianditu: '天地图',
       OpenStreetMap: 'Open Street Map',
       SuperMapChinaDark: 'SuperMap China Dark',
       gridImagery: '网格影像',
@@ -472,7 +469,6 @@
       updateSceneSuccess: '场景更新成功！',
       updateSceneFailed: '场景更新失败，先保存当前场景！',
       layerUrl: '图层URL',
-      layerName: '图层名称',
       sceneUrl: '场景URL',
       fullScreen: '全屏',
       polygonClipMode: '裁剪模式',
@@ -623,6 +619,9 @@
       maxHeight:"最大高度",
       maxDistance:"最大距离",
       assignRange:"指定范围",
+      storageScene:"存储",
+      sceneStorage:"场景保存",
+      openSave:"打开场景"
     };
 
     export default ResourceCN;
