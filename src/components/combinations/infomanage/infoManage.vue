@@ -10,7 +10,7 @@
          class="storageScene"
          @click="IstorageScene"
          :title="Resource.storageScene">
-      <span class="iconfont icondenglu infoManagetb"></span>
+      <span class="iconfont icona-baocun1 infoManagetb"></span>
     </div>
     <div id="storageScene" class="storageScene-panel">
       <div class="sm-panel-header">
@@ -67,6 +67,9 @@
         <button type="button" id="openScene" class="StorageTb openSave" @click="openSaveUserClk">{{Resource.openSave}}</button>
       </div>
     </div>
+    <div id="storageFailed">
+      {{Resource.storageFailed}}
+    </div>
   </div>
 </template>
 
@@ -83,7 +86,11 @@ export default {
       scenePortalName : "",
       scenePortalTages : "",
       scenePortalUser : "",
-      scenePortalDescription : ""
+      scenePortalDescription : "",
+      loginSuccess: null,
+      key : "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
+      token :'4a00a1dc5387b8ed8adba3374bd87e5e',
+      terrainToken : "e90d56e5a09d1767899ad45846b0cefd"
     };
   },
   computed: {
@@ -110,6 +117,7 @@ export default {
     },
     loginSucceedCallback(result){
       const {data} = result;
+      this.loginSuccess = result;
       if(data && data.success && data.user){
         window.store.userInfo = data.user;
         this.$Message.success(Resource.loginSuccess);
@@ -169,33 +177,32 @@ export default {
       });
     },
     onSaveUserClk(){
-      let me = this;
-      let name = me.scenePortalName;
-      let tags = me.scenePortalTages;
-      let userName = me.scenePortalUser;
-      let description = me.scenePortalDescription;
-      if(name === ""){
+
+      let name = this.scenePortalName;
+      let tags = this.scenePortalTages;
+      let userName = this.scenePortalUser;
+      let description = this.scenePortalDescription;
+
+      let hasAccount = this.checkAccount();
+      if(name === "" || !hasAccount){
         return;
       }
+
+      let data = {};
+      data.layers = {};
+      //检查该图层对应于S3M、Terrain、Imagery
+      this.checkLayers(data.layers);
+
       let canvas = document.getElementById("sceneCanvas");
       let base64 = canvas.toDataURL("image/jpeg");
       base64 = base64.split(",")[1];
-      let data = {};
-      data.layers = {};
-      let length = viewer.scene.layers._layers.length;
-      for(let i=0,j=length;i<j;i++){
-        let layer = viewer.scene.layers._layerQueue[i];
-        let layerUrl = layer._layerScheduler._indexedDBScheduler.dbname;
-        layerUrl = this.getUrl(layerUrl);
-        data.layers[i] = layerUrl;
-      }
 
       let camera = viewer.scene.camera;
       data.camera = {
         position : {
-            x : camera.position.x,
-            y : camera.position.y,
-            z : camera.position.z
+            x : camera.positionWC.x,
+            y : camera.positionWC.y,
+            z : camera.positionWC.z
           },
         heading : camera.heading,
         pitch : camera.pitch,
@@ -212,26 +219,26 @@ export default {
         "tags" : tags,
         "userName" : userName,
         "description" : description,
-        "content" : data
+        "content" : JSON.stringify(data)
       };
-      //保存场景
-      let url = "../../web/scenes.json";
+      // 保存场景
+      let url = "../../../web/scenes.json";
       window.axios
-        .post(url,saveData)
+        .post(url,JSON.stringify(saveData))
         .then(function(response){
           SceneID = response.data.newResourceID;
           //保存缩略图
-          // let putSceneUrl = "../../web/scenes/"+ parseInt(response.data.newResourceID) + "/thumbnail.json";
-          //   window.axios
-          //      .put(putSceneUrl,{
-          //           data:base64
-          //      })
-          //      .then(function(result){
-          //         console.log(result);
-          //      })
-          //      .catch(function(error){
-          //        console.log(error);
-          //      })
+          let putSceneUrl = "../../../web/scenes/"+ parseInt(response.data.newResourceID) + "/thumbnail.json";
+          window.axios({
+            method:"put",
+            url:putSceneUrl,
+            data:base64,
+            headers:{"Content-type":"application/x-www-form-urlencoded"},
+          }).then(function(result){
+          })
+          .catch(function(error){
+                console.log(error);
+          })
         })
         .catch(function(error){
           console.log(error);
@@ -240,13 +247,16 @@ export default {
     openSaveUserClk(){
       if(SceneID !== ""){
         document.getElementById("storageScene").style.display = "none";
-        let url = "../../web/scenes/"+ SceneID + ".json"
+        let url = "../../../web/scenes/"+ SceneID + ".json"
+        let me = this;
         window.axios
             .get(url)
             .then(function(response){
               let content = JSON.parse(response.data.content);
               if(JSON.stringify(content.layers) !== "{}"){
-                  viewer.scene.open(content.layers[0]);
+                me.openS3M(content);
+                me.openImagery(content);
+                me.openTerrain(content);
               }
               let cameraX = content.camera.position.x;
               let cameraY = content.camera.position.y;
@@ -264,6 +274,158 @@ export default {
               console.log(error);
             })
       }
+    },
+    checkLayers(layers){
+
+      let s3mLayerlength = viewer.scene.layers._layers.length;    //S3M图层
+      layers["s3mLayer"] = this.saveS3M(layers,s3mLayerlength);
+
+      let imageryLayer = viewer.imageryLayers._layers;     //影像图层
+      layers["imageryLayer"] = this.saveImagery(imageryLayer);
+
+      layers["terrainLayer"] = this.saveTerrain();        //地形图层
+
+    },
+    saveS3M(layers,s3mLayerlength){
+      let s3mlayerUrl = [];
+      for(let i=0,j=s3mLayerlength;i<j;i++){
+        let s3mTypeAndUrl = {};
+        let layer = viewer.scene.layers._layerQueue[i];
+        s3mTypeAndUrl["type"] = "S3MTilesLayer";
+        let layerUrl = layer._layerScheduler._indexedDBScheduler.dbname;
+        layerUrl = this.getUrl(layerUrl);
+        s3mTypeAndUrl["url"] = layerUrl;
+        s3mlayerUrl.push(s3mTypeAndUrl);
+      }
+      return s3mlayerUrl;
+    },
+    saveImagery(imageryLayer){
+      let imageryLayerUrl = [];
+      for(let j=1;j<imageryLayer.length;j++){
+        let imageryTypeAndUrl = {};
+        let provider = imageryLayer[j]._imageryProvider;
+        if(provider instanceof Cesium.BingMapsImageryProvider){
+          imageryTypeAndUrl["type"] = "BingMapsImageryProvider";
+        }else if(provider instanceof Cesium.TiandituImageryProvider){
+          imageryTypeAndUrl["type"] = "TiandituImageryProvider";
+        }else if(provider instanceof Cesium.SingleTileImageryProvider){
+          imageryTypeAndUrl["type"] = "SingleTileImageryProvider";
+        }else if(provider instanceof Cesium.SuperMapImageryProvider){
+          imageryTypeAndUrl["type"] = "SuperMapImageryProvider";
+        }else{
+          imageryTypeAndUrl["Type"] = "GRIDIMAGERY";
+        }
+        imageryTypeAndUrl["url"] = viewer.imageryLayers._layers[j]._imageryProvider._baseUrl;
+        imageryLayerUrl.push(imageryTypeAndUrl);
+      }
+      return imageryLayerUrl;
+    },
+    saveTerrain(){
+      let terrainLayer = viewer.terrainProvider.tablename;        //地形图层
+      let terrainLayerUrl = [];
+      if(terrainLayer){
+        let terrainTypeAndUrl = {};
+        let terrainProvider = viewer.terrainProvider;
+        if(terrainProvider instanceof Cesium.CesiumTerrainProvider){
+          terrainTypeAndUrl["type"] = "tinTerrain";
+        }else if(terrainProvider instanceof Cesium.TiandituTerrainProvider){
+          terrainTypeAndUrl["type"] = "tianDiTuTerrain";
+        }else if(terrainProvider instanceof Cesium.SCTTerrainProvider){
+          terrainTypeAndUrl["type"] = "supermapOnlineTerrain";
+        }
+        terrainTypeAndUrl["url"] = viewer.terrainProvider._baseUrl;
+        terrainLayerUrl.push(terrainTypeAndUrl);
+      }
+      return terrainLayerUrl;
+    },
+    openS3M(content){
+      let s3mlayer = content.layers.s3mLayer;
+      if(s3mlayer.length >0){
+        for(let t=0;t<s3mlayer.length;t++){
+          viewer.scene.open(content.layers.s3mLayer[t].url);
+        }
+      }
+    },
+    openImagery(content){
+      let imageryLayer = content.layers.imageryLayer;
+      let imageryProvider;
+      if(imageryLayer.length > 0){
+        let imageryLayerCollection = viewer.imageryLayers;
+        for(let t=1;t<imageryLayerCollection.length;t++){
+          imageryLayerCollection.remove(viewer.imageryLayers._layers[t]);
+        }
+        for(let i=0;i<imageryLayer.length;i++){
+          let imageryType = content.layers.imageryLayer[i].type;
+          switch(imageryType){
+            case "BingMapsImageryProvider":
+              imageryProvider = new Cesium.BingMapsImageryProvider({
+                url : content.layers.imageryLayer[i].url,
+                key : this.key
+              });
+              break;
+            case "TiandituImageryProvider":
+              imageryProvider = new Cesium.TiandituImageryProvider({
+                url : content.layers.imageryLayer[i].url,
+                token : this.token
+              });
+              break;
+            case "SingleTileImageryProvider" :
+              imageryProvider = new Cesium.SingleTileImageryProvider({
+                url : content.layers.imageryLayer[i].url
+              });
+              break;
+            case "SuperMapImageryProvider" :
+              imageryProvider = new Cesium.SuperMapImageryProvider({
+                url : content.layers.imageryLayer[i].url
+              });
+              break;
+            case "GRIDIMAGERY" :
+              imageryProvider = new Cesium.TileCoordinatesImageryProvider();
+              break;
+          }
+          viewer.imageryLayers.addImageryProvider(imageryProvider,(i+1));
+        }
+      }
+    },
+    openTerrain(content){
+      viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+      let terrainLayer = content.layers.terrainLayer;
+      if(terrainLayer.length > 0){
+        let terrainType = content.layers.terrainLayer[0].type;
+        switch(terrainType){
+          case "tinTerrain":
+            viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
+              url : content.layers.terrainLayer[0].url,
+              isSct : true,
+              invisibility:true
+            });
+            break;
+          case "tianDiTuTerrain":
+            viewer.terrainProvider = new Cesium.TiandituTerrainProvider({
+              token : this.terrainToken
+            });
+            break;
+          case "supermapOnlineTerrain":
+            viewer.terrainProvider = new Cesium.SCTTerrainProvider({
+              urls : [content.layers.terrainLayer[0].url]
+            });
+            break;
+        }
+      }
+    },
+    checkAccount(){
+      if(this.loginSuccess == null){
+         this.labelAnimation();
+         return false;
+      }
+        return true;
+    },
+    labelAnimation(){
+      document.getElementById("storageFailed").style.visibility = "visible";
+      document.getElementById("storageFailed").style.transition = "visibility 0s 0.2s,opacity 0.2s ease-in,transform 0.2s ease-in";
+      setTimeout(function(){
+        document.getElementById("storageFailed").style.opacity = 0;
+      },2000);
     },
     getUrl(url){
        let isRealspace = url.indexOf("realspace") > -1;

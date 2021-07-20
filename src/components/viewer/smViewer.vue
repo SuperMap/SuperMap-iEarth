@@ -165,10 +165,10 @@ export default {
         } else if (jsonData && jsonData.isSuperMapOL){ // online
           that.getSceneState("block");
         } else { // earth
-          that.getSceneState("block");
+          that.getSceneState("none");
         }
       }).otherwise(function(e){ // earth
-        that.getSceneState("block");
+        that.getSceneState("none");
       })
     },
     getRootUrl () {

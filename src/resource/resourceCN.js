@@ -468,7 +468,7 @@
       saveSceneFailed: '存储失败！请先登陆iPortal或Online账户......',
       updateSceneSuccess: '场景更新成功！',
       updateSceneFailed: '场景更新失败，先保存当前场景！',
-      layerUrl: '图层URL',
+      layerUrl: '图层URL:"http://localhost:8090/iserver/service/3D-CBD/rest/realspace"',
       sceneUrl: '场景URL',
       fullScreen: '全屏',
       polygonClipMode: '裁剪模式',
@@ -621,7 +621,8 @@
       assignRange:"指定范围",
       storageScene:"存储",
       sceneStorage:"场景保存",
-      openSave:"打开场景"
+      openSave:"打开场景",
+      storageFailed:"存储失败,请先登陆iPortal或Online账户......"
     };
 
     export default ResourceCN;

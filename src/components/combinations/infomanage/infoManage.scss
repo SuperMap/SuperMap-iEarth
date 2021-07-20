@@ -221,3 +221,19 @@ label .label-block{
 .openSave{
   margin-right:25px;
 }
+
+#storageFailed{
+  position:absolute;
+  bottom:-400px;
+  box-sizing:content-box;
+  width:276px;
+  right:2px;
+  height:1.5em;
+  background-color:rgba(157,45,45,0.5);
+  border:1px solid #444;
+  padding:6px;
+  overflow:hidden;
+  color:#ffffff;
+  z-index:9999;
+  visibility: hidden;
+}

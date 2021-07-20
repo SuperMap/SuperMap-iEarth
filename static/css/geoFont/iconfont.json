@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "22996895",
+      "name": "保存 (1)",
+      "font_class": "a-baocun1",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "21944028",
+      "name": "登录",
+      "font_class": "denglu",
+      "unicode": "e711",
+      "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "21103569",
+      "name": "停止",
+      "font_class": "tingzhi",
+      "unicode": "e705",
+      "unicode_decimal": 59141
+    },
+    {
+      "icon_id": "21206866",
+      "name": "坐标",
+      "font_class": "zuobiao",
+      "unicode": "e701",
+      "unicode_decimal": 59137
+    },
+    {
       "icon_id": "20933627",
       "name": "裁剪",
       "font_class": "caijian1",
