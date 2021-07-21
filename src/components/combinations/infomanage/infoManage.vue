@@ -74,7 +74,7 @@
 </template>
 
 <script>
-let version = 0;
+let version = "0";
 let SceneID = "";
 import {showLoginBox} from "../../../common/js/request";
 export default {
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       sharedState: store.state,
-      version : 0,
+      version : "0",
       scenePortalName : "",
       scenePortalTages : "",
       scenePortalUser : "",
@@ -213,7 +213,7 @@ export default {
         skyAtmosphereShow : viewer.scene.skyAtmosphere.show,
         enableFog : viewer.scene.fog.enabled
       };
-      data.version = 2.0;
+      data.version = "2.0";
       let saveData = {
         "name" : name,
         "tags" : tags,
@@ -221,6 +221,7 @@ export default {
         "description" : description,
         "content" : JSON.stringify(data)
       };
+      console.log(saveData);
       // 保存场景
       let url = "../../../web/scenes.json";
       window.axios
