@@ -1923,7 +1923,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                     for (var k = 0; k < nSize; k++) {
                         var instanceId = view.getUint32(bufferByteOffset + dataViewByteOffset, true);
                         bufferByteOffset += Uint32Array.BYTES_PER_ELEMENT;
-                        if (version === 2) {
+                        if (version === 3) {
                             var vertexCount = view.getUint32(bufferByteOffset + dataViewByteOffset, true);
                             bufferByteOffset += Uint32Array.BYTES_PER_ELEMENT;
                         }
