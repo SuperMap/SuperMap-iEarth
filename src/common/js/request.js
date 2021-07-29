@@ -82,7 +82,7 @@ export function showLoginBox(option = {}) {
   const authInstance = new Authenticate({
     loginOptions: {
       theme: 'dark',
-      logoUrl: replativePath2FullPath('./static/logo.svg'),
+      logoUrl: replativePath2FullPath('./static/images/logo.ico'),
     },
     onSucceed: authSucceed,
     ...restOption

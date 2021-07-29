@@ -3,7 +3,7 @@
     <div id="infoManageLogin"
            class="infoManageLogin"
            @click="show"
-           :title="Resource.login">
+           :title="switchAccount">
         <span class="iconfont icondenglu infoManagetb"></span>
     </div>
     <div id="storageInfo"
@@ -109,6 +109,12 @@ export default {
     },
     infoManageShow: function () {
       return this.sharedState.infoManage;
+    },
+    portalUserprofile(){
+      return window.store.portalUserprofile;
+    },
+    switchAccount(){
+      return !this.portalUserprofile || this.portalUserprofile.userName === 'GUEST' ? Resource.login:Resource.accountInfo
     }
   },
   methods: {
@@ -122,11 +128,17 @@ export default {
       }
     },
     show(){
-      showLoginBox({
-        authSucceed:this.loginSucceedCallback.bind(this),
-        onFailed:this.loginFailedCallback.bind(this),
-        onCanceled:this.cancel.bind(this)
-      })
+      let userInfo = window.store.portalUserprofile;
+      if(!userInfo || userInfo.userName === "GUEST"){
+        showLoginBox({
+          authSucceed:this.loginSucceedCallback.bind(this),
+          onFailed:this.loginFailedCallback.bind(this),
+          onCanceled:this.cancel.bind(this)
+        })
+      }else{
+        let myAccountUrl = this.getRootUrl() + "web-ui/my-account/account";
+        window.open(myAccountUrl);
+      }
     },
     hide(){
 
@@ -283,7 +295,10 @@ export default {
             .get(url)
             .then(function(response){
               let content = JSON.parse(response.data.content);
-              console.log("response",content);
+              me.scenePortalName = response.data.name;
+              me.scenePortalTages = response.data.tags.join(",");
+              me.scenePortalUser = response.data.userName;
+              me.scenePortalDescription = response.data.description;
               if(JSON.stringify(content.layers) !== '{}'){
                 me.openS3M(content);
                 me.openImagery(content);

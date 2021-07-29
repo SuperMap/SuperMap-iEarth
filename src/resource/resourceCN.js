@@ -2,7 +2,7 @@
       longitude: '经度(°)',
       latitude: '纬度(°)',
       altitude: '高程(米)',
-      login: '登陆',
+      login: '登录',
       logout: '登出',
       account: '我的账户 :',
       save: '保存',
@@ -622,10 +622,11 @@
       storageScene:"存储",
       sceneStorage:"场景保存",
       openSave:"打开场景",
-      storageFailed:"存储失败,请先登陆iPortal或Online账户......",
-      loginSuccess:"登陆成功",
-      loginFailed:"登陆失败",
-      noPermission:"您没有权限创建、更新、删除场景"
+      storageFailed:"存储失败,请先登录iPortal或Online账户......",
+      loginSuccess:"登录成功",
+      loginFailed:"登录失败",
+      noPermission:"您没有权限创建、更新、删除场景",
+      accountInfo:"账户信息"
     };
 
     export default ResourceCN;
