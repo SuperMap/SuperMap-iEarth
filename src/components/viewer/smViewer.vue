@@ -11,41 +11,44 @@
 </template>
 
 <script>
-import BaseSpecialEffectModels from '../../data/BaseSpecialEffectsData.js';
+//引入portal处理公共类
+import { getRootUrl } from "../../common/js/portalTools";
+
+import BaseSpecialEffectModels from "../../data/BaseSpecialEffectsData.js";
 import InitEcharts from "../combinations/initecharts/initEcharts";
 import InfoManage from "../combinations/infomanage/infoManage";
 export default {
   name: "sm-viewer",
-  components: {InfoManage, InitEcharts},
+  components: { InfoManage, InitEcharts },
   props: {
     combination: {
       //组合接口
-      type: Boolean,
+      type: Boolean
     },
     sceneUrl: {
       //场景接口
-      type: String,
+      type: String
     },
     s3mScps: {
       //s3m图层接口
-      type: Array,
+      type: Array
     },
     collapsed: {
       //是否折叠
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   data() {
     return {
       sharedState: store.state,
-      BaseSpecialEffectModels:BaseSpecialEffectModels,
+      BaseSpecialEffectModels: BaseSpecialEffectModels,
       isCreateScene: true
     };
   },
   computed: {
-    isInitViewer: function () {
+    isInitViewer: function() {
       return this.sharedState.isInitViewer;
-    },
+    }
   },
   methods: {
     init() {
@@ -55,7 +58,7 @@ export default {
       }
       let viewer;
       this.getCreateOrEditScene();
-      let isPCBroswer =window.isPCBroswer = Cesium.FeatureDetection.isPCBroswer();
+      let isPCBroswer = (window.isPCBroswer = Cesium.FeatureDetection.isPCBroswer());
       let skyBoxRight = this.BaseSpecialEffectModels[1].skyBoxRight;
       let skyBoxLeft = this.BaseSpecialEffectModels[1].skyBoxLeft;
       let skyBoxFront = this.BaseSpecialEffectModels[1].skyBoxFront;
@@ -75,26 +78,26 @@ export default {
         document.getElementsByClassName(
           "cesium-viewer-timelineContainer"
         )[0].style.visibility = "hidden"; //隐藏时间线控件
-         viewer.scene.globe.enableLighting = false;
-         let wxSkyBox = new Cesium.SkyBox({
-           sources:{
-             positiveX:skyBoxRight,
-             negativeX:skyBoxLeft,
-             positiveY: skyBoxFront,
-             negativeY:skyBoxBack ,
-             positiveZ:skyBoxUp,
-             negativeZ:skyBoxDown
-           }
-         });
-         let initialSkyBox = function(){
-             if(viewer.scene.frameState.passes.render){
-               wxSkyBox.update(viewer.scene.frameState,true);
-               viewer.scene.postRender.removeEventListener(initialSkyBox);
-             }
-         };
-         viewer.scene.postRender.addEventListener(initialSkyBox);
-         this.BaseSpecialEffectModels[1].currentSky = wxSkyBox;
-         this.BaseSpecialEffectModels[1].defaultSky = viewer.scene.skyBox;
+        viewer.scene.globe.enableLighting = false;
+        let wxSkyBox = new Cesium.SkyBox({
+          sources: {
+            positiveX: skyBoxRight,
+            negativeX: skyBoxLeft,
+            positiveY: skyBoxFront,
+            negativeY: skyBoxBack,
+            positiveZ: skyBoxUp,
+            negativeZ: skyBoxDown
+          }
+        });
+        let initialSkyBox = function() {
+          if (viewer.scene.frameState.passes.render) {
+            wxSkyBox.update(viewer.scene.frameState, true);
+            viewer.scene.postRender.removeEventListener(initialSkyBox);
+          }
+        };
+        viewer.scene.postRender.addEventListener(initialSkyBox);
+        this.BaseSpecialEffectModels[1].currentSky = wxSkyBox;
+        this.BaseSpecialEffectModels[1].defaultSky = viewer.scene.skyBox;
       } else {
         viewer = new Cesium.Viewer("cesiumContainer", {
           selectionIndicator: false,
@@ -112,7 +115,7 @@ export default {
         document.documentElement.style.height = window.innerHeight + "px";
         document.addEventListener(
           "touchmove",
-          function (e) {
+          function(e) {
             e.preventDefault();
           },
           false
@@ -128,7 +131,8 @@ export default {
       if (viewer.geocoder) {
         // 请开发者自行到supermap online官网（http://www.supermapol.com/）申请key
         viewer.geocoder.viewModel.geoKey = "fvV2osxwuZWlY0wJb8FEb2i5";
-        document.querySelector(".cesium-geocoder-input").placeholder = Resource.searchPlaceHolder
+        document.querySelector(".cesium-geocoder-input").placeholder =
+          Resource.searchPlaceHolder;
       }
       viewer.camera.flyTo({
         destination: new Cesium.Cartesian3(
@@ -137,19 +141,22 @@ export default {
           29619220.04004376
         ),
         duration: 0,
-        complete: function () {
-          viewer.camera.flyTo({
-            destination: new Cesium.Cartesian3.fromDegrees(
-              110.60396458865515,
-              34.54408834959379,
-              30644793.325518917
-            ),
-            duration: 2,
-            complete: function () {
-              common.initHandler("Polygon"); //初始化全局常用的画面的drawhandler
-              store.setToolBarShow(true); //显示工具栏
-            },
-          });
+        complete: function() {
+          common.initHandler("Polygon"); //初始化全局常用的画面的drawhandler
+          store.setToolBarShow(true); //显示工具栏
+
+          // viewer.camera.flyTo({
+          //   destination: new Cesium.Cartesian3.fromDegrees(
+          //     110.60396458865515,
+          //     34.54408834959379,
+          //     30644793.325518917
+          //   ),
+          //   duration: 2,
+          //   complete: function() {
+          //     common.initHandler("Polygon"); //初始化全局常用的画面的drawhandler
+          //     store.setToolBarShow(true); //显示工具栏
+          //   }
+          // });
           setTimeout(() => {
             document.getElementById("loadingbar").remove(); //移除加载动画
           }, 1000);
@@ -158,53 +165,60 @@ export default {
 
       store.setisInitViewer(true); //初始化viewer标志
 
-      //对接iport代码,登陆功能
+      //对接iport代码,登录功能
       let that = this;
-      let systemJSONUrl = this.getRootUrl() + "web/config/system.json";
-      Cesium.loadJson(systemJSONUrl).then(function(jsonData){
-        if (jsonData && !jsonData.isSuperMapOL){ // iportal
-            that.getSceneState("block");
-            that.getIportalConfig();
-        } else if (jsonData && jsonData.isSuperMapOL){ // online
+      let systemJSONUrl = getRootUrl() + "web/config/system.json";
+
+      window.axios.get(systemJSONUrl).then(function(response) {
+        let jsonData = response.data;
+        if (jsonData && !jsonData.isSuperMapOL) {
+          // iportal
           that.getSceneState("block");
-        } else { // earth
+          that.getIportalConfig();
+        } else if (jsonData && jsonData.isSuperMapOL) {
+          // online
+          that.getSceneState("block");
+        } else {
+          // earth
           that.getSceneState("none");
         }
-      }).otherwise(function(e){ // earth
-        that.getSceneState("none");
-      })
+      });
     },
-    getRootUrl () {
-        const path = '/apps';
-        let url = '';
-        if (window.location.href.indexOf(path) !== -1) {
-            url = window.location.href.substring(0, window.location.href.indexOf(path) + 1);
-        }
-        if (!url) {
-         if (location.href.indexOf('/iportal/') !== -1) {
-           url = `${location.protocol}//${location.host}/iportal/`;
-         } else {
-            url = `${location.protocol}//${location.host}/`;
-        }
-      }
-        return url;
-    },
-    getSceneState(state){
+
+    getSceneState(state) {
       document.getElementById("infoManageLogin").style.display = state;
       document.getElementById("storageInfo").style.display = state;
+
+      //未登录
+      let userInfo = window.store.portalUserprofile;
+      if (!userInfo || userInfo.userName === "GUEST") {
+        document.getElementById("storageInfo").style.display = "none";
+      }
+      //无权限
+      let iportalUpdateScene = window.store.portalUserprofile.modulePermissions;
+      if (
+        !iportalUpdateScene.includes("portal:user:createUpdateDeleteScenes") &&
+        !iportalUpdateScene.includes("*")
+      ) {
+        document.getElementById("storageInfo").style.display = "none";
+      }
     },
-    getIportalConfig(){
-      let portalConfigUrl = this.getRootUrl()+ "web/config/portal.json";
-      Cesium.loadJson(portalConfigUrl).then(function(data){
-        window.store.portalConfig = data;
-      }).otherwise(function(e){
+    getIportalConfig() {
+      let portalConfigUrl = getRootUrl() + "web/config/portal.json";
+      Cesium.loadJson(portalConfigUrl)
+        .then(function(data) {
+          window.store.portalConfig = data;
+        })
+        .otherwise(function(e) {
           console.log(e);
-      })
+        });
     },
-    getCreateOrEditScene(){
+    getCreateOrEditScene() {
       //判断编辑场景还是创建场景
-     let url = window.location.href;
-     this.isCreateScene = url.indexOf("id=") === -1;
+      let url = window.location.href;
+      this.isCreateScene = url.indexOf("id=") === -1;
+      // 模拟编辑场景模式，非创建
+      // this.isCreateScene = false;
     }
   },
   mounted() {
