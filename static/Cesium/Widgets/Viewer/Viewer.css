@@ -76,22 +76,11 @@
     overflow: hidden;
 }
 
-  .cesium-viewer-toolbar {
+.cesium-viewer-toolbar {
     display: block;
     position: absolute;
     top: 5px;
     right: 5px;
-  }
-
-
-@media only screen and (max-height: 750px){
-  .cesium-viewer-toolbar {
-    display: block;
-    position: absolute;
-    top: 18px;
-    right: 5px;
-  }
-
 }
 
 .cesium-viewer-cesiumInspectorContainer {
@@ -101,26 +90,10 @@
     right: 10px;
 }
 
-
-  .cesium-viewer-geocoderContainer {
+.cesium-viewer-geocoderContainer {
     position: relative;
     display: inline-block;
-    margin-top: 17px;
-    margin-right: 3px;
-    margin-bottom: 0px;
-    margin-left: 3px;
-  }
-
-
-@media only screen and (max-height: 750px){
-  .cesium-viewer-geocoderContainer {
-    position: relative;
-    display: inline-block;
-    margin-top: 17px;
-    margin-right: 15px;
-    margin-bottom: 0px;
-    margin-left: 3px;
-  }
+    margin: 35px 3px;
 }
 
 .cesium-viewer-cesium3DTilesInspectorContainer {
