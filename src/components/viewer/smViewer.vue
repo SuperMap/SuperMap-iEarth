@@ -41,7 +41,6 @@ export default {
   data() {
     return {
       sharedState: store.state,
-      BaseSpecialEffectModels: BaseSpecialEffectModels,
       isCreateScene: true
     };
   },
@@ -57,6 +56,8 @@ export default {
         return;
       }
       let viewer;
+      //天空盒，不能放在data里面
+      this.BaseSpecialEffectModels = BaseSpecialEffectModels;
       this.getCreateOrEditScene();
       let isPCBroswer = (window.isPCBroswer = Cesium.FeatureDetection.isPCBroswer());
       let skyBoxRight = this.BaseSpecialEffectModels[1].skyBoxRight;
