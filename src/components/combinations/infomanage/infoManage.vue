@@ -134,7 +134,7 @@ export default {
       let isCreateScene = this.copyIsCreateScene;
       if (!isCreateScene) {
         this.openSaveScene();
-      } 
+      }
     },
     show() {
       let userInfo = window.store.portalUserprofile;
@@ -368,7 +368,32 @@ export default {
       me.scenePortalTages = response.data.tags.join(",");
       me.scenePortalUser = response.data.userName;
       me.scenePortalDescription = response.data.description;
-      if (content) {
+      if (response.data.url) {
+        let realspaceUrl = response.data.url;
+        let index = realspaceUrl.indexOf("/scenes");
+        realspaceUrl = realspaceUrl.substring(0, index);
+        //模拟可以访问的地址
+        // realspaceUrl =
+        //   "http://www.supermapol.com/realspace/services/3D-CBD/rest/realspace";
+
+        let serviceProxy = window.store.portalConfig.serviceProxy;
+        let withCredentials = isIportalProxyServiceUrl(
+          realspaceUrl,
+          serviceProxy
+        );
+        let config = { withCredentials: withCredentials };
+        let promise = null;
+        if (withCredentials) {
+          // scene.customRequestHeaders = { withCredentials: withCredentials };
+          promise = viewer.scene.open(realspaceUrl, null, config);
+        } else {
+          promise = viewer.scene.open(realspaceUrl);
+        }
+
+        Cesium.when(promise, function(layers) {
+          //console.log(layers);
+        });
+      } else if (content) {
         if (JSON.stringify(content.layers) !== "{}") {
           //需要改动
           me.openS3M(content);
@@ -388,18 +413,6 @@ export default {
             }
           });
         }, 3000);
-      } else if (response.data.url) {
-        let realspaceUrl = response.data.url;
-        let index = realspaceUrl.indexOf("/scenes");
-        realspaceUrl = realspaceUrl.substring(0, index);
-        //模拟可以访问的地址
-        // realspaceUrl =
-        //   "http://www.supermapol.com/realspace/services/3D-CBD/rest/realspace";
-
-        var promise = viewer.scene.open(realspaceUrl);
-        Cesium.when(promise, function(layers) {
-          //console.log(layers);
-        });
       }
     },
     onSaveUserClk() {

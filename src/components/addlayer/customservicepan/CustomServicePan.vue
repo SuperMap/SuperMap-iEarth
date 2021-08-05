@@ -12,12 +12,12 @@
         <label>{{Resource.addToken}}</label>
         <input style="margin-left: 10px" type="checkbox" v-model="addToken" />
       </div>
-      <input class="sm-input" type="text" :placeholder= Resource.layerUrl v-model="LayerURL" />
-      <input class="sm-input" type="text" :placeholder= Resource.layerName v-model="LayerNmae" />
+      <input class="sm-input" type="text" :placeholder="Resource.layerUrl" v-model="LayerURL" />
+      <input class="sm-input" type="text" :placeholder="Resource.layerName" v-model="LayerNmae" />
       <input
         class="sm-input"
         type="text"
-        :placeholder= Resource.addToken
+        :placeholder="Resource.addToken"
         v-show="addToken"
         v-model="LayerToken"
       />
@@ -28,11 +28,11 @@
       <label class="label-container">{{Resource.OpenScene}}</label>
       <label>{{Resource.addToken}}</label>
       <input style="margin-left: 10px" type="checkbox" v-model="addSceneToken" />
-      <input class="sm-input" type="text" :placeholder= Resource.sceneUrl v-model="SceneURL" />
+      <input class="sm-input" type="text" :placeholder="Resource.sceneUrl" v-model="SceneURL" />
       <input
         class="sm-input"
         type="text"
-         :placeholder= Resource.addToken
+        :placeholder="Resource.addToken"
         v-show="addSceneToken"
         v-model="SceneToken"
       />
@@ -57,19 +57,19 @@ export default {
       LayerToken: null,
       addSceneToken: false,
       SceneURL: null,
-      SceneToken: null,
+      SceneToken: null
     };
   },
   computed: {
-    customServiceShow: function () {
+    customServiceShow: function() {
       return this.sharedState.addLayer[1];
-    },
+    }
   },
   methods: {
     // 添加自定义场景
     openScene() {
       if (this.SceneURL == null || this.SceneURL == "") {
-        this.$Message.error(Resource.urlNotNullMsg)
+        this.$Message.error(Resource.urlNotNullMsg);
         return;
       }
       // 检查地址是否正确
@@ -89,12 +89,17 @@ export default {
         let s;
         let promiseArray = [];
         let serviceProxy = window.store.portalConfig.serviceProxy;
-        let withCredentials = this.isIportalProxyServiceUrl(this.SceneURL,serviceProxy);
-        let config = { withCredentials:withCredentials};
-        if(withCredentials){
-          s = viewer.scene.open(this.SceneURL, this.LayerNmae, config);
-        }else{
-          s = viewer.scene.open(this.SceneURL, this.LayerNmae);
+        let withCredentials = this.isIportalProxyServiceUrl(
+          this.SceneURL,
+          serviceProxy
+        );
+        let config = { withCredentials: withCredentials };
+
+        if (withCredentials) {
+          // scene.customRequestHeaders = { withCredentials: withCredentials };
+          s = viewer.scene.open(this.SceneURL, null, config);
+        } else {
+          s = viewer.scene.open(this.SceneURL);
         }
         promiseArray.push(s);
         this.promiseWhen(promiseArray);
@@ -103,7 +108,7 @@ export default {
     // 打开自定义图层
     openLayer() {
       if (this.LayerURL == null || this.LayerURL == "") {
-         this.$Message.error(Resource.urlNotNullMsg)
+        this.$Message.error(Resource.urlNotNullMsg);
         return;
       }
       if (this.LayerURL.charAt(0) == '"' || this.LayerURL.charAt(0) == "'") {
@@ -132,10 +137,10 @@ export default {
       let options = {};
       if (this.LayerNmae) {
         options.name = this.LayerNmae;
-      }else{
-        this.$Message.warning(Resource.layerNameNotNullMsg)
+      } else {
+        this.$Message.warning(Resource.layerNameNotNullMsg);
         return;
-      };
+      }
       layerLen = viewer.scene.layers.layerQueue.length;
       promiseArray.push(viewer.scene.addS3MTilesLayerByScp(LayerURL, options));
       this.promiseWhen(promiseArray, true);
@@ -144,18 +149,18 @@ export default {
     addTerrain(LayerURL) {
       viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
         url: LayerURL,
-        isSct: true, //地形服务源自SuperMap iServer发布时需设置isSct为true
+        isSct: true //地形服务源自SuperMap iServer发布时需设置isSct为true
       });
       setTimeout(() => {
         //更新图层
-       store.setTerrainLayerManage(viewer.terrainProvider);
+        store.setTerrainLayerManage(viewer.terrainProvider);
       }, 1500);
     },
 
     addImage(LayerURL) {
       var layer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
-          url: LayerURL,
+          url: LayerURL
         })
       );
       viewer.flyTo(layer);
@@ -168,8 +173,8 @@ export default {
     promiseWhen(promiseArray, isSCP) {
       Cesium.when.all(
         promiseArray,
-        function (layers) {
-          for(let i=0;i<layers.length;i++){
+        function(layers) {
+          for (let i = 0; i < layers.length; i++) {
             layers[i]._visibleDistanceMax = 10000;
           }
           setTimeout(() => {
@@ -177,13 +182,12 @@ export default {
             store.setS3MLayerManage(viewer.scene.layers.layerQueue.length);
             store.setImgLayerManage(viewer.imageryLayers._layers.length);
             store.setTerrainLayerManage(viewer.terrainProvider);
-
           }, 500);
           if (isSCP && layers[layerLen]) {
             viewer.flyTo(layers[layerLen]);
           }
         },
-        function (e) {
+        function(e) {
           if (widget._showRenderLoopErrors) {
             let title = Resource.scpUrlErrorMsg;
             widget.showErrorPanel(title, undefined, e);
@@ -192,30 +196,31 @@ export default {
       );
     },
 
-    isIportalProxyServiceUrl(serviceUrl,serviceProxy){
-      if(serviceProxy && serviceProxy.enable){
-        let proxyStr = '';
-        if(serviceProxy.proxyServerRootUrl){
-           proxyStr = `${serviceProxy.proxyServerRootUrl}/`;
-        } else if(serviceProxy.rootUrlPostfix){
-           proxyStr = `${serviceProxy.port}/${serviceProxy.rootUrlPostfix}/`;
-        } else if(!serviceProxy.rootUrlPostfix){
-           proxyStr = `${serviceProxy.port}/`;
+    isIportalProxyServiceUrl(serviceUrl, serviceProxy) {
+      if (serviceProxy && serviceProxy.enable) {
+        let proxyStr = "";
+        if (serviceProxy.proxyServerRootUrl) {
+          proxyStr = `${serviceProxy.proxyServerRootUrl}/`;
+        } else if (serviceProxy.rootUrlPostfix) {
+          proxyStr = `${serviceProxy.port}/${serviceProxy.rootUrlPostfix}/`;
+        } else if (!serviceProxy.rootUrlPostfix) {
+          proxyStr = `${serviceProxy.port}/`;
         }
-        if(serviceProxy.port !== 80){
-          return serviceUrl.indexOf(proxyStr) >=0;
-        }else{
+        if (serviceProxy.port !== 80) {
+          return serviceUrl.indexOf(proxyStr) >= 0;
+        } else {
           //代理端口为80,url中不一定有端口,满足一种情况即可
-          return serviceUrl.indexOf(proxyStr) >=0 || serviceUrl.indexOf(proxyStr.replace(
-            ':80','')) >=0;
+          return (
+            serviceUrl.indexOf(proxyStr) >= 0 ||
+            serviceUrl.indexOf(proxyStr.replace(":80", "")) >= 0
+          );
         }
-      } else{
+      } else {
         return false;
       }
     },
-    childEvent(){
-    },
-  },
+    childEvent() {}
+  }
 };
 </script>
 

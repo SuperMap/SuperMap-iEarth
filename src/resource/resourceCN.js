@@ -430,7 +430,7 @@
       SceneLabel: '场景标签',
       UpdateCurrentScene: '更新当前场景',
       iEarthScene: 'iEarth场景',
-      ShareErrorMsg: '场景信息获取失败！请先登陆iPortal或Online账户......',
+      ShareErrorMsg: '场景信息获取失败！请先登录iPortal或Online账户......',
       ClickToSearchAltitude: '点击查询高程',
       UnNamed: '未命名',
       SurfaceTransparency: '地表透明度',

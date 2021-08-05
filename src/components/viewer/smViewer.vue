@@ -135,10 +135,15 @@ export default {
           Resource.searchPlaceHolder;
       }
       viewer.camera.flyTo({
-        destination: new Cesium.Cartesian3(
-          6788287.844465209,
-          -41980756.10214644,
-          29619220.04004376
+        // destination: new Cesium.Cartesian3(
+        //   6788287.844465209,
+        //   -41980756.10214644,
+        //   29619220.04004376
+        // ),
+        destination: new Cesium.Cartesian3.fromDegrees(
+          110.60396458865515,
+          34.54408834959379,
+          30644793.325518917
         ),
         duration: 0,
         complete: function() {
