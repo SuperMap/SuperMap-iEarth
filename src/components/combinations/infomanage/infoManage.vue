@@ -522,7 +522,7 @@ export default {
         let s3mTypeAndUrl = {};
         let layer = viewer.scene.layers._layerQueue[i];
         s3mTypeAndUrl["type"] = "S3MTilesLayer";
-        let layerUrl = layer._layerScheduler._subdomainsUrlScheme;
+        let layerUrl = layer._baseUri.scheme + '://' + layer._baseUri.authority + layer._baseUri.path;
         if (layerUrl) {
           layerUrl = this.getUrl(layerUrl);
           s3mTypeAndUrl["url"] = layerUrl;
