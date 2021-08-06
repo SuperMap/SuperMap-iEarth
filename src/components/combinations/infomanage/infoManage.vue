@@ -522,10 +522,12 @@ export default {
         let s3mTypeAndUrl = {};
         let layer = viewer.scene.layers._layerQueue[i];
         s3mTypeAndUrl["type"] = "S3MTilesLayer";
-        let layerUrl = layer._layerScheduler._scpUrl;
-        layerUrl = this.getUrl(layerUrl);
-        s3mTypeAndUrl["url"] = layerUrl;
-        s3mlayerUrl.push(s3mTypeAndUrl);
+        let layerUrl = layer._layerScheduler._subdomainsUrlScheme;
+        if (layerUrl) {
+          layerUrl = this.getUrl(layerUrl);
+          s3mTypeAndUrl["url"] = layerUrl;
+          s3mlayerUrl.push(s3mTypeAndUrl);
+        }
       }
       return s3mlayerUrl;
     },
