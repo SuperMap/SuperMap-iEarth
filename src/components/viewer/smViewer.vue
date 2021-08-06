@@ -173,22 +173,12 @@ export default {
 
       //对接iport代码,登录功能
       let that = this;
-      let systemJSONUrl = getRootUrl() + "web/config/system.json";
-
-      window.axios.get(systemJSONUrl).then(function(response) {
-        let jsonData = response.data;
-        if (jsonData && !jsonData.isSuperMapOL) {
-          // iportal
-          that.getSceneState("block");
-          that.getIportalConfig();
-        } else if (jsonData && jsonData.isSuperMapOL) {
-          // online
-          that.getSceneState("block");
-        } else {
-          // earth
-          that.getSceneState("none");
-        }
-      });
+      if (window.store.systemConfig) {
+        that.getSceneState("block");
+      } else {
+        // earth
+        that.getSceneState("none");
+      }
     },
 
     getSceneState(state) {
@@ -208,16 +198,6 @@ export default {
       ) {
         document.getElementById("storageInfo").style.display = "none";
       }
-    },
-    getIportalConfig() {
-      let portalConfigUrl = getRootUrl() + "web/config/portal.json";
-      Cesium.loadJson(portalConfigUrl)
-        .then(function(data) {
-          window.store.portalConfig = data;
-        })
-        .otherwise(function(e) {
-          console.log(e);
-        });
     },
     getCreateOrEditScene() {
       //判断编辑场景还是创建场景

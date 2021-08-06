@@ -32,23 +32,32 @@ Vue.use(components);
 const vue = new Vue({
   render: h => h(App)
 })
+
 function mountVue() {
   vue.$mount('#app');
 }
 
 
-function getUserprofile() {
+//获取iport配置及用户信息
+function init() {
   let userProfileUrl = getRootUrl() + "web/config/userprofile.json";
+  let portalConfigUrl = getRootUrl() + "web/config/portal.json";
+  let systemJSONUrl = getRootUrl() + "web/config/system.json";
   //验证用户的登录状态
-  window.axios
-    .get(userProfileUrl, {
-      //需要cookie验证
-      withCredentials: true
-    })
-    .then(function (response) {
-      window.store.portalUserprofile = response.data;
-      mountVue();
-    })
+  let userInfoPromise = window.axios.get(userProfileUrl, {
+    //需要cookie验证
+    withCredentials: true
+  });
+  let portalConfigPromise = window.axios.get(portalConfigUrl);
+  let portalSystemPromise = window.axios.get(systemJSONUrl);
+  Promise.all([userInfoPromise, portalConfigPromise, portalSystemPromise]).then(results => {
+    window.store.portalUserprofile = results[0].data;
+    window.store.portalConfig = results[1].data;
+    window.store.systemConfig = results[2].data;
+    mountVue();
+  }).catch(e => {
+    mountVue();
+  });
 }
 
-getUserprofile();
+init();

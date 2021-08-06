@@ -95,18 +95,7 @@ export default {
       if (viewer) {
         let s;
         let promiseArray = [];
-        let serviceProxy = window.store.portalConfig.serviceProxy;
-        let withCredentials = isIportalProxyServiceUrl(
-          this.SceneURL,
-          serviceProxy
-        );
-       
-        if (withCredentials) {
-          let ip = getHostName(this.SceneURL);
-          if (!Cesium.TrustedServers.contains("http://"+ip+"/"+serviceProxy.port)) {
-            Cesium.TrustedServers.add(ip, serviceProxy.port);
-          }
-        }     
+        this.setTrustedServers(this.SceneURL);
 
         s = viewer.scene.open(this.SceneURL);
         promiseArray.push(s);
@@ -126,6 +115,9 @@ export default {
       if (this.LayerToken) {
         Cesium.Credential.CREDENTIAL = new Cesium.Credential(this.LayerToken);
       }
+
+      this.setTrustedServers(this.LayerURL);
+
       switch (this.LayerType) {
         case "S3M":
           this.addS3M(this.LayerURL);
@@ -202,6 +194,21 @@ export default {
           }
         }
       );
+    },
+    //检查请求是否带cookie
+    setTrustedServers(url) {
+      let serviceProxy = window.store.portalConfig.serviceProxy;
+      let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
+      if (withCredentials) {
+        let ip = getHostName(url);
+        if (
+          !Cesium.TrustedServers.contains(
+            "http://" + ip + "/" + serviceProxy.port
+          )
+        ) {
+          Cesium.TrustedServers.add(ip, serviceProxy.port);
+        }
+      }
     },
     childEvent() {}
   }

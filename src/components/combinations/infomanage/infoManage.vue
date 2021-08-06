@@ -134,7 +134,7 @@ export default {
     init() {
       let isCreateScene = this.copyIsCreateScene;
       if (!isCreateScene) {
-        this.openSaveScene();
+        this.openExistScene();
       }
     },
     show() {
@@ -224,6 +224,7 @@ export default {
         };
       });
     },
+    //创建场景
     createScene() {
       let that = this;
       let name = this.scenePortalName;
@@ -286,40 +287,45 @@ export default {
 
       // 保存场景
       let url = getRootUrl() + "web/scenes.json";
-      window.axios.post(url, JSON.stringify(saveData)).then(function(response) {
-        that.sceneID = response.data.newResourceID;
-        //保存缩略图
-        let putSceneUrl =
-          getRootUrl() +
-          "web/scenes/" +
-          parseInt(response.data.newResourceID) +
-          "/thumbnail.json";
-        window
-          .axios({
-            method: "put",
-            url: putSceneUrl,
-            data: base64,
-            headers: { "Content-type": "application/x-www-form-urlencoded" }
-          })
-          .then(function(result) {
-            me.showStorageScene("none");
-            let currentUrl =
-              getRootUrl() +
-              "apps/earth/v2/index.html?id=" +
-              response.data.newResourceID;
-            window.open(currentUrl, "_self");
-          })
-          .catch(function(error) {});
-      });
+      window.axios
+        .post(url, JSON.stringify(saveData), { withCredentials: true })
+        .then(function(response) {
+          that.sceneID = response.data.newResourceID;
+          //保存缩略图
+          let putSceneUrl =
+            getRootUrl() +
+            "web/scenes/" +
+            parseInt(response.data.newResourceID) +
+            "/thumbnail.json";
+          window
+            .axios({
+              method: "put",
+              url: putSceneUrl,
+              data: base64,
+              headers: { "Content-type": "application/x-www-form-urlencoded" }
+            })
+            .then(function(result) {
+              that.showStorageScene("none");
+              let currentUrl =
+                getRootUrl() +
+                "apps/earth/v2/index.html?id=" +
+                response.data.newResourceID;
+              window.open(currentUrl, "_self");
+            })
+            .catch(function(error) {});
+        });
     },
-    openSaveScene() {
+    //打开已保存的场景
+    openExistScene() {
       let me = this;
-      let openSaveSceneUrl = window.location.href;
-      let parmeter = openSaveSceneUrl.split("id=")[1];
+      let openExistSceneUrl = window.location.href;
+      let parmeter = openExistSceneUrl.split("id=")[1];
       me.sceneID = parmeter.split("&")[0];
 
       // me.sceneID = 2067108494;//检索权限的id
       // me.sceneID = 1686273792;//查看权限的id
+      // http://localhost:8190/iportal/apps/earth/v2/index.html?id=652042515
+      // me.sceneID = 652042515;
 
       // document.getElementById("storageScene").style.display = "none";
       me.showStorageScene("none");
@@ -369,32 +375,7 @@ export default {
       me.scenePortalTages = response.data.tags.join(",");
       me.scenePortalUser = response.data.userName;
       me.scenePortalDescription = response.data.description;
-      if (response.data.url) {
-        let realspaceUrl = response.data.url;
-        let index = realspaceUrl.indexOf("/scenes");
-        realspaceUrl = realspaceUrl.substring(0, index);
-        //模拟可以访问的地址
-        // realspaceUrl =
-        //   "http://www.supermapol.com/realspace/services/3D-CBD/rest/realspace";
-
-        let serviceProxy = window.store.portalConfig.serviceProxy;
-        let withCredentials = isIportalProxyServiceUrl(
-          realspaceUrl,
-          serviceProxy
-        );
-
-        if (withCredentials) {
-          let ip = getHostName(realspaceUrl);
-          if (!Cesium.TrustedServers.contains("http://"+ip+"/"+serviceProxy.port)) {
-            Cesium.TrustedServers.add(ip, serviceProxy.port);
-          }
-        }       
-
-        let promise = viewer.scene.open(realspaceUrl);
-        Cesium.when(promise, function(layers) {
-          //console.log(layers);
-        });
-      } else if (content) {
+      if (content) {
         if (JSON.stringify(content.layers) !== "{}") {
           //需要改动
           me.openS3M(content);
@@ -414,6 +395,19 @@ export default {
             }
           });
         }, 3000);
+      } else if (response.data.url) {
+        let realspaceUrl = response.data.url;
+        let index = realspaceUrl.indexOf("/scenes");
+        realspaceUrl = realspaceUrl.substring(0, index);
+        //模拟可以访问的地址
+        // realspaceUrl =
+        //   "http://www.supermapol.com/realspace/services/3D-CBD/rest/realspace";
+
+        this.setTrustedServers(realspaceUrl);
+        let promise = viewer.scene.open(realspaceUrl);
+        Cesium.when(promise, function(layers) {
+          //console.log(layers);
+        });
       }
     },
     onSaveUserClk() {
@@ -488,26 +482,29 @@ export default {
 
       // 更新场景
       let url = getRootUrl() + "web/scenes/" + that.sceneID + ".json";
-      window.axios.put(url, JSON.stringify(saveData)).then(function(response) {
-        //保存缩略图
-        let putSceneUrl =
-          getRootUrl() + "web/scenes/" + that.sceneID + "/thumbnail.json";
-        window
-          .axios({
-            method: "put",
-            url: putSceneUrl,
-            data: base64,
-            headers: { "Content-type": "application/x-www-form-urlencoded" }
-          })
-          .then(function(result) {
-            // document.getElementById("storageScene").style.display = "none";
-            me.showStorageScene("none");
-            let currentUrl =
-              getRootUrl() + "apps/earth/v2/index.html?id=" + that.sceneID;
-            window.open(currentUrl, "_self");
-          })
-          .catch(function(error) {});
-      });
+      window.axios
+        .put(url, JSON.stringify(saveData), { withCredentials: true })
+        .then(function(response) {
+          //保存缩略图
+          let putSceneUrl =
+            getRootUrl() + "web/scenes/" + that.sceneID + "/thumbnail.json";
+          window
+            .axios({
+              method: "put",
+              url: putSceneUrl,
+              data: base64,
+              headers: { "Content-type": "application/x-www-form-urlencoded" },
+              withCredentials: true
+            })
+            .then(function(result) {
+              // document.getElementById("storageScene").style.display = "none";
+              that.showStorageScene("none");
+              let currentUrl =
+                getRootUrl() + "apps/earth/v2/index.html?id=" + that.sceneID;
+              window.open(currentUrl, "_self");
+            })
+            .catch(function(error) {});
+        });
     },
     checkLayers(layers) {
       let s3mLayerlength = viewer.scene.layers._layers.length; //S3M图层
@@ -575,7 +572,9 @@ export default {
       let s3mlayer = content.layers.s3mLayer;
       if (s3mlayer.length > 0) {
         for (let t = 0; t < s3mlayer.length; t++) {
-          viewer.scene.open(content.layers.s3mLayer[t].url);
+          let url = content.layers.s3mLayer[t].url;
+          this.setTrustedServers(url);
+          viewer.scene.open(url);
         }
       }
     },
@@ -588,6 +587,9 @@ export default {
           imageryLayerCollection.remove(viewer.imageryLayers._layers[t]);
         }
         for (let i = 0; i < imageryLayer.length; i++) {
+          let url = content.layers.imageryLayer[i].url;
+          this.setTrustedServers(url);
+
           let imageryType = content.layers.imageryLayer[i].type;
           switch (imageryType) {
             case "BingMapsImageryProvider":
@@ -625,6 +627,10 @@ export default {
       let terrainLayer = content.layers.terrainLayer;
       if (terrainLayer.length > 0) {
         let terrainType = content.layers.terrainLayer[0].type;
+
+        let url = content.layers.terrainLayer[0].url;
+        this.setTrustedServers(url);
+
         switch (terrainType) {
           case "tinTerrain":
             viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
@@ -676,6 +682,21 @@ export default {
         .replace(/\/rest\/realspace/g, "")
         .replace(afterRealspace, "");
       return lastUrl + "/rest/realspace";
+    },
+    //检查请求是否带cookie
+    setTrustedServers(url) {
+      let serviceProxy = window.store.portalConfig.serviceProxy;
+      let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
+      if (withCredentials) {
+        let ip = getHostName(url);
+        if (
+          !Cesium.TrustedServers.contains(
+            "http://" + ip + "/" + serviceProxy.port
+          )
+        ) {
+          Cesium.TrustedServers.add(ip, serviceProxy.port);
+        }
+      }
     }
   },
   mounted() {
@@ -686,7 +707,7 @@ export default {
       this.copyIsCreateScene = val;
       let isCreateScene = this.copyIsCreateScene;
       if (!isCreateScene) {
-        this.openSaveScene();
+        this.openExistScene();
       }
     }
   }
