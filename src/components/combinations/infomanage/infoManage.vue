@@ -302,7 +302,8 @@ export default {
               method: "put",
               url: putSceneUrl,
               data: base64,
-              headers: { "Content-type": "application/x-www-form-urlencoded" }
+              headers: { "Content-type": "application/x-www-form-urlencoded" },
+              withCredentials: true
             })
             .then(function(result) {
               that.showStorageScene("none");
@@ -521,7 +522,7 @@ export default {
         let s3mTypeAndUrl = {};
         let layer = viewer.scene.layers._layerQueue[i];
         s3mTypeAndUrl["type"] = "S3MTilesLayer";
-        let layerUrl = layer._layerScheduler._indexedDBScheduler.dbname;
+        let layerUrl = layer._layerScheduler._scpUrl;
         layerUrl = this.getUrl(layerUrl);
         s3mTypeAndUrl["url"] = layerUrl;
         s3mlayerUrl.push(s3mTypeAndUrl);
@@ -672,7 +673,7 @@ export default {
       // }, 2000);
     },
     getUrl(url) {
-      let isRealspace = url.indexOf("realspace") > -1;
+      let isRealspace = url.indexOf("/realspace") > -1;
       if (!isRealspace) {
         return;
       }
