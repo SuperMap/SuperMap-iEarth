@@ -163,7 +163,7 @@ export default {
       saturation: 1,
       queryCoordinates: null,
       isDestroyFlag: true,
-      BaseSpecialEffectModels:null
+     
     };
   },
   computed: {

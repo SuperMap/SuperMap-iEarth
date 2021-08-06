@@ -13,7 +13,7 @@
         <input style="margin-left: 10px" type="checkbox" v-model="addToken" />
       </div>
       <input class="sm-input" type="text" :placeholder="Resource.layerUrl" v-model="LayerURL" />
-      <input class="sm-input" type="text" :placeholder="Resource.layerName" v-model="LayerNmae" />
+      <input class="sm-input" type="text" :placeholder="Resource.layerName" v-model="LayerName" />
       <input
         class="sm-input"
         type="text"
@@ -45,6 +45,13 @@
 
 <script>
 let layerLen;
+//引入portal处理公共类
+import {
+  getRootUrl,
+  isIportalProxyServiceUrl,
+  getHostName
+} from "../../../common/js/portalTools";
+
 export default {
   name: "addCustomService",
   data() {
@@ -53,7 +60,7 @@ export default {
       LayerType: "S3M",
       addToken: false,
       LayerURL: null,
-      LayerNmae: null,
+      LayerName: null,
       LayerToken: null,
       addSceneToken: false,
       SceneURL: null,
@@ -89,18 +96,19 @@ export default {
         let s;
         let promiseArray = [];
         let serviceProxy = window.store.portalConfig.serviceProxy;
-        let withCredentials = this.isIportalProxyServiceUrl(
+        let withCredentials = isIportalProxyServiceUrl(
           this.SceneURL,
           serviceProxy
         );
-        let config = { withCredentials: withCredentials };
-
+       
         if (withCredentials) {
-          // scene.customRequestHeaders = { withCredentials: withCredentials };
-          s = viewer.scene.open(this.SceneURL, null, config);
-        } else {
-          s = viewer.scene.open(this.SceneURL);
-        }
+          let ip = getHostName(this.SceneURL);
+          if (!Cesium.TrustedServers.contains("http://"+ip+"/"+serviceProxy.port)) {
+            Cesium.TrustedServers.add(ip, serviceProxy.port);
+          }
+        }     
+
+        s = viewer.scene.open(this.SceneURL);
         promiseArray.push(s);
         this.promiseWhen(promiseArray);
       }
@@ -135,8 +143,8 @@ export default {
     addS3M(LayerURL) {
       let promiseArray = [];
       let options = {};
-      if (this.LayerNmae) {
-        options.name = this.LayerNmae;
+      if (this.LayerName) {
+        options.name = this.LayerName;
       } else {
         this.$Message.warning(Resource.layerNameNotNullMsg);
         return;
@@ -194,30 +202,6 @@ export default {
           }
         }
       );
-    },
-
-    isIportalProxyServiceUrl(serviceUrl, serviceProxy) {
-      if (serviceProxy && serviceProxy.enable) {
-        let proxyStr = "";
-        if (serviceProxy.proxyServerRootUrl) {
-          proxyStr = `${serviceProxy.proxyServerRootUrl}/`;
-        } else if (serviceProxy.rootUrlPostfix) {
-          proxyStr = `${serviceProxy.port}/${serviceProxy.rootUrlPostfix}/`;
-        } else if (!serviceProxy.rootUrlPostfix) {
-          proxyStr = `${serviceProxy.port}/`;
-        }
-        if (serviceProxy.port !== 80) {
-          return serviceUrl.indexOf(proxyStr) >= 0;
-        } else {
-          //代理端口为80,url中不一定有端口,满足一种情况即可
-          return (
-            serviceUrl.indexOf(proxyStr) >= 0 ||
-            serviceUrl.indexOf(proxyStr.replace(":80", "")) >= 0
-          );
-        }
-      } else {
-        return false;
-      }
     },
     childEvent() {}
   }

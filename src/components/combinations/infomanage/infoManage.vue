@@ -86,7 +86,8 @@ import { showLoginBox } from "../../../common/js/request";
 //引入portal处理公共类
 import {
   getRootUrl,
-  isIportalProxyServiceUrl
+  isIportalProxyServiceUrl,
+  getHostName
 } from "../../../common/js/portalTools";
 export default {
   name: "infoManage",
@@ -381,15 +382,15 @@ export default {
           realspaceUrl,
           serviceProxy
         );
-        let config = { withCredentials: withCredentials };
-        let promise = null;
-        if (withCredentials) {
-          // scene.customRequestHeaders = { withCredentials: withCredentials };
-          promise = viewer.scene.open(realspaceUrl, null, config);
-        } else {
-          promise = viewer.scene.open(realspaceUrl);
-        }
 
+        if (withCredentials) {
+          let ip = getHostName(realspaceUrl);
+          if (!Cesium.TrustedServers.contains("http://"+ip+"/"+serviceProxy.port)) {
+            Cesium.TrustedServers.add(ip, serviceProxy.port);
+          }
+        }       
+
+        let promise = viewer.scene.open(realspaceUrl);
         Cesium.when(promise, function(layers) {
           //console.log(layers);
         });

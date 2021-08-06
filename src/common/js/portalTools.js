@@ -40,3 +40,20 @@ export function isIportalProxyServiceUrl(serviceUrl, serviceProxy) {
     return false;
   }
 }
+
+//获取ip或者域名
+export function getHostName(serviceUrl) {
+  // ''http://localhost:8195/portalproxy/iserver/services/3D-ifc/rest/realspace''
+  // http://localhost/portalproxy/iserver/services/3D-ifc/rest/realspace'
+  let array = serviceUrl.split('://');
+  let index = array[1].indexOf(':');
+  let ip = '';
+  if (index < 0) {
+    let array2 = array[1].split('/');
+    ip = array2[0];
+  } else {
+    let array3 = array[1].split(':');
+    ip = array3[0];
+  }
+  return ip;
+}
