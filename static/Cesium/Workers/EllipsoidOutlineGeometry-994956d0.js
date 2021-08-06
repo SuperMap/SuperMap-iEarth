@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './ComponentDatatype-5862616f', './GeometryAttribute-1ba9a4f7', './PrimitiveType-97893bc7', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './arrayFill-9766fb2e', './GeometryOffsetAttribute-999fc023'], function (exports, when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, ComponentDatatype, GeometryAttribute, PrimitiveType, GeometryAttributes, IndexDatatype, arrayFill, GeometryOffsetAttribute) { 'use strict';
+define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './ComponentDatatype-5862616f', './GeometryAttribute-773da12d', './PrimitiveType-97893bc7', './GeometryAttributes-aacecde6', './IndexDatatype-9435b55f', './arrayFill-9766fb2e', './GeometryOffsetAttribute-999fc023'], function (exports, when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, ComponentDatatype, GeometryAttribute, PrimitiveType, GeometryAttributes, IndexDatatype, arrayFill, GeometryOffsetAttribute) { 'use strict';
 
     var defaultRadii = new Cartographic.Cartesian3(1.0, 1.0, 1.0);
         var cos = Math.cos;

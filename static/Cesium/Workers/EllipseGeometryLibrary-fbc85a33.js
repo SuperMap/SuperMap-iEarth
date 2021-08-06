@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './Math-61ede240', './Cartographic-f2a06374', './BoundingSphere-d018a565', './Transforms-04dd01bc'], function (exports, _Math, Cartographic, BoundingSphere, Transforms) { 'use strict';
+define(['exports', './Math-61ede240', './Cartographic-f2a06374', './BoundingSphere-d018a565', './Transforms-f77c92da'], function (exports, _Math, Cartographic, BoundingSphere, Transforms) { 'use strict';
 
     var EllipseGeometryLibrary = {};
 

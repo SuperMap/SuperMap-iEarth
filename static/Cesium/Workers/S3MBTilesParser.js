@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './buildModuleUrl-f330cb27', './IndexDatatype-9435b55f', './createTaskProcessorWorker', './arrayFill-9766fb2e', './BoundingRectangle-5c75c80b', './Color-69f1845f', './pako_inflate-8ea163f9', './S3MCompressType-9eb038c0', './PixelFormat-e6d821ed', './unzip-9ad5f9b4'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, buildModuleUrl, IndexDatatype, createTaskProcessorWorker, arrayFill, BoundingRectangle, Color, pako_inflate, S3MCompressType, PixelFormat, unzip) { 'use strict';
+define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './PrimitiveType-97893bc7', './FeatureDetection-7bd32c34', './buildModuleUrl-392763e2', './IndexDatatype-9435b55f', './createTaskProcessorWorker', './arrayFill-9766fb2e', './BoundingRectangle-5c75c80b', './Color-69f1845f', './pako_inflate-8ea163f9', './S3MCompressType-8157e6e2', './unzip-9ad5f9b4', './PixelFormat-e6d821ed'], function (when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, WebGLConstants, ComponentDatatype, PrimitiveType, FeatureDetection, buildModuleUrl, IndexDatatype, createTaskProcessorWorker, arrayFill, BoundingRectangle, Color, pako_inflate, S3MCompressType, unzip, PixelFormat) { 'use strict';
 
     /**
          * Create a shallow copy of an array from begin to end.
@@ -1746,7 +1746,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
             if(isRoot){
                 rootInfo = rootMap[curTextureName] = {};
             }
-            else {
+            else{
                 var parent = ancestorMap[curTextureName];
                 rootName = parent;
                 while(when.defined(parent)){
@@ -1770,7 +1770,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographi
                     if(!when.defined(rootInfo[firstName])){
                         rootInfo[firstName] = j - decream;
                     }
-                    else {
+                    else{
                         decream++;
                     }
                 }

@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './PrimitiveType-97893bc7', './Transforms-04dd01bc'], function (exports, when, Check, Cartographic, Cartesian2, BoundingSphere, PrimitiveType, Transforms) { 'use strict';
+define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './PrimitiveType-97893bc7', './Transforms-f77c92da'], function (exports, when, Check, Cartographic, Cartesian2, BoundingSphere, PrimitiveType, Transforms) { 'use strict';
 
     /**
          * @private

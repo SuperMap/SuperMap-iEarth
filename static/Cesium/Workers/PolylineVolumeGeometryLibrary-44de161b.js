@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './Transforms-04dd01bc', './EllipsoidTangentPlane-0bf9253e', './PolylinePipeline-f937854b'], function (exports, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, Transforms, EllipsoidTangentPlane, PolylinePipeline) { 'use strict';
+define(['exports', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './Transforms-f77c92da', './EllipsoidTangentPlane-e82c480a', './PolylinePipeline-f937854b'], function (exports, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, Transforms, EllipsoidTangentPlane, PolylinePipeline) { 'use strict';
 
     /**
          * Style options for corners.

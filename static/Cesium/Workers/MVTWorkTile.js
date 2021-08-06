@@ -18436,7 +18436,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         if(subclasses[layer.type]){
             return new subclasses[layer.type](layer);
         }
-        else {
+        else{
             return null;
         }
     }

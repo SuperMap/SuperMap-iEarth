@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './Transforms-04dd01bc', './IntersectionTests-813bb943', './Plane-aa6c3ce5'], function (exports, when, Check, Cartographic, Cartesian2, BoundingSphere, Cartesian4, Transforms, IntersectionTests, Plane) { 'use strict';
+define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './Transforms-f77c92da', './IntersectionTests-813bb943', './Plane-aa6c3ce5'], function (exports, when, Check, Cartographic, Cartesian2, BoundingSphere, Cartesian4, Transforms, IntersectionTests, Plane) { 'use strict';
 
     /**
          * Creates an instance of an AxisAlignedBoundingBox from the minimum and maximum points along the x, y, and z axes.

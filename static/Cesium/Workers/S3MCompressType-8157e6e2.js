@@ -519,6 +519,17 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
         }
     };
 
+    var VertexCompressOptions = {
+        SVC_Vertex : 1,	// 顶点带压缩
+        SVC_Normal : 2,	// 法线带压缩
+        SVC_VertexColor : 4, // 顶点颜色带压缩
+        SVC_SecondColor	: 8, // 顶点颜色带压缩
+        SVC_TexutreCoord : 16, // 纹理坐标带压缩
+        SVC_TexutreCoordIsW	: 32 // 纹理坐标存储的是W位信息
+    };
+
+    var VertexCompressOption = Object.freeze(VertexCompressOptions);
+
     var DATAFILETYPE = {
         OSGBFile : 0,
         OSGBCacheFile : 1,
@@ -540,17 +551,6 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
     };
 
     var DATAFILETYPE$1 = Object.freeze(DATAFILETYPE);
-
-    var VertexCompressOptions = {
-        SVC_Vertex : 1,	// 顶点带压缩
-        SVC_Normal : 2,	// 法线带压缩
-        SVC_VertexColor : 4, // 顶点颜色带压缩
-        SVC_SecondColor	: 8, // 顶点颜色带压缩
-        SVC_TexutreCoord : 16, // 纹理坐标带压缩
-        SVC_TexutreCoordIsW	: 32 // 纹理坐标存储的是W位信息
-    };
-
-    var VertexCompressOption = Object.freeze(VertexCompressOptions);
 
     function S3MVertexPackage() {
     }
@@ -584,7 +584,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             minVertex = new Cartographic.Cartesian3(vertexPackage.minVerticesValue.x, vertexPackage.minVerticesValue.y, vertexPackage.minVerticesValue.z);
             vertexTypedArray = new Uint16Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 2);
         }
-        else {
+        else{
             vertexTypedArray = new Float32Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 4);
         }
 
@@ -616,7 +616,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             minVertex = new Cartographic.Cartesian3(vertexPackage.minVerticesValue.x, vertexPackage.minVerticesValue.y, vertexPackage.minVerticesValue.z);
             vertexTypedArray = new Uint16Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 2);
         }
-        else {
+        else{
             vertexTypedArray = new Float32Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 4);
         }
 
@@ -647,7 +647,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             minVertex = new Cartographic.Cartesian3(vertexPackage.minVerticesValue.x, vertexPackage.minVerticesValue.y, vertexPackage.minVerticesValue.z);
             vertexTypedArray = new Uint16Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 2);
         }
-        else {
+        else{
             vertexTypedArray = new Float32Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 4);
         }
         var vertexArray = [];
@@ -686,7 +686,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             posHighTypedArray = getPosArrayForCompress(vertexPackage, pos);
             posLowTypedArray = getPosArrayForCompressTexCoord(vertexPackage, posLowAttr, 5);
         }
-        else {
+        else{
             posHighTypedArray = new Float32Array(positionAttr.typedArray.buffer, positionAttr.typedArray.byteOffset, positionAttr.typedArray.byteLength / 4);
             posLowTypedArray = new Float32Array(posLowAttr.typedArray.buffer, posLowAttr.typedArray.byteOffset, posLowAttr.typedArray.byteLength / 4);
         }
@@ -717,7 +717,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
         else if(fileType == DATAFILETYPE$1.ClampGroundAndObjectLineCache){
             bSphere = calcBoundingSphereForClampGroundAndObjectLineCache(vertexPackage);
         }
-        else {
+        else{
             bSphere = calcBoundingSphereForNormal(vertexPackage);
         }
         return bSphere;
@@ -738,7 +738,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
         else if(fileType == DATAFILETYPE$1.ClampGroundAndObjectLineCache){
             bSphere = calcBoundingSphereForClampGroundAndObjectLineCache(vertexPackage);
         }
-        else {
+        else{
             bSphere = calcBoundingSphereForNormal(vertexPackage);
         }
         BoundingSphere.BoundingSphere.transform(bSphere, modelMatrix, bSphere);
@@ -774,7 +774,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
         if( indexPackage.indexType === 0){
             indicesArray = new Uint16Array(indexPackage.indicesCount);
         }
-        else {
+        else{
             indicesArray = new Uint32Array(indexPackage.indicesCount);
         }
 
@@ -880,7 +880,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
                 indicesArray = new Uint16Array(indexPackage.indicesTypedArray.buffer, indexPackage.indicesTypedArray.byteOffset,
                     indexPackage.indicesTypedArray.byteLength / 2);
             }
-            else {
+            else{
                 indicesArray = new Uint32Array(indexPackage.indicesTypedArray.buffer, indexPackage.indicesTypedArray.byteOffset,
                     indexPackage.indicesTypedArray.byteLength / 4);
             }
@@ -936,7 +936,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             nVertexDim = 3;
             posArray = getPosArrayForCompress(vertexPackage, pos);
         }
-        else {
+        else{
             posArray = new Float32Array(pos.typedArray.buffer, pos.typedArray.byteOffset, pos.typedArray.byteLength / 4);
         }
 
@@ -1880,7 +1880,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
                 faceNormal1.z = faceNormal0.z;
                 edge.cosAngle =  Cartographic.Cartesian3.dot(faceNormal0, faceNormal1);
             }
-            else {
+            else{
                 faceNormal0.x = faceNormalArray[3 * neighborFaceIndex0];
                 faceNormal0.y = faceNormalArray[3 * neighborFaceIndex0 + 1];
                 faceNormal0.z = faceNormalArray[3 * neighborFaceIndex0 + 2];
@@ -1912,7 +1912,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
 
                 regularEdgeLengths.push(edgeLength);
             }
-            else {
+            else{
                 if(isSilhouetteEdge(edge, anglePlanar)){
                     silhouetteBuffer[silhouetteWritePos++] = edge.position0.x;
                     silhouetteBuffer[silhouetteWritePos++] = edge.position0.y;
@@ -1974,7 +1974,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             indices = new Uint16Array(indexPackage.indicesTypedArray.buffer, indexPackage.indicesTypedArray.byteOffset,
                 indexPackage.indicesTypedArray.byteLength / 2);
         }
-        else {
+        else{
             indices = new Uint32Array(indexPackage.indicesTypedArray.buffer, indexPackage.indicesTypedArray.byteOffset,
                 indexPackage.indicesTypedArray.byteLength / 4);
         }
@@ -2243,7 +2243,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
             nVertexDim = 3;
             vertices = getPosArrayForCompress$1(vertexPackage, posAttr);
         }
-        else {
+        else{
             vertices = new Float32Array(posAttr.typedArray.buffer, posAttr.typedArray.byteOffset, posAttr.typedArray.byteLength / 4);
         }
 
@@ -2263,7 +2263,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
         if(isCompress){
             verticesBuffer = vertices.buffer;
         }
-        else {
+        else{
             verticesBuffer = totalBuffer.slice(posAttr.typedArray.byteOffset, posAttr.typedArray.byteOffset + posAttr.typedArray.byteLength);
         }
         var newVerticesAndIndices = meshProcessing.deduplicate(verticesBuffer, nVertexDim);
@@ -2378,7 +2378,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Cartographic-f2a063
                 regularBuffer.push(scratchN0.y);
                 regularBuffer.push(scratchN0.z);
             }
-            else {
+            else{
                 Cartographic.Cartesian3.subtract(scratchV1$1, scratchV0$1, scratchN0);
                 Cartographic.Cartesian3.subtract(scratchV2$1, scratchV0$1, scratchN1);
                 Cartographic.Cartesian3.cross(scratchN0, scratchN1, scratchN0);

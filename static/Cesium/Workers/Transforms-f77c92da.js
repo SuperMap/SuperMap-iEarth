@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './FeatureDetection-7bd32c34', './buildModuleUrl-f330cb27'], function (exports, when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, FeatureDetection, buildModuleUrl) { 'use strict';
+define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './RuntimeError-ba10bc3e', './FeatureDetection-7bd32c34', './buildModuleUrl-392763e2'], function (exports, when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, RuntimeError, FeatureDetection, buildModuleUrl) { 'use strict';
 
     /**
          * A set of 4-dimensional coordinates used to represent rotation in 3-dimensional space.
@@ -4426,7 +4426,7 @@ define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './
                 if(Math.abs(Cartographic.Cartesian3.dot(dir, Cartographic.Cartesian3.UNIT_Y)) < 1.0){
                     up = Cartographic.Cartesian3.clone(Cartographic.Cartesian3.UNIT_Y, up);
                 }
-                else {
+                else{
                     up = Cartographic.Cartesian3.clone(Cartographic.Cartesian3.UNIT_Z, up);
                 }
             }

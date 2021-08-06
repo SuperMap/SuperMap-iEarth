@@ -44,7 +44,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
                 filterArray.push(condition);
             }
         }
-        else {
+        else{
             for (var fi = 0; fi < filter.length; fi++) {
                 if (!(filter[fi] instanceof Array)) {
                     continue;
@@ -94,7 +94,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
         if (isOperator(filterArray[0])) {
             filterOperator = filterArray[0];
         }
-        else {
+        else{
             return null;
         }
 
@@ -337,7 +337,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             circleStyle.setImage(iconImg);
             return circleStyle;
         }
-        else {
+        else{
             return this.getStyle();
         }
     };
@@ -386,7 +386,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             circleStyle.setImage(iconImg);
             return circleStyle;
         }
-        else {
+        else{
             var scratchIDFill = new openlayer.style.Fill({
                 color: ""
             });
@@ -554,7 +554,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if(this._useOffscreen){
                 canvas = new OffscreenCanvas(spriteImage.width, spriteImage.height);
             }
-            else {
+            else{
                 canvas = document.createElement('canvas');
                 canvas.width = spriteImage.width;
                 canvas.height = spriteImage.height;
@@ -659,7 +659,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
                             style : textStyle
                         });
                     }
-                    else {
+                    else{
                         if(renderColor){
                             ol.renderer.vector.renderFeature_(replayGroup, feature, textStyle, -1);
                         }
@@ -674,7 +674,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
                         });
                         continue;
                     }
-                    else {
+                    else{
                         this._mvtStyleClass.setIconImageForStyle(spriteImageDatas, style, layerById.mapboxStyleLayer);
                     }
                 }
@@ -768,7 +768,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if(when.defined(feature.lineWidth)){
                 feature.lineWidth = Math.max(feature.lineWidth, styleLineWidth);
             }
-            else {
+            else{
                 feature.lineWidth = styleLineWidth;
             }
         }
@@ -786,7 +786,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if(when.defined(feature.radius)){
                 feature.radius = Math.max(feature.radius, radius);
             }
-            else {
+            else{
                 feature.radius = radius;
             }
         }
@@ -2102,7 +2102,7 @@ define(['./when-8d13db60', './Check-70bec281', './Math-61ede240', './FeatureDete
             if (opt_width && opt_height) {
                 canvas = new OffscreenCanvas(opt_width, opt_height);
             }
-            else {
+            else{
                 canvas = new OffscreenCanvas(1, 1);
             }
             return canvas.getContext('2d');

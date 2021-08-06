@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './ComponentDatatype-5862616f', './GeometryAttribute-1ba9a4f7', './PrimitiveType-97893bc7', './Transforms-04dd01bc', './GeometryAttributes-aacecde6', './GeometryPipeline-4dfb7307', './IndexDatatype-9435b55f', './arrayRemoveDuplicates-2869246d', './ArcType-66bc286a', './EllipsoidRhumbLine-87f26cac', './PolygonPipeline-45b1509f'], function (exports, when, _Math, Cartographic, Cartesian2, BoundingSphere, ComponentDatatype, GeometryAttribute, PrimitiveType, Transforms, GeometryAttributes, GeometryPipeline, IndexDatatype, arrayRemoveDuplicates, ArcType, EllipsoidRhumbLine, PolygonPipeline) { 'use strict';
+define(['exports', './when-8d13db60', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './ComponentDatatype-5862616f', './GeometryAttribute-773da12d', './PrimitiveType-97893bc7', './Transforms-f77c92da', './GeometryAttributes-aacecde6', './GeometryPipeline-cbdfe22f', './IndexDatatype-9435b55f', './arrayRemoveDuplicates-2869246d', './ArcType-66bc286a', './EllipsoidRhumbLine-87f26cac', './PolygonPipeline-6175e66b'], function (exports, when, _Math, Cartographic, Cartesian2, BoundingSphere, ComponentDatatype, GeometryAttribute, PrimitiveType, Transforms, GeometryAttributes, GeometryPipeline, IndexDatatype, arrayRemoveDuplicates, ArcType, EllipsoidRhumbLine, PolygonPipeline) { 'use strict';
 
     /**
          * A queue that can enqueue items at the end, and dequeue items from the front.

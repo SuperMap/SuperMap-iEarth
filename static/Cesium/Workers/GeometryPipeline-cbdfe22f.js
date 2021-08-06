@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './ComponentDatatype-5862616f', './GeometryAttribute-1ba9a4f7', './PrimitiveType-97893bc7', './AttributeCompression-c177f997', './EncodedCartesian3-a07a0929', './IndexDatatype-9435b55f', './IntersectionTests-813bb943', './Plane-aa6c3ce5'], function (exports, when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, ComponentDatatype, GeometryAttribute, PrimitiveType, AttributeCompression, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane) { 'use strict';
+define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './BoundingSphere-d018a565', './Cartesian4-5af5bb24', './ComponentDatatype-5862616f', './GeometryAttribute-773da12d', './PrimitiveType-97893bc7', './AttributeCompression-c177f997', './EncodedCartesian3-a07a0929', './IndexDatatype-9435b55f', './IntersectionTests-813bb943', './Plane-aa6c3ce5'], function (exports, when, Check, _Math, Cartographic, Cartesian2, BoundingSphere, Cartesian4, ComponentDatatype, GeometryAttribute, PrimitiveType, AttributeCompression, EncodedCartesian3, IndexDatatype, IntersectionTests, Plane) { 'use strict';
 
     var scratchCartesian1 = new Cartographic.Cartesian3();
         var scratchCartesian2 = new Cartographic.Cartesian3();

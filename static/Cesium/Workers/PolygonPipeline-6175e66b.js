@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-1ba9a4f7', './PrimitiveType-97893bc7', './EllipsoidRhumbLine-87f26cac', './earcut-2.2.1-b404d9e6'], function (exports, when, Check, _Math, Cartographic, Cartesian2, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, EllipsoidRhumbLine, earcut2_2_1) { 'use strict';
+define(['exports', './when-8d13db60', './Check-70bec281', './Math-61ede240', './Cartographic-f2a06374', './Cartesian2-16a61632', './WebGLConstants-4c11ee5f', './ComponentDatatype-5862616f', './GeometryAttribute-773da12d', './PrimitiveType-97893bc7', './EllipsoidRhumbLine-87f26cac', './earcut-2.2.1-b404d9e6'], function (exports, when, Check, _Math, Cartographic, Cartesian2, WebGLConstants, ComponentDatatype, GeometryAttribute, PrimitiveType, EllipsoidRhumbLine, earcut2_2_1) { 'use strict';
 
     /**
          * Winding order defines the order of vertices for a triangle to be considered front-facing.

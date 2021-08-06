@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['exports', './when-8d13db60', './Math-61ede240', './Cartographic-f2a06374', './BoundingSphere-d018a565', './Transforms-04dd01bc', './EllipsoidTangentPlane-0bf9253e', './PolygonPipeline-45b1509f', './PolylinePipeline-f937854b'], function (exports, when, _Math, Cartographic, BoundingSphere, Transforms, EllipsoidTangentPlane, PolygonPipeline, PolylinePipeline) { 'use strict';
+define(['exports', './when-8d13db60', './Math-61ede240', './Cartographic-f2a06374', './BoundingSphere-d018a565', './Transforms-f77c92da', './EllipsoidTangentPlane-e82c480a', './PolygonPipeline-6175e66b', './PolylinePipeline-f937854b'], function (exports, when, _Math, Cartographic, BoundingSphere, Transforms, EllipsoidTangentPlane, PolygonPipeline, PolylinePipeline) { 'use strict';
 
     /**
          * private
