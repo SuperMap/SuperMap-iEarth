@@ -7,15 +7,18 @@
       @on-select-change="handleSelectChange"
       @on-check-change="handleCheckChange"
       ref="tree1"
-      :title = Resource.RightClickSetLayerProperties
+      :title="Resource.RightClickSetLayerProperties"
     >
       <template slot="contextMenu">
         <DropdownItem @click.native="handleContextMenuEdit" v-show="hid">{{Resource.layerOptions}}</DropdownItem>
-<!--        <DropdownItem @click.native="raise" v-show="ImgHid">{{Resource.MoveUpOneLevel}}</DropdownItem>-->
-<!--        <DropdownItem @click.native ="lower" v-show="ImgHid">{{Resource.MoveDownOneLevel}}</DropdownItem>-->
-<!--        <DropdownItem @click.native="raiseToTop" v-show="ImgHid">{{Resource.MoveToTheTop}}</DropdownItem>-->
-<!--        <DropdownItem @click.native="lowerToBottom" v-show="ImgHid">{{Resource.MoveToTheBottom}}</DropdownItem>-->
-        <DropdownItem @click.native="handleContextMenuDelete" style="color: #ed4014">{{Resource.DelLayer}}</DropdownItem>
+        <!--        <DropdownItem @click.native="raise" v-show="ImgHid">{{Resource.MoveUpOneLevel}}</DropdownItem>-->
+        <!--        <DropdownItem @click.native ="lower" v-show="ImgHid">{{Resource.MoveDownOneLevel}}</DropdownItem>-->
+        <!--        <DropdownItem @click.native="raiseToTop" v-show="ImgHid">{{Resource.MoveToTheTop}}</DropdownItem>-->
+        <!--        <DropdownItem @click.native="lowerToBottom" v-show="ImgHid">{{Resource.MoveToTheBottom}}</DropdownItem>-->
+        <DropdownItem
+          @click.native="handleContextMenuDelete"
+          style="color: #ed4014"
+        >{{Resource.DelLayer}}</DropdownItem>
       </template>
     </Tree>
   </div>
@@ -25,7 +28,7 @@
 import Config from "@/common/js/webServeConfig.js";
 import otherTerrainAndImageModels from "../../../data/otherTerrainAndImageData.js";
 import BaseLayerModels from "../../../data/BaseLayerData.js";
-import BaseTerrainModels from"../../../data/BaseTerrainData.js";
+import BaseTerrainModels from "../../../data/BaseTerrainData.js";
 let layersManager;
 export default {
   name: "LayerManage",
@@ -33,27 +36,27 @@ export default {
     return {
       sharedState: store.state,
       hid: true,
-      ImgHid:false,  //影响图层移动默认不显示
+      ImgHid: false, //影响图层移动默认不显示
       S3MLayersObj: {
         title: Resource.s3mLayer,
         expand: true,
         checked: true,
         type: "S3M",
-        children: [],
+        children: []
       },
       imgLayersObj: {
         title: Resource.imageryLayer,
         expand: true,
         checked: true,
         type: "IMG",
-        children: [],
+        children: []
       },
       TerrainLayersObj: {
         title: Resource.terrainLayer,
         expand: true,
         checked: true,
         type: "TERRAIN",
-        children: [],
+        children: []
       },
 
       TreeDatas: [
@@ -61,43 +64,42 @@ export default {
           title: Resource.layerList,
           expand: true,
           children: [],
-          type: "ROOT",
-        },
+          type: "ROOT"
+        }
       ],
       contextData: null,
       hideS3mNames: [],
       hideImgNames: [],
       hideTerrainNames: [],
-      rightContextMenu:false
+      rightContextMenu: false
     };
   },
   computed: {
-    LayerManageShow: function () {
+    LayerManageShow: function() {
       return this.sharedState.toolBar[0];
     },
-    imgLayers: function () {
+    imgLayers: function() {
       return this.sharedState.imgLayerManage;
     },
-    terrainLayers: function () {
+    terrainLayers: function() {
       return this.sharedState.terrainLayerManage;
     },
-    S3MLayers: function () {
+    S3MLayers: function() {
       return this.sharedState.S3MLayerManage;
-    },
+    }
   },
 
   methods: {
-
     //判断底图面板里面是否有影像被选中
-    judgeIsChooseImagery(name){
-      for(let j=0;j<this.BaseLayers.length;j++){
-        if(this.BaseLayers[j].name === name){
+    judgeIsChooseImagery(name) {
+      for (let j = 0; j < this.BaseLayers.length; j++) {
+        if (this.BaseLayers[j].name === name) {
           this.BaseLayers[j].chooseType = false;
           return;
         }
       }
-      for(let key in this.otherTerrainLayers){
-        if(this.otherTerrainLayers[key].imagery.name=== name){
+      for (let key in this.otherTerrainLayers) {
+        if (this.otherTerrainLayers[key].imagery.name === name) {
           this.otherTerrainLayers[key].imagery.chooseType = false;
         }
       }
@@ -116,9 +118,9 @@ export default {
           break;
         case "S3M":
           let ly = viewer.scene.layers.find(check.title);
-          if (check.title == Resource.s3mLayer ) {
+          if (check.title == Resource.s3mLayer) {
             let layers = viewer.scene.layers.layerQueue;
-            layers.forEach((i) => {
+            layers.forEach(i => {
               i._visible = check.checked;
             });
             return;
@@ -155,14 +157,14 @@ export default {
     handleContextMenu(data) {
       this.contextData = data;
       if (data.type == "S3M") {
-          this.hid = true;
-          this.ImgHid = false;
-      } else if(data.type == "IMG"){
-          this.hid = false;
-          this.ImgHid = true;
-      }else{
-          this.hid = false;
-          this.ImgHid = false;
+        this.hid = true;
+        this.ImgHid = false;
+      } else if (data.type == "IMG") {
+        this.hid = false;
+        this.ImgHid = true;
+      } else {
+        this.hid = false;
+        this.ImgHid = false;
       }
     },
     // 鼠标右键查看图层属性
@@ -180,7 +182,7 @@ export default {
           store.setS3MLayerManage(viewer.scene.layers.layerQueue.length);
           //   图层加载状态改变，即删除后可加载。
           let name = Config.TitleKeyMap[selectedObj.title];
-          iEarth_resource_services.content.some((item) => {
+          iEarth_resource_services.content.some(item => {
             if (item.sceneName == name) {
               item.state = 0;
               return true;
@@ -193,7 +195,7 @@ export default {
           store.setImgLayerManage(viewer.imageryLayers._layers.length);
           let name2 = Config.TitleKeyMap[selectedObj.title];
           this.judgeIsChooseImagery(selectedObj.title);
-          iEarth_resource_services.content.some((item) => {
+          iEarth_resource_services.content.some(item => {
             if (item.sceneName == name2) {
               item.state = 0;
               return true;
@@ -206,7 +208,7 @@ export default {
           this.rightContextMenu = true;
           store.setTerrainLayerManage(viewer.terrainProvider.tablename);
           let name3 = Config.TitleKeyMap[selectedObj.title];
-          iEarth_resource_services.content.some((item) => {
+          iEarth_resource_services.content.some(item => {
             if (item.sceneName == name3) {
               item.state = 0;
               return true;
@@ -231,32 +233,35 @@ export default {
     },
 
     //判断底图面板里面是否有地形被选中
-    judgeIsChooseTerrain(){
+    judgeIsChooseTerrain() {
       let index;
-      for(let m=0;m<this.BaseTerrainLayers.length;m++){
-        if(this.BaseTerrainLayers[m].chooseType){
+      for (let m = 0; m < this.BaseTerrainLayers.length; m++) {
+        if (this.BaseTerrainLayers[m].chooseType) {
           index = m;
           break;
         }
       }
-      for(let key in this.otherTerrainLayers){
-         if(this.otherTerrainLayers[key].terrain.chooseType){
-           index = this.otherTerrainLayers[key].terrain.index;
-         }
+      for (let key in this.otherTerrainLayers) {
+        if (this.otherTerrainLayers[key].terrain.chooseType) {
+          index = this.otherTerrainLayers[key].terrain.index;
+        }
       }
       return index;
     },
 
     //图层列表里面影像的名称修正
-    setImageryName(IMGlayer){
-      for(let i=0;i<this.BaseLayers.length;i++){
-        if(this.BaseLayers[i].chooseType){
-          if(this.imgLayersObj.children.length !== 0){
-            if(this.imgLayersObj.children[this.imgLayersObj.children.length-1].title !== this.BaseLayers[i].name){
+    setImageryName(IMGlayer) {
+      for (let i = 0; i < this.BaseLayers.length; i++) {
+        if (this.BaseLayers[i].chooseType) {
+          if (this.imgLayersObj.children.length !== 0) {
+            if (
+              this.imgLayersObj.children[this.imgLayersObj.children.length - 1]
+                .title !== this.BaseLayers[i].name
+            ) {
               IMGlayer.title = this.BaseLayers[i].name;
               break;
             }
-          }else{
+          } else {
             IMGlayer.title = this.BaseLayers[i].name;
             break;
           }
@@ -268,7 +273,7 @@ export default {
     hideLayers(nameArr, arr) {
       if (arr.length == 0) return;
       nameArr.length = 0; //置空
-      arr.forEach((item) => {
+      arr.forEach(item => {
         if (item.checked == false) {
           nameArr.push(item.title);
         }
@@ -295,7 +300,7 @@ export default {
             title: layer._name,
             checked: true,
             contextmenu: true,
-            type: "S3M",
+            type: "S3M"
           };
           if (this.hideS3mNames.includes(layer._name)) {
             S3Mlayer.checked = false;
@@ -336,32 +341,36 @@ export default {
             checked: true,
             contextmenu: true,
             type: "IMG",
-            id: index,
+            id: index
           };
-          if (layer._imageryProvider.tablename == "image") {
-            for(let key in _that.otherTerrainLayers){
-              if(_that.otherTerrainLayers[key].imagery.chooseType){
-                IMGlayer.title = _that.otherTerrainLayers[key].imagery.name;
-                if (_that.hideImgNames.includes(IMGlayer.title)) {
-                  IMGlayer.checked = false;
-                };
-                _that.imgLayersObj.children.unshift(IMGlayer);
-                return;
-              }
-            }
+          //存在图层名称
+          if (layer._imageryProvider.tablename) {
+            // for(let key in _that.otherTerrainLayers){
+            //   if(_that.otherTerrainLayers[key].imagery.chooseType){
+            //     IMGlayer.title = _that.otherTerrainLayers[key].imagery.name;
+            //     if (_that.hideImgNames.includes(IMGlayer.title)) {
+            //       IMGlayer.checked = false;
+            //     };
+            //     _that.imgLayersObj.children.unshift(IMGlayer);
+            //     return;
+            //   }
+            // }
+            // _that.setImageryName(IMGlayer);
+
+            IMGlayer.title = layer._imageryProvider.name;
+          } else {
+            //不存在，用底图的名称
             _that.setImageryName(IMGlayer);
-          }else{
-            _that.setImageryName(IMGlayer);
-          };
+          }
           if (_that.hideImgNames.includes(IMGlayer.title)) {
             IMGlayer.checked = false;
-          };
+          }
           _that.imgLayersObj.children.unshift(IMGlayer);
         });
         if (index !== false) {
           this.TreeDatas[0].children.splice(index, 1, this.imgLayersObj);
           return;
-        };
+        }
         this.TreeDatas[0].children.push(this.imgLayersObj);
       } else {
         setTimeout(() => {
@@ -377,40 +386,41 @@ export default {
       if (viewer) {
         let layers = viewer.terrainProvider;
         let layerIndex = this.judgeIsChooseTerrain();
-        if(Cesium.defined(layerIndex)){
-          if(layerIndex < this.BaseTerrainLayers.length){
+        if (Cesium.defined(layerIndex)) {
+          if (layerIndex < this.BaseTerrainLayers.length) {
             layers.tablename = this.BaseTerrainLayers[layerIndex].name;
-          }else{
+          } else {
             layers.tablename = this.otherTerrainLayers["6"]["terrain"].name;
+            // layers.tablename = viewer.terrainProvider.tablename;
           }
         }
         let index = this.judgeIsExist("TERRAIN"); //获取图层类型父级下标
         if (!layers.tablename && index === false) {
           return;
         }
-        if ( this.rightContextMenu || !layers.tablename) {
-            this.TreeDatas[0].children.splice(index, 1);
-            this.rightContextMenu = false;
-            if(layers.tablename && layerIndex < this.BaseTerrainLayers.length){
-              this.BaseTerrainLayers[layerIndex].chooseType = false;
-            }else{
-              for(let key in this.otherTerrainLayers){
-                this.otherTerrainLayers[key].terrain.chooseType = false;
-              }
+        if (this.rightContextMenu || !layers.tablename) {
+          this.TreeDatas[0].children.splice(index, 1);
+          this.rightContextMenu = false;
+          if (layers.tablename && layerIndex < this.BaseTerrainLayers.length) {
+            this.BaseTerrainLayers[layerIndex].chooseType = false;
+          } else {
+            for (let key in this.otherTerrainLayers) {
+              this.otherTerrainLayers[key].terrain.chooseType = false;
             }
-            layers.tablename = undefined;
-            return;
+          }
+          layers.tablename = undefined;
+          return;
         }
 
         this.TerrainLayersObj.children = [];
-        if(layers.tablename === "srtm_54_07%40zhufeng" ){
-           layers.tablename = "珠峰地形";
-        }
+        // if(layers.tablename === "srtm_54_07%40zhufeng" ){
+        //    layers.tablename = "珠峰地形";
+        // }
         let TerrainLayer = {
           title: layers.tablename,
           checked: true,
           contextmenu: true,
-          type: "TERRAIN",
+          type: "TERRAIN"
         };
         if (this.hideTerrainNames.includes(layers.tablename)) {
           TerrainLayer.checked = false;
@@ -428,7 +438,7 @@ export default {
       }
     },
 
-   // 相机飞到
+    // 相机飞到
     flyTo(scpName, check) {
       let cameraParam = Config.CAMERA_PARAM[scpName];
       if (cameraParam) {
@@ -441,9 +451,9 @@ export default {
           orientation: {
             heading: cameraParam.heading,
             pitch: cameraParam.pitch,
-            roll: cameraParam.roll,
+            roll: cameraParam.roll
           },
-          duration: 3,
+          duration: 3
         });
         return;
       } else {
@@ -474,7 +484,7 @@ export default {
       if (this.TreeDatas[0].children.length === 0) return;
       let S3MLayers = viewer.scene.layers.layerQueue;
       let ImgLayers = viewer.imageryLayers._layers;
-      S3MLayers.forEach((i) => {
+      S3MLayers.forEach(i => {
         i._visible = f;
       });
       ImgLayers.forEach((i, index) => {
@@ -490,31 +500,31 @@ export default {
     },
 
     //影像图层操作
-    raise(){
+    raise() {
       let imageryLayers = viewer.imageryLayers._layers;
       let ly = imageryLayers[this.contextData.id];
-      viewer.imageryLayers.raise(ly)
-      this.updataImgLayers()
+      viewer.imageryLayers.raise(ly);
+      this.updataImgLayers();
     },
-    lower(){
-    let imageryLayers = viewer.imageryLayers._layers;
-      let ly = imageryLayers[this.contextData.id];
-      viewer.imageryLayers.lower(ly)
-      this.updataImgLayers()
-    },
-    raiseToTop(){
+    lower() {
       let imageryLayers = viewer.imageryLayers._layers;
       let ly = imageryLayers[this.contextData.id];
-      viewer.imageryLayers.raiseToTop(ly)
-      this.updataImgLayers()
+      viewer.imageryLayers.lower(ly);
+      this.updataImgLayers();
     },
-    lowerToBottom(){
+    raiseToTop() {
       let imageryLayers = viewer.imageryLayers._layers;
       let ly = imageryLayers[this.contextData.id];
-      viewer.imageryLayers.lowerToBottom(ly)
-      this.updataImgLayers()
+      viewer.imageryLayers.raiseToTop(ly);
+      this.updataImgLayers();
     },
-    initLayers(){
+    lowerToBottom() {
+      let imageryLayers = viewer.imageryLayers._layers;
+      let ly = imageryLayers[this.contextData.id];
+      viewer.imageryLayers.lowerToBottom(ly);
+      this.updataImgLayers();
+    },
+    initLayers() {
       this.updataS3MLayer();
       this.updataImgLayers();
       this.updataTerrainLayers();
@@ -522,37 +532,37 @@ export default {
   },
 
   watch: {
-    LayerManageShow: function (val) {
+    LayerManageShow: function(val) {
       this.BaseTerrainLayers = BaseTerrainModels;
       this.BaseLayers = BaseLayerModels;
       this.otherTerrainLayers = otherTerrainAndImageModels;
       let that = this;
       //监听场景内的图层变化: val:true，监听打开;val:false,监听关闭
-      if(val){
-        layersManager = setInterval(()=>{
+      if (val) {
+        layersManager = setInterval(() => {
           that.initLayers();
-        },100);
-      }else{
+        }, 100);
+      } else {
         clearInterval(layersManager);
         layersManager = undefined;
       }
     },
-    imgLayers: function (val) {
+    imgLayers: function(val) {
       if (this.LayerManageShow) {
         this.updataImgLayers();
       }
     },
-    terrainLayers: function (val) {
+    terrainLayers: function(val) {
       if (this.LayerManageShow) {
         this.updataTerrainLayers();
       }
     },
-    S3MLayers: function (val) {
+    S3MLayers: function(val) {
       if (this.LayerManageShow) {
         this.updataS3MLayer();
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
