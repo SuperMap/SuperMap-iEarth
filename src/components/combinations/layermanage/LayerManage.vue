@@ -390,8 +390,8 @@ export default {
           if (layerIndex < this.BaseTerrainLayers.length) {
             layers.tablename = this.BaseTerrainLayers[layerIndex].name;
           } else {
-            layers.tablename = this.otherTerrainLayers["6"]["terrain"].name;
-            // layers.tablename = viewer.terrainProvider.tablename;
+            // layers.tablename = this.otherTerrainLayers["6"]["terrain"].name;
+            layers.tablename = viewer.terrainProvider.tablename;
           }
         }
         let index = this.judgeIsExist("TERRAIN"); //获取图层类型父级下标
@@ -471,7 +471,20 @@ export default {
             }
             break;
           case "TERRAIN":
-            return;
+            //飞行定位到地形范围
+            let terrainProvider = viewer.terrainProvider;
+            terrainProvider.readyPromise.then(() => {
+              const bounds = terrainProvider._bounds;
+              const destination = new window.Cesium.Rectangle.fromDegrees(
+                bounds.west,
+                bounds.south,
+                bounds.east,
+                bounds.north
+              );
+              scene.camera.flyTo({
+                destination
+              });
+            });
             break;
           default:
             null;
@@ -535,17 +548,20 @@ export default {
     LayerManageShow: function(val) {
       this.BaseTerrainLayers = BaseTerrainModels;
       this.BaseLayers = BaseLayerModels;
-      this.otherTerrainLayers = otherTerrainAndImageModels;
+      // this.otherTerrainLayers = otherTerrainAndImageModels;
       let that = this;
-      //监听场景内的图层变化: val:true，监听打开;val:false,监听关闭
-      if (val) {
-        layersManager = setInterval(() => {
-          that.initLayers();
-        }, 100);
-      } else {
-        clearInterval(layersManager);
-        layersManager = undefined;
-      }
+
+      that.initLayers();
+
+      // //监听场景内的图层变化: val:true，监听打开;val:false,监听关闭
+      // if (val) {
+      //   layersManager = setInterval(() => {
+      //     that.initLayers();
+      //   }, 100);
+      // } else {
+      //   clearInterval(layersManager);
+      //   layersManager = undefined;
+      // }
     },
     imgLayers: function(val) {
       if (this.LayerManageShow) {
