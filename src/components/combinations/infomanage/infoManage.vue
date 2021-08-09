@@ -1,16 +1,22 @@
 <template>
-  <div class="infoManage" v-show="infoManageShow">
-    <div id="infoManageLogin" class="infoManageLogin" @click="show" :title="switchAccount">
-      <span class="iconfont icondenglu infoManagetb"></span>
+  <div style="">
+    <div class="infoManage" v-show="infoManageShow">
+      <div id="infoManageLogin" class="infoManageLogin" @click="show" :title="switchAccount">
+        <span class="iconfont icondenglu infoManagetb"></span>
+      </div>
+      <div
+        id="storageInfo"
+        class="storageScene"
+        @click="IstorageScene"
+        :title="Resource.storageScene"
+      >
+        <span class="iconfont icona-baocun1 infoManagetb"></span>
+      </div>
+
+      <div id="storageFailed">{{Resource.storageFailed}}</div>
+      <div id="noPermission">{{Resource.noPermission}}</div>
     </div>
-    <div
-      id="storageInfo"
-      class="storageScene"
-      @click="IstorageScene"
-      :title="Resource.storageScene"
-    >
-      <span class="iconfont icona-baocun1 infoManagetb"></span>
-    </div>
+
     <div id="storageScene" class="storageScene-panel">
       <div class="sm-panel-header">
         <span class="title-txt titleColor">{{Resource.sceneStorage}}</span>
@@ -75,8 +81,6 @@
         >{{Resource.save}}</button>
       </div>
     </div>
-    <div id="storageFailed">{{Resource.storageFailed}}</div>
-    <div id="noPermission">{{Resource.noPermission}}</div>
   </div>
 </template>
 
@@ -522,7 +526,11 @@ export default {
         let s3mTypeAndUrl = {};
         let layer = viewer.scene.layers._layerQueue[i];
         s3mTypeAndUrl["type"] = "S3MTilesLayer";
-        let layerUrl = layer._baseUri.scheme + '://' + layer._baseUri.authority + layer._baseUri.path;
+        let layerUrl =
+          layer._baseUri.scheme +
+          "://" +
+          layer._baseUri.authority +
+          layer._baseUri.path;
         if (layerUrl) {
           layerUrl = this.getUrl(layerUrl);
           s3mTypeAndUrl["url"] = layerUrl;

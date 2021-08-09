@@ -143,17 +143,19 @@
 .storageScene{
   display: block;
 }
-.storageScene-panel{
-   width:800px;
-   display:inline-block;
-   position:absolute;
-   right:550px;
-   top:-200px;
-   z-index:99;
-   cursor:pointer;
-   background-color:rgba(38, 38, 38, 0.75);
-   border:1px solid #526f82;
-   height:400px;
+.storageScene-panel {
+  // width: 800px;
+  width: 40%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  margin-left: -20%;
+  top: 20%;
+  z-index: 99;
+  cursor: pointer;
+  background-color: rgba(38, 38, 38, 0.75);
+  border: 1px solid #526f82;
+  height: 400px;
 }
 
 .half{
