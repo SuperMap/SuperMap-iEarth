@@ -30,3 +30,17 @@
 .ivu-tree-children .ivu-tree-title-selected, .ivu-tree-title-selected:hover{
   background-color: rgb(64, 89, 131);
 }
+
+
+/* 修改iview插件的提示 字体颜色，防止被覆盖 */
+.ivu-message{
+  color: black;
+}
+
+// .ivu-message{
+//   div{
+//     div{
+//       background-color: #242323;
+//     }
+//   }
+// }
