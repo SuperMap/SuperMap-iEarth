@@ -151,6 +151,22 @@ export default {
         url: LayerURL,
         isSct: true //地形服务源自SuperMap iServer发布时需设置isSct为true
       });
+
+      //飞行定位到地形范围
+      let terrainProvider = viewer.terrainProvider;
+      terrainProvider.readyPromise.then(() => {
+        const bounds = terrainProvider._bounds;
+        const destination = new window.Cesium.Rectangle.fromDegrees(
+          bounds.west,
+          bounds.south,
+          bounds.east,
+          bounds.north
+        );
+        viewer.scene.camera.flyTo({
+          destination
+        });
+      });
+
       setTimeout(() => {
         //更新图层
         store.setTerrainLayerManage(viewer.terrainProvider);
