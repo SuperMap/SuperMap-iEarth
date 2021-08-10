@@ -237,6 +237,7 @@ export default {
       let description = this.scenePortalDescription;
 
       if (name === "") {
+        that.$Message.warning(Resource.saveErrorWhileSceneEmpty);
         return;
       }
 
