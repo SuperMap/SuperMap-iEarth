@@ -1,5 +1,5 @@
 <template>
-  <div style="">
+  <div>
     <div class="infoManage" v-show="infoManageShow">
       <div id="infoManageLogin" class="infoManageLogin" @click="show" :title="switchAccount">
         <span class="iconfont icondenglu infoManagetb"></span>
@@ -228,8 +228,8 @@ export default {
         };
       });
     },
-    //创建场景
-    createScene() {
+    //创建并保存场景
+    createAndSaveScene() {
       let that = this;
       let name = this.scenePortalName;
       let tags = this.scenePortalTages;
@@ -310,14 +310,20 @@ export default {
               withCredentials: true
             })
             .then(function(result) {
-              that.showStorageScene("none");
-              let currentUrl =
-                getRootUrl() +
-                "apps/earth/v2/index.html?id=" +
-                response.data.newResourceID;
-              window.open(currentUrl, "_self");
+              //保存场景成功
+              that.$Message.success(Resource.saveSceneSuccess);
+              setTimeout(() => {
+                that.showStorageScene("none");
+                let currentUrl =
+                  getRootUrl() +
+                  "apps/earth/v2/index.html?id=" +
+                  response.data.newResourceID;
+                window.open(currentUrl, "_self");
+              }, 1000);
             })
-            .catch(function(error) {});
+            .catch(function(error) {
+              that.$Message.error(error.message);
+            });
         });
     },
     //打开已保存的场景
@@ -418,8 +424,8 @@ export default {
     onSaveUserClk() {
       let isCreateScene = this.copyIsCreateScene;
       if (isCreateScene) {
-        //true 创建场景
-        this.createScene();
+        //true 创建并保存场景
+        this.createAndSaveScene();
       } else {
         //false 更新场景
         this.updateScene();
