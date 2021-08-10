@@ -12,8 +12,8 @@
         <label>{{Resource.addToken}}</label>
         <input style="margin-left: 10px" type="checkbox" v-model="addToken" />
       </div>
-      <input class="sm-input" type="text" :placeholder="Resource.layerUrl" v-model="LayerURL" />
-      <input class="sm-input" type="text" :placeholder="Resource.layerName" v-model="LayerName" />
+      <input class="sm-input" type="text" v-model="LayerURL" />
+      <input class="sm-input" type="text" v-model="LayerName" />
       <input
         class="sm-input"
         type="text"
@@ -28,7 +28,7 @@
       <label class="label-container">{{Resource.OpenScene}}</label>
       <label>{{Resource.addToken}}</label>
       <input style="margin-left: 10px" type="checkbox" v-model="addSceneToken" />
-      <input class="sm-input" type="text" :placeholder="Resource.sceneUrl" v-model="SceneURL" />
+      <input class="sm-input" type="text" v-model="SceneURL" />
       <input
         class="sm-input"
         type="text"
@@ -61,11 +61,16 @@ export default {
       addToken: false,
       LayerURL: null,
       LayerName: null,
+      // holderURL: Resource.layerUrl,
+      // holderName: Resource.layerName,
       LayerToken: null,
       addSceneToken: false,
-      SceneURL: null,
+      SceneURL: Resource.sceneUrl,
       SceneToken: null
     };
+  },
+  mounted() {
+    this.LayerURL = Resource.layerUrl;
   },
   computed: {
     customServiceShow: function() {
@@ -227,6 +232,36 @@ export default {
       }
     },
     childEvent() {}
+  },
+  watch: {
+    LayerType(val) {
+      if (val) {
+        switch (this.LayerType) {
+          case "S3M":
+            // this.holderURL = Resource.layerUrl;
+            this.LayerURL = Resource.layerUrl;
+            break;
+          case "IMAGERY":
+            // this.holderURL = Resource.imageUrl;
+            this.LayerURL = Resource.imageUrl;
+            break;
+          case "TERRAIN":
+            // this.holderURL = Resource.terrainUrl;
+            this.LayerURL = Resource.terrainUrl;
+            break;
+          default:
+            break;
+        }
+      }
+    },
+    LayerURL(val) {
+      if (val) {
+        let array = val.split("/datas/");
+        if (array.length > 1) {
+          this.LayerName = array[1].split("/")[0];
+        }
+      }
+    }
   }
 };
 </script>
