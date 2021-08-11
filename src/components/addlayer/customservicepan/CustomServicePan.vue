@@ -147,6 +147,7 @@ export default {
         return;
       }
       layerLen = viewer.scene.layers.layerQueue.length;
+      this.setTrustedServers(LayerURL);
       promiseArray.push(viewer.scene.addS3MTilesLayerByScp(LayerURL, options));
       this.promiseWhen(promiseArray, true);
     },
