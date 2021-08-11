@@ -662,7 +662,7 @@
 			// Add item to the tree
 			_this.$wrapper.append(treeItem);
 			if(level === 3){ // 图层级别的列表项才对应图层属性对话框
-                treeItem.attr('title', '右键显示/设置该图层属性');
+                treeItem.attr('title', Resource.RightClickToDisplay);
 			}
 
 			// Recursively add child ndoes
