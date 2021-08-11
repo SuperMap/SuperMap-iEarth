@@ -445,6 +445,7 @@
         "8、增加线形符号轮廓宽度、虚线分量长度、尾迹线周期、尾迹线占比参数设置\n" +
         "9、支持面符号设置颜色\n",
       baseLayerSource: '底图来源',
+      OnlineBaseMap: '在线底图',
       localImage: '本地图片',
       bingMaps: '必应底图',
       OpenStreetMap: 'Open Street Map',

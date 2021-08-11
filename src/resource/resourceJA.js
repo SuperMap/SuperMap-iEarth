@@ -12,9 +12,9 @@
         name: '名称',
         address: 'アドレス',
         aqiTitle: 'PM2.5リアルタイム検索',
-        onlineTerrain: "online オンライン地形",
+        onlineTerrain: "Online オンライン地形",
         stkTerrain: 'STK オンライン地形',
-        tiandituTerrain: 'tianditu オンライン地形',
+        tiandituTerrain: 'TianDiTu オンライン地形',
         supermapOnlineTerrain: "SuperMap Online オンライン地形",
         title: 'タイトル',
         confirm: '確認',
@@ -79,9 +79,9 @@
         mycontent: '私の内容',
         imgServiceType: '画像(標準画像)',
         bingServiceType: 'BingMap グローバル映像サービス',
-        tdtServiceType: 'Tianditu グローバル映像サービス',
+        tdtServiceType: 'TianDiTu グローバル映像サービス',
         osmServiceType: 'openstreetmap 地図',
-        tianditu: 'Tianditu',
+        tianditu: 'TianDiTu',
         layerExistMsg: '当該レイヤーは存在しています',
         imgUrlErrorMsg: '写真のダウンロードは失敗しました',
         scpUrlErrorMsg: 'SCP URLのエラーにより、S3Mレイヤーを開けません',
@@ -445,6 +445,7 @@
             "8、ライン輪郭の設定、点線の設定、軌跡線の設定を追加\n" +
             "9、ポリゴンシンボルの色設定をサポート\n",
         baseLayerSource: '背景画像',
+        OnlineBaseMap: 'オンライン地図',
         localImage: 'ローカル画像',
         bingMaps: 'BingMap',
         OpenStreetMap: 'Open Street Map',
@@ -452,13 +453,13 @@
         gridImagery: 'グリッド画像',
         superMapChinaLight: 'SuperMap China Light',
         useRoller: 'スワイプ使用',
+        modelRoller: "オンラインベースのロールカーテン",
         lrRoller: '左右に配置',
         leftRoller: '左側を非表示',
         rightRoller: '右側を非表示',
         tbRoller: '上下に配置',
         topRoller: '上部を非表示',
         bottomRoller: '下部を非表示',
-        imageryRoller: '画像スワイプ',
         windParticle: '風力場',
         trailLines: '軌跡線',
         scanLine: 'スキャン線',
@@ -628,8 +629,8 @@
         loginSuccess: "ログイン成功",
         loginFailed: "ログイン失敗",
         noPermission: "シーンを作成、更新、削除する権限がありません。",
-        accountInfo: "アカウント情報"
-
+        accountInfo: "アカウント情報",
+        displayCoordinates:'座標を表示'
     };
 
     export default ResourceJA;
