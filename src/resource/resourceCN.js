@@ -96,6 +96,7 @@
       analysis: '三维分析',
       viewShed: '可视域',
       showFrame: "显示帧率",
+      skyline: '天际线',
       sightline: '通视',
       startingInformation: '起点信息',
       endInformation: '终点信息',
@@ -629,7 +630,8 @@
       loginSuccess: "登录成功",
       loginFailed: "登录失败",
       noPermission: "您没有权限创建、更新、删除场景",
-      accountInfo: "账户信息"
+      accountInfo: "账户信息",
+      displayCoordinates: '显示坐标'
     };
 
     export default ResourceCN;

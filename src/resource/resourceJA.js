@@ -95,6 +95,7 @@
         skyBox: 'スカイボックス',
         analysis: '3D解析',
         viewShed: '可視領域',
+        showFrame: "フレームレートを表示",
         skyline: 'スカイライン解析',
         sightline: '見通し',
         startingInformation: '起点情報',
@@ -630,7 +631,7 @@
         loginFailed: "ログイン失敗",
         noPermission: "シーンを作成、更新、削除する権限がありません。",
         accountInfo: "アカウント情報",
-        displayCoordinates:'座標を表示'
+        displayCoordinates: '座標を表示'
     };
 
     export default ResourceJA;
