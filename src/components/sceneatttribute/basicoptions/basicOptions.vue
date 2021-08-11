@@ -126,7 +126,7 @@
         class="middle-input"
         disabled
         type="text"
-        placeholder="  显示经度、纬度、高程"
+        :placeholder="Resource.displayCoordinates"        
         style="width: 96.5%;background: #333333;color:white"
         v-model="queryCoordinates"
       />

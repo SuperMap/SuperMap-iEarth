@@ -2,7 +2,7 @@
     <div class="baseLayer" v-show="baseLayerShow">
       <div class="base-panel-header"></div>
       <div class="imageBaseLayer" style="background:rgba(35,35,35,0.8)">
-        <div class="image-panel-header">在线底图</div>
+        <div class="image-panel-header">{{ Resource.OnlineBaseMap }}</div>
         <div class="imageContainer">
           <div
             class="imageBox"
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="imageBaseLayer" style="background:rgba(35,35,35,0.8)">
-        <div class="image-panel-header">在线地形</div>
+        <div class="image-panel-header"> {{ Resource.onlineTerrain }}</div>
         <div class="imageContainer">
           <div
             class="imageBox"
