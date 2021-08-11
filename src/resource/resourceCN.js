@@ -577,7 +577,7 @@
       ReSetScanCenter: '重新点选设置扫描中心',
       No: '无',
       ParticleDensity: '粒子密度',
-      ParticleVelocity: 'Particle velocity',
+      ParticleVelocity: '粒子速度',
       Start: '启动',
       SwitchData: '切换数据',
       PleaseDrawCorrectPolygon: '扫描纹理',
