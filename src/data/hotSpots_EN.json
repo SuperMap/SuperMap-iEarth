@@ -2,7 +2,7 @@
     "hotSpots":[{
          "id": 0,
          "type": "REALSPACE",
-         "thumbnail": "https://www.supermapol.com/earth/iEarth_resource_temp_location/serviceImages/橙色.jpg",
+         "thumbnail": "static/images/webServeImg/ChinaEpidemic.jpg",
          "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-YiQing5/rest/realspace",
          "sceneName": "China Epidemic Map",
          "state": 0
