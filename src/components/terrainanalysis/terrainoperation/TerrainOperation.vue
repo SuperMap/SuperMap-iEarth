@@ -3,7 +3,7 @@
     <div class="function-content operation">
         <div class="terrainDig">
             <div class="choose">
-              <label class="radio">{{Resource.TilesetEditor}}<input type="radio" name="terrainModify" id="terrainModify" value="terrainModify" v-model="terrain"><i></i></label>
+              <label class="radio">{{Resource.terrainModify}}<input type="radio" name="terrainModify" id="terrainModify" value="terrainModify" v-model="terrain"><i></i></label>
               <label class="radio" style="margin-left:38px;">{{Resource.TerrainMining}}<input type="radio" name="terrainDig" id="terrainDig" value="terrainDig" v-model="terrain"><i></i></label>
             </div>
         </div>

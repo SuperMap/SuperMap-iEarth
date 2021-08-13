@@ -1,6 +1,6 @@
 <template>
   <div id="terrainAnalysis" class="sm-panel terrainAnalysis" v-show="terrainShow" v-drag>
-    <label class="terrainTitle">地形</label>
+    <label class="terrainTitle">{{Resource.terrain}}</label>
     <div style="margin-top:-2px;">
       <div class="sm-panel-header combinationHear">
         <span

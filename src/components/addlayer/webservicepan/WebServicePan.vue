@@ -58,13 +58,13 @@ export default {
       // showType: true, //默认显示公共服务，取反显示特效
       data: null,
       Effects: null,
-      hotSpots:null,
-      otherTerrainAndImageModels:otherTerrainAndImageModels,
-      BaseTerrainModels:BaseTerrainModels
+      hotSpots: null,
+      otherTerrainAndImageModels: otherTerrainAndImageModels,
+      BaseTerrainModels: BaseTerrainModels
     };
   },
   computed: {
-    webServiceShow: function () {
+    webServiceShow: function() {
       return this.sharedState.addLayer[0];
     }
   },
@@ -78,109 +78,109 @@ export default {
     addTerrain(LayerURL) {
       viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
         url: LayerURL,
-        isSct: true, //地形服务源自SuperMap iServer发布时需设置isSct为true
+        isSct: true //地形服务源自SuperMap iServer发布时需设置isSct为true
       });
     },
 
     addImage(LayerURL) {
       let layer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
-          url: LayerURL,
+          url: LayerURL
         })
       );
       viewer.flyTo(layer);
     },
 
-    TiandituAnnotationProvider(url){
-        let wtfs = new Cesium.TiandituAnnotationProvider({
-            viewer:viewer,
-            url:url,
-            metadata:{
-              boundBox:{
-                 minX: -180,
-                 minY: -90,
-                 maxX: 180,
-                 maxY: 90
-              },
-              minLevel: 1,
-              maxLevel: 20
-            },
+    TiandituAnnotationProvider(url) {
+      let wtfs = new Cesium.TiandituAnnotationProvider({
+        viewer: viewer,
+        url: url,
+        metadata: {
+          boundBox: {
+            minX: -180,
+            minY: -90,
+            maxX: 180,
+            maxY: 90
+          },
+          minLevel: 1,
+          maxLevel: 20
+        },
 
-           aotuCollide: true,    //是否开启避让
-           collisionPadding: [0,5,3,0],  //开启避让时，标注碰撞增加内边距，上、右、下、左
-           serverFirstStyle: true, //服务端样式优先
-           labelGraphics: {
-               //解决字体模糊的问题：1、先放大后缩小
-               font:"28px sans-serif",
-               bold:false,
-               scale:1,
-               fillColor:Cesium.Color.WHITE,
-               outlineColor:Cesium.Color.BLACK,
-               outlineWidth:2,
-               style:Cesium.LabelStyle.FILL_AND_OUTLINE,
-               showBackground:false,
-               backgroundColor:Cesium.Color.RED,
-               backgroundPadding:new Cesium.Cartesian2(10, 10),
-               horizontalOrigin:Cesium.HorizontalOrigin.LEFT,
-               verticalOrigin:Cesium.VerticalOrigin.TOP,
-               eyeOffset:Cesium.Cartesian3.ZERO,
-               pixelOffset:new Cesium.Cartesian2(5, 5),
-               disableDepthTestDistance:undefined
-           },
-           billboardGraphics: {
-               horizontalOrigin:Cesium.HorizontalOrigin.CENTER,
-               verticalOrigin:Cesium.VerticalOrigin.CENTER,
-               eyeOffset:Cesium.Cartesian3.ZERO,
-               pixelOffset:Cesium.Cartesian2.ZERO,
-               alignedAxis:Cesium.Cartesian3.ZERO,
-               color:Cesium.Color.WHITE,
-               rotation:0,
-               scale:1,
-               width:18,
-               height:18,
-               disableDepthTestDistance:undefined
-           }
-        });
+        aotuCollide: true, //是否开启避让
+        collisionPadding: [0, 5, 3, 0], //开启避让时，标注碰撞增加内边距，上、右、下、左
+        serverFirstStyle: true, //服务端样式优先
+        labelGraphics: {
+          //解决字体模糊的问题：1、先放大后缩小
+          font: "28px sans-serif",
+          bold: false,
+          scale: 1,
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          showBackground: false,
+          backgroundColor: Cesium.Color.RED,
+          backgroundPadding: new Cesium.Cartesian2(10, 10),
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+          verticalOrigin: Cesium.VerticalOrigin.TOP,
+          eyeOffset: Cesium.Cartesian3.ZERO,
+          pixelOffset: new Cesium.Cartesian2(5, 5),
+          disableDepthTestDistance: undefined
+        },
+        billboardGraphics: {
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          eyeOffset: Cesium.Cartesian3.ZERO,
+          pixelOffset: Cesium.Cartesian2.ZERO,
+          alignedAxis: Cesium.Cartesian3.ZERO,
+          color: Cesium.Color.WHITE,
+          rotation: 0,
+          scale: 1,
+          width: 18,
+          height: 18,
+          disableDepthTestDistance: undefined
+        }
+      });
     },
 
-    thematicMapByField(url,sceneName){
-       let infos = [
-         {
-            url:url,
-            cullEnabled:true
-         }
-       ];
-       let promises = [];
-       for(let i=0;i<infos.length;i++){
-          let promise = scene.addS3MTilesLayerByScp(infos[i].url,{
-              name:sceneName
-          });
-          promises.push(promise);
-       }
-       Cesium.when.all(promises,function(layers){
-          let layer = scene.layers.find(sceneName);
-          viewer.flyTo(layer);
-         layer.lodRangeScale = 5;
-         layer.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
-         let initialColor = "rgb(67,67,67)";
-         layer.style3D.lineColor =Cesium.Color.fromCssColorString(initialColor);
-         layer.wireFrameMode = Cesium.WireFrameType.Sketch; //草图模式,即线框
-         layer._visibleDistanceMax = 60000;
-       });
+    thematicMapByField(url, sceneName) {
+      let infos = [
+        {
+          url: url,
+          cullEnabled: true
+        }
+      ];
+      let promises = [];
+      for (let i = 0; i < infos.length; i++) {
+        let promise = scene.addS3MTilesLayerByScp(infos[i].url, {
+          name: sceneName
+        });
+        promises.push(promise);
+      }
+      Cesium.when.all(promises, function(layers) {
+        let layer = scene.layers.find(sceneName);
+        viewer.flyTo(layer);
+        layer.lodRangeScale = 5;
+        layer.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
+        let initialColor = "rgb(67,67,67)";
+        layer.style3D.lineColor = Cesium.Color.fromCssColorString(initialColor);
+        layer.wireFrameMode = Cesium.WireFrameType.Sketch; //草图模式,即线框
+        layer._visibleDistanceMax = 60000;
+      });
     },
 
     promiseWhen(promiseArray, sceneName) {
       Cesium.when.all(
         promiseArray,
-        (layer) => {
-          for(let i=0;i<layer.length;i++){
-              layer[i]._visibleDistanceMax = 16000;
+        layer => {
+          for (let i = 0; i < layer.length; i++) {
+            layer[i]._visibleDistanceMax = 16000;
           }
           if (sceneName) {
             this.flyTo(sceneName);
           }
         },
-        function (e) {
+        function(e) {
           if (widget._showRenderLoopErrors) {
             let title = Resource.scpUrlErrorMsg;
             widget.showErrorPanel(title, undefined, e);
@@ -197,19 +197,23 @@ export default {
             if (obj.state == 1) {
               this.$Message.warning({
                 background: true,
-                content: Resource.layerExistMsg,
+                content: Resource.layerExistMsg
               });
             } else {
               let s = viewer.scene.open(obj.proxiedUrl);
-              this.promiseWhen([s],obj.sceneName);
-              if(obj.S3MLayer == false){
-                for(let key in this.otherTerrainAndImageModels){
-                  if(Number(key) == obj.id){
-                      this.otherTerrainAndImageModels[key].terrain.chooseType = true;
-                      this.otherTerrainAndImageModels[key].imagery.chooseType = true;
+              this.promiseWhen([s], obj.sceneName);
+              if (obj.S3MLayer == false) {
+                for (let key in this.otherTerrainAndImageModels) {
+                  if (Number(key) == obj.id) {
+                    this.otherTerrainAndImageModels[
+                      key
+                    ].terrain.chooseType = true;
+                    this.otherTerrainAndImageModels[
+                      key
+                    ].imagery.chooseType = true;
                   }
-                };
-                for(let tt in this.BaseTerrainModels){
+                }
+                for (let tt in this.BaseTerrainModels) {
                   this.BaseTerrainModels[tt].chooseType = false;
                 }
               }
@@ -227,13 +231,13 @@ export default {
               this.flyTo(obj.sceneName);
               this.$Message.warning({
                 background: true,
-                content: Resource.layerExistMsg,
+                content: Resource.layerExistMsg
               });
             } else {
               let promiseArray = [];
               promiseArray.push(
                 viewer.scene.addS3MTilesLayerByScp(obj.proxiedUrl, {
-                  name: obj.sceneName,
+                  name: obj.sceneName
                 })
               );
               this.promiseWhen(promiseArray, obj.sceneName);
@@ -249,7 +253,7 @@ export default {
               this.flyTo(obj.sceneName);
               this.$Message.warning({
                 background: true,
-                content: Resource.layerExistMsg,
+                content: Resource.layerExistMsg
               });
             } else {
               this.addImage(obj.proxiedUrl);
@@ -264,7 +268,7 @@ export default {
             if (obj.state == 1) {
               this.$Message.warning({
                 background: true,
-                content: Resource.layerExistMsg,
+                content: Resource.layerExistMsg
               });
             } else {
               this.addTerrain(obj.proxiedUrl);
@@ -274,20 +278,24 @@ export default {
               }, 1000);
             }
             break;
-          case "TESTMARK":  //文字注记
-            if(obj.state == 1){
+          case "TESTMARK": //文字注记
+            if (obj.state == 1) {
               this.$Message.warning({
                 background: true,
-                content: Resource.layerExistMsg,
+                content: Resource.layerExistMsg
               });
-            }else{
+            } else {
               this.TiandituAnnotationProvider(obj.proxiedUrl);
               viewer.camera.setView({
-                destination:Cesium.Cartesian3.fromDegrees(117.29453125,34.2315625,60000),
-                orientation:{
-                    heading: Cesium.Math.toRadians(0.0),    //默认值
-                    pitch: Cesium.Math.toRadians(-90.0),   //默认值
-                    roll: 0.0     //默认值
+                destination: Cesium.Cartesian3.fromDegrees(
+                  117.29453125,
+                  34.2315625,
+                  60000
+                ),
+                orientation: {
+                  heading: Cesium.Math.toRadians(0.0), //默认值
+                  pitch: Cesium.Math.toRadians(-90.0), //默认值
+                  roll: 0.0 //默认值
                 }
               });
               obj.state = 1;
@@ -297,14 +305,14 @@ export default {
               }, 1500);
             }
             break;
-          case "ThematicMap":  //字段专题图
-            if(obj.state == 1){
+          case "ThematicMap": //字段专题图
+            if (obj.state == 1) {
               this.$Message.warning({
                 background: true,
-                content: Resource.layerExistMsg,
+                content: Resource.layerExistMsg
               });
-            }else{
-              this.thematicMapByField(obj.proxiedUrl,obj.sceneName);
+            } else {
+              this.thematicMapByField(obj.proxiedUrl, obj.sceneName);
               obj.state = 1;
               setTimeout(() => {
                 //更新图层
@@ -312,30 +320,33 @@ export default {
               }, 1500);
             }
             break;
-          case "HOT" ://疫情热点
-                if(obj.state == 1){
-                  this.flyTo(obj.sceneName);
-                  this.$Message.warning({
-                    background: true,
-                    content: Resource.layerExistMsg,
-                  });
-                }else{
-                  let promiseArray = [];
-                  let proxiedUrl =obj.proxiedUrl;
-                  let proxiedUrlName = obj.name;
-                  for(let i=0;i<proxiedUrl.length;i++){
-                    let promise = viewer.scene.addS3MTilesLayerByScp(proxiedUrl[i],{
-                      name:proxiedUrlName[i]
-                    });
-                    promiseArray.push(promise);
+          case "HOT": //疫情热点
+            if (obj.state == 1) {
+              this.flyTo(obj.sceneName);
+              this.$Message.warning({
+                background: true,
+                content: Resource.layerExistMsg
+              });
+            } else {
+              let promiseArray = [];
+              let proxiedUrl = obj.proxiedUrl;
+              let proxiedUrlName = obj.name;
+              for (let i = 0; i < proxiedUrl.length; i++) {
+                let promise = viewer.scene.addS3MTilesLayerByScp(
+                  proxiedUrl[i],
+                  {
+                    name: proxiedUrlName[i]
                   }
-                  this.promiseWhen(promiseArray, obj.sceneName);
-                  obj.state = 1;
-                  setTimeout(() => {
-                    //更新图层
-                    store.setS3MLayerManage(viewer.scene.layers.layerQueue.length);
-                  }, 1500);
-                }
+                );
+                promiseArray.push(promise);
+              }
+              this.promiseWhen(promiseArray, obj.sceneName);
+              obj.state = 1;
+              setTimeout(() => {
+                //更新图层
+                store.setS3MLayerManage(viewer.scene.layers.layerQueue.length);
+              }, 1500);
+            }
             break;
           default:
             null;
@@ -347,24 +358,26 @@ export default {
 
     //添加特效
     addEffects(id) {
-       store.setSpecialEffects(id,1);  //打开特效
-       store.setToolBarAction(1); //关闭面板
+      store.setSpecialEffects(id, 1); //打开特效
+      store.setToolBarAction(1); //关闭面板
     },
 
     // 添加热点
-    addHotSpots(obj){
-         this.addwebSever(obj)
-         setTimeout(()=>{
-        store.setHotSpots(obj.id,1);  
-         },1500)
+    addHotSpots(obj) {
+      this.addwebSever(obj);
+      setTimeout(() => {
+        store.setHotSpots(obj.id, 1);
+      }, 1500);
     },
 
     flyTo(scpName) {
       let Name;
       let webName = Config.TitleKeyMap[scpName];
-      if(webName){Name = webName}else{
+      if (webName) {
+        Name = webName;
+      } else {
         Name = scpName;
-      };
+      }
       let cameraParam = Config.CAMERA_PARAM[webName];
       if (cameraParam) {
         viewer.scene.camera.flyTo({
@@ -376,19 +389,23 @@ export default {
           orientation: {
             heading: cameraParam.heading,
             pitch: cameraParam.pitch,
-            roll: cameraParam.roll,
+            roll: cameraParam.roll
           },
-          duration: 5,
+          duration: 5
         });
         return;
       } else {
-        var ceterCartesianPosition = layers[0]._position;
-        var boundingSphere = new Cesium.BoundingSphere(
-          ceterCartesianPosition,
-          200
-        );
-        var camera = this.viewer.scene.camera;
-        camera.flyToBoundingSphere(boundingSphere);
+        let layer = scene.layers.find(scpName);
+        if (layer) {
+          viewer.flyTo(layer);
+          // var ceterCartesianPosition = layer._position;
+          // var boundingSphere = new Cesium.BoundingSphere(
+          //   ceterCartesianPosition,
+          //   200
+          // );
+          // var camera = viewer.scene.camera;
+          // camera.flyToBoundingSphere(boundingSphere);
+        }
       }
     }
   },
@@ -398,7 +415,7 @@ export default {
   },
 
   watch: {
-    selType: function (val) {
+    selType: function(val) {
       switch (val) {
         case "0":
           break;
@@ -411,8 +428,8 @@ export default {
         default:
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -17,26 +17,11 @@
             "sceneName": "ソフィア大聖堂",
             "state": 0
         },
-        {
-            "id": 2,
-            "type": "SCP",
-            "thumbnail": "static/images/webServeImg/SciencePark.jpg",
-            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-yanmofenxi/rest/realspace/datas/sci_park/config",
-            "sceneName": "科学技術公園",
-            "state": 0
-        },
-        {
-            "id": 3,
-            "type": "REALSPACE",
-            "thumbnail": "static/images/webServeImg/Vector.jpg",
-            "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-GuangZhou/rest/realspace",
-            "sceneName": "ベクトル引張白モード",
-            "state": 0
-        },
+        
         {
             "id": 4,
             "type": "REALSPACE",
-            "thumbnail": "static/images/webServeImg/zfTerranAndImagery.jpg",
+            "thumbnail": "static/images/webServeImg/ZfTerranAndImagery.jpg",
             "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-ZF_normal/rest/realspace",
             "sceneName": "ヒマラヤ",
             "state": 0

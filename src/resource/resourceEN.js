@@ -276,7 +276,7 @@
         buildingFloor3: "over 20Floor",
         layerAlpha: "layerAlpha",
         TerrainOperation: 'Terrain operation',
-        TilesetEditor: 'Terrain modification',
+        terrainModify: 'Terrain Modify',
         operation: "operation",
         modify: 'Modify',
         Excavation: 'Excavation',
@@ -631,7 +631,9 @@
         loginFailed: "loginFailed",
         noPermission: "You do not have permission to create, update or delete scenes",
         accountInfo: "accountInfo",
-        displayCoordinates:'Display Coordinates'
+        displayCoordinates:'Display Coordinates',
+        whiteMold:'White Mold',
+        whiteMoldMap:'White mold thematic map'
     };
 
     export default ResourceEN;

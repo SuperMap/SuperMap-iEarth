@@ -276,7 +276,7 @@
       buildingFloor3: "20层以上",
       layerAlpha: "图层透明度",
       TerrainOperation: '地形操作',
-      TilesetEditor: '地形修改',
+      terrainModify: '地形修改',
       operation: "操作",
       modify: '修改',
       Excavation: '开挖',
@@ -631,7 +631,9 @@
       loginFailed: "登录失败",
       noPermission: "您没有权限创建、更新、删除场景",
       accountInfo: "账户信息",
-      displayCoordinates: '显示坐标'
+      displayCoordinates: '显示坐标',
+      whiteMold:'白模',
+      whiteMoldMap:'白模专题图'
     };
 
     export default ResourceCN;

@@ -276,7 +276,7 @@
         buildingFloor3: "大なりイコール 20 レイヤー",
         layerAlpha: "レイヤーの不透明度",
         TerrainOperation: '地形の操作',
-        TilesetEditor: '地形編集',
+        terrainModify: '地形編集',
         operation: "操作",
         modify: '修正',
         Excavation: '発掘',
@@ -631,7 +631,9 @@
         loginFailed: "ログイン失敗",
         noPermission: "シーンを作成、更新、削除する権限がありません。",
         accountInfo: "アカウント情報",
-        displayCoordinates: '座標を表示'
+        displayCoordinates: '座標を表示',
+        whiteMold: '白の鋳型',
+        whiteMoldMap: 'ホワイトモード'
     };
 
     export default ResourceJA;
