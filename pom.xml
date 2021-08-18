@@ -47,7 +47,7 @@
         <targetPath>META-INF/resources/apps/earth</targetPath>
 		<excludes>
 			<exclude>pom.xml</exclude>
-			<exclude>.m2repo</exclude>
+			<exclude>.m2repo/*</exclude>
 		</excludes>
       </resource>
     </resources>
