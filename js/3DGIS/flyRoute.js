@@ -52,7 +52,7 @@ define(['../lib/Convert'], function (Convert) {
                     var menu = document.getElementById('stopList');
                     for (var i = 0, j = allStops.length; i < j; i++) {
                         var option = document.createElement('option');
-                        option.textContent = "站点 " + (i + 1);
+                        option.textContent = Resource.stop + (i + 1);
                         option.value = allStops[i].index;
                         menu.appendChild(option);
                     }

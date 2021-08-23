@@ -409,6 +409,7 @@
         fullScreen: '最大化',
         polygonClipMode: 'クリップモード',
         clickToSearchCoordination: '選択したオブジェクトの座標値を検索',
+        stop: 'サイト',
         stopChoose: 'ポイントを選択',
         searchPlaceHolder: 'キーワードを入力してください...',
         urlMismatchingPattern: '正しいURLを入力してください',
@@ -471,7 +472,9 @@
         BoxedRadiation:'箱状放射',
         TwoDimensionalSkyline:'2Dスカイライン',
         LayerRepeat:'当レイヤーは存在しています',
-        SCTFailed:'SCTのURLがエラー。地形ロードに失敗。'
+        SCTFailed:'SCTのURLがエラー。地形ロードに失敗。',
+        RightClickToDisplay:'このレイヤーのプロパティを右クリックして表示/設定します。',
+        notSupportTerrain:'注：地形はしばらくサポートしていません。'
     };
     return ResourceJA;
 });

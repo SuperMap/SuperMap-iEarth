@@ -408,6 +408,7 @@ define(function(){
         fullScreen: '全屏',
         polygonClipMode: '裁剪模式',
         clickToSearchCoordination: '点击查询坐标值',
+        stop: '站点',
         stopChoose: '站点选择',
         searchPlaceHolder: '输入地址或地标...',
         urlMismatchingPattern: '请输入正确的URL格式',
@@ -470,7 +471,9 @@ define(function(){
         BoxedRadiation:'盒状放射',
         TwoDimensionalSkyline:'二维天际线',
         LayerRepeat:'该图层已经存在，请勿重复加载！',
-        SCTFailed:'SCT URL 错误，地形加载失败！'
+        SCTFailed:'SCT URL 错误，地形加载失败！',
+        RightClickToDisplay:'右键显示/设置该图层属性',
+        notSupportTerrain:'注：暂不支持地形'
     };
     return ResourceCN;
 });

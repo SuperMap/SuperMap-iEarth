@@ -412,6 +412,7 @@ define(function(){
         fullScreen: 'Full screen',
         polygonClipMode: 'Clip mode',
         clickToSearchCoordination: 'Click to search coordination',
+        stop: 'Stop',
         stopChoose: 'Stop choose',
         searchPlaceHolder: 'Enter an address or landmark...',
         urlMismatchingPattern: 'Please enter the correct URL format',
@@ -466,7 +467,9 @@ define(function(){
         BoxedRadiation:'Boxed radiation',
 		TwoDimensionalSkyline:'2D skyline',
         LayerRepeat:'This layer already exists, please do not load it repeatedly!',
-        SCTFailed:'SCT URL error, terrain loading failed!'
+        SCTFailed:'SCT URL error, terrain loading failed!',
+        RightClickToDisplay:'Right click to display / set the layer properties',
+        notSupportTerrain:'Note: terrain profile analysis is not supported temporarily'
     };
     return ResourceEN;
 });
