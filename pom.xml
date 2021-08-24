@@ -45,9 +45,15 @@
       <resource>
         <directory>${project.basedir}</directory>
         <targetPath>META-INF/resources/apps/earth</targetPath>
-		<excludes>
-			<exclude>pom.xml</exclude>
-		</excludes>
+        <includes>
+            <include>index.html</include>
+	    <include>Build/**</include>
+	    <include>css/**</include>
+	    <include>data/**</include>
+	    <include>fonts/**</include>
+	    <include>images/**</include>
+	    <include>js/**</include>
+        </includes>
       </resource>
     </resources>
   </build>
