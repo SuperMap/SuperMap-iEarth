@@ -473,7 +473,8 @@ define(function(){
         LayerRepeat:'该图层已经存在，请勿重复加载！',
         SCTFailed:'SCT URL 错误，地形加载失败！',
         RightClickToDisplay:'右键显示/设置该图层属性',
-        notSupportTerrain:'注：暂不支持地形'
+        notSupportTerrain:'注：暂不支持地形',
+        heatMap: '热力图',
     };
     return ResourceCN;
 });

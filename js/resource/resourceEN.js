@@ -469,7 +469,8 @@ define(function(){
         LayerRepeat:'This layer already exists, please do not load it repeatedly!',
         SCTFailed:'SCT URL error, terrain loading failed!',
         RightClickToDisplay:'Right click to display / set the layer properties',
-        notSupportTerrain:'Note: terrain profile analysis is not supported temporarily'
+        notSupportTerrain:'Note: terrain profile analysis is not supported temporarily',
+        heatMap: 'HeatMap',
     };
     return ResourceEN;
 });

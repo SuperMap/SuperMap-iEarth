@@ -474,7 +474,8 @@
         LayerRepeat:'当レイヤーは存在しています',
         SCTFailed:'SCTのURLがエラー。地形ロードに失敗。',
         RightClickToDisplay:'このレイヤーのプロパティを右クリックして表示/設定します。',
-        notSupportTerrain:'注：地形はしばらくサポートしていません。'
+        notSupportTerrain:'注：地形はしばらくサポートしていません。',
+        heatMap:'熱力図'
     };
     return ResourceJA;
 });
