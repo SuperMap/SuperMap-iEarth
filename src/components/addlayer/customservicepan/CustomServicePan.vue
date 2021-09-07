@@ -36,6 +36,14 @@
         v-show="addSceneToken"
         v-model="SceneToken"
       />
+
+      <select class="sm-select sm-sceneList" v-model="SceneName">
+        <option
+          v-for="(option,index) in SceneList"
+          :value="option.name"
+          :key="index"
+        >{{option.name}}</option>
+      </select>
       <div class="boxchild">
         <button class="tbtn tbn1" type="button" @click="openScene">{{Resource.confirm}}</button>
       </div>
@@ -66,7 +74,9 @@ export default {
       LayerToken: null,
       addSceneToken: false,
       SceneURL: null,
-      SceneToken: null
+      SceneToken: null,
+      SceneList: null,
+      SceneName: ""
     };
   },
   mounted() {
@@ -102,7 +112,7 @@ export default {
         let promiseArray = [];
         this.setTrustedServers(this.SceneURL);
 
-        s = viewer.scene.open(this.SceneURL);
+        s = viewer.scene.open(this.SceneURL, this.SceneName);
         promiseArray.push(s);
         this.promiseWhen(promiseArray);
       }
@@ -261,6 +271,24 @@ export default {
         let array = val.split("/datas/");
         if (array.length > 1) {
           this.LayerName = array[1].split("/")[0];
+        }
+      }
+    },
+    SceneURL(val) {
+      if (val) {
+        if (val.slice(-9) === "realspace") {
+          let url = val.split("/realspace")[0] + "/realspace";
+          let scenesUrl = url + "/scenes.json";
+
+          let sceneListPromise = window.axios.get(scenesUrl, {
+            //需要cookie验证
+            // withCredentials: true
+          });
+
+          sceneListPromise.then(results => {
+            this.SceneList = results.data;
+            this.SceneName = this.SceneList[0].name;
+          });
         }
       }
     }
