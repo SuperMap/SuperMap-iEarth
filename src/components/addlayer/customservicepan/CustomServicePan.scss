@@ -16,6 +16,11 @@
 .sm-function-module-sub-section {
   box-sizing: border-box;
   height: 100%;
+  overflow-y: scroll;
+}
+
+.sm-function-module-sub-section::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
 }
 
 .sm-viewshed-panel-header {
