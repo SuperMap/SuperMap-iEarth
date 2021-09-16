@@ -74,6 +74,8 @@ export default {
           this.otherBaseImageryLayer(type,index);
         }
       }
+      // this.baseLayerShow = false;
+      store.setToolBarAction(2);//显隐状态 取反
     },
     addBaseTerrainLayer(type,index){
           this.terrainType = type;
@@ -82,6 +84,8 @@ export default {
             case "StkTerrain":
               viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
                 url:this.BaseTerrainLayers[index].url,
+                requestWaterMask : true,
+				        requestVertexNormals : true,
                 isSct : false
               });
               this.BaseTerrainLayers[index].chooseType = true;
@@ -117,6 +121,8 @@ export default {
           for(let key in  this.otherTerrainLayers){
              this.otherTerrainLayers[key].terrain.chooseType = false;
           }
+          // this.baseLayerShow = false;
+          store.setToolBarAction(2);//显隐状态 取反
     },
     baseLayer(type,index){
       //底图设置与图层管理面板联动时，需要加影像的标识来进行判断。尤其是网格影像和其他单一影像的切换。
