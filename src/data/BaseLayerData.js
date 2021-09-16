@@ -19,7 +19,7 @@ export default BaseLayerModels = [
         title : 'BingMap',
         type : 'BINGMAP',
         imgsrc:'@/../static/css/cross.png',
-        key:"Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
+        key:"AmovaBSnYwc3uSNbAlFErdZb-e878TXw44S2G8sFF5qPNyOVpnFwDcpzsQ2gEtGA",
         chooseType:false,
         isMultipleChoose:false,
         index :1
