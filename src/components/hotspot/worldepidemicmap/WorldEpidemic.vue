@@ -468,7 +468,10 @@ export default {
       };
        let layer = viewer.scene.layers.find("World_简化");
        let layerlap = viewer.scene.layers.find("World标签");
-      layerlap.isOverlapDisplayed = false;
+       let layerChina = viewer.scene.layers.find("China_Boundary_C_ln@China");
+
+
+       layerlap.isOverlapDisplayed = false;
        if (layer) {
           layer.selectedColor = new Cesium.Color(
             252 / 255,
@@ -484,7 +487,9 @@ export default {
             1
           );
           layer.hasLight = false;
-          layer.maxVisibleAltitude = Number.MAX_VALUE;
+          layer.visibleDistanceMax = Number.MAX_VALUE;
+          layerlap.visibleDistanceMax = Number.MAX_VALUE;
+          layerChina.visibleDistanceMax = Number.MAX_VALUE;
           layer.selectColorType = Cesium.SelectColorType.REPLACE;
         }
       //世界数据
@@ -544,7 +549,7 @@ export default {
         scenePosition = viewer.scene.pickPosition(e.position);
         this.bubblePosition(scenePosition);
         let selLayer = viewer.scene.layers.getSelectedLayer();
-        if (!selLayer) {
+        if (!selLayer || selLayer.name !='World_简化') {
           this.bubbleShow = false;
           return;
         }
