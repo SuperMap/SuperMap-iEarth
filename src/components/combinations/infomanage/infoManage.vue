@@ -539,8 +539,9 @@ export default {
           layer._baseUri.authority +
           layer._baseUri.path;
         if (layerUrl) {
-          layerUrl = this.getUrl(layerUrl);
+          layerUrl = this.getScpUrl(layerUrl);
           s3mTypeAndUrl["url"] = layerUrl;
+          s3mTypeAndUrl["name"] = layer.name;
           s3mlayerUrl.push(s3mTypeAndUrl);
         }
       }
@@ -591,8 +592,9 @@ export default {
       if (s3mlayer.length > 0) {
         for (let t = 0; t < s3mlayer.length; t++) {
           let url = content.layers.s3mLayer[t].url;
+          let name = content.layers.s3mLayer[t].name;
           this.setTrustedServers(url);
-          viewer.scene.open(url);
+          viewer.scene.addS3MTilesLayerByScp(url, { name: name });
         }
       }
     },
@@ -689,18 +691,27 @@ export default {
       //   document.getElementById("noPermission").style.opacity = 0;
       // }, 2000);
     },
-    getUrl(url) {
+    getScpUrl(url) {
       let isRealspace = url.indexOf("/realspace") > -1;
       if (!isRealspace) {
         return;
       }
 
-      let afterRealspace = url.replace(/(.*realspace)/, "");
-      let lastUrl = url
-        .replace(/\/rest\/realspace/g, "")
-        .replace(afterRealspace, "");
-      return lastUrl + "/rest/realspace";
+      let scpUrl = url.replace("data/path/", "config");
+      return scpUrl;
     },
+    // getUrl(url) {
+    //   let isRealspace = url.indexOf("/realspace") > -1;
+    //   if (!isRealspace) {
+    //     return;
+    //   }
+
+    //   let afterRealspace = url.replace(/(.*realspace)/, "");
+    //   let lastUrl = url
+    //     .replace(/\/rest\/realspace/g, "")
+    //     .replace(afterRealspace, "");
+    //   return lastUrl + "/rest/realspace";
+    // },
     //检查请求是否带cookie
     setTrustedServers(url) {
       let serviceProxy = window.store.portalConfig.serviceProxy;
