@@ -191,12 +191,17 @@ export default {
         document.getElementById("storageInfo").style.display = "none";
       }
       //无权限
-      let iportalUpdateScene = window.store.portalUserprofile.modulePermissions;
-      if (
-        !iportalUpdateScene.includes("portal:user:createUpdateDeleteScenes") &&
-        !iportalUpdateScene.includes("*")
-      ) {
-        document.getElementById("storageInfo").style.display = "none";
+      if (window.store.portalUserprofile) {
+        let iportalUpdateScene =
+          window.store.portalUserprofile.modulePermissions;
+        if (
+          !iportalUpdateScene.includes(
+            "portal:user:createUpdateDeleteScenes"
+          ) &&
+          !iportalUpdateScene.includes("*")
+        ) {
+          document.getElementById("storageInfo").style.display = "none";
+        }
       }
     },
     getCreateOrEditScene() {

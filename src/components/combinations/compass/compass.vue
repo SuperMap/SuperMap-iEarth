@@ -1,4 +1,4 @@
-<script src="compassViewModel.js"></script>
+// <script src="compassViewModel.js"></script>
 <template>
   <div class="compass" v-show="compassShow">
     <div class="btnCompass" @click="reduceCompass" :title= Resource.compass>

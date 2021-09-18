@@ -12,7 +12,7 @@ var store = {
     analysis: [1, 0, 0, 0, 0],
     cityPlan: [1, 0, 0, 0, 0],
     onlineEdit: [1, 0, 0, 0],
-    specialEffects: [0, 0, 0, 0], //特效
+    specialEffects: [0, 0, 0, 0,0], //特效
     hotSpots: [0, 0], //热点
     compass: true,
     infoManage:true,

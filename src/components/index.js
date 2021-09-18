@@ -51,6 +51,7 @@ import airlinesTrailLines from "./specialeffects/airlinestrailines/index";
 import scanEffect from "./specialeffects/scaneffect/index";
 import windParticle from "./specialeffects/windparticle/index";
 import rainAndSnow from './specialeffects/rainandsnow/index';
+import heatmap from './specialeffects/heatmap/index';
 
 //热点
 import ChinaEpidemicMap from "./hotspot/chinaepidemicmap/index";
@@ -125,6 +126,7 @@ const components = [
     scanEffect,
     windParticle,
     rainAndSnow,
+    heatmap,
     // 热点
     ChinaEpidemicMap,
     WorldEpidemicMap

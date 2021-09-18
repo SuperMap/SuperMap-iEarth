@@ -37,9 +37,10 @@ function mountVue() {
   vue.$mount('#app');
 }
 
+window.store.isPortal = true;
 
 //获取iport配置及用户信息
-function init() {
+function initPortal() {
   let userProfileUrl = getRootUrl() + "web/config/userprofile.json";
   let portalConfigUrl = getRootUrl() + "web/config/portal.json";
   let systemJSONUrl = getRootUrl() + "web/config/system.json";
@@ -60,4 +61,10 @@ function init() {
   });
 }
 
-init();
+
+
+if (window.store.isPortal) {
+  initPortal();
+} else {
+  mountVue();
+}
