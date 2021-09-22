@@ -273,6 +273,12 @@ export default {
         let array = val.split("/datas/");
         if (array.length > 1) {
           this.LayerName = array[1].split("/")[0];
+        } else {
+          //rest地图服务
+          let array = val.split("/rest/maps/");
+          if (array.length > 1) {
+            this.LayerName = array[1].split("/")[0];
+          }
         }
       }
     },

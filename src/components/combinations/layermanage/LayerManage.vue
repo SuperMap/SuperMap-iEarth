@@ -356,8 +356,17 @@ export default {
             //   }
             // }
             // _that.setImageryName(IMGlayer);
-
-            IMGlayer.title = layer._imageryProvider.name;
+            let name = "";
+            if (layer._imageryProvider.url) {
+              //rest地图服务
+              let array = layer._imageryProvider.url.split("/rest/maps/");
+              if (array.length > 1) {
+                name = array[1].split("/")[0];
+              } else if (layer._imageryProvider.name) {
+                name = layer._imageryProvider.name;
+              }
+            }
+            IMGlayer.title = name;
           } else {
             //不存在，用底图的名称
             _that.setImageryName(IMGlayer);
