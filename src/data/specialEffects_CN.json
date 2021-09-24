@@ -10,10 +10,10 @@
       "id": 1,
       "thumbnail": "static/images/thumbnails/scanEffect.jpg",
       "description": "扫描线特效"
-    },
+    },    
     {
       "name": "雨雪",
-      "id": 3,
+      "id": 2,
       "proxiedUrl": "https://maptiles.supermapol.com/iserver/services/3D-local3DCache-GlobalTIN30M/rest/realspace/datas/Global_TIN_30M",
       "thumbnail": "static/images/thumbnails/rainAndSnow.jpg",
       "description": "雨雪",
@@ -30,9 +30,9 @@
     },
     {
       "name": "热力图",
-      "id": 4,
+      "id": 3,
       "thumbnail": "static/images/thumbnails/HeatMap.jpg",
       "description": "热力图"
-    }
+    }    
   ]
 }

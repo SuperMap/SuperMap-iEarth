@@ -83,6 +83,7 @@ export function showLoginBox(option = {}) {
     loginOptions: {
       theme: 'dark',
       logoUrl: replativePath2FullPath('./static/images/logo.ico'),
+      appName:'iEarth'
     },
     onSucceed: authSucceed,
     ...restOption

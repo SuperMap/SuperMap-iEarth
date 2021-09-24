@@ -95,7 +95,10 @@ export default {
         return;
       }
       // 检查地址是否正确
-      // if(){return;}
+      if (this.SceneURL.indexOf("rest/realspace")) {
+        this.$Message.error(Resource.urlErrorMsg);
+        return;
+      }
       //去引号
       if (this.SceneURL.charAt(0) == '"' || this.SceneURL.charAt(0) == "'") {
         let reg = /^['|"](.*)['|"]$/;
@@ -122,6 +125,30 @@ export default {
       if (this.LayerURL == null || this.LayerURL == "") {
         this.$Message.error(Resource.urlNotNullMsg);
         return;
+      }
+      //检测地址正确性
+      switch (this.LayerType) {
+        case "S3M":
+          if (this.LayerURL.indexOf("/rest/realspace/datas/") < 0) {
+            this.$Message.error(Resource.urlErrorMsg);
+            return;
+          }
+          break;
+        case "IMAGERY":
+          if (
+            this.LayerURL.indexOf("/rest/realspace/datas/") < 0 ||
+            this.LayerURL.indexOf("/rest/maps/") < 0
+          ) {
+            this.$Message.error(Resource.urlErrorMsg);
+            return;
+          }
+          break;
+        case "TERRAIN":
+          if (this.LayerURL.indexOf("/rest/realspace/datas/") < 0) {
+            this.$Message.error(Resource.urlErrorMsg);
+            return;
+          }
+          break;
       }
       if (this.LayerURL.charAt(0) == '"' || this.LayerURL.charAt(0) == "'") {
         let reg = /^['|"](.*)['|"]$/;

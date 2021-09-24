@@ -48,7 +48,7 @@
                 step="1"
                 style="width:63%;background-color:rgba(51,51,51,1);border:1px solid rgb(87,93,96);padding:0 3px;height:25px;border-radius:3px;"
                 type="range"
-                v-model="rainsd"
+                v-model="rainSpeed"
               />
               <input
                 class="min-solider"
@@ -57,7 +57,7 @@
                 step="1"
                 style="width:25%;border-radius:3px;"
                 type="number"
-                v-model="rainsd"
+                v-model="rainSpeed"
               />
             </div>
           </div>
@@ -155,9 +155,9 @@ export default {
   data() {
     return {
       sharedState: store.state,
-      openRainSpecialEffects:false,
+      openRainSpecialEffects:true,
       rainAngle:45,
-      rainsd:8,
+      rainSpeed:8,
       openSnowSpecialEffects:false,
       snowDesity:5,
       snowAngle:10,
@@ -169,13 +169,15 @@ export default {
       return this.sharedState.isInitViewer;
     },
     rainAndSnowShow: function () {
-      return this.sharedState.specialEffects[3];
+      return this.sharedState.specialEffects[2];
     },
   },
   methods: {
     init() {
-      let url = specialEffects.effects[3].proxiedUrl;
-      let cameraParam = specialEffects.effects[3].cameraParama;
+      viewer.scene.postProcessStages.rain.enabled = this.openRainSpecialEffects;
+
+      let url = specialEffects.effects[2].proxiedUrl;
+      let cameraParam = specialEffects.effects[2].cameraParama;
       viewModel = new CompassViewModel({
         viewer:viewer,
         scene:scene,
@@ -190,12 +192,13 @@ export default {
 
     },
     clear(){
+      this.removeTerrain();
       this.removeImage();
       this.openRainSpecialEffects=false;
       this.openSnowSpecialEffects=false;
       viewer.scene.postProcessStages.rain.enabled = false;
       viewer.scene.postProcessStages.snow.enabled = false;
-      store.setSpecialEffects(3, 0);
+      store.setSpecialEffects(2, 0);
       viewModel.viewerChanged = false;
       viewModel.handleViewerChange();
       this.reset();
@@ -238,6 +241,13 @@ export default {
       });
       imageryLayerCollection.remove(removeLayer);
       imageryLayerCollection.addImageryProvider(removeImagery,0);
+    },
+    // todo
+    // 栅格地形暂时无法移除
+    removeTerrain(){
+      viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider({
+             ellipsoid:viewer.scene.globe.ellipsoid
+        });     
     }
   },
   watch: {
@@ -267,8 +277,8 @@ export default {
     rainAngle(){
       viewer.scene.postProcessStages.rain.uniforms.angle = Number(this.rainAngle);
     },
-    rainsd(){
-      viewer.scene.postProcessStages.rain.uniforms.speed = Number(this.rainsd);
+    rainSpeed(){
+      viewer.scene.postProcessStages.rain.uniforms.speed = Number(this.rainSpeed);
     },
     snowDesity(){
       viewer.scene.postProcessStages.snow.uniforms.density = Number(this.snowDesity);

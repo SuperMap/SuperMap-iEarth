@@ -34,6 +34,7 @@
       selDataSource: '请选择数据源',
       selDataSet: '请选择数据集',
       urlNotNullMsg: 'URL不能为空，请输入url!',
+      urlErrorMsg: '请输入正确的服务地址!',
       layerNameNotNullMsg: '图层名称不能为空，请输入图层名称!',
       location: '定位',
       notSupportLocation: '您的浏览器不支持获取位置信息功能！',

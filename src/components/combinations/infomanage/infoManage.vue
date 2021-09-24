@@ -232,7 +232,7 @@ export default {
     createAndSaveScene() {
       let that = this;
       let name = this.scenePortalName;
-      let tags = this.scenePortalTages;
+      let tagsArray = this.scenePortalTages.replace('，',',').split(",");
       let userName = this.scenePortalUser;
       let description = this.scenePortalDescription;
 
@@ -269,7 +269,7 @@ export default {
       data.version = "2.0";
       let saveData = {
         name: name,
-        tags: tags,
+        tags: tagsArray,
         userName: userName,
         description: description,
         content: JSON.stringify(data)
@@ -435,7 +435,7 @@ export default {
     updateScene() {
       let that = this;
       let name = this.scenePortalName;
-      let tags = this.scenePortalTages;
+      let tagsArray = this.scenePortalTages.replace('，',',').split(",");
       let userName = this.scenePortalUser;
       let description = this.scenePortalDescription;
 
@@ -471,7 +471,7 @@ export default {
       data.version = "2.0";
       let saveData = {
         name: name,
-        tags: tags,
+        tags: tagsArray,
         userName: userName,
         description: description,
         content: JSON.stringify(data)

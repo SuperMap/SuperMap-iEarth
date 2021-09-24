@@ -34,6 +34,7 @@
         selDataSource: 'データソースを開く',
         selDataSet: 'データセットを開く',
         urlNotNullMsg: 'URLを入力してください',
+        urlErrorMsg: '正しい住所を入力してください',
         layerNameNotNullMsg: 'レイヤー名を入力してください',
         location: '位置情報を取得する',
         notSupportLocation: '位置情報を取得できません',

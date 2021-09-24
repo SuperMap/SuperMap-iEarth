@@ -21,7 +21,7 @@ export default {
       return this.sharedState.isInitViewer;
     },
     heatMapShow: function() {
-      return this.sharedState.specialEffects[4];
+      return this.sharedState.specialEffects[3];
     }
   },
   methods: {

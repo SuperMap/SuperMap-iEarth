@@ -162,6 +162,10 @@
 </template>
 
 <script>
+
+//todo
+// 该功能需要开启requestWebgl2，暂时先不开启此功能
+
 let fieldLayer;
 let particleWindField = [];
 let particleWindInverseField = [];
@@ -186,7 +190,7 @@ export default {
       return this.sharedState.isInitViewer;
     },
     windParticleShow: function () {
-      return this.sharedState.specialEffects[2];
+      return this.sharedState.specialEffects[4];
     },
   },
   methods: {
@@ -233,8 +237,8 @@ export default {
           )
         );
         layerEffect3.setValue("Width", 1.3);
-      });
-      let colorTable = new Cesium.ColorTable();
+
+        let colorTable = new Cesium.ColorTable();
       colorTable.insert(
         2,
         new Cesium.Color(254 / 255, 224 / 255, 139 / 255, 1)
@@ -266,7 +270,7 @@ export default {
 
       //加载风场数据
       window.axios
-        .get("@/../static/data/gfs-wind.json")
+        .get("static/data/winds.json")
         .then(function (response) {
           let data = response.data;
           let p = 0;
@@ -286,6 +290,8 @@ export default {
             }
           }
         });
+      });
+      
     },
     startField() {
       fieldLayer.fieldData = particleWindField;

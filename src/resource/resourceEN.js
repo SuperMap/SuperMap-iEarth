@@ -34,6 +34,7 @@
         selDataSource: 'Please select a datasource',
         selDataSet: 'Please select a dataset',
         urlNotNullMsg: 'URL cannot be empty, please enter url!',
+        urlErrorMsg: 'Please enter the correct url!',
         layerNameNotNullMsg: 'The layer name cannot be empty, please enter the layer name!',
         location: 'Positioning',
         notSupportLocation: 'Your browser does not support getting location information!',
