@@ -95,7 +95,7 @@ export default {
         return;
       }
       // 检查地址是否正确
-      if (this.SceneURL.indexOf("rest/realspace")) {
+      if (this.SceneURL.indexOf("rest/realspace") < 0) {
         this.$Message.error(Resource.urlErrorMsg);
         return;
       }
