@@ -76,7 +76,7 @@ export default {
       SceneURL: null,
       SceneToken: null,
       SceneList: null,
-      SceneName: ""
+      SceneName: undefined
     };
   },
   mounted() {
@@ -311,13 +311,14 @@ export default {
     },
     SceneURL(val) {
       if (val) {
-        if (val.slice(-9) === "realspace") {
-          let url = val.split("/realspace")[0] + "/realspace";
+        //处理realspace带有/
+        if (val.slice(-14) === "rest/realspace") {
+          let url = val.split("rest/realspace")[0] + "rest/realspace";
           let scenesUrl = url + "/scenes.json";
 
           let sceneListPromise = window.axios.get(scenesUrl, {
             //需要cookie验证
-            // withCredentials: true
+            withCredentials: window.store.isPortal
           });
 
           sceneListPromise.then(results => {
