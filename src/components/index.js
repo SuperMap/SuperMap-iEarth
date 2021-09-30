@@ -17,6 +17,7 @@ import ViewShed from "./3danalysis/viewshed/index.js";
 import WebServicePan from "./addlayer/webservicepan/index";
 import CustomServicePan from "./addlayer/customservicepan/index";
 import LocalFilePan from "./addlayer/localfilepan/index";
+import PortalServicePan from "./addlayer/PortalServicePan/index";
 
 //场景设置
 import basicOptions from "./sceneatttribute/basicoptions/index";
@@ -121,6 +122,7 @@ const components = [
     WebServicePan,
     CustomServicePan,
     LocalFilePan,
+    PortalServicePan,
     //特效
     airlinesTrailLines,
     scanEffect,

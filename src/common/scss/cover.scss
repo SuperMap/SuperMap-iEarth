@@ -3,7 +3,7 @@
 .ivu-color-picker-color {
   width: 100%;
 }
-.ivu-color-picker-picker{
+.ivu-color-picker-picker {
   overflow: auto;
 }
 .ivu-color-picker .ivu-select-dropdown {
@@ -12,7 +12,7 @@
 .ivu-input {
   height: 25px;
   padding: 1px 6px;
-  background-color: #333333; 
+  background-color: #333333;
   border: 1px solid #686363;
   border-radius: 0;
 }
@@ -33,7 +33,7 @@
 
 
 /* 修改iview插件的提示 字体颜色，防止被覆盖 */
-.ivu-message{
+.ivu-message {
   color: black;
 }
 
@@ -46,6 +46,32 @@
 // }
 
 
-.cesium-viewer-toolbar{
+.cesium-viewer-toolbar {
   right: 17px;
+}
+
+.ivu-table {
+  font-size: 12px;
+}
+
+
+//表头样式修改
+.ivu-table-header th {
+  color: #fff; //字体颜色
+  font-weight: bold; //字体粗细
+  background-color: #041A23; //背景颜色
+  
+  border: none; //边框有无
+  border-bottom: 2px solid #062735; //边框粗细及样式颜色
+}
+
+//表格内部颜色修改
+.ivu-table td {
+  background-color: #041A23; //背景色
+  color: #fff; //字体色
+  border: none; //是否有边框
+}
+
+.ivu-table tr.ivu-table-row-hover td {
+  background-color: green;
 }

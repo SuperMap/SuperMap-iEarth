@@ -4,8 +4,8 @@ var store = {
     isInitViewer: false,
     // 控制界面显隐，0默认隐藏，1显示
     ToolBarShow: false,
-    toolBar: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    addLayer: [1, 0, 0],
+    toolBar: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],//控制左上角工具栏是否显示对应的功能界面，1代表显示
+    addLayer: [1, 0, 0, 0],//添加图层的四个分项的显隐
     sceneAtttribute: [1, 0, 0, 0, 0],
     terrain: [1, 0, 0, 0],
     clip: [1, 0, 0, 0],
