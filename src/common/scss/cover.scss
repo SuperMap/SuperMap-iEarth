@@ -59,19 +59,18 @@
 .ivu-table-header th {
   color: #fff; //字体颜色
   font-weight: bold; //字体粗细
-  background-color: #041A23; //背景颜色
-  
+  background-color: #171717; //背景色
   border: none; //边框有无
   border-bottom: 2px solid #062735; //边框粗细及样式颜色
 }
 
 //表格内部颜色修改
 .ivu-table td {
-  background-color: #041A23; //背景色
+  background-color: #171717; //背景色
   color: #fff; //字体色
   border: none; //是否有边框
 }
 
 .ivu-table tr.ivu-table-row-hover td {
-  background-color: green;
+  background-color: #009c95;
 }

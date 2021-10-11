@@ -63,6 +63,7 @@
       smOnlineService: '公有数据服务',
       customService: '自定义服务',
       localKML: '本地数据',
+      portalService:'我的服务',
       myScenes: '我的场景',
       skyAtmosphereEffect: '大气渲染',
       sunEffect: '光照渲染',
@@ -634,7 +635,10 @@
       accountInfo: "账户信息",
       displayCoordinates: '显示坐标',
       whiteMold:'白模',
-      whiteMoldMap:'白模专题图'
+      whiteMoldMap:'白模专题图',
+      map:'地图',
+      service:'服务',
+      scene:'场景'
     };
 
     export default ResourceCN;

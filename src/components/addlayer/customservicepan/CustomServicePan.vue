@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     customServiceShow: function() {
-      return this.sharedState.addLayer[1];
+      return this.sharedState.addLayer[2];
     }
   },
   methods: {

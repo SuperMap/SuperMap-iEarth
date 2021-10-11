@@ -1,9 +1,8 @@
-<script src="../../../../../iportal-iEarth/.postcssrc.js"></script>
 <template>
   <div class="sm-function-module-content" v-show="portalServiceShow">
     <div>
       <div>
-        <Table ref="selection" :columns="columns3" :data="data1" :height="true ? 250 : ''"></Table>
+        <Table ref="selection" :columns="columns" :data="data" :height="true ? 250 : ''"></Table>
       </div>
 
       <div class="boxchild">
@@ -28,7 +27,7 @@ export default {
     return {
       sharedState: store.state,
 
-      columns3: [
+      columns: [
         { type: "selection", width: 60, align: "center" },
         {
           title: "服务名称",
@@ -60,15 +59,17 @@ export default {
           }
         }
       ],
-      data1: []
+      data: []
     };
   },
   mounted() {
-    this.init();
+    if (window.store.isPortal) {
+      this.init();
+    }
   },
   computed: {
     portalServiceShow: function() {
-      return this.sharedState.addLayer[3];//第四分项
+      return this.sharedState.addLayer[1]; //第二分项
     }
   },
   methods: {
@@ -121,7 +122,7 @@ export default {
 
                     // let disabled = noPermission;
 
-                    that.data1.push({
+                    that.data.push({
                       name: item.name,
                       resourceSubType: item.resourceSubType,
                       updateTime: that.dateDiff(item.updateTime),

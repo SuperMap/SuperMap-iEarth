@@ -62,6 +62,7 @@
         area: 'Area',
         smOnlineService: 'Public data service',
         customService: 'Custom service',
+        portalService: 'my service',
         localKML: 'Local data',
         myScenes: 'My scene',
         skyAtmosphereEffect: 'Atma',
@@ -632,9 +633,12 @@
         loginFailed: "loginFailed",
         noPermission: "You do not have permission to create, update or delete scenes",
         accountInfo: "accountInfo",
-        displayCoordinates:'Display Coordinates',
-        whiteMold:'White Mold',
-        whiteMoldMap:'White mold thematic map'
+        displayCoordinates: 'Display Coordinates',
+        whiteMold: 'White Mold',
+        whiteMoldMap: 'White mold thematic map',
+        map: 'map',
+        service: 'service',
+        scene: 'scene'
     };
 
     export default ResourceEN;

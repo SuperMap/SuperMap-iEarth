@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     localFileShow: function () {
-      return this.sharedState.addLayer[2];
+      return this.sharedState.addLayer[3];
     },
   },
   methods: {

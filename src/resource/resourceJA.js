@@ -63,7 +63,8 @@
         smOnlineService: '公開データサービス',
         customService: 'ユーザー定義サービス',
         localKML: 'ローカルデータ',
-        myScenes: 'マイシーン',
+        portalService:'私の サービス',
+        myScenes: 'マイシーン',        
         skyAtmosphereEffect: '大気レンダリング',
         sunEffect: '照明レンダリング',
         fogEffect: 'ボリュームレンダリング',
@@ -634,7 +635,10 @@
         accountInfo: "アカウント情報",
         displayCoordinates: '座標を表示',
         whiteMold: '白の鋳型',
-        whiteMoldMap: 'ホワイトモード'
+        whiteMoldMap: 'ホワイトモード',
+        map: '地図',
+        service: 'サービス',
+        scene: 'シーン'
     };
 
     export default ResourceJA;

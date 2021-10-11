@@ -9,28 +9,28 @@
           @click="choose(0)"
         >{{Resource.publicService}}</span>
         <span
-          :class="{titleColor:customServiceShow}"
+          :class="{titleColor:portalServiceSelected}"
           class="title-txt"
           @click="choose(1)"
+          v-if="portalServiceShow" >{{Resource.portalService}}</span>
+        <span
+          :class="{titleColor:customServiceShow}"
+          class="title-txt"
+          @click="choose(2)"
         >{{Resource.customService}}</span>
         <span
           :class="{titleColor:localFileShow}"
           class="title-txt"
-          @click="choose(2)"
-        >{{Resource.localKML}}</span>
-        <span
-          :class="{titleColor:portalServiceShow}"
-          class="title-txt"
           @click="choose(3)"
-        >{{Resource.portalService}}</span>
+        >{{Resource.localKML}}</span>        
         <div style="width:10px;"></div>
         <span class="closeBtn" @click="toggleVisibility">&times;</span>
       </div>
       <!-- 调用子组件 -->
       <add-web-service></add-web-service>
+      <add-portal-service v-if="portalServiceShow"></add-portal-service>
       <add-custom-service @childEvent="parentEvent"></add-custom-service>
-      <add-local-file></add-local-file>
-      <add-portal-service></add-portal-service>
+      <add-local-file></add-local-file>      
     </div>
   </div>
 </template>
@@ -47,14 +47,17 @@ export default {
     webServiceShow: function() {
       return this.sharedState.addLayer[0];
     },
-    customServiceShow: function() {
-      return this.sharedState.addLayer[1];
+    portalServiceSelected: function() {   
+      return this.sharedState.addLayer[1];   
     },
-    localFileShow: function() {
+    customServiceShow: function() {
       return this.sharedState.addLayer[2];
     },
-    portalServiceShow: function() {
+    localFileShow: function() {
       return this.sharedState.addLayer[3];
+    },    
+    portalServiceShow: function() {      
+      return window.store.isPortal;
     },
     addLayerShow: function() {
       return this.sharedState.toolBar[1];
