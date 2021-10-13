@@ -37,6 +37,19 @@ function mountVue() {
   vue.$mount('#app');
 }
 
+// 判断访问协议解决跨域问题（支持网站http和https访问）
+var ishttps = 'https:' == document.location.protocol ? true : false;
+if (ishttps) {
+  addMeta("Content-Security-Policy", "upgrade-insecure-requests")
+}
+
+function addMeta(http_equiv, content) { //手动添加mata标签
+  let meta = document.createElement('meta');
+  meta.httpEquiv = http_equiv;
+  meta.content = content;
+  document.getElementsByTagName('head')[0].appendChild(meta);
+}
+
 window.store.isPortal = true;
 
 //获取iport配置及用户信息
