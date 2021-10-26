@@ -26,7 +26,13 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">'+ Resource.layerName +'</label>',
                     '<input id="layerName" class="input disabled width-adjust" type="text" disabled/>',
-                '</div>',
+                    '<div style="margin-top:5px;">',
+                        '<label class="half">',
+                        '<input type="checkbox" id="featureQuery"/>',
+                        '<span>'+ Resource.featureQuery +'</span>',
+                        '</label>',
+                    '</div>',
+            '</div>',
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">'+ Resource.shadow +'</label>',
                         '<div style="overflow: auto;">',
@@ -310,7 +316,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
 				$(document).ready(function() {
 					var widget = $('#layerForm');
 					var tabs = widget.find('ul a'),
-						content = widget.find('.tabs-content-placeholder > div');
+                        content = widget.find('.tabs-content-placeholder > div');
 					tabs.on('click', function (e) {
 						e.preventDefault();
 						// Get the data-index attribute, and show the matching content div

@@ -21,6 +21,17 @@
 </head>
 <body>
 <div id="cesiumContainer"></div>
+
+<!-- 弹出属性框 -->
+<div id="bubble" class="bubble" style="display:none;">
+    <div id="tools" style="text-align : right">
+        <span class="fui-cross" id="close" style="color: darkgrey;padding:5px"></span>
+    </div>
+    <div style="overflow-y:auto;" id="tableContainer">
+        <table id="tab" style="height: 100px;"></table>
+    </div>
+</div>
+
 <div id="transition-loader" class="transition-loader">
     <label></label>
     <label></label>

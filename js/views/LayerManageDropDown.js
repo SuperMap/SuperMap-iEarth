@@ -253,10 +253,60 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
         layerName.value = layer._name;
         selectedLayer = layer;
         if(selectedLayer instanceof Cesium.S3MTilesLayer){
+            document.getElementById('featureQuery').checked = selectedLayer.indexedDBSetting.isAttributesSave;
+
             document.getElementById('layer-brightness').value = selectedLayer.brightness;
             document.getElementById('layer-contrast').value = selectedLayer.contrast;
             document.getElementById('layer-hue').value = selectedLayer.hue;
             document.getElementById('layer-saturation').value = selectedLayer.saturation;
+
+            //弹出属性框
+            var scene = viewer.scene;
+
+            var infoboxContainer = document.getElementById("bubble");
+            var table = document.getElementById("tab"); // 气泡内的表格
+
+
+            var handler1 = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            handler1.setInputAction(function (e) {
+                var selectedLyr = scene.layers.getSelectedLayer();
+                var selectedFeature = viewer.selectedEntity;
+
+                if (!selectedFeature) {
+                    /* 气泡相关 3/4 start */
+                    $("#bubble").hide();
+                    /* 气泡相关 3/4 end */
+                    return;
+                }
+
+                $("#bubble").show();
+                for (i = table.rows.length - 1; i > -1; i--) {
+                    table.deleteRow(i);
+                }
+
+                selectedLyr.getAttributesById(selectedFeature.id).then(function (data) {
+                    if (data) {
+                        var newRow = table.insertRow();
+                        var cell1 = newRow.insertCell();
+                        var cell2 = newRow.insertCell();
+                        cell1.innerHTML = "layerName";
+                        cell2.innerHTML = selectedLayer.name;
+                        for (let key in data) {
+                            var newRow = table.insertRow();
+                            var cell1 = newRow.insertCell();
+                            var cell2 = newRow.insertCell();
+                            cell1.innerHTML = key;
+                            cell2.innerHTML = data[key];
+                        }
+                    } else {
+                        $("#bubble").hide();
+                    }
+                })
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            $("#close").click(function () { // 关闭气泡
+                $("#bubble").hide();
+            });
 
             switch (selectedLayer.style3D.fillStyle){
                 case Cesium.FillStyle.Fill:
@@ -315,6 +365,10 @@ define(['./Container', 'jquery', 'bootstrapTree', 'spectrum', 'drag', '../3DGIS/
                 else if (value == "1") {
                     selectedLayer.selectColorType = 1;
                 }
+            });
+            //属性查询
+            $("#featureQuery").click(function (evt) {
+                selectedLayer.indexedDBSetting.isAttributesSave = !selectedLayer.indexedDBSetting.isAttributesSave;//保存属性
             });
             // 图层可见性
             $("#display").click(function (evt) {
