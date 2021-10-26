@@ -638,7 +638,9 @@
         whiteMoldMap: 'ホワイトモード',
         map: '地図',
         service: 'サービス',
-        scene: 'シーン'
+        scene: 'シーン',
+        waiteData:'データ読み込みが完了するまで待ちます',
+        notSupport:'このデバイスはこの機能をサポートしていません。'
     };
 
     export default ResourceJA;

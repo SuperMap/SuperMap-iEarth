@@ -638,7 +638,9 @@
       whiteMoldMap:'白模专题图',
       map:'地图',
       service:'服务',
-      scene:'场景'
+      scene:'场景',
+      waitData:'请等待数据加载完成！',
+      notSupport:'该设备暂不支持该功能'
     };
 
     export default ResourceCN;

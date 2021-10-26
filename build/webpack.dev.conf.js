@@ -22,6 +22,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
+    // useLocalIp: true,//避免打开浏览器为0.0.0.0，需手动改IP的情况
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [

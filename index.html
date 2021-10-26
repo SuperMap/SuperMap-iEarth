@@ -33,10 +33,24 @@
   <script src="./static/Cesium/Cesium.js"></script>
   <!--    引入其他依赖-->
   <script src="./static/js/vue.min.js"></script>
-  <script src="./static/js/iview.min.js" ></script>
+  <script src="./static/js/iview.min.js"></script>
   <!-- <script src="https://unpkg.com/axios/dist/axios.min.js" async></script> -->
   <script src="./static/js/echarts.min.js" async></script>
   <script src="./static/js/heatmap.min.js" async></script>
+
+  <script>
+    window.device = 'PC';
+    var a = navigator.userAgent;
+    var isAndroid = a.indexOf('Android') > -1 || a.indexOf('Adr') > -1; //android终端
+    var isiOS = !!a.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (isAndroid) {
+      device = 'Android';
+    }
+    if (isiOS) {
+      device = 'iOS';
+    }
+  </script>
+
 </body>
 
 </html>

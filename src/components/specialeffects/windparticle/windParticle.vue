@@ -4,7 +4,7 @@
     <div class="sm-content">
       <div class="sm-panel-header">
         <span class="title-txt">{{Resource.windParticle}}</span>
-        <span class="closeBtn" @click="clear">&times;</span>
+        <span class="closeBtn" @click="setVisible">&times;</span>
       </div>
       <div class="sm-function-module-content">
         <div class="sm-function-module-sub-section">
@@ -82,8 +82,8 @@
             <input
               class="min-solider"
               min="0.1"
-              max="5"
-              step="0.1"
+              max="50"
+              step="1"
               style="width:63%;background-color:rgba(51,51,51,1);border:1px solid rgb(87,93,96);padding:0 3px;height:25px;border-radius:3px;"
               type="range"
               v-model="particleVelocityScale"
@@ -91,8 +91,8 @@
             <input
               class="min-solider"
               min="0.1"
-              max="5"
-              step="0.1"
+              max="50"
+              step="1"
               style="width:34%;border-radius: 3px"
               type="number"
               v-model="particleVelocityScale"
@@ -155,6 +155,7 @@
         <div class="boxchild">
           <button class="tbtn tbn1" type="button" @click="startField">{{Resource.Start}}</button>
           <button class="tbtn" type="button" @click="changeFieldData">{{Resource.SwitchData}}</button>
+          <button class="tbtn" type="button" @click="clear">{{Resource.clear}}</button>
         </div>
       </div>
     </div>
@@ -162,7 +163,6 @@
 </template>
 
 <script>
-
 //todo
 // 该功能需要开启requestWebgl2，暂时先不开启此功能
 
@@ -174,127 +174,168 @@ export default {
   data() {
     return {
       sharedState: store.state,
-      particleSize: 1.2,
+      particleSize: 2,
       ParticleLife: 5,
       particleDensity: 1,
-      particleVelocityScale: 0.4,
-      bloomShow: true,
+      particleVelocityScale: 40,
+      bloomShow: false,
       fieldLayerVisible: true,
       threshold: 0.5,
       intensity: 1.5,
       dataChanged: false,
+      dataCompleted: false
     };
   },
   computed: {
-    isInitViewer: function () {
+    isInitViewer: function() {
       return this.sharedState.isInitViewer;
     },
-    windParticleShow: function () {
+    windParticleShow: function() {
       return this.sharedState.specialEffects[4];
-    },
+    }
   },
   methods: {
     init() {
+      if (window.device == "iOS") {
+        this.$Message.warning({
+          background: true,
+          content: Resource.notSupport
+        });
+        return;
+      }
+
+      let that = this;
+      // viewer.imageryLayers.addImageryProvider(
+      //   new Cesium.SingleTileImageryProvider({
+      //     url: "static/images/ParticleSystem/BlackMarble_2020.jpg"
+      //   })
+      // );
+
+      // viewer.imageryLayers.addImageryProvider(
+      //   new Cesium.UrlTemplateImageryProvider({
+      //     url:
+      //       "http://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}"
+      //   })
+      // );
+
+      // var layer = viewer.imageryLayers.addImageryProvider(
+      //   new Cesium.CGCS2000MapServerImageryProvider({
+      //     url:
+      //       "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer"
+      //     // suggest: true,//4490坐标系，按照suggest切片方案切的瓦片,需要设置该参数
+      //   })
+      // );
+
+      // viewer.imageryLayers.addImageryProvider(
+      //   new Cesium.BingMapsImageryProvider({
+      //     key: URL_CONFIG.BING_MAP_KEY, //可至官网（https://www.bingmapsportal.com/）申请key
+      //     url: URL_CONFIG.BINGMAP
+      //   })
+      // );
+
+      // viewer.imageryLayers.addImageryProvider(
+      //   new Cesium.BingMapsImageryProvider({
+      //     url: "https://dev.virtualearth.net",
+      //     mapStyle: Cesium.BingMapsStyle.AERIAL_WITH_LABELS,
+      //     key: URL_CONFIG.BING_MAP_KEY
+      //   })
+      // );
+
+      // var imageryLayers = viewer.imageryLayers;
+      // //初始化天地图全球中文注记服务，并添加至影像图层
+      // var labelImagery = new Cesium.TiandituImageryProvider({
+      //   mapStyle: Cesium.TiandituMapsStyle.CIA_C, //天地图全球中文注记服务（经纬度投影）
+      //   token: "7c84d70cb5b767c43dc86794d0d402e6"
+      // });
+      // imageryLayers.addImageryProvider(labelImagery);
+
       viewer.imageryLayers.addImageryProvider(
-        new Cesium.SingleTileImageryProvider({
-          url: "static/images/ParticleSystem/BlackMarble_2020.jpg",
+        new Cesium.SuperMapImageryProvider({
+          url:
+            "https://maptiles.supermapol.com/iserver/services/map_China/rest/maps/China_Dark"
         })
       );
+
       let scene = viewer.scene;
-      if(scene.skyBox){
-         scene.skyBox.show = false;
-         scene.sun.show = false;
+      if (scene.skyBox) {
+        scene.skyBox.show = false;
+        scene.sun.show = false;
       }
       scene.skyAtmosphere.show = false;
-      viewer.scene.bloomEffect.show = true; //启用泛光效果
+      viewer.scene.bloomEffect.show = this.bloomShow; //启用泛光效果
       viewer.scene.bloomEffect.threshold = Number(this.threshold);
       viewer.scene.bloomEffect.bloomIntensity = Number(this.intensity);
-      let promise = scene.open(URL_CONFIG.SCP_WORLD_COUNTRY_VECTOR2);
-      Cesium.when.all(promise, function (layers) {
-        let layer1 = scene.layers.find("Country_Label@World");
-        let layerEffect1 = layer1.effect;
-        layerEffect1.setValue(
-          "Color",
-          new Cesium.Color(
-            (255 * 1.5) / 255,
-            (255 * 1.5) / 255,
-            (255 * 1.5) / 255,
-            1
-          )
-        );
-        layerEffect1.setValue("Width", 1.3);
 
-        let layer3 = scene.layers.find("Ocean_Label@World");
-
-        let layerEffect3 = layer3.effect;
-        layerEffect3.setValue(
-          "Color",
-          new Cesium.Color(
-            (255 * 1.5) / 255,
-            (255 * 1.5) / 255,
-            (255 * 1.5) / 255,
-            1
-          )
-        );
-        layerEffect3.setValue("Width", 1.3);
-
-        let colorTable = new Cesium.ColorTable();
-      colorTable.insert(
-        2,
-        new Cesium.Color(254 / 255, 224 / 255, 139 / 255, 1)
-      );
-      colorTable.insert(
-        2,
-        new Cesium.Color(171 / 255, 221 / 255, 164 / 255, 1)
-      );
-      colorTable.insert(
-        2,
-        new Cesium.Color(104 / 255, 196 / 255, 160 / 255, 1)
-      );
-      colorTable.insert(4, new Cesium.Color(44 / 255, 185 / 255, 156 / 255, 1));
-      colorTable.insert(4, new Cesium.Color(25 / 255, 169 / 255, 178 / 255, 1));
-      colorTable.insert(7, new Cesium.Color(50 / 255, 136 / 255, 189 / 255, 1));
-      colorTable.insert(
-        10,
-        new Cesium.Color(31 / 255, 110 / 255, 183 / 255, 1)
-      );
-      colorTable.insert(15, new Cesium.Color(5 / 255, 98 / 255, 184 / 255, 1));
       fieldLayer = new Cesium.FieldLayer3D(scene.context); //场数据图层
-      fieldLayer.particleVelocityFieldEffect.velocityScale = 0.5 * 100.0; //初始化效果
-      fieldLayer.particleVelocityFieldEffect.particleSize = 1.8;
-      fieldLayer.particleVelocityFieldEffect.paricleCountPerDegree = 0.8;
-      fieldLayer.particleVelocityFieldEffect._fade0pacity = 0.996;
+      fieldLayer.particleVelocityFieldEffect.velocityScale = 0.4 * 100.0; //初始化效果
+      fieldLayer.particleVelocityFieldEffect.particleSize = this.particleSize;
+      fieldLayer.particleVelocityFieldEffect.paricleCountPerDegree = 1.0;
+      // fieldLayer.particleVelocityFieldEffect._fade0pacity=0.996;
       scene.primitives.add(fieldLayer); //添加场图层
 
-      fieldLayer.particleVelocityFieldEffect.colorTable = colorTable;
-
       //加载风场数据
-      window.axios
-        .get("static/data/winds.json")
-        .then(function (response) {
-          let data = response.data;
-          let p = 0;
-          for (let j = 0, x = 181; j < x; j++) {
-            particleWindField[180 - j] = [];
-            particleWindInverseField[180 - j] = [];
-            for (let i = 0, y = 360; i < y; i++, p++) {
-              const k = j * 360 + ((i + 360 / 2) % 360);
-              particleWindField[180 - j][i] = [
-                data[0].data[k],
-                data[1].data[k],
-              ];
-              particleWindInverseField[180 - j][i] = [
-                 -data[0].data[k],
-                 -data[1].data[k],
-              ];
-            }
+      window.axios.get("static/data/winds.json").then(function(response) {
+        let data = response.data;
+        let p = 0;
+        for (var j = 0; j < 181; j++) {
+          particleWindField[j] = [];
+          particleWindInverseField[j] = [];
+          for (var i = 0; i < 360; i++, p++) {
+            var idx = i < 180 ? i + 180 : i - 180;
+            var offset = (180 - j) * 360 + idx;
+            var wind_value = [data[1].data[offset], data[2].data[offset]];
+            particleWindField[j][i] = wind_value;
+            particleWindInverseField[j][i] = [-wind_value[0], -wind_value[1]];
           }
-        });
+        }
+
+        let colorTable = new Cesium.ColorTable();
+        colorTable.insert(0, new Cesium.Color.fromCssColorString("#6EB1EE")); // 0级  0-0.2m/s
+        colorTable.insert(0.2, new Cesium.Color.fromCssColorString("#68ACED")); //1级  0.2-1.5m/s
+        colorTable.insert(1.5, new Cesium.Color.fromCssColorString("#61A7EB")); //2级  1.5-3.3m/s
+        colorTable.insert(3.3, new Cesium.Color.fromCssColorString("#5BA2EA")); //3级  3.3-5.4m/s
+        colorTable.insert(5.4, new Cesium.Color.fromCssColorString("#549DE9")); //4级  5.4-7.9m/s
+        colorTable.insert(7.9, new Cesium.Color.fromCssColorString("#4E98E8")); //5级  7.9-10.7m/s
+        colorTable.insert(10.7, new Cesium.Color.fromCssColorString("#4794E6")); //6级  10.7-13.8m/s
+        colorTable.insert(13.8, new Cesium.Color.fromCssColorString("#418FE5")); //7级  13.8-17.1m/s
+        colorTable.insert(17.1, new Cesium.Color.fromCssColorString("#3A8AE4")); //8级  17.1-20.7m/s
+        colorTable.insert(20.7, new Cesium.Color.fromCssColorString("#3485E3")); //9级  20.7-24.4m/s
+        colorTable.insert(24.4, new Cesium.Color.fromCssColorString("#2D80E2")); //10级  24.4-28.4m/s
+        colorTable.insert(28.4, new Cesium.Color.fromCssColorString("#277BE0")); //11级  28.4-32.6m/s
+        colorTable.insert(32.6, new Cesium.Color.fromCssColorString("#2076DF")); //12级  32.6-36.9m/s
+        colorTable.insert(36.9, new Cesium.Color.fromCssColorString("#1A71DE")); //13级  36.9-41.4m/s
+        colorTable.insert(41.4, new Cesium.Color.fromCssColorString("#136DDD")); //14级  41.4-46.1m/s
+        colorTable.insert(46.1, new Cesium.Color.fromCssColorString("#0D68DB")); //15级  46.1-50.9m/s
+        colorTable.insert(50.9, new Cesium.Color.fromCssColorString("#0663DA")); //16级  50.9-56.0m/s
+        colorTable.insert(56, new Cesium.Color.fromCssColorString("#005ED9")); //17级  >56.0m/s
+
+        // //白色
+        // colorTable.insert(
+        //   0,
+        //   new Cesium.Color(255 / 255, 255 / 255, 255 / 255, 0.95)
+        // );
+        // colorTable.insert(
+        //   50,
+        //   new Cesium.Color(255 / 255, 255 / 255, 255 / 255, 0.95)
+        // );
+        fieldLayer.particleVelocityFieldEffect.colorTable = colorTable;
+
+        that.dataCompleted = true;
       });
-      
     },
     startField() {
-      fieldLayer.fieldData = particleWindField;
+      if (window.device == "iOS") {
+        return;
+      }
+
+      if (this.dataCompleted) {
+        fieldLayer.fieldData = particleWindField;
+      } else {
+        this.$Message.warning({
+          background: true,
+          content: Resource.waitData
+        });
+      }
     },
     //场图层数据切换
     changeFieldData() {
@@ -316,8 +357,9 @@ export default {
       viewer.scene.layers.remove("Ocean_Label@World");
       let ly = viewer.imageryLayers._layers[1];
       viewer.imageryLayers.remove(ly);
-      store.setSpecialEffects(2, 0);
+      store.setSpecialEffects(4, 0);
       this.reset();
+      this.dataCompleted = false;
     },
     reset() {
       viewer.camera.flyTo({
@@ -325,17 +367,27 @@ export default {
           110.60396458865515,
           34.54408834959379,
           30644793.325518917
-        ),
+        )
       });
     },
+    setVisible() {
+      store.setSpecialEffects(4, 0);
+    }
   },
 
   watch: {
-    windParticleShow(val) {
-      if (val) {
-        this.init();
-      }
+    windParticleShow: {
+      handler(val) {
+        if (val && particleWindField.length == 0) this.init();
+      },
+      immediate: true
     },
+
+    // windParticleShow(val) {
+    //   if (val && particleWindField.length == 0) {
+    //     this.init();
+    //   }
+    // },
 
     particleSize(val) {
       fieldLayer.particleVelocityFieldEffect.particleSize = Number(val);
@@ -350,9 +402,9 @@ export default {
       );
     },
     particleVelocityScale(val) {
-      fieldLayer.particleVelocityFieldEffect.velocityScale = val * 100.0;
+      fieldLayer.particleVelocityFieldEffect.velocityScale = val;
     },
-    bloomShow: function (val) {
+    bloomShow: function(val) {
       viewer.scene.bloomEffect.show = val;
       viewer.scene.bloomEffect.threshold = Number(this.threshold);
       viewer.scene.bloomEffect.bloomIntensity = Number(this.intensity);
@@ -365,8 +417,8 @@ export default {
     },
     intensity(val) {
       viewer.scene.bloomEffect.bloomIntensity = Number(this.intensity);
-    },
-  },
+    }
+  }
 };
 </script>
 

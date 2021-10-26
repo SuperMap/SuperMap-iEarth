@@ -10,7 +10,7 @@
       "id": 1,
       "thumbnail": "static/images/thumbnails/scanEffect.jpg",
       "description": "扫描线特效"
-    },    
+    },
     {
       "name": "雨雪",
       "id": 2,
@@ -33,6 +33,12 @@
       "id": 3,
       "thumbnail": "static/images/thumbnails/HeatMap.jpg",
       "description": "热力图"
-    }    
+    },
+    {
+      "name": "风场",
+      "id": 4,
+      "thumbnail": "static/images/thumbnails/windParticle.jpg",
+      "description": "风场"
+    }
   ]
 }
