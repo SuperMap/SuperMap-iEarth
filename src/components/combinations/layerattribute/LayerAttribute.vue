@@ -1,398 +1,452 @@
 <template>
-  <div
-    id="LayerAttribute"
-    class="sm-panel"
-    v-if="LayerAttributeShow"
-    v-drag
-    data-attr="drag"
-  >
-    <div class="sm-content">
-      <div class="sm-panel-header">
-        <span :class="{titleColor:basicOptions}" class="layerTitle-txt" @click="choose(0)">{{Resource.basicOptions}}</span>
-        <span :class="{titleColor:styleSetting}" class="layerTitle-txt" @click="choose(1)">{{Resource.styleSetting}}</span>
-        <span :class="{titleColor:LayerOperation}" class="layerTitle-txt" @click="choose(2)">{{Resource.LayerOperation}}</span>
-        <!--<span :class="{titleColor:Thematicmap}" class="title-txt" @click="choose(3)">{{Resource.Thematicmap}}</span>-->
-        <span class="closeBtn" @click="toggleVisibility">&times;</span>
+  <div>
+    <!-- 弹出属性框 -->
+    <div id="bubble" class="bubble" v-show="buddleShow">
+      <div id="tools" style="text-align : right">
+        <span class="closeBubble" @click="closeBubble">&times;</span>
       </div>
+      <div style="overflow-y:auto;" id="tableContainer">
+        <table id="tab" style="height: 100px;"></table>
+      </div>
+    </div>
 
-      <!-- 调用子组件 -->
-      <div v-show="basicOptions">
-        <div class="sm-function-module-content">
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.layerName}}</label>
-            <input class="sm-input-long layerwidth" disabled type="text" v-model="layerName" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.shadowMode}}</label>
-            <select class="sm-select" v-model="shadowType">
-              <option value="noShadow">{{Resource.noShadow}}</option>
-              <!--<option value="chooseShadow">{{Resource.setSelectionShadow}}</option>-->
-              <option value="allShadow">{{Resource.setShadow}}</option>
-            </select>
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.shadowDarkness}} </label>
-            <div class="sm-solider-input-box lodbox">
-              <input
-                class="min-solider"
-                type="range"
-                v-model="shadowDarkness"
-                min="0.1"
-                max="0.9"
-                step="0.1"
-                style="width:77%;
+    <div id="LayerAttribute" class="sm-panel" v-if="LayerAttributeShow" v-drag data-attr="drag">
+      <div class="sm-content">
+        <div class="sm-panel-header">
+          <span
+            :class="{titleColor:basicOptions}"
+            class="layerTitle-txt"
+            @click="choose(0)"
+          >{{Resource.basicOptions}}</span>
+          <span
+            :class="{titleColor:styleSetting}"
+            class="layerTitle-txt"
+            @click="choose(1)"
+          >{{Resource.styleSetting}}</span>
+          <span
+            :class="{titleColor:LayerOperation}"
+            class="layerTitle-txt"
+            @click="choose(2)"
+          >{{Resource.LayerOperation}}</span>
+          <!--<span :class="{titleColor:Thematicmap}" class="title-txt" @click="choose(3)">{{Resource.Thematicmap}}</span>-->
+          <span class="closeBtn" @click="toggleVisibility">&times;</span>
+        </div>
+
+        <!-- 调用子组件 -->
+        <div v-show="basicOptions">
+          <div class="sm-function-module-content">
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.layerName}}</label>
+              <input class="sm-input-long layerwidth" disabled type="text" v-model="layerName" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.shadowMode}}</label>
+              <select class="sm-select" v-model="shadowType">
+                <option value="noShadow">{{Resource.noShadow}}</option>
+                <!--<option value="chooseShadow">{{Resource.setSelectionShadow}}</option>-->
+                <option value="allShadow">{{Resource.setShadow}}</option>
+              </select>
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.shadowDarkness}}</label>
+              <div class="sm-solider-input-box lodbox">
+                <input
+                  class="min-solider"
+                  type="range"
+                  v-model="shadowDarkness"
+                  min="0.1"
+                  max="0.9"
+                  step="0.1"
+                  style="width:77%;
                        background-color:rgb(51,51,51);
                        border:1px solid #686363;
                        padding:0px 3px;
                        height:25px;
                        border-radius:0px;float:right;"
-              />
+                />
+              </div>
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.visibility}}</label>
+              <select class="sm-select" v-model="visibility">
+                <option value="onlyShowSlection">{{Resource.onlyShowSlection}}</option>
+                <option value="onlyHideSlection">{{Resource.onlyHideSlection}}</option>
+                <option value="showAll">{{Resource.showAll}}</option>
+              </select>
+            </div>
+
+            <div class="flexbox">
+              <label class="sm-viewshed-label-right">{{Resource.display}}</label>
+              <input style="margin-left: 10px" type="checkbox" v-model="display" />
+              <label style="width:21%"></label>
+              <label class="sm-viewshed-label-right">{{Resource.cullEnabled}}</label>
+              <input style="margin-left: 10px" type="checkbox" v-model="cullEnabled" />
+            </div>
+            <div class="flexbox">
+              <label class="sm-viewshed-label-right">{{Resource.multiSelection}}</label>
+              <input style="margin-left: 10px" type="checkbox" v-model="multiChoose" />
+              <label style="width:21%"></label>
+              <label class="sm-viewshed-label-right">{{Resource.downloadAtt}}</label>
+              <input style="margin-left: 10px" type="checkbox" v-model="downloadAtt" />
+            </div>
+            <div class="flexbox">
+              <label class="sm-viewshed-label-right">{{Resource.bReleaseColor}}</label>
+              <input style="margin-left: 10px" type="checkbox" v-model="breleaseColor" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.visibleDistanceMin}}</label>
+              <input class="sm-input-long" min="0" type="number" v-model="minVisibleH" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.visibleDistanceMax}}</label>
+              <input class="sm-input-long" min="0" type="number" v-model="maxVisibleH" />
             </div>
           </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.visibility}}</label>
-            <select class="sm-select" v-model="visibility">
-              <option value="onlyShowSlection">{{Resource.onlyShowSlection}}</option>
-              <option value="onlyHideSlection">{{Resource.onlyHideSlection}}</option>
-              <option value="showAll">{{Resource.showAll}}</option>
-            </select>
-          </div>
-       
-          <div class="flexbox">
-            <label class="sm-viewshed-label-right">{{Resource.display}}</label>
-            <input style="margin-left: 10px" type="checkbox" v-model="display" />
-            <label style="width:21%"></label>
-            <label class="sm-viewshed-label-right">{{Resource.cullEnabled}}</label>
-            <input style="margin-left: 10px" type="checkbox" v-model="cullEnabled" />
-          </div>
-          <div class="flexbox">
-            <label class="sm-viewshed-label-right">{{Resource.multiSelection}}</label>
-            <input style="margin-left: 10px" type="checkbox" v-model="multiChoose" />
-            <label style="width:12%"></label>
-            <label class="sm-viewshed-label-right">{{Resource.bReleaseColor}}</label>
-            <input style="margin-left: 10px" type="checkbox" v-model="breleaseColor" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.visibleDistanceMin}}</label>
-            <input class="sm-input-long" min="0" type="number" v-model="minVisibleH" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.visibleDistanceMax}}</label>
-            <input class="sm-input-long" min="0" type="number" v-model="maxVisibleH" />
-          </div>
         </div>
-      </div>
 
-      <div v-show="styleSetting">
-        <div class="sm-function-module-content">
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.foreColor}}</label>
-            <ColorPicker class="sm-colorpicker" editable v-model="foreColor" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.lineColor}}</label>
-            <ColorPicker class="sm-colorpicker" editable v-model="lineColor" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.selectColor}}</label>
-            <ColorPicker class="sm-colorpicker" editable v-model="selectColor" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.selectColorType}}</label>
-            <select class="sm-select" v-model="selectColorType">
-              <option value="0">{{Resource.mix}}</option>
-              <option value="1">{{Resource.replace}}</option>
-            </select>
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.bottomAltitude}}</label>
-            <input class="sm-input-long" min="0" type="number" v-model="bottomAltitude" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">LOD ：</label>
-            <div class="sm-solider-input-box lodbox">
-              <input
-                class="min-solider"
-                type="range"
-                v-model="LODScale"
-                min="0.1"
-                max="10"
-                step="0.5"
-                style="width:77%;
+        <div v-show="styleSetting">
+          <div class="sm-function-module-content">
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.foreColor}}</label>
+              <ColorPicker class="sm-colorpicker" editable v-model="foreColor" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.lineColor}}</label>
+              <ColorPicker class="sm-colorpicker" editable v-model="lineColor" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.selectColor}}</label>
+              <ColorPicker class="sm-colorpicker" editable v-model="selectColor" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.selectColorType}}</label>
+              <select class="sm-select" v-model="selectColorType">
+                <option value="0">{{Resource.mix}}</option>
+                <option value="1">{{Resource.replace}}</option>
+              </select>
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.bottomAltitude}}</label>
+              <input class="sm-input-long" min="0" type="number" v-model="bottomAltitude" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">LOD ：</label>
+              <div class="sm-solider-input-box lodbox">
+                <input
+                  class="min-solider"
+                  type="range"
+                  v-model="LODScale"
+                  min="0.1"
+                  max="10"
+                  step="0.5"
+                  style="width:77%;
                        background-color: rgb(51,51,51);
                        border:1px solid rgb(87,93,96);
                        padding:0px 3px;
                        height:25px;
                        border-radius:0px;float:right;"
+                />
+              </div>
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.fillStyle}}</label>
+              <select class="sm-select" v-model="fillStyle">
+                <option value="fill">{{Resource.fillMode}}</option>
+                <option value="wireframe">{{Resource.lineMode}}</option>
+                <option value="fill-and-wireframe">{{Resource.fillAndLine}}</option>
+              </select>
+            </div>
+
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.modelTransparency}}</label>
+              <input
+                class="sm-input-long"
+                min="0"
+                max="1.0"
+                step="0.01"
+                type="number"
+                v-model="modelTransparency"
               />
             </div>
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.fillStyle}}</label>
-            <select class="sm-select" v-model="fillStyle">
-              <option value="fill">{{Resource.fillMode}}</option>
-              <option value="wireframe">{{Resource.lineMode}}</option>
-              <option value="fill-and-wireframe">{{Resource.fillAndLine}}</option>
-            </select>
-          </div>
-
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.modelTransparency}}</label>
-            <input
-              class="sm-input-long"
-              min="0"
-              max="1.0"
-              step="0.01"
-              type="number"
-              v-model="modelTransparency"
-            />
-          </div>
-          <div class="boxchild">
-            <button class="tbtn right" type="button" @click="clearModification">{{Resource.home}}</button>
+            <div class="boxchild">
+              <button class="tbtn right" type="button" @click="clearModification">{{Resource.home}}</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div v-show="LayerOperation" class="LayerOperation">
-        <div  class="layerscroll">
-          <div class="sm-point"></div>
-          <label class="sm-function-module-sub-section-setting">{{Resource.ObliquePhotographyExcavation}}</label>
-          <div class="boxchild">
-            <button class="tbtn tbn1" type="button" @click="excavationRegion">{{Resource.ExecuteExcavation}}</button>
-            <button class="tbtn" type="button" @click="delExcavationRegion">{{Resource.ClearExcavation}}</button>
-          </div>
-          <div class="sm-point"></div>
-          <label class="sm-function-module-sub-section-setting">{{Resource.ObliquePhotographyFlatten}}</label>
-          <div class="boxchild">
-            <button class="tbtn tbn1" type="button" @click="flattenRegion">{{Resource.ModelFlatten}}</button>
-            <button class="tbtn" type="button" @click="delFlattenRegion">{{Resource.ClearFlatten}}</button>
-          </div>
-          <div class="sm-point"></div>
-          <label class="sm-function-module-sub-section-setting">{{Resource.FloodAnalysis}}</label>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.MaxHeight}}</label>
-            <input class="sm-input-long" min="0" type="number" v-model="MaxHeight" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.MinHeight}}</label>
-            <input class="sm-input-long" min="0" type="number" v-model="MinHeight" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.FloodSpeed}}</label>
-            <input class="sm-input-long" min="0" type="number" v-model="FloodSpeed" />
-          </div>
-          <div class="boxchild">
-            <button class="tbtn tbn1" type="button" @click="modelFlood">{{Resource.ExecuteFlood}}</button>
-            <button class="tbtn" type="button" @click="ModelFloodClear">{{Resource.ClearFlood}}</button>
-          </div>
-          <div class="sm-point"></div>
-          <label class="sm-function-module-sub-section-setting">{{Resource.SelectOffset}}</label>
-          <br />
-          <label class="label-container">{{Resource.OpenSelectOffset}}</label>
-          <input style="margin-left: 10px" type="checkbox" v-model="offset" />
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.OffsetX}}</label>
-            <input
-              class="sm-input-long"
-              min="-50"
-              max="50"
-              step="1"
-              type="number"
-              v-model="offsetX"
-            />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.OffsetY}}</label>
-            <input
-              class="sm-input-long"
-              min="-50"
-              max="50"
-              step="1"
-              type="number"
-              v-model="offsetY"
-            />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.offsetZ}}</label>
-            <input
-              class="sm-input-long"
-              min="-50"
-              max="50"
-              step="1"
-              type="number"
-              v-model="offsetZ"
-            />
-          </div>
-          <div class="boxchild">
-            <button class="tbtn right" type="button" @click="clearOffset">{{Resource.ClearFlood}}</button>
-          </div>
-
-          <label class="sm-function-module-sub-section-setting">{{Resource.LayerColor}}</label>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.brightness}}</label>
-            <input
-              class="sm-input-long"
-              min="0"
-              max="3"
-              step="0.1"
-              type="number"
-              v-model="brightness"
-            />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.contrast}}</label>
-            <input
-              class="sm-input-long"
-              min="0"
-              max="5"
-              step="0.1"
-              type="number"
-              v-model="contrast"
-            />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.hue}}</label>
-            <input class="sm-input-long" min="0" max="5" step="0.1" type="number" v-model="hue" />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.saturation}}</label>
-            <input
-              class="sm-input-long"
-              min="0"
-              max="50"
-              step="1"
-              type="number"
-              v-model="saturation"
-            />
-          </div>
-
-          <label class="sm-function-module-sub-section-setting">{{Resource.PolygonOffset}}</label>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.PolygonOffsetFactor}}</label>
-            <input
-              class="sm-input-long"
-              min="-100"
-              max="100"
-              step="1"
-              type="number"
-              v-model="PolygonOffsetFactor"
-            />
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container">{{Resource.PolygonOffsetUnit}}</label>
-            <input
-              class="sm-input-long"
-              min="-100"
-              max="100"
-              step="1"
-              type="number"
-              v-model="PolygonOffsetUnit"
-            />
-          </div>
-
-          <div class="sm-point"></div>
-          <label class="sm-function-module-sub-section-setting">{{Resource.StereographicDrawing}}</label>
-          <div class="sm-function-module-sub-section">
-            <label class="label-container" > {{Resource.maxHeight}} </label>
-            <div class="sm-solider-input-box" style="width:73%;">
+        <div v-show="LayerOperation" class="LayerOperation">
+          <div class="layerscroll">
+            <div class="sm-point"></div>
+            <label
+              class="sm-function-module-sub-section-setting"
+            >{{Resource.ObliquePhotographyExcavation}}</label>
+            <div class="boxchild">
+              <button
+                class="tbtn tbn1"
+                type="button"
+                @click="excavationRegion"
+              >{{Resource.ExecuteExcavation}}</button>
+              <button
+                class="tbtn"
+                type="button"
+                @click="delExcavationRegion"
+              >{{Resource.ClearExcavation}}</button>
+            </div>
+            <div class="sm-point"></div>
+            <label
+              class="sm-function-module-sub-section-setting"
+            >{{Resource.ObliquePhotographyFlatten}}</label>
+            <div class="boxchild">
+              <button
+                class="tbtn tbn1"
+                type="button"
+                @click="flattenRegion"
+              >{{Resource.ModelFlatten}}</button>
+              <button class="tbtn" type="button" @click="delFlattenRegion">{{Resource.ClearFlatten}}</button>
+            </div>
+            <div class="sm-point"></div>
+            <label class="sm-function-module-sub-section-setting">{{Resource.FloodAnalysis}}</label>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.MaxHeight}}</label>
+              <input class="sm-input-long" min="0" type="number" v-model="MaxHeight" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.MinHeight}}</label>
+              <input class="sm-input-long" min="0" type="number" v-model="MinHeight" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.FloodSpeed}}</label>
+              <input class="sm-input-long" min="0" type="number" v-model="FloodSpeed" />
+            </div>
+            <div class="boxchild">
+              <button class="tbtn tbn1" type="button" @click="modelFlood">{{Resource.ExecuteFlood}}</button>
+              <button class="tbtn" type="button" @click="ModelFloodClear">{{Resource.ClearFlood}}</button>
+            </div>
+            <div class="sm-point"></div>
+            <label class="sm-function-module-sub-section-setting">{{Resource.SelectOffset}}</label>
+            <br />
+            <label class="label-container">{{Resource.OpenSelectOffset}}</label>
+            <input style="margin-left: 10px" type="checkbox" v-model="offset" />
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.OffsetX}}</label>
               <input
-                class="min-solider"
-                min="0"
-                max="500"
-                step="10"
-                style="width:70%;background-color:rgba(51,51,51,1);border:1px solid rgb(87,93,96);padding:0 3px;height:25px;border-radius:3px;"
-                type="range"
-                v-model="StereographicmaxHeight"
-              />
-              <input
-                class="min-solider"
-                min="0"
-                max="500"
-                step="10"
-                style="width:25%;border-radius:3px;float:right;"
+                class="sm-input-long"
+                min="-50"
+                max="50"
+                step="1"
                 type="number"
-                v-model="StereographicmaxHeight"
+                v-model="offsetX"
               />
             </div>
-          </div>
-          <div class="sm-function-module-sub-section">
-            <label class= "label-container" > {{Resource.maxDistance}}</label>
-            <div class="sm-solider-input-box" style="width:73%;">
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.OffsetY}}</label>
               <input
-                class="min-solider"
-                min="0"
-                max="100"
-                step="10"
-                style="width:70%;background-color:rgba(51,51,51,1);border:1px solid rgb(87,93,96);padding:0 3px;height:25px;border-radius:3px;"
-                type="range"
-                v-model="StereographicmaxDistance"
-              />
-              <input
-                class="min-solider"
-                min="0"
-                max="100"
-                step="10"
-                style="width:25%;border-radius:3px;float:right;"
+                class="sm-input-long"
+                min="-50"
+                max="50"
+                step="1"
                 type="number"
-                v-model="StereographicmaxDistance"
+                v-model="offsetY"
               />
             </div>
-          </div>
-          <div class="boxchild">
-            <button class="tbtn right" type="button" style="color:#009c95;border:1px solid #009c95;" @click="assignRange">{{Resource.assignRange}}</button>
-            <button class="tbtn right" type="button" style="color:#009c95;border:1px solid #009c95;" @click="stereographicDrawing">{{Resource.StereographicDrawing}}</button>
-            <button class="tbtn right" type="button" @click="clearStereographic">{{Resource.clear}}</button>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.offsetZ}}</label>
+              <input
+                class="sm-input-long"
+                min="-50"
+                max="50"
+                step="1"
+                type="number"
+                v-model="offsetZ"
+              />
+            </div>
+            <div class="boxchild">
+              <button class="tbtn right" type="button" @click="clearOffset">{{Resource.ClearFlood}}</button>
+            </div>
+
+            <label class="sm-function-module-sub-section-setting">{{Resource.LayerColor}}</label>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.brightness}}</label>
+              <input
+                class="sm-input-long"
+                min="0"
+                max="3"
+                step="0.1"
+                type="number"
+                v-model="brightness"
+              />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.contrast}}</label>
+              <input
+                class="sm-input-long"
+                min="0"
+                max="5"
+                step="0.1"
+                type="number"
+                v-model="contrast"
+              />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.hue}}</label>
+              <input class="sm-input-long" min="0" max="5" step="0.1" type="number" v-model="hue" />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.saturation}}</label>
+              <input
+                class="sm-input-long"
+                min="0"
+                max="50"
+                step="1"
+                type="number"
+                v-model="saturation"
+              />
+            </div>
+
+            <label class="sm-function-module-sub-section-setting">{{Resource.PolygonOffset}}</label>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.PolygonOffsetFactor}}</label>
+              <input
+                class="sm-input-long"
+                min="-100"
+                max="100"
+                step="1"
+                type="number"
+                v-model="PolygonOffsetFactor"
+              />
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.PolygonOffsetUnit}}</label>
+              <input
+                class="sm-input-long"
+                min="-100"
+                max="100"
+                step="1"
+                type="number"
+                v-model="PolygonOffsetUnit"
+              />
+            </div>
+
+            <div class="sm-point"></div>
+            <label class="sm-function-module-sub-section-setting">{{Resource.StereographicDrawing}}</label>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.maxHeight}}</label>
+              <div class="sm-solider-input-box" style="width:73%;">
+                <input
+                  class="min-solider"
+                  min="0"
+                  max="500"
+                  step="10"
+                  style="width:70%;background-color:rgba(51,51,51,1);border:1px solid rgb(87,93,96);padding:0 3px;height:25px;border-radius:3px;"
+                  type="range"
+                  v-model="StereographicmaxHeight"
+                />
+                <input
+                  class="min-solider"
+                  min="0"
+                  max="500"
+                  step="10"
+                  style="width:25%;border-radius:3px;float:right;"
+                  type="number"
+                  v-model="StereographicmaxHeight"
+                />
+              </div>
+            </div>
+            <div class="sm-function-module-sub-section">
+              <label class="label-container">{{Resource.maxDistance}}</label>
+              <div class="sm-solider-input-box" style="width:73%;">
+                <input
+                  class="min-solider"
+                  min="0"
+                  max="100"
+                  step="10"
+                  style="width:70%;background-color:rgba(51,51,51,1);border:1px solid rgb(87,93,96);padding:0 3px;height:25px;border-radius:3px;"
+                  type="range"
+                  v-model="StereographicmaxDistance"
+                />
+                <input
+                  class="min-solider"
+                  min="0"
+                  max="100"
+                  step="10"
+                  style="width:25%;border-radius:3px;float:right;"
+                  type="number"
+                  v-model="StereographicmaxDistance"
+                />
+              </div>
+            </div>
+            <div class="boxchild">
+              <button
+                class="tbtn right"
+                type="button"
+                style="color:#009c95;border:1px solid #009c95;"
+                @click="assignRange"
+              >{{Resource.assignRange}}</button>
+              <button
+                class="tbtn right"
+                type="button"
+                style="color:#009c95;border:1px solid #009c95;"
+                @click="stereographicDrawing"
+              >{{Resource.StereographicDrawing}}</button>
+              <button
+                class="tbtn right"
+                type="button"
+                @click="clearStereographic"
+              >{{Resource.clear}}</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!--<div v-show="Thematicmap" id="Thematicmap">-->
+        <!--<div v-show="Thematicmap" id="Thematicmap">-->
         <!--<div class="sm-function-module-content">-->
-          <!--<label class="sm-function-module-sub-section-setting">{{Resource.symbolicLibrary}}</label>-->
-          <!--<div class="symbolicLibrary">-->
-            <!--<div class="Thematicbox">-->
-              <!--<div id="color" class="minbox polygon-symbol-font-selected"-->
-                   <!--:class="{ lightSelected: thematicMapType === 'color' }"-->
-                   <!--@click="thematicType(0)">-->
-                <!--<span class="iconfont iconchunse"></span>-->
-                <!--<div style="margin-top:-8px;">{{Resource.ThematicmapColor}}</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="Thematicbox">-->
-              <!--<div class="minbox" id="img"-->
-                   <!--:class="{ lightSelected: thematicMapType === 'img' }"-->
-                   <!--@click="thematicType(1)">-->
-                <!--<span class="iconfont icontiaowen"></span>-->
-                <!--<div style="margin-top:-8px;"> {{Resource.ThematicmapImage}}</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="sm-function-module-sub-section" v-show="thematicMapType=='color'">-->
-            <!--<label class="label-container">{{Resource.ThematicmapColor}}</label>-->
-            <!--<ColorPicker class="sm-colorpicker" editable v-model="ThematicColor" />-->
-          <!--</div>-->
-          <!--<div class="sm-function-module-sub-section" v-show="thematicMapType=='img'">-->
-            <!--<label class="label-container">{{Resource.ImageData}}</label>-->
-            <!--<input class="sm-input" type="file" accept=".jpg, .png" id="file" />-->
-          <!--</div>-->
-          <!--<div class="boxchild">-->
-            <!--<button class="tbtn tbn1" type="button" @click="setThematicmap">{{Resource.Setting}}</button>-->
-            <!--<button class="tbtn" type="button" @click="delAllThematicmap">{{Resource.clear}}</button>-->
-          <!--</div>-->
+        <!--<label class="sm-function-module-sub-section-setting">{{Resource.symbolicLibrary}}</label>-->
+        <!--<div class="symbolicLibrary">-->
+        <!--<div class="Thematicbox">-->
+        <!--<div id="color" class="minbox polygon-symbol-font-selected"-->
+        <!--:class="{ lightSelected: thematicMapType === 'color' }"-->
+        <!--@click="thematicType(0)">-->
+        <!--<span class="iconfont iconchunse"></span>-->
+        <!--<div style="margin-top:-8px;">{{Resource.ThematicmapColor}}</div>-->
         <!--</div>-->
-      <!--</div>-->
+        <!--</div>-->
+        <!--<div class="Thematicbox">-->
+        <!--<div class="minbox" id="img"-->
+        <!--:class="{ lightSelected: thematicMapType === 'img' }"-->
+        <!--@click="thematicType(1)">-->
+        <!--<span class="iconfont icontiaowen"></span>-->
+        <!--<div style="margin-top:-8px;"> {{Resource.ThematicmapImage}}</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="sm-function-module-sub-section" v-show="thematicMapType=='color'">-->
+        <!--<label class="label-container">{{Resource.ThematicmapColor}}</label>-->
+        <!--<ColorPicker class="sm-colorpicker" editable v-model="ThematicColor" />-->
+        <!--</div>-->
+        <!--<div class="sm-function-module-sub-section" v-show="thematicMapType=='img'">-->
+        <!--<label class="label-container">{{Resource.ImageData}}</label>-->
+        <!--<input class="sm-input" type="file" accept=".jpg, .png" id="file" />-->
+        <!--</div>-->
+        <!--<div class="boxchild">-->
+        <!--<button class="tbtn tbn1" type="button" @click="setThematicmap">{{Resource.Setting}}</button>-->
+        <!--<button class="tbtn" type="button" @click="delAllThematicmap">{{Resource.clear}}</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-let offsetScreenSpaceEventHandler, hyp, timer, colorTable,facade,handlerLine;
+let offsetScreenSpaceEventHandler, hyp, timer, colorTable, facade, handlerLine;
+let handler1;
 export default {
   name: "LayerAttribute",
   data() {
     return {
       sharedState: store.state,
       //base
+      buddleShow: false,
       shadowType: "noShadow",
       shadowDarkness: 0.3,
       visibility: "showAll",
@@ -400,6 +454,7 @@ export default {
       multiChoose: false, //多选择
       cullEnabled: false,
       breleaseColor: true,
+      downloadAtt: false, //属性下载
       minVisibleH: 0.0,
       maxVisibleH: this.maxVisibleHeight,
       //2
@@ -427,8 +482,8 @@ export default {
       saturation: 1,
       PolygonOffsetFactor: 0,
       PolygonOffsetUnit: 0,
-      StereographicmaxDistance:100,
-      StereographicmaxHeight:500,
+      StereographicmaxDistance: 100,
+      StereographicmaxHeight: 500
 
       // ThematicColor: "#D38E14",
       // thematicMapType: "color",
@@ -436,64 +491,131 @@ export default {
   },
 
   computed: {
-    isInitViewer: function () {
+    isInitViewer: function() {
       return this.sharedState.isInitViewer;
     },
-    basicOptions: function () {
+    basicOptions: function() {
       return this.sharedState.LayerAttribute[0];
     },
-    styleSetting: function () {
+    styleSetting: function() {
       return this.sharedState.LayerAttribute[1];
     },
-    LayerOperation: function () {
+    LayerOperation: function() {
       return this.sharedState.LayerAttribute[2];
     },
     // Thematicmap: function () {
     //   return this.sharedState.LayerAttribute[3];
     // },
-    LayerAttributeShow: function () {
+    LayerAttributeShow: function() {
       return this.sharedState.LayerAttributeToolbar;
     },
     //base
-    selectedLayer: function () {
+    selectedLayer: function() {
       let name = this.sharedState.selectedLayerName;
       let layer = viewer.scene.layers.find(name);
+      // this.downloadAtt = layer.indexedDBSetting.isAttributesSave;
       return layer;
     },
-    layerName: function () {
+    layerName: function() {
+      this.downloadAtt = this.selectedLayer.indexedDBSetting.isAttributesSave;
       return this.sharedState.selectedLayerName;
     },
-    maxVisibleHeight: function () {
+    maxVisibleHeight: function() {
       return Number.MAX_VALUE;
-    },
+    }
+  },
+
+  mounted() {
+    // this.init();
   },
 
   methods: {
+    init() {
+      if (handler1) {
+        return;
+      }
+      let that = this;
+
+      var infoboxContainer = document.getElementById("bubble");
+      var table = document.getElementById("tab"); // 气泡内的表格
+
+      handler1 = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+      handler1.setInputAction(function(e) {
+        var selectedLyr = scene.layers.getSelectedLayer();
+        var selectedFeature = viewer.selectedEntity;
+
+        if (!selectedFeature) {
+          /* 气泡相关 3/4 start */
+          that.buddleShow = false;
+          /* 气泡相关 3/4 end */
+          return;
+        }
+
+        that.buddleShow = true;
+        for (var i = table.rows.length - 1; i > -1; i--) {
+          table.deleteRow(i);
+        }
+
+        selectedLyr.getAttributesById(selectedFeature.id).then(function(data) {
+          if (data) {
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell();
+            var cell2 = newRow.insertCell();
+            cell1.innerHTML = "layerName";
+            cell2.innerHTML = selectedLyr.name;
+            for (let key in data) {
+              var newRow = table.insertRow();
+              var cell1 = newRow.insertCell();
+              var cell2 = newRow.insertCell();
+              cell1.innerHTML = key;
+              cell2.innerHTML = data[key];
+            }
+          } else {
+            that.buddleShow = false;
+          }
+        });
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    },
     toggleVisibility() {
       //控制组件界面隐
       store.setLayerAttributeToolbal(false);
     },
-    clearModification(){
-      this.selectedLayer.style3D.fillForeColor = Cesium.Color.fromCssColorString("#ffffff");
-      this.selectedLayer.style3D.lineColor =Cesium.Color.fromCssColorString("rgb(67,67,67)");
+    closeBubble() {
+      this.buddleShow = false;
+    },
+    clearModification() {
+      this.selectedLayer.style3D.fillForeColor = Cesium.Color.fromCssColorString(
+        "#ffffff"
+      );
+      this.selectedLayer.style3D.lineColor = Cesium.Color.fromCssColorString(
+        "rgb(67,67,67)"
+      );
       this.selectedLayer.lodRangeScale = parseFloat(5);
-      if( this.selectedLayer.style3D.fillStyle === Cesium.FillStyle.Fill_And_WireFrame){
-        this.selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill_And_WireFrame;
-        this.selectedLayer.style3D.lineColor = Cesium.Color.fromCssColorString("rgb(67,67,67)");
+      if (
+        this.selectedLayer.style3D.fillStyle ===
+        Cesium.FillStyle.Fill_And_WireFrame
+      ) {
+        this.selectedLayer.style3D.fillStyle =
+          Cesium.FillStyle.Fill_And_WireFrame;
+        this.selectedLayer.style3D.lineColor = Cesium.Color.fromCssColorString(
+          "rgb(67,67,67)"
+        );
         this.selectedLayer.wireFrameMode = Cesium.WireFrameType.Sketch; //草图模式,即线框
-      }else{
+      } else {
         this.selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill;
       }
 
       this.selectedLayer.style3D.fillForeColor.alpha = parseFloat(1.0);
       this.selectedLayer.style3D.bottomAltitude = parseInt(0);
       this.selectedLayer.selectColorType = Number(0);
-      this.selectedLayer.selectedColor = Cesium.Color.fromCssColorString("#A40FF4");
+      this.selectedLayer.selectedColor = Cesium.Color.fromCssColorString(
+        "#A40FF4"
+      );
 
-      this.foreColor= "#ffffff";
-      this.lineColor="rgb(67,67,67)";
+      this.foreColor = "#ffffff";
+      this.lineColor = "rgb(67,67,67)";
       this.bottomAltitude = 0;
-      this.LODScale =5;
+      this.LODScale = 5;
       this.fillStyle = "fill-and-wireframe";
       this.modelTransparency = 1.0;
       this.selectColorType = 0;
@@ -531,16 +653,16 @@ export default {
         common.initHandler("Polygon");
       }
       common.handlerDrawing("Polygon").then(
-        (res) => {
+        res => {
           let handlerPolygon = window.handlerPolygon;
           this.selectedLayer.addExcavationRegion({
             position: res.positions,
-            name: "excavation_" + Math.random(),
+            name: "excavation_" + Math.random()
           });
           window.handlerPolygon.polygon.show = false;
           window.handlerPolygon.deactivate();
         },
-        (err) => {
+        err => {
           console.log(err);
         }
       );
@@ -555,16 +677,16 @@ export default {
         common.initHandler("Polygon");
       }
       common.handlerDrawing("Polygon").then(
-        (res) => {
+        res => {
           let handlerPolygon = this.handlerPolygon;
           this.selectedLayer.addFlattenRegion({
             position: res.positions,
-            name: "flatten" + Math.random(),
+            name: "flatten" + Math.random()
           });
           window.handlerPolygon.polygon.show = false;
           window.handlerPolygon.deactivate();
         },
-        (err) => {
+        err => {
           console.log(err);
         }
       );
@@ -577,12 +699,12 @@ export default {
     //淹没模型
     modelFlood() {
       if (hyp) return;
-      this.initFlood().then((res) => {
+      this.initFlood().then(res => {
         this.startAnalysis(res);
       });
     },
     initFlood() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         hyp = new Cesium.HypsometricSetting();
         colorTable = new Cesium.ColorTable();
         colorTable.insert(71, new Cesium.Color(0, 39 / 255, 148 / 255));
@@ -624,7 +746,7 @@ export default {
       hyp.MinVisibleValue = minHeight;
       this.selectedLayer.hypsometricSetting = {
         hypsometricSetting: hyp,
-        analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+        analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
       };
       currentHeight += speed / 20;
       timer = window.requestAnimationFrame(() => {
@@ -639,7 +761,7 @@ export default {
       hyp.MaxVisibleValue = -100;
       this.selectedLayer.hypsometricSetting = {
         hypsometricSetting: hyp,
-        analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+        analysisMode: Cesium.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
       };
       colorTable.clear();
       colorTable.destroy();
@@ -647,12 +769,16 @@ export default {
       hyp.destroy();
       hyp = null;
     },
-    assignRange(){
+    assignRange() {
       facade = new Cesium.Facade(scene);
       facade.build();
 
-      handlerLine = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line, Cesium.ClampMode.S3mModel);
-      handlerLine.drawEvt.addEventListener(function(result){
+      handlerLine = new Cesium.DrawHandler(
+        viewer,
+        Cesium.DrawMode.Line,
+        Cesium.ClampMode.S3mModel
+      );
+      handlerLine.drawEvt.addEventListener(function(result) {
         let startPoint = result.object.positions[0];
         let endPoint = result.object.positions[1];
         facade.startPoint = startPoint;
@@ -661,34 +787,34 @@ export default {
 
       handlerLine.activate();
     },
-    stereographicDrawing(){
+    stereographicDrawing() {
       let that = this;
-      facade.readyPromise.then(function (base64data) {
+      facade.readyPromise.then(function(base64data) {
         that.download(base64data);
       });
     },
-    download(base64data){
+    download(base64data) {
       let that = this;
       let image = new Image();
       image.src = base64data;
       image.onload = function() {
         let canvas = that.convertImageToCanvas(image);
         let url = canvas.toDataURL("image/jpeg");
-        let a = document.createElement('a');
-        let event = new MouseEvent('click');
-        a.download = (new Date()).getTime() + ".jpg"; // 指定下载图片的名称
+        let a = document.createElement("a");
+        let event = new MouseEvent("click");
+        a.download = new Date().getTime() + ".jpg"; // 指定下载图片的名称
         a.href = url;
         a.dispatchEvent(event); // 触发超链接的点击事件
-      }
+      };
     },
-    convertImageToCanvas(image){
+    convertImageToCanvas(image) {
       let canvas = document.createElement("canvas");
       canvas.width = image.width;
       canvas.height = image.height;
       canvas.getContext("2d").drawImage(image, 0, 0);
       return canvas;
     },
-    clearStereographic(){
+    clearStereographic() {
       facade.clear();
       handlerLine.clear();
     },
@@ -811,11 +937,11 @@ export default {
     //     }
     //   }
     // },
-    isOpenShadow(val){
+    isOpenShadow(val) {
       viewer.scene.globe.enableLighting = val;
       viewer.shadows = val;
     },
-    clearOffset(){
+    clearOffset() {
       this.offset = false;
       this.offsetX = 0;
       this.offsetY = 0;
@@ -825,8 +951,7 @@ export default {
   },
 
   watch: {
-
-    shadowType: function (val) {
+    shadowType: function(val) {
       let selectedLayer = this.selectedLayer;
       switch (val) {
         case "noShadow":
@@ -843,10 +968,10 @@ export default {
           break;
       }
     },
-    shadowDarkness: function (val) {
+    shadowDarkness: function(val) {
       viewer.shadowMap.darkness = Number(val);
     },
-    visibility: function (val) {
+    visibility: function(val) {
       let selectedLayer = this.selectedLayer;
       switch (val) {
         case "showAll":
@@ -865,22 +990,25 @@ export default {
           break;
       }
     },
-    display: function (val) {
+    display: function(val) {
       this.selectedLayer.visible = val;
     },
-    multiChoose: function (val) {
+    multiChoose: function(val) {
       this.selectedLayer.multiChoose = val;
     },
-    cullEnabled: function (val) {
-      this.selectedLayer.cullEnabled = val;
+    cullEnabled: function(val) {
+      this.selectedLayer.indexedDBSetting.isAttributesSave = val; //保存属性 = val;
     },
-    minVisibleH: function (val) {
+    downloadAtt: function(val) {
+      this.selectedLayer.indexedDBSetting.isAttributesSave = val;
+    },
+    minVisibleH: function(val) {
       if (val == "") {
         val = 0.0;
       }
       this.selectedLayer.visibleDistanceMin = Number(val);
     },
-    maxVisibleH: function (val) {
+    maxVisibleH: function(val) {
       if (val == "") {
         val = this.maxNumber;
       }
@@ -888,27 +1016,27 @@ export default {
     },
 
     //2
-    foreColor: function (val) {
+    foreColor: function(val) {
       this.selectedLayer.style3D.fillForeColor = Cesium.Color.fromCssColorString(
         val
       );
     },
-    lineColor: function (val) {
+    lineColor: function(val) {
       this.selectedLayer.style3D.lineColor = Cesium.Color.fromCssColorString(
         val
       );
     },
-    bottomAltitude: function (val) {
+    bottomAltitude: function(val) {
       if (val === "" || val < 0) {
         return;
       }
       this.selectedLayer.style3D.bottomAltitude = parseInt(val);
       this.selectedLayer.refresh();
     },
-    LODScale: function (val) {
+    LODScale: function(val) {
       this.selectedLayer.lodRangeScale = parseFloat(val);
     },
-    fillStyle: function (val) {
+    fillStyle: function(val) {
       switch (val) {
         case "fill":
           this.selectedLayer.style3D.fillStyle = Cesium.FillStyle.Fill;
@@ -925,7 +1053,7 @@ export default {
           break;
       }
     },
-    lineMode: function (val) {
+    lineMode: function(val) {
       switch (val) {
         case "triangle":
           this.selectedLayer.wireFrameMode = Cesium.WireFrameType.Triangle;
@@ -940,18 +1068,18 @@ export default {
           break;
       }
     },
-    modelTransparency: function (val) {
+    modelTransparency: function(val) {
       this.selectedLayer.style3D.fillForeColor.alpha = parseFloat(val);
     },
-    selectColorType: function (val) {
+    selectColorType: function(val) {
       this.selectedLayer.selectColorType = Number(val);
     },
-    selectColor: function (val) {
+    selectColor: function(val) {
       this.selectedLayer.selectedColor = Cesium.Color.fromCssColorString(val);
     },
 
     //3
-    offset: function (val) {
+    offset: function(val) {
       if (val) {
         let xOffset = Number(this.offsetX);
         let yOffset = Number(this.offsetY);
@@ -983,7 +1111,7 @@ export default {
         selectedLayer.releaseSelection(); // 释放选择集
       }
     },
-    offsetX: function (val) {
+    offsetX: function(val) {
       if (this.offset) {
         let xOffset = Number(val);
         let yOffset = Number(this.offsetY);
@@ -995,7 +1123,7 @@ export default {
         );
       }
     },
-    offsetZ: function (val) {
+    offsetZ: function(val) {
       if (this.offset) {
         let xOffset = Number(this.offsetX);
         let yOffset = Number(this.offsetY);
@@ -1007,7 +1135,7 @@ export default {
         );
       }
     },
-    offsetY: function (val) {
+    offsetY: function(val) {
       if (this.offset) {
         let xOffset = Number(this.offsetX);
         let yOffset = Number(val);
@@ -1019,31 +1147,31 @@ export default {
         );
       }
     },
-    brightness: function (val) {
+    brightness: function(val) {
       if (val === "") {
         return;
       }
       this.selectedLayer.brightness = Number(val);
     },
-    contrast: function (val) {
+    contrast: function(val) {
       if (val === "") {
         return;
       }
       this.selectedLayer.contrast = Number(val);
     },
-    hue: function (val) {
+    hue: function(val) {
       if (val === "") {
         return;
       }
       this.selectedLayer.hue = Number(val);
     },
-    saturation: function (val) {
+    saturation: function(val) {
       if (val === "") {
         return;
       }
       this.selectedLayer.saturation = Number(val);
     },
-    LayerOperation: function (val) {
+    LayerOperation: function(val) {
       if (val) {
         this.brightness = this.selectedLayer.brightness;
         this.contrast = this.selectedLayer.contrast;
@@ -1051,7 +1179,7 @@ export default {
         this.saturation = this.selectedLayer.saturation;
       }
     },
-    PolygonOffsetFactor: function (val) {
+    PolygonOffsetFactor: function(val) {
       if (val === "") {
         return;
       }
@@ -1062,7 +1190,7 @@ export default {
         polygonOffsetUnit
       );
     },
-    PolygonOffsetUnit: function (val) {
+    PolygonOffsetUnit: function(val) {
       if (val === "") {
         return;
       }
@@ -1073,11 +1201,16 @@ export default {
         polygonOffsetUnit
       );
     },
-    StereographicmaxDistance:function(val){
-       facade.maxDistance = Number(val);
+    StereographicmaxDistance: function(val) {
+      facade.maxDistance = Number(val);
     },
-    StereographicmaxHeight:function(val){
+    StereographicmaxHeight: function(val) {
       facade.maxHeight = Number(val);
+    },
+    LayerAttributeShow: function(val) {
+      if (val) {
+        this.init();
+      }
     }
   },
 
@@ -1091,8 +1224,9 @@ export default {
       handlerBox = undefined;
       tooltip = undefined;
       boxEntity = undefined;
+      if (handler1) handler1 = undefined;
     }
-  },
+  }
 };
 </script>
 <style lang="scss"  scoped>

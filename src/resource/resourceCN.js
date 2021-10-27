@@ -640,7 +640,8 @@
       service:'服务',
       scene:'场景',
       waitData:'请等待数据加载完成！',
-      notSupport:'该设备暂不支持该功能'
+      notSupport:'该设备暂不支持该功能',
+      downloadAtt:'属性下载'
     };
 
     export default ResourceCN;

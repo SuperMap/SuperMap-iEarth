@@ -709,7 +709,8 @@ export default {
             window.yqData = data;
             axios
               .post(
-                "http://www.supermapol.com/earth/data/city_coordinates.json"
+                'static/data/city_coordinates.json'
+                // "http://www.supermapol.com/earth/data/city_coordinates.json"
               )
               .then((geoData) => {
                 this.loadJson(cityLayer);

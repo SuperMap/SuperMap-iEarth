@@ -640,7 +640,8 @@
         service: 'サービス',
         scene: 'シーン',
         waiteData:'データ読み込みが完了するまで待ちます',
-        notSupport:'このデバイスはこの機能をサポートしていません。'
+        notSupport:'このデバイスはこの機能をサポートしていません。',
+        downloadAtt:'属性のダウンロード'
     };
 
     export default ResourceJA;

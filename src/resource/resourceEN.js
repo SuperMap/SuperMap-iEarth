@@ -640,7 +640,8 @@
         service: 'service',
         scene: 'scene',
         waitData:'Please wait for data loading to complete',
-        notSupport:'The device does not support this function temporarily'
+        notSupport:'The device does not support this function temporarily',
+        downloadAtt:'Attribute Download'
     };
 
     export default ResourceEN;
