@@ -1,4 +1,4 @@
-# <center>SuperMap Vue-iEarth</center>
+# <center>SuperMap iEarth</center>
 ## Build Setup
 
 ``` bash
