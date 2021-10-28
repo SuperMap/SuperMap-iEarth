@@ -1,0 +1,50 @@
+@import "../../../common/scss/globe.scss";
+
+.sm-viewshed-panel {
+  @extend .sm-panel;
+}
+
+.sm-viewshed-toggle-btn {
+  @extend .sm-toggle-btn;
+}
+
+.sm-viewshed-toggle-btn-only {
+  @extend .sm-toggle-btn-only;
+}
+
+.sm-viewshed-content {
+  @extend .sm-content;
+}
+
+.sm-viewshed-content-hidden {
+  @extend .sm-content-hidden;
+}
+
+.sm-viewshed-panel-header {
+  @extend .sm-panel-header;
+}
+
+.function-content{
+  padding-bottom: 5px;
+  padding-top:5px;
+  padding-left: 15px;
+  padding-right:15px;
+  overflow:auto;
+  max-height:528px;
+  background-color:rgba(38,38,38,0.75);
+  margin-bottom:8px;
+}
+
+.floodSlope{
+  margin-left:8px;
+  margin-right:8px;
+}
+
+.right{
+  margin-right: 1px;
+}
+
+
+
+
+

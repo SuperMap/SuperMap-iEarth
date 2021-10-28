@@ -1,0 +1,104 @@
+@import '../../../common/scss/globe.scss';
+
+.sm-viewshed-panel {
+  @extend .sm-panel;
+}
+
+.sm-viewshed-toggle-btn {
+  @extend .sm-toggle-btn;
+}
+
+.sm-viewshed-toggle-btn-only {
+  @extend .sm-toggle-btn-only;
+}
+
+.sm-viewshed-content {
+  @extend .sm-content;
+}
+
+.sm-viewshed-content-hidden {
+  @extend .sm-content-hidden;
+}
+.sm-function-module-content{
+  max-height: 528px;
+}
+
+.sm-viewshed-panel-header {
+  @extend .sm-panel-header;
+}
+
+.sm-input-long,
+.sm-select ,
+.sm-colorpicker{
+  width: 55%;
+}
+
+.sm-solider-input-box{
+  float: right;
+  width: 72%;
+}
+
+.flexbox {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  button{
+    background-color: #333;
+    color: white;
+  }
+}
+.flybox{
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 10px 0;
+  .imgbox{
+    width: 40px;
+    height: 40px;
+  }
+  .imgbox:hover{
+    background-color: #127bab;
+  }
+}
+.sm-function-module-sub-section{
+  .sm-function-module-sub-section{
+    margin-bottom: 0;
+  }
+}
+.symbolicLibrary{
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px;
+  border: 1px solid rgb(58, 150, 78);
+  margin-bottom: 18px;
+
+  .Thematicbox{
+    width: 40px;
+    height: 45px;
+    margin-right: 2rem;
+    font-size: 12px;
+    text-align: center;
+    .minbox{
+      width: 30px;
+      height: 30px;
+      margin: 0 auto;
+    }
+    .iconfont{
+      font-size: 24px;
+    }
+
+  }
+  .lightSelected{
+    color: rgb(58, 150, 78);
+  }
+}
+.ParticleSystem{
+  .sm-function-module-sub-section{
+    margin-bottom: 0;
+    .sm-solider-input-box,.sm-select{
+      width: 68%;
+    }
+  }
+}
+
