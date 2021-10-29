@@ -1,0 +1,96 @@
+{
+    "totalPage": 1,
+    "content": [{
+            "id": 0,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/CBD.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-CBDCache20200416/rest/realspace",
+            "sceneName": "北京CBD",
+            "state": 0
+        },
+        {
+            "id": 1,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/Sophia.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-suofeiya_church/rest/realspace",
+            "sceneName": "索菲亚教堂",
+            "state": 0
+        },
+        
+        {
+            "id": 4,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/ZfTerranAndImagery.jpg",
+            "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-ZF_normal/rest/realspace",
+            "sceneName": "珠峰地形影像",
+            "state": 0
+        },
+        {
+            "id": 5,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/BIM.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-wireFrame/rest/realspace",
+            "sceneName": "BIM建筑",
+            "state": 0
+        },
+        {
+            "id": 6,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/PointCloud.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-cloud/rest/realspace",
+            "sceneName": "点云",
+            "state": 0
+        },
+        {
+            "id": 7,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/VolumeRendering.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-tishuju/rest/realspace",
+            "sceneName": "体数据",
+            "state": 0
+        },
+        {
+            "id": 8,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/Histogram.jpg",
+            "proxiedUrl": " https://www.supermapol.com/realspace/services/3D-Histogram/rest/realspace",
+            "sceneName": "柱状图",
+            "state": 0
+        },
+        {
+            "id": 9,
+            "type": "SCP",
+            "thumbnail": "static/images/webServeImg/Household.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-FCFH_Shangdong/rest/realspace/datas/config/config",
+            "sceneName": "倾斜分层分户",
+            "state": 0
+        },
+        {
+            "id": 10,
+            "type": "REALSPACE",
+            "thumbnail": "static/images/webServeImg/VectorThematicMap.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-five-vector/rest/realspace",
+            "sceneName": "矢量专题图",
+            "state": 0
+        },
+        {
+            "id": 11,
+            "type": "ThematicMap",
+            "thumbnail": "static/images/webServeImg/cqbm.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000/rest/realspace/datas/CQmodel/config",
+            "sceneName": "重庆白模",
+            "S3MLayer": true,
+            "state": 0
+        },
+        {
+            "id": 12,
+            "type": "ThematicMap",
+            "thumbnail": "static/images/webServeImg/hbbm.jpg",
+            "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-XinBaiMo/rest/realspace/datas/%E4%B8%80%E8%88%AC%E5%AE%B6%E5%B1%8B/config",
+            "sceneName": "横滨白模",
+            "S3MLayer": true,
+            "state": 0
+        }
+
+    ]
+}

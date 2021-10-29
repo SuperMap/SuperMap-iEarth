@@ -1,0 +1,35 @@
+.sm-function-module-content {
+  @media (max-height: 450px) {
+    overflow: hidden;
+    padding: 0 15px;
+    max-height: 420px;
+    max-width: 280px;
+  }
+}
+
+.sm-input-long {
+  float: right;
+  width: 35%;
+  border-radius:4px;
+}
+
+.sm-function-module-sub-section {
+  margin-bottom: 0;
+}
+
+.viewShed-half{
+  width:50%;
+  display: inline-block;
+  float:left;
+  margin-top:5px;
+  margin-right:0px;
+  margin-bottom:0px;
+  margin-left:0px;
+  padding:0;
+  border:none;
+}
+
+.sm-function-module-ViewShed{
+  margin:0;
+  padding:0;
+}
