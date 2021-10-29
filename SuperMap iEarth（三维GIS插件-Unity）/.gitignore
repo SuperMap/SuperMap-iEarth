@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+public/js_module/Build
+public/js_module/StreamingAssets
+public/js_module/TemplateData
+public/js_module/index.html
