@@ -1,0 +1,319 @@
+<!-- Copyright Epic Games, Inc. All Rights Reserved. -->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+	<link type="text/css" rel="stylesheet" href="player.css">
+    <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script type="text/javascript" src="scripts/webRtcPlayer.js"></script>
+    <script type="text/javascript" src="scripts/app.js"></script>
+	<script type="text/javascript" src="scripts/MicrosoftAjax.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.Constants.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Core.Realspace.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Core.Geometry3D.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.HypsometricSetting.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.UI.Actions.Realspace.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.TrackingLayer3D.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.FlyingOperator.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.Layer3D.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.Layer3Ds.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.TerrainLayer.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.TerrainLayers.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.Scene.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.Skyline.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.ViewShed3D.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.Sightline.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.SlopeMap.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.ContourMap.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.Realspace.ProjectionImage.js"></script>
+	<script type="text/javascript" src="scripts/SuperMap.Web.UI.Controls.SceneControl.js"></script>
+</head>
+<script>
+	inputOptions.controlScheme = ControlSchemeType.HoveringMouse;
+	inputOptions.fakeMouseWithTouches = true;
+	registerLockedMouseEvents = function() {}
+</script>
+<body onload="load()">
+
+	<div id="playerUI">
+		<div id="addiv" style="position: absolute;margin-top: 5px;margin-left: 1px;z-index: 100;">
+			<input id="url" placeholder="服务地址" value="http://www.supermapol.com/realspace/services/3D-niaochao-2/rest/realspace"></input>
+			<input id="layerName" placeholder="图层名" value="Building@鸟巢数据优化缓存"></input>
+			<!-- <input id="url" placeholder="服务地址" value="http://www.supermapol.com/realspace/services/3D---1--Masai_Webp/rest/realspace"></input>
+			<input id="layerName" placeholder="图层名" value="Config"></input> -->
+			<input id="layerType" placeholder="图层类型" value="0"></input>
+			<button id="addLayer">添加图层</button>
+			<button id="removeLayer">移除图层</button>
+			<button id="measuredistance">量算距离</button>
+			<button id="measurearea">量算面积</button>
+			<button id="measureheight">量算高度</button>
+			<button id="skyline">天际线</button>
+			<button id="viewshed">可视域</button>
+			<button id="sightline">通视</button>
+			<button id="clearAll">移除</button>
+			<button id="clipbybox">box裁剪</button>
+			<button id="slopeMap">坡度坡向</button>
+			<button id="flood">淹没</button>
+			<button id="contourMap">等值线</button>
+			<button id="flattenRegion">压平</button>
+			<button id="swipeRegion">卷帘</button>
+		</div>
+		<div id="player"></div>
+		<!-- <div id="overlay" class="overlay">
+			<div id="overlayButton" onclick="onExpandOverlay_Click()">+</div>
+			<div id="overlaySettings" style="display: block">
+				<div id="KickOthers">
+					<div class="settings-text">Kick all other players</div>
+					<label class="btn-overlay">
+						<input type="button" id="kick-other-players-button" class="overlay-button btn-flat" value="Kick">
+					</label>
+				</div>
+                <div id="FillWindow">
+                    <div class="settings-text">Enlarge Display to Fill Window</div>
+                    <label class="tgl-switch">
+                        <input type="checkbox" id="enlarge-display-to-fill-window-tgl" class="tgl tgl-flat" checked>
+                        <div class="tgl-slider"></div>
+                    </label>
+                </div>
+                <div id="QualityControlOwnership">
+                    <div class="settings-text">Quality control ownership</div>
+                    <label class="tgl-switch">
+                        <input type="checkbox" id="quality-control-ownership-tgl" class="tgl tgl-flat">
+                        <div class="tgl-slider"></div>
+                    </label>
+                </div>
+				<div id="statsSetting"> 
+					<div class="settings-text">Show Stats</div>
+					<label class="tgl-switch">
+						<input type="checkbox" id="show-stats-tgl" class="tgl tgl-flat">
+						<div class="tgl-slider"></div>
+					</label>
+					<div id="statsContainer">
+						<div id="stats"></div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+	</div>
+</body>
+<script>
+	var sceneControl = new SuperMap.Web.UI.Controls.SceneControl(document.getElementById("player"), function() {
+
+	}, function() {
+
+	});
+
+	var scene = sceneControl.get_scene();
+	var skyline = new SuperMap.Web.Realspace.Skyline(sceneControl);
+	var sightline = new SuperMap.Web.Realspace.Sightline(sceneControl);
+	var viewshed = new SuperMap.Web.Realspace.ViewShed3D(sceneControl);
+	var slopemap = new SuperMap.Web.Realspace.SlopeMap(sceneControl);
+	var contourMap = new SuperMap.Web.Realspace.ContourMap(sceneControl);
+	var projectionImage = new SuperMap.Web.Realspace.ProjectionImage(sceneControl);
+
+	function pj() {
+		projectionImage.build();
+		projectionImage.setImage("http://127.0.0.1:8070/WebGL/tk.jpg");
+		//projectionImage.setImage("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4")
+	}
+	
+	document.getElementById("swipeRegion").onclick =  function() {
+		var layer = scene.get_layer3Ds().get_item(0);
+		var bounds = {
+			bottom:0.8,
+			left:0.2,
+			right:0.8,
+			top:0.2
+		};
+		layer.set_swipeEnabled(true);
+		layer.set_swipeRegion(bounds);
+	}
+
+	document.getElementById("flattenRegion").onclick = function() {
+		var point3ds = new SuperMap.Web.Core.Point3Ds()
+        point3ds.add(new SuperMap.Web.Core.Point3D(118.555542268925,24.8059979090872,37.531))
+        point3ds.add(new SuperMap.Web.Core.Point3D(118.557435628855,24.8074227570938,31.536))
+        point3ds.add(new SuperMap.Web.Core.Point3D(118.558692800722,24.8057358280742,33.431))
+        point3ds.add(new SuperMap.Web.Core.Point3D(118.556943743935,24.8042396384471,44.430))
+        var region3d = new SuperMap.Web.Core.GeoRegion3D([point3ds])
+        
+		var temp = region3d.regionArray[0];
+        region3d.regionArray = temp;
+        var layer = scene.get_layer3Ds().get_item(0);
+        layer.addFlattenRegion(region3d, "hi")
+	}
+
+	document.getElementById("addLayer").onclick =function() {
+		var url = document.getElementById("url").value;
+		var name = document.getElementById("layerName").value;
+		var type = document.getElementById("layerType").value * 1;
+
+		var promise;
+		if (type == 1) {
+			promise = scene.get_terrainLayers().add(url, name, name);
+		} else {
+			promise = scene.get_layer3Ds().add(url, name, name, type);
+		}
+		 
+
+		promise.then((layer) => {
+			//console.log(layer);
+			setTimeout(()=> {
+				scene.get_flyingOperator().flyToLayer(layer);
+			} , 2000)
+			
+		});
+		// let obj = {
+		// 	url : document.getElementById("url").value,
+		// 	name : document.getElementById("layerName").value,
+		// 	type : document.getElementById("layerType").value
+		// }
+
+		// emitUIInteraction(obj);
+
+		// let promise = new Promise((resolve, reject) => {
+		// 	let eventString = "Layer3Ds" + (new Date()).toGMTString();
+		// 	addResponseEventListener(eventString, (data) => {
+		// 		resolve(data);
+		// 		removeResponseEventListener(eventString);
+		// 		// let jsonData = JSON.parse(data); +
+		// 		// let type = jsonData.type;
+		// 		// switch(type) {
+		// 		// 	case "Layer3Ds":
+		// 		// 		removeResponseEventListener("handle_responses");
+		// 		// 		resolve(jsonData.content);
+		// 		// 		break;
+    	// 		// 	case "Scene":
+		// 		// 		break;
+
+		// 		// }
+		// 	});
+		// });
+
+		// promise.then((res) => {
+		// 	alert(res + "添加成功！");
+		// });
+	}
+	document.getElementById("removeLayer").onclick =function() {
+		var name = document.getElementById("layerName").value;
+
+		var type = document.getElementById("layerType").value * 1;
+		if (type == 1){
+			scene.get_terrainLayers().removeAt(name);
+		} else {
+			scene.get_layer3Ds().removeAt(name);
+		}
+		
+	}
+
+	document.getElementById("clipbybox").onclick =function() {
+		var layer = scene.get_layer3Ds().get_item(0);
+		var box  = new SuperMap.Web.Core.GeoBox(500,500,500);
+		box.set_position(new SuperMap.Web.Core.Point3D(116.3803842902019,39.99728846386790,10));
+		layer.clipByBox(box, 2)
+	}
+
+	document.getElementById("flood").onclick =function() {
+		var layer = scene.get_layer3Ds().get_item(0);
+	
+
+		var hyp = new SuperMap.Web.Realspace.HypsometricSetting();
+		hyp.minVisibleValue = 0;
+		hyp.maxVisibleValue = 1000;
+		layer.set_hypsometricSetting(hyp);
+		// while(hyp.minVisibleValue < 900) {
+		// 	layer.set_hypsometricSetting(hyp);
+		// 	hyp.minVisibleValue += 1;
+		// }
+	}
+
+	document.getElementById("skyline").onclick =function() {
+		skyline.build();
+	}
+
+	document.getElementById("sightline").onclick =function() {
+		sightline.build();
+	}
+
+	document.getElementById("viewshed").onclick =function() {
+		viewshed.build();
+	}
+
+	document.getElementById("slopeMap").onclick =function() {
+		slopemap.build();
+		slopemap.set_displayStyle(SuperMap.Web.Realspace.SlopeDisplayStyle.ARROW_AND_COLORS);
+		//SuperMap.Web.Realspace.SlopeDisplayStyle.ARROW  显示坡向箭头
+		//SuperMap.Web.Realspace.SlopeDisplayStyle.COLORS  显示颜色
+		//SuperMap.Web.Realspace.SlopeDisplayStyle.ARROW_AND_COLORS  同时显示坡向和颜色
+	}
+
+	document.getElementById("contourMap").onclick =function() {
+		contourMap.build();
+		contourMap.set_displayStyle(SuperMap.Web.Realspace.ContourDisplayStyle.LINES_AND_COLORS);
+
+ 		//SuperMap.Web.Realspace.ContourDisplayStyle.COLORS : 1,		//等高线分层设色
+		//SuperMap.Web.Realspace.ContourDisplayStyle.LINES : 2,		//在设置的高程值上显示等高线
+		//SuperMap.Web.Realspace.ContourDisplayStyle.LINES_AND_COLORS : 3   //同时显示等高线和等高线分层颜色
+		contourMap.set_interval(50);
+		
+	}
+	document.getElementById("clearAll").onclick =function() {
+		skyline.clear();
+		sightline.clear();
+		viewshed.clear();
+		slopemap.clear();
+		scene.get_trackingLayer3D().removeAll();
+		var layer = scene.get_layer3Ds().get_item(0);
+		layer.clearClipByBox();
+		
+		layer.clearHypsometricSetting();
+		contourMap.clear();
+	}
+
+	document.getElementById("measuredistance").onclick = function () {
+		var ac = new SuperMap.Web.UI.Action3Ds.MeasureDistance(sceneControl);
+		sceneControl.set_sceneAction(ac);
+
+		sceneControl.removeEvent("measureDistance", disHandler);
+		sceneControl.removeEvent("measureDistanceFinished", disFinishedHandler);
+
+		sceneControl.addEvent("measureDistance", disHandler);
+		sceneControl.addEvent("measureDistanceFinished", disFinishedHandler);
+	}
+
+	document.getElementById("measurearea").onclick = function () {
+		var ac = new SuperMap.Web.UI.Action3Ds.MeasureArea(sceneControl);
+		sceneControl.set_sceneAction(ac);
+	}
+
+	document.getElementById("measureheight").onclick = function () {
+		var ac = new SuperMap.Web.UI.Action3Ds.MeasureHeight(sceneControl);
+		sceneControl.set_sceneAction(ac);
+	}
+
+	
+	function disHandler(dCurrentDis) {
+		console.log("距离量算中:" + dCurrentDis);
+	}
+
+	function disFinishedHandler(dTotalDis) {
+		console.log("距离量算完成:" + dTotalDis);
+	}
+	// addResponseEventListener("handle_responses", (data) => {
+	// 	switch(data) {
+	// 		case "Layer3Ds":
+	// 			removeResponseEventListener("handle_responses");
+	// 			resolve(jsonData.content);
+	// 			break;
+    // 		case "Scene":
+	// 			break;
+
+	// 	}
+	// });
+</script>
+
+
+</html>

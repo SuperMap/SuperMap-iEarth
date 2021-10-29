@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js_module/TemplateData/UnityProgress.js"></script>
+    <script src="js_module/Build/UnityLoader.js"></script>
+    <script type="text/javascript" src="js_module/scripts/MicrosoftAjax.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.Constants.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Core.Realspace.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.HypsometricSetting.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.UI.Actions.Realspace.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Core.Geometry3D.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.TrackingLayer3D.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.FlyingOperator.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.Layer3D.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.Layer3Ds.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.TerrainLayer.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.TerrainLayers.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.Scene.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.Skyline.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.ViewShed3D.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.Sightline.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.SlopeMap.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.Realspace.ContourMap.js"></script>
+    <script type="text/javascript" src="js_module/scripts/SuperMap.Web.UI.Controls.SceneControl.js"></script>
+
+    <script>
+      var unityInstance = UnityLoader.instantiate("unityContainer", "js_module/Build/WebGL.json", {onProgress: UnityProgress});
+    </script>
+    <title>Vue-iEarth-Unity</title>
+  </head>
+  <body >
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

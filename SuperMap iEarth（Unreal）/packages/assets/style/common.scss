@@ -1,0 +1,23 @@
+
+// 取消拖动时的选中
+div {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.cesium-viewer-bottom{
+  display: inline-block;
+  right: unset ;
+}
+
+.sm-box {
+  display: flex;
+  justify-content: space-between;
+  .n-ellipsis {
+    width: 40%;
+    // line-height: 28px;
+    margin-right: 0.5rem;
+  }
+}
+

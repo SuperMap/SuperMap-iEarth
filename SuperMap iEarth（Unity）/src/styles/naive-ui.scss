@@ -1,0 +1,12 @@
+/* 
+覆盖卡片头部样式
+*/
+
+.n-card > .n-card-header{
+    padding: 0px;
+    position: absolute;
+    right: -18px;
+    top: -1px;
+    background-color: var(--color);
+}
+
