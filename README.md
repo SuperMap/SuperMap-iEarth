@@ -3,7 +3,7 @@
 
 # 简介
 
-![](./imgs/iEarth.jpg)
+![](imgs/iEarth.jpg)
 
 ## SuperMap iEarth (WebGL)
 [SuperMap iEarth (WebGL)](http://www.supermapol.com/earth/)是基于全功能三维“零客户端”[SuperMap iClient3D for WebGL](http://support.supermap.com.cn:8090/webgl/examples/examples.html)开发的一款三维在线应用程序。在多源数据加载、三维空间分析以及多种可视化效果等功能的支撑下，用户可以通过SuperMap iEarth在浏览器上进行三维浏览及应用。
