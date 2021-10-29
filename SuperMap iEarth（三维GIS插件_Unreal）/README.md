@@ -42,7 +42,9 @@
 
 # 使用
 
-+ 用户下载[三维GIS插件_UE](./后续提供.rar)，解压缩到'js_module'文件夹下。
++ UE4项目中安装SuperMap Scene SDKs_Unreal Engine
+
++ 参考SuperMap Scene SDKs_Unreal Engine产品文档搭建云渲染环境
 
 + bash环境下执行如下操作：
 
