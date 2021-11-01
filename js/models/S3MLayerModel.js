@@ -23,6 +23,7 @@ define(['backbone', '../Util', '../Config'], function (Backbone, Util, Config) {
                 return viewer.scene.addS3MTilesLayerByScp(scpUrl, {name: name})
             }).then(function (res) {
                 return Cesium.when(res, function (layer) {
+                    layer.indexedDBSetting.isAttributesSave = true;
                     me.sceneModel.trigger('layerAdded', me);
                     me.sceneModel.layers.add(me);
                     me.layer = layer;

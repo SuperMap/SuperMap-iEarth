@@ -282,6 +282,60 @@ function init(Cesium, Zlib) {
                         }
                     }
                 }
+
+
+
+                //弹出属性框
+                var scene = viewer.scene;
+
+                var infoboxContainer = document.getElementById("bubble");
+                var table = document.getElementById("tab"); // 气泡内的表格
+
+
+                var handler1 = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+                handler1.setInputAction(function (e) {
+                    // var selectedLyr = scene.layers.getSelectedLayer();
+                    var selectedFeature = viewer.selectedEntity;
+
+                    if (!selectedFeature) {
+                        /* 气泡相关 3/4 start */
+                        $("#bubble").hide();
+                        /* 气泡相关 3/4 end */
+                        return;
+                    }
+
+                    $("#bubble").show();
+                    for (i = table.rows.length - 1; i > -1; i--) {
+                        table.deleteRow(i);
+                    }
+
+                    var selLayer = scene.layers.getSelectedLayer();
+                    selLayer.getAttributesById(selectedFeature.id).then(function (data) {
+                        if (data) {
+                            var newRow = table.insertRow();
+                            var cell1 = newRow.insertCell();
+                            var cell2 = newRow.insertCell();
+                            cell1.innerHTML = "layerName";
+                            cell2.innerHTML = selLayer.name;
+                            for (let key in data) {
+                                var newRow = table.insertRow();
+                                var cell1 = newRow.insertCell();
+                                var cell2 = newRow.insertCell();
+                                cell1.innerHTML = key;
+                                cell2.innerHTML = data[key];
+                            }
+                        } else {
+                            $("#bubble").hide();
+                        }
+                    })
+                }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+                $("#close").click(function () { // 关闭气泡
+                    $("#bubble").hide();
+                });
+                // document.getElementById("close").onclick = function () { // 关闭气泡
+                //     document.getElementById("bubble").style.display = "none";//隐藏
+                // };
             });
     });
 }

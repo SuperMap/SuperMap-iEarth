@@ -26,7 +26,7 @@ define(['./Container','spectrum','drag','slider'],function(Container,spectrum,dr
                 '<div class="function-module-sub-section">',
                     '<label class="function-module-sub-section-caption">'+ Resource.layerName +'</label>',
                     '<input id="layerName" class="input disabled width-adjust" type="text" disabled/>',
-                    '<div style="margin-top:5px;">',
+                    '<div style="margin-top:5px;display: none">',
                         '<label class="half">',
                         '<input type="checkbox" id="featureQuery"/>',
                         '<span>'+ Resource.featureQuery +'</span>',
