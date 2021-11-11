@@ -192,7 +192,7 @@ export default {
       }
       myChart.setOption({
         title: {
-          text: "剖面分析",
+          text: Resource.profile,
           textStyle: {
             fontSize: 14
           }
@@ -338,7 +338,7 @@ export default {
       }
       let option = {
         title: {
-          text: "剖面信息",
+          text: Resource.profileInformation,
           textStyle: {
             fontSize: 14,
             color: "#ffffff"

@@ -1,5 +1,5 @@
 <template>
-  <div id="cityPlan" class="sm-panel" v-if="cityPlanShow" v-drag data-attr="drag">
+  <div id="cityPlan" class="sm-panel" v-if="cityPlanShow" v-drag>
     <div class="sm-content">
       <div class="sm-panel-header">
         <span :class="{titleColor:backLineShow}" class="title-txt" @click="choose(0)">退线</span>

@@ -2,7 +2,13 @@
   <div class="sm-function-module-content" v-show="portalServiceShow">
     <div>
       <div>
-        <Table ref="selection" :columns="columns" :data="data" :height="true ? 250 : ''"></Table>
+        <Table
+          :no-data-text="Resource.noData"
+          ref="selection"
+          :columns="columns"
+          :data="data"
+          :height="true ? 250 : ''"
+        ></Table>
       </div>
 
       <div class="boxchild">
@@ -30,19 +36,19 @@ export default {
       columns: [
         { type: "selection", width: 60, align: "center" },
         {
-          title: "服务名称",
+          title: Resource.serviceName,
           key: "name"
         },
         {
-          title: "服务类型",
+          title: Resource.resourceSubType,
           key: "resourceSubType"
         },
         {
-          title: "更新时间",
+          title: Resource.updateTime,
           key: "updateTime"
         },
         {
-          title: "服务链接",
+          title: Resource.serviceUrl,
           key: "url",
           align: "center",
           render: (h, params) => {
@@ -54,7 +60,7 @@ export default {
                   target: "_black"
                 }
               },
-              "查看"
+              Resource.view
             );
           }
         }
@@ -204,25 +210,25 @@ export default {
           var date = new Date(timestamp);
           return (
             date.getFullYear() +
-            "年" +
+            Resource.yeear +
             zero(date.getMonth() + 1) +
-            "月" +
+            Resource.month +
             zero(date.getDate()) +
-            "日"
+            Resource.day
           );
         })();
       } else if (monthC >= 1) {
-        return parseInt(monthC) + "月前";
+        return parseInt(monthC) + Resource.monthsAgo;
       } else if (weekC >= 1) {
-        return parseInt(weekC) + "周前";
+        return parseInt(weekC) + Resource.weeksAgo;
       } else if (dayC >= 1) {
-        return parseInt(dayC) + "天前";
+        return parseInt(dayC) + Resource.daysAgo;
       } else if (hourC >= 1) {
-        return parseInt(hourC) + "小时前";
+        return parseInt(hourC) + Resource.hoursAgo;
       } else if (minC >= 1) {
-        return parseInt(minC) + "分钟前";
+        return parseInt(minC) + Resource.minutesAgo;
       }
-      return "刚刚";
+      return Resource.secondsAgo;
     },
 
     /** 时间格式化

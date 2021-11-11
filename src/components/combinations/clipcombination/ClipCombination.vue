@@ -3,8 +3,7 @@
     id="clipAnalysis"
     class="sm-panel"
     v-show="clipShow"
-    v-drag
-    data-attr="drag"
+    v-drag    
   >
     <div class="sm-content">
       <div class="sm-panel-header">

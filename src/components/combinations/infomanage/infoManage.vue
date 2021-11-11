@@ -30,7 +30,7 @@
         </div>
         <div id="sceneMessage" class="half" style="padding-left:15px;">
           <div class="storageScene-half">
-            <label class="sm-function-module-storageInfo">场景名称</label>
+            <label class="sm-function-module-storageInfo">{{Resource.sceneName}}</label>
             <input
               id="scenePortalName"
               v-model="scenePortalName"

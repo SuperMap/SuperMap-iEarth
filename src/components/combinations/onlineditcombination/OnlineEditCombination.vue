@@ -3,8 +3,7 @@
     id="OnlineEdit"
     class="sm-panel"
     v-show="OnlineEdit"
-    v-drag
-    data-attr="drag"
+    v-drag    
   >
     <div class="sm-content">
       <div class="sm-panel-header">

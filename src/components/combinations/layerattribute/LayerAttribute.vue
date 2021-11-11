@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 弹出属性框 -->
-    <div id="bubble" class="bubble" v-show="buddleShow">
+    <div id="bubble" class="bubble" v-show="buddleShow" v-drag>
       <div id="tools" style="text-align : right">
         <span class="closeBubble" @click="closeBubble">&times;</span>
       </div>
@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div id="LayerAttribute" class="sm-panel" v-if="LayerAttributeShow" v-drag data-attr="drag">
+    <div id="LayerAttribute" class="sm-panel" v-if="LayerAttributeShow" v-drag>
       <div class="sm-content">
         <div class="sm-panel-header">
           <span
