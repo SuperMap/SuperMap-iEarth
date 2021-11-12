@@ -8,7 +8,7 @@
 	max-width: 350px;
 	max-height: 400px;
 
-	display:block;
+	display:table;//防止表格撑不满
 	overflow: auto;
 	bottom: 0px;
 	right: 0px;
@@ -20,10 +20,17 @@
 	display: none;
 	/* Chrome Safari */
 }
+
 #tab {
 	border:none;
 	height: 400px;
+  table-layout:fixed;//自动换行
 }
+
+#tab td {
+  word-wrap:break-word;//自动换行
+}
+
 /*--------- 属性框--------------*/
 
 .sm-panel {
