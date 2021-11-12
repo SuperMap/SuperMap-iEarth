@@ -997,10 +997,10 @@ export default {
       this.selectedLayer.multiChoose = val;
     },
     cullEnabled: function(val) {
-      this.selectedLayer.indexedDBSetting.isAttributesSave = val; //保存属性 = val;
+      this.selectedLayer.cullEnabled = val;
     },
     downloadAtt: function(val) {
-      this.selectedLayer.indexedDBSetting.isAttributesSave = val;
+      this.selectedLayer.indexedDBSetting.isAttributesSave = val; //保存属性 = val;
     },
     minVisibleH: function(val) {
       if (val == "") {

@@ -658,6 +658,8 @@
       hoursAgo: ' 小时前',
       minutesAgo: ' 分钟前',
       secondsAgo: ' 刚刚',
+      restore:'还原',
+      saveAsImage:'保存为图片'
     };
 
     export default ResourceCN;

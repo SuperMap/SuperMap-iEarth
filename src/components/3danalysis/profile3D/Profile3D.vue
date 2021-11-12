@@ -406,9 +406,11 @@ export default {
           left: "right",
           feature: {
             restore: {
+              title:Resource.restore,
               icon: "image://static/images/flypng/restore.png"
             },
             saveAsImage: {
+              title:Resource.saveAsImage,
               icon: "image://static/images/flypng/download.png"
             }
           }

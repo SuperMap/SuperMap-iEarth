@@ -658,6 +658,8 @@
         hoursAgo: ' hours Ago',
         minutesAgo: ' minutes Ago',
         secondsAgo: ' seconds Ago',
+        restore: 'restore',
+        saveAsImage: 'saveAsImage'
     };
 
     export default ResourceEN;
