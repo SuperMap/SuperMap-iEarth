@@ -68,9 +68,9 @@ export default {
       let skyBoxDown = this.BaseSpecialEffectModels[1].skyBoxDown;
       if (isPCBroswer) {
         viewer = new Cesium.Viewer("cesiumContainer", {
-          contextOptions: {
-            requestWebgl2: window.device == "iOS" ? false : true
-          },
+          // contextOptions: {
+          //   requestWebgl2: window.device == "iOS" ? false : true
+          // },
 
           selectionIndicator: false,
           timeline: true,
@@ -105,9 +105,9 @@ export default {
         this.BaseSpecialEffectModels[1].defaultSky = viewer.scene.skyBox;
       } else {
         viewer = new Cesium.Viewer("cesiumContainer", {
-          contextOptions: {
-            requestWebgl2: window.device == "iOS" ? false : true
-          },
+          // contextOptions: {
+          //   requestWebgl2: window.device == "iOS" ? false : true
+          // },
 
           selectionIndicator: false,
           infoBox: false,

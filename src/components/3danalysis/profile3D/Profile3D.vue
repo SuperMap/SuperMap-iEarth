@@ -360,10 +360,10 @@ export default {
             let dataIndex = param[0].dataIndex;
             Entypositions = Cartesians[dataIndex];
             return [
-              "当前位置:" + '<hr size=1 style="margin:3px 0">',
-              "经度:" + LatAndLons[dataIndex].longitude.toFixed(6) + "<br />",
-              "纬度" + LatAndLons[dataIndex].latitude.toFixed(6) + "<br />",
-              "海拔" + LatAndLons[dataIndex].height.toFixed(2) + "米" + "<br />"
+              "location" + '<hr size=1 style="margin:3px 0">',
+              "longitude:" + LatAndLons[dataIndex].longitude.toFixed(6) + "<br />",
+              "latitude:" + LatAndLons[dataIndex].latitude.toFixed(6) + "<br />",
+              "altitude:" + LatAndLons[dataIndex].height.toFixed(2) + "<br />"
             ].join("");
           }
         },
