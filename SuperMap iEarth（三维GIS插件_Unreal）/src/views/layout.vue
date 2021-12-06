@@ -2,8 +2,8 @@
   <sm-config-provider >
       <toolbar/>
       <right-toolbar/>
-      <!-- <viewer/> -->
-      <!-- <layer-tree :show='state.showLayerTree' /> -->
+      <viewer/>
+      <layer-tree :show='state.showLayerTree' />
       <keep-alive :max="5" :exclude="['addLayer']">
         <component :is="state.seletcedComponent"></component>
       </keep-alive>

@@ -111,7 +111,7 @@ let rollerShutterConfig = {
 
 // 创建和移除卷帘条
 function createSlider(dom, id) {
-  fdom = document.getElementById("unityContainer");
+  fdom = document.getElementById("player");
   verticalSliderLeft = document.createElement("div");
   appendDom(verticalSliderLeft, "verticalSliderLeft");
   verticalSliderRight = document.createElement("div");
