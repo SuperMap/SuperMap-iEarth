@@ -542,7 +542,7 @@
         SpaceArea: 'Space Area',
         GroundDistance: 'Ground Distance',
         FloorArea: 'Floor Area',
-        shadowArea: 'Shadow Area',
+        projectedArea: 'Projected Area',
         ellipsoid: 'Ellipsoid',
         RoundBall: 'RoundBall',
         ShowContour: 'Show Contour',

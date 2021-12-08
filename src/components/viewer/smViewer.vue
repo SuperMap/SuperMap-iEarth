@@ -196,42 +196,46 @@ export default {
       var infoboxContainer = document.getElementById("bubble");
       var table = document.getElementById("tab"); // 气泡内的表格
 
-      let handler1 = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-      handler1.setInputAction(function(e) {
+      let handlerClick = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+      handlerClick.setInputAction(function(e) {
         var selectedLyr = scene.layers.getSelectedLayer();
-        selectedLyr.indexedDBSetting.isAttributesSave = true;
-        var selectedFeature = viewer.selectedEntity;
+        if (selectedLyr && selectedLyr.indexedDBSetting) {
+          selectedLyr.indexedDBSetting.isAttributesSave = true;
+          var selectedFeature = viewer.selectedEntity;
 
-        if (!selectedFeature) {
-          /* 气泡相关 3/4 start */
-          that.buddleShow = false;
-          /* 气泡相关 3/4 end */
-          return;
-        }
-
-        that.buddleShow = true;
-        for (var i = table.rows.length - 1; i > -1; i--) {
-          table.deleteRow(i);
-        }
-
-        selectedLyr.getAttributesById(selectedFeature.id).then(function(data) {
-          if (data) {
-            var newRow = table.insertRow();
-            var cell1 = newRow.insertCell();
-            var cell2 = newRow.insertCell();
-            cell1.innerHTML = "layerName";
-            cell2.innerHTML = selectedLyr.name;
-            for (let key in data) {
-              var newRow = table.insertRow();
-              var cell1 = newRow.insertCell();
-              var cell2 = newRow.insertCell();
-              cell1.innerHTML = key;
-              cell2.innerHTML = data[key];
-            }
-          } else {
+          if (!selectedFeature) {
+            /* 气泡相关 3/4 start */
             that.buddleShow = false;
+            /* 气泡相关 3/4 end */
+            return;
           }
-        });
+
+          that.buddleShow = true;
+          for (var i = table.rows.length - 1; i > -1; i--) {
+            table.deleteRow(i);
+          }
+
+          selectedLyr
+            .getAttributesById(selectedFeature.id)
+            .then(function(data) {
+              if (data) {
+                var newRow = table.insertRow();
+                var cell1 = newRow.insertCell();
+                var cell2 = newRow.insertCell();
+                cell1.innerHTML = "layerName";
+                cell2.innerHTML = selectedLyr.name;
+                for (let key in data) {
+                  var newRow = table.insertRow();
+                  var cell1 = newRow.insertCell();
+                  var cell2 = newRow.insertCell();
+                  cell1.innerHTML = key;
+                  cell2.innerHTML = data[key];
+                }
+              } else {
+                that.buddleShow = false;
+              }
+            });
+        }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
       //对接iport代码,登录功能

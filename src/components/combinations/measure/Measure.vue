@@ -59,7 +59,7 @@
             @click="ProjectArea"
             class="sm-btn sm-measure-btn"
             id="ProjectArea"
-            :title="Resource.shadowArea"
+            :title="Resource.projectedArea"
             type="button"
           >
             <span class="iconfont icontouyingmianji" style="font-size:22px;"></span>
@@ -84,7 +84,7 @@
             id="EllipsoidMode"
             v-model="EllipsoidMode"
           >
-            <option selected value="圆球">{{ Resource.RoundBall }}</option>
+            <option selected value="RoundBall">{{ Resource.RoundBall }}</option>
             <option selected value="CGCS2000">CGCS2000</option>
             <option value="XIAN80">XIAN80</option>
             <option value="WGS84">WGS84</option>
@@ -117,8 +117,8 @@ export default {
     return {
       sharedState: store.state,
       isShowEllipsoid: false,
-      EllipsoidMode: "圆球",
-      Ellipsoid: null,
+      EllipsoidMode: "RoundBall",
+      Ellipsoid: Cesium.Ellipsoid.WGS84,
       isProject: false, //投影面积
       clampMode: Cesium.ClampMode.Space,
       isShowDVH: false, //显示勾选界面
@@ -176,7 +176,7 @@ export default {
           );
           var distance =
             dis > 1000 ? (dis / 1000).toFixed(2) + "km" : dis.toFixed(2) + "m";
-          handlerDis.disLabel.text = "距离:" + distance;
+          handlerDis.disLabel.text = Resource.distance + ":" + distance;
         } else {
           if (that.polylineNoTransparent) {
             that.polylineNoTransparent.positions = result.positions;
@@ -185,7 +185,7 @@ export default {
           var dis = Number(result.distance);
           var distance =
             dis > 1000 ? (dis / 1000).toFixed(2) + "km" : dis.toFixed(2) + "m";
-          handlerDis.disLabel.text = "距离:" + distance;
+          handlerDis.disLabel.text = Resource.distance + ":" + distance;
         }
       });
 
@@ -259,7 +259,7 @@ export default {
             mj > 1000000
               ? (mj / 1000000).toFixed(2) + "km²"
               : mj.toFixed(2) + "㎡";
-          handlerArea.areaLabel.text = "面积:" + area;
+          handlerArea.areaLabel.text = Resource.FloorArea + ":" + area;
         } else {
           that.polygonPositions = result.positions;
           if (that.polylineNoTransparent) {
@@ -314,14 +314,14 @@ export default {
               mj > 1000000
                 ? (mj / 1000000).toFixed(2) + "km²"
                 : mj.toFixed(2) + "㎡";
-            handlerArea.areaLabel.text = "投影面积:" + area;
+            handlerArea.areaLabel.text = Resource.projectedArea + ":" + area;
           } else {
             mj = Number(result.area);
             var area =
               mj > 1000000
                 ? (mj / 1000000).toFixed(2) + "km²"
                 : mj.toFixed(2) + "㎡";
-            handlerArea.areaLabel.text = "面积:" + area;
+            handlerArea.areaLabel.text = Resource.area + ":" + area;
           }
         }
       });
@@ -420,7 +420,7 @@ export default {
     },
     clearAll() {
       this.deactiveAll();
-      this.EllipsoidMode = "圆球";
+      this.EllipsoidMode = "RoundBall";
 
       this.handlerDis && this.handlerDis.clear();
       this.handlerArea && this.handlerArea.clear();
@@ -457,7 +457,7 @@ export default {
       this.handlerHeight && this.handlerHeight.deactivate();
       this.isShowDVH = false;
       this.isShowEllipsoid = false;
-      this.Ellipsoid = null;
+      this.Ellipsoid = Cesium.Ellipsoid.WGS84;
       this.isProject = false;
     },
     createIsoline() {
@@ -582,9 +582,9 @@ export default {
       } else if (value == "CGCS2000") {
         this.Ellipsoid = Cesium.Ellipsoid.CGCS2000;
       } else if (value == "WGS84") {
-        this.Ellipsoid = Cesium.Ellipsoid.WGS84;
+        this.Ellipsoid = new Cesium.Ellipsoid(6378137.0, 6378137.0, 6356752.3142451793); 
       } else {
-        this.Ellipsoid = null;
+        this.Ellipsoid = Cesium.Ellipsoid.WGS84;
       }
     },
     collapsed: {

@@ -542,7 +542,7 @@
       SpaceArea: '空间面积',
       GroundDistance: '依地距离',
       FloorArea: '依地面积',
-      shadowArea: '投影面积',
+      projectedArea: '投影面积',
       ellipsoid: '椭球',
       VerticalHeight: '垂直高度',
       HorizontalDistance: '水平距离',

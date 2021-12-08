@@ -542,7 +542,7 @@
         SpaceArea: 'スペース',
         GroundDistance: '地回りの距離',
         FloorArea: '敷地面積',
-        shadowArea: '投影面積',
+        projectedArea: '投影面積',
         ellipsoid: '楕円体',
         VerticalHeight: '縦の高さ',
         HorizontalDistance: '水平距離',

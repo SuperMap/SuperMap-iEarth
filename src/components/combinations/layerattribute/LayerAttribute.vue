@@ -429,7 +429,7 @@
 
 <script>
 let offsetScreenSpaceEventHandler, hyp, timer, colorTable, facade, handlerLine;
-// let handler1;
+// let handlerClick;
 export default {
   name: "LayerAttribute",
   data() {
@@ -520,7 +520,7 @@ export default {
 
   methods: {
     init() {
-      // if (handler1) {
+      // if (handlerClick) {
       //   return;
       // }
       // let that = this;
@@ -1170,7 +1170,7 @@ export default {
       handlerBox = undefined;
       tooltip = undefined;
       boxEntity = undefined;
-      // if (handler1) handler1 = undefined;
+      // if (handlerClick) handlerClick = undefined;
     }
   }
 };
