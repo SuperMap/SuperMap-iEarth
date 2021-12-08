@@ -1,15 +1,5 @@
 <template>
   <div>
-    <!-- 弹出属性框 -->
-    <div id="bubble" class="bubble" v-show="buddleShow" v-drag>
-      <div id="tools" style="text-align : right">
-        <span class="closeBubble" @click="closeBubble">&times;</span>
-      </div>
-      <div style="overflow-y:auto;" id="tableContainer">
-        <table id="tab" style="height: 100px;"></table>
-      </div>
-    </div>
-
     <div id="LayerAttribute" class="sm-panel" v-if="LayerAttributeShow" v-drag>
       <div class="sm-content">
         <div class="sm-panel-header">
@@ -439,14 +429,13 @@
 
 <script>
 let offsetScreenSpaceEventHandler, hyp, timer, colorTable, facade, handlerLine;
-let handler1;
+// let handler1;
 export default {
   name: "LayerAttribute",
   data() {
     return {
       sharedState: store.state,
       //base
-      buddleShow: false,
       shadowType: "noShadow",
       shadowDarkness: 0.3,
       visibility: "showAll",
@@ -531,58 +520,15 @@ export default {
 
   methods: {
     init() {
-      if (handler1) {
-        return;
-      }
-      let that = this;
-
-      var infoboxContainer = document.getElementById("bubble");
-      var table = document.getElementById("tab"); // 气泡内的表格
-
-      handler1 = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-      handler1.setInputAction(function(e) {
-        var selectedLyr = scene.layers.getSelectedLayer();
-        var selectedFeature = viewer.selectedEntity;
-
-        if (!selectedFeature) {
-          /* 气泡相关 3/4 start */
-          that.buddleShow = false;
-          /* 气泡相关 3/4 end */
-          return;
-        }
-
-        that.buddleShow = true;
-        for (var i = table.rows.length - 1; i > -1; i--) {
-          table.deleteRow(i);
-        }
-
-        selectedLyr.getAttributesById(selectedFeature.id).then(function(data) {
-          if (data) {
-            var newRow = table.insertRow();
-            var cell1 = newRow.insertCell();
-            var cell2 = newRow.insertCell();
-            cell1.innerHTML = "layerName";
-            cell2.innerHTML = selectedLyr.name;
-            for (let key in data) {
-              var newRow = table.insertRow();
-              var cell1 = newRow.insertCell();
-              var cell2 = newRow.insertCell();
-              cell1.innerHTML = key;
-              cell2.innerHTML = data[key];
-            }
-          } else {
-            that.buddleShow = false;
-          }
-        });
-      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+      // if (handler1) {
+      //   return;
+      // }
+      // let that = this;
     },
     toggleVisibility() {
       //控制组件界面隐
       store.setLayerAttributeToolbal(false);
-    },
-    closeBubble() {
-      this.buddleShow = false;
-    },
+    },    
     clearModification() {
       this.selectedLayer.style3D.fillForeColor = Cesium.Color.fromCssColorString(
         "#ffffff"
@@ -1224,7 +1170,7 @@ export default {
       handlerBox = undefined;
       tooltip = undefined;
       boxEntity = undefined;
-      if (handler1) handler1 = undefined;
+      // if (handler1) handler1 = undefined;
     }
   }
 };

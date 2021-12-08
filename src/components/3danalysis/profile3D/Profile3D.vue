@@ -160,7 +160,6 @@ export default {
 
   beforeDestroy() {
     this.clear();
-    myChart.clear();
     LatAndLons.length = 0; //清空之前的点数据;
     Cartesians.length = 0; //清空之前的点数据;
   },
@@ -361,8 +360,12 @@ export default {
             Entypositions = Cartesians[dataIndex];
             return [
               "location" + '<hr size=1 style="margin:3px 0">',
-              "longitude:" + LatAndLons[dataIndex].longitude.toFixed(6) + "<br />",
-              "latitude:" + LatAndLons[dataIndex].latitude.toFixed(6) + "<br />",
+              "longitude:" +
+                LatAndLons[dataIndex].longitude.toFixed(6) +
+                "<br />",
+              "latitude:" +
+                LatAndLons[dataIndex].latitude.toFixed(6) +
+                "<br />",
               "altitude:" + LatAndLons[dataIndex].height.toFixed(2) + "<br />"
             ].join("");
           }
@@ -406,11 +409,11 @@ export default {
           left: "right",
           feature: {
             restore: {
-              title:Resource.restore,
+              title: Resource.restore,
               icon: "image://static/images/flypng/restore.png"
             },
             saveAsImage: {
-              title:Resource.saveAsImage,
+              title: Resource.saveAsImage,
               icon: "image://static/images/flypng/download.png"
             }
           }
@@ -495,12 +498,13 @@ export default {
       this.endlongitude = 0;
       this.endlatitude = 0;
       this.endheight = 0;
-
       // this.profile2d = false;
       this.profileLine = false;
       viewer.entities.removeById("location4");
       viewer.entities.removeById("polyline-profile");
-      myChart.clear();
+      if (myChart) {
+        myChart.clear();
+      }
 
       LatAndLons.length = 0; //清空之前的点数据
       Cartesians.length = 0; //清空之前的点数据

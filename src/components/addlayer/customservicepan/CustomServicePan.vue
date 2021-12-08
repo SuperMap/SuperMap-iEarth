@@ -234,7 +234,7 @@ export default {
         promiseArray,
         function(layers) {
           for (let i = 0; i < layers.length; i++) {
-            layers[i]._visibleDistanceMax = 10000;
+            layers[i]._visibleDistanceMax = 16000;
           }
           setTimeout(() => {
             //更新图层

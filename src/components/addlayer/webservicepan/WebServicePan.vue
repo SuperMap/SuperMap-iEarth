@@ -172,9 +172,9 @@ export default {
     promiseWhen(promiseArray, sceneName) {
       Cesium.when.all(
         promiseArray,
-        layer => {
-          for (let i = 0; i < layer.length; i++) {
-            layer[i]._visibleDistanceMax = 16000;
+        layers => {
+          for (let i = 0; i < layers.length; i++) {
+            layers[i]._visibleDistanceMax = 16000;
           }
           if (sceneName) {
             this.flyTo(sceneName);

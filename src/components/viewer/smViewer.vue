@@ -1,5 +1,16 @@
 <template>
   <div id="cesiumContainer" ref="viewer">
+    <!-- 弹出属性框 -->
+
+    <div id="bubble" class="bubble" v-show="buddleShow" v-drag>
+      <div id="tools" style="text-align : right">
+        <span class="closeBubble" @click="closeBubble">&times;</span>
+      </div>
+      <div style="overflow-y:auto;" id="tableContainer">
+        <table id="tab" style="height: 100px;"></table>
+      </div>
+    </div>
+
     <!-- 工具选择组件 -->
     <tool-bar></tool-bar>
     <compass></compass>
@@ -40,6 +51,7 @@ export default {
   },
   data() {
     return {
+      buddleShow: false,
       sharedState: store.state,
       isCreateScene: true
     };
@@ -55,6 +67,8 @@ export default {
       if (window.viewer) {
         return;
       }
+      let that = this;
+
       let viewer;
       //天空盒，不能放在data里面
       this.BaseSpecialEffectModels = BaseSpecialEffectModels;
@@ -179,8 +193,48 @@ export default {
 
       store.setisInitViewer(true); //初始化viewer标志
 
+      var infoboxContainer = document.getElementById("bubble");
+      var table = document.getElementById("tab"); // 气泡内的表格
+
+      let handler1 = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+      handler1.setInputAction(function(e) {
+        var selectedLyr = scene.layers.getSelectedLayer();
+        selectedLyr.indexedDBSetting.isAttributesSave = true;
+        var selectedFeature = viewer.selectedEntity;
+
+        if (!selectedFeature) {
+          /* 气泡相关 3/4 start */
+          that.buddleShow = false;
+          /* 气泡相关 3/4 end */
+          return;
+        }
+
+        that.buddleShow = true;
+        for (var i = table.rows.length - 1; i > -1; i--) {
+          table.deleteRow(i);
+        }
+
+        selectedLyr.getAttributesById(selectedFeature.id).then(function(data) {
+          if (data) {
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell();
+            var cell2 = newRow.insertCell();
+            cell1.innerHTML = "layerName";
+            cell2.innerHTML = selectedLyr.name;
+            for (let key in data) {
+              var newRow = table.insertRow();
+              var cell1 = newRow.insertCell();
+              var cell2 = newRow.insertCell();
+              cell1.innerHTML = key;
+              cell2.innerHTML = data[key];
+            }
+          } else {
+            that.buddleShow = false;
+          }
+        });
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
       //对接iport代码,登录功能
-      let that = this;
       if (window.store.systemConfig) {
         that.getSceneState("block");
       } else {
@@ -188,7 +242,10 @@ export default {
         that.getSceneState("none");
       }
     },
-
+    //关闭属性弹出框
+    closeBubble() {
+      this.buddleShow = false;
+    },
     getSceneState(state) {
       document.getElementById("infoManageLogin").style.display = state;
       document.getElementById("storageInfo").style.display = state;

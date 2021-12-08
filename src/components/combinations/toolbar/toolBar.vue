@@ -4,7 +4,7 @@
       <div
         class="sm-btn sm-tool-btn"
         :class='[!show?"":"sm-toggle-btn-only",isLayerManager?"":"titleBarColor"]'
-        title="图层管理"
+        :title= Resource.layerManager
         @click="choose(0)"
         style="border-top-left-radius:4px;border-bottom-left-radius:4px;"
         :style="LayerManagerActive"

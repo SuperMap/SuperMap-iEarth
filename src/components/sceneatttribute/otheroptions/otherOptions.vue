@@ -53,7 +53,9 @@
         />
       </div>
     </div>
-    <label class="label-container">{{ Resource.split }}</label>
+    <div>
+      <label class="label-container">{{ Resource.split }}</label>
+      </div>
     <div class="sm-function-module-sub-section flexbox choose" style="width:41.5%;">
       <label class="sm-viewshed-label-right">
         <span style="position:relative;left:4px;">{{ Resource.useRoller }}</span>

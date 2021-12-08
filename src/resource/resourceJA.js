@@ -69,6 +69,7 @@
         sunEffect: '照明レンダリング',
         fogEffect: 'ボリュームレンダリング',
         expand: '展開',
+        layerManager:'レイヤー管理',
         addLayer: 'レイヤー追加',
         setBaseLayer: '背景レイヤー選択',
         BaseMapImg: 'ベースマップ_img',

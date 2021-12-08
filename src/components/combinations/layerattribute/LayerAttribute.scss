@@ -1,37 +1,3 @@
-/*--------- 属性框--------------*/
-.bubble {
-	text-align: center;
-	position: absolute;
-	padding: 15px;
-	margin: 0;
-	background-color: rgba(50, 50, 50, 0.8);
-	max-width: 350px;
-	max-height: 400px;
-
-	display:table;//防止表格撑不满
-	overflow: auto;
-	bottom: 0px;
-	right: 0px;
-	border: 1px solid rgb(102, 102, 102);
-  z-index: 9999;
-}
-/*--------- 隐藏滑动条--------------*/
-.bubble::-webkit-scrollbar {
-	display: none;
-	/* Chrome Safari */
-}
-
-#tab {
-	border:none;
-	height: 400px;
-  table-layout:fixed;//自动换行
-}
-
-#tab td {
-  word-wrap:break-word;//自动换行
-}
-
-/*--------- 属性框--------------*/
 
 .sm-panel {
     position: absolute;
