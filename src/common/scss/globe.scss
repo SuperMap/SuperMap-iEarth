@@ -930,6 +930,8 @@ body {
 	border:none;
 	height: 400px;
   table-layout:fixed;//自动换行
+  word-break: break-all;
+  word-wrap: break-word; //表格固定布局
 }
 
 #tab td {
