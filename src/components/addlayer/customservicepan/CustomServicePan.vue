@@ -136,7 +136,7 @@ export default {
           break;
         case "IMAGERY":
           if (
-            this.LayerURL.indexOf("/rest/realspace/datas/") < 0 ||
+            this.LayerURL.indexOf("/rest/realspace/datas/") < 0 &&
             this.LayerURL.indexOf("/rest/maps/") < 0
           ) {
             this.$Message.error(Resource.urlErrorMsg);
