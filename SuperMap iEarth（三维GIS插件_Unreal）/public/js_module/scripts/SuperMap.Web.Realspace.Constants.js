@@ -784,9 +784,10 @@ SuperMap.Web.Realspace.SlopeDisplayStyle.prototype = {
     /// <field name="CONTOUR_STYLE_COLORS">显示颜色</field>
     /// <field name="CONTOUR_STYLE_DIRECTION_AND_COLORS">同时显示坡向和颜色</field>
 
-    ARROW : 1,		//显示坡向箭头
-    COLORS : 0,		//显示颜色
-    ARROW_AND_COLORS : 2  //同时显示坡向和颜色
+    NONE : 0,
+    ARROW : 2,		//显示坡向箭头
+    COLORS : 1,		//显示颜色
+    ARROW_AND_COLORS : 3  //同时显示坡向和颜色
 }
 SuperMap.Web.Realspace.SlopeDisplayStyle.registerEnum("SuperMap.Web.Realspace.SlopeDisplayStyle");
 

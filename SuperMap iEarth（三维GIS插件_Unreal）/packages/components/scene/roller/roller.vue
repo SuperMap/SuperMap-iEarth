@@ -129,7 +129,10 @@ function createSlider(dom, id) {
 }
 
 function removeSlider() {
-  sliders.forEach(dom => fdom.removeChild(dom));
+	fdom.removeChild(verticalSliderLeft)
+	fdom.removeChild(verticalSliderRight)
+	fdom.removeChild(horizontalSliderTop)
+	fdom.removeChild(horizontalSliderBottom)
 }
 
 //设置卷帘条显隐
@@ -149,11 +152,11 @@ function setLayersRoller(bounds) {
   if (!layers) return;
   if (selectedKeys) {
     cancelLayersRoller();
-    keys.forEach(key => {
+    selectedKeys.forEach(key => {
       let index = key.split("--")[2];
       index = Number(index);
       if (index === NaN) return;
-      layer.set_swipeEnabled(true);
+      layers[index].set_swipeEnabled(true);
       layers[index].set_swipeRegion(bounds);
     });
   } else {
@@ -172,6 +175,7 @@ function cancelLayersRoller() {
   layers.forEach(layer => {
     if (layer.type === SuperMap.Web.Realspace.Layer3DType.OSGB) {
       layer.set_swipeEnabled(false);
+	  layer.set_swipeRegion({ left: 0, top: 0, right: 1, bottom: 1 });
     }
   });
 }

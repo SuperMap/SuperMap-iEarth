@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { h, ref, watch, shallowRef, inject } from "vue";
+import { h, ref, watch, shallowRef, inject,onMounted } from "vue";
 import { NButton, NPopconfirm, useMessage, NTree } from "naive-ui";
 
 const message = useMessage();
@@ -40,9 +40,13 @@ let props = defineProps({
 
 const emit = defineEmits(["getCheckedKeys","getSelectedKeys","getS3mLayers"]);
 
-watch( () => props.isUpdate,val => {
+watch(()=>props.isUpdate,val => {
     if (val) setTimeout(() => updateLayers(), 500);
   });
+
+onMounted(() => {
+  setTimeout(() => updateLayers(), 500);
+});
 
 //监听图层改变
 watch(storeState.layerChanges, val => {

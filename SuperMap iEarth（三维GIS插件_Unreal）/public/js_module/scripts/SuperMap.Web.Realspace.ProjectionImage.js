@@ -15,28 +15,6 @@ SuperMap.Web.Realspace.ProjectionImage  = function(sceneControl) {
     SuperMap.Web.Realspace.ProjectionImage.initializeBase(this);
 };
 SuperMap.Web.Realspace.ProjectionImage.prototype = {
-
-    /**
-    *位置信息
-    */
-    get_position : function() {
-        ///<returns type="SuperMap.Web.Core.Point3D">位置信息</returns>
-     
-    },
-
-    set_position : function(position) {
-        ///<param name="position" type="SuperMap.Web.Core.Point3D">位置信息</param>
-        var cmd = {
-            func : "SetPosition",
-            arguments : {
-               position : position
-            }
-        }
-        emitUIInteraction(cmd);
-    },
-
-
-
     /**
     *设置图片对象
     */
@@ -70,6 +48,39 @@ SuperMap.Web.Realspace.ProjectionImage.prototype = {
     clear: function() {
         var cmd = {
             func : "Clear",
+            classNumber : SuperMap.Web.Realspace.ClassNumber.PROJECTIONIMAGE
+        }
+        emitUIInteraction(cmd);
+    },
+
+    set_position : function(position) {
+        var cmd = {
+            func : "SetPosition",
+            arguments : {
+                position : position
+             },
+            classNumber : SuperMap.Web.Realspace.ClassNumber.PROJECTIONIMAGE
+        }
+        emitUIInteraction(cmd);
+    },
+
+    set_heading : function(heading) {
+        var cmd = {
+            func : "SetHeading",
+            arguments : {
+                heading : heading
+             },
+            classNumber : SuperMap.Web.Realspace.ClassNumber.PROJECTIONIMAGE
+        }
+        emitUIInteraction(cmd);
+    },
+
+    set_pitch : function(pitch) {
+        var cmd = {
+            func : "SetPitch",
+            arguments : {
+                pitch : pitch
+             },
             classNumber : SuperMap.Web.Realspace.ClassNumber.PROJECTIONIMAGE
         }
         emitUIInteraction(cmd);

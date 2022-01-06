@@ -17,47 +17,153 @@
 }(this, function (adapter) {
 
     function webRtcPlayer(parOptions) {
-    	parOptions = parOptions || {};
+    	parOptions = typeof parOptions !== 'undefined' ? parOptions : {};
     	
         var self = this;
 
         //**********************
         //Config setup
-        //**********************;
-		this.cfg = parOptions.peerConnectionOptions || {};
+        //**********************
+		this.cfg = typeof parOptions.peerConnectionOptions !== 'undefined' ? parOptions.peerConnectionOptions : {};
 		this.cfg.sdpSemantics = 'unified-plan';
+        // this.cfg.rtcAudioJitterBufferMaxPackets = 10;
+        // this.cfg.rtcAudioJitterBufferFastAccelerate = true;
+        // this.cfg.rtcAudioJitterBufferMinDelayMs = 0;
+
+		// If this is true in Chrome 89+ SDP is sent that is incompatible with UE Pixel Streaming 4.26 and below.
+        // However 4.27 Pixel Streaming does not need this set to false as it supports `offerExtmapAllowMixed`.
+        // tdlr; uncomment this line for older versions of Pixel Streaming that need Chrome 89+.
+        this.cfg.offerExtmapAllowMixed = false;
+
+        //**********************
+        //Variables
+        //**********************
         this.pcClient = null;
         this.dcClient = null;
         this.tnClient = null;
 
         this.sdpConstraints = {
-          offerToReceiveAudio: 1,
-          offerToReceiveVideo: 1
+          offerToReceiveAudio: 1, //Note: if you don't need audio you can get improved latency by turning this off.
+          offerToReceiveVideo: 1,
+          voiceActivityDetection: false
         };
 
-        // See https://www.w3.org/TR/webrtc/#dom-rtcdatachannelinit for values
+        // See https://www.w3.org/TR/webrtc/#dom-rtcdatachannelinit for values (this is needed for Firefox to be consistent with Chrome.)
         this.dataChannelOptions = {ordered: true};
+
+        // This is useful if the video/audio needs to autoplay (without user input) as browsers do not allow autoplay non-muted of sound sources without user interaction.
+        this.startVideoMuted = typeof parOptions.startVideoMuted !== 'undefined' ? parOptions.startVideoMuted : false;
+        this.autoPlayAudio = typeof parOptions.autoPlayAudio !== 'undefined' ? parOptions.autoPlayAudio : true;
+
+        // To enable mic in browser use SSL/localhost and have ?useMic in the query string.
+        const urlParams = new URLSearchParams(window.location.search);
+        this.useMic = urlParams.has('useMic');
+        if(!this.useMic)
+        {
+            console.log("Microphone access is not enabled. Pass ?useMic in the url to enable it.");
+        }
+
+        // When ?useMic check for SSL or localhost
+        let isLocalhostConnection = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+        let isHttpsConnection = location.protocol === 'https:';
+        if(this.useMic && !isLocalhostConnection && !isHttpsConnection)
+        {
+            this.useMic = false;
+            console.error("Microphone access in the browser will not work if you are not on HTTPS or localhost. Disabling mic access.");
+            console.error("For testing you can enable HTTP microphone access Chrome by visiting chrome://flags/ and enabling 'unsafely-treat-insecure-origin-as-secure'");
+        }
+
+        // Latency tester
+        this.latencyTestTimings = 
+        {
+            TestStartTimeMs: null,
+            UEReceiptTimeMs: null,
+            UEPreCaptureTimeMs: null,
+            UEPostCaptureTimeMs: null,
+            UEPreEncodeTimeMs: null,
+            UEPostEncodeTimeMs: null,
+            UETransmissionTimeMs: null,
+            BrowserReceiptTimeMs: null,
+            FrameDisplayDeltaTimeMs: null,
+            Reset: function()
+            {
+                this.TestStartTimeMs = null;
+                this.UEReceiptTimeMs = null;
+                this.UEPreCaptureTimeMs = null;
+                this.UEPostCaptureTimeMs = null;
+                this.UEPreEncodeTimeMs = null;
+                this.UEPostEncodeTimeMs = null;
+                this.UETransmissionTimeMs = null;
+                this.BrowserReceiptTimeMs = null;
+                this.FrameDisplayDeltaTimeMs = null;
+            },
+            SetUETimings: function(UETimings)
+            {
+                this.UEReceiptTimeMs = UETimings.ReceiptTimeMs;
+                this.UEPreCaptureTimeMs = UETimings.PreCaptureTimeMs;
+                this.UEPostCaptureTimeMs = UETimings.PostCaptureTimeMs;
+                this.UEPreEncodeTimeMs = UETimings.PreEncodeTimeMs;
+                this.UEPostEncodeTimeMs = UETimings.PostEncodeTimeMs;
+                this.UETransmissionTimeMs = UETimings.TransmissionTimeMs;
+                this.BrowserReceiptTimeMs = Date.now();
+                this.OnAllLatencyTimingsReady(this);
+            },
+            SetFrameDisplayDeltaTime: function(DeltaTimeMs)
+            {
+                if(this.FrameDisplayDeltaTimeMs == null)
+                {
+                    this.FrameDisplayDeltaTimeMs = Math.round(DeltaTimeMs);
+                    this.OnAllLatencyTimingsReady(this);
+                }
+            },
+            OnAllLatencyTimingsReady: function(Timings){}
+        }
 
         //**********************
         //Functions
         //**********************
 
         //Create Video element and expose that as a parameter
-        createWebRtcVideo = function() {
+        this.createWebRtcVideo = function() {
             var video = document.createElement('video');
 
             video.id = "streamingVideo";
             video.playsInline = true;
+            video.disablepictureinpicture = true;
+            video.muted = self.startVideoMuted;;
+			
             video.addEventListener('loadedmetadata', function(e){
                 if(self.onVideoInitialised){
                     self.onVideoInitialised();
                 }
             }, true);
+			
+			// Check if request video frame callback is supported
+			if ('requestVideoFrameCallback' in HTMLVideoElement.prototype) {
+				// The API is supported! 
+				
+				const onVideoFrameReady = (now, metadata) => {
+					
+					if(metadata.receiveTime && metadata.expectedDisplayTime)
+					{
+						const receiveToCompositeMs = metadata.presentationTime - metadata.receiveTime;
+						self.aggregatedStats.receiveToCompositeMs = receiveToCompositeMs;
+					}
+					
+				  
+					// Re-register the callback to be notified about the next frame.
+					video.requestVideoFrameCallback(onVideoFrameReady);
+				};
+				
+				// Initially register the callback to be notified about the first frame.
+				video.requestVideoFrameCallback(onVideoFrameReady);
+			}
+			
             return video;
         }
 
-        this.video = createWebRtcVideo();
-        this.cfg.offerExtmapAllowMixed = false;
+        this.video = this.createWebRtcVideo();
+
         onsignalingstatechange = function(state) {
             console.info('signaling state change:', state)
         };
@@ -72,16 +178,66 @@
 
         handleOnTrack = function(e) {
             console.log('handleOnTrack', e.streams);
-            if (self.video.srcObject !== e.streams[0]) {
-                console.log('setting video stream from ontrack');
+			
+			if (e.track)
+			{
+				console.log('Got track - ' + e.track.kind + ' id=' + e.track.id + ' readyState=' + e.track.readyState); 
+			}
+			
+			if(e.track.kind == "audio")
+			{
+                handleOnAudioTrack(e.streams[0]);
+                return;
+			}
+            else(e.track.kind == "video" && self.video.srcObject !== e.streams[0])
+            {
                 self.video.srcObject = e.streams[0];
+				console.log('Set video source from video track ontrack.');
+                return;
             }
+			
         };
+
+        handleOnAudioTrack = function(audioMediaStream)
+        {
+            // do nothing the video has the same media stream as the audio track we have here (they are linked)
+            if(self.video.srcObject == audioMediaStream)
+            {
+                return;
+            }
+            // video element has some other media stream that is not associated with this audio track
+            else if(self.video.srcObject && self.video.srcObject !== audioMediaStream)
+            {
+                // create a new audio element
+                let audioElem = document.createElement("Audio");
+                audioElem.srcObject = audioMediaStream;
+
+                // there is no way to autoplay audio (even muted), so we defer audio until first click
+                if(!self.autoPlayAudio) {
+
+                    let clickToPlayAudio = function() {
+                        audioElem.play();
+                        self.video.removeEventListener("click", clickToPlayAudio);
+                    };
+
+                    self.video.addEventListener("click", clickToPlayAudio);
+                }
+                // we assume the user has clicked somewhere on the page and autoplaying audio will work
+                else {
+                    audioElem.play();
+                }
+                console.log('Created new audio element to play seperate audio stream.');
+            }
+
+        }
 
         setupDataChannel = function(pc, label, options) {
             try {
-                var datachannel = pc.createDataChannel(label, options)
+                let datachannel = pc.createDataChannel(label, options);
                 console.log(`Created datachannel (${label})`)
+
+                // Inform browser we would like binary data as an ArrayBuffer (FF chooses Blob by default!)
+                datachannel.binaryType = "arraybuffer";
                 
                 datachannel.onopen = function (e) {
                   console.log(`data channel (${label}) connect`)
@@ -95,7 +251,7 @@
                 }
 
                 datachannel.onmessage = function (e) {
-                  console.log(`Got message (${label})`, e.data)
+                  //console.log(`Got message (${label})`, e.data)
                   if (self.onDataChannelMessage)
                     self.onDataChannelMessage(e.data);
                 }
@@ -116,16 +272,27 @@
 
         handleCreateOffer = function (pc) {
             pc.createOffer(self.sdpConstraints).then(function (offer) {
+                
+                // Munging is where we modifying the sdp string to set parameters that are not exposed to the browser's WebRTC API
+                mungeSDPOffer(offer);
+
+                // Set our munged SDP on the local peer connection so it is "set" and will be send across
             	pc.setLocalDescription(offer);
             	if (self.onWebRtcOffer) {
-            		// (andriy): increase start bitrate from 300 kbps to 20 mbps and max bitrate from 2.5 mbps to 100 mbps
-                    // (100 mbps means we don't restrict encoder at all)
-                    // after we `setLocalDescription` because other browsers are not c happy to see google-specific config
-            		offer.sdp = offer.sdp.replace(/(a=fmtp:\d+ .*level-asymmetry-allowed=.*)\r\n/gm, "$1;x-google-start-bitrate=10000;x-google-max-bitrate=20000\r\n");
             		self.onWebRtcOffer(offer);
                 }
             },
             function () { console.warn("Couldn't create offer") });
+        }
+
+        mungeSDPOffer = function (offer) {
+
+            // turn off video-timing sdp sent from browser
+            //offer.sdp = offer.sdp.replace("http://www.webrtc.org/experiments/rtp-hdrext/playout-delay", "");
+
+            // this indicate we support stereo (Chrome needs this)
+            offer.sdp = offer.sdp.replace('useinbandfec=1', 'useinbandfec=1;stereo=1;sprop-maxcapturerate=48000');
+
         }
         
         setupPeerConnection = function (pc) {
@@ -149,7 +316,7 @@
                 //console.log('Printing Stats');
 
                 let newStat = {};
-                //console.log('----------------------------- Stats start -----------------------------');
+                
                 stats.forEach(stat => {
 //                    console.log(JSON.stringify(stat, undefined, 4));
                     if (stat.type == 'inbound-rtp' 
@@ -210,7 +377,13 @@
                     }
                 });
 
-                //console.log(JSON.stringify(newStat));
+				
+				if(self.aggregatedStats.receiveToCompositeMs)
+				{
+					newStat.receiveToCompositeMs = self.aggregatedStats.receiveToCompositeMs;
+                    self.latencyTestTimings.SetFrameDisplayDeltaTime(self.aggregatedStats.receiveToCompositeMs);
+				}
+				
                 self.aggregatedStats = newStat;
 
                 if(self.onAggregatedStats)
@@ -218,9 +391,67 @@
             }
         };
 
+        setupTracksToSendAsync = async function(pc){
+            
+            // Setup a transceiver for getting UE video
+            pc.addTransceiver("video", { direction: "recvonly" });
+
+            // Setup a transceiver for sending mic audio to UE and receiving audio from UE
+            if(!self.useMic)
+            {
+                pc.addTransceiver("audio", { direction: "recvonly" });
+            }
+            else
+            {
+                let audioSendOptions = self.useMic ? 
+                {
+                    autoGainControl: false,
+                    channelCount: 1,
+                    echoCancellation: false,
+                    latency: 0,
+                    noiseSuppression: false,
+                    sampleRate: 16000,
+                    volume: 1.0
+                } : false;
+
+                // Note using mic on android chrome requires SSL or chrome://flags/ "unsafely-treat-insecure-origin-as-secure"
+                const stream = await navigator.mediaDevices.getUserMedia({video: false, audio: audioSendOptions});
+                if(stream)
+                {
+                    for (const track of stream.getTracks()) {
+                        if(track.kind && track.kind == "audio")
+                        {
+                            pc.addTransceiver(track, { direction: "sendrecv" });
+                        }
+                    }
+                }
+                else
+                {
+                    pc.addTransceiver("audio", { direction: "recvonly" });
+                }
+            }
+        };
+
+
         //**********************
         //Public functions
         //**********************
+
+        this.setVideoEnabled = function(enabled) {
+            self.video.srcObject.getTracks().forEach(track => track.enabled = enabled);
+        }
+
+        this.startLatencyTest = function(onTestStarted) {
+            // Can't start latency test without a video element
+            if(!self.video)
+            {
+                return;
+            }
+
+            self.latencyTestTimings.Reset();
+            self.latencyTestTimings.TestStartTimeMs = Date.now();
+            onTestStarted(self.latencyTestTimings.TestStartTimeMs);            
+        }
 
         //This is called when revceiving new ice candidates individually instead of part of the offer
         //This is currently not used but would be called externally from this class
@@ -240,16 +471,28 @@
                 self.pcClient = null;
             }
             self.pcClient = new RTCPeerConnection(self.cfg);
-            setupPeerConnection(self.pcClient);
-            self.dcClient = setupDataChannel(self.pcClient, 'cirrus', self.dataChannelOptions);
-            handleCreateOffer(self.pcClient);
+
+            setupTracksToSendAsync(self.pcClient).finally(function()
+            {
+                setupPeerConnection(self.pcClient);
+                self.dcClient = setupDataChannel(self.pcClient, 'cirrus', self.dataChannelOptions);
+                handleCreateOffer(self.pcClient);
+            });
+            
         };
 
         //Called externaly when an answer is received from the server
         this.receiveAnswer = function(answer) {
-            console.log(`Received answer:\n${answer}`);
+            console.log('Received answer:');
+            console.log(answer);
             var answerDesc = new RTCSessionDescription(answer);
             self.pcClient.setRemoteDescription(answerDesc);
+
+            let receivers = self.pcClient.getReceivers();
+            for(let receiver of receivers)
+            {
+                receiver.playoutDelayHint = 0;
+            }
         };
 
         this.close = function(){

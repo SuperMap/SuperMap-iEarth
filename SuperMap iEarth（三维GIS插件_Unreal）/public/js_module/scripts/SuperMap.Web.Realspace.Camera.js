@@ -45,21 +45,6 @@ SuperMap.Web.Realspace.Camera = function(object) {
 
 SuperMap.Web.Realspace.Camera.prototype ={
 
-    /*
-	  *innerCamera属性，不对外开放
-	  */
-    _get_innerCamera : function() {
-		    if(this._innerCamera != null) {
-		        return this._innerCamera;
-		    }
-    },
-
-  	_set_innerCamera : function(innerCamera) {
-  	    if(this._innerCamera != null) {
-  		      this._innerCamera = innerCamera;
-  		  }
-  	},
-
   	/*
   	*altitude属性:相机高度
   	*/
@@ -105,15 +90,15 @@ SuperMap.Web.Realspace.Camera.prototype ={
   	/*
   	*tilt属性:相机的仰（俯）角
   	*/
-	  get_tilt : function() {
+	get_tilt : function() {
         ///<returns type="number">相机的仰（俯）角</returns>
-    		return this.tilt;
+    	return this.tilt;
     },
 
   	set_tilt : function(tilt) {
-    		if(typeof tilt === "number") {
-    		    this.tilt = tilt;
-    		}
+    	if(typeof tilt === "number") {
+    		this.tilt = tilt;
+    	}
   	},
 
   	/*

@@ -75,30 +75,6 @@ SuperMap.Web.Realspace.Scene.prototype = {
     get_trackingLayer3D : function() {
         ///<value type="SuperMap.Web.Realspace.TrackingLayer3D"></value>
         return this._trackingLayer3D;
-    },
-
-    /**
-    *关闭场景
-    */
-    close : function() {
-        ///<returns type="void"></returns>
-        this.get_layer3Ds().removeAll();
-
-        var cmd = {
-            func : "Close",
-            needResult : false
-        }
-    },
-    
-    /**
-    *刷新场景
-    */
-    refresh : function() {
-        ///<returns type="void"></returns>
-        var cmd = {
-            func : "Refresh",
-            needResult : false
-        }
     }
 };
 SuperMap.Web.Realspace.Scene.registerClass('SuperMap.Web.Realspace.Scene', Sys.Component);

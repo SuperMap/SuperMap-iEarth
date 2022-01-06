@@ -504,39 +504,7 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
     _attachEvent : function() {
         // 考虑用全局的代替
         var sceneControl = this;
-
-		// var keyDownHandler = this._keyDown;
-		// this.addExploreEvent(this._innerSceneCtrl, 'KeyDown', function(button) { return keyDownHandler(button, sceneControl); });
-
-		// var keyUpHandler = this._keyUp;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'KeyUp', function(button) { return keyUpHandler(button, sceneControl); });
-
-        // var downHandler = this._mouseDown;
-		// this.addExploreEvent(this._innerSceneCtrl, 'LButtonDown', function(x, y, button) {  return downHandler(x, y, SuperMap.Web.Realspace.FlagType.LBUTTON, sceneControl); });
-		// this.addExploreEvent(this._innerSceneCtrl, 'MButtonDown', function(x, y, button) {  return downHandler(x, y, SuperMap.Web.Realspace.FlagType.MBUTTON, sceneControl); });
-		// this.addExploreEvent(this._innerSceneCtrl, 'RButtonDown', function(x, y, button) {  return downHandler(x, y, SuperMap.Web.Realspace.FlagType.RBUTTON, sceneControl); });
-
-        // var upHandler = this._mouseUp;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'MButtonUp', function(x, y, button) {  return upHandler(x, y, SuperMap.Web.Realspace.FlagType.MBUTTON, sceneControl); });
-    	// this.addExploreEvent(this._innerSceneCtrl, 'RButtonUp', function(x, y, button) {  return upHandler(x, y, SuperMap.Web.Realspace.FlagType.RBUTTON, sceneControl); });
-    	// this.addExploreEvent(this._innerSceneCtrl, 'LButtonUp', function(x, y, button) {  return upHandler(x, y, SuperMap.Web.Realspace.FlagType.LBUTTON, sceneControl); });
-
-        // var wheelHandler = this._mouseWheel;
-		// this.addExploreEvent(this._innerSceneCtrl, 'MouseWheel', function(x, y, zDelta, button) {  return wheelHandler(x, y, zDelta, SuperMap.Web.Realspace.FlagType.WHEEL, sceneControl); });
-
-        // var dbClickHandler = this._dbClick;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'LButtonDblClick', function(x, y, button) {  return dbClickHandler(x, y, SuperMap.Web.Realspace.FlagType.LBUTTON, sceneControl); });
-    	// this.addExploreEvent(this._innerSceneCtrl, 'RButtonDblClick', function(x, y, button) {  return dbClickHandler(x, y, SuperMap.Web.Realspace.FlagType.RBUTTON, sceneControl); });
-
-        // var overHandler = this._mouseOver;
-		// this.addExploreEvent(this._innerSceneCtrl, 'MouseHover', function(x, y, button) {  return overHandler(x, y, 0, sceneControl); });
-
-        // var moveHandler = this._mouseMove;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'MouseMove', function(x, y) {return moveHandler(x, y, 0, sceneControl); });
-
-    	// var focusChangedHandler = this._focusChanged;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FocusChanged', function () { return focusChangedHandler(sceneControl); });
-
+        
         var selectHandler = this._objectSelected;
 		this.addExploreEvent(this._innerSceneCtrl, 'ObjectSelected', function(nSelectedCount ,str) { return selectHandler(nSelectedCount,str, sceneControl); });
 
@@ -557,36 +525,6 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
 
         var measureHeightFinishedHandler = this._measureHeightFinished;
 		this.addExploreEvent(this._innerSceneCtrl, 'MeasureHeightFinished', function(dHeight, srLine3D) { return measureHeightFinishedHandler(dHeight, srLine3D, sceneControl); });
-
-        // var flownStartHandler = this._flownStart;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FlownStart',function(nflyoperator) { return flownStartHandler(nflyoperator, sceneControl);  });
-
-        // var flownEndHandler = this._flownEnd;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FlownEnd',function() { return flownEndHandler(sceneControl);  });
-
-        // var flownTourHandler = this._flownTour;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FlownTour',function() { return flownTourHandler(sceneControl);  });
-
-        // var modelFetchedHandler = this._modelFetchedHandler;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FetchModelFinished',function(modelId) { return modelFetchedHandler(modelId, sceneControl);  });
-
-        // var pictureFetchedHandler = this._pictureFetchedHandler;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FetchPicture3DFinished',function(picId) { return pictureFetchedHandler(picId, sceneControl);  });
-
-        // var layer3DFetchedHandler = this._layer3DFetchedHandler;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FetchLayer3DFinished',function(object) { return layer3DFetchedHandler(object, sceneControl);  });
-
-    	// var bubbleEventHandler = this._bubbleEvent;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'BubbleEvent',function(nEventType, id) { return bubbleEventHandler(nEventType, id, sceneControl); });
-
-    	// var frameStartedHandler = this._frameStarted;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FrameStarted', function () { return frameStartedHandler(sceneControl); });
-
-    	// var frameEndedHandler = this._frameEnded;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FrameEnded', function () { return frameEndedHandler(sceneControl); });
-
-    	// var geometryModifiedHandler = this._geometryModified;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'GeometryModified', function (nGeometryID, layerName) { return geometryModifiedHandler(nGeometryID, layerName, sceneControl); });
     },
 
     addExploreEvent : function(obj, name, func) {

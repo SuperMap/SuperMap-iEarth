@@ -27,6 +27,18 @@ SuperMap.Web.Realspace.FlyingOperator.prototype = {
         }
 
         emitUIInteraction(cmd);
+    },
+    flyTo : function(camera, time) {
+        var cmd = {
+            func : "FlyTo",
+            arguments : {
+                camera : camera,
+                time : time
+            },
+            classNumber : SuperMap.Web.Realspace.ClassNumber.FLYINGOPERATOR,
+        }
+
+        emitUIInteraction(cmd);
     }
 };
 SuperMap.Web.Realspace.FlyingOperator.registerClass('SuperMap.Web.Realspace.FlyingOperator', Sys.Component, Sys.IDisposable);

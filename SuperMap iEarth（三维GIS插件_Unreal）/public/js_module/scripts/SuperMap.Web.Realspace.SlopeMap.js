@@ -12,6 +12,7 @@ Type.registerNamespace('SuperMap.Web.Realspace');
 SuperMap.Web.Realspace.SlopeMap = function(sceneControl) {
 
     SuperMap.Web.Realspace.SlopeMap.initializeBase(this);
+    this.displaystyle = 2;
 };
 
 
@@ -21,7 +22,7 @@ SuperMap.Web.Realspace.SlopeMap.prototype = {
     //  */
     get_displayStyle : function () {
         ///<value  type="Number"></value>
-       
+       return this.displaystyle;
     },
 
     set_displayStyle : function(mode) {
@@ -35,6 +36,7 @@ SuperMap.Web.Realspace.SlopeMap.prototype = {
             classNumber : SuperMap.Web.Realspace.ClassNumber.SLOPEMAP,
         }
         
+        this.displaystyle = mode;
         emitUIInteraction(cmd);
     },
 

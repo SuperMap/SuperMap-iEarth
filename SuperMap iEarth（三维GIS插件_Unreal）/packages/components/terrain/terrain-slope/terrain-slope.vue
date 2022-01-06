@@ -36,12 +36,14 @@ let state = reactive({
   ]
 });
 
-let slopemap;
+let slopemap,terrainCount=0;
 function init(){
   if (!sceneControl) return;
+  terrainCount = sceneControl.get_scene().get_terrainLayers().get_count();
+  if( terrainCount < 1) return;
     slopemap = new SuperMap.Web.Realspace.SlopeMap(sceneControl);
     slopemap.set_displayStyle(0); 
-      slopemap.build();
+    slopemap.build();
 }
 init();
 
@@ -53,7 +55,8 @@ function clear() {
 watch(
   () => state.displayMode,
   val => {
-    if (!slopemap) return;
+    if (!slopemap) init();
+	if (terrainCount < 1) return;
     switch (val) {
       case "NONE":
         slopemap.set_displayStyle(

@@ -24,6 +24,18 @@ SuperMap.Web.Realspace.TrackingLayer3D.prototype = {
         }
 
         emitUIInteraction(cmd);
+    },
+    
+    add : function(geometry, tag) {
+        var cmd = {
+            func : "Add",
+            classNumber : SuperMap.Web.Realspace.ClassNumber.TRACKINGLAYER3D,
+            arguments : {
+                geometry : geometry,
+                tag : tag
+            }
+        };
+        emitUIInteraction(cmd);
     }
 };
 SuperMap.Web.Realspace.TrackingLayer3D.registerClass('SuperMap.Web.Realspace.TrackingLayer3D', Sys.Component);

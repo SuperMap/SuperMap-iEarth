@@ -1046,3 +1046,56 @@ SuperMap.Web.Core.GeoBox.prototype = {
     }
 }
 SuperMap.Web.Core.GeoBox.registerClass('SuperMap.Web.Core.GeoBox', SuperMap.Web.Core.Geometry3D, Sys.IDisposable);
+
+/**
+* 类名 : GeoBillboard
+* 描   述： 布告板类
+* 版 本 号：
+*/
+SuperMap.Web.Core.GeoBillboard = function() {
+    ///<returns type="SuperMap.Web.Core.GeoBillboard"></returns>
+
+  	SuperMap.Web.Core.GeoBillboard.initializeBase(this);
+
+    this.type = SuperMap.Web.Core.GeometryType.GEOBILLBOARD;
+
+    this.width = 100;
+    this.height = 100;
+    this.tag = "";
+};
+SuperMap.Web.Core.GeoBillboard.prototype = {
+
+   
+	get_width : function() {
+		///<value type="Number" integer="false">宽度</value>
+		return this.width;
+	},
+
+	set_width : function(x) {
+		var n_x = parseFloat(x);
+		if(!isNaN(n_x)) {
+			this.width = n_x;
+		}
+    },
+
+	get_height : function() {
+		///<value type="Number" integer="false">高度</value>
+		return this.height;
+	},
+
+	set_height:function(x) {
+		var n_x = parseFloat(x);
+		if (!isNaN(n_x)) {
+			this.height = n_x;
+		}
+	},
+
+	getTag : function() {
+		return this.tag;
+	},
+
+	setTag : function(tag) {
+		this.tag = tag;
+	}
+}
+SuperMap.Web.Core.GeoBillboard.registerClass('SuperMap.Web.Core.GeoBillboard', SuperMap.Web.Core.Geometry3D, Sys.IDisposable);
