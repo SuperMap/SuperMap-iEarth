@@ -83,22 +83,24 @@ function updateLayers() {
     );
   } else terrain_layers = undefined;
 
-  if (layers.length === 0 && !terrain_layers) {
+  if ((layers.length === 0 || layers[0] ===undefined) && !terrain_layers) {
     data.value = [{ label: ()=>locale.value.NoLayer, key: 0, checkboxDisabled: true }];
     return;
   }
   let newData = [];
   layers.forEach((layer, index) => {
-    let name = layer.name;
-    if (layer.type === SuperMap.Web.Realspace.Layer3DType.OSGB) {
-      s3mlayers.children.push(
-        creatNode(name, `S3M--${name}--${index}`, undefined, "S3M", true)
-      );
-    } else if (layer.type === SuperMap.Web.Realspace.Layer3DType.IMAGE) {
-      imglayers.children.push(
-        creatNode(name, `IMG--${name}--${index}`, undefined, "IMG", true)
-      );
-    }
+	if(layer){
+		let name = layer.name;
+		if (layer.type === SuperMap.Web.Realspace.Layer3DType.OSGB) {
+		  s3mlayers.children.push(
+			creatNode(name, `S3M--${name}--${index}`, undefined, "S3M", true)
+		  );
+		} else if (layer.type === SuperMap.Web.Realspace.Layer3DType.IMAGE) {
+		  imglayers.children.push(
+			creatNode(name, `IMG--${name}--${index}`, undefined, "IMG", true)
+		  );
+		}
+	}
   });
   if (s3mlayers.children.length > 0) {
     newData[0] = s3mlayers;

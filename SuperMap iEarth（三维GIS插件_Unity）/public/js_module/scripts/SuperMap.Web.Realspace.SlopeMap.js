@@ -12,7 +12,7 @@ Type.registerNamespace('SuperMap.Web.Realspace');
 SuperMap.Web.Realspace.SlopeMap = function(sceneControl) {
 
     SuperMap.Web.Realspace.SlopeMap.initializeBase(this);
-    this.displayStyle = -1;
+    this.displayStyle = 2;
 };
 
 

@@ -31,17 +31,21 @@ SuperMap.Web.Realspace.Layer3Ds = function (sceneControl) {
                     window.removeEventListener("event" + SuperMap.Web.Realspace.ClassNumber.LAYER3DS, getAllLayersFunction);
 
                     for (var i = 0, len = obj.Layers.length; i < len; i++) {
-                        var layer3D;
+                        var layer3D = null;
                         switch(obj.Layers[i].type) {
                             case SuperMap.Web.Realspace.Layer3DType.OSGB:
                                 layer3D = new SuperMap.Web.Realspace.Layer3DOSGB(obj.Layers[i].url, obj.Layers[i].layerName, obj.Layers[i].layerName);
                                 break;
                             case SuperMap.Web.Realspace.Layer3DType.TERRAIN:
+								var terrainLayer = new SuperMap.Web.Realspace.TerrainLayer(obj.Layers[i].url, obj.Layers[i].layerName, obj.Layers[i].layerName);
+								sceneControl.get_scene().get_terrainLayers()._terrainLayerArray.push(terrainLayer);
                                 break;
                             default:
                                 layer3D = new SuperMap.Web.Realspace.Layer3D(obj.Layers[i].url, obj.Layers[i].layerName, obj.Layers[i].layerName, obj.Layers[i].type);
                         }
-                        that._layer3DArray.push(layer3D);
+						if (layer3D != null) {
+							that._layer3DArray.push(layer3D);
+						}
                     }
                     sceneControl._raiseEvent("sceneInitialized");
                     sceneControl._IsInitialized = true;
@@ -90,36 +94,6 @@ SuperMap.Web.Realspace.Layer3Ds.prototype = {
 
         return null;
     },
-
-  	/*
-  	*属性：设置和获取场景的可见不可见
-  	*/
-  	// get_isVisible : function() {
-  	// 	///<value type="bool"></value>
-    //     var cmd = {
-    //         func : "GetIsVisible",
-    //         needResult : true
-    //     }
-
-    //     return (JSON.parse(SuperMap.Web.Realspace.Utility._SceneControl.returnDefaultString(this._innerLayer3Ds.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.LAYER3DS), "boolean")) === "true");
-    // },
-
-  	// set_isVisible : function(bVisible) {
-  	// 	///<value type="bool"></value>
-  	//     if(typeof bVisible !== "boolean") {
-    //         return;
-    //     }
-
-    //     var cmd = {
-    //         func : "SetIsVisible",
-    //         needResult : false,
-    //         arguments : {
-    //             visible : bVisible
-    //         }
-    //     }
-
-    //     this._innerLayer3Ds.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.LAYER3DS);
-  	// },
 
   	/*
   	*添加图层
@@ -258,30 +232,6 @@ SuperMap.Web.Realspace.Layer3Ds.prototype = {
         unityInstance.SendMessage('SuperMapJSObject', 'JSFunction', JSON.stringify(cmd));
     	return promise;
   	},
-
-  	/*
-  	*方法:返回指定名称的图层索引号
-  	*/
-  	// indexOf : function(strLayerName) {
-    //     ///<param name="strLayerName" type="string">图层名</param>
-    // 	///<returns type="number" integer="true">索引</returns>
-    		
-
-    //     if(typeof strLayerName === "string") {
-    //         var cmd = {
-    //             func : "IndexOf",
-    //             needResult : true,
-    //             arguments : {
-    //                 layerName : strLayerName
-    //             }
-    //         }
-
-    //         return  Number(JSON.parse(SuperMap.Web.Realspace.Utility._SceneControl.returnDefaultString(this._innerLayer3Ds.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.LAYER3DS), "number")));
-    //      }
-    //      return -1;
-  	// },
-
-
 
     getAllLayers : function() {
         var layers = [];

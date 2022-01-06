@@ -75,22 +75,6 @@ SuperMap.Web.Realspace.TerrainLayers.prototype = {
         return null;
     },
 
-
-    /*
-  	* 清除地形图层列表中所有的图层
-  	*/
-  	removeAll : function() {
-  	    ///<returns type="void"></returns>
-        
-        Array.clear(this._terrainLayerArray);
-        Array.clear(this._terrainLayerName);
-
-        var cmd = {
-            func : "RemoveAll",
-            classNumber : SuperMap.Web.Realspace.ClassNumber.TERRAINLAYERS,
-        }
-        
-  	},
     
     removeAt : function(index) {
         var layer = this.get_item(index);

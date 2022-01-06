@@ -40,7 +40,7 @@
 
 # 使用
 
-+ 用户下载[三维GIS插件_Unity产品包](./后续提供.rar)，解压缩到`js_module`文件夹下。
++ 用户下载[SuperMap Unity产品包](./后续提供.rar)，解压缩到'js_module'文件夹下。
 
 + bash环境下执行如下操作：
 

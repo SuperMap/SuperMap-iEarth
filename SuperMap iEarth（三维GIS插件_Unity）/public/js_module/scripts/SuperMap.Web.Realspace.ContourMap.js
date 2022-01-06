@@ -12,7 +12,7 @@ Type.registerNamespace('SuperMap.Web.Realspace');
 SuperMap.Web.Realspace.ContourMap = function(sceneControl) {
 
     SuperMap.Web.Realspace.ContourMap.initializeBase(this);
-    this.displayStyle = -1;
+    this.displayStyle = 2;
     this.interval = -1;
 };
 

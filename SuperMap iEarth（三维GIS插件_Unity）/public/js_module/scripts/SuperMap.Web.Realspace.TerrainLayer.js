@@ -24,6 +24,7 @@ SuperMap.Web.Realspace.TerrainLayer = function(strServerRootUrl, strLayerName, s
     this.url = strServerRootUrl;
     this.name = strLayerName;
     this.dataName = strDataName;
+    this.visible = true;
 };
 
 SuperMap.Web.Realspace.TerrainLayer.prototype ={
@@ -46,70 +47,6 @@ SuperMap.Web.Realspace.TerrainLayer.prototype ={
         return this.name || null;
   	},
 
-    /*
-  	*属性: 图层别名
-  	*/
-  	get_caption : function() {
-  	    ///<value type="String">图层别名</value>
-        if(typeof this.name === "undefined") {
-            return null;
-        }
-
-        var cmd = {
-            func : "GetCaption",
-            name : this.name,
-            needResult : true
-        }
-
-  	},
-
-	set_caption : function(caption) {
-        if(typeof this.name === "undefined" || typeof caption !== "string") {
-            return;
-        }
-
-        var cmd = {
-            func : "SetCaption",
-            name : this.name,
-            needResult : false,
-            arguments : {
-                caption : caption
-            }
-        }
-        
-	},
-
-    /*
-  	* 属性:图层描述信息
-  	*/
-  	get_description : function() {
-  	    ///<value type="String">图层描述信息</value>
-        if(typeof this.name === "undefined") {
-            return null;
-        }
-
-        var cmd = {
-            func : "GetDescription",
-            name : this.name,
-            needResult : true
-        }
-    
-  	},
-
-  	set_description : function(description) {
-        if(typeof this.name === "undefined" || typeof description !== "string") {
-            return;
-        }
-
-        var cmd = {
-            func : "SetDescription",
-            name : this.name,
-            needResult : false,
-            arguments : {
-                description : description
-            }
-        }
-  	},
 
   	/*
   	*属性:数据网络路径
@@ -128,12 +65,7 @@ SuperMap.Web.Realspace.TerrainLayer.prototype ={
             return false;
         }
 
-        var cmd = {
-            func : "GetIsVisible",
-            name : this.name,
-            needResult : true
-        }
-
+        return this.visible;
   	},
 
   	set_isVisible : function(isVisible) {
@@ -149,7 +81,7 @@ SuperMap.Web.Realspace.TerrainLayer.prototype ={
             },
             classNumber : SuperMap.Web.Realspace.ClassNumber.LAYER3D
         }
-
+        this.visible = isVisible;
         unityInstance.SendMessage('SuperMapJSObject', 'JSFunction', JSON.stringify(cmd));
   	},
 

@@ -58,50 +58,6 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
     */
 
     _initialize : function() {
-        /// <returns type="void"> </returns>
-        // try {
-        //     this._innerSceneCtrl = document.createElement("object");
-        //     this._innerSceneCtrl.id = "SuperMapRealspace";
-        //     this._innerSceneCtrl.name = "SuperMapRealspace";
-        //     this._innerSceneCtrl.width = "100%";
-        //     this._innerSceneCtrl.height = "100%";
-        //     this._innerSceneCtrl.BorderStyle = 0;
-        //     this._IsInitialized = false;
-        // }
-        // catch(e) {
-        //     throw e;
-        // }
-
-        // if(typeof SuperMap.Web.Realspace.Utility._SceneControlMap === "undefined") {
-        //     SuperMap.Web.Realspace.Utility._SceneControlMap = [];
-        // }
-        // SuperMap.Web.Realspace.Utility._SceneControlMap.push({
-        //     id : this._innerSceneCtrl.Identifier,
-        //     sceneCtrl : this
-        // });
-        // //先绑定初始化完成事件，其他事件等初始化完之后再绑定
-        // var sceneInitializedHandler = this._sceneInitialized;
-        // this.addExploreEvent(this._innerSceneCtrl, 'SceneInitialized', function (identifier) {
-        //   for(var i = 0; i < SuperMap.Web.Realspace.Utility._SceneControlMap.length; i++) {
-        //       if(identifier === SuperMap.Web.Realspace.Utility._SceneControlMap[i].id) {
-        //           return sceneInitializedHandler(SuperMap.Web.Realspace.Utility._SceneControlMap[i].sceneCtrl);
-        //       }
-        //   }
-        // });
-        // this.addEvent("sceneInitialized", this._initCallBack);
-
-        // //绑定初始化失败事件
-        // var sceneInitializeFailedHandler = this._sceneInitializeFailed;
-        // this.addExploreEvent(this._innerSceneCtrl, 'SceneInitializeFailed', function (identifier) {
-        //     if(identifier === SuperMap.Web.Realspace.Utility._SceneControlMap[i].id) {
-        //         return sceneInitializeFailedHandler(SuperMap.Web.Realspace.Utility._SceneControlMap[i].sceneCtrl);
-        //     }
-        // });
-        // this.addEvent("sceneInitializeFailed", this._failedCallBack);
-
-        // //绑定其他事件
-        // this._attachEvent();
-       
     },
 
     count : function () {
@@ -129,19 +85,6 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
         this._failedCallBack = null;
 
     },
-
-
-    /*
-    * 设置当前所使用的异步助手
-    */
-    get_asyncHelper : function() {
-
-        if(this._currentAsyncHelper === null) {
-           this._currentAsyncHelper = new SuperMap.Web.Realspace.AsyncHelper(this);
-        }
-        return this._currentAsyncHelper;
-    },
-
 
     /**
     *Scene对象
@@ -196,174 +139,6 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
         unityInstance.SendMessage('SuperMapJSObject', 'JSFunction', JSON.stringify(cmd));
     },
 
-
-    /*
-    * 场景服务列表对象
-    */
-    get_sceneServicesList : function() {
-        ///<value type="SuperMap.Web.Realspace.SceneServicesList"></value>
-        if(this._sceneServicesList === null) {
-            this._sceneServicesList = new SuperMap.Web.Realspace.SceneServicesList(this);
-        }
-        return this._sceneServicesList;
-    },
-
-
-    /*
-    * 图层服务列表对象
-    */
-    get_layer3DServicesList : function() {
-        ///<value type="SuperMap.Web.Realspace.Layer3DServicesList"></value>
-        if(this._layer3DServicesList === null) {
-            this._layer3DServicesList = new SuperMap.Web.Realspace.Layer3DServicesList(this);
-        }
-        return this._layer3DServicesList;
-    },
-
-
-  	/**
-  	*获得场景气泡列表
-  	*/
-  	// get_bubbles : function() {
-  	//     ///<returns type="SuperMap.Web.Realspace.Bubbles"></returns>
-  	//     if(this._Bubbles == null) {
-  	//         this._Bubbles = new SuperMap.Web.Realspace.Bubbles(this);
-  	//     }
-  	//     return this._Bubbles;
-  	// },
-
-    /**
-    *获取/设置顶点捕捉模式
-    */
-    get_snapMode : function() {
-        ///<returns type="SuperMap.Web.Realspace.SnapMode"></returns>
-        if(this._innerSceneCtrl !== null) {
-            var cmd = {
-                func : "GetSnapMode",
-                needResult : true
-            }
-
-            return Number(JSON.parse(this.returnDefaultString(this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL), "number")));
-        }
-    },
-
-    set_snapMode : function(snapMode) {
-        ///<params name="snapMode" type="SuperMap.Web.Realspace.SnapMode"></params>
-        if(this._innerSceneCtrl !== null) {
-            var cmd = {
-                func : "SetSnapMode",
-                needResult : false,
-                arguments : {
-                    snapMode : snapMode
-                }
-            }
-
-            this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL);
-        }
-    },
-
-
-   	/*
-   	*FPS
-  	*/
-    // get_isFPSVisible : function() {
-    //     ///<value type="Boolean">返回是否始终更新数据</value>
-	//       if(this._innerSceneCtrl !== null) {
-    //         var cmd = {
-    //             func : "GetIsFPSVisible",
-    //             needResult : true
-    //         }
-
-    //         return (JSON.parse(this.returnDefaultString(this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL), "boolean")) === "true");
-	//       }
-    // },
-
-    // set_isFPSVisible : function(isFPSVisible) {
-  	//     if(this._innerSceneCtrl != null && typeof (isFPSVisible) === "boolean") {
-    //         var cmd = {
-    //             func : "SetIsFPSVisible",
-    //             needResult : false,
-    //             arguments : {
-    //                 isFPSVisible : isFPSVisible
-    //             }
-    //         }
-
-    //         this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL);
-	//       }
-    // },
-
-    /*
-    * 二维像素点转换为三维点
-    */
-    // pixelToGlobe : function(point, pixelToGlobeMode) {
-    //     ///<param name="point" type="SuperMap.Web.Core.Point"></param>
-    //     ///<returns type="SuperMap.Web.Core.Point3D"></returns>
-	// 	    if(!SuperMap.Pixel.isInstanceOfType(point)) {
-	// 			    return null;
-	// 	    }
-
-	// 	    if(typeof pixelToGlobeMode === "undefined"){
-    //         var cmd = {
-    //             func : "PixelToGlobe",
-    //             needResult : true,
-    //             arguments : {
-    //                 point : {
-    //                     x : point.x,
-    //                     y : point.y
-    //                 },
-    //                 pixelToGlobeMode : SuperMap.Web.Realspace.PixelToGlobeMode.Terrain
-    //             }
-    //         }
-
-    //         var object = JSON.parse(this.returnDefaultString(this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL), "object"));
-
-	// 		      return new SuperMap.Web.Core.Point3D(object.x, object.y, object.z);
-	// 	    }else {
-    //         var cmd = {
-    //             func : "PixelToGlobe",
-    //             needResult : true,
-    //             arguments : {
-    //                 point : {
-    //                     x : point.x,
-    //                     y : point.y
-    //                 },
-    //                 pixelToGlobeMode : pixelToGlobeMode
-    //             }
-    //         }
-
-    //         var object = JSON.parse(this.returnDefaultString(this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL), "object"));
-
-	// 		      return new SuperMap.Web.Core.Point3D(object.x, object.y, object.z);
-	// 	    }
-    // },
-
-    /*
-    * 三维像素点转换为二维点
-    */
-    // globeToPixel : function(point3d) {
-    //     ///<param name="point" type="SuperMap.Web.Core.Point3D"></param>
-    //     ///<returns type="SuperMap.Web.Core.Point"></returns>
-
-    //     if(!SuperMap.Web.Core.Point3D.isInstanceOfType(point3d)) {
-    //         return null;
-    //     }
-
-    //     var cmd = {
-    //         func : "GlobeToPixel",
-    //         needResult : true,
-    //         arguments : {
-    //             point : {
-    //                 x : point3d.x,
-    //                 y : point3d.y,
-    //                 z : point3d.z
-    //             }
-    //         }
-    //     }
-
-    //     var object = JSON.parse(this.returnDefaultString(this._innerSceneCtrl.SuperMapHandle(JSON.stringify(cmd), SuperMap.Web.Realspace.ClassNumber.SCENECONTROL), "object"));
-
-    //     return new SuperMap.LonLat(object.x, object.y);
-    // },
 
     //响应mouseDown事件
     _mouseDown : function(x, y, button, sceneControl) {
@@ -718,38 +493,6 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
         // 考虑用全局的代替
         var sceneControl = this;
 
-		// var keyDownHandler = this._keyDown;
-		// this.addExploreEvent(this._innerSceneCtrl, 'KeyDown', function(button) { return keyDownHandler(button, sceneControl); });
-
-		// var keyUpHandler = this._keyUp;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'KeyUp', function(button) { return keyUpHandler(button, sceneControl); });
-
-        // var downHandler = this._mouseDown;
-		// this.addExploreEvent(this._innerSceneCtrl, 'LButtonDown', function(x, y, button) {  return downHandler(x, y, SuperMap.Web.Realspace.FlagType.LBUTTON, sceneControl); });
-		// this.addExploreEvent(this._innerSceneCtrl, 'MButtonDown', function(x, y, button) {  return downHandler(x, y, SuperMap.Web.Realspace.FlagType.MBUTTON, sceneControl); });
-		// this.addExploreEvent(this._innerSceneCtrl, 'RButtonDown', function(x, y, button) {  return downHandler(x, y, SuperMap.Web.Realspace.FlagType.RBUTTON, sceneControl); });
-
-        // var upHandler = this._mouseUp;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'MButtonUp', function(x, y, button) {  return upHandler(x, y, SuperMap.Web.Realspace.FlagType.MBUTTON, sceneControl); });
-    	// this.addExploreEvent(this._innerSceneCtrl, 'RButtonUp', function(x, y, button) {  return upHandler(x, y, SuperMap.Web.Realspace.FlagType.RBUTTON, sceneControl); });
-    	// this.addExploreEvent(this._innerSceneCtrl, 'LButtonUp', function(x, y, button) {  return upHandler(x, y, SuperMap.Web.Realspace.FlagType.LBUTTON, sceneControl); });
-
-        // var wheelHandler = this._mouseWheel;
-		// this.addExploreEvent(this._innerSceneCtrl, 'MouseWheel', function(x, y, zDelta, button) {  return wheelHandler(x, y, zDelta, SuperMap.Web.Realspace.FlagType.WHEEL, sceneControl); });
-
-        // var dbClickHandler = this._dbClick;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'LButtonDblClick', function(x, y, button) {  return dbClickHandler(x, y, SuperMap.Web.Realspace.FlagType.LBUTTON, sceneControl); });
-    	// this.addExploreEvent(this._innerSceneCtrl, 'RButtonDblClick', function(x, y, button) {  return dbClickHandler(x, y, SuperMap.Web.Realspace.FlagType.RBUTTON, sceneControl); });
-
-        // var overHandler = this._mouseOver;
-		// this.addExploreEvent(this._innerSceneCtrl, 'MouseHover', function(x, y, button) {  return overHandler(x, y, 0, sceneControl); });
-
-        // var moveHandler = this._mouseMove;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'MouseMove', function(x, y) {return moveHandler(x, y, 0, sceneControl); });
-
-    	// var focusChangedHandler = this._focusChanged;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FocusChanged', function () { return focusChangedHandler(sceneControl); });
-
         var selectHandler = this._objectSelected;
 		this.addExploreEvent(this._innerSceneCtrl, 'ObjectSelected', function(nSelectedCount ,str) { return selectHandler(nSelectedCount,str, sceneControl); });
 
@@ -770,36 +513,6 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
 
         var measureHeightFinishedHandler = this._measureHeightFinished;
 		this.addExploreEvent(this._innerSceneCtrl, 'MeasureHeightFinished', function(dHeight, srLine3D) { return measureHeightFinishedHandler(dHeight, srLine3D, sceneControl); });
-
-        // var flownStartHandler = this._flownStart;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FlownStart',function(nflyoperator) { return flownStartHandler(nflyoperator, sceneControl);  });
-
-        // var flownEndHandler = this._flownEnd;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FlownEnd',function() { return flownEndHandler(sceneControl);  });
-
-        // var flownTourHandler = this._flownTour;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FlownTour',function() { return flownTourHandler(sceneControl);  });
-
-        // var modelFetchedHandler = this._modelFetchedHandler;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FetchModelFinished',function(modelId) { return modelFetchedHandler(modelId, sceneControl);  });
-
-        // var pictureFetchedHandler = this._pictureFetchedHandler;
-		// this.addExploreEvent(this._innerSceneCtrl, 'FetchPicture3DFinished',function(picId) { return pictureFetchedHandler(picId, sceneControl);  });
-
-        // var layer3DFetchedHandler = this._layer3DFetchedHandler;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FetchLayer3DFinished',function(object) { return layer3DFetchedHandler(object, sceneControl);  });
-
-    	// var bubbleEventHandler = this._bubbleEvent;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'BubbleEvent',function(nEventType, id) { return bubbleEventHandler(nEventType, id, sceneControl); });
-
-    	// var frameStartedHandler = this._frameStarted;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FrameStarted', function () { return frameStartedHandler(sceneControl); });
-
-    	// var frameEndedHandler = this._frameEnded;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'FrameEnded', function () { return frameEndedHandler(sceneControl); });
-
-    	// var geometryModifiedHandler = this._geometryModified;
-    	// this.addExploreEvent(this._innerSceneCtrl, 'GeometryModified', function (nGeometryID, layerName) { return geometryModifiedHandler(nGeometryID, layerName, sceneControl); });
     },
 
     addExploreEvent : function(obj, name, func) {
@@ -898,6 +611,30 @@ SuperMap.Web.UI.Controls.SceneControl.prototype = {
         }
 
         unityInstance.SendMessage('SuperMapJSObject', 'JSFunction', JSON.stringify(cmd));
+    },
+
+    queryPosition : function() {
+
+        var marker = "sceneControlQueryPos" + (new Date()).toGMTString();
+        var cmd = {
+            Func : "QueryPos",
+            classNumber : SuperMap.Web.Realspace.ClassNumber.SCENECONTROL,
+            marker : marker
+        };
+
+        var promise = new Promise((resolve, reject) => {
+            var queryFunction = function(data) {
+                var obj = data.detail;
+                if (obj.marker === marker) {
+                    resolve(obj.result);
+                    window.removeEventListener("event" + SuperMap.Web.Realspace.ClassNumber.SCENECONTROL, queryFunction);
+                }
+            };
+			window.addEventListener("event" + SuperMap.Web.Realspace.ClassNumber.SCENECONTROL, queryFunction);
+			
+		});
+        unityInstance.SendMessage('SuperMapJSObject', 'JSFunction', JSON.stringify(cmd));
+    	return promise;
     }
 };
 SuperMap.Web.UI.Controls.SceneControl.registerClass('SuperMap.Web.UI.Controls.SceneControl', Sys.UI.Control, Sys.IDisposable);
