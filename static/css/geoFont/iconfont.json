@@ -6,11 +6,25 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "22996895",
-      "name": "保存 (1)",
-      "font_class": "a-baocun1",
-      "unicode": "e601",
-      "unicode_decimal": 58881
+      "icon_id": "27693758",
+      "name": "返回主页",
+      "font_class": "fanhuizhuye",
+      "unicode": "e7ba",
+      "unicode_decimal": 59322
+    },
+    {
+      "icon_id": "23427016",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e721",
+      "unicode_decimal": 59169
+    },
+    {
+      "icon_id": "22922386",
+      "name": "保存",
+      "font_class": "baocun",
+      "unicode": "e720",
+      "unicode_decimal": 59168
     },
     {
       "icon_id": "21944028",
