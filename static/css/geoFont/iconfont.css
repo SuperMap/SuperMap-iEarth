@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 1854854 */
-  src: url('iconfont.woff2?t=1626765247044') format('woff2'),
-       url('iconfont.woff?t=1626765247044') format('woff'),
-       url('iconfont.ttf?t=1626765247044') format('truetype');
+  src: url('iconfont.woff2?t=1645175920137') format('woff2'),
+       url('iconfont.woff?t=1645175920137') format('woff'),
+       url('iconfont.ttf?t=1645175920137') format('truetype');
 }
 
 .iconfont {
@@ -13,8 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icona-baocun1:before {
-  content: "\e601";
+.iconfanhuizhuye:before {
+  content: "\e7ba";
+}
+
+.iconshanchu:before {
+  content: "\e721";
+}
+
+.iconbaocun:before {
+  content: "\e720";
 }
 
 .icondenglu:before {
