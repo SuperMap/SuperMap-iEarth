@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="infoManage" v-show="infoManageShow">
+      <div id="infoManageHome" class="infoManageLogin" @click="home" :title="Resource.home">
+        <span class="iconfont iconfanhuizhuye infoManagetb"></span>
+      </div>
       <div id="infoManageLogin" class="infoManageLogin" @click="show" :title="switchAccount">
         <span class="iconfont icondenglu infoManagetb"></span>
       </div>
@@ -10,7 +13,7 @@
         @click="IstorageScene"
         :title="Resource.storageScene"
       >
-        <span class="iconfont icona-baocun1 infoManagetb"></span>
+        <span class="iconfont iconbaocun infoManagetb"></span>
       </div>
 
       <div id="storageFailed">{{Resource.storageFailed}}</div>
@@ -140,6 +143,11 @@ export default {
       if (!isCreateScene) {
         this.openExistScene();
       }
+    },
+    home() {
+      // window.location.href = "http://localhost:8190/iportal/";  
+      let homeUrl = getRootUrl();   
+      window.open(homeUrl); //打开另外一个页面
     },
     show() {
       let userInfo = window.store.portalUserprofile;

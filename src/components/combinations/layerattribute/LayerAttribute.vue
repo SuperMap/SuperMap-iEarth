@@ -159,7 +159,7 @@
               />
             </div>
             <div class="boxchild">
-              <button class="tbtn right" type="button" @click="clearModification">{{Resource.home}}</button>
+              <button class="tbtn right" type="button" @click="clearModification">{{Resource.reset}}</button>
             </div>
           </div>
         </div>

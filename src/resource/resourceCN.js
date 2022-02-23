@@ -360,7 +360,7 @@
       Spacealtitude: '高程（米）',
       StartQuery: '查询',
       CleanCharts: '清理图表',
-      home: '重置',
+      reset: '重置',
       storage: '存储',
       share: '分享',
       sceneSave: '场景保存',
@@ -647,7 +647,7 @@
       resourceSubType: '服务类型',
       updateTime: '更新时间',
       serviceUrl: '服务链接',
-      view: 'view',
+      view: '查看',
       noData: '暂无数据',
       year: '年',
       month: '月',
@@ -660,7 +660,8 @@
       minutesAgo: ' 分钟前',
       secondsAgo: ' 刚刚',
       restore:'还原',
-      saveAsImage:'保存为图片'
+      saveAsImage:'保存为图片',
+      home:'主页'
     };
 
     export default ResourceCN;
