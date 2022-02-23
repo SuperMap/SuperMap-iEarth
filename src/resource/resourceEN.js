@@ -660,7 +660,8 @@
         minutesAgo: ' Minutes Ago',
         secondsAgo: ' Seconds Ago',
         restore: 'Restore',
-        saveAsImage: 'SaveAsImage'
+        saveAsImage: 'SaveAsImage',
+        home:'Home'
     };
 
     export default ResourceEN;

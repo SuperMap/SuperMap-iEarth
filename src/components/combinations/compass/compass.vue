@@ -8,7 +8,7 @@
         style="transform : rotate(0deg);display : inline-block;"
       ></span>
     </div>
-    <div class="btnCompass" @click="reset" :title= Resource.home>
+    <div class="btnCompass" @click="reset" :title= Resource.reset>
       <span  class="iconfont iconzhongzhi compasstb"></span>
     </div>
     <div id="zoomIn" class="btnCompass" @mousedown="zoomIn">

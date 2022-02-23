@@ -660,7 +660,8 @@
         minutesAgo: ' 分前',
         secondsAgo: ' 秒前',
         restore: '元に戻す',
-        saveAsImage: '画像として保存'
+        saveAsImage: '画像として保存',
+        home:'ホームページ'
     };
 
     export default ResourceJA;
