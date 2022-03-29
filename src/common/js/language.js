@@ -29,13 +29,21 @@ if (currentLanguage.startsWith('zh')) {
   window.iEarth_resource_services = iEarth_resource_services_JA;
   window.specialEffects = specialEffects_JA;
   window.hotSpots = hotSpots_JA;
-  inputCSS("static/css/cover_JA.css")
+  inputCSS("static/css/cover_JA.css");
+  let promise = inputJS("static/js/view-design/dist/locale/ja-JP.js");
+  promise.then(() => {
+    iview.lang('ja-JP');
+  })
 } else {
   Resource = ResourceEN;
   window.iEarth_resource_services = iEarth_resource_services_EN;
   window.specialEffects = specialEffects_EN;
   window.hotSpots = hotSpots_EN;
-  inputCSS("static/css/cover_EN.css")
+  inputCSS("static/css/cover_EN.css");
+  let promise = inputJS("static/js/view-design/dist/locale/es-ES.js");
+  promise.then(() => {
+    iview.lang('es-ES');
+  })
 }
 
 function getLang() {
@@ -63,4 +71,24 @@ function inputCSS(href) {
   document.getElementsByTagName("HEAD")[0].appendChild(link);
 }
 
+function inputJS(src) {
+  return new Promise((resolve, reject) => {
+    let newScript = document.createElement("script");
+    newScript.type = 'text/javascript';
+    newScript.src = src;
+    document.body.appendChild(newScript);
+    newScript.addEventListener('load', ev => { // when the js execute done
+      resolve(src + "请求完成");
+    });
+
+  }).then(res => {
+    // 此处的参数res代表成功请求到的数据
+    console.log(res);
+  }).catch(data => {
+    // 此处的data代表网络请求失败后的错误信息
+    console.log(data);
+  });
+
+
+}
 export default Resource;
