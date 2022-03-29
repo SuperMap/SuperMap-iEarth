@@ -69,7 +69,7 @@
         sunEffect: 'Lighting',
         fogEffect: 'Fog',
         expand: 'Expand',
-        layerManager:'Layer Manager',
+        layerManager: 'Layer Manager',
         addLayer: 'Add layer',
         setBaseLayer: 'Basemap setting',
         BaseMapImg: 'Image Basemap',
@@ -661,7 +661,12 @@
         secondsAgo: ' Seconds Ago',
         restore: 'Restore',
         saveAsImage: 'SaveAsImage',
-        home:'Home'
+        home: 'Home',
+        japanStand: 'JapanStandMap',
+        japanPale: 'JapanPaleMap',
+        japanBlank: 'JapanBlankMap',
+        japanImage: 'JapanImage'
+
     };
 
     export default ResourceEN;

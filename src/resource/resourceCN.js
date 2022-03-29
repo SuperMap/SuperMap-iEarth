@@ -69,7 +69,7 @@
       sunEffect: '光照渲染',
       fogEffect: '雾化效果',
       expand: '展开',
-      layerManager:'图层管理',
+      layerManager: '图层管理',
       addLayer: '添加图层',
       setBaseLayer: '底图设置',
       BaseMapImg: '底图_img',
@@ -659,9 +659,13 @@
       hoursAgo: ' 小时前',
       minutesAgo: ' 分钟前',
       secondsAgo: ' 刚刚',
-      restore:'还原',
-      saveAsImage:'保存为图片',
-      home:'主页'
+      restore: '还原',
+      saveAsImage: '保存为图片',
+      home: '主页',
+      japanStand: '日本地理院标准地图',
+      japanPale: '日本地理院淡色地图',
+      japanBlank: '日本地理院白色地图',
+      japanImage: '日本地理院影像图'
     };
 
     export default ResourceCN;
