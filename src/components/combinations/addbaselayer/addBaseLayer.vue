@@ -165,6 +165,12 @@ export default {
           imageryProvider = imageryProvider;
           this.BaseLayers[index].chooseType = true;
           break;
+        case "UrlTemplateImageryProvider":
+          imageryProvider = new Cesium.UrlTemplateImageryProvider({
+            url: this.BaseLayers[index].url,
+          });
+          this.BaseLayers[index].chooseType = true;
+          break;         
         default:
           break;
       }
@@ -318,7 +324,7 @@ export default {
           case "GRIDIMAGERY":
             imageryProvider = imageryProvider;
             this.BaseLayers[index].chooseType = true;
-            break;
+            break;             
           default:
             break;
         }

@@ -69,7 +69,7 @@
         sunEffect: '照明効果',
         fogEffect: 'フォグ効果',
         expand: '展開',
-        layerManager:'レイヤー管理',
+        layerManager: 'レイヤー管理',
         addLayer: 'レイヤー追加',
         setBaseLayer: '背景レイヤー選択',
         BaseMapImg: 'ベースマップ_img',
@@ -661,7 +661,11 @@
         secondsAgo: ' 秒前',
         restore: '元に戻す',
         saveAsImage: '画像として保存',
-        home:'ホーム'
+        home: 'ホーム',
+        japanStand: '地理院標準地図',
+        japanPale: '地理院淡色地図',
+        japanBlank: '地理院白地図',
+        japanImage: '電子国土基本図（2007年～）'
     };
 
     export default ResourceJA;
