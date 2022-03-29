@@ -145,8 +145,8 @@ export default {
       }
     },
     home() {
-      // window.location.href = "http://localhost:8190/iportal/";  
-      let homeUrl = getRootUrl();   
+      // window.location.href = "http://localhost:8190/iportal/";
+      let homeUrl = getRootUrl();
       window.open(homeUrl); //打开另外一个页面
     },
     show() {
@@ -240,7 +240,7 @@ export default {
     createAndSaveScene() {
       let that = this;
       let name = this.scenePortalName;
-      let tagsArray = this.scenePortalTages.replace('，',',').split(",");
+      let tagsArray = this.scenePortalTages.replace("，", ",").split(",");
       let userName = this.scenePortalUser;
       let description = this.scenePortalDescription;
 
@@ -443,7 +443,7 @@ export default {
     updateScene() {
       let that = this;
       let name = this.scenePortalName;
-      let tagsArray = this.scenePortalTages.replace('，',',').split(",");
+      let tagsArray = this.scenePortalTages.replace("，", ",").split(",");
       let userName = this.scenePortalUser;
       let description = this.scenePortalDescription;
 
@@ -723,16 +723,18 @@ export default {
     //检查请求是否带cookie
     setTrustedServers(url) {
       if (window.store.isPortal) {
-        let serviceProxy = window.store.portalConfig.serviceProxy;
-        let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
-        if (withCredentials) {
-          let ip = getHostName(url);
-          if (
-            !Cesium.TrustedServers.contains(
-              "http://" + ip + "/" + serviceProxy.port
-            )
-          ) {
-            Cesium.TrustedServers.add(ip, serviceProxy.port);
+        if (window.store.portalConfig) {
+          let serviceProxy = window.store.portalConfig.serviceProxy;
+          let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
+          if (withCredentials) {
+            let ip = getHostName(url);
+            if (
+              !Cesium.TrustedServers.contains(
+                "http://" + ip + "/" + serviceProxy.port
+              )
+            ) {
+              Cesium.TrustedServers.add(ip, serviceProxy.port);
+            }
           }
         }
       }

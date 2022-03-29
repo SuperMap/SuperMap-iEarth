@@ -312,16 +312,18 @@ export default {
     //检查请求是否带cookie
     setTrustedServers(url) {
       if (window.store.isPortal) {
-        let serviceProxy = window.store.portalConfig.serviceProxy;
-        let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
-        if (withCredentials) {
-          let ip = getHostName(url);
-          if (
-            !Cesium.TrustedServers.contains(
-              "http://" + ip + "/" + serviceProxy.port
-            )
-          ) {
-            Cesium.TrustedServers.add(ip, serviceProxy.port);
+        if (window.store.portalConfig) {
+          let serviceProxy = window.store.portalConfig.serviceProxy;
+          let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
+          if (withCredentials) {
+            let ip = getHostName(url);
+            if (
+              !Cesium.TrustedServers.contains(
+                "http://" + ip + "/" + serviceProxy.port
+              )
+            ) {
+              Cesium.TrustedServers.add(ip, serviceProxy.port);
+            }
           }
         }
       }
