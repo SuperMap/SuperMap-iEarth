@@ -111,7 +111,7 @@ export default {
       scenePortalDescription: "",
       loginSuccess: null,
       key: "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
-      token: "7933ae29d47bcf1440889ad983dbe0af",
+      token: "4a00a1dc5387b8ed8adba3374bd87e5e",
       terrainToken: "e90d56e5a09d1767899ad45846b0cefd",
       sceneID: 0,
       copyIsCreateScene: this.isCreateScene
@@ -254,6 +254,7 @@ export default {
       // data.layers = {};
       //检查该图层对应于S3M、Terrain、Imagery
       data.layers = this.checkLayers();
+      console.log("data.layers:",data.layers)
 
       let canvas = document.getElementById("sceneCanvas");
       let base64 = canvas.toDataURL("image/jpeg");
@@ -284,6 +285,7 @@ export default {
         content: JSON.stringify(data)
       };
 
+      console.log("createAndSaveScene-saveData:",saveData)
 
       let iportaluserName = window.store.portalUserprofile.userName;
       if (iportaluserName === "GUEST") {
@@ -303,11 +305,13 @@ export default {
       // 保存场景
       let url = getRootUrl() + "web/scenes.json";
 
+      console.log("createAndSaveScene-url:",url)
 
       window.axios
         .post(url, JSON.stringify(saveData), { withCredentials: true })
         .then(function(response) {
 
+          console.log("createAndSaveScene-response:",response)
 
           that.sceneID = response.data.newResourceID;
           //保存缩略图
@@ -317,6 +321,7 @@ export default {
             parseInt(response.data.newResourceID) +
             "/thumbnail.json";
 
+          console.log("createAndSaveScene-putSceneUrl:",putSceneUrl)
           window
             .axios({
               method: "put",
@@ -335,6 +340,7 @@ export default {
                   "apps/earth/v2/index.html?id=" +
                   response.data.newResourceID;
 
+                  console.log("createAndSaveScene-currentUrl:",currentUrl)
                 window.open(currentUrl, "_self");
               }, 1000);
             })
@@ -359,24 +365,28 @@ export default {
       me.showStorageScene("none");
       let url = getRootUrl() + "web/scenes/" + me.sceneID + ".json";
 
+      console.log("openExistScene-url:",url)
 
       window.axios
         .get(url, { withCredentials: true })
         // .get(url)
         .then(function(response) {
           if (response.status === 200) {
+            console.log("openExistScene-response:",response)
             let highestpermissionurl =
               getRootUrl() +
               "web/permissions/highestpermission.json?resourceIds=" +
               encodeURIComponent("[" + me.sceneID + "]") +
               "&resourceType=SCENE";
 
+            console.log("openExistScene-highestpermissionurl:",highestpermissionurl)
 
             window.axios
               // .get(highestpermissionurl)
               .get(highestpermissionurl, { withCredentials: true })
               .then(function(responseHigh) {
 
+                console.log("openExistScene-responseHigh:",responseHigh)
 
                 if (responseHigh.data[me.sceneID] === "DELETE") {
                   // 编辑/删除，可以编辑保存
@@ -401,6 +411,7 @@ export default {
         });
     },
     openScene(response) {
+      console.log("openScene-response:",response)
 
       let me = this;
       let content = JSON.parse(response.data.content);
@@ -410,6 +421,7 @@ export default {
       me.scenePortalDescription = response.data.description;
 
       console.log("openScene-content:",content)
+
       if (content) {
         if (JSON.stringify(content.layers) !== "{}") {
           //需要改动
@@ -432,6 +444,7 @@ export default {
         }, 3000);
       } else if (response.data.url) {
 
+        console.log("openScene-response.data.url:",response.data.url)
 
         let realspaceUrl = response.data.url;
         let index = realspaceUrl.indexOf("/scenes");
@@ -442,6 +455,7 @@ export default {
 
         this.setTrustedServers(realspaceUrl);
 
+        console.log("openScene-realspaceUrl:",realspaceUrl)
 
         let promise = viewer.scene.open(realspaceUrl);
         Cesium.when(promise, function(layers) {
@@ -474,6 +488,7 @@ export default {
       // data.layers = {};
       //检查该图层对应于S3M、Terrain、Imagery
       data.layers = this.checkLayers();
+      console.log("data.layers:",data.layers)
 
       let canvas = document.getElementById("sceneCanvas");
       let base64 = canvas.toDataURL("image/jpeg");
@@ -548,6 +563,7 @@ export default {
     checkLayers() {
       let layers = {}
 
+      console.log("viewer:",viewer)
 
       let s3mLayerlength = viewer.scene.layers._layers.length; //S3M图层
       layers["s3mLayer"] = this.saveS3M(layers, s3mLayerlength);
@@ -577,6 +593,7 @@ export default {
           s3mlayerUrl.push(s3mTypeAndUrl);
         }
       }
+      console.log("s3mlayerUrl:",s3mlayerUrl)
       return s3mlayerUrl;
     },
     saveImagery(imageryLayer) {
@@ -586,7 +603,6 @@ export default {
         let provider = imageryLayer[j]._imageryProvider;
         if (provider instanceof Cesium.BingMapsImageryProvider) {
           imageryTypeAndUrl["type"] = "BingMapsImageryProvider";
-          imageryTypeAndUrl["token"] = provider._token
         } else if (provider instanceof Cesium.TiandituImageryProvider) {
           imageryTypeAndUrl["type"] = "TiandituImageryProvider";
         } else if (provider instanceof Cesium.SingleTileImageryProvider) {
@@ -598,43 +614,42 @@ export default {
         }else {
           imageryTypeAndUrl["Type"] = "GRIDIMAGERY";
         }
+        let imageryProvider_save = viewer.imageryLayers._layers[j]._imageryProvider;
+        imageryTypeAndUrl["url"] = imageryProvider_save._baseUrl || imageryProvider_save._url || imageryProvider_save._resource._url;
+        // imageryTypeAndUrl["url"] =
+        //   viewer.imageryLayers._layers[j]._imageryProvider._baseUrl;
+        // imageryTypeAndUrl["url"] = "//dev.virtualearth.net";
 
-        if(provider._url){
-          imageryTypeAndUrl["url"] = provider._url
-        }else if(provider._resource){
-          imageryTypeAndUrl["url"] = provider._resource._url
-        }else{
-          imageryTypeAndUrl["url"] = ''
-        }
+          console.log("imageryTypeAndUrl:",imageryTypeAndUrl)
 
         imageryLayerUrl.push(imageryTypeAndUrl);
       }
+      console.log("imageryLayerUrl:",imageryLayerUrl)
       return imageryLayerUrl;
     },
     saveTerrain() {
-      let terrainProvider = viewer.terrainProvider;
-      let terrainLayer; //地形图层
-      if(terrainProvider._urls){
-        terrainLayer = terrainProvider._urls[0];
-      }else if( terrainProvider._baseUrl){
-        terrainLayer = terrainProvider._baseUrl
-      }else {
-        terrainLayer = false
-      }
+      let terrainLayer = viewer.terrainProvider._urls; //地形图层
       let terrainLayerUrl = [];
       if (terrainLayer) {
         let terrainTypeAndUrl = {};
+        let terrainProvider = viewer.terrainProvider;
         if (terrainProvider instanceof Cesium.CesiumTerrainProvider) {
-          terrainTypeAndUrl["type"] = "StkTerrain";
+          terrainTypeAndUrl["type"] = "tinTerrain";
         } else if (terrainProvider instanceof Cesium.TiandituTerrainProvider) {
           terrainTypeAndUrl["type"] = "tianDiTuTerrain";
         } else if (terrainProvider instanceof Cesium.SCTTerrainProvider) {
           terrainTypeAndUrl["type"] = "supermapOnlineTerrain";
         }
-        terrainTypeAndUrl["url"] = terrainLayer;
+        let terrainProvider_save = viewer.terrainProvider;
+        terrainTypeAndUrl["url"] = terrainProvider_save._baseUrl || terrainProvider_save._urls[0];
+        // terrainTypeAndUrl["url"] = "https://maptiles.supermapol.com/iserver/services/3D-local3DCache-GlobalTIN30M/rest/realspace/datas/Global_TIN_30M";
+
+        console.log("terrainTypeAndUrl:",terrainTypeAndUrl)
+
         terrainLayerUrl.push(terrainTypeAndUrl);
       }
 
+      console.log("terrainLayerUrl:",terrainLayerUrl)
       return terrainLayerUrl;
     },
     openS3M(content) {
@@ -672,17 +687,11 @@ export default {
             case "TiandituImageryProvider":
               imageryProvider = new Cesium.TiandituImageryProvider({
                 url: content.layers.imageryLayer[i].url,
-                // token: this.token
-                token:content.layers.imageryLayer[i].token
+                token: this.token
               });
               break;
             case "SingleTileImageryProvider":
               imageryProvider = new Cesium.SingleTileImageryProvider({
-                url: content.layers.imageryLayer[i].url
-              });
-              break;
-            case "UrlTemplateImageryProvider":
-              imageryProvider = new Cesium.UrlTemplateImageryProvider({
                 url: content.layers.imageryLayer[i].url
               });
               break;
@@ -707,11 +716,13 @@ export default {
 
         let url = content.layers.terrainLayer[0].url;
         this.setTrustedServers(url);
+
         switch (terrainType) {
-          case "StkTerrain":
+          case "tinTerrain":
             viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
               url: content.layers.terrainLayer[0].url,
-              isSct: false
+              isSct: true,
+              invisibility: true
             });
             break;
           case "tianDiTuTerrain":

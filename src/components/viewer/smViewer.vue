@@ -277,6 +277,7 @@ export default {
       //判断编辑场景还是创建场景
       let url = window.location.href;
       this.isCreateScene = url.indexOf("id=") === -1;
+      console.log("smViewer-isCreateScene now:",this.isCreateScene)
       // 模拟编辑场景模式，非创建
       // this.isCreateScene = false;
     }

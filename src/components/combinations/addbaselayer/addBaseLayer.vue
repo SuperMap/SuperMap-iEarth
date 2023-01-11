@@ -156,9 +156,14 @@ export default {
           this.BaseLayers[index].chooseType = true;
           break;
         case "OSM":
-          imageryProvider = new Cesium.createOpenStreetMapImageryProvider({
-            url: this.BaseLayers[index].url,
-          });
+          // imageryProvider = new Cesium.createOpenStreetMapImageryProvider({
+          //   url: this.BaseLayers[index].url,
+          // });
+          imageryProvider = new Cesium.UrlTemplateImageryProvider({
+                url: this.BaseLayers[index].url,
+                subdomains: this.BaseLayers[index].subdomains,
+
+            })
           this.BaseLayers[index].chooseType = true;
           break;
         case "GRIDIMAGERY":

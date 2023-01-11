@@ -586,7 +586,6 @@ export default {
         let provider = imageryLayer[j]._imageryProvider;
         if (provider instanceof Cesium.BingMapsImageryProvider) {
           imageryTypeAndUrl["type"] = "BingMapsImageryProvider";
-          imageryTypeAndUrl["token"] = provider._token
         } else if (provider instanceof Cesium.TiandituImageryProvider) {
           imageryTypeAndUrl["type"] = "TiandituImageryProvider";
         } else if (provider instanceof Cesium.SingleTileImageryProvider) {
@@ -672,8 +671,7 @@ export default {
             case "TiandituImageryProvider":
               imageryProvider = new Cesium.TiandituImageryProvider({
                 url: content.layers.imageryLayer[i].url,
-                // token: this.token
-                token:content.layers.imageryLayer[i].token
+                token: this.token
               });
               break;
             case "SingleTileImageryProvider":

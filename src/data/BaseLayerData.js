@@ -27,7 +27,7 @@ export default BaseLayerModels = [{
         url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
         name: Resource.tianditu,
         thumbnail: '@/../static/images/baseLayer/tianditu.jpg',
-        token: '4a00a1dc5387b8ed8adba3374bd87e5e',
+        token: '7933ae29d47bcf1440889ad983dbe0af',
         title: '天地图',
         type: 'TIANDITU',
         imgsrc: '@/../static/css/cross.png',
@@ -36,12 +36,13 @@ export default BaseLayerModels = [{
         index: 2
     },
     {
-        url: 'https://a.tile.openstreetmap.org/',
+        url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
         name: Resource.OpenStreetMap,
         thumbnail: '@/../static/images/baseLayer/OSM.jpg',
         title: 'Open Street Map',
         type: 'OSM',
         imgsrc: '@/../static/css/cross.png',
+        subdomains:["a", "b", "c", "d"],
         chooseType: false,
         isMultipleChoose: false,
         index: 3
@@ -56,49 +57,49 @@ export default BaseLayerModels = [{
         isMultipleChoose: false,
         index: 4
     }
-    // ,
-    // {
-    //     url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
-    //     name: Resource.japanStand,
-    //     thumbnail: '@/../static/images/baseLayer/grad.jpg',
-    //     title: 'Grid Image Map',
-    //     type: 'UrlTemplateImageryProvider',
-    //     imgsrc: '@/../static/css/cross.png',
-    //     chooseType: false,
-    //     isMultipleChoose: false,
-    //     index: 5
-    // },
-    // {
-    //     url: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
-    //     name: Resource.japanPale,
-    //     thumbnail: '@/../static/images/baseLayer/grad.jpg',
-    //     title: 'Grid Image Map',
-    //     type: 'UrlTemplateImageryProvider',
-    //     imgsrc: '@/../static/css/cross.png',
-    //     chooseType: false,
-    //     isMultipleChoose: false,
-    //     index: 6
-    // },
-    // {
-    //     url: 'https://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png',
-    //     name: Resource.japanBlank,
-    //     thumbnail: '@/../static/images/baseLayer/grad.jpg',
-    //     title: 'Grid Image Map',
-    //     type: 'UrlTemplateImageryProvider',
-    //     imgsrc: '@/../static/css/cross.png',
-    //     chooseType: false,
-    //     isMultipleChoose: false,
-    //     index: 7
-    // },
-    // {
-    //     url: 'https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg',
-    //     name: Resource.japanImage,
-    //     thumbnail: '@/../static/images/baseLayer/grad.jpg',
-    //     title: 'Grid Image Map',
-    //     type: 'UrlTemplateImageryProvider',
-    //     imgsrc: '@/../static/css/cross.png',
-    //     chooseType: false,
-    //     isMultipleChoose: false,
-    //     index: 8
-    // }
+    ,
+    {
+        url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+        name: Resource.japanStand,
+        thumbnail: '@/../static/images/baseLayer/grad.jpg',
+        title: 'Grid Image Map',
+        type: 'UrlTemplateImageryProvider',
+        imgsrc: '@/../static/css/cross.png',
+        chooseType: false,
+        isMultipleChoose: false,
+        index: 5
+    },
+    {
+        url: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
+        name: Resource.japanPale,
+        thumbnail: '@/../static/images/baseLayer/grad.jpg',
+        title: 'Grid Image Map',
+        type: 'UrlTemplateImageryProvider',
+        imgsrc: '@/../static/css/cross.png',
+        chooseType: false,
+        isMultipleChoose: false,
+        index: 6
+    },
+    {
+        url: 'https://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png',
+        name: Resource.japanBlank,
+        thumbnail: '@/../static/images/baseLayer/grad.jpg',
+        title: 'Grid Image Map',
+        type: 'UrlTemplateImageryProvider',
+        imgsrc: '@/../static/css/cross.png',
+        chooseType: false,
+        isMultipleChoose: false,
+        index: 7
+    },
+    {
+        url: 'https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg',
+        name: Resource.japanImage,
+        thumbnail: '@/../static/images/baseLayer/grad.jpg',
+        title: 'Grid Image Map',
+        type: 'UrlTemplateImageryProvider',
+        imgsrc: '@/../static/css/cross.png',
+        chooseType: false,
+        isMultipleChoose: false,
+        index: 8
+    }
 ];
