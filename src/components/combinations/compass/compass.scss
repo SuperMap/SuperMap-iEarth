@@ -1,81 +1,328 @@
 .compass {
-    position: absolute;
-    top: 85px;
-    right: 8px;
-    z-index: 999;
-    width: 48px;
-    .btnCompass {
-        width: 50px;
-        height: 50px;
-        padding-top:2px;
-        padding-left:2px;
-        padding-right:2px;
-        padding-bottom:1px;
-        background-color: rgb(36, 35, 35);
-        display: inline-block;
-        text-align: center;
-        white-space: nowrap;
-        touch-action: manipulation;
-        cursor: pointer;
-        background-image: none;
-        font-size: 17px;
-        font-weight: 400;
-        line-height: 1.4;
-        border: none;
-        vertical-align: middle;
-        margin-bottom: 18px;
-        border-radius:4px;
-      @media (max-height:750px){
-        width:38px;
-        height:35px;
-        margin-bottom: 15px;
+  position: absolute;
+  top: 85px;
+  right: 8px;
+  z-index: 999;
+  width: 48px;
+  .btnCompass {
+      width: 50px;
+      height: 50px;
+      padding-top:2px;
+      padding-left:2px;
+      padding-right:2px;
+      padding-bottom:1px;
+      background-color: rgb(36, 35, 35);
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+      touch-action: manipulation;
+      cursor: pointer;
+      background-image: none;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.4;
+      border: none;
+      vertical-align: middle;
+      margin-bottom: 18px;
+      border-radius:4px;
+    @media (max-height:750px){
+      width:38px;
+      height:35px;
+      margin-bottom: 15px;
+    }
+    @media (max-height:480px){
+      width:38px;
+      height:35px;
+      padding-top:2px;
+      padding-left:2px;
+      padding-right:2px;
+      padding-bottom:1px;
+      background-color: rgba(38, 38, 38, 0.75);
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+      touch-action: manipulation;
+      cursor: pointer;
+      background-image: none;
+      font-weight: 400;
+      line-height: 1.4;
+      border: none;
+      vertical-align: middle;
+      margin-bottom: 10px;
+    }
+    @media(max-height:300px){
+      width:30px;
+      height:35px;
+      margin-bottom: 5px;
+    }
+
+    .searchBar{
+      .inputContainer{
+        position: absolute;
+        top: 2px;
+        right: 20px;
+
+        .down{
+          position: absolute;
+          top: 8px;
+          right: 360px;
+          i{
+              border: 3px solid white;
+              border-width: 0px 1px 1px 0px;
+            
+              display: inline-block;
+              padding: 5px;
+              transform: rotate(45deg);
+              transform: rotate(45deg);
+          }
+        }
+        .close{
+          position: absolute;
+          top: 13px;
+          right: 75px;
+          z-index: 999;
+          .closeImg{
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .cityPanle{
+          position: absolute;
+          top: 10px;
+          right: 360px;
+          z-index: 999;
+
+          .downImg{
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .split{
+          position: absolute;
+          top: 11px;
+          right: 69px;
+          z-index: 999;
+          margin-left: 5px;
+        }
+        .search{
+          position: absolute;
+          top: 13px;
+          right: 48px;
+          z-index: 999999;
+          .searchImg{
+            width: 20px;
+            height: 20px;
+          }
+        }
       }
-      @media (max-height:480px){
-        width:38px;
-        height:35px;
-        padding-top:2px;
-        padding-left:2px;
-        padding-right:2px;
-        padding-bottom:1px;
-        background-color: rgba(38, 38, 38, 0.75);
-        display: inline-block;
-        text-align: center;
-        white-space: nowrap;
-        touch-action: manipulation;
-        cursor: pointer;
-        background-image: none;
-        font-weight: 400;
-        line-height: 1.4;
-        border: none;
-        vertical-align: middle;
-        margin-bottom: 10px;
+
+      .infoContainer{
+        width: 300px;
+        min-height: 50px;
+        background-color: #383838;
+        position: absolute;
+        top: 19%;
+        right: 65px;
+        padding-top: 10px;
+        border-radius: 2%;
+        li {
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          padding: 0 30px;
+          margin-bottom: 10px;
+        }
+        li:hover {
+          background-color: rgba(52, 153, 229, 0.35);
+        }
+        .isSelect {
+          background-color: rgba(52, 153, 229, 0.35);
+        }
       }
-      @media(max-height:300px){
-        width:30px;
-        height:35px;
-        margin-bottom: 5px;
+
+
+      .no-content {
+        display: flex;
+        justify-content: center;
+      }
+
+      .input, .button {
+          border: none;
+          outline: none;
+      }
+
+      .input {
+          width: 300px;
+          height: 48px;
+          padding-left: 13px;
+          margin-right: 45px;
+
+          padding: 0 42px 0 15px;
+          border-bottom: 2px solid transparent;
+          background: transparent;
+          transition: .3s linear;
+          position: absolute;
+          top: 0;
+          right: 0;
+          z-index: 2;
+
+          color: #F9F0DA;
+          border: 1px solid #F9F0DA;
+
+      }
+
+      .compasstb {
+          top: 0;
+          right: 10px;
+          height: 42px;
+          width: 42px;
+          cursor: pointer;
+          position: absolute;
+      }
+
+
+    }
+
+    .cityTabs{
+      position: absolute;
+      top:50px;
+      right: 65px;      
+
+      width: 600px;
+      height: 100%;
+      // background-color: yellow;
+      z-index: 10000;
+      background-color: #383838;
+
+      .title{
+        height: 10%;
+        background-color: rgb(65,65,65);
+
+        display: flex;
+        justify-content: space-between;
+
+        z-index: 9999;
+
+        .titleText{
+          width: 120px;
+          background-color: #4a4a4a;
+          padding-top: 10px;
+          color: white;
+        }
+        .titleClose {
+          width: 40px;
+          background-color: #4a4a4a;
+          color: white;
+          padding-top: 10px;
+        }
+      }
+      .tabs{
+        height: 10%;
+        background-color:  rgb(56,56,56);
+        display: flex;
+        justify-content: space-around;
+        padding: 0 20px;
+
+        .tabBtn {
+          background: none;
+          border: none;
+          color: rgb(52,123,176);
+        }
+        .tabBtn:active {
+          border-bottom: 3px solid rgb(52,123,176);
+          color: rgb(52,123,176);
+        }
+        .tabBtn:focus {
+          border-bottom: 3px solid  rgb(52,123,176);
+          color: rgb(52,123,176);
+        }
+      }
+      .hrLine {
+        border-bottom: 1px solid gray;
+        margin: 0 30px;
+      }
+      .cityContainer::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+        scrollbar-arrrow-color: #898989;
+      }
+      .cityContainer::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        background: rgba(0,0,0,0.2);
+        scrollbar-arrrow-color: #898989;
+      }
+      .cityContainer::-webkit-scrollbar-track {
+        border-radius: 0;
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        background: rgba(0,0,0,0.1);
+      }
+      .cityContainer{
+        height: 60%;
+        background-color: rgb(56,56,56);
+        display: flex;
+        flex-direction: column;/* 设置主轴方向为 - column */
+        padding: 20px 0;
+
+        overflow-x: hidden;
+
+        .cityClass{
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+          flex-wrap: wrap;
+          padding: 0 15px;
+
+          .cityLeft{
+            // background-color: red;
+            flex: 1;
+            width: 50px;
+            font-weight: 600;
+            color: rgb(52,123,176);
+          }
+
+          .cityRight{
+            flex: 7;
+            display: flex;
+            // justify-content: space-around;
+            flex-wrap: wrap;
+
+            .city {
+              height: 50px;
+              color: white;
+              margin: 0 12px;
+            }
+
+            .city:hover {
+              color: rgb(52,123,176);
+            }
+          }
+
+
+        }
       }
     }
-    .btnCompass:hover {
-        color: #2ec5ad;
-        background-color: rgba(71, 71, 71, 0.75);
-    }
+  }
+  .btnCompass:hover {
+      color: #2ec5ad;
+      background-color: rgba(71, 71, 71, 0.75);
+  }
 }
 
 .compasstb{
-  display: inline-block;
-  padding-top:3px;
-  font-size:30px;
-  @media (max-height:750px){
-    font-size:22px;
-    padding-top:1px;
-  }
-  @media (max-height:480px){
-    font-size:23px;
-    padding-top:0px;
-  }
-  @media(max-height:300px){
-    font-size:32px;
-    padding-top:0px;
-  }
+display: inline-block;
+padding-top:3px;
+font-size:30px;
+@media (max-height:750px){
+  font-size:22px;
+  padding-top:1px;
+}
+@media (max-height:480px){
+  font-size:23px;
+  padding-top:0px;
+}
+@media(max-height:300px){
+  font-size:32px;
+  padding-top:0px;
+}
 }

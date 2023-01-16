@@ -117,6 +117,7 @@ export default {
           this.isHideAllLayers(check.checked);
           break;
         case "S3M":
+          
           let ly = viewer.scene.layers.find(check.title);
           if (check.title == Resource.s3mLayer) {
             let layers = viewer.scene.layers.layerQueue;
@@ -127,14 +128,28 @@ export default {
           }
           if (ly) {
             ly._visible = check.checked;
+
+            let s3mLayerName = ly._name;
+            store.setLayerVisibleForSave(["S3M",s3mLayerName,check.checked])
           }
+
           break;
         case "IMG":
           let layers = viewer.imageryLayers._layers;
           if (check.title == Resource.imageryLayer) {
             layers.forEach((i, index) => {
-              if (index == 0) return;
+              // if (index == 0) return;
               i.show = check.checked;
+
+              // console.log("layer-i:",i)
+              let ImageryUrl = ""
+              let provider = i._imageryProvider
+              if(provider._url){
+                ImageryUrl = provider._url
+              }else if(provider._resource){
+                ImageryUrl = provider._resource._url
+              }
+              store.setLayerVisibleForSave(["Imagery",ImageryUrl,check.checked])
             });
             return;
           }
@@ -249,25 +264,25 @@ export default {
       return index;
     },
 
-    //图层列表里面影像的名称修正
-    setImageryName(IMGlayer) {
-      for (let i = 0; i < this.BaseLayers.length; i++) {
-        if (this.BaseLayers[i].chooseType) {
-          if (this.imgLayersObj.children.length !== 0) {
-            if (
-              this.imgLayersObj.children[this.imgLayersObj.children.length - 1]
-                .title !== this.BaseLayers[i].name
-            ) {
-              IMGlayer.title = this.BaseLayers[i].name;
-              break;
-            }
-          } else {
-            IMGlayer.title = this.BaseLayers[i].name;
-            break;
-          }
-        }
-      }
-    },
+    // //图层列表里面影像的名称修正
+    // setImageryName(IMGlayer) {
+    //   for (let i = 0; i < this.BaseLayers.length; i++) {
+    //     if (this.BaseLayers[i].chooseType) {
+    //       if (this.imgLayersObj.children.length !== 0) {
+    //         if (
+    //           this.imgLayersObj.children[this.imgLayersObj.children.length - 1]
+    //             .title !== this.BaseLayers[i].name
+    //         ) {
+    //           IMGlayer.title = this.BaseLayers[i].name;
+    //           break;
+    //         }
+    //       } else {
+    //         IMGlayer.title = this.BaseLayers[i].name;
+    //         break;
+    //       }
+    //     }
+    //   }
+    // },
 
     //记录更新前被隐藏的图层名称
     hideLayers(nameArr, arr) {
@@ -343,34 +358,61 @@ export default {
             type: "IMG",
             id: index
           };
-          //存在图层名称
-          if (layer._imageryProvider.tablename) {
-            // for(let key in _that.otherTerrainLayers){
-            //   if(_that.otherTerrainLayers[key].imagery.chooseType){
-            //     IMGlayer.title = _that.otherTerrainLayers[key].imagery.name;
-            //     if (_that.hideImgNames.includes(IMGlayer.title)) {
-            //       IMGlayer.checked = false;
-            //     };
-            //     _that.imgLayersObj.children.unshift(IMGlayer);
-            //     return;
-            //   }
-            // }
-            // _that.setImageryName(IMGlayer);
-            let name = "";
-            if (layer._imageryProvider.url) {
-              //rest地图服务
-              let array = layer._imageryProvider.url.split("/rest/maps/");
-              if (array.length > 1) {
-                name = array[1].split("/")[0];
-              } else if (layer._imageryProvider.name) {
-                name = layer._imageryProvider.name;
+          
+          // //存在图层名称
+          // if (layer._imageryProvider.tablename) {
+          //   // for(let key in _that.otherTerrainLayers){
+          //   //   if(_that.otherTerrainLayers[key].imagery.chooseType){
+          //   //     IMGlayer.title = _that.otherTerrainLayers[key].imagery.name;
+          //   //     if (_that.hideImgNames.includes(IMGlayer.title)) {
+          //   //       IMGlayer.checked = false;
+          //   //     };
+          //   //     _that.imgLayersObj.children.unshift(IMGlayer);
+          //   //     return;
+          //   //   }
+          //   // }
+          //   // _that.setImageryName(IMGlayer);
+          //   let name = "";
+          //   if (layer._imageryProvider.url) {
+          //     //rest地图服务
+          //     let array = layer._imageryProvider.url.split("/rest/maps/");
+          //     if (array.length > 1) {
+          //       name = array[1].split("/")[0];
+          //     } else if (layer._imageryProvider.name) {
+          //       name = layer._imageryProvider.name;
+          //     }
+          //   }
+          //   IMGlayer.title = name;
+          // } else {
+          //   //不存在，用底图的名称
+          //   _that.setImageryName(IMGlayer);
+          // }
+        
+          
+          let provider = layer._imageryProvider;
+          let url_imagery = ""
+          if(provider._url){
+            url_imagery = provider._url
+          }else if(provider._resource){
+            url_imagery = provider._resource._url
+          }
+
+
+          if(url_imagery){
+            for(let i=0;i<this.BaseLayers.length;i++){
+              if(this.BaseLayers[i].url === url_imagery){
+                IMGlayer.title = this.BaseLayers[i].name
               }
             }
-            IMGlayer.title = name;
-          } else {
-            //不存在，用底图的名称
-            _that.setImageryName(IMGlayer);
+          }else{
+            IMGlayer.title = "网格影像"
           }
+
+          if(IMGlayer.title.length===0){
+            IMGlayer.title = "本地图片"
+          }
+
+
           if (_that.hideImgNames.includes(IMGlayer.title)) {
             IMGlayer.checked = false;
           }
@@ -380,6 +422,9 @@ export default {
           this.TreeDatas[0].children.splice(index, 1, this.imgLayersObj);
           return;
         }
+
+        // console.log("this.imgLayersObj:",this.imgLayersObj)
+
         this.TreeDatas[0].children.push(this.imgLayersObj);
       } else {
         setTimeout(() => {

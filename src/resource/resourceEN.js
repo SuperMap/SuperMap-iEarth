@@ -84,7 +84,6 @@
         bingServiceType: 'BingMap global image service',
         tdtServiceType: 'TianDiTu global image service ',
         osmServiceType: 'OpenStreetMap',
-        tianditu: 'Tianditu',
         layerExistMsg: 'This layer already exists, don\'t load it again!',
         imgUrlErrorMsg: 'Image service URL is wrong, image loading failed!',
         scpUrlErrorMsg: 'The SCP URL address is wrong, and the S3M layer fails to load!',
@@ -453,6 +452,7 @@
         localImage: 'Local Image',
         bingMaps: 'Bing Maps',
         OpenStreetMap: 'OpenStreetMap',
+        tianditu: 'Tianditu',
         SuperMapChinaDark: 'SuperMap China Dark',
         gridImagery: 'Grid Imagery',
         superMapChinaLight: 'SuperMap China Light',
@@ -665,8 +665,12 @@
         japanStand: 'JapanStandMap',
         japanPale: 'JapanPaleMap',
         japanBlank: 'JapanBlankMap',
-        japanImage: 'JapanImage'
+        japanImage: 'JapanImage',
 
+        search:"search",
+        cityList:"List of cities",
+        searchBox:"Search box",
+        resultNone:"No content temporarily",
     };
 
     export default ResourceEN;

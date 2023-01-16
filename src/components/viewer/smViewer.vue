@@ -90,7 +90,7 @@ export default {
           timeline: true,
           baseLayerPicker: false,
           infoBox: false,
-          geocoder: true,
+          geocoder: false,
           navigation: false
         });
         viewer.scene.moon.show = false;

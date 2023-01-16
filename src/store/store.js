@@ -23,6 +23,11 @@ var store = {
     LayerAttributeToolbar: false, //图层属性显隐
     LayerAttribute: [1, 0, 0, 0],
     selectedLayerName: null, //当前选中编辑图层name
+    LayerUnVisibleForSave:{ //图层管理中将取消选中(不显示的图层)存入这里
+      S3M:[],
+      Imagery:[],
+      Terrain:[]
+    },
     // 编辑
     isEdit:false,
     isEditZ:false,
@@ -152,6 +157,29 @@ var store = {
   setIsEditZ(newValue) {
     this.state.isEditZ = newValue;
   },
+  // 设置图层不显示图层
+  setLayerVisibleForSave(newValue){
+    // console.log("newValue:",newValue)
+
+    let LayerUnVisibleForSave = this.state.LayerUnVisibleForSave
+    if(newValue[0] === "S3M"){
+      if(newValue[2] === false){
+        LayerUnVisibleForSave.S3M.push(newValue[1])
+      }else{
+        let delIndex = LayerUnVisibleForSave.S3M.indexOf(newValue[1])
+        LayerUnVisibleForSave.S3M.splice(delIndex,1);
+      }
+    }else if(newValue[0] === "Imagery"){
+      if(newValue[2] === false){
+        LayerUnVisibleForSave.Imagery.push(newValue[1])
+      }else{
+        let delIndex = LayerUnVisibleForSave.Imagery.indexOf(newValue[1])
+        LayerUnVisibleForSave.Imagery.splice(delIndex,1);
+      }
+    }
+
+    // console.log("this.state.LayerUnVisibleForSave:",this.state.LayerUnVisibleForSave)
+  }
 }
 
 export default store

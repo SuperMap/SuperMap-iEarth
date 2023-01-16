@@ -12,7 +12,7 @@ export default BaseLayerModels = [{
         index: 0
     },
     {
-        url: '//dev.virtualearth.net',
+        url: '//dev.virtualearth.net/',
         name: Resource.bingMaps,
         thumbnail: '@/../static/images/baseLayer/BingMap.jpg',
         title: 'BingMap',

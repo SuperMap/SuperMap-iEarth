@@ -147,6 +147,10 @@ export default {
             url: this.BaseLayers[index].url,
             token: this.BaseLayers[index].token,
           });
+          // imageryProvider = new Cesium.TiandituImageryProvider({
+          //   credit : new Cesium.Credit(''),
+          //   token: this.BaseLayers[index].token,
+          // })
           this.BaseLayers[index].chooseType = true;
           break;
         case "IMAGE":

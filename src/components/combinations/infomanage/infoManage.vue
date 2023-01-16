@@ -96,6 +96,7 @@ import {
   isIportalProxyServiceUrl,
   getHostName
 } from "../../../common/js/portalTools";
+import store from "../../../store/store";
 export default {
   name: "infoManage",
   props: {
@@ -561,9 +562,15 @@ export default {
     },
     saveS3M(layers, s3mLayerlength) {
       let s3mlayerUrl = [];
+      // 在图层管理中，有些图层不勾选即不显示，就不保存到场景中
+      let storeUnvisivleLayers = store.state.LayerUnVisibleForSave.S3M;
       for (let i = 0, j = s3mLayerlength; i < j; i++) {
         let s3mTypeAndUrl = {};
         let layer = viewer.scene.layers._layerQueue[i];
+        if(storeUnvisivleLayers.indexOf(layer._name) != -1){
+          continue
+        }
+
         s3mTypeAndUrl["type"] = "S3MTilesLayer";
         let layerUrl =
           layer._baseUri.scheme +
@@ -581,9 +588,30 @@ export default {
     },
     saveImagery(imageryLayer) {
       let imageryLayerUrl = [];
+      let storeUnvisivleLayers = store.state.LayerUnVisibleForSave.Imagery;
       for (let j = 0; j < imageryLayer.length; j++) {
         let imageryTypeAndUrl = {};
         let provider = imageryLayer[j]._imageryProvider;
+
+        if(provider._url){
+          imageryTypeAndUrl["url"] = provider._url
+        }else if(provider._resource){
+          imageryTypeAndUrl["url"] = provider._resource._url
+        }else{
+          imageryTypeAndUrl["url"] = ''
+        }
+
+        // if(storeUnvisivleLayers.indexOf(imageryTypeAndUrl["url"]) != -1){
+        //   continue
+        // }
+        // console.log("store.state.LayerUnVisibleForSave:",store.state.LayerUnVisibleForSave)
+        // console.log("storeUnvisivleLayers:",storeUnvisivleLayers)
+        // console.log("imageryTypeAndUrl[url]:",imageryTypeAndUrl["url"])
+
+        if(storeUnvisivleLayers[0] === imageryTypeAndUrl["url"]){
+          continue
+        }
+
         if (provider instanceof Cesium.BingMapsImageryProvider) {
           imageryTypeAndUrl["type"] = "BingMapsImageryProvider";
           imageryTypeAndUrl["token"] = provider._token
@@ -599,13 +627,6 @@ export default {
           imageryTypeAndUrl["Type"] = "GRIDIMAGERY";
         }
 
-        if(provider._url){
-          imageryTypeAndUrl["url"] = provider._url
-        }else if(provider._resource){
-          imageryTypeAndUrl["url"] = provider._resource._url
-        }else{
-          imageryTypeAndUrl["url"] = ''
-        }
 
         imageryLayerUrl.push(imageryTypeAndUrl);
       }

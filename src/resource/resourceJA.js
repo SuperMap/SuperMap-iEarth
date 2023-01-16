@@ -665,7 +665,12 @@
         japanStand: '地理院標準地図',
         japanPale: '地理院淡色地図',
         japanBlank: '地理院白地図',
-        japanImage: '電子国土基本図（2007年～）'
+        japanImage: '電子国土基本図（2007年～）',
+
+        search:"検索けんさく",
+        cityList:"市区町村リスト",
+        searchBox:"検索ボックス",
+        resultNone:"しばらく内容がない",
     };
 
     export default ResourceJA;
