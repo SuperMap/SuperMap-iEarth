@@ -5,7 +5,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/CBD.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-CBDCache20200416/rest/realspace",
-            "sceneName": "北京CBD",
+            "sceneName": "Центральный деловой район Пекина",
             "state": 0
         },
         {
@@ -13,7 +13,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/Sophia.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-suofeiya_church/rest/realspace",
-            "sceneName": "索菲亚教堂",
+            "sceneName": "Софийская церковь",
             "state": 0
         },
         
@@ -22,7 +22,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/ZfTerranAndImagery.jpg",
             "proxiedUrl": "https://www.supermapol.com/proxy/realspace/services/3D-ZF_normal/rest/realspace",
-            "sceneName": "珠峰地形影像",
+            "sceneName": "Топографическое изображение Эвереста",
             "state": 0
         },
         {
@@ -30,7 +30,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/BIM.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-wireFrame/rest/realspace",
-            "sceneName": "BIM建筑",
+            "sceneName": "BIM-архитектура",
             "state": 0
         },
         {
@@ -38,7 +38,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/PointCloud.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-cloud/rest/realspace",
-            "sceneName": "点云",
+            "sceneName": "Облако точек",
             "state": 0
         },
         {
@@ -46,7 +46,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/VolumeRendering.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-tishuju/rest/realspace",
-            "sceneName": "体数据",
+            "sceneName": "Объемные данные",
             "state": 0
         },
         {
@@ -54,7 +54,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/Histogram.jpg",
             "proxiedUrl": " https://www.supermapol.com/realspace/services/3D-Histogram/rest/realspace",
-            "sceneName": "柱状图",
+            "sceneName": "Гистограмма",
             "state": 0
         },
         {
@@ -62,7 +62,7 @@
             "type": "SCP",
             "thumbnail": "static/images/webServeImg/Household.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-FCFH_Shangdong/rest/realspace/datas/config/config",
-            "sceneName": "倾斜分层分户",
+            "sceneName": "Наклонные стратифицированные домохозяйства",
             "state": 0
         },
         {
@@ -70,7 +70,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/VectorThematicMap.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-five-vector/rest/realspace",
-            "sceneName": "矢量数据",
+            "sceneName": "векторные данные",
             "state": 0
         },
         {
@@ -78,7 +78,7 @@
             "type": "ThematicMap",
             "thumbnail": "static/images/webServeImg/cqbm.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000/rest/realspace/datas/CQmodel/config",
-            "sceneName": "重庆白模",
+            "sceneName": "Белая модель Чунцина",
             "S3MLayer": true,
             "state": 0
         },
@@ -87,7 +87,7 @@
             "type": "ThematicMap",
             "thumbnail": "static/images/webServeImg/hbbm.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-XinBaiMo/rest/realspace/datas/%E4%B8%80%E8%88%AC%E5%AE%B6%E5%B1%8B/config",
-            "sceneName": "横滨白模",
+            "sceneName": "Белая модель Йокогамы",
             "S3MLayer": true,
             "state": 0
         }

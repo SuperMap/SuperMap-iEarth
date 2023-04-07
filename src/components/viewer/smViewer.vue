@@ -90,7 +90,7 @@ export default {
           timeline: true,
           baseLayerPicker: false,
           infoBox: false,
-          geocoder: false,
+          geocoder: true, //是否显示地名查找控件
           navigation: false
         });
         viewer.scene.moon.show = false;

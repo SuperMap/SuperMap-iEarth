@@ -71,7 +71,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/VectorThematicMap.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-five-vector/rest/realspace",
-            "sceneName": "ベクトルマップ",
+            "sceneName": "ベクトルデータ",
             "state": 0
         },
         {

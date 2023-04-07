@@ -2,57 +2,43 @@
 <template>
   <div class="sm-function-module-content" v-show="customServiceShow">
     <div class="sm-function-module-sub-section">
-      <label class="label-container">{{Resource.OpenLayer}}</label>
+      <label class="label-container">{{ Resource.OpenLayer }}</label>
       <select class="sm-select" v-model="LayerType">
-        <option value="S3M">{{Resource.s3mLayer}}</option>
-        <option value="IMAGERY">{{Resource.imageryLayer}}</option>
-        <option value="TERRAIN">{{Resource.terrainLayer}}</option>
+        <option value="S3M">{{ Resource.s3mLayer }}</option>
+        <option value="IMAGERY">{{ Resource.imageryLayer }}</option>
+        <option value="TERRAIN">{{ Resource.terrainLayer }}</option>
+        <option value="ArcGISMapServer">{{ Resource.ArcGISMapServer }}</option>
+        <option value="ArcGISCSCS2000">{{ Resource.ArcGISCSCS2000 }}</option>
       </select>
       <div class="token">
-        <label>{{Resource.addToken}}</label>
+        <label>{{ Resource.addToken }}</label>
         <input style="margin-left: 10px" type="checkbox" v-model="addToken" />
       </div>
       <input class="sm-input" type="text" :placeholder="holderURL" v-model="LayerURL" />
       <input class="sm-input" type="text" :placeholder="holderName" v-model="LayerName" />
-      <input
-        class="sm-input"
-        type="text"
-        :placeholder="Resource.addToken"
-        v-show="addToken"
-        v-model="LayerToken"
-      />
+      <input class="sm-input" type="text" :placeholder="Resource.addToken" v-show="addToken" v-model="LayerToken" />
       <div class="boxchild">
-        <button class="tbtn tbn1" type="button" @click="openLayer">{{Resource.confirm}}</button>
+        <button class="tbtn tbn1" type="button" @click="openLayer">{{ Resource.confirm }}</button>
       </div>
 
-      <label class="label-container">{{Resource.OpenScene}}</label>
-      <label>{{Resource.addToken}}</label>
+      <label class="label-container">{{ Resource.OpenScene }}</label>
+      <label>{{ Resource.addToken }}</label>
       <input style="margin-left: 10px" type="checkbox" v-model="addSceneToken" />
       <input class="sm-input" type="text" :placeholder="Resource.sceneUrl" v-model="SceneURL" />
-      <input
-        class="sm-input"
-        type="text"
-        :placeholder="Resource.addToken"
-        v-show="addSceneToken"
-        v-model="SceneToken"
-      />
+      <input class="sm-input" type="text" :placeholder="Resource.addToken" v-show="addSceneToken" v-model="SceneToken" />
 
       <select class="sm-select sm-sceneList" v-model="SceneName">
-        <option
-          v-for="(option,index) in SceneList"
-          :value="option.name"
-          :key="index"
-        >{{option.name}}</option>
+        <option v-for="(option, index) in SceneList" :value="option.name" :key="index">{{ option.name }}</option>
       </select>
       <div class="boxchild">
-        <button class="tbtn tbn1" type="button" @click="openScene">{{Resource.confirm}}</button>
+        <button class="tbtn tbn1" type="button" @click="openScene">{{ Resource.confirm }}</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-let layerLen;
+// let layerLen;
 //引入portal处理公共类
 import {
   getRootUrl,
@@ -149,6 +135,18 @@ export default {
             return;
           }
           break;
+        case "ArcGISMapServer":
+          if (this.LayerURL.indexOf(".arcgisonline") < 0) {
+            this.$Message.error(Resource.urlErrorMsg);
+            return;
+          }
+          break;
+        case "ArcGISCSCS2000":
+          if (this.LayerURL.indexOf(".arcgisonline") < 0) {
+            this.$Message.error(Resource.urlErrorMsg);
+            return;
+          }
+          break;
       }
       if (this.LayerURL.charAt(0) == '"' || this.LayerURL.charAt(0) == "'") {
         let reg = /^['|"](.*)['|"]$/;
@@ -170,6 +168,12 @@ export default {
         case "TERRAIN":
           this.addTerrain(this.LayerURL);
           break;
+        case "ArcGISMapServer":
+          this.addArcGISMapServe(this.LayerURL);
+          break;
+        case "ArcGISCSCS2000":
+          this.addArcGISCGCS2000(this.LayerURL);
+          break;
         default:
           store.setAnalysisAction([0, 0, 0, 0, 1]);
       }
@@ -183,7 +187,7 @@ export default {
         this.$Message.warning(Resource.layerNameNotNullMsg);
         return;
       }
-      layerLen = viewer.scene.layers.layerQueue.length;
+      // layerLen = viewer.scene.layers.layerQueue.length;
       this.setTrustedServers(LayerURL);
       promiseArray.push(viewer.scene.addS3MTilesLayerByScp(LayerURL, options));
       this.promiseWhen(promiseArray, true);
@@ -216,6 +220,25 @@ export default {
       }, 1500);
     },
 
+    addArcGISMapServe(LayerURL){
+      console.log("arcgis-LayerURL:",LayerURL);
+      //方式一：通过ArcGisMapServerImageryProvideri接口，但不支持CGCS2000坐标系
+      var layer = viewer.imageryLayers.addImageryProvider(new Cesium.ArcGisMapServerImageryProvider({
+          url: LayerURL
+      }));
+      viewer.flyTo(layer);
+
+
+    },
+    addArcGISCGCS2000(LayerURL){
+      console.log("arcgis-LayerURL:",LayerURL);
+      //方式二：通过CGCS2000MapServerImageryProvideri接口，支持CGCS2000、WGS84、全球墨卡托等坐标系
+      var layer = viewer.imageryLayers.addImageryProvider(new Cesium.CGCS2000MapServerImageryProvider({
+          url: LayerURL,
+      }));
+      viewer.flyTo(layer);
+    },
+
     addImage(LayerURL) {
       var layer = viewer.imageryLayers.addImageryProvider(
         new Cesium.SuperMapImageryProvider({
@@ -233,8 +256,10 @@ export default {
       Cesium.when.all(
         promiseArray,
         function(layers) {
+          let s3mLayerName;
           for (let i = 0; i < layers.length; i++) {
             layers[i]._visibleDistanceMax = 16000;
+            s3mLayerName = layers[i].name;
           }
           setTimeout(() => {
             //更新图层
@@ -242,8 +267,8 @@ export default {
             store.setImgLayerManage(viewer.imageryLayers._layers.length);
             store.setTerrainLayerManage(viewer.terrainProvider);
           }, 500);
-          if (isSCP && layers[layerLen]) {
-            viewer.flyTo(layers[layerLen]);
+          if (isSCP && s3mLayerName) {
+            viewer.flyTo(scene.layers.find(s3mLayerName));
           }
         },
         function(e) {

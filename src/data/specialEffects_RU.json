@@ -1,0 +1,44 @@
+{
+  "effects": [{
+      "name": "линия следа",
+      "id": 0,
+      "thumbnail": "static/images/thumbnails/airlinesTrailLines.jpg",
+      "description": "линия следа полета"
+    },
+    {
+      "name": "Линия сканирования",
+      "id": 1,
+      "thumbnail": "static/images/thumbnails/scanEffect.jpg",
+      "description": "Эффект линии сканирования"
+    },
+    {
+      "name": "дождь и снег",
+      "id": 2,
+      "proxiedUrl": "https://maptiles.supermapol.com/iserver/services/3D-local3DCache-GlobalTIN30M/rest/realspace/datas/Global_TIN_30M",
+      "thumbnail": "static/images/thumbnails/rainAndSnow.jpg",
+      "description": "дождь и снег",
+      "cameraParama": {
+        "Cartesian3": {
+          "x": -1195147.3151832097,
+          "y": 5330007.753224254,
+          "z": 3303445.928676469
+        },
+        "heading": 1.356447048566487,
+        "pitch": -0.13640571597707818,
+        "roll": 2.5845992013273644e-13
+      }
+    },
+    {
+      "name": "Тепловая карта",
+      "id": 3,
+      "thumbnail": "static/images/thumbnails/HeatMap.jpg",
+      "description": "Тепловая карта"
+    },
+    {
+      "name": "Ветроэлектростанция",
+      "id": 4,
+      "thumbnail": "static/images/thumbnails/windParticle.jpg",
+      "description": "Ветроэлектростанция"
+    }
+  ]
+}

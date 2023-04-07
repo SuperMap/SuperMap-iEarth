@@ -671,6 +671,10 @@
       cityList:"城市列表",
       searchBox:"搜索框",
       resultNone:"暂时没有内容",
+
+      //新增
+      ArcGISMapServer:"ArcGIS地图服务",
+      ArcGISCSCS2000:"ArcGIS地图服务-CSCS2000"
     };
 
     export default ResourceCN;

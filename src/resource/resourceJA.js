@@ -671,6 +671,10 @@
         cityList:"市区町村リスト",
         searchBox:"検索ボックス",
         resultNone:"しばらく内容がない",
+
+        //新增
+        ArcGISMapServer:"ArcGIS地図サービス",
+        ArcGISCSCS2000:"ArcGIS地図サービス-CSCS2000"
     };
 
     export default ResourceJA;

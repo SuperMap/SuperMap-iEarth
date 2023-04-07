@@ -1,6 +1,7 @@
 import ResourceCN from "@/resource/resourceCN"
 import ResourceEN from "@/resource/resourceEN"
 import ResourceJA from "@/resource/resourceJA"
+import ResourceRU from "@/resource/resourceRu"
 
 import iEarth_resource_services_CN from "@/data/iEarth_resource_services_CN.json";
 import specialEffects_CN from "@/data/specialEffects_CN.json";
@@ -11,6 +12,9 @@ import hotSpots_EN from "@/data/hotSpots_EN.json";
 import iEarth_resource_services_JA from "@/data/iEarth_resource_services_JA.json";
 import specialEffects_JA from "@/data/specialEffects_JA.json";
 import hotSpots_JA from "@/data/hotSpots_JA.json";
+import iEarth_resource_services_RU from "@/data/iEarth_resource_services_RU.json"; 
+import specialEffects_RU from "@/data/specialEffects_RU.json";
+import hotSpots_RU from "@/data/hotSpots_RU.json";
 
 var currentLanguage, Resource;
 var cookieLanguage = getLang().toLowerCase();
@@ -33,6 +37,15 @@ if (currentLanguage.startsWith('zh')) {
   let promise = inputJS("static/js/view-design/dist/locale/ja-JP.js");
   promise.then(() => {
     iview.lang('ja-JP');
+  })
+} else if (currentLanguage.startsWith('ru')) {
+  Resource = ResourceRU;
+  window.iEarth_resource_services = iEarth_resource_services_RU;
+  window.specialEffects = specialEffects_RU;
+  window.hotSpots = hotSpots_RU;
+  let promise = inputJS("static/js/view-design/dist/locale/ru-RU.js");
+  promise.then(() => {
+    iview.lang('ru-RU');
   })
 } else {
   Resource = ResourceEN;

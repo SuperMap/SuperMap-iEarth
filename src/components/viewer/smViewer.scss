@@ -18,7 +18,18 @@
     font-size: 14px;
 }
 
-
+.cesium-geocoder-searchButton {
+  background-color: yellow;
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  width: 42px;
+  top: -6px;
+  right: -5px;
+  height: 42px;
+  vertical-align: middle;
+  fill: #edffff;
+}
 
 
 

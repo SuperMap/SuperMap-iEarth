@@ -671,6 +671,10 @@
         cityList:"List of cities",
         searchBox:"Search box",
         resultNone:"No content temporarily",
+
+        //新增
+        ArcGISMapServer:"ArcGIS Map Server",
+        ArcGISCSCS2000:"ArcGIS Map Server-CSCS2000"
     };
 
     export default ResourceEN;

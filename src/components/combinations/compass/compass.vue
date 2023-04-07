@@ -1,11 +1,10 @@
 <script src="compassViewModel.js"></script>
 <template>
   <div class="compass" v-show="compassShow">
-    <div class="btnCompass" :title="Resource.search">
+    <!-- <div class="btnCompass" :title="Resource.search">
       <div class="searchBar">
         <div v-show="searchPlane">
           <div class="inputContainer" ref="searchInput">
-            <!-- <span class="down" @click="infoShow=!infoShow"><i></i></span> -->
             <input class="input" type="text" v-model="searchText" placeholder="Searching...">
             <div class="close">
               <span @click="inputClose" :title="Resource.clear"><img class="closeImg" :src="iconImg[1]" alt=""></span>
@@ -19,7 +18,6 @@
             <div class="search">
               <span @click="search" :title="Resource.search"><img class="searchImg" :src="iconImg[2]" alt=""></span>
             </div>
-            <!-- <span class="close" @click="inputClose">X</span> -->
           </div>
 
           <div v-show="infoShow">
@@ -35,10 +33,7 @@
           </div>
         </div>
 
-        <!-- </div> -->
-        <!-- </div> -->
         <div class="btnCompass" :title="Resource.searchBox" @click="searchPlane = !searchPlane">
-          <!-- <span class="iconfont iconzhongzhi compasstb"></span> -->
           <span class="iconfont iconsousuo compasstb"></span>
         </div>
 
@@ -65,7 +60,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="btnCompass" @click="reduceCompass" :title=Resource.compass>
       <span id="compass" class="iconfont iconiEarth-zhibeizhen-01 compasstb"
         style="transform : rotate(0deg);display : inline-block;"></span>
