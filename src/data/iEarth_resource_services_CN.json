@@ -70,7 +70,7 @@
             "type": "REALSPACE",
             "thumbnail": "static/images/webServeImg/VectorThematicMap.jpg",
             "proxiedUrl": "https://www.supermapol.com/realspace/services/3D-five-vector/rest/realspace",
-            "sceneName": "矢量专题图",
+            "sceneName": "矢量数据",
             "state": 0
         },
         {

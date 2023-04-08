@@ -4,7 +4,7 @@
       <select class="sm-select" v-model="selType">
         <option id="publicService" value="0">{{Resource.publicService}}</option>
         <option id="specialEffects" value="1">{{Resource.specialEffects}}</option>
-        <option id="specialEffects" value="2">{{Resource.HotSpots}}</option>
+        <!-- <option id="specialEffects" value="2">{{Resource.HotSpots}}</option> -->
       </select>
       <div class="imageContainer">
         <!-- 公共服务 -->

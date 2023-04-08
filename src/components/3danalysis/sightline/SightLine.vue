@@ -244,10 +244,10 @@ export default {
       this.HandlerFlag = true;
 
       if (sightLineHandler) {
-        sightLineHandler.deactivate();
+        sightLineHandler.clear();
       }
       if (pointHandler) {
-        pointHandler.deactivate();
+        pointHandler.clear();
       }
       viewer.entities.removeAll();
       sightline && sightline.removeAllTargetPoint();
