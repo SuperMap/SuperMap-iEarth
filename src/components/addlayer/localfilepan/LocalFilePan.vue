@@ -27,10 +27,8 @@ export default {
         let target = evt.target;
         let file = target.files[0];
         if (!file) return;
-
         // file转blob
         const blob = new Blob([file],{type:""})
-
         viewer.dataSources
           .add(
             Cesium.KmlDataSource.load(blob, {
