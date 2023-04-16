@@ -221,7 +221,7 @@ export default {
     },
 
     addArcGISMapServe(LayerURL){
-      console.log("arcgis-LayerURL:",LayerURL);
+      // console.log("arcgis-LayerURL:",LayerURL);
       //方式一：通过ArcGisMapServerImageryProvideri接口，但不支持CGCS2000坐标系
       var layer = viewer.imageryLayers.addImageryProvider(new Cesium.ArcGisMapServerImageryProvider({
           url: LayerURL
@@ -231,7 +231,7 @@ export default {
 
     },
     addArcGISCGCS2000(LayerURL){
-      console.log("arcgis-LayerURL:",LayerURL);
+      // console.log("arcgis-LayerURL:",LayerURL);
       //方式二：通过CGCS2000MapServerImageryProvideri接口，支持CGCS2000、WGS84、全球墨卡托等坐标系
       var layer = viewer.imageryLayers.addImageryProvider(new Cesium.CGCS2000MapServerImageryProvider({
           url: LayerURL,
@@ -301,6 +301,11 @@ export default {
     childEvent() {}
   },
   watch: {
+    LayerName(val){
+      if(val){
+        window.store.customLayerName = val;
+      }
+    },
     LayerType(val) {
       if (val) {
         switch (this.LayerType) {
@@ -324,15 +329,21 @@ export default {
     },
     LayerURL(val) {
       if (val) {
-        let array = val.split("/datas/");
-        if (array.length > 1) {
-          this.LayerName = array[1].split("/")[0];
-        } else {
-          //rest地图服务
-          let array = val.split("/rest/maps/");
+        if(val.indexOf("/datas/") != -1){
+          let array = val.split("/datas/");
           if (array.length > 1) {
             this.LayerName = array[1].split("/")[0];
+          } else {
+            //rest地图服务
+            let array = val.split("/rest/maps/");
+            if (array.length > 1) {
+              this.LayerName = array[1].split("/")[0];
+            }
           }
+        }
+
+        if(this.LayerType === 'ArcGISMapServer' || this.LayerType === 'ArcGISCSCS2000'){
+          this.LayerName = val.split("/services/")[1].split("/")[0];
         }
       }
     },

@@ -402,6 +402,14 @@ export default {
             for(let i=0;i<this.BaseLayers.length;i++){
               if(this.BaseLayers[i].url === url_imagery){
                 IMGlayer.title = this.BaseLayers[i].name
+              }else if(url_imagery.indexOf("arcgis") != -1){
+                // if(window.store.customLayerName){
+                //   IMGlayer.title = window.store.customLayerName;
+                // }else{
+                //   IMGlayer.title = url_imagery.split("/services/")[1].split("/")[0];
+                // }
+
+                IMGlayer.title = url_imagery.split("/services/")[1].split("/")[0];
               }
             }
           }else{

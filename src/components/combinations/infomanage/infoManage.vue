@@ -7,81 +7,51 @@
       <div id="infoManageLogin" class="infoManageLogin" @click="show" :title="switchAccount">
         <span class="iconfont icondenglu infoManagetb"></span>
       </div>
-      <div
-        id="storageInfo"
-        class="storageScene"
-        @click="IstorageScene"
-        :title="Resource.storageScene"
-      >
+      <div id="storageInfo" class="storageScene" @click="IstorageScene" :title="Resource.storageScene">
         <span class="iconfont iconbaocun infoManagetb"></span>
       </div>
 
-      <div id="storageFailed">{{Resource.storageFailed}}</div>
-      <div id="noPermission">{{Resource.noPermission}}</div>
+      <div id="storageFailed">{{ Resource.storageFailed }}</div>
+      <div id="noPermission">{{ Resource.noPermission }}</div>
     </div>
 
     <div id="storageScene" class="storageScene-panel">
       <div class="sm-panel-header">
-        <span class="title-txt titleColor">{{Resource.sceneStorage}}</span>
+        <span class="title-txt titleColor">{{ Resource.sceneStorage }}</span>
         <span class="closeBtn" @click="toggleVisibility">&times;</span>
       </div>
       <div class="sm-function-module-storageScene">
         <div id="sceneImage" class="half">
           <canvas id="sceneCanvas" style="width:100%;margin:35px 0 10px 0;" />
-          <label id="saveDateLabel" class="italic">{{Resource.SaveDate}}</label>
+          <label id="saveDateLabel" class="italic">{{ Resource.SaveDate }}</label>
           <label id="saveDate" class="italic" style="margin-left:20px"></label>
         </div>
         <div id="sceneMessage" class="half" style="padding-left:15px;">
           <div class="storageScene-half">
-            <label class="sm-function-module-storageInfo">{{Resource.sceneName}}</label>
-            <input
-              id="scenePortalName"
-              v-model="scenePortalName"
-              class="sm-input-right"
-              type="text"
-              style="width:100%;float:left;"
-            />
+            <label class="sm-function-module-storageInfo">{{ Resource.sceneName }}</label>
+            <input id="scenePortalName" v-model="scenePortalName" class="sm-input-right" type="text"
+              style="width:100%;float:left;" />
           </div>
           <div class="storageScene-half">
-            <label class="sm-function-module-storageInfo">{{Resource.SceneLabel}}</label>
-            <input
-              id="scenePortalTages"
-              v-model="scenePortalTages"
-              type="text"
-              class="sm-input-right"
-              style="width:100%;float:left;"
-            />
+            <label class="sm-function-module-storageInfo">{{ Resource.SceneLabel }}</label>
+            <input id="scenePortalTages" v-model="scenePortalTages" type="text" class="sm-input-right"
+              style="width:100%;float:left;" />
           </div>
           <div class="storageScene-half">
-            <label class="sm-function-module-storageInfo">{{Resource.author}}</label>
-            <input
-              id="scenePortalUser"
-              v-model="scenePortalUser"
-              type="text"
-              class="sm-input-right"
-              style="width:100%;float:left;"
-            />
+            <label class="sm-function-module-storageInfo">{{ Resource.author }}</label>
+            <input id="scenePortalUser" v-model="scenePortalUser" type="text" class="sm-input-right"
+              style="width:100%;float:left;" />
           </div>
           <div class="storageScene-half">
-            <label class="sm-function-module-storageInfo">{{Resource.description}}</label>
-            <textarea
-              id="scenePortalDescription"
-              v-model="scenePortalDescription"
-              type="text"
-              class="sm-input-right"
-              style="width:100%;float:left;height:75px;"
-            ></textarea>
+            <label class="sm-function-module-storageInfo">{{ Resource.description }}</label>
+            <textarea id="scenePortalDescription" v-model="scenePortalDescription" type="text" class="sm-input-right"
+              style="width:100%;float:left;height:75px;"></textarea>
           </div>
         </div>
       </div>
       <div class="boxchild">
-        <button
-          type="button"
-          id="saveUser"
-          class="tbtn tbn1"
-          style="margin-right:25px;"
-          @click="onSaveUserClk"
-        >{{Resource.save}}</button>
+        <button type="button" id="saveUser" class="tbtn tbn1" style="margin-right:25px;"
+          @click="onSaveUserClk">{{ Resource.save }}</button>
       </div>
     </div>
   </div>
@@ -119,10 +89,10 @@ export default {
     };
   },
   computed: {
-    isInitViewer: function() {
+    isInitViewer: function () {
       return this.sharedState.isInitViewer;
     },
-    infoManageShow: function() {
+    infoManageShow: function () {
       return this.sharedState.infoManage;
     },
     portalUserprofile() {
@@ -163,7 +133,7 @@ export default {
         window.open(myAccountUrl);
       }
     },
-    hide() {},
+    hide() { },
     loginSucceedCallback(result) {
       console.log("result:" + result);
       const { data } = result;
@@ -227,12 +197,12 @@ export default {
       let that = viewer.scene;
       //let me = this;
       let promise = that.outputSceneToFile();
-      Cesium.when(promise, function(buffer) {
+      Cesium.when(promise, function (buffer) {
         let canvas = document.getElementById("sceneCanvas");
         let ctx = canvas.getContext("2d");
         let img = new Image();
         img.src = buffer;
-        img.onload = function() {
+        img.onload = function () {
           ctx.drawImage(img, 0, 0, 298, 150);
         };
       });
@@ -307,7 +277,7 @@ export default {
 
       window.axios
         .post(url, JSON.stringify(saveData), { withCredentials: true })
-        .then(function(response) {
+        .then(function (response) {
 
 
           that.sceneID = response.data.newResourceID;
@@ -326,7 +296,7 @@ export default {
               headers: { "Content-type": "application/x-www-form-urlencoded" },
               withCredentials: true
             })
-            .then(function(result) {
+            .then(function (result) {
               //保存场景成功
               that.$Message.success(Resource.saveSceneSuccess);
               setTimeout(() => {
@@ -339,7 +309,7 @@ export default {
                 window.open(currentUrl, "_self");
               }, 1000);
             })
-            .catch(function(error) {
+            .catch(function (error) {
               that.$Message.error(error.message);
             });
         });
@@ -364,7 +334,7 @@ export default {
       window.axios
         .get(url, { withCredentials: true })
         // .get(url)
-        .then(function(response) {
+        .then(function (response) {
           if (response.status === 200) {
             let highestpermissionurl =
               getRootUrl() +
@@ -376,7 +346,7 @@ export default {
             window.axios
               // .get(highestpermissionurl)
               .get(highestpermissionurl, { withCredentials: true })
-              .then(function(responseHigh) {
+              .then(function (responseHigh) {
 
 
                 if (responseHigh.data[me.sceneID] === "DELETE") {
@@ -397,7 +367,7 @@ export default {
             me.labelPermissionsAnimation();
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -410,7 +380,7 @@ export default {
       me.scenePortalUser = response.data.userName;
       me.scenePortalDescription = response.data.description;
 
-      console.log("openScene-content:",content)
+      console.log("openScene-content:", content)
       if (content) {
         if (JSON.stringify(content.layers) !== "{}") {
           //需要改动
@@ -421,7 +391,7 @@ export default {
         let cameraX = content.camera.position.x;
         let cameraY = content.camera.position.y;
         let cameraZ = content.camera.position.z;
-        setTimeout(function() {
+        setTimeout(function () {
           viewer.scene.camera.setView({
             destination: new Cesium.Cartesian3(cameraX, cameraY, cameraZ),
             orientation: {
@@ -445,7 +415,7 @@ export default {
 
 
         let promise = viewer.scene.open(realspaceUrl);
-        Cesium.when(promise, function(layers) {
+        Cesium.when(promise, function (layers) {
           //console.log(layers);
         });
       }
@@ -524,7 +494,7 @@ export default {
       let url = getRootUrl() + "web/scenes/" + that.sceneID + ".json";
       window.axios
         .put(url, JSON.stringify(saveData), { withCredentials: true })
-        .then(function(response) {
+        .then(function (response) {
           //保存缩略图
           let putSceneUrl =
             getRootUrl() + "web/scenes/" + that.sceneID + "/thumbnail.json";
@@ -536,14 +506,14 @@ export default {
               headers: { "Content-type": "application/x-www-form-urlencoded" },
               withCredentials: true
             })
-            .then(function(result) {
+            .then(function (result) {
               // document.getElementById("storageScene").style.display = "none";
               that.showStorageScene("none");
               let currentUrl =
                 getRootUrl() + "apps/earth/v2/index.html?id=" + that.sceneID;
               window.open(currentUrl, "_self");
             })
-            .catch(function(error) {});
+            .catch(function (error) { });
         });
     },
     checkLayers() {
@@ -567,7 +537,7 @@ export default {
       for (let i = 0, j = s3mLayerlength; i < j; i++) {
         let s3mTypeAndUrl = {};
         let layer = viewer.scene.layers._layerQueue[i];
-        if(storeUnvisivleLayers.indexOf(layer._name) != -1){
+        if (storeUnvisivleLayers.indexOf(layer._name) != -1) {
           continue
         }
 
@@ -593,11 +563,11 @@ export default {
         let imageryTypeAndUrl = {};
         let provider = imageryLayer[j]._imageryProvider;
 
-        if(provider._url){
+        if (provider._url) {
           imageryTypeAndUrl["url"] = provider._url
-        }else if(provider._resource){
+        } else if (provider._resource) {
           imageryTypeAndUrl["url"] = provider._resource._url
-        }else{
+        } else {
           imageryTypeAndUrl["url"] = ''
         }
 
@@ -608,7 +578,7 @@ export default {
         // console.log("storeUnvisivleLayers:",storeUnvisivleLayers)
         // console.log("imageryTypeAndUrl[url]:",imageryTypeAndUrl["url"])
 
-        if(storeUnvisivleLayers[0] === imageryTypeAndUrl["url"]){
+        if (storeUnvisivleLayers[0] === imageryTypeAndUrl["url"]) {
           continue
         }
 
@@ -621,9 +591,13 @@ export default {
           imageryTypeAndUrl["type"] = "SingleTileImageryProvider";
         } else if (provider instanceof Cesium.SuperMapImageryProvider) {
           imageryTypeAndUrl["type"] = "SuperMapImageryProvider";
-        } else if (provider instanceof Cesium.UrlTemplateImageryProvider){
+        } else if (provider instanceof Cesium.UrlTemplateImageryProvider) {
           imageryTypeAndUrl["type"] = "UrlTemplateImageryProvider";
-        }else {
+        } else if (provider instanceof Cesium.ArcGisMapServerImageryProvider) {
+          imageryTypeAndUrl["type"] = "ArcGisMapServerImageryProvider";
+        } else if (provider instanceof Cesium.CGCS2000MapServerImageryProvider) {
+          imageryTypeAndUrl["type"] = "CGCS2000MapServerImageryProvider";
+        } else {
           imageryTypeAndUrl["Type"] = "GRIDIMAGERY";
         }
 
@@ -635,11 +609,11 @@ export default {
     saveTerrain() {
       let terrainProvider = viewer.terrainProvider;
       let terrainLayer; //地形图层
-      if(terrainProvider._urls){
+      if (terrainProvider._urls) {
         terrainLayer = terrainProvider._urls[0];
-      }else if( terrainProvider._baseUrl){
+      } else if (terrainProvider._baseUrl) {
         terrainLayer = terrainProvider._baseUrl
-      }else {
+      } else {
         terrainLayer = false
       }
       let terrainLayerUrl = [];
@@ -694,7 +668,7 @@ export default {
               imageryProvider = new Cesium.TiandituImageryProvider({
                 url: content.layers.imageryLayer[i].url,
                 // token: this.token
-                token:content.layers.imageryLayer[i].token
+                token: content.layers.imageryLayer[i].token
               });
               break;
             case "SingleTileImageryProvider":
@@ -714,6 +688,16 @@ export default {
               break;
             case "GRIDIMAGERY":
               imageryProvider = new Cesium.TileCoordinatesImageryProvider();
+              break;
+            case "ArcGisMapServerImageryProvider":
+              imageryProvider = new Cesium.ArcGisMapServerImageryProvider({
+                url: content.layers.imageryLayer[i].url
+              });
+              break;
+            case "CGCS2000MapServerImageryProvider":
+              imageryProvider = new Cesium.CGCS2000MapServerImageryProvider({
+                url: content.layers.imageryLayer[i].url
+              });
               break;
           }
           viewer.imageryLayers.addImageryProvider(imageryProvider, i + 1);

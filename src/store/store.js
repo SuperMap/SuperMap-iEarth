@@ -33,7 +33,8 @@ var store = {
     isEditZ:false,
     zindex:99,  //动态改变z-index
     toolBaseColor:[true,true,true,true,true,true,true,true,true],
-    isInitEcharts:false
+    isInitEcharts:false,
+    customLayerName:null,
   },
   setZindex(newValue) {
     this.state.zindex = newValue;
