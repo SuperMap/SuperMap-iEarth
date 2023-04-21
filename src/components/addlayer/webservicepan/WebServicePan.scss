@@ -11,9 +11,20 @@
 }
 
 
-  .sm-function-module-sub-section::-webkit-scrollbar {
-    display: none;
-    /* Chrome Safari */
+//   .sm-function-module-sub-section::-webkit-scrollbar {
+//     display: none;
+//     /* Chrome Safari */
+//   }
+.sm-function-module-sub-section::-webkit-scrollbar {
+    width: 7px;
+    height:5px;
+  }
+  
+  .sm-function-module-sub-section::-webkit-scrollbar-thumb {
+    background-color:rgba(139, 158, 149, 0.55);
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
   }
 
 .sm-function-module-sub-section {
@@ -49,7 +60,7 @@
     width: 100%;
     .imageBox {
         flex-grow: 1;
-        width: 140px;
+        width: 130px;
         max-width: 140px;
         height: 160px;
         margin: 1%;
