@@ -37,11 +37,11 @@
             <input id="scenePortalTages" v-model="scenePortalTages" type="text" class="sm-input-right"
               style="width:100%;float:left;" />
           </div>
-          <div class="storageScene-half">
+          <!-- <div class="storageScene-half">
             <label class="sm-function-module-storageInfo">{{ Resource.author }}</label>
             <input id="scenePortalUser" v-model="scenePortalUser" type="text" class="sm-input-right"
               style="width:100%;float:left;" />
-          </div>
+          </div> -->
           <div class="storageScene-half">
             <label class="sm-function-module-storageInfo">{{ Resource.description }}</label>
             <textarea id="scenePortalDescription" v-model="scenePortalDescription" type="text" class="sm-input-right"
@@ -78,7 +78,7 @@ export default {
       version: "0",
       scenePortalName: "",
       scenePortalTages: "",
-      scenePortalUser: "",
+      scenePortalUser: "author",
       scenePortalDescription: "",
       loginSuccess: null,
       key: "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
