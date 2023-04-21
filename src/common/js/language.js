@@ -24,6 +24,13 @@ if (currentLanguage.startsWith('zh')) {
   window.iEarth_resource_services = iEarth_resource_services_CN;
   window.specialEffects = specialEffects_CN;
   window.hotSpots = hotSpots_CN;
+
+  setInterval(()=>{
+    if(document.getElementsByClassName("ivu-input-small").length >= 1){
+      document.getElementsByClassName('ivu-input-small')[0].style.width = "90%";
+    }
+  })
+
 } else if (currentLanguage.startsWith('ja')) {
   Resource = ResourceJA;
   window.iEarth_resource_services = iEarth_resource_services_JA;
@@ -34,6 +41,15 @@ if (currentLanguage.startsWith('zh')) {
   promise.then(() => {
     iview.lang('ja-JP');
   })
+
+  setInterval(()=>{
+    if(document.getElementsByClassName("ivu-btn-default").length >= 1){
+      document.getElementsByClassName("ivu-btn-default")[0].innerText = "パージ";
+      document.getElementsByClassName("ivu-btn-primary")[0].innerText = "確認";
+      document.getElementsByClassName('ivu-input-small')[0].style.marginRight = "14px";
+      document.getElementsByClassName('ivu-input-small')[0].style.width = "90%";
+    }
+  })
 } else {
   Resource = ResourceEN;
   window.iEarth_resource_services = iEarth_resource_services_EN;
@@ -43,6 +59,15 @@ if (currentLanguage.startsWith('zh')) {
   let promise = inputJS("static/js/view-design/dist/locale/es-ES.js");
   promise.then(() => {
     iview.lang('es-ES');
+  })
+
+  setInterval(()=>{
+    if(document.getElementsByClassName("ivu-btn-default").length >= 1){
+      document.getElementsByClassName("ivu-btn-default")[0].innerText = "clear";
+      document.getElementsByClassName("ivu-btn-primary")[0].innerText = "comfim";
+      document.getElementsByClassName('ivu-input-small')[0].style.marginRight = "14px";
+      document.getElementsByClassName('ivu-input-small')[0].style.width = "90%";
+    }
   })
 }
 

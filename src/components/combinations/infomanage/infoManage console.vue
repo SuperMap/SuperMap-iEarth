@@ -135,7 +135,7 @@ export default {
     },
     hide() { },
     loginSucceedCallback(result) {
-      // console.log("result:" + result);
+      console.log("result:" + result);
       const { data } = result;
       this.loginSuccess = result;
       if (data && data.success && data.user) {
@@ -272,10 +272,10 @@ export default {
       }
 
       // 保存场景
-      // console.log("save-getRootUrl():",getRootUrl());
+      console.log("save-getRootUrl():",getRootUrl());
 
       let url = getRootUrl() + "web/scenes.json";
-      // console.log("save-url:",url);
+      console.log("save-url:",url);
 
       window.axios
         .post(url, JSON.stringify(saveData), { withCredentials: true })
@@ -290,7 +290,7 @@ export default {
             parseInt(response.data.newResourceID) +
             "/thumbnail.json";
 
-            // console.log("save-putSceneUrl:",putSceneUrl);
+            console.log("save-putSceneUrl:",putSceneUrl);
 
           window
             .axios({
@@ -310,9 +310,9 @@ export default {
                   "apps/earth/v2/index.html?id=" +
                   response.data.newResourceID;
 
-                  // console.log("save-currentUrl:",currentUrl);
+                  console.log("save-currentUrl:",currentUrl);
 
-                window.open(currentUrl, "_self");
+                // window.open(currentUrl, "_self");
               }, 1000);
             })
             .catch(function (error) {
@@ -336,7 +336,7 @@ export default {
       me.showStorageScene("none");
       let url = getRootUrl() + "web/scenes/" + me.sceneID + ".json";
 
-      // console.log("exit-url:",url);
+      console.log("exit-url:",url);
 
       window.axios
         .get(url, { withCredentials: true })
@@ -349,8 +349,8 @@ export default {
               encodeURIComponent("[" + me.sceneID + "]") +
               "&resourceType=SCENE";
 
-              // console.log("exit-url:",highestpermissionurl);
-              // console.log("exit-getRootUrl():",getRootUrl());
+              console.log("exit-url:",highestpermissionurl);
+              console.log("exit-getRootUrl():",getRootUrl());
 
             window.axios
               // .get(highestpermissionurl)
@@ -389,7 +389,7 @@ export default {
       me.scenePortalUser = response.data.userName;
       me.scenePortalDescription = response.data.description;
 
-      // console.log("openScene-content:", content)
+      console.log("openScene-content:", content)
       if (content) {
         if (JSON.stringify(content.layers) !== "{}") {
           //需要改动
@@ -432,7 +432,7 @@ export default {
     onSaveUserClk() {
       let isCreateScene = this.copyIsCreateScene;
 
-      // console.log("save-isCreateScene:",isCreateScene);
+      console.log("save-isCreateScene:",isCreateScene);
       
       if (isCreateScene) {
         //true 创建并保存场景
@@ -505,7 +505,7 @@ export default {
       // 更新场景
       let url = getRootUrl() + "web/scenes/" + that.sceneID + ".json";
       
-      // console.log("update-url:",url);
+      console.log("update-url:",url);
       
       window.axios
         .put(url, JSON.stringify(saveData), { withCredentials: true })
@@ -514,7 +514,7 @@ export default {
           let putSceneUrl =
             getRootUrl() + "web/scenes/" + that.sceneID + "/thumbnail.json";
            
-            // console.log("update-putSceneUrl:",putSceneUrl);
+            console.log("update-putSceneUrl:",putSceneUrl);
           
             window
             .axios({
@@ -530,8 +530,8 @@ export default {
               let currentUrl =
                 getRootUrl() + "apps/earth/v2/index.html?id=" + that.sceneID;
               
-                // console.log("update-currentUrl:",currentUrl);
-                window.open(currentUrl, "_self");
+                console.log("update-currentUrl:",currentUrl);
+                // window.open(currentUrl, "_self");
             })
             .catch(function (error) { });
         });
@@ -618,7 +618,7 @@ export default {
         } else if (provider instanceof Cesium.CGCS2000MapServerImageryProvider) {
           imageryTypeAndUrl["type"] = "CGCS2000MapServerImageryProvider";
         } else {
-          imageryTypeAndUrl["type"] = "GRIDIMAGERY";
+          imageryTypeAndUrl["Type"] = "GRIDIMAGERY";
         }
 
 
@@ -737,7 +737,7 @@ export default {
             let flag;
             if(content.layers.terrainLayer[0].url.indexOf("3D-stk_terrain")!=-1){// stk地形
               flag = false;
-            }else{ // 普通地形(自定义添加)
+            }else{ // 普通地形
               flag=true;
             }
             viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
