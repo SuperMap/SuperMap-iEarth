@@ -1,0 +1,91 @@
+.supermap3d-lighter .supermap3d-animation-themeNormal {
+    color: #E5F2FE;
+}
+
+.supermap3d-lighter .supermap3d-animation-themeHover {
+    color: #ABD6FF;
+}
+
+.supermap3d-lighter .supermap3d-animation-themeSelect {
+    color: #E5F2FE;
+}
+
+.supermap3d-lighter .supermap3d-animation-themeDisabled {
+    color: #EFEFEF;
+}
+
+.supermap3d-lighter .supermap3d-animation-themeKnob {
+    color: #E1E2E3;
+}
+
+.supermap3d-lighter .supermap3d-animation-themePointer {
+    color: #FA5;
+}
+
+.supermap3d-lighter .supermap3d-animation-themeSwoosh {
+    color: #ACE;
+}
+
+.supermap3d-lighter .supermap3d-animation-themeSwooshHover {
+    color: #BDF;
+}
+
+.supermap3d-lighter .supermap3d-animation-svgText {
+    fill: #111;
+}
+
+.supermap3d-lighter .supermap3d-animation-rectButton .supermap3d-animation-buttonPath {
+    fill: #111;
+}
+
+.supermap3d-lighter .supermap3d-animation-rectButton .supermap3d-animation-buttonMain {
+    stroke: #759DC0;
+}
+
+.supermap3d-lighter .supermap3d-animation-buttonToggled .supermap3d-animation-buttonGlow {
+    fill: #FFAA2A;
+}
+
+.supermap3d-lighter .supermap3d-animation-buttonToggled .supermap3d-animation-buttonMain {
+    /* Widget will add: fill: url(#animation_buttonToggled); */
+    stroke: #EA0;
+}
+
+.supermap3d-lighter .supermap3d-animation-rectButton:hover .supermap3d-animation-buttonMain {
+    stroke: #759DC0;
+}
+
+.supermap3d-lighter .supermap3d-animation-buttonToggled:hover .supermap3d-animation-buttonGlow {
+    fill: #fff;
+}
+
+.supermap3d-lighter .supermap3d-animation-buttonToggled:hover .supermap3d-animation-buttonMain {
+    stroke: #EA0;
+}
+
+.supermap3d-lighter .supermap3d-animation-rectButton:active .supermap3d-animation-buttonMain {
+    fill: #ABD6FF;
+}
+
+.supermap3d-lighter .supermap3d-animation-buttonDisabled .supermap3d-animation-buttonMain {
+    stroke: #D3D3D3;
+}
+
+.supermap3d-lighter .supermap3d-animation-buttonDisabled .supermap3d-animation-buttonPath {
+    fill: #818181;
+}
+
+.supermap3d-lighter .supermap3d-animation-shuttleRingBack {
+    fill: #FAFAFA;
+    fill-opacity: 1;
+    stroke: #AEAEAE;
+    stroke-width: 1.2;
+}
+
+.supermap3d-lighter .supermap3d-animation-shuttleRingSwoosh line {
+    stroke: #8AC;
+}
+
+.supermap3d-lighter .supermap3d-animation-knobOuter {
+    stroke: #A5A5A5;
+}

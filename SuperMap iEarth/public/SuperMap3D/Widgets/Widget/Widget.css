@@ -1,0 +1,73 @@
+.supermap3d-widget {
+    position: relative;
+}
+
+.supermap3d-widget, .supermap3d-widget canvas {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
+
+.supermap3d-widget-credits {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #fff;
+    font-size: 10px;
+    text-shadow: 0px 0px 2px #000000;
+    padding-right: 5px;
+}
+
+.supermap3d-widget-credits a,
+.supermap3d-widget-credits a:visited {
+    color: #fff;
+}
+
+.supermap3d-widget-errorPanel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 99999;
+}
+
+.supermap3d-widget-errorPanel:before {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    content: "";
+}
+
+.supermap3d-widget-errorPanel-content {
+    width: 75%;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    border: 1px solid #526F82;
+    border-radius: 7px;
+    background-color: black;
+    color: white;
+    font-size: 10pt;
+    padding: 1em;
+}
+
+.supermap3d-widget-errorPanel-header {
+    font-size: 120%;
+    color: #fe4;
+}
+
+.supermap3d-widget-errorPanel-scroll {
+    overflow: auto;
+    font-family: monospace;
+    white-space: pre-wrap;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.supermap3d-widget-errorPanel-buttonPanel {
+    text-align: center;
+}

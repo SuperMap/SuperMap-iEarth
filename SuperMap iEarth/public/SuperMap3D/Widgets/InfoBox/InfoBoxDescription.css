@@ -1,0 +1,90 @@
+@import url(../shared.css);
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.supermap3d-infoBox-description {
+    font-family: sans-serif;
+    font-size: 13px;
+    padding: 4px 10px;
+    margin-right: 4px;
+    color: #edffff;
+}
+
+.supermap3d-infoBox-description a:link,
+.supermap3d-infoBox-description a:visited,
+.supermap3d-infoBox-description a:hover,
+.supermap3d-infoBox-description a:active {
+    color: #edffff;
+}
+
+.supermap3d-infoBox-description table {
+    color: #edffff;
+}
+
+.supermap3d-infoBox-defaultTable {
+    width: 100%;
+    color: #edffff;
+}
+
+.supermap3d-infoBox-defaultTable tr:nth-child(odd) {
+    background-color: rgba(84, 84, 84, 0.8);
+}
+
+.supermap3d-infoBox-defaultTable tr:nth-child(even) {
+    background-color: rgba(84, 84, 84, 0.25);
+}
+
+.supermap3d-infoBox-defaultTable th {
+    font-weight: normal;
+    padding: 3px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.supermap3d-infoBox-defaultTable td {
+    padding: 3px;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.supermap3d-infoBox-description-lighter {
+    color: #000000;
+}
+
+.supermap3d-infoBox-description-lighter a:link,
+.supermap3d-infoBox-description-lighter a:visited,
+.supermap3d-infoBox-description-lighter a:hover,
+.supermap3d-infoBox-description-lighter a:active {
+    color: #000000;
+}
+
+.supermap3d-infoBox-description-lighter table {
+    color: #000000;
+}
+
+.supermap3d-infoBox-defaultTable-lighter {
+    width: 100%;
+    color: #000000;
+}
+
+.supermap3d-infoBox-defaultTable-lighter tr:nth-child(odd) {
+    background-color: rgba(179, 179, 179, 0.8);
+}
+
+.supermap3d-infoBox-defaultTable-lighter tr:nth-child(even) {
+    background-color: rgba(179, 179, 179, 0.25);
+}
+
+.supermap3d-infoBox-loadingContainer {
+    margin: 5px;
+    text-align: center;
+}
+
+.supermap3d-infoBox-loading {
+    display: inline-block;
+    background-image: url(../Images/info-loading.gif);
+    width: 16px;
+    height: 11px;
+}

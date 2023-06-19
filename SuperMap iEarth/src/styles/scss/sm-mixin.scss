@@ -1,0 +1,193 @@
+@mixin btnGroupStyle($marginTop, $betweenGap) {
+    display: flex;
+    flex-direction: row;
+    margin-top: $marginTop;
+
+    .n-button {
+        margin-right: $betweenGap;
+    }
+
+    .btn-capital {
+        color: $--SM--FontColor-Text;
+        background-color: $--SM--MainColor-Normal;
+    }
+
+    .btn-secondary {
+        color: $--SM--FontColor-Text;
+        border: 1px solid $--SM--FontColor-Text;
+    }
+}
+
+// IEarth 功能面板中经常出现的左右布局，左侧为lable，右侧为内容
+@mixin rowItemBoxStyle($marginTopButton: 0.06rem, $lableWidth: 120, $contentWidth: 300) {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    margin: $marginTopButton;
+
+    .lable {
+        width: $lableWidth;
+        // font-size: $--SM--FontSize-Lable;
+        font-size: .13rem;
+    }
+
+    .content {
+        width: $contentWidth;
+    }
+}
+
+// 当遇到那种右侧内容是一个switch不好左对齐，可使用这个来进行对齐
+@mixin rowItemSpecialBoxStyle() {
+    display: flex;
+
+    .item {
+        justify-content: left;
+    }
+}
+
+@mixin setSliderBoxStyle {
+    align-items: center;
+    display: flex;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.05rem;
+    width: 100%;
+    height: .32rem;
+    padding-left: 0.1rem;
+}
+
+@mixin setDrawImgStyle() {
+    width: 33%;
+    height: 0.25rem;
+    cursor: pointer;
+}
+
+
+@mixin panelContainer($width, $height: auto) {
+    width: $width;
+    height: $height;
+    overflow-y: scroll;
+
+    /* 移除滚动条 */
+    &::-webkit-scrollbar {
+        background: none;
+        display: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: none;
+        display: none;
+    }
+}
+
+@mixin setBackgroundByImg($imgUrl, $width: 1rem, $height: 1rem) {
+    background: url($imgUrl) no-repeat;
+    width: $width;
+    height: $height ;
+}
+
+@mixin setBarBtnStyle($marginTop: 0rem) {
+    height: $--Bar-Btn-Height;
+    width: $--Bar-Btn-Width;
+    margin-top: $marginTop;
+}
+
+// 符号集
+@mixin iconContainer($marginLeft: 0rem, $width: 1.96rem, $marginbottom: 0rem, $height: 0.32rem) {
+    .name {
+        width: 1rem;
+    }
+
+    .icon-container {
+        width: $width;
+        height: $height;
+        background: rgba(255, 255, 255, 0.04);
+        margin-left: $marginLeft;
+        margin-bottom: $marginbottom;
+
+        .icon-size {
+            font-size: 0.23rem;
+        }
+
+        .icon-list {
+            display: flex;
+            // justify-content: space-between;
+            align-items: center;
+            padding: 0 0.1rem;
+            box-sizing: border-box;
+            border: 0.01rem solid rgba(255, 255, 255, 0.15);
+            border-radius: 0.04rem;
+
+            .icon-span {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .selected-icon {
+            border: 1px solid #3499e5;
+            // background: #3499E5;
+        }
+    }
+}
+
+// ---------------------------------------------------------------
+// 侧边栏背景
+@mixin tool-background($width: 0rem, $height: 0rem, $url) {
+    width: $width;
+    height: $height;
+    background: url($url) no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+
+// flex居中
+@mixin flexLayout($pistion) {
+    display: flex;
+    justify-content: $pistion;
+    align-items: center;
+}
+
+// 右侧toolbar头部
+@mixin rightTooHead() {
+    position: fixed;
+    top: 0.6rem;
+    left: 73%;
+    z-index: $--Z-Index-Normal;
+    // padding-left: 0.2rem;
+    // padding-right: 0.2rem;
+    box-sizing: border-box;
+
+    // .panle-header {
+    //     height: 0.3rem;
+    //     width: 100%;
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     margin-top: 0.16rem;
+
+    //     .panle-title {
+    //         font-size: $--FontSize-Title;
+    //         color: #cae6ff;
+    //         font-weight: bold;
+    //         margin-left: 0.1rem;
+    //     }
+
+    //     // 关闭按钮位置
+    //     .panel-close {
+    //         margin-left: 0.2rem;
+    //     }
+
+    //     .close-btn {
+    //         font-size: 0.12rem;
+    //     }
+    // }
+}
+
+// 装饰条
+@mixin ZST() {
+    width: 1.32rem;
+    height: 0.08rem;
+    background: url("@/assets/imageWeb/panel/zst.png") no-repeat;
+    background-size: cover;
+    position: absolute;
+}

@@ -1,20 +1,16 @@
-# <center>SuperMap iEarth</center>
+# Vue 3 + TypeScript + Vite
 
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-# 简介
+## Recommended IDE Setup
 
-![](./imgs/iEarth.jpg)
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-## SuperMap iEarth (WebGL)
-[SuperMap iEarth (WebGL)](http://www.supermapol.com/earth/)是基于全功能三维“零客户端”[SuperMap iClient3D for WebGL](http://support.supermap.com.cn:8090/webgl/examples/examples.html)开发的一款三维在线应用程序。在多源数据加载、三维空间分析以及多种可视化效果等功能的支撑下，用户可以通过SuperMap iEarth在浏览器上进行三维浏览及应用。
+## Type Support For `.vue` Imports in TS
 
-## SuperMap iEarth (Unity)
-基于Unity WebAssembly 技术，实现三维GIS发布到Web端的功能。现支持Unity2019版本发布WebGL，支持球面场景和平面场景、图层管理、添加在线图层、三维分析功能、以及量算功能。
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
 
-## SuperMap iEarth (Unreal)
-基于UE的云渲染技术，实现三维GIS发布到Web端的功能。现支持UE4版本发布WebGL，支持球面场景和平面场景、图层管理、添加在线图层、三维分析功能、以及量算功能。
+1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
+2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
 
-# 许可
-
-[Apache License 2.0](https://github.com/SuperMap/SuperMap-iEarth/blob/master/LICENSE)
-
+You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).

@@ -1,0 +1,17 @@
+$namespace: 'go';
+$namespacePanel: 'panel';
+
+@mixin go($block) {
+    $B: $namespace + '-' + $block;
+    .#{$B} {
+      @content;
+  }
+}
+
+
+@mixin panel($block) {
+    $B: $namespacePanel + '-' + $block;
+    .#{$B} {
+      @content;
+  }
+}

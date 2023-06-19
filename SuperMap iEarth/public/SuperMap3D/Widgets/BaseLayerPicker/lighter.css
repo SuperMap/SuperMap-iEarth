@@ -1,0 +1,27 @@
+.supermap3d-lighter .supermap3d-baseLayerPicker-itemIcon {
+    border-color: #759dc0;
+}
+
+.supermap3d-lighter .supermap3d-baseLayerPicker-dropDown {
+    background-color: rgba(240, 240, 240, 0.75);
+}
+
+.supermap3d-lighter .supermap3d-baseLayerPicker-sectionTitle {
+    color: black;
+}
+
+.supermap3d-lighter .supermap3d-baseLayerPicker-itemLabel {
+    color: black;
+}
+
+.supermap3d-lighter .supermap3d-baseLayerPicker-item:hover .supermap3d-baseLayerPicker-itemIcon {
+    border-color: #000;
+}
+
+.supermap3d-lighter .supermap3d-baseLayerPicker-selectedItem .supermap3d-baseLayerPicker-itemLabel {
+    color: rgb(0, 61, 168);
+}
+
+.supermap3d-lighter .supermap3d-baseLayerPicker-selectedItem .supermap3d-baseLayerPicker-itemIcon {
+    border: double 4px rgb(0, 61, 168);
+}

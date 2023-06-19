@@ -1,0 +1,16 @@
+.supermap3d-performance-watchdog-message-area {
+    position: relative;
+    background-color: yellow;
+    color: black;
+    padding: 10px;
+}
+
+.supermap3d-performance-watchdog-message {
+    margin-right: 30px;
+}
+
+.supermap3d-performance-watchdog-message-dismiss {
+    position: absolute;
+    right: 0;
+    margin: 0 10px 0 0;
+}

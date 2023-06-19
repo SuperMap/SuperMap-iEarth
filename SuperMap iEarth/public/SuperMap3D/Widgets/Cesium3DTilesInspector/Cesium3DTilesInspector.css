@@ -1,0 +1,114 @@
+
+ul.supermap3d-cesiumInspector-statistics {
+    margin: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+ul.supermap3d-cesiumInspector-statistics + ul.supermap3d-cesiumInspector-statistics {
+    border-top: 1px solid #aaa;
+}
+
+.supermap3d-cesiumInspector-slider {
+    margin-top: 5px;
+}
+
+.supermap3d-cesiumInspector-slider input[type=number] {
+    text-align: left;
+    background-color: #222;
+    outline: none;
+    border: 1px solid #444;
+    color: #edffff;
+    width: 100px;
+    border-radius: 3px;
+    padding: 1px;
+    margin-left: 10px;
+    cursor: auto;
+}
+
+.supermap3d-cesiumInspector-slider input[type=number]::-webkit-outer-spin-button,
+.supermap3d-cesiumInspector-slider input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.supermap3d-cesiumInspector-slider input[type=range] {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.supermap3d-cesiumInspector-hide .supermap3d-cesiumInspector-styleEditor {
+    display: none;
+}
+
+.supermap3d-cesiumInspector-styleEditor {
+    padding: 10px;
+    border-radius: 5px;
+    background: rgba(48, 51, 54, 0.8);
+    border: 1px solid #444;
+}
+
+.supermap3d-cesiumInspector-styleEditor textarea {
+    width: 100%;
+    height: 300px;
+    background: transparent;
+    color: #edffff;
+    border: none;
+    padding: 0;
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: auto;
+}
+
+.supermap3d-3DTilesInspector {
+    width: 300px;
+    pointer-events: all;
+}
+
+.supermap3d-3DTilesInspector-statistics {
+    font-size: 11px;
+}
+
+.supermap3d-3DTilesInspector div, .supermap3d-3DTilesInspector input[type=range] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.supermap3d-cesiumInspector-error {
+    color: #ff9e9e;
+    overflow: auto;
+}
+
+.supermap3d-3DTilesInspector .supermap3d-cesiumInspector-section {
+    margin-top: 3px;
+}
+
+.supermap3d-3DTilesInspector .supermap3d-cesiumInspector-sectionHeader + .supermap3d-cesiumInspector-show {
+    border-top: 1px solid white;
+}
+
+input.supermap3d-cesiumInspector-url {
+    overflow: hidden;
+    white-space: nowrap;
+    overflow-x: scroll;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    border: none;
+    height: 1em;
+    width: 100%;
+}
+
+.supermap3d-cesiumInspector .field-group {
+    display: table;
+}
+
+.supermap3d-cesiumInspector .field-group > label {
+    display: table-cell;
+    font-weight: bold;
+}
+
+.supermap3d-cesiumInspector .field-group > .field {
+    display: table-cell;
+    width: 100%;
+}

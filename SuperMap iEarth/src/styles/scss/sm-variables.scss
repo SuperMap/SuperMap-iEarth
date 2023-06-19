@@ -1,0 +1,117 @@
+/*
+* 颜色
+*/
+
+// 主色 - 常用于主要按钮、层级图标及其不同状态。
+$--SM--MainColor-Normal:#3499E5;
+$--SM--MainColor-Hover:#5EB7F2 ;
+$--SM--MainColor-Click:#2276BF;
+
+// 功能色 - 常用于链接、成功、警告、错误
+$--SM--FunColor-Link:#3499E5;
+$--SM--FunColor-Success:#3CAB1A;
+$--SM--FunColor-Warning:#E2CA34;
+$--SM--FunColor-Error:#E04C40;
+
+// 字体颜色
+$--SM--FontColor-Title:rgba(255,255,255,1); // 标题
+$--SM--FontColor-Text:rgba(255,255,255,0.85); // 正文
+$--SM--FontColor-Sub:rgba(255,255,255,0.65); // 次级正文
+$--SM--FontColor-Tip:rgba(255,255,255,0.45); // 辅助描述
+$--SM--FontColor-Disable:rgba(255,255,255,0.25); // 禁用
+
+// 字体大小
+$--SM--FontSize-Text:0.12rem;
+$--SM--FontSize-Lable:0.12rem;
+$--SM--FontSize-Title:0.16rem;
+
+// 背景颜色
+$--SM--BgColor-100:rgba(255,255,255,1); 
+$--SM--BgColor-85:rgba(255,255,255,0.85);
+$--SM--BgColor-65:rgba(255,255,255,0.65);
+$--SM--BgColor-45:rgba(255,255,255,0.45); 
+$--SM--BgColor-25:rgba(255,255,255,0.25); 
+$--SM--BgColor-15:rgba(255,255,255,0.15);
+
+// lable元素宽
+$--SM--LableWidth-120:1.2rem;
+$--SM--LableWidth-160:1.6rem;
+
+// input元素宽
+$--SM--InputWidth-300:3rem;
+$--SM--InputWidth-260:3rem;
+
+// margin间距
+$--SM--margin-6:0.06rem;
+$--SM--margin-12:0.12rem;
+$--SM--margin-image-5:0.05rem;
+
+// 边框样式
+// $--SM--Border-DrawImg:1px solid #63e2b7;
+$--SM--Border-DrawImg:1px solid #3499E5;
+
+
+
+// 之前的
+
+/*
+* 颜色
+*/
+
+// 主色 - 常用于主要按钮、层级图标及其不同状态。
+$--MainColor-Normal:#3499E5;
+$--MainColor-Hover:#5EB7F2 ;
+$--MainColor-Click:#2276BF;
+
+// 功能色 - 常用于链接、成功、警告、错误
+$--FunColor-Link:#3499E5;
+$--FunColor-Success:#3CAB1A;
+$--FunColor-Warning:#E2CA34;
+$--FunColor-Error:#E04C40;
+
+// 字体颜色
+$--FontColor-Title:rgba(255,255,255,1); // 标题
+$--FontColor-Text:rgba(255,255,255,0.85); // 正文
+$--FontColor-Sub:rgba(255,255,255,0.65); // 次级正文
+$--FontColor-Tip:rgba(255,255,255,0.45); // 辅助描述
+$--FontColor-Disable:rgba(255,255,255,0.25); // 禁用
+
+// 字体大小
+$--FontSize-Text:0.12rem;
+$--FontSize-Lable:0.12rem;
+$--FontSize-Title:0.16rem;
+$--FontSize-Header:0.26rem;
+
+// 背景颜色
+$--BgColor-100:rgba(255,255,255,1); 
+$--BgColor-85:rgba(255,255,255,0.85);
+$--BgColor-65:rgba(255,255,255,0.65);
+$--BgColor-45:rgba(255,255,255,0.45); 
+$--BgColor-25:rgba(255,255,255,0.25); 
+$--BgColor-15:rgba(255,255,255,0.15);
+
+// lable元素宽
+$--LableWidth-120:1.2rem;
+$--LableWidth-160:1.6rem;
+
+// input元素宽
+$--InputWidth-300:3rem;
+$--InputWidth-260:2.6rem;
+
+// margin间距
+$--argin-6:0.06rem;
+$--margin-12:0.12rem;
+$--margin-image-5:0.05rem;
+
+
+// 元素宽度
+$--Min-Width:4rem;
+
+// z-index 权重
+$--Z-Index-First:9000;
+$--Z-Index-Normal:1000;
+
+
+// 工具栏上按钮的大小
+$--Bar-Btn-Width:0.32rem;
+$--Bar-Btn-Height:0.32rem;
