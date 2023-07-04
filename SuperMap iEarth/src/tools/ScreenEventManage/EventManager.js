@@ -10,7 +10,7 @@ export default class EventManager extends EventDispatcher {
 
     /**
      * 事件处理器
-     * @type{Cesium.ScreenSpaceEventHandler}
+     * @type{SuperMap3D.ScreenSpaceEventHandler}
      */
     // handler = null
 
@@ -29,7 +29,7 @@ export default class EventManager extends EventDispatcher {
         this.viewer = viewer
 
         // 创建事件管理器
-        this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas)
+        this.handler = new SuperMap3D.ScreenSpaceEventHandler(this.viewer.scene.canvas)
 
         // 派发左键单击事件
         this.handler.setInputAction((e) => {
@@ -37,7 +37,7 @@ export default class EventManager extends EventDispatcher {
                 type: EventConstant.CLICK,
                 message: e
             })
-        }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+        }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)
 
         // 左键按下事件
         this.handler.setInputAction((e) => {
@@ -46,7 +46,7 @@ export default class EventManager extends EventDispatcher {
                 type: EventConstant.LEFT_DOWN,
                 message: e
             })
-        }, Cesium.ScreenSpaceEventType.LEFT_DOWN)
+        }, SuperMap3D.ScreenSpaceEventType.LEFT_DOWN)
 
         // 右键按下事件
         this.handler.setInputAction((e) => {
@@ -55,7 +55,7 @@ export default class EventManager extends EventDispatcher {
                 type: EventConstant.LEFT_UP,
                 message: e
             })
-        }, Cesium.ScreenSpaceEventType.LEFT_UP)
+        }, SuperMap3D.ScreenSpaceEventType.LEFT_UP)
 
         // 派发右键单击事件
         this.handler.setInputAction((e) => {
@@ -63,7 +63,7 @@ export default class EventManager extends EventDispatcher {
                 type: EventConstant.RIGHT_CLICK,
                 message: e
             })
-        }, Cesium.ScreenSpaceEventType.RIGHT_CLICK)
+        }, SuperMap3D.ScreenSpaceEventType.RIGHT_CLICK)
 
         // 鼠标移动事件
         this.handler.setInputAction((e) => {
@@ -78,7 +78,7 @@ export default class EventManager extends EventDispatcher {
                 type: EventConstant.MOUSE_MOVE,
                 message: e
             })
-        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE)
+        }, SuperMap3D.ScreenSpaceEventType.MOUSE_MOVE)
 
         // // 派发渲染事件
         // this.viewer.scene.postRender.addEventListener((e, time) => {

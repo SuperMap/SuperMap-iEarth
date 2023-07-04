@@ -2,6 +2,7 @@
   <svg
     aria-hidden="true"
     class="svg-icon"
+    :scaleSize="props.scaleSize"
     :width="props.size"
     :height="props.size"
     color="#fff"
@@ -28,7 +29,11 @@ const props = defineProps({
   size: {
     type: String,
     default: "1em",
-  }
+  },
+  scaleSize: {
+    type: String,
+    default: "1",
+  },
 });
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
@@ -40,4 +45,7 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 // 	fill: #fa0;
 // }
 
+svg {
+  scale: v-bind(scaleSize);
+}
 </style>

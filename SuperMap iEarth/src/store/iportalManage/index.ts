@@ -24,6 +24,7 @@ export const IportalStoreCreate = defineStore({
             isLogin: false, // 是否登录
             isSuperAdmin: false, // 是否是超级管理员,
             isCreateScene:true, // iportal中IEarth分为两种模式：创建场景、编辑场景（打开已保存场景）
+            saveInfo:{}, // 保存场景时的相关信息
         };
       },
     getters: {

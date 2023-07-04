@@ -3,8 +3,7 @@ export interface GlobalStateType {
   SceneLayerChangeCount:number,
   isViewer:boolean,
   showSavePanel:boolean,
-  isEditMode:boolean,
+  // isEditMode:boolean,
   layerTreeCheckedKeys:any,
-  MVTLayerNameList:string[],
   currentLanguage:string,
 }

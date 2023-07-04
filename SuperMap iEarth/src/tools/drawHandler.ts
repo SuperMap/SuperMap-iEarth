@@ -6,22 +6,21 @@
  * clampMode：模式：空间，贴地
  */
 
-const Cesium = window.SuperMap3D;
 
 const initHandler = function (DrawMode:string, clampMode?:number) {
     let handler:any, clampmode:number = 0;
-    // if (Cesium.defined(clampMode)) clampmode = clampMode;
+    // if (SuperMap3D.defined(clampMode)) clampmode = clampMode;
     switch (DrawMode) {
         case "Polyline":
-            handler = new Cesium.DrawHandler(window.viewer, Cesium.DrawMode.Line, clampmode);
+            handler = new SuperMap3D.DrawHandler(window.viewer, SuperMap3D.DrawMode.Line, clampmode);
             break;
         case "Polygon":
-            handler = new Cesium.DrawHandler(window.viewer, Cesium.DrawMode.Polygon, clampmode);
+            handler = new SuperMap3D.DrawHandler(window.viewer, SuperMap3D.DrawMode.Polygon, clampmode);
             break;
     };
     // 半透线创建
-    let polylineCollection = new Cesium.PolylineCollection({
-        translucentRS: Cesium.RenderState.fromCache({
+    let polylineCollection = new SuperMap3D.PolylineCollection({
+        translucentRS: SuperMap3D.RenderState.fromCache({
             depthMask: false,
             depthTest: {
                 enabled: false
@@ -30,8 +29,8 @@ const initHandler = function (DrawMode:string, clampMode?:number) {
     });
     handler.polylineTransparent = polylineCollection.add({
         width: 2,
-        material: Cesium.Material.fromType(Cesium.Material.ColorType, {
-            color: Cesium.Color.fromCssColorString("#51ff00").withAlpha(
+        material: SuperMap3D.Material.fromType(SuperMap3D.Material.ColorType, {
+            color: SuperMap3D.Color.fromCssColorString("#51ff00").withAlpha(
                 0.3
             )
         })
