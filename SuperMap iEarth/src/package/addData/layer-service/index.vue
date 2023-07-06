@@ -1,5 +1,6 @@
 <template>
   <!-- 公共服务 -->
+  <n-scrollbar style="max-height: 3.8rem">
   <div class="layer-server-container">
     <div
       v-for="(item, index) in layerStore.layerServiceData.publicServiceList"
@@ -14,6 +15,7 @@
       <span>{{ item.name }}</span>
     </div>
   </div>
+  </n-scrollbar>
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +39,7 @@ function addPublicService(item: any) {
   let type = item.type;
   switch (type) {
     case "REALSPACE":
-      layerManagement.openScene(item.proxiedUrl, "REALSPACE");
+      layerManagement.openScene(item.proxiedUrl, "REALSPACE",item.name);
       item.chooseType = true;
       break;
     case "MVT":
@@ -76,9 +78,15 @@ function addPublicService(item: any) {
       border-radius: 0.05rem;
       overflow: hidden;
       margin-bottom: 0.04rem;
+      border: 0.02rem solid #3498e500;
+      box-sizing: border-box;
       .img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
+
+        // width: 1.78rem/2;
+        // height: 1.28rem/2;
       }
     }
   }
@@ -86,9 +94,12 @@ function addPublicService(item: any) {
     margin-right: 0;
   }
   .isSelect {
-    color: #3499e5;
+    color: rgba(52, 153, 229, 0.85);
+
     .img-box {
+      box-sizing: border-box;
       border: 0.02rem solid #3499e5;
+      object-fit: cover;
     }
   }
 }

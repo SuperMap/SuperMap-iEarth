@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>开启泛光</span>
     <div style="width: 1.96rem;height: 0.32rem;">
-      <n-switch v-model:value="state.bloomShow" @update:value="setBloom"/>
+      <n-switch v-model:value="state.bloomShow" @update:value="setBloom" size="small"/>
     </div>
   </div>
 
@@ -79,3 +79,9 @@ onUnmounted(() => {
   viewer.scene.bloomEffect.bloomIntensity = 1;
 });
 </script>
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>

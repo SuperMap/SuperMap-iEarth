@@ -56,13 +56,14 @@ function changeItem(item: any) {
   margin-left: 0.1rem;
   margin-bottom: 0.15rem;
   cursor: pointer;
+  justify-content: space-around;
 
   .btn {
     width: 1.2rem;
     height: 0.22rem;
     line-height: 0.22rem;
     text-align: center;
-    margin-left: 0.48rem;
+
   }
 
   .select-btn {

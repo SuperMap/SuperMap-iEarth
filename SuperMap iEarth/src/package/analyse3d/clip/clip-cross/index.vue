@@ -9,7 +9,7 @@
         :max="90"
         :step="10"
       />
-      <div class="row-slider-num">{{ state.clipWidth }} <span> M</span></div>
+      <div class="row-slider-num">{{ state.clipWidth }} <span> 米</span></div>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
         :max="90"
         :step="10"
       />
-      <div class="row-slider-num">{{ state.clipHeight }} <span> M</span></div>
+      <div class="row-slider-num">{{ state.clipHeight }} <span> 米</span></div>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
     <span>拉伸高度</span>
     <div class="slider-box">
       <n-slider v-model:value="state.extrude" style="width: 70%" />
-      <div class="row-slider-num">{{ state.extrude }} <span> M</span></div>
+      <div class="row-slider-num">{{ state.extrude }} <span> 米</span></div>
     </div>
   </div>
 
@@ -345,5 +345,9 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
 </style>
 

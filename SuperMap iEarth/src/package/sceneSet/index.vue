@@ -1,6 +1,6 @@
 <template>
   <div class="scene-set-box">
-    <n-tabs type="line" animated :on-update:value="tabsChange">
+    <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left">
       <!-- 场景属性 -->
       <n-tab-pane name="publicService" tab="场景属性">
         <SmSceneAttribute></SmSceneAttribute>
@@ -46,5 +46,8 @@ function tabsChange() {}
   height: 100%;
   padding: 0 0.12rem;
   box-sizing: border-box;
+}
+:deep(.n-tabs-tab-wrapper){
+  margin-right:0.16rem;
 }
 </style>

@@ -28,21 +28,24 @@ function getAngleAndRadian(pointA:any, pointB:any) {
   //坐标转化
 //笛卡尔转经纬度
 const CartesiantoDegrees = (Cartesians:any) => {
-    let array = [].concat(Cartesians);
-    let positions:any[] = [];
-    for (let i = 0, len = array.length; i < len; i++) {
-      let cartographic:any = SuperMap3D.Cartographic.fromCartesian(array[i]);
-      let longitude:any = SuperMap3D.Math.toDegrees(cartographic.longitude);
-      let latitude:any = SuperMap3D.Math.toDegrees(cartographic.latitude);
-      let h = cartographic.height;
-      if (positions.indexOf(longitude) == -1 && positions.indexOf(latitude) == -1) {
-        positions.push(longitude);
-        positions.push(latitude);
-        positions.push(h);
-      }
+  let array = [].concat(Cartesians);
+  let positions:number[] = [];
+  for (let i = 0, len = array.length; i < len; i++) {
+    let cartographic:any = SuperMap3D.Cartographic.fromCartesian(array[i]);
+    // let longitude:number = Number(SuperMap3D.Math.toDegrees(cartographic.longitude).toFixed(2));
+    // let latitude:number = Number(SuperMap3D.Math.toDegrees(cartographic.latitude).toFixed(2));
+    // let h:number = Number(cartographic.height.toFixed(2));
+    let longitude:number = Number(SuperMap3D.Math.toDegrees(cartographic.longitude));
+    let latitude:number = Number(SuperMap3D.Math.toDegrees(cartographic.latitude));
+    let h:number = Number(cartographic.height);
+    if (positions.indexOf(longitude) == -1 && positions.indexOf(latitude) == -1) {
+      positions.push(longitude);
+      positions.push(latitude);
+      positions.push(h);
     }
-    return positions
-  };
+  }
+  return positions
+};
 
   const CartesiantoDegreesTestTS = (Cartesians:any):number[] => {
     let array = [].concat(Cartesians);

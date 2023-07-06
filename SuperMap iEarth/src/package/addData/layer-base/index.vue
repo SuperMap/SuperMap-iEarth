@@ -111,9 +111,13 @@ function addBaseLayer(item: any) {
       border-radius: 0.05rem;
       overflow: hidden;
       margin-bottom: 0.04rem;
+      background-color: #000;
       .img {
         width: 100%;
         height: 100%;
+        // width: 0.72rem;
+        // height: 0.72rem;
+        object-fit: none;
       }
     }
   }
@@ -121,7 +125,6 @@ function addBaseLayer(item: any) {
     margin-right: 0;
   }
   .isSelect {
-    color: #3499e5;
     .img-box {
       border: 0.02rem solid #3499e5;
     }

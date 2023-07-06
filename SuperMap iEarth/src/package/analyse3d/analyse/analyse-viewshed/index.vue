@@ -1,7 +1,8 @@
 <template>
   <div class="row-container">
     <!-- 可视域 -->
-    <div class="row-item">
+    <n-scrollbar style="max-height: 3rem">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>经度</span>
       <n-input-number
         style="width: 1.96rem;height: 0.32rem;"
@@ -13,7 +14,7 @@
         <template #suffix>°</template>
       </n-input-number>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>纬度</span>
       <n-input-number
         style="width: 1.96rem;height: 0.32rem;"
@@ -25,7 +26,7 @@
         <template #suffix>°</template>
       </n-input-number>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>高程</span>
       <n-input-number
         style="width: 1.96rem;height: 0.32rem;"
@@ -34,12 +35,12 @@
         disabled
         placeholder="0"
       >
-        <template #suffix>M</template>
+        <template #suffix>米</template>
       </n-input-number>
     </div>
     <n-divider />
 
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>附加高度</span>
       <div class="slider-box">
         <n-slider
@@ -51,11 +52,11 @@
         />
         <div class="slider-suffix">
           <span>{{ state.addheight }}</span>
-          <span class="slider-unit">M</span>
+          <span class="slider-unit">米</span>
         </div>
       </div>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>水平视角</span>
       <n-input-number
         style="width: 1.96rem;height: 0.32rem;"
@@ -67,7 +68,7 @@
         <template #suffix>°</template>
       </n-input-number>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>垂直视角</span>
       <n-input-number
         style="width: 1.96rem;height: 0.32rem;"
@@ -79,7 +80,7 @@
         <template #suffix>°</template>
       </n-input-number>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>提示线颜色</span>
       <div class="color-pick-box color-pick-box-full">
         <n-color-picker
@@ -93,7 +94,7 @@
         ></n-color-picker>
       </div>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>显示可视体</span>
       <div class="check-color-pick">
         <n-checkbox v-model:checked="state.visibleBody"></n-checkbox>
@@ -111,7 +112,7 @@
         </div>
       </div>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>显示不可视体</span>
       <div class="check-color-pick">
         <n-checkbox v-model:checked="state.invisibleBody"></n-checkbox>
@@ -129,15 +130,16 @@
         </div>
       </div>
     </div>
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>动态可视域</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.viewshedAnimation"></n-checkbox>
       </div>
     </div>
+    </n-scrollbar>
   </div>
 
-  <div class="btn-row-item">
+  <div class="btn-row-item" style="margin-right: 0.1rem">
     <n-button
       type="info"
       color="#3499E5"
@@ -153,12 +155,12 @@
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch } from "vue";
 import axios from "axios";
-import { useMessage } from "naive-ui";
+import { useMessage,useNotification } from "naive-ui";
 import tool from '@/tools/tool';
 import initHandler from '@/tools/drawHandler';
 
 const message = useMessage();
-
+const notification = useNotification();
 const scene = viewer.scene;
 
 type stateType = {
@@ -636,10 +638,10 @@ watch(
   (val: any) => {
     if (val) {
       clearViewshed();
-      // notification.create({
-      //   content: () => langGlobal.viewshedAnimationTip,
-      //   duration: 3500
-      // });
+      notification.create({
+        content: () => '绘制模型运动路线，鼠标右键结束',
+        duration: 3500
+      });
     } else clear();
   }
 );
@@ -657,4 +659,8 @@ onBeforeUnmount(() => {
 </script>
     
 <style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
 </style>

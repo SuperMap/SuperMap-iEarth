@@ -1,4 +1,5 @@
 <template>
+<n-scrollbar style="max-height: 3.6rem">
   <n-grid :y-gap="8" :cols="3">
     <n-gi>
       <n-checkbox v-model:checked="state.earthShow" label="地球" />
@@ -39,8 +40,7 @@
   </n-grid>
 
   <n-divider />
-
-  <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>亮度</span>
       <div class="slider-box">
         <n-slider
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>对比度</span>
       <div class="slider-box">
         <n-slider
@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>色调</span>
       <div class="slider-box">
         <n-slider
@@ -85,7 +85,7 @@
       </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" style="margin-right: 0.1rem">
       <span>饱和度</span>
       <div class="slider-box">
         <n-slider
@@ -102,8 +102,8 @@
 
   <div class="row-item">
     <span>开启地下</span>
-    <div style="width: 1.96rem;height: 0.32rem;">
-      <n-switch v-model:value="state.showUnderground" />
+    <div style="width: 1.96rem;height: 0.32rem;;margin-right: 0.1rem">
+      <n-switch v-model:value="state.showUnderground" size="small" />
     </div>
   </div>
   <div class="row-item" v-show="state.showUnderground">
@@ -120,10 +120,9 @@
         </div>
       </div>
     </div>
-
   <n-divider />
 
-  <div class="row-item">
+  <div class="row-item" style="margin-bottom:0px;margin-right: 0.1rem">
     <span>坐标查询</span>
     <n-input
       placeholder="显示坐标"
@@ -133,8 +132,11 @@
     />
     <!-- <span>经度、维度、高程</span> -->
   </div>
-
-  <div class="btn-row-item">
+  <div class="queryTips" style="margin-bottom: 0.1rem">
+    <span>经度、纬度、高程</span>
+  </div>
+</n-scrollbar>
+  <div class="btn-row-item" style="margin-bottom: 0.1rem">
     <n-button
       type="info"
       color="#3499E5"
@@ -150,6 +152,7 @@
 <script lang="ts" setup>
 import { ref,watch,reactive,onBeforeUnmount} from 'vue'
 import tool from "@/tools/tool";
+import layerManagement from "@/tools/layerManagement";
 
 type stateType = {
     // 场景属性
@@ -184,9 +187,9 @@ let state = reactive<stateType>({
     sunShow:false,
     depthInspection:true,
     atomsphereRender:true,
-    fogEffect:true,
+    fogEffect:false,
     cloudLayer:false,
-    skyBoxShow:false,
+    skyBoxShow:true,
     timeAxis:false,
     displayFrame:true,
     rain:false,
@@ -206,23 +209,9 @@ let coordinate = ref('');
 let handlerSearch:any;
 viewer.scene.colorCorrection.show = true; // 场景颜色开关打开
 
-// 天空盒
-let cloudBoxUrl = './images/project/sceneProperties/clouds/clouds1.png';
-let bluesky = {
-            positiveX: './images/project/sceneProperties/bluesky/Right.jpg',
-            negativeX: './images/project/sceneProperties/bluesky/Left.jpg',
-            positiveY: './images/project/sceneProperties/bluesky/Front.jpg',
-            negativeY: './images/project/sceneProperties/bluesky/Back.jpg',
-            positiveZ: './images/project/sceneProperties/bluesky/Up.jpg',
-            negativeZ: './images/project/sceneProperties/bluesky/Down.jpg'
-        };
-
+// 云层
+let cloudBoxUrl = './images/sceneProperties/clouds/clouds1.png';
 let cloudBox = new SuperMap3D.CloudBox({ url:cloudBoxUrl });
-let skybox = new SuperMap3D.SkyBox({ sources: bluesky });
-        skybox.USpeed = 0;  //获取或者设置天空盒子绕x轴运动的动画速度。设置为1时表示0.01弧度每秒
-        skybox.VSpeed = 0;  //获取或者设置天空盒子绕y轴运动的动画速度。
-        skybox.WSpeed = 0;  //获取或者设置天空盒子绕z轴运动的动画速度。
-let defaultSkybox = viewer.scene.skyBox; 
 
 // 初始化
 init();
@@ -261,11 +250,11 @@ function init() {
   viewer.scene.postProcessStages.snow.uniforms.density = 10;
   viewer.scene.postProcessStages.snow.uniforms.speed = 4;
   viewer.scene.postProcessStages.rain.uniforms.speed = 8;
-  if (viewer.scene.frameState.passes.render) {
-    skybox.update(viewer.scene.frameState, true);
-  }
-  viewer.scene.skyBox = skybox;
-  viewer.scene.skyBox.show = false;
+  // if (viewer.scene.frameState.passes.render) {
+  //   // skybox.update(viewer.scene.frameState, true);
+  // }
+  // viewer.scene.skyBox = skybox;
+  // viewer.scene.skyBox.show = false;
 }
 
 // 监听相机高度，一旦高于设定阈值，关闭天空盒显示大气层
@@ -319,10 +308,20 @@ watch(()=>state.depthInspection, val => {
 watch(()=>state.atomsphereRender, val => {
     viewer.scene.skyAtmosphere.show = val
 })
+watch(() => state.fogEffect,val => {
+    viewer.scene.fog.enabled = val; // 不起作用
+  });
 watch(
   () => state.showUnderground,
   val => {
     viewer.scene.undergroundMode = val;
+    if(val){
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = -1000; //设置相机最小缩放距离,距离地表-1000米
+			viewer.scene.terrainProvider.isCreateSkirt = false; // 关闭裙边
+    }else{
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
+      viewer.scene.terrainProvider.isCreateSkirt = true; // 开启裙边
+    }
   }
 );
 watch(
@@ -347,22 +346,7 @@ watch(() => state.snow, val => {
   }
 );
 watch(()=>state.skyBoxShow, val => {
-    if (val) {
-            let cameraHeight = viewer.scene.camera.positionCartographic.height;
-            viewer.scene.postRender.addEventListener(watchCameraHeight);
-            viewer.scene.skyBox = skybox;
-            if (cameraHeight < 22e4) {
-                viewer.scene.skyBox.show = true;
-                state.atomsphereRender = false
-            } else {
-                state.atomsphereRender  = true
-            }
-        } else {
-            state.atomsphereRender = true;
-            viewer.scene.skyBox.show = false;
-            viewer.scene.skyBox = defaultSkybox;
-            viewer.scene.postRender.removeEventListener(watchCameraHeight);
-        }
+    layerManagement.setSkyBox(val);
 })
 watch(()=>state.timeAxis, val => {
     let timeline = document.getElementsByClassName(
@@ -397,4 +381,14 @@ onBeforeUnmount(()=>{
 })
 </script>
 <style lang="scss" scoped>
+.queryTips{
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  
+}
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
 </style>

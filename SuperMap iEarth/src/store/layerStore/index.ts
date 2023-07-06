@@ -13,7 +13,8 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/CBD.jpg",
-					proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
 					name: "北京CBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
@@ -49,13 +50,13 @@ export const useLayerStore = defineStore({
 					layers: [{ type: 'S3M', layerName: 'POINTCLOUD23' }],
 					chooseType: false
 				},
-				{
-					type: "REALSPACE",
-					thumbnail: "./images/addData/Histogram.jpg",
-					proxiedUrl: " https://www.supermapol.com/realspace/services/3D-Histogram/rest/realspace",
-					name: "柱状图",
-					chooseType: false
-				},
+				// {
+				// 	type: "REALSPACE",
+				// 	thumbnail: "./images/addData/Histogram.jpg",
+				// 	proxiedUrl: " https://www.supermapol.com/realspace/services/3D-Histogram/rest/realspace",
+				// 	name: "柱状图",
+				// 	chooseType: false
+				// },
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Household.jpg",
@@ -119,9 +120,9 @@ export const useLayerStore = defineStore({
 			],
 			// 在线底图服务
 			onlineBaseLayerList: [{
-				url: './images/baseLayers/baseImage.png',
+				url: './images/baseMap/baseImage.png',
 				name: '本地图片',
-				thumbnail: './images/baseLayers/image.jpg',
+				thumbnail: './images/baseMap/locate.png',
 				title: '本地图片',
 				type: 'IMAGE',
 				imgsrc: '@/../static/css/cross.png',
@@ -132,7 +133,7 @@ export const useLayerStore = defineStore({
 			{
 				url: '//dev.virtualearth.net/',
 				name: '必应底图',
-				thumbnail: './images/baseLayers/BingMap.jpg',
+				thumbnail: './images/baseMap/BingMap.png',
 				title: '必应底图',
 				type: 'BINGMAP',
 				imgsrc: '@/../static/css/cross.png',
@@ -144,7 +145,7 @@ export const useLayerStore = defineStore({
 			{
 				url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
 				name: '天地图',
-				thumbnail: './images/baseLayers/tianditu.jpg',
+				thumbnail: './images/baseMap/tianditu.png',
 				token: '7933ae29d47bcf1440889ad983dbe0af',
 				title: '天地图',
 				type: 'TIANDITU',
@@ -156,7 +157,7 @@ export const useLayerStore = defineStore({
 			{
 				url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
 				name: 'OSM底图',
-				thumbnail: './images/baseLayers/OSM.jpg',
+				thumbnail: './images/baseMap/OSM.png',
 				title: 'OSM底图',
 				type: 'OSM',
 				imgsrc: '@/../static/css/cross.png',
@@ -167,7 +168,7 @@ export const useLayerStore = defineStore({
 			},
 			{
 				name: '经纬底图',
-				thumbnail: './images/baseLayers/grad.jpg',
+				thumbnail: './images/baseMap/grad.png',
 				title: '经纬底图',
 				type: 'GRIDIMAGERY',
 				imgsrc: '@/../static/css/cross.png',
@@ -233,6 +234,7 @@ export const useLayerStore = defineStore({
 			baseMap:[],
 			onlineTerrain:[],
 		},
+		skyBoxShow:false,
 	}),
 	getters: {
 	},
@@ -387,7 +389,7 @@ export const useLayerStore = defineStore({
 
 						if (S3Mlayer.key == option.key) {
 							let item = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.title === option.label);
-							item.chooseType = false;
+							if(item) item.chooseType = false;
 							this.layerTreeData[1].children.splice(index, 1);
 						}
 					})
@@ -410,7 +412,7 @@ export const useLayerStore = defineStore({
 					this.layerTreeData[3].children = [];
 					// console.log("option：",option)
 					let item = this.layerServiceData.onlineTerrainLayerList.find((item: any) => item.title === option.label);
-					item.chooseType = false;
+					if(item) item.chooseType = false;
 					let index = this.SelectedOptions.onlineTerrain.indexOf(option.label);
 					this.SelectedOptions.onlineTerrain.splice(index,1);
 					// console.log("this.SelectedOptions:",this.SelectedOptions);

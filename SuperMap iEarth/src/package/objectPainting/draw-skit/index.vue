@@ -16,6 +16,7 @@
       <div v-for="(model, index) in state.symbolOptionsList.data"
           :class="model.isSelect ? 'selected-img' : ''"
           class="icon-span-six"
+          style="width:0.24rem;margin: 0.06rem 0.12rem"
       >
         <!-- <img
           :key="index"

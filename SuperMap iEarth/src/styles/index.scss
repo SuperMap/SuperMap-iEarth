@@ -2,7 +2,18 @@
 @import './scss/sm-mixin.scss';
 // @import './scss/sm-format.scss';
 // @import './scss/sm-function.scss';
-
+html, body,#app{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.n-config-provider {
+    height: 100%;
+}
+.n-layout.n-layout--static-positioned{
+    height: 100%;
+}
 .row-container {
     width: 100%;
     max-height: 3rem;
@@ -108,19 +119,29 @@
 
 
 .btn-secondary {
-    color: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    :hover {
+        color: #5EB7F2 !important;
+    }
 }
 
 // 设置数字输入框
 .n-input-number {
     border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
 }
-
 .n-input-border {
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15) ;
 }
-
+.n-button {
+    font-size: 16px;
+}
+.n-color-picker-trigger__fill {
+    height: 8px;
+    top: 10px !important;
+    bottom: 10px !important;
+}
 .color-pick-box {
     width: 1.68rem;
     height: 0.32rem;

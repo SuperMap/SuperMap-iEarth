@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>绕点旋转</span>
     <div class="row-content">
-      <n-switch v-model:value="state.rotateShow" />
+      <n-switch v-model:value="state.rotateShow" size="small" />
     </div>
   </div>
 
@@ -23,7 +23,7 @@
             @click="changleIconItem(item)"
           >
             <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont" :class="item.iconName"></i>
+            <i class="iconfont iconSize" :class="item.iconName"></i>
           </span>
         </div>
       </div>
@@ -166,6 +166,12 @@ onBeforeUnmount(() => {
   clearFlyCircle();
 });
 </script>
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>
   
   
   

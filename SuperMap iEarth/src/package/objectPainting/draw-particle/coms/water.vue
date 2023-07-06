@@ -18,7 +18,7 @@
     <div class="row-item" v-show="state.showEditCheck">
         <span>参数设置</span>
         <div style="width: 1.96rem;height: 0.32rem;">
-        <n-switch v-model:value="state.setParam" />
+        <n-switch v-model:value="state.setParam" size="small" />
         </div>
     </div>
 
@@ -138,7 +138,10 @@
     
     
   <style lang="scss" scoped>
-  
+  :deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
   </style>
     
     

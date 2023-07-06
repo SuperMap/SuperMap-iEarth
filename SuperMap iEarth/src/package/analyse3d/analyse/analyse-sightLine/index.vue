@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>经度</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;height: 0.32rem"
       v-model:value="state.degreesArray[0]"
       :show-button="false"
       disabled
@@ -32,7 +32,7 @@
       :show-button="false"
       disabled
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 

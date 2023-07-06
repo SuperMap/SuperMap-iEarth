@@ -25,8 +25,9 @@ import {
   Eye,
   EyeOff,
   EllipsisVertical,
-  LocateOutline,
-  Trash,
+  // LocateOutline,
+  LocationSharp,
+  Trash
 } from "@vicons/ionicons5";
 import { h } from "vue";
 const layerStore = useLayerStore();
@@ -55,6 +56,7 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
           text: true,
           title: "显隐",
           onClick: (e) => {
+            console.log(e)
             if (!option.key) return;
             let optionKey: any = option.key;
             if (optionKey.indexOf("-") != -1) {
@@ -95,7 +97,8 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
           },
         },
         {
-          icon: () => h(option.isShow ? h(Eye) : h(EyeOff)),
+          icon: () => h(option.isShow ? h("i", { class: "iconfont iconkejian", style:'color:rgba(255, 255, 255, 0.65)' }, "") : 
+          h("i", { class: "iconfont iconyincang",style:'color:rgba(255, 255, 255, 0.65)' }, "")),
         }
       ),
       h(
@@ -105,15 +108,14 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
           placement: "right-start",
           options: [
             {
-              label: "定位",
+              label: "快速定位",
               key: 1,
-              icon: () =>
-                h(NIcon, { size: 18 }, { default: () => h(LocateOutline) }),
+              icon: () => h("i", { class: "iconfont icondingwei" }, ""), 
             },
             {
-              label: "删除图层",
+              label: "移除",
               key: 2,
-              icon: () => h(NIcon, { size: 18 }, { default: () => h(Trash) }),
+              icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849"}, ""),
             },
           ],
           onSelect: (key: any) => {
@@ -210,7 +212,13 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
   //   ]);
   // }
 }
+function changelabelStyle({ option }: { option: any }){
+  console.log(option)
+} 
 </script>
 
 <style lang="scss" scoped>
+.layer-list-box{
+  padding: 0px 6px;
+}
 </style>

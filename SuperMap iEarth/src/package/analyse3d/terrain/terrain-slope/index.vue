@@ -98,6 +98,7 @@ type stateType = {
   options_region:any, // 分析区域选项
   options_display:any, // 显示模式选项
   colorOptions:any, // 色带选项
+  isStartSlope:boolean,// 是否开始分析
 }
 
 // 设置默认值数据
@@ -109,6 +110,7 @@ let state = reactive<stateType>({
   trans: 0.8, //透明度
   isEdit: false, //是否编辑
   colorTableValue: null,
+  isStartSlope:false,// 是否开始分析
   options_region: [
     {
       label: () => "指定区域参与分析",
@@ -174,6 +176,15 @@ slope.Opacity = state.trans;
 
 // 开始坡度分析
 function startSlope() {
+  state.isStartSlope = true;
+  if(state.analysisArea === 'ARM_ALL'){
+    wide = SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL;
+    viewer.scene.globe.SlopeSetting = {
+      slopeSetting: slope,
+      analysisMode: wide,
+    };
+    return;
+  }
   if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
   handlerPolygon.handlerDrawing().then(
     (res) => {
@@ -215,6 +226,8 @@ function setEditHandler(entity: any, callback?: any) {
 
 // 清除
 function clear() {
+  state.isStartSlope = false;
+
   if (handlerPolygon) handlerPolygon.clearHandler();
   if (editHandler) editHandler.clear();
   viewer.scene.globe.SlopeSetting = {
@@ -230,6 +243,7 @@ function clear() {
 watch(
   () => state.analysisArea,
   (val) => {
+    if(!state.isStartSlope) return;
     switch (val) {
       case "ARM_REGION":
         wide = SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_REGION;
@@ -415,9 +429,17 @@ watch(
 );
 // 销毁
 onBeforeUnmount(() => {
+  clear();
   slope.destroy();
   colorTable.destroy();
   slope = undefined;
   colorTable = undefined;
 });
 </script>
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>
+

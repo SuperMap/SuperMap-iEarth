@@ -1,5 +1,6 @@
 <template>
-  <div class="row-item">
+  <n-scrollbar style="max-height: 3rem">
+  <div class="row-item" style="margin-right: 0.1rem">
     <!-- 剖面分析 -->
     <span>起点经度</span>
     <n-input-number
@@ -11,7 +12,7 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item">
+  <div class="row-item" style="margin-right: 0.1rem">
     <span>起点纬度</span>
     <n-input-number
       style="width: 1.96rem;height: 0.32rem;"
@@ -22,7 +23,7 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item">
+  <div class="row-item" style="margin-right: 0.1rem">
     <span>起点高程</span>
     <n-input-number
       style="width: 1.96rem;height: 0.32rem;"
@@ -30,13 +31,13 @@
       :show-button="false"
       disabled
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 
   <n-divider />
 
-  <div class="row-item">
+  <div class="row-item" style="margin-right: 0.1rem">
     <span>终点经度</span>
     <n-input-number
       style="width: 1.96rem;height: 0.32rem;"
@@ -47,7 +48,7 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item">
+  <div class="row-item" style="margin-right: 0.1rem">
     <span>终点纬度</span>
     <n-input-number
       style="width: 1.96rem;height: 0.32rem;"
@@ -58,7 +59,7 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item">
+  <div class="row-item" style="margin-right: 0.1rem">
     <span>终点高程</span>
     <n-input-number
       style="width: 1.96rem;height: 0.32rem;"
@@ -66,22 +67,22 @@
       :show-button="false"
       disabled
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
   <!-- <div class="row-item">
     <span>剖面信息</span>
   </div> -->
-  <div class="row-item">
+  <div class="row-item" style="margin-right: 0.1rem">
       <span>剖面信息展示</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.profileInfoShow"></n-checkbox>
       </div>
   </div>
-  <div class="row-item" v-show="state.profileInfoShow">
+  <div class="row-item" v-show="state.profileInfoShow" style="margin-right: 0.1rem">
       <span></span>
       <div class="check-box">
-        <n-radio-group v-model:value="state.getProfile2d" name="radiogroup" class="radio-group">
+        <n-radio-group v-model:value="state.infoShowMode" name="radiogroup" class="radio-group">
           <n-space>
             <n-radio v-for="item in state.modeOptions" :key="item.value" :value="item.value">
               {{ item.label }}
@@ -90,7 +91,7 @@
         </n-radio-group>
       </div>
   </div>
-
+  </n-scrollbar>
   <div class="btn-row-item">
     <n-button
       type="info"
@@ -104,12 +105,28 @@
   </div>
 
   <!-- 图表 -->
-  <div v-show="state.profileInfoShow">
-      <div id="echartsProfile"></div>
+  <!-- <n-space vertical>
+      <div v-show="state.profileInfoShow">
+       <n-spin :show="state.show" size="large">
+        <div v-show="!state.gpuDomShow" id="echartsProfile"></div>
+        <canvas v-show="state.gpuDomShow"
+          style="position : fixed;; width:6.75rem; height: 2.23rem; left : 3.5rem; bottom : 0.3rem;background-color:rgba(0, 8, 23, 0.7)"
+          id="pro" height="0" width="0"></canvas>
+          <template #description>
+            分析获取结果中......
+          </template>
+        </n-spin>
+      </div>
+
+  </n-space> -->
+  <!-- <n-spin :show="state.show"> -->
+    <div v-show="state.profileInfoShow">
+      <div v-show="!state.gpuDomShow" id="echartsProfile"></div>
       <canvas v-show="state.gpuDomShow"
         style="position : fixed;; width:6.75rem; height: 2.23rem; left : 3.5rem; bottom : 0.3rem;background-color:rgba(0, 8, 23, 0.7)"
         id="pro" height="0" width="0"></canvas>
     </div>
+  <!-- </n-spin> -->
 </template>
     
 <script lang="ts" setup>
@@ -125,10 +142,11 @@ type stateType = {
   startDegreesArray: number[],// 起点坐标数组
   endDegreesArray: number[],// 终点坐标数组
   profileInfoShow:boolean,// 是否显示图表
-  getProfile2d:boolean,// 是否显示GPU剖面图表
+  infoShowMode:string,// 是否显示GPU剖面图表
   modeOptions:any,
   gpuDomShow:boolean, // 控制GPU剖面DOM元素
-  gpuProfileState:boolean
+  gpuProfileState:boolean,
+  show:boolean,//加载等待条
 
 }
 // 设置默认值数据
@@ -136,23 +154,24 @@ let state = reactive<stateType>({
   startDegreesArray: [0, 0, 0],
   endDegreesArray: [0, 0, 0],
   profileInfoShow: false, // 剖面信息展示
-  getProfile2d: false, //是否显示二维分析结果
+  infoShowMode: 'echarts', //是否显示二维分析结果
   modeOptions: [
-    {
+  {
       label: '截面',
-      value: true,
+      value: "echarts",
     },
     {
-      label: 'GPU剖面',
-      value: false
+      label: 'GPU截面',
+      value: "canvas"
     },
   ],
   gpuDomShow: false,
   gpuProfileState: false,
+  show:false
 });
 
 // 初始化变量
-let profile, handlerPolyline;
+let profile, handlerPolyline,ctx,canvas;
 let profile_GPU = new SuperMap3D.Profile(scene);
 
 // 初始化
@@ -191,9 +210,9 @@ function setDataForGpuProFile(result: any) {
   profile_GPU.extendHeight = 40;
   state.gpuProfileState = true;
 }
-
 //分析
 function analysis() {
+ 
   let interValID = setInterval(() => {
     // if (!handlerPolyline.polyline) return;
     if (!handlerPolyline.positions) return;
@@ -201,10 +220,13 @@ function analysis() {
     let positions = handlerPolyline.positions;
     // console.log("positions-剖面分析:",positions)
     if (positions.length === 1) {
-      state.startDegreesArray = tool.CartesiantoDegrees(positions[0]);
+      let result = tool.CartesiantoDegrees(positions[0]);
+      state.startDegreesArray = result.map((num: any) => Number(num.toFixed(2)));
     } else if (positions.length >= 2) {
-      state.startDegreesArray = tool.CartesiantoDegrees(positions[0]);
-      state.endDegreesArray = tool.CartesiantoDegrees(positions[positions.length - 1]);
+      let resultS = tool.CartesiantoDegrees(positions[0]);
+      let resultE = tool.CartesiantoDegrees(positions[positions.length - 1]);
+      state.startDegreesArray = resultS.map((num: any) => Number(num.toFixed(2)));
+      state.endDegreesArray = resultE.map((num: any) => Number(num.toFixed(2)));
     }
   }, 500)
 
@@ -215,8 +237,16 @@ function analysis() {
       setDataForGpuProFile(res);
 
       clearInterval(interValID);
-
-      profile.startProfile(res.object.positions);
+      // debugger
+      state.show = true;
+      // console.log('开始分析:',state.show);
+      profile.startProfile(res.object.positions).then(res=>{
+        if(res){
+          state.show = false;
+          // console.log("分析结束:",state.show);
+        }
+      });
+      if(state.infoShowMode === 'canvas') getCanvasImage();
       handlerPolyline.polylineTransparent.show = false;
     },
     err => {
@@ -229,10 +259,9 @@ function analysis() {
 // 清除
 function clear() {
   profile.clear();
+  if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
   profile_GPU.destroy();
   if (handlerPolyline) handlerPolyline.clearHandler();
-  state.getProfile2d = false;
-  state.gpuDomShow = false;
 
   profile_GPU = new SuperMap3D.Profile(scene);
   state.gpuProfileState = false;
@@ -241,23 +270,19 @@ function clear() {
   state.endDegreesArray = [0, 0, 0];
 }
 
-// 监听
-watch(
-  () => state.getProfile2d,
-  newValue => {
-    profile.setEchartsShow(newValue);
-    if (!newValue) {
-      state.gpuDomShow = true;
-
+// GPU剖面分析
+function getCanvasImage(){
+  state.gpuDomShow = true;
+      // profile.setEchartsShow(false);
       if (!state.gpuProfileState) return;
 
       //分析完毕的回调函数
       profile_GPU.getBuffer(function (buffer) {
 
-        let canvas: any = document.getElementById("pro");
+        canvas = document.getElementById("pro");
         canvas.height = profile_GPU._textureHeight;
         canvas.width = profile_GPU._textureWidth;
-        let ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
         let imgData = ctx.createImageData(profile_GPU._textureWidth, profile_GPU._textureHeight);
         imgData.data.set(buffer);
 
@@ -266,17 +291,32 @@ watch(
       });
 
       profile_GPU.build();
+};
+
+// 监听
+watch(
+  () => state.infoShowMode,
+  newValue => {
+    if (newValue === 'canvas') {
+      getCanvasImage();
     }else{
+      // profile.setEchartsShow(true);
       state.gpuDomShow = false;
     }
   }
 );
 
-watch(()=>state.profileInfoShow,()=>{
-  clear();
+watch(()=>state.profileInfoShow,(val)=>{
+  if(val && state.infoShowMode==='canvas'){
+    // state.infoShowMode = 'echarts';
+    getCanvasImage();
+  }
+  // // clear();
+  // state.infoShowMode = 'echarts';
 })
 
 onMounted(() => {
+  // profile.setEchartsShow(true);
   profile.initEcharts();
 });
 // 销毁
@@ -285,6 +325,7 @@ onBeforeUnmount(() => {
   profile.destroy();
   profile_GPU.destroy();
   handlerPolyline = null;
+  state.profileInfoShow = false;
 });
 </script>
 
@@ -300,6 +341,9 @@ onBeforeUnmount(() => {
   opacity: 0.7;
   padding: 0.05rem 0.1rem 0.1rem 0.05rem;
   z-index: 99;
-  display: none;
+  // display: none;
+}
+:deep(.n-divider__line){
+  height: 3px ;
 }
 </style>

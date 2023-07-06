@@ -5,11 +5,12 @@
         <div class="row-content">
           <n-input-group>
             <n-input
-              size="small"
-              placeholder="飞行路线地址"
+              size="medium"
+              style="width: 2.0rem;"
+              placeholder="请选择本地文件"
               v-model:value="state.fileSrc"
             />
-            <n-button type="primary" size="small" @click="chooseFile">文件夹</n-button>
+            <n-button type="tertiary" size="medium" @click="chooseFile">导入</n-button>
             <input
               type="file"
               accept=".fpf"
@@ -274,8 +275,11 @@ onBeforeUnmount(() => {
 </script>
   
   
-<style lang="scss">
-
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
 </style>
   
   

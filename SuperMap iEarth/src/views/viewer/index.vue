@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount, watch,reactive } from "vue";
+import { onMounted, onBeforeUnmount, watch, reactive } from "vue";
 import EventManager from "@/tools/ScreenEventManage/EventManager.js";
 import { GlobalStoreCreate } from '@/store/global/global';
 import { IportalStoreCreate } from "@/store/iportalManage/index";
@@ -25,7 +25,7 @@ let viewer;
 function initViewer() {
   viewer = new SuperMap3D.Viewer("superMapContainer", {
     // selectionIndicator: false,
-    timeline:true,
+    timeline: true,
     baseLayerPicker: false,
     // infoBox: false,
     imageryProvider: false, //必须为false - 关闭默认球皮（影像图层）
@@ -42,6 +42,21 @@ function initViewer() {
     // // 如果最初应该看到导航说明，则为true；如果直到用户明确单击该按钮，则该提示不显示，否则为false。
     // navigationInstructionsInitiallyVisible: true,
     // sceneModePicker: true, // 场景模式，切换2D、3D 和 Columbus View (CV) 模式。
+
+    //开启Webgl2.0
+    contextOptions: {
+      //硬件反走样，1-8，默认值为1
+      msaaLevel: 8,
+      requestWebgl2: true
+    },
+    //不能开启
+    shadows: true,
+    // timeline: true,
+    //  UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
+    pcss: true,
+    shadowQuality: 0,
+
+    creditContainer: document.createElement('div'), //去掉底部logo
   });
   // 太阳光默认打开
   // viewer.scene.globe.enableLighting = true;
@@ -53,8 +68,7 @@ function initViewer() {
 
   // 隐藏底部标签
   // viewer.cesiumWidget.creditContainer.style.display = 'none'
-  // 设置渲染分辨率的缩放因子
-  viewer.resolutionScale = window.devicePixelRatio;
+  
   // 其他设置
   window["viewer"] = viewer; //绑定到window
   GlobalStore.isViewer = true; // viewer初始化完成标志
@@ -97,7 +111,7 @@ function initViewer() {
     let url = window.location.href;
 
     // 判断是否为iportal环境
-    if(url.indexOf("/iportal/apps") === -1) {
+    if (url.indexOf("/iportal/apps") === -1) {
       console.log("当前环境：普通模式");
       return;
     }
@@ -134,6 +148,7 @@ onBeforeUnmount(() => {
   height: 100%;
   margin: 0;
   padding: 0;
+  // overflow: hidden;
 }
 </style>
 

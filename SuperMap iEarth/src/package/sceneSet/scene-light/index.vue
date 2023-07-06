@@ -1,49 +1,30 @@
 <template>
-
   <div class="row-item">
-      <span>符号库</span>
-      <div class="icon-container">
-        <div class="icon-list" style="width: 1.95rem;">
-          <span
-            v-for="(item, index) in state.itemOptions"
-            :key="index"
-            :bordered="false"
-            :title="item.lable"
-            @click="changleIconItem(item)"
-            class="icon-span"
-            :class="item.isSelect ? 'is-select' : ''"
-          >
-            <i class="iconfont iconSize" :class="item.iconName"  :title="item.lable"></i>
-          </span>
-        </div>
+    <span>符号库</span>
+    <div class="icon-container">
+      <div class="icon-list" style="width: 1.95rem;">
+        <span v-for="(item, index) in state.itemOptions" :key="index" :bordered="false" :title="item.lable"
+          @click="changleIconItem(item)" class="icon-span" :class="item.isSelect ? 'is-select' : ''">
+          <i class="iconfont iconSize" :class="item.iconName" :title="item.lable"></i>
+        </span>
       </div>
     </div>
+  </div>
 
   <div class="row-item">
     <span>光源颜色</span>
     <div class="color-pick-box" style="width: 1.95rem;">
-      <n-color-picker
-        v-model:value="state.lightColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.lightColor" :render-label="() => {
+          return '';
+        }
+        " size="small"></n-color-picker>
     </div>
   </div>
 
   <div class="row-item" v-if="state.lightSelectId != 3">
     <span>扩散距离</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.cutoffDistance"
-        :step="1"
-        :min="0"
-        :max="500"
-      />
+      <n-slider style="width: 1.2rem" v-model:value="state.cutoffDistance" :step="1" :min="0" :max="500" />
       <span>{{ state.cutoffDistance }}</span>
     </div>
   </div>
@@ -51,13 +32,7 @@
   <div class="row-item" v-if="state.lightSelectId != 3">
     <span>衰减因子</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.lightDecay"
-        :step="0.1"
-        :min="0"
-        :max="10"
-      />
+      <n-slider style="width: 1.2rem" v-model:value="state.lightDecay" :step="0.1" :min="0" :max="10" />
       <span>{{ state.lightDecay }}</span>
     </div>
   </div>
@@ -65,13 +40,7 @@
   <div class="row-item">
     <span>光源强度</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.lightIntensity"
-        :step="0.1"
-        :min="0"
-        :max="10"
-      />
+      <n-slider style="width: 1.2rem" v-model:value="state.lightIntensity" :step="0.1" :min="0" :max="10" />
       <span>{{ state.lightIntensity }}</span>
     </div>
   </div>
@@ -79,48 +48,72 @@
   <div class="row-item" v-if="state.lightSelectId === 2">
     <span>聚光范围</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.spotLightAngle"
-        :step="1"
-        :min="1"
-        :max="90"
-      />
+      <n-slider style="width: 1.2rem" v-model:value="state.spotLightAngle" :step="1" :min="1" :max="90" />
       <span>{{ state.spotLightAngle }}</span>
     </div>
   </div>
 
   <div class="row-item">
-      <span>显示光源模型</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.showligthModel"></n-checkbox>
-      </div>
+    <span>显示光源模型</span>
+    <div class="check-box">
+      <n-checkbox v-model:checked="state.visibleModel"></n-checkbox>
     </div>
+  </div>
   <div class="row-item">
-      <span>显示光源坐标</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.showligtCoordinate"></n-checkbox>
-      </div>
+    <span>显示光源坐标</span>
+    <div class="check-box">
+      <n-checkbox v-model:checked="state.visiblePositions"></n-checkbox>
     </div>
+  </div>
 
+  <div class="bableLight" ref="bableLightDom" v-show="state.visiblePositions && state.bableShow">
+    <div class="row-item" style="margin-top:0.12rem">
+      <span class="light-anaylse-pop-titie">模型信息</span>
+      <span @click="state.visiblePositions = false;" style="margin-right:14px">X</span>
+    </div>
+    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+      <span>经度</span>
+      <n-input-number
+        style="width: 1.5rem"
+        v-model:value="state.modelPosition[0]"
+        :show-button="false"
+        disabled
+      >
+      </n-input-number>
+    </div>
+    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+      <span>纬度</span>
+      <n-input-number
+        style="width: 1.5rem"
+        v-model:value="state.modelPosition[1]"
+        :show-button="false"
+        disabled
+      >
+      </n-input-number>
+    </div>
+    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+      <span>高程</span>
+      <n-input-number
+        style="width: 1.5rem"
+        v-model:value="state.modelPosition[2]"
+        :show-button="false"
+        disabled
+      >
+      </n-input-number>
+    </div>
+  </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="addLight"
-      style="margin-right: 0.1rem"
-      >添加</n-button
-    >
+  <div class="btn-row-item" style="margin-bottom:0.1rem">
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="addLight" style="margin-right: 0.1rem">添加</n-button>
     <n-button class="btn-secondary" @click="clear">清除</n-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, onBeforeUnmount,watch } from "vue";
+import { reactive, onBeforeUnmount, watch,ref } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
+import tool from "@/tools/tool";
 
 const notification = useNotification();
 
@@ -140,11 +133,18 @@ type stateType = {
   showligthModel: boolean; // 是否显示光源模型
   showligtCoordinate: boolean; // 是否显示光源坐标
   itemOptions: itemOptionsType[]; // 量算方式列表
+  addLightFlag: boolean,// 判断当前是否处于添加灯光状态
+  modelPosition: any,
+  visibleModel: boolean,
+  bubbleShow:boolean,
+  dockFontShow:boolean
+  visiblePositions:boolean,
+  bableShow:boolean,
 };
 
 // 设置默认值数据
 let state = reactive<stateType>({
-  lightSelectId: 0,
+  lightSelectId: 1,
   // lightColor: "#FFFFFF",
   lightColor: "rgb(255, 255, 255)",
   cutoffDistance: 470,
@@ -153,6 +153,13 @@ let state = reactive<stateType>({
   spotLightAngle: 49,
   showligthModel: true,
   showligtCoordinate: true,
+  addLightFlag: false,
+  modelPosition: [0, 0, 0],
+  visibleModel: true,
+  bubbleShow:false,
+  dockFontShow:true,
+  visiblePositions:false,
+  bableShow:false,
   itemOptions: [
     {
       index: 1,
@@ -177,9 +184,19 @@ let state = reactive<stateType>({
 
 let handlerPolyline: any, handlerPoint: any;
 let lightSource: any[] = [];
-
+let bableLightDom = ref();
+let currentSelectedEntity, selectdeLightSource, s3mInstanceColc;
+let isAddPointLight = false;
+let entityLightPairs = new Map(); // Entity和点光源对象的键值对
+let modelUrl = './Resource/model/light.s3m';
+let modelEditor;
+const scene = viewer.scene;
+s3mInstanceColc = new SuperMap3D.S3MInstanceCollection(scene._context);
+viewer.scene.primitives.add(s3mInstanceColc);
 // 开始添加
 function addLight() {
+  state.addLightFlag = true;
+  viewer.eventManager.addEventListener("CLICK", click_light, true);
   switch (state.lightSelectId) {
     case 1:
       add_point(addPointLight);
@@ -191,6 +208,78 @@ function addLight() {
       add_line(addDirectionalLight);
       break;
   }
+}
+
+function click_light(e) {
+  if (!state.addLightFlag) {
+    let symbol = viewer.scene.pick(e.message.position) || viewer.selectedEntity;
+    if (symbol && symbol.id && typeof (symbol.id) === 'string' && symbol.id.indexOf("light-model-") != -1) {
+      if (currentSelectedEntity && currentSelectedEntity.id === symbol.id.id) return;
+      currentSelectedEntity = symbol;
+      selectdeLightSource = entityLightPairs.get(symbol.id);
+      if (!modelEditor) addModelEditor(symbol.primitive)
+      else modelEditor.setEditObject(symbol.primitive);
+      // console.log(modelEditor)
+      let position = tool.CartesiantoDegrees(modelEditor._position);
+      state.modelPosition.length = 0;
+      state.modelPosition.push(...[position[0].toFixed(6), position[1].toFixed(6), position[2].toFixed(2)]);
+      state.bableShow = true;
+      bableLightDom.value.style.top = (e.message.position.y - 200) + 'px';
+      bableLightDom.value.style.left = (e.message.position.x + 20) + 'px';
+      return;
+    }
+    state.bableShow = false;
+    currentSelectedEntity = undefined;
+    selectdeLightSource = undefined;
+    if (modelEditor) modelEditor.deactivate();
+  }
+}
+
+let isModelMoving = false;
+function addModelEditor(model) {
+  modelEditor = new SuperMap3D.ModelEditor({
+    model: model,
+    scene: viewer.scene,
+    axesShow: {
+      "translation": true,
+      "rotation": false,
+      "scale": true
+    }
+  });
+  modelEditor.activate();
+  modelEditor.changedEvt.addEventListener((param) => {
+    let Cartesian3 = new SuperMap3D.Cartesian3();
+    SuperMap3D.Matrix4.getTranslation(param.modelMatrix, Cartesian3);
+    if (Cartesian3) {
+      selectdeLightSource.position = Cartesian3;
+      isModelMoving = true;
+      changeSlider(() => isModelMoving = false)
+      let position = tool.CartesiantoDegrees(Cartesian3);
+      state.modelPosition.length = 0;
+      state.modelPosition.push(...[position[0].toFixed(6), position[1].toFixed(6), position[2].toFixed(2)])
+    }
+  })
+}
+
+let timer;
+// 防止滑块快速滑动的多次执行
+function changeSlider(callback) {
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(function () {
+    callback()
+  }, 1000);
+
+}
+
+function addModel(position, pointLight) {
+  let id = "light-model-" + new Date().getTime();
+  s3mInstanceColc.add(modelUrl, {
+    id: id,
+    position: position,
+    scale: new SuperMap3D.Cartesian3(2, 2, 2),
+  });
+  currentSelectedEntity = s3mInstanceColc.getInstance(modelUrl, id);
+  entityLightPairs.set(id, pointLight);
 }
 
 // 绘制线
@@ -251,7 +340,9 @@ function addPointLight(position: any) {
   };
   let pointLight = new SuperMap3D.PointLight(position, options);
   viewer.scene.addLightSource(pointLight);
+  addModel(position, pointLight);
   lightSource.push(pointLight);
+  state.addLightFlag = false;
 }
 
 // 添加聚光灯
@@ -267,7 +358,9 @@ function addSpotLight(positions: any) {
   };
   let spotLight = new SuperMap3D.SpotLight(position1, position2, options);
   viewer.scene.addLightSource(spotLight);
+  addModel(position1, spotLight)
   lightSource.push(spotLight);
+  state.addLightFlag = false;
 }
 
 // 添加平行光
@@ -280,7 +373,9 @@ function addDirectionalLight(positions: any) {
   };
   let directionalLight = new SuperMap3D.DirectionalLight(position1, options);
   viewer.scene.addLightSource(directionalLight);
+  addModel(position1, directionalLight)
   lightSource.push(directionalLight);
+  state.addLightFlag = false;
 }
 
 // 默认设置附加高度
@@ -292,10 +387,20 @@ function addModleHeight(Cartesian3: any) {
 
 // 清除
 function clear() {
-  lightSource.forEach((light) => {
-    viewer.scene.removeLightSource(light);
-  });
-  lightSource.length = 0;
+  state.bableShow = false;
+  if (!selectdeLightSource) return;
+  viewer.scene.removeLightSource(selectdeLightSource);
+
+  if (currentSelectedEntity) {
+    entityLightPairs.delete(currentSelectedEntity.id);
+    s3mInstanceColc.removeInstance(modelUrl, currentSelectedEntity.id);
+    currentSelectedEntity = null;
+  }
+  // if (entityLightPairs.size === 0) viewer.eventManager.removeEventListener("CLICK", click_light);
+  if (modelEditor) modelEditor.deactivate();
+  state.addLightFlag = false;
+  selectdeLightSource = null;
+
   if (handlerPolyline) handlerPolyline.clearHandler();
   if (handlerPoint) {
     handlerPoint.deactivate();
@@ -303,6 +408,7 @@ function clear() {
     viewer.enableCursorStyle = true;
     document.body.classList.remove("measureCur");
   }
+
 }
 
 // 符号
@@ -318,12 +424,75 @@ function changleIconItem(item: any) {
 }
 
 // 可以设置监听，看是否有必要
-watch(()=>state.cutoffDistance,()=>{
-  // lightSource[0].cutoffDistance = state.cutoffDistance;
+// watch(()=>state.cutoffDistance,()=>{
+//   lightSource[0].cutoffDistance = state.cutoffDistance;
+// })
+
+watch(() => state.lightColor, val => {
+  if (!selectdeLightSource) return;
+  let color = SuperMap3D.Color.fromCssColorString(val);
+  selectdeLightSource.color = color;
 })
+watch(() => state.cutoffDistance, val => {
+  if (!selectdeLightSource) return;
+  if (selectdeLightSource.lightType === 1) {
+    selectdeLightSource.cutoffDistance = Number(val);
+    return;
+  }
+  if (selectdeLightSource.lightType === 2) {
+    selectdeLightSource.distance = Number(val);
+    return;
+  }
+})
+watch(() => state.lightDecay, val => {
+  if (!selectdeLightSource) return;
+  if (selectdeLightSource.lightType !== 0) {
+    selectdeLightSource.decay = Number(val);
+  }
+})
+watch(() => state.lightIntensity, val => {
+  if (!selectdeLightSource) return;
+  selectdeLightSource.intensity = Number(val);
+})
+watch(() => state.spotLightAngle, val => {
+  if (!selectdeLightSource) return;
+  if (selectdeLightSource.lightType === 2) {
+    selectdeLightSource.angle = SuperMap3D.Math.toRadians(Number(val));
+  }
+})
+watch(() => state.visibleModel, val => {
+  if (!currentSelectedEntity) return;
+  if (modelEditor) modelEditor.deactivate();
+  s3mInstanceColc.visible = val
+})
+
+
+watch(() => state.modelPosition, val => {
+  if (!currentSelectedEntity || isModelMoving) return;
+  changeSlider(() => {
+    let lon = Number(val[0]);
+    let lat = Number(val[1]);
+    let hei = Number(val[2]);
+    let position = SuperMap3D.Cartesian3.fromDegrees(lon, lat, hei);
+    selectdeLightSource.position = position;
+    currentSelectedEntity.primitive.updatePosition(position);
+    if (modelEditor) modelEditor.setEditObject(currentSelectedEntity.primitive);
+  })
+},
+  {
+    deep: true
+  })
 
 onBeforeUnmount(() => {
   clear();
+  viewer.eventManager.removeEventListener("CLICK", click_light);
+  lightSource.forEach((light) => {
+    viewer.scene.removeLightSource(light);
+  });
+  lightSource.length = 0;
+
+  s3mInstanceColc.removeCollection(modelUrl);
+  s3mInstanceColc = null;
 });
 </script>
 
@@ -331,7 +500,28 @@ onBeforeUnmount(() => {
 .is-select {
     color: #3499e5;
   }
-
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
   
+.bableLight{
+  position: fixed;
+  top: 2rem;
+  left: 5rem;
+  background-color: #3B5168;
+  opacity: 0.8;
+  height: 1.8rem;
+  width: 2.28rem;
+  z-index: 200000;
+  .light-anaylse-pop-titie{
+    font-size: 12px;
+    line-height: 20px;
+    margin-left: 0.12rem;
+  }
+    span {
+    font-size: 12px;
+  }
+}
 </style>
 

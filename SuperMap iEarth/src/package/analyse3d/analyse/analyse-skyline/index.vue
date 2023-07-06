@@ -86,10 +86,6 @@
   </div>
   <div class="row-item">
     <span>二维天际线展示</span>
-    <!-- <n-checkbox
-      style="width: 2.19rem"
-      v-model:checked="state.getSkyline2d"
-    ></n-checkbox> -->
     <div class="check-box">
         <n-checkbox v-model:checked="state.getSkyline2d"></n-checkbox>
       </div>
@@ -101,7 +97,7 @@
       </div>
     <!-- <n-checkbox style="width: 2.19rem" v-model:checked="state.ignoreGlobe"></n-checkbox> -->
   </div>
-  <div class="btn-row-item">
+  <div class="btn-row-item btn-row-item1">
     <n-button
       type="info"
       color="#3499E5"
@@ -153,7 +149,7 @@ type stateType = {
 // 设置默认值数据
 let state = reactive<stateType>({
   skylineRadius: 10000, //分析半径
-  lineWidth: 3, //天际线宽度
+  lineWidth: 1, //天际线宽度
   skylineColor: "rgb(200, 0, 0)", //天际线颜色
   displaySkyBody:false, // 是否显示天际体
   skyBodyColor: "rgba(44,149,197,0.6)", //天际体颜色
@@ -200,6 +196,8 @@ function analysis() {
       setOptions(object); // 设置二维天际线
     }, 500);
   }
+  if(state.skylineMode === 'FACE') updatePosition(); // 如果是面模式，更新一下位置，改变一下视角好显示面
+
 }
 
 // 清除
@@ -208,7 +206,6 @@ function clear() {
   skylineAnalysis.clear();
   if (myChart) myChart.clear();
   initMyChart();
-  echarts_dom.style.display = "none";
   state.getSkyline2d = false;
 }
 
@@ -374,6 +371,14 @@ function setOptions(object:any) {
   }
 }
 
+// 更新位置 - 本质就是缩放，改变相机位置
+function updatePosition(){
+  let position = viewer.camera.position;
+  let cameraHeight = viewer.scene.globe.ellipsoid.cartesianToCartographic(position).height;
+  let moveRate = cameraHeight / 200.0; // 参数可改
+  viewer.camera.moveBackward(moveRate);
+}
+
 // 监听
 watch(
   () => state.skylineRadius,
@@ -392,7 +397,7 @@ watch(
   newValue => {
     let color = SuperMap3D.Color.fromCssColorString(newValue);
     skylineAnalysis.skyline.color = color;
-    skylineAnalysis.skyline.lineWidth = state.lineWidth;
+    // skylineAnalysis.skyline.lineWidth = state.lineWidth;
   }
 );
 
@@ -416,6 +421,13 @@ watch(
   () => state.ignoreGlobe,
   newValue => {
     skylineAnalysis.skyline.ignoreGlobe = newValue;
+
+    // 上层解决天际线地表不参与分析缺陷
+    clear();
+    analysis();
+    // skylineAnalysis.updateOptionsParams({
+    //   ignoreGlobe:newValue,
+    // });
   }
 );
 
@@ -436,21 +448,23 @@ watch(
   () => state.getSkyline2d,
   newValue => {
     if (newValue) {
-      // echarts_dom.style.display = "block";
-      state.getSkyline2d = true;
+      setTimeout(() => {
+        let object = skylineAnalysis.skyline.getSkyline2D();
+        setOptions(object); // 设置二维天际线
+      }, 500);
+      
       if (!myChart) initMyChart();
       myChart.resize(); //自适应屏幕
-      return;
     }
-    // echarts_dom.style.display = "none";
-    state.getSkyline2d = false;
   }
 );
 watch(
   () => state.skylineMode,
   newValue => {
     skylineAnalysis.setSkylineMode(newValue);
+    if(newValue === 'FACE') updatePosition();
   }
+  
 );
 
 onMounted(() => {
@@ -473,7 +487,17 @@ onBeforeUnmount(() => {
 // .btn-row-item {
 //   @include setBtnRowItem();
 // }
-
+.btn-row-item1{
+  display: flex;
+  justify-content: center;
+  button{
+    display: block;
+  }
+}
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
 #echartsSkyLine {
   position: fixed !important;
   bottom: 0.3rem;

@@ -1,0 +1,19 @@
+@charset "UTF-8";
+/*
+* 颜色
+*/
+:export {
+  mainColorNormal: #3499E5;
+  mainColorHover: #5EB7F2;
+  mainColorClick: #3499E5;
+  funColorLink: #3499E5;
+  funColorSuccess: #3CAB1A;
+  funColorWarning: #E2CA34;
+  funColorError: #E04C40;
+  midColorNormal: rgb(255, 255, 255);
+  midColorSet: rgba(255, 255, 255, 0.85);
+  midColorHover: rgba(255, 255, 255, 0.65);
+  midColorTip: rgba(255, 255, 255, 0.45);
+  midColorDisable: rgba(255, 255, 255, 0.25);
+  bgUrl: "";
+}/*# sourceMappingURL=variables.module.css.map */

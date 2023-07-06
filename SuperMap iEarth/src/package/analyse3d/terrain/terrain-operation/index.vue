@@ -11,20 +11,20 @@
     <div class="row-item">
       <span>开挖深度</span>
       <n-input-number style="width: 1.96rem;height: 0.32rem;" v-model:value="state.digDepth" :show-button="false">
-        <template #suffix>M</template>
+        <template #suffix>米</template>
       </n-input-number>
     </div>
 
     <div class="row-item">
       <span>开挖区域上移</span>
       <div style="width: 1.96rem;height: 0.32rem;">
-        <n-switch v-model:value="state.isPullOut" />
+        <n-switch v-model:value="state.isPullOut" size="small" />
       </div>
     </div>
     <div class="row-item" v-if="state.isPullOut">
       <span>上移高度</span>
       <n-input-number style="width: 1.96rem;height: 0.32rem;" v-model:value="state.upHeight" :show-button="false">
-        <template #suffix>M</template>
+        <template #suffix>米</template>
       </n-input-number>
     </div>
 
@@ -119,7 +119,6 @@ function Analyze() {
 function digUpdate(positions:any) {
   digPisitions = positions;
   viewer.scene.globe.removeAllExcavationRegion();
-
 
   if (state.isPullOut) {
     // 地形开挖并抽出
@@ -234,12 +233,21 @@ watch(
     }
   }
 );
-watch(
-  () => state.digDepth,
-  (val) => {
-    if (digPisitions) digUpdate(digPisitions);
-  }
-);
+
+// 关闭实时改变开挖深度，抽出高度暂时改不了
+// watch(
+//   () => state.digDepth,
+//   (val) => {
+//     if (digPisitions) digUpdate(digPisitions);
+//   }
+// );
+// watch(
+//   () => state.upHeight,
+//   (val) => {
+//     debugger
+//     if (digPisitions) digUpdate(digPisitions);
+//   }
+// );
 
 // 销毁
 onBeforeUnmount(() => {
@@ -252,16 +260,15 @@ onBeforeUnmount(() => {
 .btn-list {
   // font-size: 0.14rem;
   display: flex;
-  margin-left: 0.7rem;
+  justify-content: space-around;
   margin-bottom: 0.15rem;
   cursor: pointer;
 
   .btn {
-    width: 0.56rem;
+    width: 0.62rem;
     height: 0.22rem;
     line-height: 0.22rem;
     text-align: center;
-    margin-left: 0.48rem;
   }
 
   .select-btn {

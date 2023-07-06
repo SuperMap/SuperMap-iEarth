@@ -1,6 +1,6 @@
 <template>
   <div class="analyse-box">
-    <n-tabs type="line" animated>
+    <n-tabs type="line" animated justify-content="space-between">
       <!-- 通视 -->
       <n-tab-pane name="sightLine" tab="通视">
         <SmAnalyseSightLine></SmAnalyseSightLine>

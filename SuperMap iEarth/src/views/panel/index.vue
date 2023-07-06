@@ -129,9 +129,10 @@ function panelCloseHandle(leftOrRght: any) {
   box-sizing: border-box;
 }
 .panle-container {
+  // padding: 2px 0px;
   width: 3.38rem;
   height: auto;
-  background: url("@/assets/panelbg/zhongjian.png") no-repeat;
+  background: url("@/assets/panelbg/zhongjian.png");
   background-size: 100% 100%;
   max-height: 4rem;
   overflow-y: scroll;
@@ -142,6 +143,5 @@ function panelCloseHandle(leftOrRght: any) {
   height: 0.24rem;
   background: url("@/assets/panelbg/weibu.png") no-repeat;
   background-size: 100% 100%;
-  margin-top: -0.02rem;
 }
 </style>

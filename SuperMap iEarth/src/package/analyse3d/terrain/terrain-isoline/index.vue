@@ -7,7 +7,7 @@
       v-model:value="state.fillMaxHeight"
       :show-button="false"
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 
@@ -18,7 +18,7 @@
       v-model:value="state.fillMinHeight"
       :show-button="false"
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 
@@ -32,7 +32,7 @@
       :max="10000"
       :show-button="false"
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 

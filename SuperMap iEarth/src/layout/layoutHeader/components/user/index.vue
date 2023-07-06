@@ -50,8 +50,8 @@ const authInstance = new Authenticate({
   loginOptions: {
     theme: "dark",
     // logoUrl: ('./logo.png'),
-    appName: "三维地球",
-    rootUrl: "/iportal/", // 正确的地址
+    appName: "iEarth",
+    // rootUrl: "/iportal/", // 正确的地址
   },
   onSucceed: function (result: any){
     console.log("result-用户信息", result);

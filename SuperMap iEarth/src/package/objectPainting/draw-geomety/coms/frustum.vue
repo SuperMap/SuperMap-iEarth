@@ -145,7 +145,12 @@ onBeforeUnmount(() => {
 </script>
     
     
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>
     
     
     

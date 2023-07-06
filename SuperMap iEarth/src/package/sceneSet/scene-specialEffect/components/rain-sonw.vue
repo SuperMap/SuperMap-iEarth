@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>开启雨景</span>
     <div style="width: 1.96rem;height: 0.32rem;">
-      <n-switch v-model:value="state.rainShow" @update:value="setRain"/>
+      <n-switch v-model:value="state.rainShow" @update:value="setRain" size="small"/>
     </div>
   </div>
 
@@ -14,7 +14,7 @@
       :min="0"
       :max="90"
       :step="10"/>
-      <div class="row-slider-num">{{ state.rainAngle }} <span> °</span></div>
+      <div class="row-slider-num" style="width:0.5rem">{{ state.rainAngle }} <span> °</span></div>
     </div>
   </div>
   <div class="row-item" v-show="state.rainShow">
@@ -25,7 +25,7 @@
       :max="30"
       :step="2"/>
       <!-- <div class="row-slider-num" style="width: 0.5rem; margin-left:0.1rem ;">{{ state.rainSpeed }} <span>M/S</span></div> -->
-      <div class="row-slider-num">{{ state.rainSpeed }} <span>M/S </span></div>
+      <div class="row-slider-num" style="width:0.5rem">{{ state.rainSpeed }} <span>米/秒</span></div>
     </div>
   </div>
 
@@ -33,29 +33,29 @@
   <div class="row-item">
     <span>开启雪景</span>
     <div style="width: 1.96rem;height: 0.32rem;">
-      <n-switch v-model:value="state.snowShow" @update:value="setSnow"/>
+      <n-switch v-model:value="state.snowShow" @update:value="setSnow" size="small"/>
     </div>
   </div>
 
   <div class="row-item" v-show="state.snowShow">
     <span>雪角度</span>
-    <div class="slider-box">
+    <div class="slider-box" style="width: 2rem;justify-content: space-around">
       <n-slider v-model:value="state.snowAngle" style="width: 70%" 
       :min="0"
       :max="90"
       :step="10"/>
-      <div class="row-slider-num">{{ state.snowAngle }} <span> °</span></div>
+      <div class="row-slider-num" style="width:0.5rem">{{ state.snowAngle }} <span> °</span></div>
     </div>
   </div>
   
   <div class="row-item" v-show="state.snowShow">
     <span>雪速度</span>
-    <div class="slider-box">
+    <div class="slider-box" style="width: 2rem;justify-content: space-around">
       <n-slider v-model:value="state.snowSpeed" style="width: 70%" 
       :min="0"
       :max="30"
       :step="1"/>
-      <div class="row-slider-num">{{ state.snowSpeed }} <span>M/S</span></div>
+      <div class="row-slider-num" style="width:0.5rem">{{ state.snowSpeed }} <span>米/秒</span></div>
     </div>
   </div>
 
@@ -66,7 +66,7 @@
       :min="0"
       :max="30"
       :step="1"/>
-      <div class="row-slider-num">{{ state.snowDesity }} <span> °</span></div>
+      <div class="row-slider-num" style="width:0.5rem">{{ state.snowDesity }} <span> °</span></div>
     </div>
   </div>
 </template>
@@ -149,3 +149,9 @@ onUnmounted(() => {
   viewer.scene.postProcessStages.snow.enabled = false;
 });
 </script>
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>

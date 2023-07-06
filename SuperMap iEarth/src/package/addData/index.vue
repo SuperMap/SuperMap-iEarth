@@ -1,6 +1,6 @@
 <template>
   <div class="add-data-box">
-    <n-tabs type="line" animated>
+    <n-tabs type="line" animated justify-content="left">
       <!-- 公共服务 -->
       <n-tab-pane name="publicService" tab="公共服务">
         <SmLayerService></SmLayerService>
@@ -30,6 +30,7 @@ import SmLayerService from "./layer-service/index";
 import SmLayerCustom from "./layer-custom/index";
 import SmLayerBase from "./layer-base/index";
 import SmLayerTerrain from "./layer-terrain/index";
+
 </script>
 
 <style lang="scss" scoped>
@@ -40,5 +41,11 @@ import SmLayerTerrain from "./layer-terrain/index";
   box-sizing: border-box;
   overflow-y: scroll;
   @include setsSrollbar();
+  :deep(.n-tabs-tab__label) {
+    color: rgba(255, 255, 255, 0.65);
+  };
+}
+:deep(.n-tabs-tab-wrapper){
+  margin-right:0.16rem;
 }
 </style>

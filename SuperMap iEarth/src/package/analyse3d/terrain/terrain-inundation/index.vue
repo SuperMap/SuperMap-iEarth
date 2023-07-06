@@ -9,7 +9,7 @@
       :min="1"
       :max="10000"
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 
@@ -23,7 +23,7 @@
       :max="10000"
       :show-button="false"
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 
@@ -35,7 +35,7 @@
       :bordered="false"
       :show-button="false"
     >
-      <template #suffix>M</template>
+      <template #suffix>米</template>
     </n-input-number>
   </div>
 
@@ -105,7 +105,7 @@
         :min="1"
         :max="2000"
       />
-      <span>{{ state.floodSpeed }}<span>M/S</span></span>
+      <span>{{ state.floodSpeed }}<span>米/S</span></span>
     </div>
   </div>
 
@@ -373,5 +373,9 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
 </style>
 

@@ -2,6 +2,7 @@
   <div class="row-item">
     <span>地址</span>
     <n-input
+      class="input-border"
       v-model:value="sceneUrl"
       type="text"
       style="width: 2.4rem"
@@ -11,7 +12,7 @@
     />
   </div>
 
-  <div style="margin-left: 0.74rem">
+  <div style="margin-left: 0.74rem; margin-bottom: 0.1rem">
     <n-checkbox v-model:checked="token"> 添加token </n-checkbox>
     <n-input
       style="margin-top: 0.1rem; width: 2.4rem"
@@ -22,7 +23,7 @@
     />
   </div>
 
-  <div class="btn-row-item">
+  <div class="btn-row-item" style="margin-left: 0.74rem">
     <n-button
       type="info"
       color="#3499E5"
@@ -98,4 +99,9 @@ function openScene() {
 
 
 </script>
-
+<style lang="scss" scoped>
+.input-border {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+</style>

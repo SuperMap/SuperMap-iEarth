@@ -141,6 +141,7 @@ type stateType = {
   //   allRoutes:any[]
   itemOptions:any, // 功能选项
   actionOptions:any, // 操作选项
+  isSaveAutoFlag:boolean,// 是否开启自动保存
 };
 
 // 设置默认值数据
@@ -169,6 +170,7 @@ let state = reactive<stateType>({
   //飞行路线设置
   isAlongline: false, //获取或者设置该飞行路线是否是沿线飞行。
   routeSpeed: 200, //飞行路线速度
+  isSaveAutoFlag:false,
   //   allRoutes:[]
   itemOptions: [
     {
@@ -248,7 +250,7 @@ function changleIconItem(item:any){
       break;
     }
     case 2:{
-      clearStop();
+      deleteStop();
       break;
     }
     case 3:{
@@ -301,22 +303,11 @@ function initFlyManager() {
     routes: routeCollection,
   });
   createXml = new createFlyLine_xml();
-  if (state.fpfUrl) {
-    fpfUrlChange();
-  }
+  // if (state.fpfUrl) {
+  //   fpfUrlChange();
+  // }
 }
 
-// 改变默认fpf文件路径触发
-function fpfUrlChange() {
-  flyManager.stop();
-  routeCollection.fromFile(state.fpfUrl);
-  flyManager.readyPromise.then(function () {
-    let route = flyManager.currentRoute;
-    route.isLineVisible = state.showRoute;
-    route.isStopVisible = state.showStop;
-    updateCurrentStops();
-  });
-}
 
 // 异步飞行管理准备就绪函数
 function readyPromise() {
@@ -355,9 +346,10 @@ function updateCurrentStops() {
 
 // 开始
 function flyStart() {
-  flyManager.readyPromise.then(() => {
-    flyManager.play();
-  });
+  flyManager.play();
+  // flyManager.readyPromise.then(() => {
+  //   flyManager.play();
+  // });
 }
 // 暂停
 function flyPause() {
@@ -388,7 +380,9 @@ function addStop() {
     waitTime: state.waitTime,
   };
   state.routeStops.push(stop);
-  state.addCurrentStopIndex++;
+  if(state.isSaveAutoFlag) saveStop();// 一旦添加站点，立即保存
+  let routeLen = state.routeStops.length;
+  if(routeLen>0) state.addCurrentStopIndex = state.routeStops[routeLen-1].index+1; // 保证新增的站点index始终比前一位大1
   message.success(`添加站点:${state.setStopName} 成功`);
   
   if (state.routeStops.length > 0) {
@@ -401,48 +395,91 @@ function addStop() {
   state.selectedAddedStopIndex = state.routeStops.length - 1;
 }
 
+// 清除选中站点
+function deleteStop() {
+  state.routeStops.splice(state.selectedAddedStopIndex, 1);
+  if(state.routeStops.length>1 && state.isSaveAutoFlag){
+    saveStop(); // 一旦删除站点，实时保存
+  }
+  if (state.routeStops.length > 0) {
+    state.selectedAddedStopIndex = state.routeStops.length - 1;
+    return;
+  }
+  state.selectedAddedStopIndex = null;
+  state.setStopName = "Stop-1";
+}
+
+// 重置当前路线
+function restStops() {
+  let route = flyManager.currentRoute;
+  if (route) {
+    route.isLineVisible = false;
+    route.isStopVisible = false;
+  }
+  // state.routeStops.length = 0;
+  state.setStopName = "Stop-1";
+  // state.setStopSpeed = 0;
+  // state.stopPlayMode = "StopPause";
+  // state.waitTime = 0;
+  // state.surroundDuration = 1;
+  state.routeStops = [];
+  state.addCurrentStopIndex = 0;
+}
+
 // 保存站点
 function saveStop() {
   if (state.routeStops.length < 2) {
     notification.create({
-      content: () => "节点小于2",
+      content: () => "节点至少两个才能保存",
       duration: 3500,
     });
     return;
   }
 
-  state.addCurrentStopIndex = 0;
-  state.addCurrentStopIndex = 0;
+
+  // state.addCurrentStopIndex = state.routeStops.length;
 
   // 飞行路线配置
-  let index = flyLineXmls.length + 1;
+  // let index = flyLineXmls.length + 1;
   let route = {
-    routeName: "飞行路线_" + index,
+    // routeName: "飞行路线_1" + index,
+    routeName: "飞行路线_1",
     index: state.addCurrentRouteIndex,
     speed: state.routeSpeed,
     isAlongLine: "False",
     routeStops: state.routeStops,
   };
   let xml = createXml.createXMLflyLine(route);
-  flyLineXmls.push(xml);
-  state.customRouteNames.push({
+  // flyLineXmls.push(xml);
+  flyLineXmls[0] = xml;
+  state.isSaveAutoFlag = true;//一旦点击保存，开启实时自动保存
+  // 保证只有一条飞行路线
+  if(state.customRouteNames.length === 0) {
+    state.customRouteNames.push({
     label: route.routeName,
     value: route.index,
   });
+  }; 
+  updateRouteCollection();
+
   state.addCurrentRouteIndex++;
   if (state.customRouteSelectedIndex === null)
     state.customRouteSelectedIndex = 0;
+
+    // if (val === null) return;
+}
+// 更新飞行路径
+function updateRouteCollection(){
+    flyManager && flyManager.stop();
+    let route = flyManager.currentRoute;
+    if (route) route.clear(); //清除之前的
+    routeCollection = new SuperMap3D.RouteCollection(viewer.entities); //飞行路线底层默认第一条路线，所以重新new
+    routeCollection.fromXML(flyLineXmls[0]); // 默认飞行路径只有一条
+    readyPromise();
 }
 
-// 重置当前路线
-function restStops() {
-  state.routeStops.length = 0;
-  state.setStopName = "Stop-1";
-  state.setStopSpeed = 0;
-  state.stopPlayMode = "StopPause";
-  state.waitTime = 0;
-  state.surroundDuration = 1;
-}
+
+
 
 // 下载选择的飞行路线fpf文件
 function downLoad() {
@@ -470,24 +507,16 @@ function clearRoute() {
   if (route) route.clear(); //清除之前的
 }
 
-// 清除选中站点
-function clearStop() {
-  state.routeStops.splice(state.selectedAddedStopIndex, 1);
-  if (state.routeStops.length > 0) {
-    state.selectedAddedStopIndex = state.routeStops.length - 1;
-    return;
-  }
-  state.selectedAddedStopIndex = null;
-  state.setStopName = "Stop-1";
-}
 
 // 监听
 watch(
   () => state.selectedStopIndex,
   (val) => {
     flyManager && flyManager.stop();
-    let index = Number(val);
-    let stop = currentStops[index];
+    //  updateCurrentStops();
+     let index = Number(val);
+    let currentStopList = flyManager.getAllRouteStops();
+    let stop = currentStopList[index];
     flyManager.viewToStop(stop);
   }
 );
@@ -505,30 +534,26 @@ watch(
     if (route) route.isStopVisible = val;
   }
 );
-watch(
-  () => state.fpfUrl,
-  (val) => {
-    fpfUrlChange();
-  }
-);
+// watch(
+//   () => state.fpfUrl,
+//   (val) => {
+//     fpfUrlChange();
+//   }
+// );
 
 watch(
   () => state.customRouteSelectedIndex,
   (val) => {
     if (val === null) return;
-    flyManager && flyManager.stop();
-    let route = flyManager.currentRoute;
-    if (route) route.clear(); //清除之前的
-    routeCollection = new SuperMap3D.RouteCollection(viewer.entities); //飞行路线底层默认第一条路线，所以重新new
-    routeCollection.fromXML(flyLineXmls[val]);
-    readyPromise();
+    updateRouteCollection();
   }
 );
 
 watch(
   () => state.selectedAddedStopIndex,
   (val) => {
-    let stop = state.routeStops[val];
+    // let stop = state.routeStops[val];
+    let stop = state.routeStops.find((stop)=>stop.index === val);
     if (!stop) return;
     viewer.camera.setView({
       destination: SuperMap3D.Cartesian3.fromDegrees(
@@ -559,10 +584,17 @@ watch(
 // 销毁
 onBeforeUnmount(() => {
   clearRoute();
+  
+  let route = flyManager.currentRoute;
+  if (route) {
+    route.isLineVisible = false;
+    route.isStopVisible = false;
+  }
   flyManager = routeCollection = null;
   currentStops = null;
   createXml = null;
   flyLineXmls = null;
+
 });
 </script>
   

@@ -31,3 +31,4 @@ app.mount('#app')
 if(location.href.indexOf('/iportal/apps') != -1){
     initPortal();
 }
+// initPortal();

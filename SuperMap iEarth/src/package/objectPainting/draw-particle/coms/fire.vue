@@ -18,7 +18,7 @@
     <div class="row-item" v-show="state.showEditCheck">
         <span>参数设置</span>
         <div style="width: 1.96rem;height: 0.32rem;">
-        <n-switch v-model:value="state.setParam" />
+        <n-switch v-model:value="state.setParam" size="small" />
         </div>
     </div>
 
@@ -89,7 +89,7 @@
 
   </template>
     
-    <script lang="ts" setup>
+<script lang="ts" setup>
   import { reactive, onBeforeUnmount, watch } from "vue";
 
 
@@ -133,9 +133,11 @@ function clear(){};
   
   </script>
     
-    
-  <style lang="scss" scoped>
-  
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
   </style>
     
     

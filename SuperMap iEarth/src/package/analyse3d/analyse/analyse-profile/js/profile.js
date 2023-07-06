@@ -27,7 +27,7 @@ class ProfileAnalysis {
     //初始化echarts
     initEcharts() {
         this.getEchartsDom();
-        if (!this.echarts_dom_show) return;  //解决未显示容器就执行init的警告问题
+        // if (!this.echarts_dom_show) return;  //解决未显示容器就执行init的警告问题
         if (!this.myChart) {
             this.myChart = this.echarts.init(this.echarts_dom); //初始化echarts
             window.onresize = () => {
@@ -102,17 +102,25 @@ class ProfileAnalysis {
                 );
             }
         }
+
+        // this.clampedCartesians = positions;
+        // this.LatAndLons = CartesiantoDegreesObjs(positions);
+        // this.setOptions();
       
-        // if(isStartCreateEcharts){
+        return new Promise((resolve, reject) => {
             this.viewer.scene
             .clampToHeightMostDetailed(positions)
             .then((clampedCartesians) => {
                     this.clampedCartesians = clampedCartesians;
                     this.LatAndLons = CartesiantoDegreesObjs(clampedCartesians);
                     this.setOptions();
-            });
-        // }
 
+                    // return Promise.resolve(true);
+                    resolve(true);
+            },(err)=>{
+                console.log("剖面:",err)
+            });
+        })
     };
 
     /**
@@ -172,6 +180,7 @@ class ProfileAnalysis {
 
     // 设置echarts
     setOptions() {
+        console.log("this.LatAndLons：",this.LatAndLons);
         this.myChart.clear();
         let option = {
             title: {

@@ -7,7 +7,7 @@
         <n-slider style="width: 1.2rem;" v-model:value="state.maxHeight" :step="10" :min="1" :max="1000" />
         <div class="slider-suffix">
           <span>{{ state.maxHeight }}</span>
-          <span class="slider-unit">M</span>
+          <span class="slider-unit">米</span>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
         <n-slider style="width: 1.2rem;" v-model:value="state.maxDistence" :step="10" :min="1" :max="1000" />
         <div class="slider-suffix">
           <span>{{ state.maxDistence }}</span>
-          <span class="slider-unit">M</span>
+          <span class="slider-unit">米</span>
         </div>
       </div>
     </div>
@@ -146,4 +146,9 @@ onBeforeUnmount(()=>{
 })
 </script>
     
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>

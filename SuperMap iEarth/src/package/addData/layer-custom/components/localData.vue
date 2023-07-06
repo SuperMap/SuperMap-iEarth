@@ -1,15 +1,20 @@
 <template>
   <div class="row-item">
-    <span>KML</span>
+    <div>KML</div>
+    <div>
+    <n-input-group>
     <n-input
-      style="width: 2.4rem"
+      class="input-border"
+      style="width: 2.0rem; margin-bottom: 0.1rem"
       placeholder="请选择本地KML数据"
       v-model:value="state.fileSrc"
     />
-    <n-button type="primary" size="small" @click="chooseFile">文件夹</n-button>
+    <n-button type="tertiary" size="medium" @click="chooseFile">选择</n-button>
+    </n-input-group>
+    </div>
     <input type="file" accept=".kml" id="localFile" style="display:none" ref="localKML_dom" />
   </div>
-  <div class="btn-row-item">
+  <div class="btn-row-item" style="margin-left: 0.74rem">
     <n-button
       type="info"
       color="#3499E5"
@@ -67,5 +72,11 @@ onMounted(() => {
 
 
 </script>
+<style lang="scss" scoped>
+.input-border {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+</style>
 
 

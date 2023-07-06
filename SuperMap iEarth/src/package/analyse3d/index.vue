@@ -32,7 +32,7 @@ let analyseList = ref([
   {
     id: 1,
     iconName: "iconkongjianfenxi",
-    title: "三维分析",
+    title: "空间分析",
     isSelected: true,
     componentName: markRaw(Analyse),
   },
@@ -73,6 +73,8 @@ function changeItem(iconItem: any) {
   display: flex;
   height: 0.4rem;
   background: rgba(255, 255, 255, 0.15);
+  width: 96%;
+  margin: 0px 2%;
   .analyse-tab-items {
     width: 0.48rem;
     height: 100%;
@@ -80,6 +82,7 @@ function changeItem(iconItem: any) {
     align-items: center;
     justify-content: center;
     @include setIconstyle(0.16rem);
+    cursor: pointer;
   }
 }
 .select-bg {

@@ -25,7 +25,7 @@
   <div class="row-item">
     <span>开启卷帘</span>
     <div style="width: 1.96rem;">
-      <n-switch v-model:value="state.rollerShutterShow" />
+      <n-switch v-model:value="state.rollerShutterShow" size="small" />
     </div>
   </div>
 
@@ -53,7 +53,7 @@ type stateType = {
 let state = reactive<stateType>({
   options_split: [
     {
-      label: () => "不分屏",
+      label: () => "不使用分屏",
       value: "NONE",
     },
     {

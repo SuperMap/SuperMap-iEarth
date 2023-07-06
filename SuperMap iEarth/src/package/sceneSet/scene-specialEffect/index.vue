@@ -66,13 +66,14 @@ function changeItem(item: any) {
   // font-size: 0.14rem;
   display: flex;
   margin-left: 0.1rem;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.2rem;
   cursor: pointer;
+  justify-content: center;
 
   .btn {
-    width: 1.8rem;
-    height: 0.22rem;
-    line-height: 0.22rem;
+    width: 0.72rem;
+    height: 0.26rem;
+    line-height: 0.26rem;
     text-align: center;
     // margin-left: 0.48rem;
   }
