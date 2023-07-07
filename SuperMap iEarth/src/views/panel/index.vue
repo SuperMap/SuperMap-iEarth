@@ -10,7 +10,7 @@
           <i class="iconfont iconguanbi"></i>
         </div>
       </div>
-      <div class="panle-container">
+      <div class="panle-container" :style="{overflowY: panelStore.panelList.leftToolBarList[0].isSelected? 'scroll':'hidden'}">
         <LayerList
           v-if="panelStore.panelList.leftToolBarList[0].isSelected"
         ></LayerList>
@@ -134,8 +134,8 @@ function panelCloseHandle(leftOrRght: any) {
   height: auto;
   background: url("@/assets/panelbg/zhongjian.png");
   background-size: 100% 100%;
-  max-height: 4rem;
-  overflow-y: scroll;
+  max-height: 6.6rem;
+  // overflow-y: scroll;
   @include setsSrollbar();
 }
 .panle-footer {

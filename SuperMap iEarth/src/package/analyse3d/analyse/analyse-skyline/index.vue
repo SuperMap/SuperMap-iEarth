@@ -97,7 +97,7 @@
       </div>
     <!-- <n-checkbox style="width: 2.19rem" v-model:checked="state.ignoreGlobe"></n-checkbox> -->
   </div>
-  <div class="btn-row-item btn-row-item1">
+  <div class="btn-row-item1">
     <n-button
       type="info"
       color="#3499E5"
@@ -185,6 +185,7 @@ init();
 function init() {
   if (!viewer) return;
   skylineAnalysis = new SkylineAnalysis(viewer, { axios: axios });
+  viewer.scene.globe.depthTestAgainstTerrain = true; //开启深度检测
 }
 
 //分析
@@ -479,6 +480,7 @@ onBeforeUnmount(() => {
   skylineAnalysis.destroy();
   // echarts_dom.style.display = "none";
   state.getSkyline2d = false;
+  viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
 });
 
 </script>
@@ -489,7 +491,7 @@ onBeforeUnmount(() => {
 // }
 .btn-row-item1{
   display: flex;
-  justify-content: center;
+  justify-content: right;
   button{
     display: block;
   }

@@ -13,8 +13,8 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/CBD.jpg",
-					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+					// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+					proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
 					name: "北京CBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
@@ -22,14 +22,14 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Sophia.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-suofeiya_church/rest/realspace",
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-suofeiya_church-2/rest/realspace",
 					name: "索菲亚教堂",
 					chooseType: false
 				},
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/ZfTerranAndImagery.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-ZF_normal/rest/realspace",
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-ZF_normal/rest/realspace",
 					name: "珠峰地形影像",
 					layers: [{ type: 'IMG', layerName: 'image' }, { type: 'TERRAIN', layerName: 'srtm_54_07%40zhufeng' }],
 					chooseType: false
@@ -37,7 +37,7 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/BIM.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-wireFrame/rest/realspace",
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-wireFrame-2/rest/realspace",
 					name: "BIM建筑",
 					layers: [{ type: 'S3M', layerName: "wireFrame" }],
 					chooseType: false
@@ -45,7 +45,7 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/PointCloud.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-cloud/rest/realspace",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-cloud-2/rest/realspace",
 					name: "点云",
 					layers: [{ type: 'S3M', layerName: 'POINTCLOUD23' }],
 					chooseType: false
@@ -60,7 +60,8 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Household.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-QingXieSheYingMoXing/rest/realspace",
+					// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-QingXieSheYingMoXing/rest/realspace",
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-FCFH_Shangdong-2/rest/realspace",
 					name: "倾斜影像",
 					layers: [{ type: 'S3M', layerName: 'qingxie' }],
 					chooseType: false
@@ -97,7 +98,8 @@ export const useLayerStore = defineStore({
 				{
 					type: "ThematicMap",
 					thumbnail: "./images/addData/cqbm.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000/rest/realspace/datas/CQmodel/config",
+					// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000/rest/realspace/datas/CQmodel/config",
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000-2/rest/realspace/datas/wireFrame/config",
 					name: "重庆白模",
 					S3MLayer: true,
 					chooseType: false
@@ -117,6 +119,15 @@ export const useLayerStore = defineStore({
 					name: "变电站",
 					chooseType: false
 				},
+				// {
+				// 	type: "REALSPACE",
+				// 	thumbnail: "./images/addData/CBD.jpg",
+				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+				// 	name: "原始CBD",
+				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
+				// 	chooseType: false
+				// },
 			],
 			// 在线底图服务
 			onlineBaseLayerList: [{

@@ -70,6 +70,8 @@ function changeItem(iconItem: any) {
 
 <style scoped lang="scss">
 .analyse-tab {
+  box-sizing: border-box;
+  padding-left: 0.16rem;
   display: flex;
   height: 0.4rem;
   background: rgba(255, 255, 255, 0.15);

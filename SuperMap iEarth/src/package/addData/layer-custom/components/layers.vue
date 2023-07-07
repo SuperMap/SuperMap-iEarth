@@ -15,7 +15,6 @@
       style="width: 2.4rem"
       v-model:value="layerUrl"
       type="text"
-      placeholder="http://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building@CBD/config"
       @input="handleChange"
     />
   </div>
@@ -69,7 +68,7 @@ let token = ref(false);
 let layerToken = ref("");
 let options = [
   {
-    label: "图层",
+    label: "S3M",
     value: "S3M",
   },
   {
@@ -153,6 +152,7 @@ function handleChange() {
   }
 }
 
+// 添加s3m
 let promiseArray: any[] = [];
 function addS3M(s3mLayerUrl: string) {
   let options: { name: string };
@@ -168,6 +168,7 @@ function addS3M(s3mLayerUrl: string) {
   promiseWhen(promiseArray, true);
 }
 
+// 添加影像图层 - 目前只支持超图我们自己的影像
 function addImage(imageryUrl: string) {
   let layer = viewer.imageryLayers.addImageryProvider(
     new SuperMap3D.SuperMapImageryProvider({
@@ -178,14 +179,18 @@ function addImage(imageryUrl: string) {
   viewer.flyTo(layer);
 }
 
+// 添加地形
 function addTerrain(terrainURL: string) {
   // viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
   //   url: terrainURL,
-  //   isSct: true, //地形服务源自SuperMap iServer发布时需设置isSct为true
+  //   isSct: true, //地形服务源自SuperMap iServer，本地发布时需设置isSct为true
   // });
+
+  let isSctFlag = false;
+  if(terrainURL.indexOf("8090") != -1) isSctFlag = true;
   viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
         url: terrainURL,
-        isSct: false,
+        isSct: isSctFlag,
   });
   layerStore.updateLayer({ type: "terrain" });
 

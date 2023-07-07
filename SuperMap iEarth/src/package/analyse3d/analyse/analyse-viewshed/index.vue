@@ -1,7 +1,7 @@
 <template>
-  <div class="row-container">
+  <div class="row-container" style="max-height: 4.0rem">
     <!-- 可视域 -->
-    <n-scrollbar style="max-height: 3rem">
+    <n-scrollbar style="max-height: 3.8rem">
     <div class="row-item" style="margin-right: 0.1rem">
       <span>经度</span>
       <n-input-number

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "36324060",
+      "name": "空间距离",
+      "font_class": "kongjianjuli",
+      "unicode": "e88c",
+      "unicode_decimal": 59532
+    },
+    {
+      "icon_id": "36322943",
+      "name": "依地距离",
+      "font_class": "yidijuli1",
+      "unicode": "e88e",
+      "unicode_decimal": 59534
+    },
+    {
+      "icon_id": "36322376",
+      "name": "投影",
+      "font_class": "touying",
+      "unicode": "e88d",
+      "unicode_decimal": 59533
+    },
+    {
       "icon_id": "36192555",
       "name": "立方体",
       "font_class": "lifangti",

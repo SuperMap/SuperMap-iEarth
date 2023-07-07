@@ -341,7 +341,7 @@ function addCBD(url: string) {
     // var promise = scene.open("http://localhost:8090/iserver/services/3D-CBD2-4/rest/realspace");
     // var promise = scene.open("http://localhost:8090/iserver/services/3D-CBDChangJing2/rest/realspace");
     // var promise = scene.open("http://172.16.12.68:8090/iserver/services/3D-CBDChangJing2/rest/realspace");
-    var promise = scene.open("http://www.supermapol.com/realspace/services/3D-0523/rest/realspace");
+    var promise = scene.open(url);
     // var promise = scene.open("http://localhost:8090/iserver/services/3D-0315ZhongQiePianWanZhengChangJing/rest/realspace");
     // var promise = scene.open("http://10.10.7.245:8090/iserver/services/3D-0315ZhongQiePianWanZhengChangJing/rest/realspace");
 

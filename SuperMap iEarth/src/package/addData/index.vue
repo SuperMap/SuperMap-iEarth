@@ -1,5 +1,5 @@
 <template>
-  <div class="add-data-box">
+  <div class="add-data-box" style="overflow-y:hidden">
     <n-tabs type="line" animated justify-content="left">
       <!-- 公共服务 -->
       <n-tab-pane name="publicService" tab="公共服务">
@@ -37,7 +37,7 @@ import SmLayerTerrain from "./layer-terrain/index";
 .add-data-box {
   width: 100%;
   height: 100%;
-  padding: 0 0.12rem;
+  padding: 0 0.01rem 0 0.12rem;
   box-sizing: border-box;
   overflow-y: scroll;
   @include setsSrollbar();

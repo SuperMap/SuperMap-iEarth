@@ -1,16 +1,28 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2397568 */
-  src: url('iconfont.woff2?t=1687940482534') format('woff2'),
-       url('iconfont.woff?t=1687940482534') format('woff'),
-       url('iconfont.ttf?t=1687940482534') format('truetype');
+  src: url('iconfont.woff2?t=1688638347789') format('woff2'),
+       url('iconfont.woff?t=1688638347789') format('woff'),
+       url('iconfont.ttf?t=1688638347789') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.iconkongjianjuli:before {
+  content: "\e88c";
+}
+
+.iconyidijuli1:before {
+  content: "\e88e";
+}
+
+.icontouying:before {
+  content: "\e88d";
 }
 
 .iconlifangti:before {

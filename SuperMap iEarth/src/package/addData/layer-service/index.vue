@@ -1,6 +1,6 @@
 <template>
   <!-- 公共服务 -->
-  <n-scrollbar style="max-height: 3.8rem">
+  <n-scrollbar style="max-height: 3.42rem">
   <div class="layer-server-container">
     <div
       v-for="(item, index) in layerStore.layerServiceData.publicServiceList"
@@ -21,12 +21,13 @@
 <script lang="ts" setup>
 import { useMessage } from "naive-ui";
 import { useLayerStore } from "@/store/layerStore";
+import { usePanelStore } from "@/store";
 import layerManagement from "@/tools/layerManagement";
 
 // 弹窗提示
 const message = useMessage();
 const layerStore = useLayerStore();
-
+const panelStore = usePanelStore();
 // 添加公共服务：三类
 function addPublicService(item: any) {
   if (item.chooseType) {
@@ -34,7 +35,7 @@ function addPublicService(item: any) {
     return;
   }
 
-  console.log("item:",item);
+  // console.log("item:",item);
   layerStore.SelectedOptions.publicService.push(item.name); // 存入已选择的公共服务选项
   let type = item.type;
   switch (type) {
@@ -51,6 +52,7 @@ function addPublicService(item: any) {
       item.chooseType = true;
       break;
   }
+  panelStore.closeRightToolPanel(1);// 1为关闭左侧面板
 }
 
 </script>

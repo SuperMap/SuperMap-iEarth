@@ -17,7 +17,8 @@ html, body,#app{
 .row-container {
     width: 100%;
     max-height: 3rem;
-    overflow-y: scroll;
+    overflow-y: hidden;
+    // overflow-y: scroll;
 
     /* 移除滚动条 */
     &::-webkit-scrollbar {
@@ -227,4 +228,8 @@ html, body,#app{
     margin: 2px;
     // scale: 1.6;
     font-size: .22rem;
+  }
+  :deep(.n-scrollbar-rail--vertical) {
+    right: 0px !important;
+    width: 8px !important;
   }

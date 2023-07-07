@@ -1,5 +1,4 @@
 <template>
-  <n-scrollbar style="max-height: 3rem">
   <div class="row-item" style="margin-right: 0.1rem">
     <!-- 剖面分析 -->
     <span>起点经度</span>
@@ -91,7 +90,6 @@
         </n-radio-group>
       </div>
   </div>
-  </n-scrollbar>
   <div class="btn-row-item">
     <n-button
       type="info"

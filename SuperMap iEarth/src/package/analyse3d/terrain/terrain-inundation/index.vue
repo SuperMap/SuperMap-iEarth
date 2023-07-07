@@ -105,7 +105,7 @@
         :min="1"
         :max="2000"
       />
-      <span>{{ state.floodSpeed }}<span>米/S</span></span>
+      <span>{{ state.floodSpeed }}<span>米/秒</span></span>
     </div>
   </div>
 

@@ -13,7 +13,7 @@
     <div class="row-item">
       <div class="icon-list" style="margin-left: 0.94rem">
         <span
-          v-for="(line, index) in state.itemOptions"
+          v-for="(line, index) in state.currentItemOption"
           :key="index"
           class="icon-span"
           :title="line.lable"
@@ -26,13 +26,13 @@
       </div>
     </div>
 
-    <n-checkbox
+    <!-- <n-checkbox
       @update:checked="openPickPoint"
       v-model:checked="state.pickPointEnabled"
       style="margin-left: 0.96rem; margin-bottom: 0.1rem"
     >
       顶点捕捉
-    </n-checkbox>
+    </n-checkbox> -->
 
     <div v-show="state.currentItemIndex === 2">
       <n-checkbox
@@ -76,6 +76,7 @@ type stateType = {
   currentItemIndex: number, // 当前索引
   options:any, // 量算模式选项
   itemOptions:any, // 测量方式选项
+  currentItemOption:any,// 当前测量方式选项
 }
 
 let state = reactive<stateType>({
@@ -112,27 +113,88 @@ let state = reactive<stateType>({
       value: "null",
     },
   ],
-  itemOptions: [
-    {
-      id: 1,
-      lable: "测量距离",
-      iconName: "iconceju",
-      isSelect: true,
-    },
-    {
-      id: 2,
-      lable: "测量高度",
-      iconName: "iconcegao",
-      isSelect: false,
-    },
-    {
-      id: 3,
-      lable: "测量面积",
-      iconName: "iconcemian",
-      isSelect: false,
-    },
-
-  ],
+  itemOptions:{
+    "Space":[
+      {
+        id: 1,
+        lable: "测量距离",
+        iconName: "iconceju",
+        isSelect: true,
+      },
+      {
+        id: 2,
+        lable: "测量高度",
+        iconName: "iconcegao",
+        isSelect: false,
+      },
+      {
+        id: 3,
+        lable: "测量面积",
+        iconName: "iconcemian",
+        isSelect: false,
+      },
+    ],
+    "Ground":[
+      {
+        id: 1,
+        lable: "测量距离",
+        iconName: "iconyidijuli1",
+        isSelect: true,
+      },
+      {
+        id: 2,
+        lable: "测量高度",
+        iconName: "iconcegao",
+        isSelect: false,
+      },
+      {
+        id: 3,
+        lable: "测量面积",
+        iconName: "iconyidimianji",
+        isSelect: false,
+      },
+    ],
+    "null":[
+      {
+        id: 1,
+        lable: "测量距离",
+        iconName: "iconyidijuli1",
+        isSelect: true,
+      },
+      {
+        id: 2,
+        lable: "测量高度",
+        iconName: "iconcegao",
+        isSelect: false,
+      },
+      {
+        id: 3,
+        lable: "测量面积",
+        iconName: "icontouying",
+        isSelect: false,
+      },
+    ],
+  },
+  currentItemOption:[
+      {
+        id: 1,
+        lable: "测量距离",
+        iconName: "iconceju",
+        isSelect: true,
+      },
+      {
+        id: 2,
+        lable: "测量高度",
+        iconName: "iconcegao",
+        isSelect: false,
+      },
+      {
+        id: 3,
+        lable: "测量面积",
+        iconName: "iconcemian",
+        isSelect: false,
+      },
+    ]
 });
 
 // 初始化数据
@@ -272,11 +334,11 @@ function init() {
 // 改变当前item索引
 function changleIconItem(item: any) {
   state.currentItemIndex = item.id;
-  for (let i = 0; i < state.itemOptions.length; i++) {
-    if (state.itemOptions[i].id == item.id) {
-      state.itemOptions[i].isSelect = true;
+  for (let i = 0; i < state.currentItemOption.length; i++) {
+    if (state.currentItemOption[i].id == item.id) {
+      state.currentItemOption[i].isSelect = true;
     } else {
-      state.itemOptions[i].isSelect = false;
+      state.currentItemOption[i].isSelect = false;
     }
   }
 }
@@ -464,7 +526,7 @@ function update_showDVH(val:boolean) {
 // 开启顶点捕捉
 function openPickPoint(val:boolean){
   state.pickPointEnabled = val;
-  viewer.scene.pickPointEnabled = val;
+  // viewer.scene.pickPointEnabled = val;
 }
 
 // 清除
@@ -490,12 +552,27 @@ function clearLine() {
   // viewer.eventManager.removeEventListener("CLICK", measureHeightClk); //移除鼠标点击事件监听
 }
 
-// watch(
-//   () => state.pickPointEnabled,
-//   val => {
-//     viewer.scene.pickPointEnabled = val;
-//   }
-// );
+watch(
+  () => state.measureMode,
+  val => {
+    switch (val) {
+      case "Space":
+        state.currentItemOption = state.itemOptions["Space"];
+        break;
+      case "Ground":
+      state.currentItemOption = state.itemOptions["Ground"];
+        break;
+      case "null":
+      state.currentItemOption = state.itemOptions["null"];
+        break;
+      default:
+        state.currentItemOption = state.itemOptions["Space"];
+        break;
+    }
+
+    state.currentItemIndex = 1;
+  }
+);
 onBeforeUnmount(() => {
   clear();
   isoline.destroy();

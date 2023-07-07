@@ -73,6 +73,7 @@ function initViewer() {
   window["viewer"] = viewer; //绑定到window
   GlobalStore.isViewer = true; // viewer初始化完成标志
   viewer.eventManager = new EventManager(viewer); //添加屏幕事件管理
+  // viewer.scene.globe.depthTestAgainstTerrain = true; //开启深度检测
   viewer.scene.globe.baseColor = SuperMap3D.Color.BLACK; // 没有影像图层时地球的底色
   if (viewer.geocoder) {
     // 请开发者自行到supermap online官网（http://www.supermapol.com/）申请key

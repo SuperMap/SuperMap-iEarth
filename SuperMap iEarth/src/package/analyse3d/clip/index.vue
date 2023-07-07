@@ -1,6 +1,6 @@
 <template>
   <div class="clip-box">
-    <n-tabs type="line" animated :on-update:value="tabsChange">
+    <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="space-between">
       <!-- box裁剪 -->
       <n-tab-pane name="boxclip" tab="box裁剪">
         <SmClipBox></SmClipBox>
@@ -41,6 +41,7 @@ function panelCloseHandle() {}
 <style lang="scss" scoped>
 .clip-box {
   width: 100%;
+  height: 100%;
   padding: 0 0.12rem;
   box-sizing: border-box;
 }
