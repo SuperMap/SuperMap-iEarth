@@ -1,0 +1,52 @@
+.supermap3d-lighter .supermap3d-button {
+    color: #111; /* For text buttons */
+    fill: #111; /* For SVG buttons */
+    background: #e2f0ff;
+    border: 1px solid #759dc0;
+}
+
+.supermap3d-lighter .supermap3d-button:focus {
+    color: #000; /* For text buttons */
+    fill: #000; /* For SVG buttons */
+    border-color: #ea4;
+}
+
+.supermap3d-lighter .supermap3d-button:hover {
+    color: #000; /* For text buttons */
+    fill: #000; /* For SVG buttons */
+    background: #a6d2ff;
+    border-color: #aef;
+    box-shadow: 0 0 8px #777;
+}
+
+.supermap3d-lighter .supermap3d-button:active {
+    color: #fff; /* For text buttons */
+    fill: #fff; /* For SVG buttons */
+    background: #48b;
+    border-color: #ea0;
+}
+
+.supermap3d-lighter .supermap3d-button:disabled,
+.supermap3d-lighter .supermap3d-button-disabled,
+.supermap3d-lighter .supermap3d-button-disabled:focus,
+.supermap3d-lighter .supermap3d-button-disabled:hover,
+.supermap3d-lighter .supermap3d-button-disabled:active {
+    background: #ccc;
+    border-color: #999;
+    color: #999; /* For text buttons */
+    fill: #999; /* For SVG buttons */
+    box-shadow: none;
+}
+
+.supermap3d-lighter .supermap3d-performanceDisplay {
+    background-color: #e2f0ff;
+    border-color: #759dc0;
+}
+
+.supermap3d-lighter .supermap3d-performanceDisplay-fps {
+    color: #e52;
+}
+
+.supermap3d-lighter .supermap3d-performanceDisplay-ms {
+    color: #ea4;
+}

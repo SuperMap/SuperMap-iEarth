@@ -1,0 +1,176 @@
+.supermap3d-animation-theme {
+    visibility: hidden;
+    display: block;
+    position: absolute;
+    z-index: -100;
+}
+
+.supermap3d-animation-themeNormal {
+    color: #222;
+}
+
+.supermap3d-animation-themeHover {
+    color: #4488B0;
+}
+
+.supermap3d-animation-themeSelect {
+    color: #242;
+}
+
+.supermap3d-animation-themeDisabled {
+    color: #333;
+}
+
+.supermap3d-animation-themeKnob {
+    color: #222;
+}
+
+.supermap3d-animation-themePointer {
+    color: #2E2;
+}
+
+.supermap3d-animation-themeSwoosh {
+    color: #8AC;
+}
+
+.supermap3d-animation-themeSwooshHover {
+    color: #AEF;
+}
+
+.supermap3d-animation-svgText {
+    fill: #edffff;
+    font-family: Sans-Serif;
+    font-size: 15px;
+    text-anchor: middle;
+}
+
+.supermap3d-animation-blank {
+    fill: #000;
+    fill-opacity: 0.01; /* This must be clickable, so it can't be 'fill: none'. */
+    stroke: none;
+}
+
+.supermap3d-animation-rectButton {
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.supermap3d-animation-rectButton .supermap3d-animation-buttonGlow {
+    fill: #fff;
+    stroke: none;
+    /* Widget will add: filter: url(#animation_blurred); */
+    display: none;
+}
+
+.supermap3d-animation-rectButton:hover .supermap3d-animation-buttonGlow {
+    display: block;
+}
+
+.supermap3d-animation-rectButton .supermap3d-animation-buttonPath {
+    fill: #edffff;
+}
+
+.supermap3d-animation-rectButton .supermap3d-animation-buttonMain {
+    /* Widget will add: fill: url(#animation_buttonNormal); */
+    stroke: #444;
+    stroke-width: 1.2;
+}
+
+.supermap3d-animation-rectButton:hover .supermap3d-animation-buttonMain {
+    /* Widget will add: fill: url(#animation_buttonHovered); */
+    stroke: #AEF;
+}
+
+.supermap3d-animation-rectButton:active .supermap3d-animation-buttonMain {
+    fill: #ABD6FF;
+}
+
+.supermap3d-animation-buttonDisabled {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.supermap3d-animation-buttonDisabled .supermap3d-animation-buttonMain {
+    /* Widget will add: fill: url(#animation_buttonDisabled); */
+    stroke: #555;
+}
+
+.supermap3d-animation-buttonDisabled .supermap3d-animation-buttonPath {
+    fill: #818181;
+}
+
+.supermap3d-animation-buttonDisabled .supermap3d-animation-buttonGlow {
+    display: none;
+}
+
+.supermap3d-animation-buttonToggled .supermap3d-animation-buttonGlow {
+    display: block;
+    fill: #2E2;
+}
+
+.supermap3d-animation-buttonToggled .supermap3d-animation-buttonMain {
+    stroke: #2E2;
+}
+
+.supermap3d-animation-buttonToggled:hover .supermap3d-animation-buttonGlow {
+    fill: #fff;
+}
+
+.supermap3d-animation-buttonToggled:hover .supermap3d-animation-buttonMain {
+    stroke: #2E2;
+}
+
+.supermap3d-animation-shuttleRingG {
+    cursor: pointer;
+}
+
+/* Widget will add:
+.supermap3d-animation-shuttleRingG .supermap3d-animation-shuttleRingSwoosh {
+    fill: url(#animation_shuttleRingSwooshGradient);
+}
+
+.supermap3d-animation-shuttleRingG:hover .supermap3d-animation-shuttleRingSwoosh {
+    fill: url(#animation_shuttleRingSwooshHovered);
+}
+*/
+
+.supermap3d-animation-shuttleRingPointer {
+    /* Widget will add: fill: url(#animation_shuttleRingPointerGradient); */
+    cursor: pointer;
+}
+
+.supermap3d-animation-shuttleRingPausePointer {
+    /* Widget will add: fill: url(#animation_shuttleRingPointerPaused); */
+    cursor: pointer;
+}
+
+.supermap3d-animation-shuttleRingBack {
+    fill: #181818;
+    fill-opacity: 0.8;
+    stroke: #333;
+    stroke-width: 1.2;
+}
+
+.supermap3d-animation-shuttleRingSwoosh line {
+    stroke: #8AC;
+    stroke-width: 3;
+    stroke-opacity: 0.2;
+    stroke-linecap: round;
+}
+
+.supermap3d-animation-knobOuter {
+    /* Widget will add: fill: url(#animation_knobOuter); */
+    cursor: pointer;
+    stroke: #444;
+    stroke-width: 1.2;
+}
+
+.supermap3d-animation-knobInner {
+    /* Widget will add: fill: url(#animation_knobInner); */
+    cursor: pointer;
+}
