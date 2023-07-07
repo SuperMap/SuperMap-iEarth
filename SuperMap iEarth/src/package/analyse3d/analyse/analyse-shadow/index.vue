@@ -1,4 +1,5 @@
 <template>
+        <div class="shadow-time">
           <div class="itemBox-shadow">
             <n-slider v-model:value="state.timeArray" :max="96" :step="0.5" range :marks="state.marks"
                 :format-tooltip="formatTime" />
@@ -7,7 +8,6 @@
             <img class="btnImg" src="@/assets/imgs/stop.png" title="播放一年的阳光和阴影动画"
                 v-show="!state.showStartTimeBtn" @click="sunLightForTime(false)" />
         </div>
-
         <div class="itemBox-shadow">
             <!-- <n-date-picker class="shadow-date-picker" v-model:value="currentTime" type="date" size="small"
                 :actions="['now']" /> -->
@@ -16,6 +16,7 @@
                 v-show="state.showStartDateBtn" @click="sunLightForDate(true)" />
             <img class="btnImg" src="@/assets/imgs/stop.png" :title="$t('global.ShadowStopTip')"
                 v-show="!state.showStartDateBtn" @click="sunLightForDate(false)" />
+        </div>
         </div>
 
         <div class="row-item">
@@ -472,12 +473,16 @@ onBeforeUnmount(() => {
 </script>
   
 <style lang="scss" scoped>
+.shadow-time {
+  margin-bottom: 0.14rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
 .itemBox-shadow {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    // align-items: center;
     margin: 0.06rem;
-
+    padding: 0px 10px;
     .lable {
         width: 2rem;
         font-size: 0.14rem;
@@ -491,9 +496,12 @@ onBeforeUnmount(() => {
     }
 
     .btnImg {
-        widows: 0.4rem;
-        height: 0.4rem;
-        margin-right: 0.1rem;
+        width: 0.22rem;
+        height: 0.22rem;
+        margin-left: 0.1rem;
+        margin-top: 0.04rem;
+        color: #FFFFFF;
+
     }
 
 }
