@@ -1,0 +1,38 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "color": "^4.2.3",
+    "crypto-js": "^4.1.1",
+    "fast-glob": "^3.2.12",
+    "html2canvas": "^1.4.1",
+    "pinia": "^2.0.22",
+    "pinia-plugin-persist": "^1.0.0",
+    "screenfull": "^6.0.1",
+    "vue": "^3.2.37",
+    "vue-i18n": "9.1.9",
+    "vue-json-pretty": "^2.2.3",
+    "vue-router": "^4.1.5",
+    "echarts": "^5.4.2"
+  },
+  "devDependencies": {
+    "@vicons/ionicons5": "~0.11.0",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "lib-flexible": "^0.3.2",
+    "lodash": "~4.17.21",
+    "naive-ui": "^2.33.5",
+    "sass": "^1.49.11",
+    "sass-loader": "^12.6.0",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-tsc": "^0.40.4"
+  }
+}

@@ -1,0 +1,47 @@
+/*
+* 颜色
+*/
+
+// 主色 - 常用于主要按钮、层级图标及其不同状态。
+$--mainColor-Normal: #3499E5;
+$--mainColor-Hover: #5EB7F2;
+$--mainColor-Click: #2276BF;
+
+// 功能色 - 常用于链接、成功、警告、错误
+$--funColor-Link: #3499E5;
+$--funColor-Success: #3CAB1A;
+$--funColor-Warning: #E2CA34;
+$--funColor-Error: #E04C40;
+
+// 中性色 - 常用于文字、icon、描边等
+$--midColor-Normal: rgba(255, 255, 255, 1);
+; // 一般不会变化的
+$--midColor-Set: rgba(255, 255, 255, 0.85);
+; // 选中
+$--midColor-Hover: rgba(255, 255, 255, 0.65);
+; // 移入
+$--midColor-Tip: rgba(255, 255, 255, 0.45);
+; // 提示
+$--midColor-Disable: rgba(255, 255, 255, 0.25); // 禁用
+
+$--bg-url: '';
+
+// 尝试将scss变量导出，完全可以
+:export {
+  mainColorNormal: $--mainColor-Normal;
+  mainColorHover: $--mainColor-Hover;
+  mainColorClick: $--mainColor-Normal;
+
+  funColorLink: $--funColor-Link;
+  funColorSuccess: $--funColor-Success;
+  funColorWarning: $--funColor-Warning;
+  funColorError: $--funColor-Error;
+
+  midColorNormal: $--midColor-Normal;
+  midColorSet: $--midColor-Set;
+  midColorHover: $--midColor-Hover;
+  midColorTip: $--midColor-Tip;
+  midColorDisable: $--midColor-Disable;
+
+  bgUrl: $--bg-url;
+}

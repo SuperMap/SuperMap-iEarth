@@ -1,0 +1,394 @@
+<template>
+<n-scrollbar style="max-height: 3.6rem">
+  <n-grid :y-gap="8" :cols="3">
+    <n-gi>
+      <n-checkbox v-model:checked="state.earthShow" label="地球" />
+    </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.shadow" label="阴影" />
+    </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.sunShow" label="太阳" />
+    </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.depthInspection" label="深度检测" />
+    </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.atomsphereRender" label="大气渲染" />
+    </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.fogEffect" label="雾化效果" />
+    </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.cloudLayer" label="云层" />
+    </n-gi>
+    <!-- <n-gi>
+        <n-checkbox v-model:checked="state.rain" label="雨景" />
+      </n-gi> -->
+    <!-- <n-gi>
+        <n-checkbox v-model:checked="state.snow" label="雪景" />
+      </n-gi> -->
+    <n-gi>
+      <n-checkbox v-model:checked="state.skyBoxShow" label="天空盒" />
+    </n-gi>
+    <n-gi>
+        <n-checkbox v-model:checked="state.timeAxis" label="时间轴" />
+      </n-gi>
+    <n-gi>
+      <n-checkbox v-model:checked="state.displayFrame" label="帧率" />
+    </n-gi>
+  </n-grid>
+
+  <n-divider />
+    <div class="row-item" style="margin-right: 0.1rem">
+      <span>亮度</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem;"
+          v-model:value="state.brightness"
+          :step="0.1" :min="0" :max="5"
+        />
+        <div class="slider-suffix">
+          <span>{{ state.brightness }}</span>
+          <!-- <span class="slider-unit">M</span> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row-item" style="margin-right: 0.1rem">
+      <span>对比度</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem;"
+          v-model:value="state.contrast"
+          :step="0.1" :min="0" :max="5"
+        />
+        <div class="slider-suffix">
+          <span>{{ state.contrast }}</span>
+          <!-- <span class="slider-unit">M</span> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row-item" style="margin-right: 0.1rem">
+      <span>色调</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem;"
+          v-model:value="state.hue"
+          :step="0.1" :min="-1" :max="1"
+        />
+        <div class="slider-suffix">
+          <span>{{ state.hue }}</span>
+          <!-- <span class="slider-unit">M</span> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row-item" style="margin-right: 0.1rem">
+      <span>饱和度</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem;"
+          v-model:value="state.saturation"
+          :step="0.1" :min="0" :max="5"
+        />
+        <div class="slider-suffix">
+          <span>{{ state.saturation }}</span>
+          <!-- <span class="slider-unit">M</span> -->
+        </div>
+      </div>
+    </div>
+
+  <div class="row-item">
+    <span>开启地下</span>
+    <div style="width: 1.96rem;height: 0.32rem;;margin-right: 0.1rem">
+      <n-switch v-model:value="state.showUnderground" size="small" />
+    </div>
+  </div>
+  <div class="row-item" v-show="state.showUnderground">
+      <span>地表透明度</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem;"
+          v-model:value="state.surfaceTransparency"
+          :step="0.1" :min="0" :max="1"
+        />
+        <div class="slider-suffix">
+          <span>{{ state.surfaceTransparency }}</span>
+          <!-- <span class="slider-unit">M</span> -->
+        </div>
+      </div>
+    </div>
+  <n-divider />
+
+  <div class="row-item" style="margin-bottom:0px;margin-right: 0.1rem">
+    <span>坐标查询</span>
+    <n-input
+      placeholder="显示坐标"
+      v-model:value="coordinate"
+      autosize
+      style="width: 1.96rem;height: 0.32rem;"
+    />
+    <!-- <span>经度、维度、高程</span> -->
+  </div>
+  <div class="queryTips" style="margin-bottom: 0.1rem">
+    <span>经度、纬度、高程</span>
+  </div>
+</n-scrollbar>
+  <div class="btn-row-item" style="margin-bottom: 0.1rem">
+    <n-button
+      type="info"
+      color="#3499E5"
+      text-color="#fff"
+      @click="queryCoordinate"
+      style="margin-right: 0.1rem"
+      >查询</n-button
+    >
+    <n-button class="btn-secondary" @click="clear">清除</n-button>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref,watch,reactive,onBeforeUnmount} from 'vue'
+import tool from "@/tools/tool";
+import layerManagement from "@/tools/layerManagement";
+
+type stateType = {
+    // 场景属性
+    earthShow:boolean, //地球显隐
+    shadow:boolean,//场景阴影
+    sunShow:boolean, //太阳
+    depthInspection:boolean, //深度检测
+    atomsphereRender:boolean, //大气渲染
+    fogEffect:boolean, //雾化效果
+    cloudLayer:boolean, //云层
+    rain:boolean, //雨景
+    snow:boolean, //雪景
+    skyBoxShow:boolean, //天空盒
+    timeAxis:boolean, //时间轴
+    displayFrame:boolean, //显示帧率
+
+    // 显示地下
+    showUnderground:boolean,
+    surfaceTransparency: number, //地表透明度
+
+    // 图层属性
+    brightness:number, // 亮度
+    contrast:number, // 对比度
+    hue:number, // 色调
+    saturation:number, // 饱和度
+}
+
+// 初始化数据
+let state = reactive<stateType>({
+    earthShow:true,
+    shadow:false,
+    sunShow:false,
+    depthInspection:true,
+    atomsphereRender:true,
+    fogEffect:false,
+    cloudLayer:false,
+    skyBoxShow:true,
+    timeAxis:false,
+    displayFrame:true,
+    rain:false,
+    snow:false,
+
+    showUnderground:false,
+    surfaceTransparency:1,
+
+    brightness:1,
+    contrast:1,
+    hue:0,
+    saturation:1,
+})
+
+// 初始化变量
+let coordinate = ref('');
+let handlerSearch:any;
+viewer.scene.colorCorrection.show = true; // 场景颜色开关打开
+
+// 云层
+let cloudBoxUrl = './images/sceneProperties/clouds/clouds1.png';
+let cloudBox = new SuperMap3D.CloudBox({ url:cloudBoxUrl });
+
+// 初始化
+init();
+function init() {
+  if (!window.viewer) return;
+  state.earthShow = SuperMap3D.defaultValue(viewer.scene.globe.show, true);
+  state.shadow = SuperMap3D.defaultValue(viewer.scene.shadows, false);
+  state.sunShow = SuperMap3D.defaultValue(viewer.scene.globe.enableLighting, false);
+  state.depthInspection = SuperMap3D.defaultValue(
+    viewer.scene.globe.depthTestAgainstTerrain,
+    true
+  );
+  state.atomsphereRender = SuperMap3D.defaultValue(
+    viewer.scene.skyAtmosphere.show,
+    true
+  );
+  state.fogEffect = SuperMap3D.defaultValue(viewer.scene.fog.enabled, true);
+  state.showUnderground = SuperMap3D.defaultValue(viewer.scene.undergroundMode, true);
+  state.surfaceTransparency = SuperMap3D.defaultValue(
+    viewer.scene.globe.globeAlpha,
+    1
+  );
+  state.displayFrame = SuperMap3D.defaultValue(
+    viewer.scene.debugShowFramesPerSecond,
+    false
+  );
+  state.rain = SuperMap3D.defaultValue(
+    viewer.scene.postProcessStages.rain.enabled,
+    false
+  );
+  state.snow = SuperMap3D.defaultValue(
+    viewer.scene.postProcessStages.snow.enabled,
+    false
+  );
+
+  viewer.scene.postProcessStages.snow.uniforms.density = 10;
+  viewer.scene.postProcessStages.snow.uniforms.speed = 4;
+  viewer.scene.postProcessStages.rain.uniforms.speed = 8;
+  // if (viewer.scene.frameState.passes.render) {
+  //   // skybox.update(viewer.scene.frameState, true);
+  // }
+  // viewer.scene.skyBox = skybox;
+  // viewer.scene.skyBox.show = false;
+}
+
+// 监听相机高度，一旦高于设定阈值，关闭天空盒显示大气层
+function watchCameraHeight() {
+        if (state.skyBoxShow) {
+            let cameraHeight = viewer.scene.camera.positionCartographic.height;
+            if (cameraHeight > 22e4) {
+                viewer.scene.skyBox.show = false;
+                state.atomsphereRender = true;
+            } else {
+                viewer.scene.skyBox.show = true;
+                state.atomsphereRender = false;
+            }
+        }
+    }
+
+// 场景中拾取查询坐标
+function queryCoordinate() {
+    handlerSearch = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
+    handlerSearch.setInputAction(function (movement: any) {
+        let cartesian = viewer.camera.pickEllipsoid(
+            movement.position,
+            viewer.scene.globe.ellipsoid
+        );  
+        let result = tool.CartesiantoDegrees(cartesian)
+        coordinate.value = `${Number(result[0]).toFixed(5)},${Number(result[1]).toFixed(5)}`
+    }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)
+}
+
+// 清除
+function clear(){
+    if(handlerSearch){
+      if(!handlerSearch.isDestroyed()) handlerSearch.destroy()
+    }
+    coordinate.value = ''
+}
+
+// 监听
+watch(()=>state.earthShow, val => {
+    viewer.scene.globe.show = val;
+})
+watch(()=>state.shadow, val => {
+    viewer.scene.shadows = val;
+})
+watch(()=>state.sunShow, val => {
+    viewer.scene.globe.enableLighting = val;
+})
+watch(()=>state.depthInspection, val => {
+    viewer.scene.globe.depthTestAgainstTerrain = val;
+})
+watch(()=>state.atomsphereRender, val => {
+    viewer.scene.skyAtmosphere.show = val
+})
+watch(() => state.fogEffect,val => {
+    viewer.scene.fog.enabled = val; // 不起作用
+  });
+watch(
+  () => state.showUnderground,
+  val => {
+    viewer.scene.undergroundMode = val;
+    if(val){
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = -1000; //设置相机最小缩放距离,距离地表-1000米
+			viewer.scene.terrainProvider.isCreateSkirt = false; // 关闭裙边
+    }else{
+      viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
+      viewer.scene.terrainProvider.isCreateSkirt = true; // 开启裙边
+    }
+  }
+);
+watch(
+  () => state.surfaceTransparency,
+  val => {
+    viewer.scene.globe.globeAlpha = val;
+  }
+);
+watch(()=>state.cloudLayer, val => {
+    if (val) {
+            viewer.scene.cloudBox = cloudBox;
+        } else {
+            viewer.scene.cloudBox = null;
+        }
+})
+watch(() => state.rain,val => {
+    viewer.scene.postProcessStages.rain.enabled = val;
+  }
+);
+watch(() => state.snow, val => {
+    viewer.scene.postProcessStages.snow.enabled = val;
+  }
+);
+watch(()=>state.skyBoxShow, val => {
+    layerManagement.setSkyBox(val);
+})
+watch(()=>state.timeAxis, val => {
+    let timeline = document.getElementsByClassName(
+            "supermap3d-viewer-timelineContainer"
+        )[0] as HTMLElement;
+        if (val) {
+            timeline.style.visibility = "visible";
+            timeline.style['z-index'] = 99999999999;
+        } else {
+            timeline.style.visibility = "hidden";
+        }
+})
+watch(()=>state.displayFrame, val => {
+    viewer.scene.debugShowFramesPerSecond = val;
+})
+
+watch(()=>state.brightness, val => {
+    viewer.scene.colorCorrection.brightness = val;
+})
+watch(()=>state.contrast, val => {
+    viewer.scene.colorCorrection.contrast = val;
+})
+watch(()=>state.hue, val => {
+    viewer.scene.colorCorrection.hue = val;
+})
+watch(()=>state.saturation, val => {
+    viewer.scene.colorCorrection.saturation = val;
+})
+
+onBeforeUnmount(()=>{
+    clear();
+})
+</script>
+<style lang="scss" scoped>
+.queryTips{
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  
+}
+:deep(.n-slider-handle){
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+</style>
