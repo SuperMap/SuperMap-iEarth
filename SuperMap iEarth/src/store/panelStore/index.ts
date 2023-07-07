@@ -52,6 +52,27 @@ export const usePanelStore = defineStore({
                     isSelected: false,
                     panelName: "ObjectPainting"
                 },
+                {
+                    id: 7,
+                    iconName: "iconhuizhi",
+                    title: "图层操作",
+                    isSelected: false,
+                    panelName: "layerOpration"
+                },
+                {
+                    id: 8,
+                    iconName: "iconhuizhi",
+                    title: "图层属性",
+                    isSelected: false,
+                    panelName: "layerAttr"
+                },
+                {
+                    id: 9,
+                    iconName: "iconhuizhi",
+                    title: "图层风格",
+                    isSelected: false,
+                    panelName: "layerStyle"
+                },
             ]
         },
         rightTooPanel: false,

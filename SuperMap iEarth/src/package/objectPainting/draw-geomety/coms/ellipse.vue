@@ -4,7 +4,7 @@
     <div class="row-item">
         <span>短半轴</span>
         <div class="slider-box" style="width: 1.96rem;height: 32px;">
-            <n-slider style="width: 1.5rem" v-model:value="state.semiMinorAxis" :step="20" :min="10" :max="100" />
+            <n-slider style="width: 1.5rem" v-model:value="state.semiMinorAxis" :step="20" :min="1" :max="100" />
             <span>{{ state.semiMinorAxis }}</span>
         </div>
     </div>
@@ -149,15 +149,15 @@ function clear() {
     deactiveAll();
     viewer.entities.removeAll();
 }
-
-watch(
-    () => state.semiMinorAxis, // 不起效果，而且场景会动不了，但是页面组件随便用
-    (val) => {
-        if (targetEntity) {
-            targetEntity.ellipse['semiMinorAxis'] = val;
-        }
-    }
-);
+// 赋值会场景卡死不动，范例上没问题，后面再看
+// watch(
+//     () => state.semiMinorAxis, // 不起效果，而且场景会动不了，但是页面组件随便用
+//     (val) => {
+//         if (targetEntity) {
+//             targetEntity.ellipse['semiMinorAxis'] = val;
+//         }
+//     }
+// );
 watch(
     () => state.geometryMaterial,
     (val) => {

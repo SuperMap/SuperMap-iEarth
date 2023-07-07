@@ -48,7 +48,7 @@
       ></n-color-picker>
     </div>
   </div>
-  <div class="row-item">
+  <div class="row-item" v-show="state.skylineMode ==='BODY'">
     <span>天际体颜色</span>
     <div class="check-color-pick">
         <n-checkbox v-model:checked="state.displaySkyBody"></n-checkbox>

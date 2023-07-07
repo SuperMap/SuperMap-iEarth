@@ -187,7 +187,7 @@ class ProfileAnalysis {
                 text: "截面",
                 textStyle: {
                     fontSize: 15,
-                    color: '#fff'
+                    color: '#CAE6FF'
                 },
                 top: '3%',
                 left:'3%', 
@@ -201,7 +201,7 @@ class ProfileAnalysis {
                 containLabel: true
             },
             axisLabel: {// 设置坐标轴字的颜色
-               color: '#fff'
+               color: 'color: rgba(255, 255, 255, 0.85);'
             },
             backgroundColor: "#000817",
             tooltip: {
@@ -231,8 +231,12 @@ class ProfileAnalysis {
             toolbox: {
                 show: true,
                 feature: {
-                  restore: {},
-                  saveAsImage: {}
+                  restore: {
+                    title:'刷新'
+                  },
+                  saveAsImage: {
+                    title:"下载"
+                  }
                 },
                 right: "3%",
                 iconStyle: {
@@ -276,7 +280,13 @@ class ProfileAnalysis {
                 data: this.LatAndLons.map(function (item) {
                     return item.height;
                 }),
-                areaStyle: {},
+                areaStyle: {
+                opacity: 0
+                },
+                lineStyle: {
+                    color: '#3499E5'
+                },
+                showSymbol: false
             },
         };
         this.myChart.setOption(option);

@@ -6,7 +6,7 @@
         <SmAnalyseSightLine></SmAnalyseSightLine>
       </n-tab-pane>
       <!-- 可视域 -->
-      <n-tab-pane name="viewshed" tab="可视域">
+      <n-tab-pane name="viewshed" tab="可视域" class="use-scroll">
         <SmAnalyseViewshed></SmAnalyseViewshed>
       </n-tab-pane>
       <!-- 阴影 -->
@@ -45,7 +45,18 @@ function tabsChange(value) {}
 .analyse-box {
   width: 100%;
   height: 100%;
-  padding: 0 0.12rem;
+  // padding: 0 0.12rem;
   box-sizing: border-box;
+  :deep(.n-tabs-nav){
+    padding:0 0.12rem;
+  };
+  :deep(.n-tab-pane) {
+    box-sizing: border-box;
+    padding-left: 0.12rem;
+    padding-right: 0.12rem;
+  }
+  .use-scroll{
+    padding-right: 0px;
+  }
 }
 </style>

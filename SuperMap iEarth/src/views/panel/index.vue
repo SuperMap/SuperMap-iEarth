@@ -42,6 +42,21 @@
           v-if="panelStore.panelList.rightToolBarList[3].isSelected"
           >对象绘制</span
         >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[4].isSelected"
+          >图层操作</span
+        >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[5].isSelected"
+          >图层属性</span
+        >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[6].isSelected"
+          >图层风格</span
+        >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(2)">
@@ -62,6 +77,16 @@
         <ObjectPainting
           v-if="panelStore.panelList.rightToolBarList[3].isSelected"
         ></ObjectPainting>
+        
+        <LayerOpration
+          v-if="panelStore.panelList.rightToolBarList[4].isSelected"
+        ></LayerOpration>
+        <LayerAttribute
+          v-if="panelStore.panelList.rightToolBarList[5].isSelected"
+        ></LayerAttribute>
+        <LayerStyle
+          v-if="panelStore.panelList.rightToolBarList[6].isSelected"
+        ></LayerStyle>
       </div>
       <div class="panle-footer"></div>
     </div>
@@ -82,6 +107,13 @@ import Measure from "@/package/measure/index";
 import SceneSet from "@/package/sceneSet/index";
 // 对象绘制
 import ObjectPainting from "@/package/objectPainting/index";
+
+
+// 图层系列操作
+import LayerOpration from "@/package/layerSeries/layerOpration/index";
+import LayerAttribute from "@/package/layerSeries/layerAttribute/index";
+import LayerStyle from "@/package/layerSeries/layerStyle/index";
+
 import { usePanelStore } from "@/store/index";
 
 const panelStore = usePanelStore();

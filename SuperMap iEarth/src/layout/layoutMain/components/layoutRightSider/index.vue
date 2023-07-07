@@ -26,7 +26,7 @@
     </div>
     <!-- 分析等弹窗 -->
     <div class="too-bar four-tool-bar">
-      <span class="icon-container" v-for="iconItem in panelStore.panelList.rightToolBarList" :key="iconItem.id"
+      <span class="icon-container" v-for="iconItem in state.rightToolBarList" :key="iconItem.id"
         @click="changePanel(iconItem)" :class="iconItem.isSelected ? 'select-too-bar-bg' : ''">
         <i class="iconfont" :class="iconItem.iconName" :title="iconItem.title"></i>
       </span>
@@ -57,6 +57,11 @@ let scratchWindowPosition: any, timer: any;
 onMounted(() => {
   init();
 });
+
+let state = reactive({
+  rightToolBarList:panelStore.panelList.rightToolBarList.slice(0,4)
+})
+
 
 // 初始化
 function init() {

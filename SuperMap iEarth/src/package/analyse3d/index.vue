@@ -9,7 +9,7 @@
       :key="item.id"
       :title="item.title"
     >
-      <i class="iconfont" :class="item.iconName"></i>
+      <i class="iconfont" :class="item.iconName" style="font-size: 18px"></i>
     </div>
   </div>
 
@@ -88,6 +88,7 @@ function changeItem(iconItem: any) {
   }
 }
 .select-bg {
-  background: #69798d;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff !important;
 }
 </style>

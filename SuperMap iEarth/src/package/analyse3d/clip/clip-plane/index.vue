@@ -34,6 +34,7 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
 import { reactive, watch, onBeforeUnmount } from "vue";
 import ClipPlane from "./js/clip-plane.js";
@@ -43,12 +44,16 @@ type stateType = {
   clipFaceShow: boolean; // 是否显示裁剪面
   directionByNormal: boolean; // 是否沿法线
   modeOptions: any[]; // 模式选项
+  pickPosition: any, // 存储当前裁剪平面拾取位置
+  normal: any, // 存储当前裁剪平面法线
 };
 
 let state = reactive<stateType>({
   zoom: 1,
   clipFaceShow: true,
   directionByNormal: false,
+  pickPosition: null,
+  normal: null,
   modeOptions: [
     {
       label: "截面前",
@@ -93,6 +98,8 @@ function clipPlaneStart() {
 function left_click(e: any) {
   let pickPosition = viewer.scene.pickPosition(e.message.position);
   let normal = viewer.scene.pickNormal(e.message.position);
+  state.pickPosition = pickPosition;
+  state.normal = normal;
   if (pickPosition) clipPlane.startClip(pickPosition, normal);
   viewer.eventManager.removeEventListener("CLICK", left_click);
   viewer.eventManager.removeEventListener("MOUSE_MOVE", mouse_move);
@@ -102,15 +109,27 @@ function left_click(e: any) {
 //沿法线方向裁剪时实时显示参考平面
 function mouse_move(e: any) {
   if (state.directionByNormal) {
-    let cartesian = viewer.scene.pickPosition(e.message.endPosition);
-    let normal = viewer.scene.pickNormal(e.message.endPosition);
+    let cartesian = viewer.scene.pickPosition(e.message.position);
+    let normal = viewer.scene.pickNormal(e.message.position);
     clipPlane.setReferencePlane(cartesian, normal);
   }
+}
+
+// 更新平面裁剪模式
+function updatePlane() {
+  clipPlane.clear();
+
+  if (state.directionByNormal) {
+    clipPlane.setReferencePlane(state.pickPosition, state.normal);
+  }
+  if (state.pickPosition) clipPlane.startClip(state.pickPosition, state.normal);
 }
 
 // 清除
 function clear() {
   clipPlane.clear();
+  state.pickPosition = null;
+  state.normal = null;
   viewer.eventManager.removeEventListener("CLICK", left_click);
   viewer.eventManager.removeEventListener("MOUSE_MOVE", mouse_move);
   document.body.classList.remove("measureCur");
@@ -134,6 +153,9 @@ watch(
   () => state.directionByNormal,
   (val) => {
     clipPlane.setDirectionByNormal = val;
+    if(state.pickPosition){
+      updatePlane();
+    }
   }
 );
 

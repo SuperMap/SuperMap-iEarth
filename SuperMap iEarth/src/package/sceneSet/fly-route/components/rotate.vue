@@ -61,6 +61,7 @@ type stateType = {
   flyCircleLoop: true, // 是否循环
   rotateShow: false, // 是否绕点旋转
   itemOptions: any,// 功能选项
+  position: any, // 绕点选择中心点
 }
 
 // 初始化数据
@@ -68,27 +69,28 @@ let state = reactive<stateType>({
   speedRatio: 1,
   flyCircleLoop: true,
   rotateShow: false, 
+  position: null,
   itemOptions: [
     {
       index: 1,
-      lable: "",
+      lable: "添加",
       iconName: "icontianjia",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "",
-      iconName: "iconzanting",
+      lable: "播放",
+      iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "",
+      lable: "停止",
       iconName: "icontingzhi",
       isSelect: false,
-    },    {
+    }, {
       index: 4,
-      lable: "",
+      lable: "复位",
       iconName: "iconfuwei",
       isSelect: false,
     }
@@ -96,6 +98,13 @@ let state = reactive<stateType>({
 });
 
 init();
+
+const scene = viewer.scene;
+let windowPosition = new SuperMap3D.Cartesian2();
+let scratchTiltFrame = new SuperMap3D.Matrix4();
+let scratchOldTransform = new SuperMap3D.Matrix4();
+let listener;
+
 function init() {
   if (!window.viewer) return;
   viewer.scene.camera.flyCircleLoop = state.flyCircleLoop;
@@ -112,31 +121,45 @@ function changleIconItem(item:any){
     }
   });
 
-  switch(item.index){
-    case 1:{
+  switch (item.index) {
+    case 1: {
+      addCenter();
+      break;
+    }
+    case 2: {
       startFlyCircle();
       break;
     }
-    case 3:{
+    case 3: {
       clearFlyCircle();
       break;
     }
+    case 4: {
+      reset();
+      break;
+    }
     default:
-        break;
+      break;
   }
 }
 
+
 // 绑定监听事件
-function startFlyCircle() {
+function addCenter() {
   viewer.enableCursorStyle = false;
   viewer._element.style.cursor = "";
   document.body.classList.add("measureCur");
   viewer.eventManager.addEventListener("CLICK", left_click, true);
 }
 
-// 绕点旋转
-function left_click(e:any) {
-  let center = viewer.scene.pickPosition(e.message.position);
+// 添加点
+function left_click(e: any) {
+  state.position = e.message.position;
+}
+
+// 开始旋转
+function startFlyCircle() {
+  let center = viewer.scene.pickPosition(state.position);
   if (SuperMap3D.defined(center)) viewer.scene.camera.flyCircle(center); // 相机绕中心点旋转
   document.body.classList.remove("measureCur");
   viewer.eventManager.removeEventListener("CLICK", left_click);
@@ -148,6 +171,42 @@ function clearFlyCircle() {
   document.body.classList.remove("measureCur");
   viewer.eventManager.removeEventListener("CLICK", left_click);
 }
+
+// 复位-指北旋转
+function reset() {
+  windowPosition.x = scene.canvas.clientWidth / 2;
+  windowPosition.y = scene.canvas.clientHeight / 2;
+  let viewCenter = viewer.scene.pickPosition(windowPosition);
+  if (!viewCenter || listener !== undefined) {
+    return;
+  }
+  let tiltFrame = SuperMap3D.Transforms.eastNorthUpToFixedFrame(viewCenter, scene.globe.ellipsoid, scratchTiltFrame);
+  // scene.camera.lookAtTransform(tiltFrame);
+  let rotateAngle;
+  listener = setInterval(function () {
+    let currentHeading = SuperMap3D.Math.toDegrees(scene.camera.heading);
+    let oldTransform = SuperMap3D.Matrix4.clone(scene.camera.transform, scratchOldTransform);
+    scene.camera.lookAtTransform(tiltFrame);
+    if (currentHeading > 180 && currentHeading < 360) {
+      rotateAngle = SuperMap3D.Math.toRadians(360 - currentHeading) / 2;
+      scene.camera.rotateLeft(rotateAngle);    //顺时针旋转
+      scene.camera.lookAtTransform(oldTransform);
+      if ((360 - currentHeading) < 1) {               //罗盘指北移除监听
+        clearInterval(listener);
+        listener = undefined;
+      }
+    } else {
+      rotateAngle = SuperMap3D.Math.toRadians(currentHeading) / 2;
+      scene.camera.rotateRight(rotateAngle);     //逆时针旋转
+      scene.camera.lookAtTransform(oldTransform);
+      if ((1 - currentHeading) > 0) {               //罗盘指北移除监听
+        clearInterval(listener);
+        listener = undefined;
+      }
+    }
+  }, 100);
+}
+
 
 watch(
   () => state.speedRatio,

@@ -64,6 +64,7 @@
   </n-space>
 </template>
   
+  
 <script lang="ts" setup>
 import { ref, onBeforeUnmount, watch, reactive, onMounted } from "vue";
 import rotate from "./rotate.vue";
@@ -89,19 +90,19 @@ let state = reactive<stateType>({
   actionOptions: [
     {
       index: 1,
-      lable: "",
+      lable: "播放",
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "",
+      lable: "暂停",
       iconName: "iconzanting",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "",
+      lable: "停止",
       iconName: "icontingzhi",
       isSelect: false,
     }
@@ -273,6 +274,7 @@ onBeforeUnmount(() => {
   currentStops = null;
 });
 </script>
+  
   
   
 <style lang="scss" scoped>

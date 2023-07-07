@@ -73,7 +73,7 @@
     <span>剖面信息</span>
   </div> -->
   <div class="row-item" style="margin-right: 0.1rem">
-      <span>剖面信息展示</span>
+      <span>剖面截图展示</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.profileInfoShow"></n-checkbox>
       </div>

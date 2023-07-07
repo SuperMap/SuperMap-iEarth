@@ -374,8 +374,8 @@ function createAndSaveScene() {
               getRootUrl() +
               "apps/earth/v2/index.html?id=" +
               response.data.newResourceID;
-              console.log("currentUrl:",currentUrl)
-            // window.open(currentUrl, "_self");
+              // console.log("currentUrl:",currentUrl)
+            window.open(currentUrl, "_self");
           }, 1000);
         })
         .catch(function (error) {
@@ -465,8 +465,8 @@ function updateScene() {
           message.success("场景更新成功！");
           let currentUrl =
             getRootUrl() + "apps/earth/v2/index.html?id=" + state.sceneID;
-            console.log("currentUrl:",currentUrl)
-          // window.open(currentUrl, "_self");
+            // console.log("currentUrl:",currentUrl)
+          window.open(currentUrl, "_self");
         })
         .catch(function (error) {
           console.log(error)

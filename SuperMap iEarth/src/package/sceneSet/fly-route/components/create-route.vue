@@ -102,8 +102,7 @@
   <rotate></rotate>
 </template>
   
-  
-  <script lang='ts' setup>
+<script lang='ts' setup>
 import { watch, reactive, onBeforeUnmount } from "vue";
 import { useNotification,useMessage } from "naive-ui";
 import rotate from "./rotate.vue";
@@ -175,25 +174,25 @@ let state = reactive<stateType>({
   itemOptions: [
     {
       index: 1,
-      lable: "",
+      lable: "添加站点",
       iconName: "icontianjia",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "",
+      lable: "删除站点",
       iconName: "iconshanchu",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "",
+      lable: "恢复",
       iconName: "iconfuwei",
       isSelect: false,
     },
     {
       index: 4,
-      lable: "",
+      lable: "保存",
       iconName: "iconbaocun",
       isSelect: false,
     },
@@ -201,19 +200,19 @@ let state = reactive<stateType>({
   actionOptions:[
     {
       index: 1,
-      lable: "",
+      lable: "播放",
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "",
+      lable: "暂停",
       iconName: "iconzanting",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "",
+      lable: "停止",
       iconName: "icontingzhi",
       isSelect: false,
     }

@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>经度</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem"
+      style="width: 1.96rem"
       v-model:value="state.degreesArray[0]"
       :show-button="false"
       disabled
@@ -15,7 +15,7 @@
   <div class="row-item">
     <span>纬度</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem"
       v-model:value="state.degreesArray[1]"
       :show-button="false"
       disabled
@@ -27,7 +27,7 @@
   <div class="row-item">
     <span>高程</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem"
       v-model:value="state.degreesArray[2]"
       :show-button="false"
       disabled
@@ -67,7 +67,7 @@
       @click="analysis"
       >分析</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" >清除</n-button>
   </div>
 </template>
 

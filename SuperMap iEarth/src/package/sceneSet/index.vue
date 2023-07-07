@@ -2,7 +2,7 @@
   <div class="scene-set-box">
     <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left">
       <!-- 场景属性 -->
-      <n-tab-pane name="publicService" tab="场景属性">
+      <n-tab-pane name="publicService" tab="场景属性" class="use-scroll">
         <SmSceneAttribute></SmSceneAttribute>
       </n-tab-pane>
       <!-- 飞行 -->
@@ -44,10 +44,21 @@ function tabsChange() {}
 .scene-set-box {
   width: 100%;
   height: 100%;
-  padding: 0 0.12rem;
+  // padding: 0 0.12rem;
   box-sizing: border-box;
 }
 :deep(.n-tabs-tab-wrapper){
   margin-right:0.16rem;
 }
+  :deep(.n-tabs-nav){
+    padding:0 0.12rem;
+  };
+  :deep(.n-tab-pane) {
+    box-sizing: border-box;
+    padding-left: 0.12rem;
+    padding-right: 0.12rem;
+  }
+  .use-scroll{
+    padding-right: 0px;
+  }
 </style>

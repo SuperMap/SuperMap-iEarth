@@ -4,7 +4,7 @@
       <n-slider v-model:value="state.timeArray" :max="96" :step="0.5" range :marks="state.marks"
           :format-tooltip="formatTime" />
           <i class="iconfont iconSize iconbofang btnImg" title="播放一天时间段内阳光和阴影动画" v-show="state.showStartTimeBtn" @click="sunLightForTime(true)"></i>
-          <i class="iconfont iconSize iconzanting btnImg" title="播放一年的阳光和阴影动画" v-show="!state.showStartTimeBtn" @click="sunLightForTime(false)"></i>
+          <i class="iconfont iconSize iconzanting btnImg" title="播放一天时间段内阳光和阴影动画" v-show="!state.showStartTimeBtn" @click="sunLightForTime(false)"></i>
   </div>
   <div class="itemBox-shadow">
       <!-- <n-date-picker class="shadow-date-picker" v-model:value="currentTime" type="date" size="small"

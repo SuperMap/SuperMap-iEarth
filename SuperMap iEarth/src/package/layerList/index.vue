@@ -30,6 +30,8 @@ import {
   Trash
 } from "@vicons/ionicons5";
 import { h } from "vue";
+import { usePanelStore } from "@/store";
+const panelStore = usePanelStore();
 const layerStore = useLayerStore();
 let currentTerrainProvider: any; // 保存当前地形图层，方便控制其显隐
 
@@ -57,6 +59,7 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
           title: "显隐",
           onClick: (e) => {
             console.log(e)
+            console.log("option:",option)
             if (!option.key) return;
             let optionKey: any = option.key;
             if (optionKey.indexOf("-") != -1) {
@@ -106,18 +109,37 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
         {
           trigger: "click",
           placement: "right-start",
-          options: [
+          options: option.type === 's3m' ? [
             {
               label: "快速定位",
               key: 1,
               icon: () => h("i", { class: "iconfont icondingwei" }, ""), 
             },
+            // {
+            //   label: "图层操作",
+            //   key: 2,
+            //   icon: () => h("i", { class: "iconfont iconyidong" }, ""), 
+            // },
+            // {
+            //   label: "图层属性",
+            //   key: 3,
+            //   icon: () => h("i", { class: "iconfont icontishi" }, ""), 
+            // },
+            // {
+            //   label: "图层风格",
+            //   key: 4,
+            //   icon: () => h("i", { class: "iconfont icontuceng" }, ""), 
+            // },
             {
               label: "移除",
-              key: 2,
+              key: 5,
               icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849"}, ""),
             },
-          ],
+          ]:[{
+              label: "移除",
+              key: 5,
+              icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849"}, ""),
+            }],
           onSelect: (key: any) => {
             // key为1：定位，key为2：删除图层
             if (key === 1) {
@@ -141,7 +163,17 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
                   },
                 });
               }
-            } else if (key === 2) {
+            }
+            else if(key === 2){
+              panelStore.setRightToolBarList({id:7});
+            }
+            else if(key === 3){
+              panelStore.setRightToolBarList({id:8});
+            }
+            else if(key === 4){
+              panelStore.setRightToolBarList({id:9});
+            }
+            else if (key === 5) {
               // 删除图层之后 再显隐会有问题，不通过id
               let type = option.type;
               let layerName = option.label;
