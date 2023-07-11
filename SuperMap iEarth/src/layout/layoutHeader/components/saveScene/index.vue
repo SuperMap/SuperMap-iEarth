@@ -3,40 +3,66 @@
   <n-modal v-model:show="panelStore.showSavePanel">
     <n-card style="width: 600px" title="场景保存" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <!-- <n-spin size="small" :show="state.loadingShow"> -->
-        <div class="save-scene-container">
-          <canvas id="sceneCanvas" style="width:100%;margin:35px 0 10px 0;" />
+      <div class="save-scene-container">
+        <canvas id="sceneCanvas" style="width:100%;margin:35px 0 10px 0;" />
 
-          <div class="row-item">
-            <span>存储日期</span>
-            <n-input style="width: 2.2rem" v-model:value="state.storageSceneCurrentTime" type="text" />
-          </div>
-          <div class="row-item">
-            <span>场景名称</span>
-            <n-input style="width: 2.2rem" v-model:value="state.scenePortalName" type="text" />
-          </div>
-          <div class="row-item">
-            <span>场景标签</span>
-            <n-input style="width: 2.2rem" v-model:value="state.scenePortalTages" type="text" />
-          </div>
-          <div class="row-item">
-            <span>作者</span>
-            <n-input style="width: 2.2rem" v-model:value="state.scenePortalUser" type="text" />
-          </div>
-          <div class="row-item">
-            <span>描述</span>
-            <n-input style="width: 2.2rem" v-model:value="state.scenePortalDescription" type="text" />
-          </div>
+          <n-form ref="formRef" :model="fromData" label-placement="left" require-mark-placement="right-hanging" :style="{ maxWidth: '640px' }">
+            <n-form-item label="存储日期" path="storageSceneCurrentTime" :rule="{
+              required: false,
+              message: '当前存储时间',
+              trigger: ['input', 'blur']
+            }">
+              <n-input v-model:value="fromData.storageSceneCurrentTime" clearable />
+            </n-form-item>
 
-          <div class="btn-row-item">
- 
-            <div class="btn-row-item">
-              <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="onSaveUserClk">确认</n-button>
-              <n-button class="btn-secondary" @click="close">关闭</n-button>
-              <!-- <n-button class="btn-secondary" @click="checkSelelctOption">查看</n-button> -->
-            </div>
-          </div>
-        </div>
+            <n-form-item label="场景名称" path="scenePortalName" :rule="{
+              required: true,
+              message: '必填项：场景名称',
+              trigger: ['input', 'blur']
+            }">
+              <n-input v-model:value="fromData.scenePortalName" clearable />
+            </n-form-item>
+
+            <n-form-item label="场景标签" path="scenePortalTages" :rule="{
+              required: true,
+              message: '必填项：场景标签',
+              trigger: ['input', 'blur']
+            }">
+              <n-input v-model:value="fromData.scenePortalTages" clearable />
+            </n-form-item>
+
+            <n-form-item label="作者名字" path="scenePortalUser" :rule="{
+              required: false,
+              message: '作者',
+              trigger: ['input', 'blur']
+            }">
+              <n-input v-model:value="fromData.scenePortalUser" clearable />
+            </n-form-item>
+
+            <n-form-item label="场景描述" path="scenePortalDescription" :rule="{
+              required: false,
+              message: '场景描述',
+              trigger: ['input', 'blur']
+            }">
+              <n-input v-model:value="fromData.scenePortalDescription" clearable />
+            </n-form-item>
+
+            <n-form-item>
+              <n-space justify="space-between">
+                <n-button type="info" color="#3499E5" text-color="#fff" attr-type="button" @click="onSaveUserClk">
+                  保存
+                </n-button>
+                <n-button attr-type="button" @click="close">
+                  关闭
+                </n-button>
+              </n-space>
+            </n-form-item>
+          </n-form>
+      </div>
       <!-- </n-spin> -->
+
+
+
     </n-card>
   </n-modal>
 </template>
@@ -46,7 +72,7 @@ import { reactive, watch } from "vue"
 import { useMessage } from "naive-ui"
 import { IportalStoreCreate } from "@/store/index";
 import { usePanelStore } from "@/store/panelStore/index";
-import { getRootUrl} from "@/tools/iportal/portalTools";
+import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useLayerStore } from "@/store/layerStore";
 
 const IportalStore = IportalStoreCreate();
@@ -57,11 +83,6 @@ const layerStore = useLayerStore();
 // 初始化数据
 let state = reactive({
   storageSceneShow: false,
-  storageSceneCurrentTime: '',
-  scenePortalName: '',
-  scenePortalTages: '',
-  scenePortalUser: "",
-  scenePortalDescription: '',
   sceneID: '',
 
   key: "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
@@ -69,6 +90,14 @@ let state = reactive({
   terrainToken: "e90d56e5a09d1767899ad45846b0cefd",
 
   loadingShow: false,// 模态框
+})
+
+let fromData = reactive({
+  storageSceneCurrentTime: '',
+  scenePortalName: '',
+  scenePortalTages: '',
+  scenePortalUser: "",
+  scenePortalDescription: '',
 })
 
 // 关闭保存面板
@@ -132,7 +161,7 @@ function checkLayers() {
 
   layers["terrainLayer"] = saveTerrain(); //地形图层
 
-  layers["SelectedOptions"] =  layerStore.SelectedOptions;
+  layers["SelectedOptions"] = layerStore.SelectedOptions;
 
   return layers;
 }
@@ -149,7 +178,7 @@ function getScpUrl(url: string) {
 }
 
 // 保存S3M
-function saveS3M(s3mLayerlength:number) {
+function saveS3M(s3mLayerlength: number) {
   let s3mlayerUrlList: any = [];
 
   // // 在图层管理中，有些图层不勾选即不显示，就不保存到场景中
@@ -179,7 +208,7 @@ function saveS3M(s3mLayerlength:number) {
 }
 
 // 保存影像
-function saveImagery(imageryLayer:any) {
+function saveImagery(imageryLayer: any) {
   let imageryLayerUrlList: string[] = [];
 
   // // 在图层管理中，有些图层不勾选即不显示，就不保存到场景中
@@ -273,15 +302,20 @@ function saveTerrain() {
 //创建并保存场景
 function createAndSaveScene() {
   // let that = this;
-  let name = state.scenePortalName;
-  let tagsArray = state.scenePortalTages.replace("，", ",").split(",");
-  let userName = state.scenePortalUser;
-  let description = state.scenePortalDescription;
-
-  if (name === "") {
-    message.warning("保存场景名称不能为空！");
+  if(!fromData.scenePortalName || fromData.scenePortalName == ''){
+    message.warning('保存场景名称不能为空！');
     return;
   }
+
+  if(!fromData.scenePortalTages || fromData.scenePortalTages == ''){
+    message.warning('保存场景标签不能为空！');
+    return;
+  }
+
+  let name = fromData.scenePortalName;
+  let tagsArray = fromData.scenePortalTages.replace("，", ",").split(",");
+  let userName = fromData.scenePortalUser;
+  let description = fromData.scenePortalDescription;
 
   let data: any = {};
   // data.layers = {};
@@ -374,7 +408,7 @@ function createAndSaveScene() {
               getRootUrl() +
               "apps/earth/v2/index.html?id=" +
               response.data.newResourceID;
-              // console.log("currentUrl:",currentUrl)
+            // console.log("currentUrl:",currentUrl)
             window.open(currentUrl, "_self");
           }, 1000);
         })
@@ -386,10 +420,21 @@ function createAndSaveScene() {
 
 // 更新保存场景的信息
 function updateScene() {
-  let name = state.scenePortalName;
-  let tagsArray = state.scenePortalTages.replace("，", ",").split(",");
-  let userName = state.scenePortalUser;
-  let description = state.scenePortalDescription;
+  if(!fromData.scenePortalName || fromData.scenePortalName == ''){
+    message.warning('保存场景名称不能为空！');
+    return;
+  }
+
+  if(!fromData.scenePortalTages || fromData.scenePortalTages == ''){
+    message.warning('保存场景标签不能为空！');
+    return;
+  }
+
+  let name = fromData.scenePortalName;
+  let tagsArray = fromData.scenePortalTages.replace("，", ",").split(",");
+  let userName = fromData.scenePortalUser;
+  let description = fromData.scenePortalDescription;
+
   let openExistSceneUrl = window.location.href;
   let parmeter = openExistSceneUrl.split("id=")[1];
   state.sceneID = parmeter.split("&")[0];
@@ -465,7 +510,7 @@ function updateScene() {
           message.success("场景更新成功！");
           let currentUrl =
             getRootUrl() + "apps/earth/v2/index.html?id=" + state.sceneID;
-            // console.log("currentUrl:",currentUrl)
+          // console.log("currentUrl:",currentUrl)
           window.open(currentUrl, "_self");
         })
         .catch(function (error) {
@@ -474,15 +519,15 @@ function updateScene() {
     });
 }
 watch(() => panelStore.showSavePanel, () => {
-  state.storageSceneCurrentTime = getNowFormatDate();
-  console.log("IportalStore.saveInfo-watch:",IportalStore.saveInfo);
-  state.scenePortalUser = IportalStore.userInfo.userName;
-  if(IportalStore.saveInfo){
-      state.scenePortalName = IportalStore.saveInfo.scenePortalName;
-      state.scenePortalTages = IportalStore.saveInfo.scenePortalTages;
-      state.scenePortalUser = IportalStore.saveInfo.scenePortalUser;
-      state.scenePortalDescription = IportalStore.saveInfo.scenePortalDescription;
-    }
+  fromData.storageSceneCurrentTime = getNowFormatDate();
+  console.log("IportalStore.saveInfo-watch:", IportalStore.saveInfo);
+  fromData.scenePortalUser = IportalStore.userInfo.userName;
+  if (IportalStore.saveInfo) {
+    fromData.scenePortalName = IportalStore.saveInfo.scenePortalName;
+    fromData.scenePortalTages = IportalStore.saveInfo.scenePortalTages;
+    fromData.scenePortalUser = IportalStore.saveInfo.scenePortalUser;
+    fromData.scenePortalDescription = IportalStore.saveInfo.scenePortalDescription;
+  }
 })
 
 </script>
@@ -493,7 +538,12 @@ watch(() => panelStore.showSavePanel, () => {
   box-sizing: border-box;
 }
 
-.btn-row-item{
+.btn-row-item {
   margin-left: 0.83rem;
+}
+
+.n-form-item-blank{
+  display: flex;
+  justify-content: center;
 }
 </style>
