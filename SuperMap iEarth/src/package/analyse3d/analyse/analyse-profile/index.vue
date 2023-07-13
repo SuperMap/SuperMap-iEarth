@@ -127,6 +127,7 @@
   <!-- </n-spin> -->
 </template>
     
+    
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
 import echarts from "@/tools/echarts";
@@ -212,11 +213,9 @@ function setDataForGpuProFile(result: any) {
 function analysis() {
  
   let interValID = setInterval(() => {
-    // if (!handlerPolyline.polyline) return;
     if (!handlerPolyline.positions) return;
 
     let positions = handlerPolyline.positions;
-    // console.log("positions-剖面分析:",positions)
     if (positions.length === 1) {
       let result = tool.CartesiantoDegrees(positions[0]);
       state.startDegreesArray = result.map((num: any) => Number(num.toFixed(2)));
@@ -231,17 +230,13 @@ function analysis() {
   if (!handlerPolyline) handlerPolyline = initHandler("Polyline");
   handlerPolyline.handlerDrawing().then(
     res => {
-      // console.log("res-剖面分析:",res)
       setDataForGpuProFile(res);
 
       clearInterval(interValID);
-      // debugger
       state.show = true;
-      // console.log('开始分析:',state.show);
       profile.startProfile(res.object.positions).then(res=>{
         if(res){
           state.show = false;
-          // console.log("分析结束:",state.show);
         }
       });
       if(state.infoShowMode === 'canvas') getCanvasImage();
@@ -271,7 +266,6 @@ function clear() {
 // GPU剖面分析
 function getCanvasImage(){
   state.gpuDomShow = true;
-      // profile.setEchartsShow(false);
       if (!state.gpuProfileState) return;
 
       //分析完毕的回调函数
@@ -298,23 +292,19 @@ watch(
     if (newValue === 'canvas') {
       getCanvasImage();
     }else{
-      // profile.setEchartsShow(true);
       state.gpuDomShow = false;
     }
   }
 );
 
 watch(()=>state.profileInfoShow,(val)=>{
+  state.infoShowMode = 'echarts';
   if(val && state.infoShowMode==='canvas'){
-    // state.infoShowMode = 'echarts';
     getCanvasImage();
   }
-  // // clear();
-  // state.infoShowMode = 'echarts';
 })
 
 onMounted(() => {
-  // profile.setEchartsShow(true);
   profile.initEcharts();
 });
 // 销毁
@@ -326,7 +316,6 @@ onBeforeUnmount(() => {
   state.profileInfoShow = false;
 });
 </script>
-
 
 <style lang="scss" scoped>
 #echartsProfile {
