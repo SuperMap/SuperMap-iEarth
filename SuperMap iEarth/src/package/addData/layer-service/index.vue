@@ -12,7 +12,7 @@
       <div class="img-box">
         <img class="img" :src="item.thumbnail" alt="" />
       </div>
-      <span>{{ item.name }}</span>
+      <span>{{ $t(item.name) }}</span>
     </div>
   </div>
   </n-scrollbar>
@@ -35,7 +35,6 @@ function addPublicService(item: any) {
     return;
   }
 
-  // console.log("item:",item);
   layerStore.SelectedOptions.publicService.push(item.name); // 存入已选择的公共服务选项
   let type = item.type;
   switch (type) {
@@ -61,14 +60,10 @@ function addPublicService(item: any) {
 .layer-server-container {
   display: flex;
   flex-wrap: wrap;
-  // @include panelContainer(100%, 3.8rem);
 
   .ItemBox {
     width: 30%;
     color: $--SM--FontColor-Sub;
-    // font-size: $--SM--FontSize-Text;
-    // margin-bottom: 0.07rem;
-    // margin-right: 0.16rem;
     margin-bottom: 0.07rem;
     margin-right: 0.12rem;
     box-sizing: border-box;
@@ -86,9 +81,6 @@ function addPublicService(item: any) {
         width: 100%;
         height: 100%;
         object-fit: cover;
-
-        // width: 1.78rem/2;
-        // height: 1.28rem/2;
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>  
-  <div class="userinfoBox">
+  <div class="userinfoBox" v-show="!GlobalStore.isNormalMode">
     <i class="iconfont iconuser"></i>
     <div v-if="IportalStore.isLogin" @click="toUserInfoPage">
     {{ IportalStore.userInfo.userName }}
@@ -7,10 +7,10 @@
   <n-tooltip v-else>
     <template #trigger>
       <n-button @click="showLoginBox" :bordered="false" tag="div">{{
-        IportalStore.userInfo.userName === '游客' ? "游客" : IportalStore.userInfo.userName
+        IportalStore.userInfo.userName === '游客' ? $t('global.tourists') : IportalStore.userInfo.userName
       }}</n-button>
     </template>
-    请登录
+    {{$t('global.loginPlease')}}
   </n-tooltip>
   </div>
 </template>
@@ -20,6 +20,7 @@
 // import { ref } from "vue";
 import Authenticate from "@ispeco/authentication-sdk"; // 超图iportal第三方库
 import { IportalStoreCreate } from "@/store/iportalManage/index";
+import { GlobalStoreCreate } from '@/store/global/global';
 import { getRootUrl } from "@/tools/iportal/portalTools";
 
 // const modelShowInfo = ref(false);
@@ -42,6 +43,8 @@ import { getRootUrl } from "@/tools/iportal/portalTools";
 // }
 
 const IportalStore = IportalStoreCreate();
+const GlobalStore = GlobalStoreCreate();
+
 
 // 登录页面
 function showLoginBox() {

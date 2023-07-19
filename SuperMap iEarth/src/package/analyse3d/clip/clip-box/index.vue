@@ -1,7 +1,7 @@
 <template>
   <!-- box裁剪 -->
   <div class="row-item">
-    <span>裁剪模式</span>
+    <span>{{$t('global.clipMode')}}</span>
     <n-radio-group
       v-model:value="state.clipMode"
       name="radiogroup"
@@ -25,9 +25,9 @@
       text-color="#fff"
       @click="startBoxClipByEitor"
       style="margin-right: 0.1rem"
-      >裁剪</n-button
+      >{{$t('global.clip')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clearBoxClipByEitor">清除</n-button>
+    <n-button class="btn-secondary" @click="clearBoxClipByEitor" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
     
@@ -45,11 +45,11 @@ let state = reactive<stateType>({
   clipMode: "clip_behind_all_plane",
   modeOptions: [
     {
-      label: "内部",
+      label: GlobalLang.inner,
       value: "clip_behind_all_plane",
     },
     {
-      label: "外部",
+      label: GlobalLang.outer,
       value: "clip_behind_any_plane",
     },
   ],
@@ -73,7 +73,7 @@ function startBoxClipByEitor() {
 
   notification.create({
     content: () =>
-      "点击鼠标左键绘制box底面,移动鼠标绘制box高度,点击鼠标右键结束绘制",
+      GlobalLang.boxclipTip,
     duration: 5500,
   });
 
@@ -182,7 +182,7 @@ function clearBoxClipByEitor() {
 // box裁剪模式
 watch(
   () => state.clipMode,
-  (newValue) => {
+  () => {
     setClipBox();
   }
 );

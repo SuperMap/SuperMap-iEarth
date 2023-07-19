@@ -1,7 +1,7 @@
 <template>
   <!-- 通视分析 -->
   <div class="row-item">
-    <span>经度</span>
+    <span>{{$t('global.longitude')}}</span>
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.degreesArray[0]"
@@ -13,7 +13,7 @@
   </div>
 
   <div class="row-item">
-    <span>纬度</span>
+    <span>{{$t('global.latitude')}}</span>
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.degreesArray[1]"
@@ -25,25 +25,24 @@
   </div>
 
   <div class="row-item">
-    <span>高程</span>
+    <span>{{$t('global.elevation')}}</span>
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.degreesArray[2]"
       :show-button="false"
       disabled
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <n-divider />
 
-  <div class="row-item">
-    <span>高亮障碍物</span>
+  <!-- <div class="row-item">
+    <span>{{$t('global.highlightBarrier')}}</span>
     <div class="check-color-pick">
       <n-checkbox v-model:checked="state.highlightBarrier"></n-checkbox>
       <div class="color-pick-box">
-        <!-- <div class="color-pick-box-container"> -->
           <n-color-picker
             v-model:value="state.barrierColor"
             :render-label="
@@ -54,10 +53,9 @@
             :disabled="!state.highlightBarrier"
             size="small"
           ></n-color-picker>
-        <!-- </div> -->
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="btn-row-item">
     <n-button
       type="info"
@@ -65,9 +63,9 @@
       text-color="#fff"
       class="ans-btn"
       @click="analysis"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear" >清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -154,6 +152,7 @@ function clear() {
   removeEvent();
 }
 
+// 移除绑定的监听事件
 function removeEvent() {
   state.viewPointlnglatFlag = true;
   viewer.eventManager.removeEventListener("CLICK", LEFT_CLICK); //移除鼠标点击事件监听
@@ -188,9 +187,6 @@ onBeforeUnmount(() => {
 
 
 <style lang="scss" scoped>
-// .btn-row-item {
-//   @include setBtnRowItem();
-// }
 
 .btn-info {
   color: #fff;

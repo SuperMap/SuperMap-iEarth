@@ -1,7 +1,7 @@
 <template>
   <n-space justify="end">
     <n-select
-      class="input-border"
+      class="add-input-border"
       v-model:value="layerType"
       :options="options"
       style="width: 2.4rem; margin-bottom: 0.1rem"
@@ -9,30 +9,32 @@
   </n-space>
 
   <div class="row-item" style="margin-bottom: 0.1rem">
-    <span>地址</span>
+    <span>{{$t('global.address')}}</span>
     <n-input
-      class="input-border"
+      class="add-input-border"
       style="width: 2.4rem"
       v-model:value="layerUrl"
       type="text"
+      :placeholder="$t('global.layerUrl')"
       @input="handleChange"
     />
   </div>
 
   <div class="row-item" style="margin-bottom: 0.1rem">
-    <span>名称</span>
+    <span>{{$t('global.name')}}</span>
     <n-input
-      class="input-border"
+      class="add-input-border"
       style="width: 2.4rem"
       v-model:value="layerName"
       type="text"
-      placeholder="图层名称"
+      :placeholder="$t('global.layerName')"
       :title="layerName"
+      :disabled="true"
     />
   </div>
 
-  <div style="margin-left: 0.74rem; margin-bottom: 0.1rem">
-    <n-checkbox v-model:checked="token"> 添加token </n-checkbox>
+  <div style="margin-left: 0.62rem; margin-bottom: 0.1rem">
+    <n-checkbox v-model:checked="token"> {{$t('global.addToken')}} </n-checkbox>
     <n-input
       style="margin-top: 0.1rem; width: 2.4rem"
       v-if="token"
@@ -42,16 +44,16 @@
     />
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.74rem">
+  <div class="btn-row-item1" >
     <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
       class="ans-btn"
       @click="openLayer"
-      >确定</n-button
+      >{{$t('global.sure')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -68,15 +70,15 @@ let token = ref(false);
 let layerToken = ref("");
 let options = [
   {
-    label: "S3M",
+    label: GlobalLang.s3mLayer,
     value: "S3M",
   },
   {
-    label: "影像",
+    label: GlobalLang.imgLayer,
     value: "Imagery",
   },
   {
-    label: "地形",
+    label: GlobalLang.terrainLayer,
     value: "Terrain",
   },
 ];
@@ -84,7 +86,12 @@ let options = [
 let layerUrl = ref("");
 let layerName = ref("");
 
-function clear(){};
+function clear(){
+  layerUrl.value = '';
+  layerName.value = '';
+  token.value = false;
+  layerToken.value = '';
+};
 
 // 打开自定义图层
 function openLayer() {
@@ -122,7 +129,7 @@ function handleChange() {
     case "S3M":
       if (layerUrl.value.indexOf("/rest/realspace/datas/") != -1) {
         // message.success(langGlobal.urlCheckedsuccess);
-        layerName.value = layerManagement.getLayerNameFromUrl(layerUrl.value);
+        layerName.value = layerManagement.getLayerNameFromUrl(layerUrl.value,"S3M");
       }
       break;
     case "Imagery":
@@ -131,16 +138,17 @@ function handleChange() {
         layerUrl.value.indexOf("/rest/maps/") != 0
       ) {
         // message.success(langGlobal.urlCheckedsuccess);
-        layerName.value = layerManagement.getLayerNameFromUrl(layerUrl.value);
+        layerName.value = layerManagement.getLayerNameFromUrl(layerUrl.value,"Imagery");
       }
       break;
     case "Terrain":
       if (layerUrl.value.indexOf("/rest/realspace/datas/") != -1) {
         // message.success(langGlobal.urlCheckedsuccess);
-        layerName.value = layerManagement.getLayerNameFromUrl(layerUrl.value);
+        layerName.value = layerManagement.getLayerNameFromUrl(layerUrl.value,"Terrain");
       }
       break;
   }
+
   // 对layerurl做特殊处理
   if (layerUrl.value.charAt(0) == '"' || layerUrl.value.charAt(0) == "'") {
     let reg = /^['|"](.*)['|"]$/;
@@ -227,8 +235,8 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
     },
     function (e: any) {
       if (widget._showRenderLoopErrors) {
-        // let title = langGlobal.addScpFailed;
-        // widget.showErrorPanel(title, undefined, e);
+        let title = '加载SCP失败，请检查网络连接状态或者url地址是否正确？';
+        widget.showErrorPanel(title, undefined, e);
       }
     }
   );
@@ -236,8 +244,4 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
 </script>
 
 <style lang="scss" scoped>
-.input-border {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
 </style>

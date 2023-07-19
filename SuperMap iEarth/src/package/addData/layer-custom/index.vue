@@ -1,7 +1,8 @@
 <template>
   <!-- 自定义服务 -->
+  <div class="custom-content">
   <div class="row-item">
-    <span class="">类型</span>
+    <span class="">{{$t('global.type')}}</span>
     <div class="btn-list">
       <div
         class="btn"
@@ -17,6 +18,7 @@
   <KeepAlive>
     <component :is="currentItem.com"></component>
   </KeepAlive>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -29,17 +31,17 @@ import localData from "./components/localData.vue";
 // 使用vue3 setUp实现动态组件
 let comList = reactive([
   {
-    name: "图层",
+    name: GlobalLang.layer,
     com: markRaw(layers),
     isSelect: true,
   },
   {
-    name: "场景",
+    name: GlobalLang.scene,
     com: markRaw(scene),
     isSelect: false,
   },
   {
-    name: "本地数据",
+    name: GlobalLang.localData,
     com: markRaw(localData),
     isSelect: false,
   },
@@ -71,7 +73,11 @@ function changeItem(item: any) {
 </script>
 
 <style lang="scss" scoped>
-.btn-list {
+.custom-content{
+    padding-left: 0.12rem;
+    padding-right: 0.12rem;
+    box-sizing: border-box;
+    .btn-list {
   width: 2.4rem;
   display: flex;
   cursor: pointer;
@@ -90,4 +96,6 @@ function changeItem(item: any) {
 .btn-row-item {
   margin-left: 0.75rem;
 }
+}
+
 </style>

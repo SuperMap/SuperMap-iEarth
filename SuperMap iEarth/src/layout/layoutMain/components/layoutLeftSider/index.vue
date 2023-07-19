@@ -10,7 +10,7 @@
       <i
         class="iconfont"
         :class="iconItem.iconName"
-        :title="iconItem.title"
+        :title="$t(iconItem.title)"
       ></i>
     </span>
   </div>

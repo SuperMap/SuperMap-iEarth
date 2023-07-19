@@ -1,464 +1,408 @@
 <template>
-    <!-- 绘制线 -->
+  <div class="layerSeries-box">
     <div class="row-item">
-      <span>图层名称</span>
+      <span>{{$t('global.chooseLayer')}}</span>
       <n-select
-        style="width: 1.96rem;height: 32px;"
-        v-model:value="state.selectedType"
-        size="small"
-        :options="state.optionMode"
+        class="add-input-border"
+        style="width: 62%"
+        v-model:value="state.selectedIndex"
+        :options="state.s3mlayers"
       />
     </div>
-  
+
     <div class="row-item">
-      <span class="name">符号库</span>
-      <div class="icon-list-space" style="width: 1.96rem;">
-        <span
-          v-for="(line, index) in state.lineOptions"
-          :key="index"
-          class="icon-span"
-          :title="line.name"
-          :class="line.isSelect ? 'selected-icon' : ''"
-          @click="changleIconItem(line)"
-        >
-          <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-          <i class="iconfont iconSize" :class="line.iconName"></i>
-        </span>
-      </div>
+      <span>{{$t('global.renderMode')}}</span>
+      <n-radio-group v-model:value="state.cullEnabled" name="operationType" style="width: 62%">
+          <n-space>
+            <n-radio :value="true">{{$t('global.singleRender')}}</n-radio>
+            <n-radio :value="false">{{$t('global.doubleRender')}}</n-radio>
+          </n-space>
+        </n-radio-group>
     </div>
-  
+
     <div class="row-item">
-      <span>线颜色</span>
-      <div class="color-pick-box row-content" style="width: 1.96rem;height: 32px;">
-        <n-color-picker
-          v-model:value="state.lineColor"
-          :render-label="
-            () => {
-              return '';
-            }
-          "
-          size="small"
-        ></n-color-picker>
-      </div>
+      <span>{{$t('global.showShadow')}}</span>
+      <n-switch v-model:value="state.shadowMode" size="small" style="width: 62%;justify-content: left"/>
     </div>
-  
     <div class="row-item">
-      <span>线宽</span>
-      <div class="slider-box" style="width: 1.96rem;height: 32px;">
+      <span>{{$t('global.shadowBrightness')}}</span>
+      <div class="slider-box">
         <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.lineWidth"
-          :step="1"
-          :min="1"
-          :max="10"
+          v-model:value="state.shadowDarkness"
+          style="width: 70%"
+          :step="0.05" :min="0" :max="1"
         />
-        <span>{{ state.lineWidth }}</span>
+        <div class="row-slider-num">{{ state.shadowDarkness }}</div>
       </div>
     </div>
-  
-    
     <div class="row-item">
-        <span>编辑线</span>
-        <div class="check-box" >
-          <n-checkbox v-model:checked="state.isEdit"></n-checkbox>
-        </div>
-      </div>
-    <div class="row-item">
-        <span>编辑线Z轴</span>
-        <div class="check-box">
-          <n-checkbox v-model:checked="state.isEditZ"></n-checkbox>
-        </div>
-      </div>
-    <div class="btn-row-item">
-      <n-button
-        type="info"
-        color="#3499E5"
-        text-color="#fff"
-        @click="add"
-        style="margin-right: 0.1rem"
-        >绘制</n-button
-      >
-      <n-button class="btn-secondary" @click="clear">清除</n-button>
+      <span>{{$t('global.objectHiding')}}</span>
+      <n-select class="add-input-border" v-model:value="state.visibility" style="width: 62%" :options="state.visibilityMode" />
     </div>
-  </template>
+    <div class="row-item" style="justify-content: left; margin-left: 38%">
+      <!-- <n-checkbox v-model:checked="state.selectEnabled">是否可选</n-checkbox> -->
+      <n-checkbox v-model:checked="state.multiChoose" >{{$t('global.multiple')}}</n-checkbox>
+      <!-- <n-checkbox v-model:checked="state.cullEnabled">双面渲染</n-checkbox> -->
+    </div>
+
+    <div class="row-item">
+      <span>{{$t('global.MinVisibleDistance')}}</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.visibleDistanceMin"
+          style="width: 70%"
+          :step="10" :min="-100" :max="20000"
+        />
+        <div class="row-slider-num" style="width: 0.5rem"><span>{{ state.visibleDistanceMin }}</span><span>{{$t('global.meter')}}</span></div>
+      </div>
+    </div>
+
+    <div class="row-item" style="margin-bottom: 0px">
+      <span>{{$t('global.MaxVisibleDistance')}}</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.visibleDistanceMax"
+          style="width: 70%"
+          :step="10" :min="-100" :max="20000"
+        />
+        <div class="row-slider-num" style="width: 0.5rem"><span>{{ state.visibleDistanceMax }}</span><span>{{$t('global.meter')}}</span></div>
+      </div>
+    </div>
+
+    <!-- <div class="row-item">
+      <span>亮度</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.brightness"
+          style="width: 70%"
+          :step="0.05" :min="0" :max="3"
+        />
+        <div class="row-slider-num">{{ state.brightness }}</div>
+      </div>
+    </div>
     
-    <script lang="ts" setup>
-  import { reactive, onBeforeUnmount, watch } from "vue";
-  import { useNotification } from "naive-ui";
-  import initHandler from "@/tools/drawHandler";
-  import setEditHandler from "@/tools/editHandler";
-  import locale from "@/tools/locateTemp";
-  
-  type stateType = {
-    selectedType: string, // 当前选择的绘制模式
-    selectedId: number, // 当前选择的线类型索引
-    lineColor: string, //设置线颜色
-    lineWidth: number, //设置选中线宽
-    dottedColor: string, //间隔颜色
-    dottedLength: number, 
-    outLineColor: string,
-    outLineWidth: number,
-    glowStrength: number,
-    trailPercentage: number,
-    isEdit: boolean, // 是否编辑
-    isEditZ: boolean, // 是否只编辑Z轴
-    optionMode:any,// 绘制模式选项
-    lineOptions:any,// 线类型选项
+    <div class="row-item">
+      <span>对比度</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.contrast"
+          style="width: 70%"
+          :step="0.05" :min="0" :max="3"
+        />
+        <div class="row-slider-num">{{ state.contrast }}</div>
+      </div>
+    </div>
+
+    <div class="row-item">
+      <span>色调</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.hue"
+          style="width: 70%"
+          :step="0.05" :min="0" :max="3"
+        />
+        <div class="row-slider-num">{{ state.hue }}</div>
+      </div>
+    </div>
+
+    <div class="row-item">
+      <span>饱和度</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.saturation"
+          style="width: 70%"
+          :step="0.05" :min="0" :max="3"
+        />
+        <div class="row-slider-num">{{ state.saturation }}</div>
+      </div>
+    </div>
+
+    <div class="row-item">
+      <span>伽马</span>
+      <div class="slider-box">
+        <n-slider
+          v-model:value="state.gamma"
+          style="width: 70%"
+          :step="0.05" :min="0" :max="3"
+        />
+        <div class="row-slider-num">{{ state.gamma }}</div>
+      </div>
+    </div> -->
+
+  </div>
+</template>
+
+<script setup lang="ts">
+import { reactive, onBeforeUnmount, watch } from "vue";
+import { useLayerStore } from "@/store/layerStore";
+const layerStore = useLayerStore();
+
+type StateType = {
+  s3mlayers:any,
+  selectedIndex: number, //默认选择图层index
+  brightness: number,
+  contrast: number,
+  hue: number,
+  saturation: number,
+  gamma: number,
+  shadowMode: number,
+  shadowDarkness: number,
+  selectEnabled: boolean,
+  multiChoose: boolean,
+  cullEnabled: boolean,
+  visibility: number,
+  visibilityMode:any,
+  visibleDistanceMin: number, //最小可见距离
+  visibleDistanceMax: number, //最大可见距离
+}
+
+// 初始化数据
+let state = reactive<StateType>({
+  s3mlayers: [], //当前存在的可选择s3m图层
+  selectedIndex: 0, //默认选择图层index
+  brightness: 1,
+  contrast: 1,
+  hue: 0,
+  saturation: 1,
+  gamma: 1,
+  shadowMode: 0,
+  shadowDarkness: 0.3,
+  selectEnabled: true,
+  multiChoose: false,
+  cullEnabled: false,
+  visibility: 2,
+  visibleDistanceMin: 0, //最小可见距离
+  visibleDistanceMax: 12000, //最大可见距离
+  visibilityMode: [
+    { label: () => GlobalLang.disPlayAll, value: 2 },
+    { label: () => GlobalLang.disPlaySelected, value: 0 },
+    { label: () => GlobalLang.hideSelected, value: 1 }
+  ]
+});
+let layers;
+
+
+function updateLayers() {
+  layers = viewer.scene.layers.layerQueue;
+  if (!layers || layers.length < 1) {
+    state.s3mlayers = [{ label: () => GlobalLang.noLayer, value: 0 }];
+    return;
   }
-  
-  // 初始化数据
-  let state = reactive<stateType>({
-    selectedType: "NONE",
-    selectedId: 0,
-    lineColor: "rgba(250, 196, 65, 1)", //设置线颜色
-    lineWidth: 5, //设置选中线宽
-    dottedColor: "rgba(250, 196, 65, 0)", //间隔颜色
-    dottedLength: 30,
-    outLineColor: "rgba(29, 206, 200, 1)",
-    outLineWidth: 2,
-    glowStrength: 0.5,
-    trailPercentage: 0.3,
-    isEdit: false,
-    isEditZ: false,
-    optionMode: [
-      {
-        label: () => locale.SpaceMode,
-        value: "NONE",
-      },
-      {
-        label: () => locale.TERRAINMode,
-        value: "TERRAIN",
-      },
-      {
-        label: () => locale.S3M_TILEMode,
-        value: "S3M_TILE",
-      },
-      {
-        label: () => locale.BOTHMode,
-        value: "BOTH",
-      },
-    ],
-    lineOptions: [
-      {
-        id: 0,
-        iconName: "iconshixian",
-        name: "实线",
-        nameEN: "solidline",
-        isSelect: true,
-      },
-      {
-        id: 1,
-        iconName: "iconxuxian",
-        name: "虚线",
-        nameEN: "dottedline",
-        isSelect: false,
-      },
-      {
-        id: 2,
-        iconName: "iconlunkuoxian",
-        name: "轮廓线",
-        nameEN: "outline",
-        isSelect: false,
-      },
-      {
-        id: 3,
-        iconName: "iconjiantou",
-        name: "箭头线",
-        nameEN: "arrowline",
-        isSelect: false,
-      },
-      {
-        id: 4,
-        iconName: "iconguangyunxian",
-        name: "光晕线",
-        nameEN: "haloline",
-        isSelect: false,
-      },
-      {
-        id: 5,
-        iconName: "iconweijixian",
-        name: "尾迹线",
-        nameEN: "trailline",
-        isSelect: false,
-      },
-    ],
+  state.s3mlayers.length = 0;
+  layers.forEach((layer, index) => {
+    let name = layer._name;
+    state.s3mlayers.push({
+      label: name,
+      value: index
+    });
   });
-  
-  const notification = useNotification();
-  
-  let handlerPolyline,
-    removeEdit,
-    line_ids: any[] = [];
-  let clampToGround = undefined,
-    classificationType = undefined,
-    selected_line: any = undefined;
-  
-  // 分析
-  function add() {
-    notification.create({
-      content: () => locale.DrawSymbolTip,
-      duration: 3500,
-    });
-    add_line();
-  }
-  
-  // 添加线
-  function add_line() {
-    if (!handlerPolyline) {
-      handlerPolyline = initHandler("Polyline");
-    }
-    handlerPolyline.handlerDrawing().then(
-      (res) => {
-        creat_entity_line(res.object.positions);
-        handlerPolyline.polylineTransparent.show = false;
-      },
-      (err) => {
-        console.log(err);
-      }
+  if (state.selectedIndex > layers.length - 1) state.selectedIndex = 0;
+  layers[state.selectedIndex].selectEnabled = true;
+}
+
+function init() {
+  if (!window.viewer) return;
+  updateLayers();
+  state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
+  layers[state.selectedIndex].selectEnabled = true;
+}
+init();
+
+function getAttributes() {
+  if (!SuperMap3D.defined(layers) || !SuperMap3D.defined(layers[state.selectedIndex]))
+    return;
+  let selectLayer = layers[state.selectedIndex];
+  state.brightness = SuperMap3D.defaultValue(selectLayer.brightness, 1);
+  state.contrast = SuperMap3D.defaultValue(selectLayer.contrast, 1);
+  state.hue = SuperMap3D.defaultValue(selectLayer.hue, 0);
+  state.saturation = SuperMap3D.defaultValue(selectLayer.saturation, 1);
+  state.gamma = SuperMap3D.defaultValue(selectLayer.gamma, 1);
+  state.shadowMode = SuperMap3D.defaultValue(
+    selectLayer.shadowMode,
+    SuperMap3D.ShadowType.NONE
+  );
+  state.shadowDarkness = SuperMap3D.defaultValue(selectLayer.shadowDarkness, 0.3);
+  state.selectEnabled = SuperMap3D.defaultValue(selectLayer.selectEnabled, true);
+  state.multiChoose = SuperMap3D.defaultValue(selectLayer.multiChoose, false);
+  state.cullEnabled = SuperMap3D.defaultValue(selectLayer.cullEnabled, false);
+  state.visibility = SuperMap3D.defaultValue(selectLayer.visibility, 2);
+  state.visibleDistanceMin = SuperMap3D.defaultValue(
+      selectLayer.visibleDistanceMin,
+      0
     );
-    handlerPolyline.activate();
+    state.visibleDistanceMax = SuperMap3D.defaultValue(
+      selectLayer.visibleDistanceMax,
+      12000
+    );
+}
+
+// 监听
+watch(
+  () => layerStore.layerChangeCount,
+  () => {
+    updateLayers();
+  });
+
+watch(
+  () => state.selectedIndex,
+  val => {
+    getAttributes();
   }
-  
-  // 清除
-  function clear() {
-    if (handlerPolyline) handlerPolyline.clearHandler();
-    if (selected_line) {
-      viewer.entities.removeById(selected_line.id);
-      selected_line = undefined;
-    } else {
-      line_ids.forEach((id) => viewer.entities.removeById(id));
-      line_ids.length = 0;
-    }
-    removeEditHandler();
-  
-    state.isEdit = false;
+);
+
+watch(
+  () => state.brightness,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].brightness = Number(val);
   }
-  
-  // 根据索引创建不同类型的线实体 - entity
-  function creat_entity_line(position: any) {
-    let lineColor = SuperMap3D.Color.fromCssColorString(state.lineColor);
-    let lineWidth = Number(state.lineWidth);
-    let material: any;
-    let id = "add-line-" + new Date().getTime();
-    switch (state.selectedId) {
-      case 0:
-        material = lineColor;
-        break;
-      case 1:
-        let dottedColor = SuperMap3D.Color.fromCssColorString(state.dottedColor); //间隔颜色
-        let dottedLength = Number(state.dottedLength);
-        material = new SuperMap3D.PolylineDashMaterialProperty({
-          color: lineColor,
-          gapColor: dottedColor,
-          dashLength: dottedLength,
-        });
-        break;
-      case 2:
-        let outLineColor = SuperMap3D.Color.fromCssColorString(
-          state.outLineColor
-        ); //轮廓颜色
-        let outLineWidth = Number(state.outLineWidth);
-        material = new SuperMap3D.PolylineOutlineMaterialProperty({
-          color: lineColor,
-          outlineWidth: outLineWidth,
-          outlineColor: outLineColor,
-        });
-        break;
-      case 3:
-        material = new SuperMap3D.PolylineArrowMaterialProperty(lineColor);
-        break;
-      case 4:
-        let glowStrength = Number(state.glowStrength);
-        material = new SuperMap3D.PolylineGlowMaterialProperty({
-          glowPower: glowStrength,
-          color: lineColor,
-        });
-        break;
-      case 5:
-        let trailPercentage = Number(state.trailPercentage);
-        material = new SuperMap3D.PolylineTrailMaterialProperty({
-          color: lineColor,
-          trailLength: trailPercentage,
-          // period: state.trailPeroid
-        });
-        break;
-      default:
-        material = lineColor;
-        break;
-    }
-    line_ids.push(id);
-    selected_line = viewer.entities.add({
-      id: id,
-      polyline: {
-        positions: position,
-        width: lineWidth,
-        material: material,
-        classificationType: classificationType, //贴地贴对象模式设置
-        clampToGround: clampToGround, //贴地贴对象需要设置true
-      },
-    });
+);
+watch(
+  () => state.contrast,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].contrast = Number(val);
   }
-  
-  // 设置线的绘制模式：贴地、空间、贴S3M
-  function setLineMode(val1, val2) {
-    clampToGround = val1;
-    classificationType = val2;
-    if (selected_line) {
-      selected_line.polyline.clampToGround = clampToGround;
-      selected_line.polyline.classificationType = classificationType;
-    }
+);
+watch(
+  () => state.hue,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].hue = Number(val);
   }
-  
-  // 设置线实体可编辑
-  function setEdit() {
-    viewer.selectedEntity = undefined;
-    removeEdit = viewer.selectedEntityChanged.addEventListener(() => {
-      if (
-        viewer.selectedEntity &&
-        viewer.selectedEntity.id &&
-        viewer.selectedEntity.id.includes("add-line")
-      ) {
-        setEditHandler(viewer.selectedEntity, state.isEditZ);
-        selected_line = viewer.selectedEntity;
-      } else selected_line = undefined;
-    });
+);
+watch(
+  () => state.saturation,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].saturation = Number(val);
   }
-  
-  // 移除编辑
-  function removeEditHandler() {
-    if (removeEdit) removeEdit();
-    if (window.editHandler) window.editHandler.clear();
-    viewer.selectedEntity = undefined;
+);
+watch(
+  () => state.gamma,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].gamma = Number(val);
   }
-  
-  // 切换项目
-  function changleIconItem(item: any) {
-    state.selectedId = item.id;
-    for (let i = 0; i < state.lineOptions.length; i++) {
-      if (state.lineOptions[i].id == item.id) {
-        state.lineOptions[i].isSelect = true;
-      } else {
-        state.lineOptions[i].isSelect = false;
+);
+watch(
+  () => state.shadowMode,
+  val => {
+    if (layers[state.selectedIndex])
+      // switch (val) {
+      //   case 0:
+      //     viewer.shadows = false;
+      //     layers[state.selectedIndex].shadowType = SuperMap3D.ShadowType.NONE;
+      //     break;
+      //   case 1:
+      //     viewer.shadows = true;
+      //     layers[state.selectedIndex].shadowType = SuperMap3D.ShadowType.SELECTION;
+      //     break;
+      //   case 2:
+      //     viewer.shadows = true;
+      //     layers[state.selectedIndex].shadowType = SuperMap3D.ShadowType.ALL;
+      //     break;
+      //   default:
+      //     null;
+      //     break;
+      // }
+      if(val){
+        viewer.shadows = true;
+        layers[state.selectedIndex].shadowType = SuperMap3D.ShadowType.ALL;
+      }else{
+        viewer.shadows = false;
+        layers[state.selectedIndex].shadowType = SuperMap3D.ShadowType.NONE;
       }
-    }
   }
+);
+watch(
+  () => state.shadowDarkness,
+  val => {
+    viewer.shadowMap.darkness = Number(val);
+  }
+);
+watch(
+  () => state.multiChoose,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].multiChoose = val;
+  }
+);
+watch(
+  () => state.selectEnabled,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].selectEnabled = val;
+  }
+);
+
+watch(
+  () => state.cullEnabled,
+  val => {
+    if (layers[state.selectedIndex])
+      layers[state.selectedIndex].cullEnabled = val;
+  }
+);
+watch(
+    () => state.visibleDistanceMin,
+    val => {
+      if (layers[state.selectedIndex])
+        layers[state.selectedIndex].visibleDistanceMin = Number(val);
+    }
+  );
   
   watch(
-    () => state.selectedType,
-    (val) => {
+    () => state.visibleDistanceMax,
+    val => {
+      if (layers[state.selectedIndex])
+        layers[state.selectedIndex].visibleDistanceMax = Number(val);
+    }
+  );
+watch(
+  () => state.visibility,
+  val => {
+    if (layers[state.selectedIndex])
       switch (val) {
-        case "NONE":
-          setLineMode(undefined, undefined);
+        case 2:
+          layers[state.selectedIndex].setObjsVisible([], false);
           break;
-        case "TERRAIN":
-          setLineMode(true, SuperMap3D.ClassificationType.TERRAIN);
+        case 1:
+          let chooseIDs = layers[state.selectedIndex].getSelection();
+          layers[state.selectedIndex].setObjsVisible(chooseIDs, false);
           break;
-        case "S3M_TILE":
-          setLineMode(true, SuperMap3D.ClassificationType.S3M_TILE);
-          break;
-        case "BOTH":
-          setLineMode(true, SuperMap3D.ClassificationType.BOTH);
+        case 0:
+          let chooseIDs2 = layers[state.selectedIndex].getSelection();
+          layers[state.selectedIndex].setObjsVisible(chooseIDs2, true);
           break;
         default:
-          setLineMode(undefined, undefined);
+          null;
           break;
       }
-    }
-  );
-  
-  watch(
-    () => state.lineColor,
-    (val) => {
-      let color = SuperMap3D.Color.fromCssColorString(val);
-      if (selected_line) selected_line.polyline.material.color = color;
-    }
-  );
-  watch(
-    () => state.lineWidth,
-    (val) => {
-      if (selected_line) selected_line.polyline.width = Number(val);
-    }
-  );
-  
-  watch(
-    () => state.dottedColor,
-    (val) => {
-      let color = SuperMap3D.Color.fromCssColorString(val);
-      if (selected_line) selected_line.polyline.material.gapColor = color;
-    }
-  );
-  
-  watch(
-    () => state.dottedLength,
-    (val) => {
-      if (selected_line) selected_line.polyline.material.dashLength = Number(val);
-    }
-  );
-  watch(
-    () => state.outLineColor,
-    (val) => {
-      let color = SuperMap3D.Color.fromCssColorString(val);
-      if (selected_line) selected_line.polyline.material.outlineColor = color;
-    }
-  );
-  watch(
-    () => state.outLineWidth,
-    (val) => {
-      if (selected_line)
-        selected_line.polyline.material.outlineWidth = Number(val);
-    }
-  );
-  watch(
-    () => state.glowStrength,
-    (val) => {
-      if (selected_line) selected_line.polyline.material.glowPower = Number(val);
-    }
-  );
-  watch(
-    () => state.trailPercentage,
-    (val) => {
-      if (selected_line)
-        selected_line.polyline.material.trailLength = Number(val);
-    }
-  );
-  
-  watch(
-    () => state.isEdit,
-    (val) => {
-      if (val) {
-        notification.create({
-          content: () => locale.DrawlineTip,
-          duration: 3500,
-        });
-        setEdit();
-      } else removeEditHandler();
-    }
-  );
-  watch(
-    () => state.isEditZ,
-    (val) => {
-      if (window.editHandler) {
-        window.editHandler.isEditZ = val;
-      }
-    }
-  );
-  
-  onBeforeUnmount(() => {
-    clear();
-  });
-  
-  </script>
-    
-    
-  <style lang="scss" scoped>
-  :deep(.n-slider-handle){
-    background-color: #414141 !important;
-    border: 1.5px solid #3499E5 !important;
   }
-  </style>
-    
-    
-    
-    
-    
-    
+);
+
+watch(
+    () => layerStore.s3mLayerSelectIndex,
+    val => {
+      // reset();
+      state.selectedIndex = Number(val);
+    }
+);
+
+onBeforeUnmount(() => {});
+</script>
+
+<style lang="scss" scoped>
+.layerSeries-box {
+  width: 100%;
+  height: 100%;
+  padding: 0 0.12rem;
+  box-sizing: border-box;
+
+}
+</style>
+
+
+
+
+

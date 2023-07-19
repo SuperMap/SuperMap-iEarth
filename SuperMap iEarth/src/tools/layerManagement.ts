@@ -24,9 +24,9 @@ function checkURL(url: string) {
 function openScene(url: string, type: any, sceneName?: string) {
   if (checkURL(url)) {
     // 专门对CBD和变电站场景做设置
-    if (sceneName === '北京CBD') {
+    if (sceneName === 'global.BeijingCBD') {
       addCBD(url);
-    }else if(sceneName === '变电站'){
+    }else if(sceneName === 'global.transformerStation'){
       addBDZ(url);
     }else {
       let promiseArray = [
@@ -72,12 +72,38 @@ function addMvtLayer(LayerURL: string, name: string, type: any) {
 
 // 添加白膜
 function addBaiMo(url: string, sceneName: string, type: any) {
+  let name:string = sceneName;
+  if(sceneName.indexOf('global') != -1){
+    let attr = sceneName.split('.')[1];
+    name = GlobalLang[attr];
+  }
   window.viewer.scene
     .addS3MTilesLayerByScp(url, {
-      name: sceneName,
+      name: name,
     })
     .then((layer: any) => {
-      window.viewer.flyTo(layer);
+      if(layer.name === '重庆白模' || layer.name === 'Chongqing'){
+        window.viewer.scene.camera.flyTo({
+            destination : new SuperMap3D.Cartesian3(-1598174.3966915242,5337632.74785581,3107040.200761407),
+            orientation : {
+                heading : 0.009298990045627065,
+                pitch : -0.4119163433938109,
+                roll : 0.0000036814461790157793
+            }
+        });
+      }else if(layer.name === '横滨白模' || layer.name === 'Yokohama'){
+        window.viewer.scene.camera.flyTo({
+          destination : new SuperMap3D.Cartesian3(-3970986.6586428955,3373639.6081622997,3666841.2351276176),
+          orientation : {
+              heading : 5.97633670854477,
+              pitch : -0.08168840183891524,
+              roll : 0.000003064219816550917
+          }
+      });
+      }else{
+        window.viewer.flyTo(layer);
+      }
+
       layer.lodRangeScale = 5;
       layer.style3D.fillStyle = SuperMap3D.FillStyle.Fill_And_WireFrame;
       let initialColor = "rgb(67,67,67)";
@@ -91,16 +117,36 @@ function addBaiMo(url: string, sceneName: string, type: any) {
 }
 
 // 根据输入的lauerUrl，自动匹配其图层名称
-function getLayerNameFromUrl(url: any): any {
-  if (url.indexOf('/config') != -1) {
-    let list = url.split('/datas/')
-    if (list.length === 2) {
-      let layerNameFromUrl = list[1].split('/')[0]
-      return layerNameFromUrl;
-    }
-  }
+function getLayerNameFromUrl(url: any,type:string): any {
 
-  return ''
+  switch (type) {
+    case "S3M":
+      {
+        if (url.indexOf('/config') != -1) {
+          let list = url.split('/datas/')
+          if (list.length === 2) {
+            let layerNameFromUrl = list[1].split('/')[0]
+            return layerNameFromUrl;
+          }
+        }
+      }
+      break;
+    case "Imagery":
+      {
+        let imageLayerName = url.split('/rest/realspace/datas/')[1];
+        return imageLayerName;
+      }
+      break;
+    case "Terrain":
+      {
+        let terrainLayerName = url.split('/rest/realspace/datas/')[1];
+        return terrainLayerName;
+      }
+      break;
+    default:
+      return '';
+      break;
+  }
 }
 
 
@@ -181,10 +227,6 @@ function getTerrainLayerName(): any {
 
 // 专门添加CBD场景
 function addCBD(url: string) {
-  setSkyBox(true);
-
-  // 场景属性设置
-
   // 新版CBD属性
   const scene = viewer.scene;
   scene.camera.frustum.fov = 1.57;
@@ -482,7 +524,6 @@ function addCBD(url: string) {
 
 // 专门添加变电站场景
 function addBDZ(url: string) {
-  setSkyBox(true);
   // scene.camera.frustum.fov = 1.57;
   // scene.camera.frustum.near = 0.01;
   const scene = viewer.scene;
@@ -704,28 +745,26 @@ let skybox = new SuperMap3D.SkyBox({ sources: bluesky });
 skybox.USpeed = 0;  //获取或者设置天空盒子绕x轴运动的动画速度。设置为1时表示0.01弧度每秒
 skybox.VSpeed = 0;  //获取或者设置天空盒子绕y轴运动的动画速度。
 skybox.WSpeed = 0;  //获取或者设置天空盒子绕z轴运动的动画速度。
+
 function setSkyBox(skyBoxShow:boolean){
   let defaultSkybox = viewer.scene.skyBox; 
 
-if(skyBoxShow){
-  let cameraHeight = viewer.scene.camera.positionCartographic.height;
-  viewer.scene.postRender.addEventListener(watchCameraHeight);
-  viewer.scene.skyBox = skybox;
-  if (cameraHeight < 22e4) {
-      viewer.scene.skyBox.show = true;
-      viewer.scene.skyAtmosphere.show = false
-  } else {
-      viewer.scene.skyAtmosphere.show  = true
+  if(skyBoxShow){
+    let cameraHeight = viewer.scene.camera.positionCartographic.height;
+    viewer.scene.postRender.addEventListener(watchCameraHeight);
+    viewer.scene.skyBox = skybox;
+    if (cameraHeight < 22e4) {
+        viewer.scene.skyBox.show = true;
+        viewer.scene.skyAtmosphere.show = false
+    } else {
+        viewer.scene.skyAtmosphere.show  = true
+    }
+  }else{
+    viewer.scene.skyAtmosphere.show = true;
+    viewer.scene.skyBox.show = false;
+    viewer.scene.skyBox = defaultSkybox;
+    viewer.scene.postRender.removeEventListener(watchCameraHeight);
   }
-}else{
-  viewer.scene.skyAtmosphere.show = true;
-  viewer.scene.skyBox.show = false;
-  viewer.scene.skyBox = defaultSkybox;
-  viewer.scene.postRender.removeEventListener(watchCameraHeight);
-}
-
-
-
 }
 
 // 监听相机高度，一旦高于设定阈值，关闭天空盒显示大气层

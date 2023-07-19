@@ -19,12 +19,12 @@ import importRoute from "./components/import-route.vue";
 // 使用vue3 setUp实现动态组件
 let comList = reactive([
   {
-    name: "导入飞行路线",
+    name: GlobalLang.importFlyRoute,
     com: markRaw(importRoute),
     isSelect: true,
   },
   {
-    name: "新建飞行路线",
+    name: GlobalLang.createFlyRoute,
     com: markRaw(createRoute),
     isSelect: false,
   },
@@ -56,12 +56,13 @@ function changeItem(item: any) {
   margin-left: 0.1rem;
   margin-bottom: 0.15rem;
   cursor: pointer;
-  justify-content: space-around;
+  justify-content: space-evenly;
 
   .btn {
-    width: 1.2rem;
-    height: 0.22rem;
-    line-height: 0.22rem;
+    width: fit-content;
+    padding: 0 0.1rem;
+    height: 0.26rem;
+    line-height: 0.26rem;
     text-align: center;
 
   }

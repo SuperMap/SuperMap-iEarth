@@ -11,7 +11,7 @@
       <div class="img-box">
         <img :src="item.thumbnail" class="img" alt="" />
       </div>
-      <span>{{ item.name }}</span>
+      <span>{{ $t(item.name) }}</span>
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@ function addBaseLayer(item: any) {
   let type = item.type;
   let layerUrl = item.url;
   switch (type) {
-    case "BINGMAP":
+    case "BingMap":
       imageryProvider = new SuperMap3D.BingMapsImageryProvider({
         url: layerUrl,
         key: item.key,
@@ -47,7 +47,7 @@ function addBaseLayer(item: any) {
       });
       item.chooseType = true;
       break;
-    case "IMAGE":
+    case "LocalImage":
       imageryProvider = new SuperMap3D.SingleTileImageryProvider({
         url: layerUrl,
       });
@@ -77,14 +77,8 @@ function addBaseLayer(item: any) {
     default:
       break;
   }
-
   viewer.imageryLayers.addImageryProvider(imageryProvider);
-  // console.log("viewer.imageryLayers._layers：",viewer.imageryLayers._layers);
 
-  
-  // let delImagelayer = viewer.imageryLayers._layers[0];
-  // viewer.imageryLayers.remove(delImagelayer);
-  // layerStore.removeLayer({key: "2-0",label: "默认影像",type: "imagery"});
   layerStore.updateLayer({ type: "imagery" });
 }
 </script>
@@ -97,9 +91,6 @@ function addBaseLayer(item: any) {
   .ItemBox {
     width: 30%;
     color: $--SM--FontColor-Sub;
-    // font-size: $--SM--FontSize-Text;
-    // margin-bottom: 0.07rem;
-    // margin-right: 0.16rem;
     margin-bottom: 0.07rem;
     margin-right: 0.12rem;
     box-sizing: border-box;
@@ -112,11 +103,10 @@ function addBaseLayer(item: any) {
       overflow: hidden;
       margin-bottom: 0.04rem;
       background-color: #000;
+      border: 0.02rem solid #3498e500;
       .img {
         width: 100%;
         height: 100%;
-        // width: 0.72rem;
-        // height: 0.72rem;
         object-fit: none;
       }
     }

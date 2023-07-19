@@ -15,7 +15,7 @@ export const useLayerStore = defineStore({
 					thumbnail: "./images/addData/CBD.jpg",
 					// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
 					proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-					name: "北京CBD",
+					name: "global.BeijingCBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
 				},
@@ -23,30 +23,31 @@ export const useLayerStore = defineStore({
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Sophia.jpg",
 					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-suofeiya_church-2/rest/realspace",
-					name: "索菲亚教堂",
+					name: "global.SophiaChurch",
 					chooseType: false
 				},
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/ZfTerranAndImagery.jpg",
 					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-ZF_normal/rest/realspace",
-					name: "珠峰地形影像",
+					name: "global.MountEverest",
 					layers: [{ type: 'IMG', layerName: 'image' }, { type: 'TERRAIN', layerName: 'srtm_54_07%40zhufeng' }],
 					chooseType: false
 				},
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/BIM.jpg",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-wireFrame-2/rest/realspace",
-					name: "BIM建筑",
-					layers: [{ type: 'S3M', layerName: "wireFrame" }],
+					// proxiedUrl: "http://www.supermapol.com/realspace/services/3D-wireFrame-2/rest/realspace",
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BIMbuilding-2/rest/realspace",
+					name: "global.BIMBuilding",
+					layers: [{ type: 'S3M', layerName: "BIMbuilding" }],
 					chooseType: false
 				},
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/PointCloud.jpg",
 					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-cloud-2/rest/realspace",
-					name: "点云",
+					name: "global.Pointcloud",
 					layers: [{ type: 'S3M', layerName: 'POINTCLOUD23' }],
 					chooseType: false
 				},
@@ -57,15 +58,15 @@ export const useLayerStore = defineStore({
 				// 	name: "柱状图",
 				// 	chooseType: false
 				// },
-				{
-					type: "REALSPACE",
-					thumbnail: "./images/addData/Household.jpg",
-					// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-QingXieSheYingMoXing/rest/realspace",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-FCFH_Shangdong-2/rest/realspace",
-					name: "倾斜影像",
-					layers: [{ type: 'S3M', layerName: 'qingxie' }],
-					chooseType: false
-				},
+				// {
+				// 	type: "REALSPACE",
+				// 	thumbnail: "./images/addData/Household.jpg",
+				// 	// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-QingXieSheYingMoXing/rest/realspace",
+				// 	proxiedUrl: "http://www.supermapol.com/realspace/services/3D-FCFH_Shangdong-2/rest/realspace",
+				// 	name: "倾斜影像",
+				// 	layers: [{ type: 'S3M', layerName: 'qingxie' }],
+				// 	chooseType: false
+				// },
 
 				// {
 				//     "id": 9,
@@ -81,7 +82,7 @@ export const useLayerStore = defineStore({
 					type: "MVT",
 					thumbnail: "./images/addData/MVT.jpg",
 					proxiedUrl: "http://www.supermapol.com/realspace/services/map-mvt-JingJinDiQuDiTu/restjsr/v1/vectortile/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE",
-					name: "京津地区MVT",
+					name: "global.JingJinMVT",
 					VectorTilesMapName: 'JingJinMVT',
 					layers: [{ type: 'MVT', layerName: '京津地区MVT' }],
 					chooseType: false
@@ -100,7 +101,7 @@ export const useLayerStore = defineStore({
 					thumbnail: "./images/addData/cqbm.jpg",
 					// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000/rest/realspace/datas/CQmodel/config",
 					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000-2/rest/realspace/datas/wireFrame/config",
-					name: "重庆白模",
+					name: "global.ChongqingBaimo",
 					S3MLayer: true,
 					chooseType: false
 				},
@@ -108,7 +109,7 @@ export const useLayerStore = defineStore({
 					type: "ThematicMap",
 					thumbnail: "./images/addData/hbbm.jpg",
 					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-XinBaiMo-2/rest/realspace/datas/%E4%B8%80%E8%88%AC%E5%AE%B6%E5%B1%8B/config",
-					name: "横滨白模",
+					name: "global.YokohamaBaimo",
 					S3MLayer: true,
 					chooseType: false
 				},
@@ -116,7 +117,7 @@ export const useLayerStore = defineStore({
 					type: "REALSPACE",
 					thumbnail: "./images/addData/BDZ.jpg",
 					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BianDianZhan0614/rest/realspace",
-					name: "变电站",
+					name: "global.transformerStation",
 					chooseType: false
 				},
 				// {
@@ -124,18 +125,18 @@ export const useLayerStore = defineStore({
 				// 	thumbnail: "./images/addData/CBD.jpg",
 				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
 				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-				// 	name: "原始CBD",
+				// 	name: "global.BeijingCBD",
 				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 				// 	chooseType: false
 				// },
 			],
 			// 在线底图服务
 			onlineBaseLayerList: [{
-				url: './images/baseMap/baseImage.png',
-				name: '本地图片',
+				url: './images/baseMap/baseImage.jpg',
+				name: "global.LocalImage",
 				thumbnail: './images/baseMap/locate.png',
 				title: '本地图片',
-				type: 'IMAGE',
+				type: 'LocalImage',
 				imgsrc: '@/../static/css/cross.png',
 				chooseType: false,
 				isMultipleChoose: false,
@@ -143,10 +144,10 @@ export const useLayerStore = defineStore({
 			},
 			{
 				url: '//dev.virtualearth.net/',
-				name: '必应底图',
+				name: "global.BingMap",
 				thumbnail: './images/baseMap/BingMap.png',
 				title: '必应底图',
-				type: 'BINGMAP',
+				type: 'BingMap',
 				imgsrc: '@/../static/css/cross.png',
 				key: "Aq0D7MCY5ErORA9vrwFtfE9aancUq5J6uNjw0GieF0ostaIrVuJZ8ScXxNHHvEwS",
 				chooseType: false,
@@ -155,7 +156,7 @@ export const useLayerStore = defineStore({
 			},
 			{
 				url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
-				name: '天地图',
+				name: "global.TIANDITU",
 				thumbnail: './images/baseMap/tianditu.png',
 				token: '7933ae29d47bcf1440889ad983dbe0af',
 				title: '天地图',
@@ -167,7 +168,7 @@ export const useLayerStore = defineStore({
 			},
 			{
 				url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-				name: 'OSM底图',
+				name: "global.OSM",
 				thumbnail: './images/baseMap/OSM.png',
 				title: 'OSM底图',
 				type: 'OSM',
@@ -178,7 +179,7 @@ export const useLayerStore = defineStore({
 				index: 3
 			},
 			{
-				name: '经纬底图',
+				name: "global.GRIDIMAGERY",
 				thumbnail: './images/baseMap/grad.png',
 				title: '经纬底图',
 				type: 'GRIDIMAGERY',
@@ -194,7 +195,7 @@ export const useLayerStore = defineStore({
 					proxiedUrl: 'https://maptiles.supermapol.com/iserver/services/3D-local3DCache-GlobalTIN30M/rest/realspace/datas/Global_TIN_30M',
 					name: '超图在线地形',
 					thumbnail: './images/terrainLayers/SuperMapOnline.png',
-					title: '超图在线地形',
+					title: "global.SuperMapOnlineTerrain",
 					type: 'supermapOnlineTerrain',
 					chooseType: false,
 				},
@@ -202,7 +203,7 @@ export const useLayerStore = defineStore({
 					proxiedUrl: '',
 					name: '天地图地形',
 					thumbnail: './images/terrainLayers/tianditu_terrain.png',
-					title: '天地图地形',
+					title: "global.TiandituTerrain",
 					type: 'tianDiTuTerrain',
 					chooseType: false
 				},
@@ -210,7 +211,7 @@ export const useLayerStore = defineStore({
 					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-stk_terrain/rest/realspace/datas/info/data/path",
 					name: 'STK地形',
 					thumbnail: './images/terrainLayers/STK_terrain.png',
-					title: 'STK地形',
+					title: "global.STKTerrain",
 					type: 'STKTerrain',
 					chooseType: false
 				}
@@ -220,22 +221,22 @@ export const useLayerStore = defineStore({
 		layerTreeData: [
 			{
 				key: "1",
-				label: "S3M图层",
+				label: GlobalLang.s3mLayer,
 				children: []
 			},
 			{
 				key: "2",
-				label: "影像图层",
+				label: GlobalLang.imgLayer,
 				children: []
 			},
 			{
 				key: "3",
-				label: "MVT图层",
+				label: GlobalLang.mvtLayer,
 				children: []
 			},
 			{
 				key: "4",
-				label: "地形图层",
+				label: GlobalLang.terrainLayer,
 				children: []
 			},
 		],
@@ -246,6 +247,8 @@ export const useLayerStore = defineStore({
 			onlineTerrain:[],
 		},
 		skyBoxShow:false,
+		layerChangeCount:0,
+		s3mLayerSelectIndex:0,
 	}),
 	getters: {
 	},
@@ -263,6 +266,7 @@ export const useLayerStore = defineStore({
 							children: undefined,
 							isShow: true
 						});
+						S3Mlayer.visible = true;
 					});
 					break;
 				case "imagery":
@@ -271,8 +275,9 @@ export const useLayerStore = defineStore({
 						let imageryLayerName = this.getImageryLayerName(imageryLayer);
 						// console.log("imageryLayerName：",imageryLayerName);
 						// console.log("this.layerTreeData[1].children",this.layerTreeData[1].children);
+						if(imageryLayerName === 'Unnamed') return;
 						let flag = this.checkImageryRepeat(imageryLayerName);
-						console.log("flag-update",flag);
+						// console.log("flag-update",flag);
 						if(!flag){
 							this.layerTreeData[1].children.push({
 								label: imageryLayerName,
@@ -281,6 +286,7 @@ export const useLayerStore = defineStore({
 								children: undefined,
 								isShow: true
 							});
+							imageryLayer.show = true;
 						}
 					})
 					break;
@@ -293,7 +299,8 @@ export const useLayerStore = defineStore({
 							type: 'mvt',
 							children: undefined,
 							isShow: true
-						})
+						});
+						MVTlayer.show = true;
 					});
 					break;
 				case "terrain":
@@ -312,28 +319,37 @@ export const useLayerStore = defineStore({
 				default:
 					break;
 			}
+			this.layerChangeCount++;
+
+			// 专门处理地形
+			let terrainLayerName = viewer.terrainProvider.name
+			if(!terrainLayerName || ['超图在线地形','天地图地形','STK地形'].indexOf(terrainLayerName) === -1){
+				this.layerServiceData.onlineTerrainLayerList.forEach((item:any) => {
+					item.chooseType = false;
+				});
+			}
 		},
 		// 刷新图层
 		refreshLayerTree(){
 			this.layerTreeData = [
 				{
 					key: "1",
-					label: "S3M图层",
+					label: GlobalLang.s3mLayer,
 					children: []
 				},
 				{
 					key: "2",
-					label: "影像图层",
+					label: GlobalLang.imgLayer,
 					children: []
 				},
 				{
 					key: "3",
-					label: "MVT图层",
+					label: GlobalLang.mvtLayer,
 					children: []
 				},
 				{
 					key: "4",
-					label: "地形图层",
+					label: GlobalLang.terrainLayer,
 					children: []
 				},
 			];
@@ -352,6 +368,7 @@ export const useLayerStore = defineStore({
 			// 刷新影像图层
 			viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
 				let imageryLayerName = this.getImageryLayerName(imageryLayer);
+				if(imageryLayerName === 'Unnamed') return;
 				this.layerTreeData[1].children.push({
 					label: imageryLayerName,
 					key: "2-" + String(index),
@@ -391,42 +408,41 @@ export const useLayerStore = defineStore({
 					this.layerTreeData[0].children.map((S3Mlayer: any, index: string) => {
 						if (S3Mlayer.key == option.key) {
 							this.layerTreeData[0].children.splice(index, 1);
+							this.removePublicService(option.label);
 						}
 					})
 					this.updateLayer({ type: "s3m" });
 					break;
 				case "imagery":
 					this.layerTreeData[1].children.map((S3Mlayer: any, index: string) => {
-
 						if (S3Mlayer.key == option.key) {
 							let item = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.title === option.label);
-							if(item) item.chooseType = false;
+							if(item){
+								item.chooseType = false;
+								let key = item.name;
+								let delIndex = this.SelectedOptions.baseMap.indexOf(key);
+								if(delIndex != -1) this.SelectedOptions.baseMap.splice(delIndex,1);
+							}
 							this.layerTreeData[1].children.splice(index, 1);
 						}
 					})
-					// console.log("option:",option);
-					let delIndex = this.SelectedOptions.baseMap.indexOf(option.label);
-					this.SelectedOptions.baseMap.splice(delIndex,1);
-					// console.log("this.SelectedOptions:",this.SelectedOptions);
 					this.updateLayer({ type: "imagery" });
 					break;
 				case "mvt":
 					this.layerTreeData[2].children.map((S3Mlayer: any, index: string) => {
 						if (S3Mlayer.key == option.key) {
 							this.layerTreeData[2].children.splice(index, 1);
+							this.removePublicService(option.label);
 						}
 					})
-					// console.log("option:",option);
 					this.updateLayer({ type: "mvt" });
 					break;
 				case "terrain":
 					this.layerTreeData[3].children = [];
-					// console.log("option：",option)
 					let item = this.layerServiceData.onlineTerrainLayerList.find((item: any) => item.title === option.label);
 					if(item) item.chooseType = false;
 					let index = this.SelectedOptions.onlineTerrain.indexOf(option.label);
 					this.SelectedOptions.onlineTerrain.splice(index,1);
-					// console.log("this.SelectedOptions:",this.SelectedOptions);
 					this.updateLayer({ type: "terrain" });
 					break;
 				default:
@@ -434,6 +450,38 @@ export const useLayerStore = defineStore({
 			}
 
 			// this.updateLayer({ type: "refresh" });
+		},
+		// 专门用来处理公共服务场景项目的删除选中
+		removePublicService(layerName: string) {
+			let item: any;
+			switch (layerName) {
+				case "Config":
+					item = this.layerServiceData.publicServiceList[1];
+					break;
+				case "BIMbuilding":
+					item = this.layerServiceData.publicServiceList[3];
+					break;
+				case "POINTCLOUD23":
+					item = this.layerServiceData.publicServiceList[4];
+					break;
+				case "JingJinMVT":
+					item = this.layerServiceData.publicServiceList[5];
+					break;
+				case "重庆白模":
+					item = this.layerServiceData.publicServiceList[6];
+					break;
+				case "横滨白模":
+					item = this.layerServiceData.publicServiceList[7];
+					break;
+				default:
+					break;
+			}
+			if (item) {
+				item.chooseType = false;
+				let delIndex = this.SelectedOptions.publicService.indexOf(item.name);
+				if (delIndex != -1) this.SelectedOptions.publicService.splice(delIndex, 1);
+			}
+
 		},
 		// 显隐图层
 		isShowLayer(option: any) {
@@ -505,15 +553,15 @@ export const useLayerStore = defineStore({
 
 			let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
 
-			if(!imageUrl) return '经纬底图';
+			if(!imageUrl) return GlobalLang.lnglatMap;
 		
 			if(imageUrl.indexOf("earth-skin.jpg")!=-1){
-				return '默认影像';
+				return GlobalLang.defaultImage;
 			}
 		
 			let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
 			if (targetItem) {
-				return targetItem.name;
+				return GlobalLang[targetItem.type];
 			}else if(imageUrl){
 			//    let otherImageLayerName = imageUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
 		
@@ -521,10 +569,10 @@ export const useLayerStore = defineStore({
 					let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
 					return otherImageLayerName;
 				}else{
-					return '未命名图层';
+					return 'Unnamed';
 				}
 			}else{
-				return '未命名图层';
+				return 'Unnamed';
 			}
 		},
 		// 获取地形图层名称
@@ -532,7 +580,7 @@ export const useLayerStore = defineStore({
 			if (window.viewer.terrainProvider._baseUrl) {
 				let baseUrl = window.viewer.terrainProvider._baseUrl
 				if (baseUrl.indexOf('3D-stk_terrain') != -1) {
-					return 'STK地形';
+					return GlobalLang.stkTerrain;
 				} else {
 					if (baseUrl.indexOf('supermapol.com') != -1) {
 						return baseUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
@@ -544,9 +592,9 @@ export const useLayerStore = defineStore({
 			} else if (window.viewer.terrainProvider._urls) {
 				let url0 = window.viewer.terrainProvider._urls[0]
 				if (url0.indexOf('supermapol.com') != -1) {
-					return 'SuperMapOnline 地形';
+					return GlobalLang.superMapTerrain;
 				} else {
-					return '天地图地形'; // viewer.terrainProvider._urls[0].indexOf('tianditu') 看情况在加
+					return GlobalLang.tiandituTerrain;; // viewer.terrainProvider._urls[0].indexOf('tianditu') 看情况在加
 				}
 			} else {
 				// return '标准椭球'

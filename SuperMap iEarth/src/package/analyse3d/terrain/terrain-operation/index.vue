@@ -9,53 +9,53 @@
 
   <div v-if="state.operationType === 'dig'">
     <div class="row-item">
-      <span>开挖深度</span>
-      <n-input-number style="width: 1.96rem;height: 0.32rem;" v-model:value="state.digDepth" :show-button="false">
-        <template #suffix>米</template>
+      <span>{{$t('global.excavationDepth')}}</span>
+      <n-input-number style="width: 1.96rem;" v-model:value="state.digDepth" :show-button="false">
+        <template #suffix>{{$t('global.meter')}}</template>
       </n-input-number>
     </div>
 
     <div class="row-item">
-      <span>开挖区域上移</span>
-      <div style="width: 1.96rem;height: 0.32rem;">
+      <span>{{$t('global.excavateAreaOffsetUp')}}</span>
+      <div style="width: 1.96rem;">
         <n-switch v-model:value="state.isPullOut" size="small" />
       </div>
     </div>
     <div class="row-item" v-if="state.isPullOut">
-      <span>上移高度</span>
-      <n-input-number style="width: 1.96rem;height: 0.32rem;" v-model:value="state.upHeight" :show-button="false">
-        <template #suffix>米</template>
+      <span>{{$t('global.upHeight')}}</span>
+      <n-input-number style="width: 1.96rem;" v-model:value="state.upHeight" :show-button="false">
+        <template #suffix>{{$t('global.meter')}}</template>
       </n-input-number>
     </div>
 
-    <div class="row-item">
-      <span>编辑区域</span>
-      <n-checkbox style="width: 1.96rem;height: 0.32rem;" v-model:checked="state.isEdit"></n-checkbox>
+    <div class="row-item" v-show="!state.isPullOut">
+      <span>{{$t('global.editArea')}}</span>
+      <n-checkbox style="width: 1.96rem;" v-model:checked="state.isEdit"></n-checkbox>
     </div>
 
-    <div class="row-item">
-      <span>编辑区域Z轴</span>
-      <n-checkbox style="width: 1.96rem;height: 0.32rem;" v-model:checked="state.isEditZ"></n-checkbox>
+    <div class="row-item" v-show="!state.isPullOut">
+      <span>{{$t('global.editAreaZ')}}</span>
+      <n-checkbox style="width: 1.96rem;" v-model:checked="state.isEditZ"></n-checkbox>
     </div>
 
   </div>
 
   <div v-if="state.operationType === 'modify'">
     <div class="row-item">
-      <span>编辑区域</span>
-      <n-checkbox style="width: 1.96rem;height: 0.32rem;" v-model:checked="state.isEdit"></n-checkbox>
+      <span>{{$t('global.editArea')}}</span>
+      <n-checkbox style="width: 1.96rem;" v-model:checked="state.isEdit"></n-checkbox>
     </div>
 
     <div class="row-item">
-      <span>编辑区域Z轴</span>
-      <n-checkbox style="width: 1.96rem;height: 0.32rem;" v-model:checked="state.isEditZ"></n-checkbox>
+      <span>{{$t('global.editAreaZ')}}</span>
+      <n-checkbox style="width: 1.96rem;" v-model:checked="state.isEditZ"></n-checkbox>
     </div>
 
   </div>
 
   <div class="btn-row-item">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="Analyze" style="margin-right: 0.1rem">分析</n-button>
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="Analyze" style="margin-right: 0.1rem">{{$t('global.analysis')}}</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -86,11 +86,11 @@ let state = reactive<stateType>({
 
 let comList = reactive([
   {
-    name: "地形开挖",
+    name: GlobalLang.terrainExcavate,
     isSelect: true,
   },
   {
-    name: "地形修改",
+    name: GlobalLang.terrainChange,
     isSelect: false,
   },
 ]);
@@ -100,7 +100,7 @@ let handlerPolygon, digPisitions, removeEdit;
 function Analyze() {
   if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
   handlerPolygon.handlerDrawing().then(
-    (res) => {
+    (res:any) => {
       handlerPolygon.polylineTransparent.show = false;
       let positions = tool.CartesiantoDegrees(res.object.positions);
       if (state.operationType === "dig") digUpdate(positions);
@@ -109,7 +109,7 @@ function Analyze() {
         setEdit();
       }
     },
-    (err) => {
+    (err:any) => {
       console.log(err);
     }
   );
@@ -260,14 +260,15 @@ onBeforeUnmount(() => {
 .btn-list {
   // font-size: 0.14rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-bottom: 0.15rem;
   cursor: pointer;
 
   .btn {
-    width: 0.62rem;
-    height: 0.22rem;
-    line-height: 0.22rem;
+    width: fit-content;
+    padding: 0 0.08rem ;
+    height: 0.26rem;
+    line-height: 0.26rem;
     text-align: center;
   }
 

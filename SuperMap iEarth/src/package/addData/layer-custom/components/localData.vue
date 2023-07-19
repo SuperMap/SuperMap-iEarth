@@ -4,26 +4,26 @@
     <div>
     <n-input-group>
     <n-input
-      class="input-border"
-      style="width: 2.0rem; margin-bottom: 0.1rem"
-      placeholder="请选择本地KML数据"
+      class="add-input-border"
+      style=" margin-bottom: 0.1rem;width: 1.8rem"
+      :placeholder="$t('global.localFilePath')"
       v-model:value="state.fileSrc"
     />
-    <n-button type="tertiary" size="medium" @click="chooseFile">选择</n-button>
+    <n-button type="tertiary"  @click="chooseFile" style="width:0.6rem">{{$t('global.chooseFile')}}</n-button>
     </n-input-group>
     </div>
     <input type="file" accept=".kml" id="localFile" style="display:none" ref="localKML_dom" />
   </div>
-  <div class="btn-row-item" style="margin-left: 0.74rem">
-    <n-button
+  <div class="btn-row-item1">
+    <!-- <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
+      class="ans-btn"
       @click="chooseFile"
-      style="margin-right: 0.1rem"
-      >确定</n-button
-    >
-    <n-button class="btn-secondary" @click="clear">取消</n-button>
+      >{{$t('global.sure')}}</n-button
+    > -->
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -34,12 +34,31 @@ let state = reactive({
     fileSrc: "", //文件地址
 });
 let localKML_dom = ref();
+// let blobKML;
 
 // 点击选择文件函数
 function chooseFile() {
     localKML_dom.value.click();
+    // if(!blobKML) return;
+    // viewer.dataSources
+    //   .add(
+    //     SuperMap3D.KmlDataSource.load(blobKML, {
+    //       camera: viewer.scene.camera,
+    //       canvas: viewer.scene.canvas,
+    //     })
+    //   )
+    //   .then(function (dataSource: any) {
+    //     viewer.flyTo(dataSource);
+    //     viewer.scene.layer = dataSource;
+
+    // });
 }
-function clear(){};
+function clear(){
+  viewer.entities.removeAll();
+  let dataSources = viewer.dataSources;
+  dataSources.removeAll();
+  // blobKML = null;
+};
 //文件夹改变文件触发
 function fileChange() {
     localKML_dom.value.addEventListener("change", function (evt) {
@@ -49,9 +68,11 @@ function fileChange() {
     let file = target.files[0];
     if (!file) return;
     state.fileSrc = localKML_dom.value.value;
-    // file转blob
+
+    // blobKML = new Blob([file], { type: "" });
+
+    // // file转blob
     const blob = new Blob([file], { type: "" })
-    // console.log("blob:", blob)
     viewer.dataSources
       .add(
         SuperMap3D.KmlDataSource.load(blob, {
@@ -73,10 +94,6 @@ onMounted(() => {
 
 </script>
 <style lang="scss" scoped>
-.input-border {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
 </style>
 
 

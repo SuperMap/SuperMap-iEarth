@@ -160,7 +160,7 @@ function openExistScene() {
         let flag = checkImageryRepeat(url);
         // console.log("flag-open:",flag);
         // console.log("url-open:",url);
-        if(!flag){
+        if(!flag && imageryLayer[i].type){
           let imageryType = content.layers.imageryLayer[i].type;
           switch (imageryType) {
             case "BingMapsImageryProvider":
@@ -271,15 +271,11 @@ function openExistScene() {
   
       switch (terrainType) {
         case "StkTerrain":
-          let flag: boolean;
-          if (content.layers.terrainLayer[0].url.indexOf("3D-stk_terrain") != -1) {// stk地形
-            flag = false;
-          } else { // 普通地形(自定义添加)
-            flag = true;
-          }
-          viewer.terrainProvider = new SuperMap3D.SuperMap3DTerrainProvider({
+          let isSctFlag = false;
+          if(content.layers.terrainLayer[0].url.indexOf("8090") != -1) isSctFlag = true;
+          viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
             url: content.layers.terrainLayer[0].url,
-            isSct: flag
+            isSct: isSctFlag
           });
           break;
         case "tianDiTuTerrain":

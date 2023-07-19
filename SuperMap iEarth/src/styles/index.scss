@@ -40,7 +40,8 @@ html, body,#app{
     font-size: 14px;
 
     .check-color-pick {
-        width: 1.96rem;height: 0.32rem;
+        width: 1.96rem;
+        height: 0.33rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -60,12 +61,12 @@ html, body,#app{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 1.96rem;
+        width: 1.76rem;
         height: 0.32rem;
         padding: 0 .1rem;
         border-radius: 0.04rem;
         background: rgba(255, 255, 255, 0.04);
-        box-sizing: border-box;
+        // box-sizing: border-box;
         border: 1px solid rgba(255, 255, 255, 0.15);
 
         // .slider-suffix{
@@ -93,8 +94,8 @@ html, body,#app{
     }
 
     .row-content{
-        width: 1.9rem;
-        height: 0.32rem;
+        width: 1.96rem;
+        height: 0.33rem;
     }
 }
 
@@ -110,11 +111,28 @@ html, body,#app{
 //     }
 // }
 
+//控制三个按钮时，排列方式
+.btn-row-item2 {
+    display: flex;
+    justify-content: right;
+  
+    button {
+      display: block;
+    }
+  }
+  
+.btn-row-item1 {
+    margin-left: 0.60rem;
+    // margin-top: -0.1rem;
+    .ans-btn {
+        margin-right: .08rem;
+    }
+}
 .btn-row-item {
     margin-left: 1.2rem;
     // margin-top: -0.1rem;
     .ans-btn {
-        margin-right: .2rem;
+        margin-right: .08rem;
     }
 }
 
@@ -126,7 +144,12 @@ html, body,#app{
         color: #5EB7F2 !important;
     }
 }
-
+.n-input {
+    height:0.32rem;
+    .n-input__input-el{
+        line-height: 0.32rem;
+    }
+}
 // 设置数字输入框
 .n-input-number {
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -134,18 +157,37 @@ html, body,#app{
 }
 .n-input-border {
     border: 1px solid rgba(255, 255, 255, 0.15) ;
+    border-radius: 4px;
+}
+.add-input-border {
+    border: 1px solid rgba(255, 255, 255, 0.15) ;
+    border-radius: 4px; 
 }
 .n-button {
     font-size: 16px;
+    height: 0.32rem !important;
 }
 .n-color-picker-trigger__fill {
     height: 8px;
     top: 10px !important;
     bottom: 10px !important;
 }
+.n-dropdown-menu{
+    box-sizing: border-box;
+    width: 1.16rem;
+    border: 1px solid;
+    border-radius: 0px;
+    border-image: radial-gradient(67% 67% at 50% 50%, #CAE6FF 0%, rgba(202,230,255,0.00) 99%) 1;
+    box-shadow: inset 0px 0px 6px -2px rgba(118, 194, 252, 0.35),inset 0px 0px 6px 0px rgba(173, 216, 255, 0.15);
+    background: linear-gradient(0deg, rgba(202, 230, 255, 0.08), rgba(202, 230, 255, 0.08)), rgba(0, 8, 23, 0.7);
+    .n-dropdown-option-body__label{
+        font-size: 0.12rem;
+    }
+
+}
 .color-pick-box {
-    width: 1.68rem;
-    height: 0.32rem;
+    width: 1.96rem;
+    height: 0.33rem;
     border-radius: 0.04rem;
     background: rgba(255, 255, 255, 0.04);
     box-sizing: border-box;
@@ -168,7 +210,7 @@ html, body,#app{
     // justify-content: center;
     // height: 0.32rem;
     width: 1.96rem;
-    height: auto;
+    height: 0.32rem;
     background: rgba(255, 255, 255, 0.04);
     border: 0.01rem solid rgba(255, 255, 255, 0.15);
     border-radius: 0.04rem;
@@ -220,7 +262,9 @@ html, body,#app{
         color: #3499e5;
     }
 }
-
+.iconfont{
+ font-size: 0.18rem;   
+}
 .iconSize{
     display: block;
     // height: 0.22rem;
@@ -232,4 +276,42 @@ html, body,#app{
   :deep(.n-scrollbar-rail--vertical) {
     right: 0px !important;
     width: 8px !important;
+  }
+
+  // 保存面板 按钮居中
+  .n-form-item-blank{
+    display: flex;
+    justify-content: center;
+  }
+  .n-tabs-tab__label{
+    color: rgba(255, 255, 255, 0.65);
+  }
+  //slider样式
+  .n-slider-handle{
+    background-color: #414141 !important;
+    border: 1.5px solid #3499E5 !important;
+  }
+
+  //图层面板小三角
+  .n-tree-node-switcher{
+    margin-left:0.06rem;
+  }
+
+  .n-tabs-tab--active{
+    .n-tabs-tab__label{
+       color: rgba(255, 255, 255, 0.85);
+    }
+  }
+
+  .supermap3d-viewer-timelineContainer{
+    visibility: visible;
+    width: 100%;
+    z-index: 2147483647;
+    left: 0px; 
+    right: 0px;
+  }
+
+  .n-tree-node-content__suffix > div{
+    display: flex;
+    flex-wrap: nowrap;
   }

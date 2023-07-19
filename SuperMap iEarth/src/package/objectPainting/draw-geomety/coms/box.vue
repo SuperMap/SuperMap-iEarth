@@ -1,32 +1,32 @@
 <template>
     <!-- 长方体 -->
     <div class="row-item">
-        <span>长度</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.length')}}</span>
+        <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.boxLength" :step="1" :min="10" :max="100" />
             <span>{{ state.boxLength }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>宽度</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.width')}}</span>
+        <div class="slider-box">
             <n-slider style="width: 1.5rem" v-model:value="state.boxWidth" :step="1" :min="10" :max="200" />
             <span>{{ state.boxWidth }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>高度</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.height')}}</span>
+        <div class="slider-box">
             <n-slider style="width: 1.5rem" v-model:value="state.boxHeight" :step="10" :min="10" :max="100" />
             <span>{{ state.boxHeight }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>颜色</span>
-        <div class="color-pick-box row-content" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.color')}}</span>
+        <div class="color-pick-box row-content">
             <n-color-picker v-model:value="state.geometryMaterial" :render-label="() => {
                 return '';
             }
@@ -34,14 +34,14 @@
         </div>
     </div>
     <div class="row-item">
-        <span>绘制模式</span>
-        <n-select style="width: 1.96rem;height: 32px;" v-model:value="state.displayMode" size="small"
+        <span>{{$t('global.drawMode')}}</span>
+        <n-select style="width: 1.96rem" v-model:value="state.displayMode" 
             :options="state.optionsMode" />
     </div>
 
     <div class="btn-row-item">
-        <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">绘制</n-button>
-        <n-button class="btn-secondary" @click="clear">清除</n-button>
+        <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.Draw')}}</n-button>
+        <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
     </div>
 </template>
     
@@ -66,11 +66,11 @@ let state = reactive<stateType>({
     displayMode: "Fill",
     optionsMode: [
         {
-            label: () => '填充模式',
+            label: () => GlobalLang.fillMode,
             value: "Fill",
         },
         {
-            label: () => '线框模式',
+            label: () => GlobalLang.wireframe,
             value: "Outline",
         }
     ],
@@ -80,12 +80,13 @@ let state = reactive<stateType>({
 let boxEntity;
 let entities = viewer.entities;
 
-var handlerPoint_box = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
+let handlerPoint_box = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 //注册绘制长方体事件
 handlerPoint_box.drawEvt.addEventListener(function (res) {
-    var point = res.object;
-    var position = point.position;
-    var color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
+    let point = res.object;
+    let position = point.position;
+    // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
+    let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
     boxEntity = entities.add({
         position: position,
         box: {
@@ -100,10 +101,10 @@ handlerPoint_box.drawEvt.addEventListener(function (res) {
 });
 
 // 场景中拾取获得选中entity
-var targetEntity: any = null;
-var handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
+let targetEntity: any = null;
+let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
 handler.setInputAction(function (e) {
-    var pickedObject = viewer.scene.pick(e.position);
+    let pickedObject = viewer.scene.pick(e.position);
     if (SuperMap3D.defined(pickedObject) && (pickedObject.id instanceof SuperMap3D.Entity)) {
         targetEntity = pickedObject.id;
     } else {
@@ -124,8 +125,40 @@ function add() {
 // 清除
 function clear() {
     deactiveAll();
+    if(handlerPoint_box) handlerPoint_box.clear();
     viewer.entities.removeAll();
+    state.displayMode = 'Fill';
 }
+
+watch(
+    () => state.boxLength,
+    (val) => {
+        if (targetEntity) {
+            let dim = targetEntity.box.dimensions.getValue();
+            targetEntity.box.dimensions = new SuperMap3D.Cartesian3(val,dim.y,dim.z);
+        }
+    }
+);
+
+watch(
+    () => state.boxWidth,
+    (val) => {
+        if (targetEntity) {
+            let dim = targetEntity.box.dimensions.getValue();
+            targetEntity.box.dimensions = new SuperMap3D.Cartesian3(dim.x,val,dim.z);
+        }
+    }
+);
+
+watch(
+    () => state.boxHeight,
+    (val) => {
+        if (targetEntity) {
+            let dim = targetEntity.box.dimensions.getValue();
+            targetEntity.box.dimensions = new SuperMap3D.Cartesian3(dim.x,dim.y,val);
+        }
+    }
+);
 
 watch(
     () => state.geometryMaterial,
@@ -160,10 +193,6 @@ onBeforeUnmount(() => {
     
     
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>
     
     

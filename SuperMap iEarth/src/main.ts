@@ -13,6 +13,9 @@ import "@/assets/icons/iconfont.css"
 // 导入iportal处理程序
 import { initPortal } from "@/tools/iportal/portalTools"
 
+// 导入语言设置
+import setBrowserLang from '@/tools/browserLang'
+
 // 检测页面变化，实时改变根字体大小
 import { setFontImmediately } from '@/utils'
 document.addEventListener('DOMContentLoaded', setFontImmediately, false);
@@ -32,3 +35,4 @@ if(location.href.indexOf('/iportal/apps') != -1){
     initPortal();
 }
 // initPortal();
+setBrowserLang();

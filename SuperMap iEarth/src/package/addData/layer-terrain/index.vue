@@ -11,7 +11,7 @@
       <div class="img-box">
         <img :src="item.thumbnail" class="img" alt="" />
       </div>
-      <span>{{ item.name }}</span>
+      <span>{{ $t(item.title) }}</span>
     </div>
   </div>
 </template>
@@ -68,14 +68,10 @@ function addTerrainLayer(item: any) {
 .layer-terrain-container {
   display: flex;
   flex-wrap: wrap;
-  // @include panelContainer(100%, 3.8rem);
 
   .ItemBox {
     width: 30%;
     color: $--SM--FontColor-Sub;
-    // font-size: $--SM--FontSize-Text;
-    // margin-bottom: 0.07rem;
-    // margin-right: 0.16rem;
     margin-bottom: 0.07rem;
     margin-right: 0.12rem;
     box-sizing: border-box;

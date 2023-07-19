@@ -2,7 +2,7 @@
   <!-- 绘制线 -->
 
   <div class="row-item">
-    <span class="name">符号库</span>
+    <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list-space" style="width: 1.96rem;">
       <span v-for="(line, index) in state.lines" :key="index" class="icon-span-four" :title="line.name"
         :class="line.isSelect ? 'selected-icon' : ''" @click="changleIconItem(line)">
@@ -35,15 +35,12 @@
 </template>
   
 <script lang="ts" setup>
-import { reactive, onBeforeUnmount, watch } from "vue";
-import { useNotification } from "naive-ui";
+import { reactive, onBeforeUnmount } from "vue";
 
 import ellipseGeo from "./coms/ellipse.vue"
 import box from "./coms/box.vue"
 import ellipsoid from "./coms/ellipsoid.vue"
 import frustum from "./coms/frustum.vue"
-
-const notification = useNotification();
 
 // 初始化数据
 let state = reactive({
@@ -51,28 +48,28 @@ let state = reactive({
     {
       id: 0,
       iconName: "iconyuanzhu",
-      name: "圆柱",
+      name: GlobalLang.cylinder,
       nameEN: "elipse",
       isSelect: true,
     },
     {
       id: 1,
       iconName: "iconlifangti",
-      name: "立方体",
+      name: GlobalLang.cube,
       nameEN: "box",
       isSelect: false,
     },
     {
       id: 2,
       iconName: "iconqiuti",
-      name: "球体",
+      name: GlobalLang.sphere,
       nameEN: "ellipsoid",
       isSelect: false,
     },
     {
       id: 3,
       iconName: "iconyuanzhui",
-      name: "圆锥",
+      name: GlobalLang.cone,
       nameEN: "frustum",
       isSelect: false,
     }

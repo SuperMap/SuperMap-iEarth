@@ -15,11 +15,10 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, ref, inject } from "vue";
-import locale from '@/tools/locateTemp';
+import { watch, ref } from "vue";
 import { GlobalStoreCreate } from '@/store/global/global';
 import { storeToRefs } from 'pinia';
-import layerManagement from "@/tools/layerManagement";
+// import layerManagement from "@/tools/layerManagement";
 
 // import ids from 'virtual:svg-icons-names'
 // console.log("svgIDS:",ids) 查看所用svg的symbolId：icon-measure-Aear
@@ -91,7 +90,7 @@ watch(SceneLayerChangeCount, val => {
 
 // 定义数据
 let data = ref<any[]>([
-  { label: () => locale.NoLayer, key: 0, disabled: true }
+  { label: () => '暂无图层', key: 0, disabled: true }
 ]);
 
 // 创建节点函数
@@ -105,21 +104,21 @@ function creatNode(label, key, children, type, is_suffix) {
 }
 
 let s3mRootNode = creatNode(
-  () => locale.S3mLayer,
+  () => 's3m图层',
   "S3M--Root",
   [],
   "S3M--Root",
   false
 );
 let imgRootNode = creatNode(
-  () => locale.ImageLayer,
+  () => '影像图层',
   "IMG--Root",
   [],
   "IMG--Root",
   false
 );
 let mvtRootNode = creatNode(
-  () => locale.ImageLayer,
+  () => '影像图层',
   "MVT--Root",
   [],
   "MVT--Root",
@@ -127,7 +126,7 @@ let mvtRootNode = creatNode(
 );
 
 let terrainRootNode = creatNode(
-  () => locale.TerrainLayer,
+  () => '地形图层',
   "TERRAIN--Root",
   [],
   "TERRAIN--Root",
@@ -135,7 +134,7 @@ let terrainRootNode = creatNode(
 );
 
 let globeNode = creatNode(
-  () => locale.Globe,
+  () => '地球',
   "GLOBE--Root---1",
   undefined,
   "GLOBE--Root",
@@ -155,13 +154,13 @@ function updateLayers() {
   mvtLayers = viewer.scene._vectorTileMaps._layerQueue;
   terrainLayers = viewer.terrainProvider;
   emit("getS3mLayers", layers);
-  emit("getImgLayers", imgLayers);
-  emit("getMvtLayers", mvtLayers);
+  // emit("getImgLayers", imgLayers);
+  // emit("getMvtLayers", mvtLayers);
   emit("getAllLayers", layers,imgLayers,mvtLayers);
   updataS3MLayer();
-  updataImgLayers();
-  updataMvtLayers();
-  updataTerrainLayers();
+  // updataImgLayers();
+  // updataMvtLayers();
+  // updataTerrainLayers();
   let newData:any[] = [];
 
   if (
@@ -170,30 +169,30 @@ function updateLayers() {
   ) {
     newData[0] = s3mRootNode;
   }
-  if (
-    imgRootNode.children.length > 0 &&
-    props.defaultShowTypes.includes("IMG")
-  ) {
-    newData[1] = imgRootNode;
-  }
-  if (
-    mvtRootNode.children.length > 0 &&
-    props.defaultShowTypes.includes("MVT")
-  ) {
-    newData[2] = mvtRootNode;
-  }
-  if (
-    terrainRootNode.children.length > 0 &&
-    props.defaultShowTypes.includes("TERRAIN")
-  ) {
-    newData[3] = terrainRootNode;
-  }
-  if (props.defaultShowTypes.includes("GLOBE")) {
-    newData[4] = globeNode;
-  }
+  // if (
+  //   imgRootNode.children.length > 0 &&
+  //   props.defaultShowTypes.includes("IMG")
+  // ) {
+  //   newData[1] = imgRootNode;
+  // }
+  // if (
+  //   mvtRootNode.children.length > 0 &&
+  //   props.defaultShowTypes.includes("MVT")
+  // ) {
+  //   newData[2] = mvtRootNode;
+  // }
+  // if (
+  //   terrainRootNode.children.length > 0 &&
+  //   props.defaultShowTypes.includes("TERRAIN")
+  // ) {
+  //   newData[3] = terrainRootNode;
+  // }
+  // if (props.defaultShowTypes.includes("GLOBE")) {
+  //   newData[4] = globeNode;
+  // }
   if (newData.length === 0) {
     data.value = [
-      { label: () => locale.NoLayer, key: 0, checkboxDisabled: true }
+      { label: () => '暂无图层', key: 0, checkboxDisabled: true }
     ];
     return;
   }
@@ -212,40 +211,40 @@ function updataS3MLayer() {
   });
 }
 //updatImg
-function updataImgLayers() {
-  if (!imgLayers || imgLayers.length < 1) return;
-  imgLayers.forEach((layer, index) => {
-    let isMvt = layer._imageryProvider instanceof SuperMap3D.MvtProviderGL;
-    if (index === 0 || isMvt) return true;
-    // let name = layer._imageryProvider.tablename || "img";
-    let name = layerManagement.getImageryLayerName(layer);
-    imgRootNode.children.unshift(
-      creatNode(name, `IMG--${name}--${index}`, undefined, "IMG", true)
-    );
-  });
-}
-//updatMVT
-function updataMvtLayers() {
-  mvtLayers.forEach((layer, index) => {
-    let name = layer.name || "mvt";
-    mvtRootNode.children.unshift(
-      creatNode(name, `IMG--${name}--${index}`, undefined, "MVT", true)
-    );
-  });
-}
+// function updataImgLayers() {
+//   if (!imgLayers || imgLayers.length < 1) return;
+//   imgLayers.forEach((layer, index) => {
+//     let isMvt = layer._imageryProvider instanceof SuperMap3D.MvtProviderGL;
+//     if (index === 0 || isMvt) return true;
+//     // let name = layer._imageryProvider.tablename || "img";
+//     let name = layerManagement.getImageryLayerName(layer);
+//     imgRootNode.children.unshift(
+//       creatNode(name, `IMG--${name}--${index}`, undefined, "IMG", true)
+//     );
+//   });
+// }
+// //updatMVT
+// function updataMvtLayers() {
+//   mvtLayers.forEach((layer, index) => {
+//     let name = layer.name || "mvt";
+//     mvtRootNode.children.unshift(
+//       creatNode(name, `IMG--${name}--${index}`, undefined, "MVT", true)
+//     );
+//   });
+// }
 //updatTerrain
-function updataTerrainLayers() {
-  let name = layerManagement.getTerrainLayerName();
-  if (name) {
-    terrainRootNode.children[0] = creatNode(
-      name,
-      `TERRAIN--${name}--0`,
-      undefined,
-      "TERRAIN",
-      true
-    );
-  } else terrainLayers = undefined;
-}
+// function updataTerrainLayers() {
+//   let name = layerManagement.getTerrainLayerName();
+//   if (name) {
+//     terrainRootNode.children[0] = creatNode(
+//       name,
+//       `TERRAIN--${name}--0`,
+//       undefined,
+//       "TERRAIN",
+//       true
+//     );
+//   } else terrainLayers = undefined;
+// }
 
 // 勾选节点
 function getCheckedKeys(params) {

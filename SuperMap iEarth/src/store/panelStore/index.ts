@@ -11,14 +11,14 @@ export const usePanelStore = defineStore({
                 {
                     id: 1,
                     iconName: "icontuceng",
-                    title: "图层列表",
+                    title: "global.t_layerList",
                     isSelected: false,
                     panelName: "LayerList"
                 },
                 {
                     id: 2,
                     iconName: "icontianjia",
-                    title: "添加数据",
+                    title: "global.t_addData",
                     isSelected: false,
                     panelName: "AddLayerData"
                 },
@@ -27,49 +27,49 @@ export const usePanelStore = defineStore({
                 {
                     id: 3,
                     iconName: "iconfenxi",
-                    title: "三维分析",
+                    title: "global.analyseSeries",
                     isSelected: false,
                     panelName: "Analyse3D"
                 },
                 {
                     id: 4,
                     iconName: "iconliangsuan",
-                    title: "量算",
+                    title: "global.measure",
                     isSelected: false,
                     panelName: "Measure"
                 },
                 {
                     id: 5,
                     iconName: "iconkapianshi",
-                    title: "场景属性",
+                    title: "global.sceneProperties",
                     isSelected: false,
                     panelName: "SceneSet"
                 },
                 {
                     id: 6,
                     iconName: "iconhuizhi",
-                    title: "对象绘制",
+                    title: "global.objectPainting",
                     isSelected: false,
                     panelName: "ObjectPainting"
                 },
                 {
                     id: 7,
                     iconName: "iconhuizhi",
-                    title: "图层操作",
+                    title: "global.layerOpration",
                     isSelected: false,
                     panelName: "layerOpration"
                 },
                 {
                     id: 8,
                     iconName: "iconhuizhi",
-                    title: "图层属性",
+                    title: "global.layerAttribute",
                     isSelected: false,
                     panelName: "layerAttr"
                 },
                 {
                     id: 9,
                     iconName: "iconhuizhi",
-                    title: "图层风格",
+                    title: "global.layerStyle",
                     isSelected: false,
                     panelName: "layerStyle"
                 },
@@ -98,15 +98,19 @@ export const usePanelStore = defineStore({
         },
         // 设置右侧导航栏
         setRightToolBarList(iconItem: any) {
+            // 每次切换，先将所有面板关闭
+            this.panelList.rightToolBarList.map((item:any) => {
+                item.isSelected = false;
+            })
+
             this.rightTooPanel = true;
-            this.panelList.rightToolBarList.map((item) => {
+            this.panelList.rightToolBarList.map((item:any) => {
                 if (item.id == iconItem.id) {
                     item.isSelected = true;
                 } else {
                     item.isSelected = false;
                 }
             })
-
         },
         // 关闭弹窗面板
         closeRightToolPanel(leftOrRght: any) {

@@ -1,184 +1,115 @@
 <template>
   <!-- 绘制面 -->
   <div class="row-item">
-    <span>绘制模式</span>
-    <n-select
-      style="width: 1.96rem;height: 32px;"
-      v-model:value="state.selectedType"
-      size="small"
-      :options="state.optionMode"
-    />
+    <span>{{$t('global.drawMode')}}</span>
+    <n-select style="width: 1.96rem;height: 32px;" v-model:value="state.selectedType" size="small"
+      :options="state.optionMode" />
   </div>
 
   <div class="row-item">
-    <span class="name">符号库</span>
+    <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list">
-      <span
-        v-for="(surfaces, index) in state.surfaces"
-        :key="index"
-        class="icon-span"
-        :title="surfaces.name"
-        :class="surfaces.isSelect ? 'selected-icon' : ''"
-        @click="changleIconItem(surfaces)"
-      >
-        <i
-          class="iconfont iconSize"
-          :class="surfaces.iconName"
-          :title="surfaces.name"
-        ></i>
+      <span v-for="(surfaces, index) in state.surfaces" :key="index" class="icon-span" :title="surfaces.name"
+        :class="surfaces.isSelect ? 'selected-icon' : ''" @click="changleIconItem(surfaces)">
+        <i class="iconfont iconSize" :class="surfaces.iconName" :title="surfaces.name"  style="margin-top:0px"></i>
       </span>
     </div>
   </div>
 
   <!-- 纯色面颜色 -->
   <div class="row-item" v-if="state.selectedId === 0">
-    <span>面颜色</span>
+    <span>{{$t('global.polygonColor')}}</span>
     <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.solidColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.solidColor" :render-label="() => {
+          return '';
+        }
+        " size="small"></n-color-picker>
     </div>
   </div>
 
   <!-- 网格 -->
   <div class="row-item" v-if="state.selectedId === 1">
-    <span>面颜色</span>
+    <span>{{$t('global.polygonColor')}}</span>
     <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.gridColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.gridColor" :render-label="() => {
+          return '';
+        }
+        " size="small"></n-color-picker>
     </div>
   </div>
   <div class="row-item" v-if="state.selectedId === 1">
-    <span>网格线宽</span>
-    <n-input-number
-      v-model:value="state.gridWidth"
-      size="small"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
+    <span>{{$t('global.gridLineWidth')}}</span>
+    <n-input-number v-model:value="state.gridWidth"  style="width: 1.96rem"
+      :show-button="false"></n-input-number>
   </div>
 
   <div class="row-item" v-if="state.selectedId === 1">
-    <span>网格线数</span>
-    <n-input-number
-      v-model:value="state.gridCount"
-      size="small"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
+    <span>{{$t('global.gridLineNumber')}}</span>
+    <n-input-number v-model:value="state.gridCount"  style="width: 1.96rem"
+      :show-button="false"></n-input-number>
   </div>
 
   <div class="row-item" v-if="state.selectedId === 1">
-    <span>单元透明度</span>
-    <n-input-number
-      v-model:value="state.gridCellAlpha"
-      size="small"
-      style="width: 1.96rem"
-      :step="0.1"
-      :show-button="false"
-    ></n-input-number>
+    <span>{{$t('global.unitTransparency')}}</span>
+    <n-input-number v-model:value="state.gridCellAlpha"  style="width: 1.96rem" :step="0.1"
+      :show-button="false"></n-input-number>
   </div>
 
   <!-- 条纹-->
   <div class="row-item" v-if="state.selectedId === 2">
-    <span>偶数带颜色</span>
+    <span>{{$t('global.evenStripColor')}}</span>
     <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.stripeEvenColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.stripeEvenColor" :render-label="() => {
+          return '';
+        }
+        " size="small"></n-color-picker>
     </div>
   </div>
-  
+
 
   <div class="row-item" v-if="state.selectedId === 2">
-    <span>奇数带颜色</span>
+    <span>{{$t('global.oddStripColor')}}</span>
     <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.stripeOddColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.stripeOddColor" :render-label="() => {
+          return '';
+        }
+        " size="small"></n-color-picker>
     </div>
   </div>
 
   <div class="row-item" v-if="state.selectedId === 2">
-    <span>带条重复数</span>
-    <n-input-number
-      v-model:value="state.stripeRepeat"
-      size="small"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
+    <span :style="state.currentLanguage=='en'?'width:30%':''">{{$t('global.stripRepetition')}}</span>
+    <n-input-number v-model:value="state.stripeRepeat"  style="width: 1.96rem"
+      :show-button="false"></n-input-number>
   </div>
 
   <div class="row-item" v-if="state.selectedId === 2">
-    <span>带条偏移量</span>
-    <n-input-number
-      v-model:value="state.stripeOffset"
-      size="small"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
+    <span>{{$t('global.stripOffset')}}</span>
+    <n-input-number v-model:value="state.stripeOffset"  style="width: 1.96rem"
+      :show-button="false"></n-input-number>
   </div>
 
   <div class="row-item">
-    <span>编辑</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.isEdit"
-    ></n-checkbox>
+    <span>{{$t('global.edit')}}</span>
+    <n-checkbox style="width: 1.96rem" v-model:checked="state.isEdit"></n-checkbox>
   </div>
 
   <div class="row-item" v-show="state.isEdit">
-    <span>编辑z轴方向</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.isEditZ"
-    ></n-checkbox>
+    <span>{{$t('global.editZaxis')}}</span>
+    <n-checkbox style="width: 1.96rem" v-model:checked="state.isEditZ"></n-checkbox>
   </div>
 
   <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >绘制</n-button
-    >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.Draw')}}</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
   
-  <script lang="ts" setup>
+<script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch, computed } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
 import setEditHandler from "@/tools/editHandler";
-import locale from "@/tools/locateTemp";
 
 type stateType = {
   selectedType: string, // 绘制模式
@@ -192,12 +123,12 @@ type stateType = {
   stripeOddColor: string, // 奇数带颜色
   stripeRepeat: number, // 带条重复数
   stripeOffset: number, // 带条偏移量
-  stripeOrientation: string, 
+  stripeOrientation: string,
   isEdit: boolean, // 是否编辑
   isEditZ: boolean, // 是否只编辑Z轴
-  optionMode:any,//绘制模式选项
-  surfaces:any,//绘制面类型选项
-
+  optionMode: any,//绘制模式选项
+  surfaces: any,//绘制面类型选项
+  currentLanguage:string
 }
 
 // 初始化数据
@@ -216,21 +147,22 @@ let state = reactive<stateType>({
   stripeOrientation: "horizontal",
   isEdit: false,
   isEditZ: false,
+  currentLanguage:window.navigator.language,
   optionMode: [
     {
-      label: () => locale.SpaceMode,
+      label: () => GlobalLang.spaceMode,
       value: "NONE",
     },
     {
-      label: () => locale.TERRAINMode,
+      label: () => GlobalLang.closeGroundMode,
       value: "TERRAIN",
     },
     {
-      label: () => locale.S3M_TILEMode,
+      label: () => GlobalLang.closeS3MMode,
       value: "S3M_TILE",
     },
     {
-      label: () => locale.BOTHMode,
+      label: () => GlobalLang.closeBoth,
       value: "BOTH",
     },
   ],
@@ -238,21 +170,21 @@ let state = reactive<stateType>({
     {
       id: 0,
       iconName: "iconchunse",
-      name: "纯色",
+      name: GlobalLang.pureColor,
       nameEN: "Solid",
       isSelect: true,
     },
     {
       id: 1,
       iconName: "iconwangge",
-      name: "网格",
+      name: GlobalLang.grid,
       nameEN: "grid",
       isSelect: false,
     },
     {
       id: 2,
       iconName: "iconhuizhitiaowen",
-      name: "条纹",
+      name: GlobalLang.stripe,
       nameEN: "stripe",
       isSelect: false,
     },
@@ -260,7 +192,6 @@ let state = reactive<stateType>({
 });
 
 const notification = useNotification();
-
 let handlerPolygon,
   removeEdit,
   surface_ids: any = [];
@@ -271,7 +202,7 @@ let perPositionHeight = true,
 // 绘制面
 function add() {
   notification.create({
-    content: () => locale.DrawSymbolTip,
+    content: () => GlobalLang.editLineTip,
     duration: 3500,
   });
   add_face();
@@ -305,6 +236,8 @@ function clear() {
     surface_ids.length = 0;
   }
   if (window.editHandler) window.editHandler.clear();
+  state.isEdit = false;
+  state.isEditZ = false;
 }
 
 // 创建面实体
@@ -435,7 +368,7 @@ watch(
   (val) => {
     if (val) {
       notification.create({
-        content: () => locale.DrawlineTip,
+        content: () => GlobalLang.editLineTip2,
         duration: 3500,
       });
       setEdit();
@@ -533,9 +466,7 @@ onBeforeUnmount(() => {
 </script>
 
   
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
   
   
   

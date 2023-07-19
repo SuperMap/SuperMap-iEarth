@@ -2,25 +2,25 @@
 <n-scrollbar style="max-height: 3.6rem">
   <n-grid :y-gap="8" :cols="3">
     <n-gi>
-      <n-checkbox v-model:checked="state.earthShow" label="地球" />
+      <n-checkbox v-model:checked="state.earthShow" :label="$t('global.earth')" />
     </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.shadow" label="阴影" />
+      <n-checkbox v-model:checked="state.shadow" :label="$t('global.ligShadowAnalysisth')" />
     </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.sunShow" label="太阳" />
+      <n-checkbox v-model:checked="state.sunShow" :label="$t('global.sun')" />
     </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.depthInspection" label="深度检测" />
+      <n-checkbox v-model:checked="state.depthInspection" :label="$t('global.depthInspection')" />
     </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.atomsphereRender" label="大气渲染" />
+      <n-checkbox v-model:checked="state.atomsphereRender" :label="$t('global.atomsphereRender')" />
     </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.fogEffect" label="雾化效果" />
+      <n-checkbox v-model:checked="state.fogEffect" :label="$t('global.fogEffect')" />
     </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.cloudLayer" label="云层" />
+      <n-checkbox v-model:checked="state.cloudLayer" :label="$t('global.cloudLayer')" />
     </n-gi>
     <!-- <n-gi>
         <n-checkbox v-model:checked="state.rain" label="雨景" />
@@ -29,19 +29,19 @@
         <n-checkbox v-model:checked="state.snow" label="雪景" />
       </n-gi> -->
     <n-gi>
-      <n-checkbox v-model:checked="state.skyBoxShow" label="天空盒" />
+      <n-checkbox v-model:checked="state.skyBoxShow" :label="$t('global.skyBox')" />
     </n-gi>
     <n-gi>
-        <n-checkbox v-model:checked="state.timeAxis" label="时间轴" />
+        <n-checkbox v-model:checked="state.timeAxis" :label="$t('global.timeAxis')" />
       </n-gi>
     <n-gi>
-      <n-checkbox v-model:checked="state.displayFrame" label="帧率" />
+      <n-checkbox v-model:checked="state.displayFrame" :label="$t('global.displayFrame')" />
     </n-gi>
   </n-grid>
 
   <n-divider />
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>亮度</span>
+      <span>{{$t('global.brightness')}}</span>
       <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
@@ -50,13 +50,12 @@
         />
         <div class="slider-suffix">
           <span>{{ state.brightness }}</span>
-          <!-- <span class="slider-unit">M</span> -->
         </div>
       </div>
     </div>
 
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>对比度</span>
+      <span>{{$t('global.contrastRatio')}}</span>
       <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
@@ -65,13 +64,12 @@
         />
         <div class="slider-suffix">
           <span>{{ state.contrast }}</span>
-          <!-- <span class="slider-unit">M</span> -->
         </div>
       </div>
     </div>
 
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>色调</span>
+      <span>{{$t('global.colorTone')}}</span>
       <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
@@ -80,13 +78,12 @@
         />
         <div class="slider-suffix">
           <span>{{ state.hue }}</span>
-          <!-- <span class="slider-unit">M</span> -->
         </div>
       </div>
     </div>
 
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>饱和度</span>
+      <span>{{$t('global.saturation')}}</span>
       <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
@@ -95,19 +92,18 @@
         />
         <div class="slider-suffix">
           <span>{{ state.saturation }}</span>
-          <!-- <span class="slider-unit">M</span> -->
         </div>
       </div>
     </div>
 
   <div class="row-item">
-    <span>开启地下</span>
-    <div style="width: 1.96rem;height: 0.32rem;;margin-right: 0.1rem">
+    <span>{{$t('global.showUnderground')}}</span>
+    <div style="width: 1.96rem;;margin-right: 0.1rem">
       <n-switch v-model:value="state.showUnderground" size="small" />
     </div>
   </div>
   <div class="row-item" v-show="state.showUnderground">
-      <span>地表透明度</span>
+      <span>{{$t('global.surfaceTransparency')}}</span>
       <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
@@ -116,37 +112,36 @@
         />
         <div class="slider-suffix">
           <span>{{ state.surfaceTransparency }}</span>
-          <!-- <span class="slider-unit">M</span> -->
         </div>
       </div>
     </div>
   <n-divider />
 
   <div class="row-item" style="margin-bottom:0px;margin-right: 0.1rem">
-    <span>坐标查询</span>
+    <span>{{$t('global.coordinateQuery')}}</span>
     <n-input
-      placeholder="显示坐标"
+      :placeholder="$t('global.displayCoordinate')"
       v-model:value="coordinate"
       autosize
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
     />
-    <!-- <span>经度、维度、高程</span> -->
   </div>
-  <div class="queryTips" style="margin-bottom: 0.1rem">
-    <span>经度、纬度、高程</span>
+  <div class="row-item queryTips" >
+    <span></span>
+    <span class="row-content">{{$t('global.coordinateTip')}}</span>
   </div>
 </n-scrollbar>
-  <div class="btn-row-item" style="margin-bottom: 0.1rem">
+  <!-- <div class="btn-row-item" style="margin-bottom: 0.1rem">
     <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
       @click="queryCoordinate"
       style="margin-right: 0.1rem"
-      >查询</n-button
+      >{{$t('global.query')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
-  </div>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
+  </div> -->
 </template>
 
 <script lang="ts" setup>
@@ -184,11 +179,11 @@ type stateType = {
 let state = reactive<stateType>({
     earthShow:true,
     shadow:false,
-    sunShow:false,
+    sunShow:true,
     depthInspection:true,
-    atomsphereRender:true,
+    atomsphereRender:false,
     fogEffect:false,
-    cloudLayer:false,
+    cloudLayer:true,
     skyBoxShow:true,
     timeAxis:false,
     displayFrame:true,
@@ -219,14 +214,14 @@ function init() {
   if (!window.viewer) return;
   state.earthShow = SuperMap3D.defaultValue(viewer.scene.globe.show, true);
   state.shadow = SuperMap3D.defaultValue(viewer.scene.shadows, false);
-  state.sunShow = SuperMap3D.defaultValue(viewer.scene.globe.enableLighting, false);
+  state.sunShow = SuperMap3D.defaultValue(viewer.scene.globe.enableLighting, true);
   state.depthInspection = SuperMap3D.defaultValue(
     viewer.scene.globe.depthTestAgainstTerrain,
     true
   );
   state.atomsphereRender = SuperMap3D.defaultValue(
     viewer.scene.skyAtmosphere.show,
-    true
+    false
   );
   state.fogEffect = SuperMap3D.defaultValue(viewer.scene.fog.enabled, true);
   state.showUnderground = SuperMap3D.defaultValue(viewer.scene.undergroundMode, true);
@@ -255,6 +250,18 @@ function init() {
   // }
   // viewer.scene.skyBox = skybox;
   // viewer.scene.skyBox.show = false;
+
+    //开启坐标查询
+    queryCoordinate();
+
+    // 设置图层阴影效果
+    viewer.scene.shadows = false;
+    let layers = viewer.scene.layers.layerQueue;
+    for(var i = 0;i < layers.length;i++){
+      // layers[i].selectEnabled = false;
+      // 设置图层的阴影模式
+      layers[i].shadowType = 2;
+    }
 }
 
 // 监听相机高度，一旦高于设定阈值，关闭天空盒显示大气层
@@ -271,23 +278,34 @@ function watchCameraHeight() {
         }
     }
 
+
 // 场景中拾取查询坐标
 function queryCoordinate() {
+    // handlerSearch = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
+    // handlerSearch.setInputAction(function (movement: any) {
+    //     // let cartesian = viewer.camera.pickEllipsoid(
+    //     let cartesian = viewer.camera.pickEllipsoid(
+    //         movement.position,
+    //         viewer.scene.globe.ellipsoid
+    //     );  
+    //     let result = tool.CartesiantoDegrees(cartesian)
+    //     coordinate.value = `${Number(result[0]).toFixed(2)},${Number(result[1]).toFixed(2)},${Number(result[2]).toFixed(2)}`
+    // }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)
+
     handlerSearch = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
-    handlerSearch.setInputAction(function (movement: any) {
-        let cartesian = viewer.camera.pickEllipsoid(
-            movement.position,
-            viewer.scene.globe.ellipsoid
-        );  
-        let result = tool.CartesiantoDegrees(cartesian)
-        coordinate.value = `${Number(result[0]).toFixed(5)},${Number(result[1]).toFixed(5)}`
-    }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)
+    handlerSearch.setInputAction(function (click) {
+      let position = viewer.scene.pickPosition(click.position);
+      let result = tool.CartesiantoDegrees(position)
+        coordinate.value = `${Number(result[0]).toFixed(2)},${Number(result[1]).toFixed(2)},${Number(result[2]).toFixed(2)}`
+    }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
 // 清除
 function clear(){
+    handlerSearch.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
+
     if(handlerSearch){
-      if(!handlerSearch.isDestroyed()) handlerSearch.destroy()
+      if(!handlerSearch.isDestroyed()) handlerSearch.destroy();
     }
     coordinate.value = ''
 }
@@ -296,8 +314,22 @@ function clear(){
 watch(()=>state.earthShow, val => {
     viewer.scene.globe.show = val;
 })
-watch(()=>state.shadow, val => {
-    viewer.scene.shadows = val;
+watch(() => state.shadow, val => {
+  // viewer.scene.shadows = val;
+  if (val) {
+    viewer.shadows = true;
+    // UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
+    viewer.pcss = true;
+    viewer.shadowQuality = 0;
+    //设置阴影的出现距离
+    viewer.scene.shadowMap.maximumDistance = 2000;
+    //设置阴影的浓度，值越高，阴影越淡
+    viewer.shadowMap.darkness = 0.4
+    //默认值是0.1，值越小越清晰
+    viewer.shadowMap.penumbraRatio = 0.1
+  } else {
+    viewer.shadows = false;
+  }
 })
 watch(()=>state.sunShow, val => {
     viewer.scene.globe.enableLighting = val;
@@ -353,6 +385,9 @@ watch(()=>state.timeAxis, val => {
             "supermap3d-viewer-timelineContainer"
         )[0] as HTMLElement;
         if (val) {
+            // timeline.style.left = "0";
+            // timeline.style.right = "0";
+            // timeline.style.width = "100%";
             timeline.style.visibility = "visible";
             timeline.style['z-index'] = 99999999999;
         } else {
@@ -382,13 +417,9 @@ onBeforeUnmount(()=>{
 </script>
 <style lang="scss" scoped>
 .queryTips{
-  text-align: center;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.45);
   
 }
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
+
 </style>

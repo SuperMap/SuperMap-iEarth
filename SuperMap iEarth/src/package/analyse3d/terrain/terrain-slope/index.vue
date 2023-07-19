@@ -1,17 +1,16 @@
 <template>
   <!-- 坡度坡向 -->
   <div class="row-item">
-    <span>分析区域</span>
+    <span>{{$t('global.analysisArea')}}</span>
     <n-select
-      size="small"
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.analysisArea"
       :options="state.options_region"
     />
   </div>
 
   <div class="row-item">
-    <span>最小坡度</span>
+    <span>{{$t('global.minSlope')}}</span>
     <div class="slider-box">
       <n-slider
         v-model:value="state.wideMinR"
@@ -25,7 +24,7 @@
   </div>
 
   <div class="row-item">
-    <span>最大坡度</span>
+    <span>{{$t('global.maxSlope')}}</span>
     <div class="slider-box">
       <n-slider
         v-model:value="state.wideMaxR"
@@ -39,17 +38,16 @@
   </div>
 
   <div class="row-item">
-    <span>显示模式</span>
+    <span>{{$t('global.displayMode')}}</span>
     <n-select
-      size="small"
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.displayMode"
       :options="state.options_display"
     />
   </div>
 
   <div class="row-item">
-    <span>透明度</span>
+    <span>{{$t('global.transparency')}}</span>
     <div class="slider-box">
       <n-slider
         v-model:value="state.trans"
@@ -63,9 +61,9 @@
   </div>
 
   <div class="row-item">
-    <span>编辑分析区域</span>
+    <span>{{$t('global.editArea')}}</span>
     <n-checkbox
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:checked="state.isEdit"
     ></n-checkbox>
   </div>
@@ -77,9 +75,9 @@
       text-color="#fff"
       @click="startSlope"
       style="margin-right: 0.1rem"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 <script lang="ts" setup>
@@ -113,29 +111,29 @@ let state = reactive<stateType>({
   isStartSlope:false,// 是否开始分析
   options_region: [
     {
-      label: () => "指定区域参与分析",
+      label: () => GlobalLang.partRegion,
       value: "ARM_REGION",
     },
     {
-      label: () => "所有区域参与分析",
+      label: () => GlobalLang.allRegion,
       value: "ARM_ALL",
     },
     {
-      label: () => "没有区域参与分析",
+      label: () => GlobalLang.noRegion,
       value: "ARM_NONE",
     },
   ],
   options_display: [
     {
-      label: () => "箭头和面显示",
+      label: () => GlobalLang.allDisplay,
       value: "FACE_AND_ARROW",
     },
     {
-      label: () => "面显示",
+      label: () => GlobalLang.faceDisplay,
       value: "FACE",
     },
     {
-      label: () => "箭头显示",
+      label: () => GlobalLang.arrowDisplay,
       value: "ARROW",
     },
   ],
@@ -187,13 +185,13 @@ function startSlope() {
   }
   if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
   handlerPolygon.handlerDrawing().then(
-    (res) => {
+    (res:any) => {
       let positions = tool.CartesiantoDegrees(res.object.positions);
       slopeUpdate(positions);
       slopePosition = positions;
       if (state.isEdit) setEditHandler(handlerPolygon.polygon,slopeUpdate);
     },
-    (err) => {
+    (err:any) => {
       console.log(err);
     }
   );
@@ -307,7 +305,15 @@ watch(
       default:
         break;
     }
+    // 指定区域刷新
     if (slopePosition) slopeUpdate(slopePosition);
+    if(state.analysisArea === 'ARM_ALL' && state.isStartSlope){
+      wide = SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL;
+      viewer.scene.globe.SlopeSetting = {
+        slopeSetting: slope,
+        analysisMode: wide,
+      };
+    }
   }
 );
 
@@ -437,9 +443,5 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>
 

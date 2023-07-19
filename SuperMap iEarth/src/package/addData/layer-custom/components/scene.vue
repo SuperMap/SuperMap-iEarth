@@ -1,8 +1,8 @@
 <template>
   <div class="row-item">
-    <span>地址</span>
+    <span>{{$t('global.address')}}</span>
     <n-input
-      class="input-border"
+      class="add-input-border"
       v-model:value="sceneUrl"
       type="text"
       style="width: 2.4rem"
@@ -12,8 +12,8 @@
     />
   </div>
 
-  <div style="margin-left: 0.74rem; margin-bottom: 0.1rem">
-    <n-checkbox v-model:checked="token"> 添加token </n-checkbox>
+  <div style="margin-left: 0.62rem; margin-bottom: 0.1rem">
+    <n-checkbox v-model:checked="token"> {{$t('global.addToken')}} </n-checkbox>
     <n-input
       style="margin-top: 0.1rem; width: 2.4rem"
       v-if="token"
@@ -23,26 +23,22 @@
     />
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.74rem">
+  <div class="btn-row-item1" >
     <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
+      class="ans-btn"
       @click="openScene"
-      style="margin-right: 0.1rem"
-      >确定</n-button
+      >{{$t('global.sure')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useMessage } from "naive-ui";
 import layerManagement from "@/tools/layerManagement";
-const widget = viewer.cesiumWidget;
-
-const message = useMessage();
 
 let sceneUrl = ref("");
 let sceneUrlPlaceholder = "http://www.supermapol.com/realspace/services/3D-CBD-2/rest/realspace";
@@ -74,7 +70,11 @@ function handleChange() {
     // });
   }
 }
-function clear(){};
+function clear(){
+  sceneUrl.value = '';
+  sceneToken.value = '';
+  token.value = false;
+};
 let promiseArray: any[] = [];
 function openScene() {
   if (sceneUrl.value == null || sceneUrl.value == "") {
@@ -100,8 +100,4 @@ function openScene() {
 
 </script>
 <style lang="scss" scoped>
-.input-border {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
 </style>

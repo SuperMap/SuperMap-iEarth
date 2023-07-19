@@ -1,16 +1,16 @@
 <template>
-  <n-space vertical>
       <div class="row-item">
-      <span>飞行路线</span>
+      <span>{{$t('global.flyRoute')}}</span>
         <div class="row-content">
           <n-input-group>
             <n-input
+              class="add-input-border"
               size="medium"
-              style="width: 2.0rem;"
-              placeholder="请选择本地文件"
+              style="width: 2.0 rem;"
+              :placeholder="$t('global.localFilePathFly')"
               v-model:value="state.fileSrc"
             />
-            <n-button type="tertiary" size="medium" @click="chooseFile">导入</n-button>
+            <n-button type="tertiary"  @click="chooseFile">{{$t('global.import')}}</n-button>
             <input
               type="file"
               accept=".fpf"
@@ -25,14 +25,14 @@
     <div class="row-item">
       <span></span>
         <div class="row-content">
-          <n-checkbox v-model:checked="state.showRoute">显示路线</n-checkbox>
-          <n-checkbox v-model:checked="state.showStop">显示站点</n-checkbox>
+          <n-checkbox v-model:checked="state.showRoute">{{$t('global.displayRoute')}}</n-checkbox>
+          <n-checkbox v-model:checked="state.showStop">{{$t('global.displayStation')}}</n-checkbox>
         </div>
     </div>
     <div class="row-item">
       <span></span>
       <div class="icon-container">
-        <div class="icon-list" style="width: 1.9rem;">
+        <div class="icon-list" >
           <span
             v-for="(item, index) in state.actionOptions"
             :key="index"
@@ -41,18 +41,16 @@
             :class="item.isSelect ? 'selected-icon' : ''"
             @click="changleIconItem(item)"
           >
-            <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"></i>
+            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
           </span>
         </div>
       </div>
     </div>
 
     <div class="row-item" v-show="state.isExistRoute">
-      <span>站点选择</span>
+      <span>{{$t('global.selectStation')}}</span>
         <div class="row-content">
           <n-select
-            size="small"
             v-model:value="state.selectedStopIndex"
             :options="state.currentStopNames"
           />
@@ -61,7 +59,6 @@
     <n-divider />
 
     <rotate></rotate>
-  </n-space>
 </template>
   
   
@@ -90,19 +87,19 @@ let state = reactive<stateType>({
   actionOptions: [
     {
       index: 1,
-      lable: "播放",
+      lable: GlobalLang.play,
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "暂停",
+      lable: GlobalLang.pause,
       iconName: "iconzanting",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "停止",
+      lable: GlobalLang.stop,
       iconName: "icontingzhi",
       isSelect: false,
     }
@@ -278,10 +275,7 @@ onBeforeUnmount(() => {
   
   
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
+
 </style>
   
   

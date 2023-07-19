@@ -1,9 +1,11 @@
 <template>
-  <div class="row-item" style="margin-right: 0.1rem">
+<div class="row-container" style="max-height: 4.0rem">
+  <n-scrollbar style="max-height: 3.8rem">
+  <div class="row-item" >
     <!-- 剖面分析 -->
-    <span>起点经度</span>
+    <span>{{$t('global.startLongitude')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.startDegreesArray[0]"
       :show-button="false"
       disabled
@@ -11,10 +13,10 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item" style="margin-right: 0.1rem">
-    <span>起点纬度</span>
+  <div class="row-item" >
+    <span>{{$t('global.startLatitude')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.startDegreesArray[1]"
       :show-button="false"
       disabled
@@ -22,24 +24,24 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item" style="margin-right: 0.1rem">
-    <span>起点高程</span>
+  <div class="row-item" >
+    <span>{{$t('global.startElevation')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.startDegreesArray[2]"
       :show-button="false"
       disabled
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <n-divider />
 
-  <div class="row-item" style="margin-right: 0.1rem">
-    <span>终点经度</span>
+  <div class="row-item" >
+    <span>{{$t('global.endLongitude')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.endDegreesArray[0]"
       :show-button="false"
       disabled
@@ -47,10 +49,10 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item" style="margin-right: 0.1rem">
-    <span>终点纬度</span>
+  <div class="row-item" >
+    <span>{{$t('global.endLatitude')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.endDegreesArray[1]"
       :show-button="false"
       disabled
@@ -58,27 +60,25 @@
       <template #suffix>°</template>
     </n-input-number>
   </div>
-  <div class="row-item" style="margin-right: 0.1rem">
-    <span>终点高程</span>
+  <div class="row-item" >
+    <span>{{$t('global.endElevation')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.endDegreesArray[2]"
       :show-button="false"
       disabled
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
-  <!-- <div class="row-item">
-    <span>剖面信息</span>
-  </div> -->
-  <div class="row-item" style="margin-right: 0.1rem">
-      <span>剖面截图展示</span>
+
+  <div class="row-item" >
+      <span>{{$t('global.disPlayInfo')}}</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.profileInfoShow"></n-checkbox>
       </div>
   </div>
-  <div class="row-item" v-show="state.profileInfoShow" style="margin-right: 0.1rem">
+  <div class="row-item" v-show="state.profileInfoShow" >
       <span></span>
       <div class="check-box">
         <n-radio-group v-model:value="state.infoShowMode" name="radiogroup" class="radio-group">
@@ -90,18 +90,20 @@
         </n-radio-group>
       </div>
   </div>
-  <div class="btn-row-item">
+</n-scrollbar>
+</div>
+
+<div class="btn-row-item" style="margin-right: 0.1rem;margin-top: 0.12rem">
     <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
+      class="ans-btn"
       @click="analysis"
-      style="margin-right: 0.1rem"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
-
   <!-- 图表 -->
   <!-- <n-space vertical>
       <div v-show="state.profileInfoShow">
@@ -126,7 +128,6 @@
     </div>
   <!-- </n-spin> -->
 </template>
-    
     
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
@@ -156,11 +157,11 @@ let state = reactive<stateType>({
   infoShowMode: 'echarts', //是否显示二维分析结果
   modeOptions: [
   {
-      label: '截面',
+      label: GlobalLang.Section,
       value: "echarts",
     },
     {
-      label: 'GPU截面',
+      label: GlobalLang.GPUSection,
       value: "canvas"
     },
   ],
@@ -225,7 +226,7 @@ function analysis() {
       state.startDegreesArray = resultS.map((num: any) => Number(num.toFixed(2)));
       state.endDegreesArray = resultE.map((num: any) => Number(num.toFixed(2)));
     }
-  }, 500)
+  }, 100)
 
   if (!handlerPolyline) handlerPolyline = initHandler("Polyline");
   handlerPolyline.handlerDrawing().then(
@@ -261,6 +262,7 @@ function clear() {
 
   state.startDegreesArray = [0, 0, 0];
   state.endDegreesArray = [0, 0, 0];
+  state.profileInfoShow = false;
 }
 
 // GPU剖面分析
@@ -269,7 +271,7 @@ function getCanvasImage(){
       if (!state.gpuProfileState) return;
 
       //分析完毕的回调函数
-      profile_GPU.getBuffer(function (buffer) {
+      profile_GPU.getBuffer(function (buffer:any) {
 
         canvas = document.getElementById("pro");
         canvas.height = profile_GPU._textureHeight;
@@ -316,6 +318,7 @@ onBeforeUnmount(() => {
   state.profileInfoShow = false;
 });
 </script>
+
 
 <style lang="scss" scoped>
 #echartsProfile {

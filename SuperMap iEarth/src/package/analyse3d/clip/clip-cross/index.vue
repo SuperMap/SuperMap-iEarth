@@ -1,6 +1,6 @@
 <template>
   <div class="row-item">
-    <span>裁剪宽度</span>
+    <span>{{$t('global.clipWidth')}}</span>
     <div class="slider-box">
       <n-slider
         v-model:value="state.clipWidth"
@@ -9,12 +9,12 @@
         :max="90"
         :step="10"
       />
-      <div class="row-slider-num">{{ state.clipWidth }} <span> 米</span></div>
+      <div class="row-slider-num">{{ state.clipWidth }} <span> {{$t('global.meter')}}</span></div>
     </div>
   </div>
 
   <div class="row-item">
-    <span>裁剪高度</span>
+    <span>{{$t('global.clipHeight')}}</span>
     <div class="slider-box">
       <n-slider
         v-model:value="state.clipHeight"
@@ -23,12 +23,12 @@
         :max="90"
         :step="10"
       />
-      <div class="row-slider-num">{{ state.clipHeight }} <span> 米</span></div>
+      <div class="row-slider-num">{{ state.clipHeight }} <span> {{$t('global.meter')}}</span></div>
     </div>
   </div>
 
   <div class="row-item">
-    <span>绕X轴旋转</span>
+    <span>{{$t('global.rotateX')}}</span>
     <div class="slider-box">
       <n-slider
         v-model:value="state.heading"
@@ -42,7 +42,7 @@
   </div>
 
   <div class="row-item">
-    <span>绕Y轴旋转</span>
+    <span>{{$t('global.rotateY')}}</span>
     <div class="slider-box">
       <n-slider v-model:value="state.pitch" style="width: 70%" />
       <div class="row-slider-num">{{ state.pitch }} <span> °</span></div>
@@ -50,7 +50,7 @@
   </div>
 
   <div class="row-item">
-    <span>绕Z轴旋转</span>
+    <span>{{$t('global.rotateZ')}}</span>
     <div class="slider-box">
       <n-slider v-model:value="state.roll" style="width: 70%" />
       <div class="row-slider-num">{{ state.roll }} <span> °</span></div>
@@ -58,10 +58,10 @@
   </div>
 
   <div class="row-item">
-    <span>拉伸高度</span>
+    <span>{{$t('global.stretchingHeight')}}</span>
     <div class="slider-box">
       <n-slider v-model:value="state.extrude" style="width: 70%" />
-      <div class="row-slider-num">{{ state.extrude }} <span> 米</span></div>
+      <div class="row-slider-num">{{ state.extrude }} <span> {{$t('global.meter')}}</span></div>
     </div>
   </div>
 
@@ -72,9 +72,9 @@
       text-color="#fff"
       @click="startCross"
       style="margin-right: 0.1rem"
-      >裁剪</n-button
+      >{{$t('global.clip')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clearCross">清除</n-button>
+    <n-button class="btn-secondary" @click="clearCross" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -345,9 +345,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
+
 </style>
 

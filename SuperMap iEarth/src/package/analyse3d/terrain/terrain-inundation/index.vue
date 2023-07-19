@@ -1,47 +1,47 @@
 <template>
   <!-- 淹没分析 -->
   <div class="row-item">
-    <div>最大可见高程</div>
+    <div>{{$t('global.maximumVisibleElevation')}}</div>
     <n-input-number
       v-model:value="state.maxHeight"
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       :show-button="false"
       :min="1"
       :max="10000"
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <div class="row-item">
-    <div>最小可见高程</div>
+    <div>{{$t('global.minimumVisibleElevation')}}</div>
     <n-input-number
       v-model:value="state.minHeight"
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       :bordered="false"
       :min="1"
       :max="10000"
       :show-button="false"
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <div class="row-item">
-    <div>当前高程</div>
+    <div>{{$t('global.currentElevation')}}</div>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.currentHeight"
       :bordered="false"
       :show-button="false"
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
-  <div class="row-item">
+  <!-- <div class="row-item">
     <span>颜色设置</span>
-    <div class="color-pick-box" style="width: 1.96rem;height: 0.32rem;; margin-left: 0rem">
+    <div class="color-pick-box" style="width: 1.96rem;; margin-left: 0rem">
       <n-color-picker
         v-model:value="state.cheackedBand"
         :render-label="
@@ -52,7 +52,7 @@
         size="small"
       ></n-color-picker>
     </div>
-  </div>
+  </div> -->
 
   <!-- <div class="row-item">
     <div>颜色设置</div>
@@ -66,23 +66,8 @@
       {{ state.floodTrans }}
     </div>
   </div> -->
-  <!-- 速度 -->
-  <!-- <div>
-    <div>透明度</div>
-    <n-slider>
-      <n-slider
-        v-model:value="state.floodSpeed"
-        style="width: 100%"
-        :min="1"
-        :max="2000"
-      />
-      <div style="font-size: 0.12rem; margin-left: 0.12rem">
-        {{ state.floodSpeed }}
-      </div>
-    </n-slider>
-  </div> -->
   <div class="row-item">
-    <span>透明度</span>
+    <span>{{$t('global.transparency')}}</span>
     <div class="slider-box">
       <n-slider
         style="width: 1.2rem"
@@ -96,7 +81,7 @@
   </div>
 
   <div class="row-item">
-    <span>淹没速度</span>
+    <span>{{$t('global.inundationSpeed')}}</span>
     <div class="slider-box">
       <n-slider
         style="width: 1.2rem"
@@ -105,7 +90,7 @@
         :min="1"
         :max="2000"
       />
-      <span>{{ state.floodSpeed }}<span>米/秒</span></span>
+      <span>{{ state.floodSpeed }}<span>{{$t('global.meterSecond')}}</span></span>
     </div>
   </div>
 
@@ -116,9 +101,9 @@
       text-color="#fff"
       @click="floodBegin"
       style="margin-right: 0.1rem"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -228,7 +213,7 @@ function colorTableInit(colorTable:any) {
 }
 
 // 其他淹没颜色色带
-function colorBandsChange(val) {
+function colorBandsChange(val:string) {
   let floodColorTable = new SuperMap3D.ColorTable();
   switch (val) {
     case "band1":
@@ -373,9 +358,5 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>
 

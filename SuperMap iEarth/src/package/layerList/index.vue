@@ -1,15 +1,6 @@
 <template>
   <div class="layer-list-box">
-    <!-- <button @click="consoleTree">查看树</button>
-    <button @click="consoleViewer">查看viewer</button>
-    <button @click="delMvt">删除MVT</button> -->
-    <n-tree
-      block-line
-      :data="layerStore.layerTreeData"
-      :render-suffix="renderSuffix"
-      cascade
-      default-expand-all="true"
-    />
+    <n-tree block-line :data="layerStore.layerTreeData" :render-suffix="renderSuffix" cascade default-expand-all="true" />
   </div>
 </template>
 
@@ -21,31 +12,12 @@ import {
   NButton,
   NDropdown,
 } from "naive-ui";
-import {
-  Eye,
-  EyeOff,
-  EllipsisVertical,
-  // LocateOutline,
-  LocationSharp,
-  Trash
-} from "@vicons/ionicons5";
 import { h } from "vue";
 import { usePanelStore } from "@/store";
+
 const panelStore = usePanelStore();
 const layerStore = useLayerStore();
 let currentTerrainProvider: any; // 保存当前地形图层，方便控制其显隐
-
-// 测试用
-// function consoleTree(){
-//   console.log("tree:",layerStore.layerTreeData)
-// }
-// function consoleViewer(){
-//   console.log("viewer:",viewer)
-// }
-// function delMvt(){
-//   console.log("MVT:",viewer.scene._vectorTileMaps._layerQueue);
-//   viewer.scene.removeVectorTilesMap('JingJinMVT'); // 当前包删除MVT有问题
-// };
 
 // 给树添加icon
 function renderSuffix({ option }: { option: TreeOption | any }) {
@@ -56,52 +28,15 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
         {
           bordered: false,
           text: true,
-          title: "显隐",
+          title: GlobalLang.isShow,
+          style: 'margin-right:4px',
           onClick: (e) => {
-            console.log(e)
-            console.log("option:",option)
-            if (!option.key) return;
-            let optionKey: any = option.key;
-            if (optionKey.indexOf("-") != -1) {
-              let index = optionKey.split("-")[1];
-              switch (option.type) {
-                case "s3m":
-                  viewer.scene.layers._layerQueue[index].visible =
-                    !viewer.scene.layers._layerQueue[index].visible;
-                    layerStore.isShowLayer(option);
-                  break;
-                case "imagery":
-                  viewer.imageryLayers._layers[index].show =
-                    !viewer.imageryLayers._layers[index].show;
-                    layerStore.isShowLayer(option);
-                  break;
-                case "mvt":
-                  viewer.scene._vectorTileMaps._layerQueue[index].show =
-                    !viewer.scene._vectorTileMaps._layerQueue[index].show;
-                    layerStore.isShowLayer(option);
-                  break;
-                case "terrain":
-                  if (!currentTerrainProvider) {
-                    currentTerrainProvider = viewer.terrainProvider;
-                    viewer.terrainProvider =
-                      new SuperMap3D.EllipsoidTerrainProvider();
-                  } else {
-                    viewer.terrainProvider = currentTerrainProvider;
-                    currentTerrainProvider = null;
-                  }
-                  layerStore.isShowLayer(option);
-                  break;
-                default:
-                  break;
-              }
-              // updateTree();
-              // state.isCheckItem = false;
-            }
+            setLayerShow(option);
           },
         },
         {
-          icon: () => h(option.isShow ? h("i", { class: "iconfont iconkejian", style:'color:rgba(255, 255, 255, 0.65)' }, "") : 
-          h("i", { class: "iconfont iconyincang",style:'color:rgba(255, 255, 255, 0.65)' }, "")),
+          icon: () => h(option.isShow ? h("i", { class: "iconfont iconkejian", style: 'color:rgba(255, 255, 255, 0.65)' }, "") :
+            h("i", { class: "iconfont iconyincang", style: 'color:rgba(255, 255, 255, 0.65)' }, "")),
         }
       ),
       h(
@@ -109,100 +44,9 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
         {
           trigger: "click",
           placement: "right-start",
-          options: option.type === 's3m' ? [
-            {
-              label: "快速定位",
-              key: 1,
-              icon: () => h("i", { class: "iconfont icondingwei" }, ""), 
-            },
-            // {
-            //   label: "图层操作",
-            //   key: 2,
-            //   icon: () => h("i", { class: "iconfont iconyidong" }, ""), 
-            // },
-            // {
-            //   label: "图层属性",
-            //   key: 3,
-            //   icon: () => h("i", { class: "iconfont icontishi" }, ""), 
-            // },
-            // {
-            //   label: "图层风格",
-            //   key: 4,
-            //   icon: () => h("i", { class: "iconfont icontuceng" }, ""), 
-            // },
-            {
-              label: "移除",
-              key: 5,
-              icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849"}, ""),
-            },
-          ]:[{
-              label: "移除",
-              key: 5,
-              icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849"}, ""),
-            }],
+          options: setOptionsByType(option.type),
           onSelect: (key: any) => {
-            // key为1：定位，key为2：删除图层
-            if (key === 1) {
-              if (option.type === "s3m") {
-                let s3mLayer = viewer.scene.layers.find(option.label);
-                viewer.flyTo(s3mLayer, { duration: 0 });
-              } else if (option.type === "mvt") {
-                let index = String(option.key).split("-")[1];
-                let mvtLayer = viewer.scene._vectorTileMaps._layerQueue[index];
-                var bounds = mvtLayer.rectangle;
-                viewer.scene.camera.flyTo({
-                  destination: new SuperMap3D.Cartesian3.fromRadians(
-                    (bounds.east + bounds.west) * 0.5,
-                    (bounds.north + bounds.south) * 0.5,
-                    10000
-                  ),
-                  duration: 1,
-                  orientation: {
-                    heading: 0,
-                    roll: 0,
-                  },
-                });
-              }
-            }
-            else if(key === 2){
-              panelStore.setRightToolBarList({id:7});
-            }
-            else if(key === 3){
-              panelStore.setRightToolBarList({id:8});
-            }
-            else if(key === 4){
-              panelStore.setRightToolBarList({id:9});
-            }
-            else if (key === 5) {
-              // 删除图层之后 再显隐会有问题，不通过id
-              let type = option.type;
-              let layerName = option.label;
-              let layerIndex = option.key.split("-")[1];
-              if (type === "s3m") {
-                viewer.scene.layers.remove(layerName);
-                layerStore.removeLayer(option);
-              }
-              if (type === "imagery") {
-                // console.log("option:",option);
-                let delImagelayer = viewer.imageryLayers._layers[layerIndex];
-                viewer.imageryLayers.remove(delImagelayer);
-                layerStore.removeLayer(option);
-              }
-              if (type === "mvt") {
-                let mvtLayerName = layerStore.MVTLayerNameList[layerIndex];
-                viewer.scene.removeVectorTilesMap(mvtLayerName);
-                layerStore.removeLayer(option);
-                // let mvtLayerName = GlobalStore.MVTLayerNameList[layerIndex];
-                // viewer.scene.removeVectorTilesMap(mvtLayerName);
-                // updateTree();
-                // GlobalStore.MVTLayerNameList = [];
-              }
-              if (type === "terrain") {
-                viewer.terrainProvider =
-                  new SuperMap3D.EllipsoidTerrainProvider();
-                  layerStore.removeLayer(option);
-              }
-            }
+            setDropdownAction(option,key);
           },
         },
         {
@@ -213,44 +57,173 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
                 bordered: false,
                 text: true,
                 title: "",
-                onClick: (e) => {},
+                onClick: (e) => { },
               },
               {
-                icon: () => h(EllipsisVertical),
+                icon: () => h("i", { class: "iconfont icongengduo" }, ""),
               }
             ),
         }
       ),
     ]);
   }
-
-  // if (option.label == "1-1-1") {
-  //   return h("div", {}, [
-  //     h("div", {}, [
-  //       h(
-  //         NButton,
-  //         {
-  //           bordered: false,
-  //           text: true,
-  //           title: "",
-  //           onClick: (e) => {},
-  //         },
-  //         {
-  //           icon: () =>
-  //             h(NIcon, { size: 14 }, { default: () => h(EllipsisVertical) }),
-  //         }
-  //       ),
-  //     ]),
-  //   ]);
-  // }
 }
-function changelabelStyle({ option }: { option: any }){
-  console.log(option)
-} 
+
+// 根据图层类型设置不同的下拉操作选项
+function setOptionsByType(type: string) {
+  if (type === 's3m') {
+    return [
+      {
+        label: GlobalLang.rapidLocate,
+        key: 1,
+        icon: () => h("i", { class: "iconfont icondingwei" }, ""),
+      },
+      {
+        label: GlobalLang.layerOpration,
+        key: 2,
+        icon: () => h("i", { class: "iconfont iconyidong" }, ""),
+      },
+      {
+        label: GlobalLang.layerAttribute,
+        key: 3,
+        icon: () => h("i", { class: "iconfont icontishi" }, ""),
+      },
+      {
+        label: GlobalLang.layerStyle,
+        key: 4,
+        icon: () => h("i", { class: "iconfont icontuceng" }, ""),
+      },
+      {
+        label: GlobalLang.remove,
+        key: 5,
+        icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849" }, ""),
+      },
+    ]
+  } else if (type === 'mvt') {
+    return [
+      {
+        label: GlobalLang.rapidLocate,
+        key: 1,
+        icon: () => h("i", { class: "iconfont icondingwei" }, ""),
+      },
+      {
+        label: GlobalLang.remove,
+        key: 5,
+        icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849" }, ""),
+      },
+    ]
+  } else {
+    return [{
+      label: GlobalLang.remove,
+      key: 5,
+      icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849" }, ""),
+    }]
+  }
+}
+
+// 控制图层显隐
+function setLayerShow(option: any) {
+  // console.log("option:",option)
+  if (!option.key) return;
+  let optionKey: any = option.key;
+  if (optionKey.indexOf("-") != -1) {
+    let index = optionKey.split("-")[1];
+    switch (option.type) {
+      case "s3m":
+        viewer.scene.layers._layerQueue[index].visible = !option.isShow;
+        layerStore.isShowLayer(option);
+        break;
+      case "imagery":
+        viewer.imageryLayers._layers[index].show = !option.isShow;
+        layerStore.isShowLayer(option);
+        break;
+      case "mvt":
+        viewer.scene._vectorTileMaps._layerQueue[index].show = !option.isShow;
+        layerStore.isShowLayer(option);
+        break;
+      case "terrain":
+        if (!currentTerrainProvider) {
+          currentTerrainProvider = viewer.terrainProvider;
+          viewer.terrainProvider =
+            new SuperMap3D.EllipsoidTerrainProvider();
+        } else {
+          viewer.terrainProvider = currentTerrainProvider;
+          currentTerrainProvider = null;
+        }
+        layerStore.isShowLayer(option);
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+// 下拉列表操作
+function setDropdownAction(option: any, key: number) {
+  // key为1：定位，key为2：删除图层
+  layerStore.s3mLayerSelectIndex = option.key.split('-')[1];
+  // console.log(option)
+  if (key === 1) {
+    if (option.type === "s3m") {
+      let s3mLayer = viewer.scene.layers.find(option.label);
+      viewer.flyTo(s3mLayer, { duration: 0 });
+    } else if (option.type === "mvt") {
+      let index = String(option.key).split("-")[1];
+      let mvtLayer = viewer.scene._vectorTileMaps._layerQueue[index];
+      var bounds = mvtLayer.rectangle;
+      viewer.scene.camera.flyTo({
+        destination: new SuperMap3D.Cartesian3.fromRadians(
+          (bounds.east + bounds.west) * 0.5,
+          (bounds.north + bounds.south) * 0.5,
+          10000
+        ),
+        duration: 1,
+        orientation: {
+          heading: 0,
+          roll: 0,
+        },
+      });
+    }
+  }
+  else if (key === 2) {
+    panelStore.setRightToolBarList({ id: 7 });
+  }
+  else if (key === 3) {
+    panelStore.setRightToolBarList({ id: 8 });
+  }
+  else if (key === 4) {
+    panelStore.setRightToolBarList({ id: 9 });
+  }
+  else if (key === 5) {
+    // 删除图层之后 再显隐会有问题，不通过id
+    let type = option.type;
+    let layerName = option.label;
+    let layerIndex = option.key.split("-")[1];
+    if (type === "s3m") {
+      viewer.scene.layers.remove(layerName);
+      layerStore.removeLayer(option);
+    }
+    if (type === "imagery") {
+      let delImagelayer = viewer.imageryLayers._layers[layerIndex];
+      viewer.imageryLayers.remove(delImagelayer);
+      layerStore.removeLayer(option);
+    }
+    if (type === "mvt") {
+      let mvtLayerName = layerStore.MVTLayerNameList[layerIndex];
+      viewer.scene.removeVectorTilesMap(mvtLayerName);
+      layerStore.removeLayer(option);
+    }
+    if (type === "terrain") {
+      viewer.terrainProvider =
+        new SuperMap3D.EllipsoidTerrainProvider();
+      layerStore.removeLayer(option);
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.layer-list-box{
+.layer-list-box {
   padding: 0px 6px;
 }
 </style>

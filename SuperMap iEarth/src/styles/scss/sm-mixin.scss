@@ -15,7 +15,7 @@
 }
 
 // 设置icon的样式
-@mixin setIconstyle($fontSize: 12p) {
+@mixin setIconstyle($fontSize: .12rem) {
     color: rgba(255, 255, 255, 0.85);
     font-size: $fontSize;
 }

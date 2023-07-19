@@ -2,20 +2,20 @@
   <div class="terrain-box">
     <n-tabs type="line" animated :on-update:value="tabsChange">
       <!-- 地形操作 -->
-      <n-tab-pane name="operation" tab="地形操作">
+      <n-tab-pane name="operation" :tab="$t('global.terrainOperation')">
         <SmTerrainOperation></SmTerrainOperation>
         <!-- <sm-layer-service></sm-layer-service> -->
       </n-tab-pane>
       <!-- 淹没分析 -->
-      <n-tab-pane name="inundation" tab="淹没分析">
+      <n-tab-pane name="inundation" :tab="$t('global.inundationAnalysis')">
         <SmTerrainInundation></SmTerrainInundation>
       </n-tab-pane>
       <!-- 坡度坡向 -->
-      <n-tab-pane name="slope" tab="坡度坡向">
+      <n-tab-pane name="slope"  :tab="$t('global.slopeAspect')">
         <SmTerrainSlope></SmTerrainSlope>
       </n-tab-pane>
       <!-- 等值线 -->
-      <n-tab-pane name="isoline" tab="等值线">
+      <n-tab-pane name="isoline"  :tab="$t('global.Isoline')">
         <SmTerrainIsoline></SmTerrainIsoline>
       </n-tab-pane>
     </n-tabs>

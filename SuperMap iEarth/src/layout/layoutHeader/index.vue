@@ -8,14 +8,14 @@
       <!-- 头部切换 -->
       <div class="head-content header-center">
         <img src="@/assets/images/earth.png" alt="" />
-        <span class="head-title">三维地球</span>
+        <span class="head-title">{{$t('global.earth3D')}}</span>
         <i class="iconfont iconxiala" @click="headerFold"></i>
       </div>
 
       <div class="head-content header-right">
-        <i class="iconfont iconbaocun" @click="save"></i>
+        <i class="iconfont iconbaocun" @click="save" v-show="IportalStore.isLogin"></i>
         <!-- <i class="iconfont iconbaocun" @click="save" v-if="IportalStore.isLogin"></i> -->
-        <div class="divider"></div>
+        <n-divider vertical />
         <User></User>
       </div>
     </div>
@@ -94,13 +94,7 @@ function headerOpen(){
     width: 33%;
     @include flexLayout(center);
   }
-  .divider {
-    width: 0.01rem;
-    height: 0.16rem;
-    background: rgba(255, 255, 255, 0.15);
-    margin-left: 0.05rem;
-    margin-right: 0.05rem;
-  }
+
   .header-right {
     justify-content: end;
     .user-name {

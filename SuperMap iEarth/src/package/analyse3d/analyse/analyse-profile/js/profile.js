@@ -36,7 +36,7 @@ class ProfileAnalysis {
         }
         this.myChart.setOption({
             title: {
-                text: "截面",
+                text: GlobalLang.Section,
                 textStyle: {
                     fontSize: 15
                 }
@@ -184,7 +184,7 @@ class ProfileAnalysis {
         this.myChart.clear();
         let option = {
             title: {
-                text: "截面",
+                text: GlobalLang.Section,
                 textStyle: {
                     fontSize: 15,
                     color: '#CAE6FF'
@@ -231,9 +231,9 @@ class ProfileAnalysis {
             toolbox: {
                 show: true,
                 feature: {
-                  restore: {
-                    title:'刷新'
-                  },
+                //   restore: {
+                //     title:'刷新'
+                //   },
                   saveAsImage: {
                     title:"下载"
                   }

@@ -1,8 +1,8 @@
 <template>
 
   <div class="row-item">
-    <span>绕点旋转</span>
-    <div class="row-content">
+    <span>{{$t('global.rotateByPoint')}}</span>
+    <div  style="width:1.96rem">
       <n-switch v-model:value="state.rotateShow" size="small" />
     </div>
   </div>
@@ -13,7 +13,7 @@
     <div class="row-item">
       <span></span>
       <div class="icon-container">
-        <div class="icon-list" style="width: 1.9rem;">
+        <div class="icon-list">
           <span
             v-for="(item, index) in state.itemOptions"
             :key="index"
@@ -23,15 +23,15 @@
             @click="changleIconItem(item)"
           >
             <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"></i>
+            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
           </span>
         </div>
       </div>
     </div>
 
     <div class="row-item">
-      <span>旋转速度</span>
-      <div class="slider-box row-content">
+      <span>{{$t('global.rotateSpeed')}}</span>
+      <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
           v-model:value="state.speedRatio"
@@ -46,7 +46,7 @@
     <div class="row-item">
       <span></span>
         <div class="row-content">
-          <n-checkbox v-model:checked="state.flyCircleLoop"></n-checkbox><span> 循环旋转</span>
+          <n-checkbox v-model:checked="state.flyCircleLoop"></n-checkbox><span> {{$t('global.rotateRepeat')}}</span>
         </div>
     </div>
 
@@ -73,24 +73,24 @@ let state = reactive<stateType>({
   itemOptions: [
     {
       index: 1,
-      lable: "添加",
+      lable: GlobalLang.add,
       iconName: "icontianjia",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "播放",
+      lable: GlobalLang.play,
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "停止",
-      iconName: "icontingzhi",
+      lable: GlobalLang.pause,
+      iconName: "iconzanting",
       isSelect: false,
     }, {
       index: 4,
-      lable: "复位",
+      lable: GlobalLang.restore,
       iconName: "iconfuwei",
       isSelect: false,
     }
@@ -104,6 +104,7 @@ let windowPosition = new SuperMap3D.Cartesian2();
 let scratchTiltFrame = new SuperMap3D.Matrix4();
 let scratchOldTransform = new SuperMap3D.Matrix4();
 let listener;
+let handlerPoint = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 
 function init() {
   if (!window.viewer) return;
@@ -150,7 +151,15 @@ function addCenter() {
   viewer._element.style.cursor = "";
   document.body.classList.add("measureCur");
   viewer.eventManager.addEventListener("CLICK", left_click, true);
+  handlerPoint.activate();
 }
+
+// 注册绘制球体事件
+handlerPoint.drawEvt.addEventListener(function (res) {
+  // state.position = res.object.position;
+});
+
+
 
 // 添加点
 function left_click(e: any) {
@@ -163,6 +172,7 @@ function startFlyCircle() {
   if (SuperMap3D.defined(center)) viewer.scene.camera.flyCircle(center); // 相机绕中心点旋转
   document.body.classList.remove("measureCur");
   viewer.eventManager.removeEventListener("CLICK", left_click);
+  handlerPoint.deactivate();
 }
 
 // 清除绕点旋转
@@ -170,6 +180,7 @@ function clearFlyCircle() {
   viewer.scene.camera.stopFlyCircle();
   document.body.classList.remove("measureCur");
   viewer.eventManager.removeEventListener("CLICK", left_click);
+  handlerPoint.clear();
 }
 
 // 复位-指北旋转
@@ -223,13 +234,11 @@ watch(
 
 onBeforeUnmount(() => {
   clearFlyCircle();
+  handlerPoint.clear();
 });
 </script>
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
+
 </style>
   
   

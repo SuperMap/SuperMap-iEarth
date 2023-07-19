@@ -2,39 +2,39 @@
   <!-- 立面图 -->
   <div class="row-container">
     <div class="row-item">
-      <span>最大高度</span>
+      <span>{{ $t('global.maxHeight') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.2rem;" v-model:value="state.maxHeight" :step="10" :min="1" :max="1000" />
         <div class="slider-suffix">
           <span>{{ state.maxHeight }}</span>
-          <span class="slider-unit">米</span>
+          <span class="slider-unit">{{ $t('global.meter') }}</span>
         </div>
       </div>
     </div>
 
     <div class="row-item">
-      <span>最远距离</span>
+      <span>{{ $t('global.maxDistence') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.2rem;" v-model:value="state.maxDistence" :step="10" :min="1" :max="1000" />
         <div class="slider-suffix">
           <span>{{ state.maxDistence }}</span>
-          <span class="slider-unit">米</span>
+          <span class="slider-unit">{{ $t('global.meter') }}</span>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="btn-row-item">
+  <div class="btn-row-item2">
     <n-button type="info" color="#3499E5" text-color="#fff" @click="drawRegion"
-      style="margin-right: 0.1rem;">绘制</n-button>
+      style="margin-right: 0.1rem;">{{ $t('global.Draw') }}</n-button>
     <n-button type="info" color="#3499E5" text-color="#fff" @click="executeImage"
-      style="margin-right: 0.1rem">出图</n-button>
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+      style="margin-right: 0.1rem">{{ $t('global.Plot') }}</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear') }}</n-button>
   </div>
 </template>
     
 <script setup lang="ts">
-import { reactive, watch, onMounted, onBeforeMount,onBeforeUnmount} from "vue";
+import { reactive, watch,onBeforeUnmount} from "vue";
 
 type stateType = {
   maxHeight: number,// 最大高度
@@ -47,8 +47,6 @@ let state = reactive<stateType>({
 })
 
 const scene = viewer.scene;
-// viewer.resolutionScale = window.devicePixelRatio;
-// scene.lightSource.ambientLightColor = new SuperMap3D.Color(0.65, 0.65, 0.65, 1);
 
 // 初始化数据
 let facade, handlerLine;
@@ -60,13 +58,7 @@ function init() {
   facade.build();
   handlerLine = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Line);
 }
-
-// onMounted 都不行，setUp执行顺序会更前一点，导致一些变量失效
-// onBeforeMount(()=>{
-//   init();
-// })
-if (viewer) init();
-
+init();
 
 handlerLine.drawEvt.addEventListener(function (result:any) {
   result.object.show = false;
@@ -147,8 +139,4 @@ onBeforeUnmount(()=>{
 </script>
     
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>

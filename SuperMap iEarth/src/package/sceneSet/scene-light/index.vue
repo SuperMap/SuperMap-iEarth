@@ -1,19 +1,19 @@
 <template>
   <div class="row-item">
-    <span>符号库</span>
+    <span>{{$t('global.symbolLibrary')}}</span>
     <div class="icon-container">
-      <div class="icon-list" style="width: 1.95rem;">
+      <div class="icon-list" >
         <span v-for="(item, index) in state.itemOptions" :key="index" :bordered="false" :title="item.lable"
           @click="changleIconItem(item)" class="icon-span" :class="item.isSelect ? 'is-select' : ''">
-          <i class="iconfont iconSize" :class="item.iconName" :title="item.lable"></i>
+          <i class="iconfont iconSize" :class="item.iconName" :title="item.lable"  style="margin-top:0px"></i>
         </span>
       </div>
     </div>
   </div>
 
   <div class="row-item">
-    <span>光源颜色</span>
-    <div class="color-pick-box" style="width: 1.95rem;">
+    <span>{{$t('global.lightsourceColor')}}</span>
+    <div class="color-pick-box">
       <n-color-picker v-model:value="state.lightColor" :render-label="() => {
           return '';
         }
@@ -22,7 +22,7 @@
   </div>
 
   <div class="row-item" v-if="state.lightSelectId != 3">
-    <span>扩散距离</span>
+    <span>{{$t('global.diffusionDistance')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.cutoffDistance" :step="1" :min="0" :max="500" />
       <span>{{ state.cutoffDistance }}</span>
@@ -30,7 +30,7 @@
   </div>
 
   <div class="row-item" v-if="state.lightSelectId != 3">
-    <span>衰减因子</span>
+    <span>{{$t('global.lightDecay')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.lightDecay" :step="0.1" :min="0" :max="10" />
       <span>{{ state.lightDecay }}</span>
@@ -38,7 +38,7 @@
   </div>
 
   <div class="row-item">
-    <span>光源强度</span>
+    <span>{{$t('global.lightsourceIntensity')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.lightIntensity" :step="0.1" :min="0" :max="10" />
       <span>{{ state.lightIntensity }}</span>
@@ -46,7 +46,7 @@
   </div>
 
   <div class="row-item" v-if="state.lightSelectId === 2">
-    <span>聚光范围</span>
+    <span>{{$t('global.spotlightRange')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.spotLightAngle" :step="1" :min="1" :max="90" />
       <span>{{ state.spotLightAngle }}</span>
@@ -54,13 +54,13 @@
   </div>
 
   <div class="row-item">
-    <span>显示光源模型</span>
+    <span>{{$t('global.displayLightmodel')}}</span>
     <div class="check-box">
       <n-checkbox v-model:checked="state.visibleModel"></n-checkbox>
     </div>
   </div>
   <div class="row-item">
-    <span>显示光源坐标</span>
+    <span>{{$t('global.displayLightcorrdinate')}}</span>
     <div class="check-box">
       <n-checkbox v-model:checked="state.visiblePositions"></n-checkbox>
     </div>
@@ -68,11 +68,11 @@
 
   <div class="bableLight" ref="bableLightDom" v-show="state.visiblePositions && state.bableShow">
     <div class="row-item" style="margin-top:0.12rem">
-      <span class="light-anaylse-pop-titie">模型信息</span>
+      <span class="light-anaylse-pop-titie">{{$t('global.modelInformation')}}</span>
       <span @click="state.visiblePositions = false;" style="margin-right:14px">X</span>
     </div>
     <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>经度</span>
+      <span>{{$t('global.longitude')}}</span>
       <n-input-number
         style="width: 1.5rem"
         v-model:value="state.modelPosition[0]"
@@ -82,7 +82,7 @@
       </n-input-number>
     </div>
     <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>纬度</span>
+      <span>{{$t('global.latitude')}}</span>
       <n-input-number
         style="width: 1.5rem"
         v-model:value="state.modelPosition[1]"
@@ -92,7 +92,7 @@
       </n-input-number>
     </div>
     <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>高程</span>
+      <span>{{$t('global.elevation')}}</span>
       <n-input-number
         style="width: 1.5rem"
         v-model:value="state.modelPosition[2]"
@@ -104,9 +104,10 @@
   </div>
 
   <div class="btn-row-item" style="margin-bottom:0.1rem">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="addLight" style="margin-right: 0.1rem">添加</n-button>
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="addLight" style="margin-right: 0.1rem">{{$t('global.add')}}</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
+  <n-card class="tipDom" v-show="state.tipFlag">{{tip}}</n-card>
 </template>
 
 <script lang="ts" setup>
@@ -140,6 +141,7 @@ type stateType = {
   dockFontShow:boolean
   visiblePositions:boolean,
   bableShow:boolean,
+  tipFlag:boolean
 };
 
 // 设置默认值数据
@@ -163,33 +165,37 @@ let state = reactive<stateType>({
   itemOptions: [
     {
       index: 1,
-      lable: "点光源",
+      lable: GlobalLang.pointLight,
       iconName: "icondianguangyuan",
       isSelect: true,
     },
     {
       index: 2,
-      lable: "聚光灯",
+      lable: GlobalLang.spotLight,
       iconName: "iconjuguangdeng",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "平行光",
+      lable: GlobalLang.parallelLight,
       iconName: "iconpinghangguang",
       isSelect: false,
     },
   ],
+  tipFlag:false
 });
 
 let handlerPolyline: any, handlerPoint: any;
 let lightSource: any[] = [];
 let bableLightDom = ref();
 let currentSelectedEntity, selectdeLightSource, s3mInstanceColc;
-let isAddPointLight = false;
 let entityLightPairs = new Map(); // Entity和点光源对象的键值对
 let modelUrl = './Resource/model/light.s3m';
 let modelEditor;
+
+let editString = '请选中光源模型,再编辑属性';
+let clearString = '请选中光源模型在删除';
+let tip = ref('');
 const scene = viewer.scene;
 s3mInstanceColc = new SuperMap3D.S3MInstanceCollection(scene._context);
 viewer.scene.primitives.add(s3mInstanceColc);
@@ -208,7 +214,12 @@ function addLight() {
       add_line(addDirectionalLight);
       break;
   }
+
+  tip.value = editString;
+  state.tipFlag = true;
 }
+// 提示
+// tipChangeLight();
 
 function click_light(e) {
   if (!state.addLightFlag) {
@@ -226,6 +237,8 @@ function click_light(e) {
       state.bableShow = true;
       bableLightDom.value.style.top = (e.message.position.y - 200) + 'px';
       bableLightDom.value.style.left = (e.message.position.x + 20) + 'px';
+
+      // state.tipFlag = false;
       return;
     }
     state.bableShow = false;
@@ -233,6 +246,8 @@ function click_light(e) {
     selectdeLightSource = undefined;
     if (modelEditor) modelEditor.deactivate();
   }
+
+  // state.tipFlag = false;
 }
 
 let isModelMoving = false;
@@ -271,6 +286,7 @@ function changeSlider(callback) {
 
 }
 
+// 添加光源模型
 function addModel(position, pointLight) {
   let id = "light-model-" + new Date().getTime();
   s3mInstanceColc.add(modelUrl, {
@@ -285,7 +301,7 @@ function addModel(position, pointLight) {
 // 绘制线
 function add_line(callback: any) {
   notification.create({
-    content: () => "鼠标左键绘制两点确定光源方向，右键结束",
+    content: () => GlobalLang.addSpotLightTip,
     duration: 3500,
   });
   if (!handlerPolyline) {
@@ -388,7 +404,11 @@ function addModleHeight(Cartesian3: any) {
 // 清除
 function clear() {
   state.bableShow = false;
-  if (!selectdeLightSource) return;
+  if (!selectdeLightSource) {
+    tip.value = clearString;
+    state.tipFlag = true;
+    return;
+  };
   viewer.scene.removeLightSource(selectdeLightSource);
 
   if (currentSelectedEntity) {
@@ -396,7 +416,6 @@ function clear() {
     s3mInstanceColc.removeInstance(modelUrl, currentSelectedEntity.id);
     currentSelectedEntity = null;
   }
-  // if (entityLightPairs.size === 0) viewer.eventManager.removeEventListener("CLICK", click_light);
   if (modelEditor) modelEditor.deactivate();
   state.addLightFlag = false;
   selectdeLightSource = null;
@@ -423,10 +442,22 @@ function changleIconItem(item: any) {
   }
 }
 
-// 可以设置监听，看是否有必要
-// watch(()=>state.cutoffDistance,()=>{
-//   lightSource[0].cutoffDistance = state.cutoffDistance;
-// })
+// 提示编辑
+function tipChangeLight(){
+  notification.create({
+    content: () => "请选中光源模型,再编辑属性",
+    duration: 1500,
+    // placement:'bottom -right'
+  });
+}
+
+// 提示清除
+function tipClearLight(){
+  notification.create({
+    content: () => "请选中光源模型在删除",
+    duration: 2500,
+  });
+}
 
 watch(() => state.lightColor, val => {
   if (!selectdeLightSource) return;
@@ -466,6 +497,13 @@ watch(() => state.visibleModel, val => {
   s3mInstanceColc.visible = val
 })
 
+watch(()=>state.tipFlag,(val)=>{
+  if(val){
+    setTimeout(()=>{
+      state.tipFlag = false;
+    },3000)
+  }
+})
 
 watch(() => state.modelPosition, val => {
   if (!currentSelectedEntity || isModelMoving) return;
@@ -496,14 +534,11 @@ onBeforeUnmount(() => {
 });
 </script>
 
+
 <style lang="scss" scoped>
 .is-select {
     color: #3499e5;
   }
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
   
 .bableLight{
   position: fixed;
@@ -522,6 +557,16 @@ onBeforeUnmount(() => {
     span {
     font-size: 12px;
   }
+}
+
+.tipDom{
+  position: fixed;
+    bottom: 0.8rem;
+    width: auto;
+    /* height: 0.5rem; */
+    text-align: center;
+    height: auto;
+    right: 0.6rem;
 }
 </style>
 

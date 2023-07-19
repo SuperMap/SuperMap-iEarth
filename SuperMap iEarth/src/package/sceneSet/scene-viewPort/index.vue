@@ -1,29 +1,27 @@
 <template>
   <!-- 试图模式 -->
   <div class="row-item">
-    <span>视图模式</span>
+    <span>{{$t('global.viewMode')}}</span>
     <n-select
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.viewMode"
-      size="small"
       :options="state.options_viewMode"
     />
   </div>
 
   <!-- 分屏模式 -->
-  <div class="row-item">
-    <span>分屏模式</span>
+  <div class="row-item" v-show="!state.rollerShutterShow">
+    <span>{{$t('global.splitscreenModel')}}</span>
     <n-select
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.selectedType"
-      size="small"
       :options="state.options_split"
     />
   </div>
 
   <!-- 卷帘 -->
   <div class="row-item">
-    <span>开启卷帘</span>
+    <span>{{$t('global.openRollershutter')}}</span>
     <div style="width: 1.96rem;">
       <n-switch v-model:value="state.rollerShutterShow" size="small" />
     </div>
@@ -37,7 +35,6 @@
 <script lang="ts" setup>
 import { onBeforeUnmount, watch, reactive, ref } from "vue";
 import sceneRoller from "./components/scene-roller.vue";
-import locale from "@/tools/locateTemp";
 
 type stateType = {
   options_split:any,// 分屏选项
@@ -53,23 +50,23 @@ type stateType = {
 let state = reactive<stateType>({
   options_split: [
     {
-      label: () => "不使用分屏",
+      label: () => GlobalLang.noneSplitscreen,
       value: "NONE",
     },
     {
-      label: () => "水平分屏",
+      label: () => GlobalLang.horizontalSplitscreen,
       value: "HORIZONTAL",
     },
     {
-      label: () => "垂直分屏",
+      label: () => GlobalLang.verticalSplitscreen,
       value: "VERTICAL",
     },
     {
-      label: () => "三视口",
+      label: () => GlobalLang.threeViewport,
       value: "TRIPLE",
     },
     {
-      label: () => "四视口",
+      label: () => GlobalLang.fourViewport,
       value: "QUAD",
     },
   ],
@@ -95,14 +92,21 @@ let state = reactive<stateType>({
   rollerShutterShow: false, // 开启卷帘
 });
 
-//监听 视口
+//监听
 watch(
   () => state.selectedType,
   (val) => {
     viewer.scene.multiViewportMode = SuperMap3D.MultiViewportMode[val];
   }
 );
-// 监听 分屏模式
+watch(
+  () => state.rollerShutterShow,
+  (val) => {
+    if(val){
+      viewer.scene.multiViewportMode = SuperMap3D.MultiViewportMode["NONE"];
+    }
+  }
+);
 watch(
   () => state.viewMode,
   (val) => {
@@ -128,6 +132,7 @@ function handleChange(value: boolean) {
 
 onBeforeUnmount(() => {
   state.rollerShutterShow = false;
+  viewer.scene.multiViewportMode = SuperMap3D.MultiViewportMode["NONE"];
 });
 </script>
   

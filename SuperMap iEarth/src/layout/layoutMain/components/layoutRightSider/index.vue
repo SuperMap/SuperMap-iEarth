@@ -9,38 +9,38 @@
     <!-- 指南 -->
     <div class="too-bar two-tool-bar">
       <span class="icon-container" @click="reduceCompass">
-        <i class="iconfont iconzhibeizhen_1" id="compass_dom" title="指南"></i>
+        <i class="iconfont iconzhibeizhen_1" id="compass_dom" :title="$t('global.w_north')"></i>
       </span>
       <span class="icon-container" @click="reset">
-        <i class="iconfont iconfuwei" title="重置"></i>
+        <i class="iconfont iconfuwei" :title="$t('global.w_reset')"></i>
       </span>
     </div>
     <!-- 缩放 -->
     <div class="too-bar two-tool-bar">
       <span class="icon-container">
-        <i class="iconfont iconfangda" @click="zoomIn" @mousedown="continueZoomIn" @mouseup="clearTimer" title="放大"></i>
+        <i class="iconfont iconfangda" @click="zoomIn" @mousedown="continueZoomIn" @mouseup="clearTimer" :title="$t('global.w_zoomIn')"></i>
       </span>
       <span class="icon-container">
-        <i class="iconfont iconsuoxiao" @click="zoomOut" @mousedown="continueZoomOut" @mouseup="clearTimer" title="放小"></i>
+        <i class="iconfont iconsuoxiao" @click="zoomOut" @mousedown="continueZoomOut" @mouseup="clearTimer" :title="$t('global.w_zoomOut')"></i>
       </span>
     </div>
     <!-- 分析等弹窗 -->
     <div class="too-bar four-tool-bar">
       <span class="icon-container" v-for="iconItem in state.rightToolBarList" :key="iconItem.id"
         @click="changePanel(iconItem)" :class="iconItem.isSelected ? 'select-too-bar-bg' : ''">
-        <i class="iconfont" :class="iconItem.iconName" :title="iconItem.title"></i>
+        <i class="iconfont" :class="iconItem.iconName" :title="$t(iconItem.title)"></i>
       </span>
     </div>
     <!--全屏-->
     <div class="too-bar one-tool-bar" style="margin-bottom: 0.1rem" @click="fullScreen">
       <span class="icon-container">
-        <i class="iconfont iconzuidahua" title="全屏"></i>
+        <i class="iconfont iconzuidahua" :title="$t('global.w_fullScreen')"></i>
       </span>
     </div>
     <!--首页-->
-    <div class="too-bar one-tool-bar">
+    <div class="too-bar one-tool-bar" v-show="IportalStore.isLogin">
       <span class="icon-container">
-        <i class="iconfont iconzhuye" title="主页" @click="goHome"></i>
+        <i class="iconfont iconzhuye" :title="$t('global.w_home')" @click="goHome"></i>
       </span>
     </div>
   </div>
@@ -49,8 +49,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from "vue";
 import { usePanelStore } from "@/store";
+import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
+
 const panelStore = usePanelStore();
+const IportalStore = IportalStoreCreate();
 
 let scratchWindowPosition: any, timer: any;
 
@@ -61,7 +64,6 @@ onMounted(() => {
 let state = reactive({
   rightToolBarList:panelStore.panelList.rightToolBarList.slice(0,4)
 })
-
 
 // 初始化
 function init() {
@@ -222,40 +224,47 @@ function goHome() {
   z-index: 2;
 
   .one-tool-bar {
-    @include setBackground(0.34rem,
+    @include setBackground(0.32rem,
       0.34rem,
       "@/assets/images/right-tool-one-bar.png"
     );
+    background-size: 100% 100%;
   }
 
   .two-tool-bar {
+    box-sizing: border-box;
+    padding-top:0.04rem;
     margin-bottom: 0.1rem;
-    @include setBackground(0.34rem,
-      0.74rem,
+    @include setBackground(0.32rem,
+      0.72rem,
       "@/assets/images/right-tool-two-bar.png"
     );
+    background-size: 100% 100%;
   }
 
   .four-tool-bar {
+    box-sizing: border-box;
+    padding-top:0.08rem;
     margin-top: 0.4rem;
     margin-bottom: 0.1rem;
     @include setBackground(0.32rem,
       1.48rem,
       "@/assets/images/right-tool-four-bar.png"
     );
+    background-size: 100% 98%;
   }
 
   .icon-container {
     display: block;
     width: 100%;
-    height: 0.36rem;
+    height: 0.32rem;
     @include flexLayout(center);
     @include setIconstyle();
   }
 
   .select-too-bar-bg {
     @include setBackground(0.32rem,
-      0.36rem,
+      0.32rem,
       "@/assets/images/item-checked-bg.png"
     );
   }

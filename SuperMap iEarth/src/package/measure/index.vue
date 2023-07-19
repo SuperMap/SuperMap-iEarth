@@ -1,17 +1,18 @@
 <template>
   <div class="measure-box">
     <div class="row-item">
-      <span>量算模式</span>
+      <span>{{$t('global.measureMode')}}</span>
       <n-select
-        style="width: 2.2rem"
+        style="width: 1.96rem;"
         v-model:value="state.measureMode"
         :options="state.options"
         @update:value="update_mode"
       />
     </div>
 
-    <div class="row-item">
-      <div class="icon-list" style="margin-left: 0.94rem">
+    <div class="row-item" >
+      <span></span>
+      <div class="icon-list" >
         <span
           v-for="(line, index) in state.currentItemOption"
           :key="index"
@@ -21,27 +22,35 @@
           @click="changleIconItem(line)"
         >
           <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-          <i class="iconfont iconSize" :class="line.iconName"></i>
+          <i class="iconfont iconSize" :class="line.iconName" style="margin-top:0px"></i>
         </span>
       </div>
     </div>
 
-    <!-- <n-checkbox
-      @update:checked="openPickPoint"
-      v-model:checked="state.pickPointEnabled"
-      style="margin-left: 0.96rem; margin-bottom: 0.1rem"
-    >
-      顶点捕捉
-    </n-checkbox> -->
+
+    
+    <div>
+      <div class="btn-row-item">
+        <n-checkbox
+          @update:checked="openPickPoint"
+          v-model:checked="state.pickPointEnabled"
+          style="margin-bottom: 0.1rem"
+        >
+        {{$t('global.pickPoint')}}
+        </n-checkbox>
+      </div>
+    </div>
 
     <div v-show="state.currentItemIndex === 2">
+      <div class="btn-row-item">
       <n-checkbox
         @update:checked="update_showDVH"
         v-model:checked="state.isShowLine"
-        style="margin-left: 0.96rem; margin-bottom: 0.1rem"
+        style="margin-bottom: 0.1rem"
       >
-        等高线
+      {{$t('global.contour')}}
       </n-checkbox>
+      </div>
     </div>
 
     <div class="btn-row-item">
@@ -49,22 +58,17 @@
         type="info"
         color="#3499E5"
         text-color="#fff"
+        class="ans-btn"
         @click="StartMeasure"
-        style="margin-right: 0.1rem"
-        >测量</n-button
+        >{{$t('global.measureAction')}}</n-button
       >
-      <n-button class="btn-secondary" @click="clear">清除</n-button>
+      <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount ,watch} from "vue";
-// import tool from '@/tools/tool';
-// import { GlobalStoreCreate } from '@/store/global/global';
-// import { storeToRefs } from 'pinia';
-// const GlobalStore = GlobalStoreCreate();
-// const { isViewer,SceneLayerChangeCount } = storeToRefs(GlobalStore);
 
 type stateType = {
   measureMode: string, //测量模式
@@ -89,11 +93,11 @@ let state = reactive<stateType>({
   currentItemIndex: 1,
   options: [
     {
-      label: () => "空间量算",
+      label: () => GlobalLang.mode_space,
       value: "Space",
     },
     {
-      label: () => "贴地量算",
+      label: () => GlobalLang.mode_ground,
       value: "Ground",
     },
     {
@@ -109,7 +113,7 @@ let state = reactive<stateType>({
       value: "WGS84",
     },
     {
-      label: () => "平面投影",
+      label: () => GlobalLang.mode_projection,
       value: "null",
     },
   ],
@@ -117,19 +121,19 @@ let state = reactive<stateType>({
     "Space":[
       {
         id: 1,
-        lable: "测量距离",
+        lable: GlobalLang.measureDistence,
         iconName: "iconceju",
         isSelect: true,
       },
       {
         id: 2,
-        lable: "测量高度",
+        lable: GlobalLang.measureHeight,
         iconName: "iconcegao",
         isSelect: false,
       },
       {
         id: 3,
-        lable: "测量面积",
+        lable: GlobalLang.measureArea,
         iconName: "iconcemian",
         isSelect: false,
       },
@@ -137,19 +141,19 @@ let state = reactive<stateType>({
     "Ground":[
       {
         id: 1,
-        lable: "测量距离",
+        lable: GlobalLang.measureDistence,
         iconName: "iconyidijuli1",
         isSelect: true,
       },
       {
         id: 2,
-        lable: "测量高度",
+        lable: GlobalLang.measureHeight,
         iconName: "iconcegao",
         isSelect: false,
       },
       {
         id: 3,
-        lable: "测量面积",
+        lable: GlobalLang.measureArea,
         iconName: "iconyidimianji",
         isSelect: false,
       },
@@ -157,19 +161,19 @@ let state = reactive<stateType>({
     "null":[
       {
         id: 1,
-        lable: "测量距离",
+        lable: GlobalLang.measureDistence,
         iconName: "iconyidijuli1",
         isSelect: true,
       },
       {
         id: 2,
-        lable: "测量高度",
+        lable: GlobalLang.measureHeight,
         iconName: "iconcegao",
         isSelect: false,
       },
       {
         id: 3,
-        lable: "测量面积",
+        lable: GlobalLang.measureArea,
         iconName: "icontouying",
         isSelect: false,
       },
@@ -178,19 +182,19 @@ let state = reactive<stateType>({
   currentItemOption:[
       {
         id: 1,
-        lable: "测量距离",
+        lable: GlobalLang.measureDistence,
         iconName: "iconceju",
         isSelect: true,
       },
       {
         id: 2,
-        lable: "测量高度",
+        lable: GlobalLang.measureHeight,
         iconName: "iconcegao",
         isSelect: false,
       },
       {
         id: 3,
-        lable: "测量面积",
+        lable: GlobalLang.measureArea,
         iconName: "iconcemian",
         isSelect: false,
       },
@@ -217,11 +221,6 @@ isoline.Opacity = 0.6;
 isoline.MaxVisibleValue = -100;
 isoline.MinVisibleValue = -100;
 
-//监听图层改变,以便实现等高线
-// watch(SceneLayerChangeCount, val => {
-//   setHypsometricSetting();
-// });
-
 // 初始化
 init();
 function init() {
@@ -231,9 +230,6 @@ function init() {
     hypsometricSetting: isoline,
     analysisMode: SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL
   };
-  // if (SceneLayerChangeCount) {
-  //   setHypsometricSetting();
-  // }
 
   handlerDis = new SuperMap3D.MeasureHandler(
     viewer,
@@ -343,6 +339,17 @@ function changleIconItem(item: any) {
   }
 }
 
+
+function updateIconItem(){
+  for (let i = 0; i < state.currentItemOption.length; i++) {
+    if (state.currentItemOption[i].id == state.currentItemIndex) {
+      state.currentItemOption[i].isSelect = true;
+    } else {
+      state.currentItemOption[i].isSelect = false;
+    }
+  }
+}
+
 // 开始测量
 function StartMeasure() {
   deactiveAll()
@@ -352,14 +359,14 @@ function StartMeasure() {
           MeasureDistance();
           break;
       case 2:
-          // if(!setHypFlag.value)  setHypsometricSetting()
           MeasureHeight();
           break;
       case 3:
           MeasureArea();
           break;
       default:
-          console.log('请选择测量方式')
+          console.log('请选择测量方式');
+          break;
   }
 }
 
@@ -474,17 +481,9 @@ function MeasureDistance() {
 function MeasureHeight() {
   if (!setHypFlag) setHypsometricSetting();
   clearLine();
-  //鼠标左键事件监听
-  // viewer.eventManager.addEventListener("CLICK", measureHeightClk, true);
   deactiveAll();
   handlerHeight && handlerHeight.activate();
 }
-
-// function measureHeightClk(e) {
-//   let position = viewer.scene.pickPosition(e.message.position);
-//   let p = tool.CartesiantoDegrees(position); // 将获取的点的位置转化成经纬度
-//   height_0 = p[2];
-// }
 
 // 测量面积
 function MeasureArea() {
@@ -526,7 +525,7 @@ function update_showDVH(val:boolean) {
 // 开启顶点捕捉
 function openPickPoint(val:boolean){
   state.pickPointEnabled = val;
-  // viewer.scene.pickPointEnabled = val;
+  viewer.scene.pickPointEnabled = val;
 }
 
 // 清除
@@ -570,7 +569,8 @@ watch(
         break;
     }
 
-    state.currentItemIndex = 1;
+    updateIconItem();
+    // state.currentItemIndex = 1;
   }
 );
 onBeforeUnmount(() => {

@@ -1,6 +1,6 @@
 <template>
   <div class="row-item">
-    <span>裁剪模式</span>
+    <span>{{$t('global.clipMode')}}</span>
     <n-radio-group
       v-model:value="state.clipMode"
       class="radio-group"
@@ -25,9 +25,9 @@
       text-color="#fff"
       @click="clipPolygon"
       style="margin-right: 0.1rem"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -46,11 +46,11 @@ let state = reactive({
   clipMode: SuperMap3D.ModifyRegionMode.CLIP_INSIDE,
   modeOptions: [
     {
-      label: "内部",
+      label: GlobalLang.inner,
       value: SuperMap3D.ModifyRegionMode.CLIP_INSIDE,
     },
     {
-      label: "外部",
+      label: GlobalLang.outer,
       value: SuperMap3D.ModifyRegionMode.CLIP_OUTSIDE,
     },
   ],
@@ -107,7 +107,7 @@ function clear() {
 // 监听
 watch(
   () => state.clipMode,
-  (val: any) => {
+  () => {
     if (polygonPosition) clipPolygonUpdate(polygonPosition);
   }
 );

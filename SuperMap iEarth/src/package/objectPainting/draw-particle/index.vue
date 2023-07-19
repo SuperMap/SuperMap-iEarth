@@ -1,35 +1,26 @@
 <template>
   <!-- 粒子 -->
   <div class="row-item">
-    <span class="name">符号库</span>
+    <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list">
       <span
-        v-for="(item, index) in state.stateParticles"
+        v-for="(item, index) in comList"
         :key="index"
         class="icon-span"
         :title="item.name"
         :class="item.isSelect ? 'selected-icon' : ''"
         @click="changleIconItem(item)"
       >
-        <i class="iconfont iconSize" :class="item.iconName"></i>
+        <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
       </span>
     </div>
   </div>
 
-  <!-- 火焰 -->
-  <div v-if="state.selectedId === 0">
-    <fire></fire>
-  </div>
+  <KeepAlive>
+        <component :is="currentItem.com"></component>
+    </KeepAlive>
 
-  <!-- 喷泉 -->
-  <div v-if="state.selectedId === 1">
-    <water></water>
-  </div>
 
-  <!-- 烟花 -->
-  <div v-if="state.selectedId === 2">
-    <fireworks></fireworks>
-  </div>
 
   <!-- <div class="btn-row-item">
     <n-button
@@ -46,33 +37,45 @@
   
 
 <script lang="ts" setup>
-import { ref,reactive, onBeforeUnmount, watch } from "vue";
+import { ref,reactive, onBeforeUnmount, markRaw } from "vue";
 
 import fire from "./coms/fire.vue"
 import water from "./coms/water.vue"
 import fireworks from "./coms/fireworks.vue"
-
+// 使用vue3 setUp实现动态组件
+let comList = reactive([
+    {
+      id: 0,
+      iconName: "iconhuoyan",
+      name: GlobalLang.fire,
+      nameEN: "Solid",
+      isSelect: true,
+        com: markRaw(fire)
+    },
+    {
+      id: 1,
+      iconName: "iconshui",
+      name: GlobalLang.water,
+      nameEN: "grid",
+      isSelect: false,
+        com: markRaw(water)
+    },
+    {
+      id: 2,
+      iconName: "iconyanhua",
+      name: GlobalLang.fireworks,
+      nameEN: "stripe",
+      isSelect: false,
+        com: markRaw(fireworks)
+    },
+])
+// 默认项目
+let currentItem = reactive({
+    com: comList[0].com
+})
 // 初始化数据
 let state = reactive({
   selectedId: 0,
-  selectedChildrenId: 0,
-  emissionRate: 50,
-  particleSize: 2,
-  particleLife: [1.5, 1.6],
-  speed: [3.5, 4],
-  startScale: 2.5,
-  endScale: 1,
-  gravity: 0,
-  lifetime: 6,
-  ringRadius: [25, 30],
-  particleSystemType: "conical",
-  image: "./images/particleSystem/base_fire.png",
-  startColor: "rgba(255, 255, 255, 0.3)",
-  endColor: "rgba(0, 0, 0, 0)",
-  emitter: ["ConeEmitter", [60]],
-  bursts: [], //爆炸
-  // selectType: [],
-  paramSetShow: false, //参数设置
   stateParticles: [
     {
       id: 0,
@@ -100,12 +103,13 @@ let state = reactive({
 
 // 切换项目
 function changleIconItem(item: any) {
+  currentItem.com = item.com;
   state.selectedId = item.id;
-  for (let i = 0; i < state.stateParticles.length; i++) {
-    if (state.stateParticles[i].id == item.id) {
-      state.stateParticles[i].isSelect = true;
+  for (let i = 0; i < comList.length; i++) {
+    if (comList[i].id == item.id) {
+      comList[i].isSelect = true;
     } else {
-      state.stateParticles[i].isSelect = false;
+      comList[i].isSelect = false;
     }
   }
 }

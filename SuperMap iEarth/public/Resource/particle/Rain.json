@@ -1,0 +1,177 @@
+{
+    "name": "rainDense",
+    "id": "rainDense",
+    "capacity": 3000,
+    "disposeOnStop": false,
+    "manualEmitCount": -1,
+    "emitter": [
+        0,
+        20,
+        0
+    ],
+    "particleEmitterType": {
+        "type": "BoxParticleEmitter",
+        "direction1": [
+            0,
+            -1,
+            0
+        ],
+        "direction2": [
+            0,
+            -1,
+            0
+        ],
+        "minEmitBox": [
+            -30,
+            0,
+            -30
+        ],
+        "maxEmitBox": [
+            30,
+            0,
+            30
+        ]
+    },
+    "texture": {
+        "tags": null,
+        "url": "./Resource/particle/texture/Rain.png",
+        "uOffset": 0,
+        "vOffset": 0,
+        "uScale": 1,
+        "vScale": 1,
+        "uAng": 0,
+        "vAng": 0,
+        "wAng": 0,
+        "uRotationCenter": 0,
+        "vRotationCenter": 0,
+        "wRotationCenter": 0,
+        "homogeneousRotationInUVTransform": false,
+        "isBlocking": true,
+        "name": "rain/Rain.png",
+        "hasAlpha": false,
+        "getAlphaFromRGB": false,
+        "level": 1,
+        "coordinatesIndex": 0,
+        "coordinatesMode": 0,
+        "wrapU": 1,
+        "wrapV": 1,
+        "wrapR": 1,
+        "anisotropicFilteringLevel": 4,
+        "isCube": false,
+        "is3D": false,
+        "is2DArray": false,
+        "gammaSpace": true,
+        "invertZ": false,
+        "lodLevelInAlpha": false,
+        "lodGenerationOffset": 0,
+        "lodGenerationScale": 0,
+        "linearSpecularLOD": false,
+        "isRenderTarget": false,
+        "animations": [],
+        "invertY": true,
+        "samplingMode": 3,
+        "_useSRGBBuffer": false
+    },
+    "isLocal": false,
+    "animations": [],
+    "startDelay": 0,
+    "renderingGroupId": 0,
+    "isBillboardBased": true,
+    "billboardMode": 2,
+    "minAngularSpeed": 0,
+    "maxAngularSpeed": 0,
+    "minSize": 0.4,
+    "maxSize": 0.5,
+    "minScaleX": 1,
+    "maxScaleX": 1,
+    "minScaleY": 1,
+    "maxScaleY": 1,
+    "minEmitPower": 10,
+    "maxEmitPower": 12,
+    "minLifeTime": 3,
+    "maxLifeTime": 3,
+    "emitRate": 600,
+    "gravity": [
+        0,
+        0,
+        0
+    ],
+    "noiseStrength": [
+        10,
+        10,
+        10
+    ],
+    "color1": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "color2": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "colorDead": [
+        1,
+        1,
+        1,
+        0
+    ],
+    "updateSpeed": 0.034,
+    "targetStopDuration": 0,
+    "blendMode": 1,
+    "preWarmCycles": 50,
+    "preWarmStepOffset": 1,
+    "minInitialRotation": 0,
+    "maxInitialRotation": 0,
+    "startSpriteCellID": 0,
+    "spriteCellLoop": true,
+    "endSpriteCellID": 3,
+    "spriteCellChangeSpeed": 0,
+    "spriteCellWidth": 128,
+    "spriteCellHeight": 512,
+    "spriteRandomStartCell": true,
+    "isAnimationSheetEnabled": true,
+    "colorGradients": [
+        {
+            "gradient": 0,
+            "color1": [
+                1,
+                1,
+                1,
+                0.3
+            ],
+            "color2": [
+                1,
+                1,
+                1,
+                0.3
+            ]
+        },
+        {
+            "gradient": 1,
+            "color1": [
+                1,
+                1,
+                1,
+                0.3
+            ],
+            "color2": [
+                1,
+                1,
+                1,
+                0.3
+            ]
+        }
+    ],
+    "textureMask": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "customShader": null,
+    "preventAutoStart": true
+}

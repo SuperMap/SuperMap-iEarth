@@ -60,7 +60,7 @@ html, body, #app {
   padding: 0 0.1rem;
   border-radius: 0.04rem;
   background: rgba(255, 255, 255, 0.04);
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .row-item .slider-box .slider-unit {
@@ -82,17 +82,33 @@ html, body, #app {
   width: 1.9rem;
   height: 0.32rem;
 }
+.btn-row-item2 {
+  display: flex;
+  justify-content: right;
+
+  button {
+    display: block;
+  }
+}
+
+.btn-row-item1 {
+  margin-left: 0.60rem;
+}
+.btn-row-item1 .ans-btn {
+  margin-right: 0.08rem;
+}
 
 .btn-row-item {
   margin-left: 1.2rem;
 }
 .btn-row-item .ans-btn {
-  margin-right: 0.2rem;
+  margin-right: 0.08rem;
 }
 
 .btn-secondary {
   color: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.85);
+  margin-left:0.08rem;
 }
 
 
@@ -102,11 +118,13 @@ html, body, #app {
 
 .n-input-border {
   border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
 }
 
+
 .color-pick-box {
-  width: 1.68rem;
-  height: 0.32rem;
+  width: 1.96rem;
+  height: 0.33rem;
   border-radius: 0.04rem;
   background: rgba(255, 255, 255, 0.04);
   box-sizing: border-box;

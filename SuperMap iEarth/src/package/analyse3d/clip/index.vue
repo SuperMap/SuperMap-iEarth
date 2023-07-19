@@ -2,19 +2,19 @@
   <div class="clip-box">
     <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="space-between">
       <!-- box裁剪 -->
-      <n-tab-pane name="boxclip" tab="box裁剪">
+      <n-tab-pane name="boxclip" :tab="$t('global.boxClip')">
         <SmClipBox></SmClipBox>
       </n-tab-pane>
       <!-- 平面裁剪 -->
-      <n-tab-pane name="planeclip" tab="平面裁剪">
+      <n-tab-pane name="planeclip" :tab="$t('global.planeClip')">
         <SmClipPlane></SmClipPlane>
       </n-tab-pane>
       <!-- Cross裁剪 -->
-      <n-tab-pane name="crossclip" tab="Cross裁剪">
+      <n-tab-pane name="crossclip" :tab="$t('global.crossClip')">
         <SmClipCross></SmClipCross>
       </n-tab-pane>
       <!-- 多边形裁剪 -->
-      <n-tab-pane name="polygonclip" tab="多边形裁剪">
+      <n-tab-pane name="polygonclip" :tab="$t('global.polygonClip')">
         <SmClipPolygon></SmClipPolygon>
       </n-tab-pane>
     </n-tabs>

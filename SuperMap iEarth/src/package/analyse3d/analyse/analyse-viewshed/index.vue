@@ -3,9 +3,9 @@
     <!-- 可视域 -->
     <n-scrollbar style="max-height: 3.8rem">
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>经度</span>
+      <span>{{$t('global.longitude')}}</span>
       <n-input-number
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.observerInformation[0]"
         :show-button="false"
         disabled
@@ -15,9 +15,9 @@
       </n-input-number>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>纬度</span>
+      <span>{{$t('global.latitude')}}</span>
       <n-input-number
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.observerInformation[1]"
         :show-button="false"
         disabled
@@ -27,21 +27,22 @@
       </n-input-number>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>高程</span>
+      <span>{{$t('global.elevation')}}</span>
       <n-input-number
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.observerInformation[2]"
         :show-button="false"
         disabled
         placeholder="0"
       >
-        <template #suffix>米</template>
+        <template #suffix>{{$t('global.meter')}}</template>
       </n-input-number>
     </div>
     <n-divider />
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>附加高度</span>
+    <!-- 附加高度：待修改点 -->
+    <div class="row-item" style="margin-right: 0.1rem" v-show="!state.viewshedAnimation">
+      <span>{{$t('global.additionalHeight')}}</span>
       <div class="slider-box">
         <n-slider
           style="width: 1.2rem;"
@@ -52,14 +53,14 @@
         />
         <div class="slider-suffix">
           <span>{{ state.addheight }}</span>
-          <span class="slider-unit">米</span>
+          <span class="slider-unit">{{$t('global.meter')}}</span>
         </div>
       </div>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>水平视角</span>
+      <span>{{$t('global.horizontalFov')}}</span>
       <n-input-number
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.horizontalFov"
         :min="1"
         :max="360"
@@ -69,9 +70,9 @@
       </n-input-number>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>垂直视角</span>
+      <span>{{$t('global.verticalFov')}}</span>
       <n-input-number
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.verticalFov"
         :min="1"
         :max="360"
@@ -81,7 +82,7 @@
       </n-input-number>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>提示线颜色</span>
+      <span>{{$t('global.hintLineColor')}}</span>
       <div class="color-pick-box color-pick-box-full">
         <n-color-picker
           v-model:value="state.hintLineColor"
@@ -95,7 +96,7 @@
       </div>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>显示可视体</span>
+      <span>{{$t('global.visibleBody')}}</span>
       <div class="check-color-pick">
         <n-checkbox v-model:checked="state.visibleBody"></n-checkbox>
         <div class="color-pick-box">
@@ -113,7 +114,7 @@
       </div>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>显示不可视体</span>
+      <span>{{$t('global.invisibleBody')}}</span>
       <div class="check-color-pick">
         <n-checkbox v-model:checked="state.invisibleBody"></n-checkbox>
         <div class="color-pick-box">
@@ -131,7 +132,7 @@
       </div>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
-      <span>动态可视域</span>
+      <span>{{$t('global.viewshedAnimation')}}</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.viewshedAnimation"></n-checkbox>
       </div>
@@ -139,16 +140,16 @@
     </n-scrollbar>
   </div>
 
-  <div class="btn-row-item" style="margin-right: 0.1rem">
+  <div class="btn-row-item" style="margin-right: 0.1rem;margin-top: 0.12rem">
     <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
       class="ans-btn"
       @click="analysis"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
     
@@ -211,7 +212,7 @@ let state = reactive<stateType>({
 
 
 // 初始化数据
-let viewshed3D: any, s3mInstanceColc: any, startPosition: any, handlerPolyline: any, timers: any, dynamicLayer3D: any;
+let viewshed3D: any, s3mInstanceColc: any, startPosition: any, handlerPolyline: any, timers: any, dynamicLayer3D: any,observerEntity:any;
 let Carurls = ["./Resource/model/car1.s3m"];
 
 function init() {
@@ -282,6 +283,8 @@ function LEFT_CLICK(e:any) {
   viewer.eventManager.removeEventListener("CLICK", LEFT_CLICK);
   viewer.eventManager.addEventListener("MOUSE_MOVE", MOUSE_MOVE, true);
   viewer.eventManager.addEventListener("RIGHT_CLICK", RIGHT_CLICK, true);
+
+  observerEntity = viewer.entities.getById('viewshedPoint');
 }
 
 // 添加可视域点
@@ -552,9 +555,23 @@ watch(
       // 避免删除导致崩溃
       val = 0;
     }
+    // console.log(viewer.entities.getById('viewshedPoint').position);
     if (state.observerInformation) {
       state.observerInformation[2] = parseFloat(val) + state.defaultheight;
       viewshed3D.viewPosition = state.observerInformation;
+    }
+
+    if(observerEntity){
+      // let arr = tool.CartesiantoDegrees(observerEntity.position._value);
+      let lon = Number(state.observerInformation[0]);
+      let lat = Number(state.observerInformation[1]);
+      let hei = Number(state.observerInformation[2]);
+      // let heiAdd = hei+parseFloat(val);
+      let position = SuperMap3D.Cartesian3.fromDegrees(lon, lat, hei);
+      observerEntity.position = position;
+      // observerEntity.primitive.updatePosition(position);
+    }else{
+      observerEntity = viewer.entities.getById('viewshedPoint');
     }
   }
 );
@@ -637,9 +654,11 @@ watch(
   () => state.viewshedAnimation,
   (val: any) => {
     if (val) {
+      state.visibleBody = false;
+      state.invisibleBody = false;
       clearViewshed();
       notification.create({
-        content: () => '绘制模型运动路线，鼠标右键结束',
+        content: () => GlobalLang.viewshedAnimationTip,
         duration: 3500
       });
     } else clear();
@@ -659,8 +678,4 @@ onBeforeUnmount(() => {
 </script>
     
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>

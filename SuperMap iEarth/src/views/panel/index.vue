@@ -2,8 +2,8 @@
   <div class="too-panel">
     <div class="left-panel" v-if="panelStore.leftTooPanel">
       <div class="panle-header">
-        <span class="panle-title" v-if="panelStore.panelList.leftToolBarList[0].isSelected">图层列表</span>
-        <span class="panle-title" v-if="panelStore.panelList.leftToolBarList[1].isSelected">添加数据</span>
+        <span class="panle-title" v-if="panelStore.panelList.leftToolBarList[0].isSelected">{{$t('global.t_layerList')}}</span>
+        <span class="panle-title" v-if="panelStore.panelList.leftToolBarList[1].isSelected">{{$t('global.t_addData')}}</span>
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(1)">
@@ -25,37 +25,37 @@
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
-          >三维分析</span
+          >{{ $t('global.t_analyse3d') }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[1].isSelected"
-          >量算</span
+          >{{ $t('global.t_measure') }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[2].isSelected"
-          >场景属性</span
+          >{{ $t('global.t_sceneProperties') }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[3].isSelected"
-          >对象绘制</span
+          >{{ $t('global.t_objectPainting') }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[4].isSelected"
-          >图层操作</span
+          >{{ $t('global.layerOpration') }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[5].isSelected"
-          >图层属性</span
+          >{{ $t('global.layerAttribute') }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[6].isSelected"
-          >图层风格</span
+          >{{ $t('global.layerStyle') }}</span
         >
         <span class="zst1"></span>
         <span class="zst2"></span>
@@ -94,7 +94,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, watch, h } from "vue";
 // 图层列表
 import LayerList from "@/package/layerList/index";
 // 添加服务

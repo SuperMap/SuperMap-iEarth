@@ -1,6 +1,6 @@
 <template>
   <div class="row-item">
-    <span>裁剪模式</span>
+    <span>{{$t('global.clipMode')}}</span>
     <n-radio-group v-model:value="state.directionByNormal" name="radiogroup" class="radio-group">
       <n-space>
         <n-radio
@@ -14,9 +14,9 @@
     </n-radio-group>
   </div>
   <div class="row-item">
-    <span>显示裁剪面</span>
+    <span>{{$t('global.displayCilpPlane')}}</span>
     <n-checkbox
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:checked="state.clipFaceShow"
     ></n-checkbox>
   </div>
@@ -28,9 +28,9 @@
       text-color="#fff"
       @click="clipPlaneStart"
       style="margin-right: 0.1rem"
-      >裁剪</n-button
+      >{{$t('global.clip')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -56,11 +56,11 @@ let state = reactive<stateType>({
   normal: null,
   modeOptions: [
     {
-      label: "截面前",
+      label: GlobalLang.verticalNormal,
       value: false,
     },
     {
-      label: "截面后",
+      label: GlobalLang.parallelNormal,
       value: true,
     },
   ],

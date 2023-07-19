@@ -1,17 +1,16 @@
 <template>
   <!-- 绘制线 -->
   <div class="row-item">
-    <span>绘制模式</span>
+    <span>{{$t('global.drawMode')}}</span>
     <n-select
-      style="width: 1.96rem;height: 32px;"
+      style="width: 1.96rem;"
       v-model:value="state.selectedType"
-      size="small"
       :options="state.optionMode"
     />
   </div>
 
   <div class="row-item">
-    <span class="name">符号库</span>
+    <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list-space" style="width: 1.96rem;">
       <span
         v-for="(line, index) in state.lineOptions"
@@ -21,15 +20,14 @@
         :class="line.isSelect ? 'selected-icon' : ''"
         @click="changleIconItem(line)"
       >
-        <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
         <i class="iconfont iconSize" :class="line.iconName"></i>
       </span>
     </div>
   </div>
 
   <div class="row-item">
-    <span>线颜色</span>
-    <div class="color-pick-box row-content" style="width: 1.96rem;height: 32px;">
+    <span>{{$t('global.lineColor')}}</span>
+    <div class="color-pick-box">
       <n-color-picker
         v-model:value="state.lineColor"
         :render-label="
@@ -43,8 +41,8 @@
   </div>
 
   <div class="row-item">
-    <span>线宽</span>
-    <div class="slider-box" style="width: 1.96rem;height: 32px;">
+    <span>{{$t('global.lineWidth')}}</span>
+    <div class="slider-box">
       <n-slider
         style="width: 1.5rem"
         v-model:value="state.lineWidth"
@@ -58,13 +56,13 @@
 
   
   <div class="row-item">
-      <span>编辑线</span>
+      <span>{{$t('global.editLine')}}</span>
       <div class="check-box" >
         <n-checkbox v-model:checked="state.isEdit"></n-checkbox>
       </div>
     </div>
   <div class="row-item">
-      <span>编辑线Z轴</span>
+      <span>{{$t('global.editLineZ')}}</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.isEditZ"></n-checkbox>
       </div>
@@ -76,9 +74,9 @@
       text-color="#fff"
       @click="add"
       style="margin-right: 0.1rem"
-      >绘制</n-button
+      >{{$t('global.Draw')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
   
@@ -87,7 +85,6 @@ import { reactive, onBeforeUnmount, watch } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
 import setEditHandler from "@/tools/editHandler";
-import locale from "@/tools/locateTemp";
 
 type stateType = {
   selectedType: string, // 当前选择的绘制模式
@@ -122,19 +119,19 @@ let state = reactive<stateType>({
   isEditZ: false,
   optionMode: [
     {
-      label: () => locale.SpaceMode,
+      label: () => GlobalLang.spaceMode,
       value: "NONE",
     },
     {
-      label: () => locale.TERRAINMode,
+      label: () => GlobalLang.closeGroundMode,
       value: "TERRAIN",
     },
     {
-      label: () => locale.S3M_TILEMode,
+      label: () => GlobalLang.closeS3MMode,
       value: "S3M_TILE",
     },
     {
-      label: () => locale.BOTHMode,
+      label: () => GlobalLang.closeBoth,
       value: "BOTH",
     },
   ],
@@ -142,42 +139,42 @@ let state = reactive<stateType>({
     {
       id: 0,
       iconName: "iconshixian",
-      name: "实线",
+      name: GlobalLang.solidLine,
       nameEN: "solidline",
       isSelect: true,
     },
     {
       id: 1,
       iconName: "iconxuxian",
-      name: "虚线",
+      name: GlobalLang.dashedLine,
       nameEN: "dottedline",
       isSelect: false,
     },
     {
       id: 2,
       iconName: "iconlunkuoxian",
-      name: "轮廓线",
+      name: GlobalLang.outline,
       nameEN: "outline",
       isSelect: false,
     },
     {
       id: 3,
       iconName: "iconjiantou",
-      name: "箭头线",
+      name: GlobalLang.arrowLine,
       nameEN: "arrowline",
       isSelect: false,
     },
     {
       id: 4,
       iconName: "iconguangyunxian",
-      name: "光晕线",
+      name: GlobalLang.haloLine,
       nameEN: "haloline",
       isSelect: false,
     },
     {
       id: 5,
       iconName: "iconweijixian",
-      name: "尾迹线",
+      name: GlobalLang.wakeLine,
       nameEN: "trailline",
       isSelect: false,
     },
@@ -196,7 +193,7 @@ let clampToGround = undefined,
 // 分析
 function add() {
   notification.create({
-    content: () => locale.DrawSymbolTip,
+    content: () => GlobalLang.editLineTip,
     duration: 3500,
   });
   add_line();
@@ -427,7 +424,7 @@ watch(
   (val) => {
     if (val) {
       notification.create({
-        content: () => locale.DrawlineTip,
+        content: () => GlobalLang.editLineTip,
         duration: 3500,
       });
       setEdit();
@@ -451,10 +448,6 @@ onBeforeUnmount(() => {
   
   
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>
   
   

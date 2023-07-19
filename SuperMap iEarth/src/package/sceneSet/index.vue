@@ -2,23 +2,23 @@
   <div class="scene-set-box">
     <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left">
       <!-- 场景属性 -->
-      <n-tab-pane name="publicService" tab="场景属性" class="use-scroll">
+      <n-tab-pane name="publicService" :tab="$t('global.baseAttribute')" class="use-scroll">
         <SmSceneAttribute></SmSceneAttribute>
       </n-tab-pane>
       <!-- 飞行 -->
-      <n-tab-pane name="customService" tab="飞行">
+      <n-tab-pane name="customService" :tab="$t('global.flying')">
         <SmFlyRoute></SmFlyRoute>
       </n-tab-pane>
       <!-- 灯光 -->
-      <n-tab-pane name="onlineBaseMap" tab="灯光">
+      <n-tab-pane name="onlineBaseMap" :tab="$t('global.ligth')">
         <SmSceneLight></SmSceneLight>
       </n-tab-pane>
       <!-- 视口 -->
-      <n-tab-pane name="onlineTerrain" tab="视口">
+      <n-tab-pane name="onlineTerrain" :tab="$t('global.viewPorts')">
         <SmSceneViewPort></SmSceneViewPort>
       </n-tab-pane>
       <!-- 特效 -->
-      <n-tab-pane name="SmSceneSpecialEffect" tab="特效">
+      <n-tab-pane name="SmSceneSpecialEffect" :tab="$t('global.speciallyEffect')">
         <SmSceneSpecialEffect></SmSceneSpecialEffect>
       </n-tab-pane>
     </n-tabs>

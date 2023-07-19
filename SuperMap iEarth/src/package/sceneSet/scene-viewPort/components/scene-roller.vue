@@ -1,81 +1,74 @@
 <template>
     <div class="row-item">
-      <span>视图模式</span>
+      <span>{{$t('global.viewMode')}}</span>
       <n-select
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.selectedType"
-        size="small"
         :options="state.options"
       />
     </div>
 
-    <div class="row-item" v-if="state.selectedType === 'lrRoller' || state.selectedType === 'customRoller'">
-      <span>屏蔽方向</span>
-        <div style="width: 1.96rem;height: 0.32rem;">
-          <n-radio-group v-model:value="state.lrRoller" name="radiogroup">
-            <n-space>
-              <n-radio :value="1">左侧</n-radio>
-              <n-radio :value="2">右侧</n-radio>
-            </n-space>
-          </n-radio-group>
-        </div>
+  <div class="row-item" v-if="state.selectedType === 'lrRoller' || state.selectedType === 'customRoller'">
+    <span>{{ $t('global.shieldDirection') }}</span>
+    <div style="width: 1.96rem;">
+      <n-radio-group v-model:value="state.lrRoller" name="radiogroup">
+        <n-space>
+          <n-radio :value="1">{{ $t('global.left') }}</n-radio>
+          <n-radio :value="2">{{ $t('global.right') }}</n-radio>
+        </n-space>
+      </n-radio-group>
     </div>
+  </div>
 
-    <div class="row-item" v-if="state.selectedType === 'tbRoller' || state.selectedType === 'customRoller'">
-      <span>屏蔽方向</span>
-        <div style="width: 1.96rem;height: 0.32rem;">
-          <n-radio-group v-model:value="state.tbRoller" name="radiogroup">
-            <n-space>
-              <n-radio :value="4">上侧</n-radio>
-              <n-radio :value="8">下侧</n-radio>
-            </n-space>
-          </n-radio-group>
-        </div>
+  <div class="row-item" v-if="state.selectedType === 'tbRoller' || state.selectedType === 'customRoller'">
+    <span>{{ $t('global.shieldDirection') }}</span>
+    <div style="width: 1.96rem;">
+      <n-radio-group v-model:value="state.tbRoller" name="radiogroup">
+        <n-space>
+          <n-radio :value="4">{{ $t('global.up') }}</n-radio>
+          <n-radio :value="8">{{ $t('global.down') }}</n-radio>
+        </n-space>
+      </n-radio-group>
     </div>
+  </div>
+  <div class="row-item" v-if="state.selectedType != 'noRoller'">
+    <span>{{ $t('global.t_layerList') }}</span>
+    <div class="comLayerTreeBox" style="width: 1.96rem;">
+      <ComLayerTree v-show="state.selectedType !== 'noRoller'" :is-update="true" :draggable="false"
+        style="max-height:2rem;max-width:2.6rem" :default-show-types="['S3M', 'IMG', 'MVT', 'GLOBE']"
+        :delete-button-show="false" @getCheckedKeys="getCheckedKeys" />
+    </div>
+  </div>
 
-    <div class="row-item">
-      <span>图层列表</span>
-        <div style="width: 1.96rem;height: 0.32rem;">
-            <!-- <comLayerTree></comLayerTree> -->
-        </div>
-    </div>
 </template>
 
 <script lang="ts" setup>
 import { onBeforeUnmount, watch, reactive, onMounted } from "vue";
-import locale from "@/tools/locateTemp";
-// import comLayerTree from "./com-layer-tree.vue";
-
-type stateType = {
-  options:any, // 卷帘类型选项
-  selectedType: string, // 选择的卷帘类型
-  lrRoller: 1, //左右卷帘时默认屏蔽左边
-  tbRoller: 4, //上下卷帘时默认屏蔽上面
-}
+import ComLayerTree from "./com-layer-tree.vue";
 
 // 初始化数据
-let state = reactive<stateType>({
+let state = reactive({
   options: [
     {
-      label: () => locale.NoUseRoller,
+      label: () => GlobalLang.noneRollershutter,
       value: "noRoller",
     },
     {
-      label: () => locale.LeftRightRoller,
+      label: () => GlobalLang.leftrightRollershutter,
       value: "lrRoller",
     },
     {
-      label: () => locale.TopBottomRoller,
+      label: () => GlobalLang.updownRollershutter,
       value: "tbRoller",
     },
     {
-      label: () => locale.CustomRoller,
+      label: () => GlobalLang.customRollershutter,
       value: "customRoller",
     },
   ],
   selectedType: "noRoller",
   lrRoller: 1, //左右卷帘时默认屏蔽左边
-  tbRoller: 4, //上下卷帘时默认屏蔽上面
+  tbRoller: 4 //上下卷帘时默认屏蔽上面
 });
 
 onMounted(() => {
@@ -87,7 +80,7 @@ let verticalSliderLeft: any = "verticalSliderLeft",
   horizontalSliderTop: any = "horizontalSliderTop",
   horizontalSliderBottom: any = "horizontalSliderBottom",
   fdom;
-let selectedKeys;
+let layers, imgLayers, mvtLayers, selectedKeys;
 let scratchSwipeRegion = new SuperMap3D.BoundingRectangle();
 
 let rollerShutterConfig = {
@@ -96,12 +89,12 @@ let rollerShutterConfig = {
   right: 0.66,
   top: 0.33,
   index: 1, //当前控制卷帘条
-  mode: 1, //卷帘模式
+  mode: 1 //卷帘模式
 };
 
-let layers = viewer.scene.layers.layerQueue;
-let imgLayers = viewer.imageryLayers._layers;
-let mvtLayers = viewer.scene._vectorTileMaps._layerQueue;
+layers = viewer.scene.layers.layerQueue;
+imgLayers = viewer.imageryLayers._layers;
+mvtLayers = viewer.scene._vectorTileMaps._layerQueue;
 
 // 创建和移除卷帘条
 function createSlider(dom?: any, id?: any) {
@@ -141,10 +134,19 @@ function enableSlider(index) {
   if (index & 8) horizontalSliderBottom.style.display = "block";
 }
 
+// viewer.imageryLayers._layers.forEach((imageLayer:any,index:number)=>{
+//     setLayerSwipeEnabled('IMG',index,true);
+//   })
 //设置各类图层的卷帘(暂时只支持s3m)
 function setLayersRoller() {
+
+  //   // // 只让S3M支持卷帘
+  // viewer.scene.layers._layerQueue.forEach((S3Mlayer: any, index: string) => {
+  //   setLayerSwipeEnabled("S3M", index, true);
+  // })
+
   if (selectedKeys) {
-    selectedKeys.forEach((key) => {
+    selectedKeys.forEach(key => {
       let arr = key.split("--");
       if (arr[1] === "Root" && arr[0] !== "GLOBE") {
         return;
@@ -156,23 +158,24 @@ function setLayersRoller() {
   } else {
     cancelLayersRoller(true);
   }
+  
 }
 
-//设置图层视口显隐
+//设置图层视口显隐 - 只保证S3M图层，其余图层暂时不支持
 function setLayerSwipeEnabled(layerType, index, checked) {
   switch (layerType) {
     case "S3M":
       layers[index].swipeEnabled = checked;
       layers[index].swipeRegion = scratchSwipeRegion;
       break;
-    case "IMG":
-      imgLayers[index].swipeEnabled = checked;
-      imgLayers[index].swipeRegion = scratchSwipeRegion;
-      break;
-    case "MVT":
-      mvtLayers[index].swipeEnabled = checked;
-      mvtLayers[index].swipeRegion = scratchSwipeRegion;
-      break;
+    // case "IMG":
+    //   imgLayers[index].swipeEnabled = checked;
+    //   imgLayers[index].swipeRegion = scratchSwipeRegion;
+    //   break;
+    // case "MVT":
+    //   mvtLayers[index].swipeEnabled = checked;
+    //   mvtLayers[index].swipeRegion = scratchSwipeRegion;
+    //   break;
     case "GLOBE":
       viewer.scene.globe.swipeEnabled = checked;
       viewer.scene.globe.swipeRegion = scratchSwipeRegion;
@@ -191,14 +194,14 @@ function cancelLayersRoller(checked) {
     layers[i].swipeEnabled = checked;
     layers[i].swipeRegion = scratchSwipeRegion;
   }
-  for (let i = 1; i < imgLayers.length; i++) {
-    imgLayers[i].swipeEnabled = checked;
-    imgLayers[i].swipeRegion = scratchSwipeRegion;
-  }
-  for (let i = 0; i < mvtLayers.length; i++) {
-    mvtLayers[i].swipeEnabled = checked;
-    mvtLayers[i].swipeRegion = scratchSwipeRegion;
-  }
+  // for (let i = 1; i < imgLayers.length; i++) {
+  //   imgLayers[i].swipeEnabled = checked;
+  //   imgLayers[i].swipeRegion = scratchSwipeRegion;
+  // }
+  // for (let i = 0; i < mvtLayers.length; i++) {
+  //   mvtLayers[i].swipeEnabled = checked;
+  //   mvtLayers[i].swipeRegion = scratchSwipeRegion;
+  // }
   viewer.scene.globe.swipeEnabled = checked;
   viewer.scene.globe.swipeRegion = scratchSwipeRegion;
 }
@@ -206,14 +209,14 @@ function cancelLayersRoller(checked) {
 // 勾选图层节点
 function getCheckedKeys(params, data) {
   selectedKeys = params;
-  data.forEach((obj) => {
+  data.forEach(obj => {
     if (!obj.children) {
       fn(obj);
       return;
     }
     let arr = obj.children;
     if (!(arr instanceof Array) || arr.length === 0) return;
-    arr.forEach((layerObj) => {
+    arr.forEach(layerObj => {
       fn(layerObj);
     });
   });
@@ -332,7 +335,7 @@ function bindSliderEvt() {
 
 watch(
   () => state.selectedType,
-  (val) => {
+  val => {
     switch (val) {
       case "noRoller":
         enableSlider(0);
@@ -359,14 +362,14 @@ watch(
 );
 watch(
   () => state.lrRoller,
-  (val) => {
+  val => {
     rollerShutterConfig.mode = Number(val);
     setRollerShutterSplit();
   }
 );
 watch(
   () => state.tbRoller,
-  (val) => {
+  val => {
     rollerShutterConfig.mode = Number(val);
     setRollerShutterSplit();
   }
@@ -379,16 +382,9 @@ onBeforeUnmount(() => {
   // layers = undefined;
   removeSlider();
 });
-
-//暴露state和play方法
-defineExpose({
-  enableSlider,
-  cancelLayersRoller,
-});
 </script>
 
 <style lang="scss" >
-
 // 卷帘
 #verticalSlider {
   position: absolute;
@@ -397,7 +393,7 @@ defineExpose({
   background-color: #d3d3d3;
   width: 0.03rem;
   height: 100%;
-  z-index: 100;
+  z-index: 1;
   display: none;
   cursor: ew-resize;
 }
@@ -409,7 +405,7 @@ defineExpose({
   background-color: #d3d3d3;
   width: 100%;
   height: 0.03rem;
-  z-index: 100;
+  z-index: 1;
   display: none;
   cursor: ns-resize;
 }
@@ -418,6 +414,7 @@ defineExpose({
   @extend #verticalSlider;
   left: 33%;
 }
+
 #verticalSliderRight {
   @extend #verticalSlider;
   left: 66%;
@@ -427,6 +424,7 @@ defineExpose({
   @extend #horizontalSlider;
   top: 33%;
 }
+
 #horizontalSliderBottom {
   @extend #horizontalSlider;
   top: 66%;

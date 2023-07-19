@@ -1,59 +1,59 @@
 <template>
   <!-- <div class="savePanleBox" v-if="panelStore.showSavePanel"> -->
   <n-modal v-model:show="panelStore.showSavePanel">
-    <n-card style="width: 600px" title="场景保存" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card style="width: 600px" :title="$t('global.sceneSave')" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <!-- <n-spin size="small" :show="state.loadingShow"> -->
       <div class="save-scene-container">
         <canvas id="sceneCanvas" style="width:100%;margin:35px 0 10px 0;" />
 
           <n-form ref="formRef" :model="fromData" label-placement="left" require-mark-placement="right-hanging" :style="{ maxWidth: '640px' }">
-            <n-form-item label="存储日期" path="storageSceneCurrentTime" :rule="{
+            <n-form-item label-width="1.3rem" :label="$t('global.saveDate')" path="storageSceneCurrentTime" :rule="{
               required: false,
-              message: '当前存储时间',
+             
               trigger: ['input', 'blur']
             }">
               <n-input v-model:value="fromData.storageSceneCurrentTime" clearable />
             </n-form-item>
 
-            <n-form-item label="场景名称" path="scenePortalName" :rule="{
+            <n-form-item label-width="1.3rem" :label="$t('global.sceneName')" path="scenePortalName" :rule="{
               required: true,
-              message: '必填项：场景名称',
+              message: 'Must Option',
               trigger: ['input', 'blur']
             }">
-              <n-input v-model:value="fromData.scenePortalName" clearable />
+              <n-input v-model:value="fromData.scenePortalName" :placeholder="$t('global.placeHolder')" clearable />
             </n-form-item>
 
-            <n-form-item label="场景标签" path="scenePortalTages" :rule="{
+            <n-form-item label-width="1.3rem" :label="$t('global.sceneLable')" path="scenePortalTages" :rule="{
               required: true,
-              message: '必填项：场景标签',
+              message: 'Must Option',
               trigger: ['input', 'blur']
             }">
-              <n-input v-model:value="fromData.scenePortalTages" clearable />
+              <n-input v-model:value="fromData.scenePortalTages" :placeholder="$t('global.placeHolder')" clearable />
             </n-form-item>
 
-            <n-form-item label="作者名字" path="scenePortalUser" :rule="{
+            <n-form-item label-width="1.3rem" :label="$t('global.authorName')" path="scenePortalUser" :rule="{
               required: false,
-              message: '作者',
+           
               trigger: ['input', 'blur']
             }">
-              <n-input v-model:value="fromData.scenePortalUser" clearable />
+              <n-input v-model:value="fromData.scenePortalUser" :placeholder="$t('global.placeHolder')" clearable />
             </n-form-item>
 
-            <n-form-item label="场景描述" path="scenePortalDescription" :rule="{
+            <n-form-item label-width="1.3rem" :label="$t('global.sceneDescribe')" path="scenePortalDescription" :rule="{
               required: false,
-              message: '场景描述',
+              
               trigger: ['input', 'blur']
             }">
-              <n-input v-model:value="fromData.scenePortalDescription" clearable />
+              <n-input v-model:value="fromData.scenePortalDescription" :placeholder="$t('global.placeHolder')" clearable />
             </n-form-item>
 
             <n-form-item>
               <n-space justify="space-between">
                 <n-button type="info" color="#3499E5" text-color="#fff" attr-type="button" @click="onSaveUserClk">
-                  保存
+                  {{$t('global.save')}}
                 </n-button>
                 <n-button attr-type="button" @click="close">
-                  关闭
+                  {{$t('global.save')}}
                 </n-button>
               </n-space>
             </n-form-item>
@@ -303,12 +303,12 @@ function saveTerrain() {
 function createAndSaveScene() {
   // let that = this;
   if(!fromData.scenePortalName || fromData.scenePortalName == ''){
-    message.warning('保存场景名称不能为空！');
+    message.warning(GlobalLang.sceneSaveNameCannotBeNull);
     return;
   }
 
   if(!fromData.scenePortalTages || fromData.scenePortalTages == ''){
-    message.warning('保存场景标签不能为空！');
+    message.warning(GlobalLang.sceneSaveLableCannotBeNull);
     return;
   }
 
@@ -354,14 +354,14 @@ function createAndSaveScene() {
 
   let iportaluserName = IportalStore.portalUserprofile.userName;
   if (iportaluserName === "GUEST") {
-    message.error("存储失败,请先登录iPortal或Online账户......");
+    message.error(GlobalLang.saveErrorNeedOnline);
     return;
   }
 
   // modulePermissions : [true]
   let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions[0];
   if (iportalUpdateScene != true) {
-    message.error("存储失败,请先登录iPortal或Online账户......");
+    message.error(GlobalLang.saveErrorNeedOnline);
     return;
   }
 
@@ -401,7 +401,7 @@ function createAndSaveScene() {
         })
         .then(function () {
 
-          message.success("场景保存成功！");
+          message.success(GlobalLang.saveSuccess);
           panelStore.showSavePanel = false;
           setTimeout(() => {
             let currentUrl =
@@ -421,12 +421,12 @@ function createAndSaveScene() {
 // 更新保存场景的信息
 function updateScene() {
   if(!fromData.scenePortalName || fromData.scenePortalName == ''){
-    message.warning('保存场景名称不能为空！');
+    message.warning(GlobalLang.sceneSaveNameCannotBeNull);
     return;
   }
 
   if(!fromData.scenePortalTages || fromData.scenePortalTages == ''){
-    message.warning('保存场景标签不能为空！');
+    message.warning(GlobalLang.sceneSaveLableCannotBeNull);
     return;
   }
 
@@ -478,14 +478,14 @@ function updateScene() {
 
   let iportaluserName = IportalStore.portalUserprofile.userName;
   if (iportaluserName === "GUEST") {
-    message.error("存储失败,请先登录iPortal或Online账户......");
+    message.error(GlobalLang.saveErrorNeedOnline);
     return;
   }
 
   // modulePermissions : [true]
   let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions[0];
   if (iportalUpdateScene != true) {
-    message.error("存储失败,请先登录iPortal或Online账户......");
+    message.error(GlobalLang.saveErrorNeedOnline);
     return;
   }
 
@@ -507,7 +507,7 @@ function updateScene() {
         })
         .then(function () {
           panelStore.showSavePanel = false;
-          message.success("场景更新成功！");
+          message.success(GlobalLang.saveUpdate);
           let currentUrl =
             getRootUrl() + "apps/earth/v2/index.html?id=" + state.sceneID;
           // console.log("currentUrl:",currentUrl)

@@ -1,7 +1,7 @@
 <template>
   <div class="row-item">
-      <span>飞行速度</span>
-      <div class="slider-box row-content">
+      <span>{{$t('global.flySpeed')}}</span>
+      <div class="slider-box">
         <n-slider
           style="width: 1.5rem;"
           v-model:value="state.routeSpeed"
@@ -17,7 +17,7 @@
     <div class="row-item">
       <span></span>
       <div class="icon-container">
-        <div class="icon-list" style="width: 1.9rem;">
+        <div class="icon-list" style="width: 1.96rem;">
           <span
             v-for="(item, index) in state.itemOptions"
             :key="index"
@@ -27,7 +27,7 @@
             @click="changleIconItem(item)"
           >
             <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"></i>
+            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
           </span>
         </div>
       </div>
@@ -35,11 +35,10 @@
   
   <div v-show="state.customRouteNames.length > 0">
     <div class="row-item">
-      <span>已添站点</span>
+      <span>{{$t('global.addedStops')}}</span>
         <div class="row-content">
           <n-select
             v-model:value="state.selectedAddedStopIndex"
-            size="small"
             :options="state.routeStops"
             label-field="stopName"
             value-field="index"
@@ -48,11 +47,10 @@
     </div>
 
     <div class="row-item">
-      <span>飞行路线</span>
+      <span>{{$t('global.flyRoute')}}</span>
         <div class="row-content">
           <n-select
             v-model:value="state.customRouteSelectedIndex"
-            size="small"
             :options="state.customRouteNames"
           />
         </div>
@@ -61,8 +59,8 @@
     <div class="row-item">
       <span></span>
         <div class="row-content">
-          <n-checkbox v-model:checked="state.showRoute">显示路线</n-checkbox>
-          <n-checkbox v-model:checked="state.showStop">显示站点</n-checkbox>
+          <n-checkbox v-model:checked="state.showRoute">{{$t('global.displayRoute')}}</n-checkbox>
+          <n-checkbox v-model:checked="state.showStop">{{$t('global.displayStation')}}</n-checkbox>
         </div>
     </div>
 
@@ -79,7 +77,7 @@
             @click="changleIconItemAction(item)"
           >
             <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"></i>
+            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
           </span>
         </div>
       </div>
@@ -92,9 +90,9 @@
         text-color="#fff"
         @click="downLoad"
         style="margin-right: 0.1rem;margin-left: 0.03rem;"
-        >下载</n-button
+        >{{$t('global.downLoad')}}</n-button
       >
-      <n-button class="btn-secondary" @click="clearRoute">清除</n-button>
+      <n-button class="btn-secondary" @click="clearRoute" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
     </div>
   </div>
 
@@ -174,25 +172,25 @@ let state = reactive<stateType>({
   itemOptions: [
     {
       index: 1,
-      lable: "添加站点",
+      lable: GlobalLang.add,
       iconName: "icontianjia",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "删除站点",
+      lable: GlobalLang.deleteStation,
       iconName: "iconshanchu",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "恢复",
+      lable: GlobalLang.restore,
       iconName: "iconfuwei",
       isSelect: false,
     },
     {
       index: 4,
-      lable: "保存",
+      lable: GlobalLang.save,
       iconName: "iconbaocun",
       isSelect: false,
     },
@@ -200,19 +198,19 @@ let state = reactive<stateType>({
   actionOptions:[
     {
       index: 1,
-      lable: "播放",
+      lable: GlobalLang.play,
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 2,
-      lable: "暂停",
+      lable: GlobalLang.pause,
       iconName: "iconzanting",
       isSelect: false,
     },
     {
       index: 3,
-      lable: "停止",
+      lable: GlobalLang.stop,
       iconName: "icontingzhi",
       isSelect: false,
     }
@@ -382,7 +380,7 @@ function addStop() {
   if(state.isSaveAutoFlag) saveStop();// 一旦添加站点，立即保存
   let routeLen = state.routeStops.length;
   if(routeLen>0) state.addCurrentStopIndex = state.routeStops[routeLen-1].index+1; // 保证新增的站点index始终比前一位大1
-  message.success(`添加站点:${state.setStopName} 成功`);
+  message.success(`${GlobalLang.addStopSuccess}: ${state.setStopName}`);
   
   if (state.routeStops.length > 0) {
     let len = state.routeStops.length;
@@ -429,7 +427,7 @@ function restStops() {
 function saveStop() {
   if (state.routeStops.length < 2) {
     notification.create({
-      content: () => "节点至少两个才能保存",
+      content: () => GlobalLang.atLeastTwoStop,
       duration: 3500,
     });
     return;
@@ -442,7 +440,7 @@ function saveStop() {
   // let index = flyLineXmls.length + 1;
   let route = {
     // routeName: "飞行路线_1" + index,
-    routeName: "飞行路线_1",
+    routeName: GlobalLang.flyRoute_1,
     index: state.addCurrentRouteIndex,
     speed: state.routeSpeed,
     isAlongLine: "False",

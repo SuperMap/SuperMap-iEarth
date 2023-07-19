@@ -2,26 +2,26 @@
   <div class="analyse-box">
     <n-tabs type="line" animated justify-content="space-between">
       <!-- 通视 -->
-      <n-tab-pane name="sightLine" tab="通视">
+      <n-tab-pane name="sightLine" :tab="$t('global.Intervisibility')">
         <SmAnalyseSightLine></SmAnalyseSightLine>
       </n-tab-pane>
       <!-- 可视域 -->
-      <n-tab-pane name="viewshed" tab="可视域" class="use-scroll">
+      <n-tab-pane name="viewshed" :tab="$t('global.viewableRange')" class="use-scroll">
         <SmAnalyseViewshed></SmAnalyseViewshed>
       </n-tab-pane>
       <!-- 阴影 -->
-      <n-tab-pane name="shadow" tab="阴影">
+      <n-tab-pane name="shadow" :tab="$t('global.ligShadowAnalysisth')">
         <SmAnalyseShadow></SmAnalyseShadow>
       </n-tab-pane>
       <!-- 剖面 -->
-      <n-tab-pane name="profile" tab="剖面">
+      <n-tab-pane name="profile" :tab="$t('global.profile')">
         <SmAnalyseProfile></SmAnalyseProfile>
       </n-tab-pane>
       <!-- 天际线 -->
-      <n-tab-pane name="skyline" tab="天际线">
+      <n-tab-pane name="skyline" :tab="$t('global.Skyline')">
         <SmAnalyseSkyline></SmAnalyseSkyline>
       </n-tab-pane>
-      <n-tab-pane name="facadeImage" tab="立面图">
+      <n-tab-pane name="facadeImage" :tab="$t('global.FacePlot')">
         <SmAnalyseFacadeImage></SmAnalyseFacadeImage>
       </n-tab-pane>
     </n-tabs>

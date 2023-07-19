@@ -21,3 +21,4 @@ declare var viewer : Window.viewer
 // declare var SuperMap3D : Window.SuperMap3D
 declare var SuperMap3D : Window.SuperMap3D
 declare var h337 : Window.h337
+declare var GlobalLang : Window.GlobalLang

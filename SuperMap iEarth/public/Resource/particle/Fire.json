@@ -1,0 +1,206 @@
+{
+    "name": "particles",
+    "id": "particles",
+    "capacity": 10,
+    "disposeOnStop": false,
+    "manualEmitCount": -1,
+    "emitter": [
+        0,
+        2,
+        0
+    ],
+    "particleEmitterType": {
+        "type": "BoxParticleEmitter",
+        "direction1": [0, 1, 0],
+        "direction2": [0, 1, 0],
+        "minEmitBox": [-0.5, 0, 0.5],
+        "maxEmitBox": [0.5, 0, 0.5]
+    },
+    "texture": {
+        "tags": null,
+        "url": "./Resource/particle/texture/Fire_SpriteSheet1_8x8.png",
+        "uOffset": 0,
+        "vOffset": 0,
+        "uScale": 1,
+        "vScale": 1,
+        "uAng": 0,
+        "vAng": 0,
+        "wAng": 0,
+        "uRotationCenter": 1,
+        "vRotationCenter": 1,
+        "wRotationCenter": 1,
+        "homogeneousRotationInUVTransform": false,
+        "isBlocking": true,
+        "name": "https://raw.githubusercontent.com/PatrickRyanMS/BabylonJStextures/master/ParticleSystems/Steam/T_SteamSpriteSheet.png",
+        "hasAlpha": false,
+        "getAlphaFromRGB": false,
+        "level": 1,
+        "coordinatesIndex": 0,
+        "coordinatesMode": 0,
+        "wrapU": 1,
+        "wrapV": 1,
+        "wrapR": 1,
+        "anisotropicFilteringLevel": 4,
+        "isCube": false,
+        "is3D": false,
+        "is2DArray": false,
+        "gammaSpace": true,
+        "invertZ": false,
+        "lodLevelInAlpha": false,
+        "lodGenerationOffset": 0,
+        "lodGenerationScale": 0,
+        "linearSpecularLOD": false,
+        "isRenderTarget": false,
+        "animations": [],
+        "invertY": false,
+        "samplingMode": 3,
+        "_useSRGBBuffer": false
+    },
+    "isLocal": false,
+    "animations": [],
+    "beginAnimationOnStart": false,
+    "beginAnimationFrom": 0,
+    "beginAnimationTo": 60,
+    "beginAnimationLoop": false,
+    "startDelay": 0,
+    "renderingGroupId": 0,
+    "isBillboardBased": true,
+    "billboardMode": 7,
+    "minAngularSpeed": 0,
+    "maxAngularSpeed": 0,
+    "minSize": 6,
+    "maxSize": 8,
+    "minScaleX": 1,
+    "maxScaleX": 1,
+    "minScaleY": 1,
+    "maxScaleY": 1,
+    "minEmitPower": 0,
+    "maxEmitPower": 0,
+    "minLifeTime": 2,
+    "maxLifeTime": 3,
+    "emitRate": 5,
+    "gravity": [
+        0,
+        0,
+        0
+    ],
+    "noiseStrength": [
+        10,
+        10,
+        10
+    ],
+    "color1": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "color2": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "colorDead": [
+        1,
+        1,
+        1,
+        0
+    ],
+    "updateSpeed": 0.016666666666666666,
+    "targetStopDuration": 0,
+    "blendMode": 4,
+    "preWarmCycles": 100,
+    "preWarmStepOffset": 10,
+    "minInitialRotation": -0.1,
+    "maxInitialRotation": 0.1,
+    "startSpriteCellID": 0,
+    "spriteCellLoop": true,
+    "endSpriteCellID": 63,
+    "spriteCellChangeSpeed": 1,
+    "spriteCellWidth": 128,
+    "spriteCellHeight": 128,
+    "spriteRandomStartCell": true,
+    "isAnimationSheetEnabled": true,
+    "colorGradients": [
+        {
+            "gradient": 0,
+            "color1": [
+                1,
+                1,
+                1,
+                0
+            ]
+        },
+        {
+            "gradient": 0.1,
+            "color1": [
+                1,
+                1,
+                1,
+                0.6
+            ]
+        },
+        {
+            "gradient": 0.9,
+            "color1": [
+                1,
+                1,
+                1,
+                0.6
+            ]
+        },
+        {
+            "gradient": 1,
+            "color1": [
+                1,
+                1,
+                1,
+                0
+            ]
+        }
+    ],
+    "rampGradients":
+    [
+        {
+            "gradient": 0,
+            "color":
+            [
+                1,
+                1,
+                1
+            ]
+        },
+        {
+            "gradient": 1,
+            "color":
+            [
+                0.7968,
+                0.3685,
+                0.1105
+            ]
+        }
+    ],
+    "useRampGradients": true,
+    "colorRemapGradients":
+    [
+        {
+            "gradient": 0,
+            "factor1": 0.2,
+            "factor2": 1
+        },
+        {
+            "gradient": 1,
+            "factor1": 0.2,
+            "factor2": 1
+        }
+    ],
+    "textureMask": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "customShader": null,
+    "preventAutoStart": false
+}

@@ -2,47 +2,47 @@
     <!-- 圆柱体 -->
 
     <div class="row-item">
-        <span>短半轴</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
-            <n-slider style="width: 1.5rem" v-model:value="state.semiMinorAxis" :step="20" :min="1" :max="100" />
+        <span>{{$t('global.semiMinorAxis')}}</span>
+        <div class="slider-box" >
+            <n-slider style="width: 1.5rem" v-model:value="state.semiMinorAxis" :step="1" :min="5" :max="100" />
             <span>{{ state.semiMinorAxis }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>长半轴</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
-            <n-slider style="width: 1.5rem" v-model:value="state.semiMajorAxis" :step="1" :min="10" :max="200" />
+        <span>{{$t('global.semiMajorAxis')}}</span>
+        <div class="slider-box" >
+            <n-slider style="width: 1.5rem" v-model:value="state.semiMajorAxis" :step="1" :min="5" :max="200" />
             <span>{{ state.semiMajorAxis }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>拉伸高度</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.stretchingHeight')}}</span>
+        <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.extrudedHeight" :step="10" :min="10" :max="100" />
             <span>{{ state.extrudedHeight }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>粒度</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.granularity')}}</span>
+        <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.granularity" :step="0.1" :min="0.5" :max="2" />
             <span>{{ state.granularity }}</span>
         </div>
     </div>
     <div class="row-item">
-        <span>旋转</span>
-        <div class="slider-box" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.rotate')}}</span>
+        <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.rotation" :step="0.1" :min="0" :max="90" />
             <span>{{ state.rotation }}</span>
         </div>
     </div>
 
     <div class="row-item">
-        <span>颜色</span>
-        <div class="color-pick-box row-content" style="width: 1.96rem;height: 32px;">
+        <span>{{$t('global.color')}}</span>
+        <div class="color-pick-box">
             <n-color-picker v-model:value="state.geometryMaterial" :render-label="() => {
                 return '';
             }
@@ -50,14 +50,14 @@
         </div>
     </div>
     <div class="row-item">
-        <span>绘制模式</span>
-        <n-select style="width: 1.96rem;height: 32px;" v-model:value="state.displayMode" size="small"
+        <span>{{$t('global.drawMode')}}</span>
+        <n-select style="width: 1.96rem" v-model:value="state.displayMode" 
             :options="state.optionsMode" />
     </div>
 
     <div class="btn-row-item">
-        <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">绘制</n-button>
-        <n-button class="btn-secondary" @click="clear">清除</n-button>
+        <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.Draw')}}</n-button>
+        <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
     </div>
 </template>
     
@@ -78,7 +78,7 @@ type stateType = {
 // 初始化数据
 let state = reactive<stateType>({
     // 圆柱体
-    semiMinorAxis: 10,
+    semiMinorAxis: 21,
     semiMajorAxis: 40,
     extrudedHeight: 50,
     granularity: 1,
@@ -87,11 +87,11 @@ let state = reactive<stateType>({
     displayMode: "Fill",
     optionsMode: [
         {
-            label: () => '填充模式',
+            label: () => GlobalLang.fillMode,
             value: "Fill",
         },
         {
-            label: () => '线框模式',
+            label: () => GlobalLang.wireframe,
             value: "Outline",
         }
     ],
@@ -99,14 +99,16 @@ let state = reactive<stateType>({
 
 let ellipseEntity;
 let entities = viewer.entities;
+let targetEntity: any = null;
 
-var handlerPoint_ellipse = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
+let handlerPoint_ellipse = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 
 // 注册绘制圆柱事件
 handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
-    var point = res.object;
-    var position = point.position;
-    var color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
+    let point = res.object;
+    let position = point.position;
+    // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
+    let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
     ellipseEntity = entities.add({
         position: position,
         ellipse: {
@@ -123,13 +125,13 @@ handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
             outlineWidth: 1
         }
     });
+    targetEntity = ellipseEntity;
 });
 
 // 场景中拾取获得选中entity
-var targetEntity: any = null;
-var handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
+let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
 handler.setInputAction(function (e) {
-    var pickedObject = viewer.scene.pick(e.position);
+    let pickedObject = viewer.scene.pick(e.position);
     if (SuperMap3D.defined(pickedObject) && (pickedObject.id instanceof SuperMap3D.Entity)) {
         targetEntity = pickedObject.id;
     } else {
@@ -147,17 +149,58 @@ function add() {
 }
 function clear() {
     deactiveAll();
+    handlerPoint_ellipse.clear();
+    if(handlerPoint_ellipse) handlerPoint_ellipse.clear();
     viewer.entities.removeAll();
+    state.displayMode = 'Fill';
 }
-// 赋值会场景卡死不动，范例上没问题，后面再看
-// watch(
-//     () => state.semiMinorAxis, // 不起效果，而且场景会动不了，但是页面组件随便用
-//     (val) => {
-//         if (targetEntity) {
-//             targetEntity.ellipse['semiMinorAxis'] = val;
-//         }
-//     }
-// );
+// 监听
+watch(
+    () => state.semiMinorAxis,
+    (val) => {
+        if(val > state.semiMajorAxis) state.semiMinorAxis = state.semiMajorAxis - 1;
+        if (targetEntity) {
+            if(val <= state.semiMajorAxis){ // 短半轴不能超过长半轴
+                targetEntity.ellipse['semiMinorAxis'] = val;
+            }
+        }
+    }
+);
+watch(
+    () => state.semiMajorAxis, 
+    (val) => {
+        if(val < state.semiMinorAxis) state.semiMajorAxis = state.semiMinorAxis + 1;
+        if (targetEntity) {
+            if(val >= state.semiMinorAxis){
+                targetEntity.ellipse['semiMajorAxis'] = val;
+            }
+        }
+    }
+);
+watch(
+    () => state.extrudedHeight, 
+    (val) => {
+        if (targetEntity) {
+            targetEntity.ellipse['extrudedHeight'] = val;
+        }
+    }
+);
+watch(
+    () => state.rotation, 
+    (val) => {
+        if (targetEntity) {
+            targetEntity.ellipse['rotation'] =  val ;
+        }
+    }
+);
+watch(
+    () => state.granularity, 
+    (val) => {
+        if (targetEntity) {
+            targetEntity.ellipse['granularity'] =  val * SuperMap3D.Math.RADIANS_PER_DEGREE;
+        }
+    }
+);
 watch(
     () => state.geometryMaterial,
     (val) => {
@@ -190,11 +233,8 @@ onBeforeUnmount(() => {
 </script>
     
     
+    
 <style lang="scss" scoped>
-:deep(.n-slider-handle){
-  background-color: #414141 !important;
-  border: 1.5px solid #3499E5 !important;
-}
 </style>
     
     

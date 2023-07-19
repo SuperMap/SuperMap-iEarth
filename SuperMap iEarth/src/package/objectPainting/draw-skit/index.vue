@@ -1,32 +1,21 @@
 <template>
   <!-- 小品 -->
   <div class="row-item">
-    <span>符号类型</span>
+    <span>{{$t('global.symbolType')}}</span>
     <n-select
       style="width: 1.96rem"
       v-model:value="state.selectedTypeId"
-      size="small"
       :options="state.optionClass"
     />
   </div>
 
   <div class="row-item">
-    <span class="name">符号库</span>
+    <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list-space" style="width: 1.96rem;">
       <div v-for="(model, index) in state.symbolOptionsList.data"
-          :class="model.isSelect ? 'selected-img' : ''"
-          class="icon-span-six"
-          style="width:0.24rem;margin: 0.06rem 0.12rem"
+          :class="model.isSelect ? 'selected-img' : 'normal-img'"
+          style="width:0.4rem;height: 0.4rem;margin: 0.08rem 0.1rem"
       >
-        <!-- <img
-          :key="index"
-          :src="model.thumbnail"
-          :alt="isZH ? model.name : model.nameEN"
-          :title="isZH ? model.name : model.nameEN"
-          v-show="model.name"
-          class="draw-img"
-          @click="changleIconItem(model)"
-        /> -->
         <img
           :key="index"
           :src="model.thumbnail"
@@ -40,7 +29,7 @@
   </div>
 
   <div class="row-item">
-    <span>符号颜色</span>
+    <span>{{$t('global.symbolColor')}}</span>
     <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
       <n-color-picker
         v-model:value="state.symbolColor"
@@ -55,30 +44,27 @@
   </div>
 
   <div class="row-item">
-    <span>添加模式</span>
+    <span>{{$t('global.addMode')}}</span>
     <n-select
       v-model:value="state.addType"
-      size="small"
       :options="state.optionAddWay"
       style="width: 1.96rem"
     />
   </div>
 
   <div class="row-item" v-if="state.addType === 'line'">
-    <span>间距</span>
+    <span>{{$t('global.spacing')}}</span>
     <n-input-number
       v-model:value="state.space"
-      size="small"
       style="width: 1.96rem"
       :min="0.1"
     ></n-input-number>
   </div>
 
   <div class="row-item" v-if="state.addType === 'face'">
-    <span>{{ locale.Amount }}</span>
+    <span>{{$t('global.count')}}</span>
     <n-input-number
       v-model:value="state.density"
-      size="small"
       style="width: 1.96rem"
       :min="1"
     ></n-input-number>
@@ -91,25 +77,21 @@
       text-color="#fff"
       @click="add"
       style="margin-right: 0.1rem"
-      >绘制</n-button
+      >{{$t('global.Draw')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
   
   <script lang="ts" setup>
-import { ref, Ref, reactive, onBeforeUnmount, watch } from "vue";
+import {reactive, onBeforeUnmount, watch } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
-import locale from "@/tools/locateTemp";
 import AddSymbol from "./js/draw-skit";
 import symbolOptions from "./js/skit-config";
 
 const notification = useNotification();
 
-// let isZH: Ref<boolean> = ref(true);
-
-  
 type stateType = {
   selectedTypeId: number, //选中符号类型id
   selectedSymbolId: number, //选中符号id
@@ -136,45 +118,35 @@ let state = reactive<stateType>({
   //   label: () => (isZH.value ? _.name : _.nameEN),
   //   value: i,
   // })),
-  currentModelUrl:'./Resource/skitStore/tree1.s3m',
+  currentModelUrl:"./Resource/skitStore/newTree/001_Platanus.s3mb",
   optionClass:[
     {
-      label:()=>'树木',
+      label:()=>GlobalLang.tree,
       value:0
     },
     {
-      label:()=>'公共设施',
+      label:()=>GlobalLang.facilities,
       value:1
     },
     {
-      label:()=>'交通',
+      label:()=>GlobalLang.traffic,
       value:2
     },
   ],
   optionAddWay: [
     {
-      label: () => locale.AddBypoint,
+      label: () => GlobalLang.singleAdd,
       value: "single",
     },
     {
-      label: () => locale.AddByline,
+      label: () => GlobalLang.lineAdd,
       value: "line",
     },
     {
-      label: () => locale.AddByFace,
+      label: () => GlobalLang.AreaAdd,
       value: "face",
     },
   ],
-  // addTreeModeArr: [
-  //   {
-  //     label: () => "单个添加",
-  //     value: 0,
-  //   },
-  //   {
-  //     label: () => "多个添加",
-  //     value: 1,
-  //   },
-  // ],
   symbolOptionsList:symbolOptions[0],
 });
 
@@ -190,7 +162,7 @@ init();
 // 分析
 function add() {
   notification.create({
-    content: () => locale.DrawSymbolTip,
+    content: () => GlobalLang.editLineTip,
     duration: 3500,
   });
   viewer.eventManager.addEventListener("CLICK", click_symbol, true);
@@ -210,13 +182,6 @@ function add() {
   }
 }
 
-// // 获取符号路径
-// function getPath() {
-//   // let currentData = symbolOptions[state.selectedTypeId].data;
-//   // return currentData[state.selectedSymbolId].path;
-//   // return state.symbolOptionsList.data[state.selectedSymbolId].path;
-//   return state.currentModelUrl;
-// }
 
 //单个添加
 function add_single() {
@@ -346,13 +311,19 @@ onBeforeUnmount(() => {
   
   
   <style lang="scss" scoped>
+  .icon-list-space{
+    display: flex;
+    flex-wrap: wrap;
+  }
   .selected-img{
-    border: 1px solid #3499E5;
+    border: 3px solid #3499E5;
+  }
+  .normal-img{
+    border: 3px solid rgba(#fff,0);
+    // display: inline-block;
   }
   .draw-img{
-    // width: 0.59rem;
-    // width: 22%;
-    height: 0.26rem;
+    height: 100%;
   }
 </style>
   

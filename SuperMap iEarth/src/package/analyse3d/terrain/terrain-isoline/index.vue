@@ -1,44 +1,44 @@
 <template>
   <!-- 等值线 -->
   <div class="row-item">
-    <span>最大可见高程</span>
+    <span>{{$t('global.maximumVisibleElevation')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.fillMaxHeight"
       :show-button="false"
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <div class="row-item">
-    <span>最小可见高程</span>
+    <span>{{$t('global.minimumVisibleElevation')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.fillMinHeight"
       :show-button="false"
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <div class="row-item">
-    <span>等值距</span>
+    <span>{{$t('global.equivalentIsoline')}}</span>
     <n-input-number
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.equivalentIsoline"
       :bordered="false"
       :min="1"
       :max="10000"
       :show-button="false"
     >
-      <template #suffix>米</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
   <div class="row-item">
-    <span>线颜色设置</span>
-    <div class="color-pick-box" style="width: 1.96rem;height: 0.32rem;; margin-left: 0rem">
+    <span>{{$t('global.contourColor')}}</span>
+    <div class="color-pick-box" style="width: 1.96rem;; margin-left: 0rem">
       <n-color-picker
         v-model:value="state.lineColor"
         :render-label="
@@ -52,19 +52,18 @@
   </div>
 
   <div class="row-item">
-    <span>显示模式</span>
+    <span>{{$t('global.displayMode')}}</span>
     <n-select
-      size="small"
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:value="state.fillOptionsSelected"
       :options="state.options"
     />
   </div>
 
   <div class="row-item">
-    <span>编辑分析区域</span>
+    <span>{{$t('global.editArea')}}</span>
     <n-checkbox
-      style="width: 1.96rem;height: 0.32rem;"
+      style="width: 1.96rem;"
       v-model:checked="state.isEdit"
     ></n-checkbox>
   </div>
@@ -76,9 +75,9 @@
       text-color="#fff"
       @click="isoLineAnalysis"
       style="margin-right: 0.1rem"
-      >分析</n-button
+      >{{$t('global.analysis')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
 
@@ -107,19 +106,19 @@ let state = reactive<stateType>({
   isEdit: false, //是否编辑
   options: [
     {
-      label: () => "等高线填充",
+      label: () => GlobalLang.contourLineFill,
       value: 2,
     },
     {
-      label: () => "等高面填充",
+      label: () => GlobalLang.contourFaceFill,
       value: 1,
     },
     {
-      label: () => "等高线和面填充",
+      label: () => GlobalLang.contourAllFill,
       value: 3,
     },
     {
-      label: () => "无颜色表",
+      label: () => GlobalLang.contourNoFill,
       value: 0,
     },
   ],
@@ -151,16 +150,14 @@ function isoLineAnalysis() {
     handlerPolygon = initHandler("Polygon");
   }
 
-  // init();
   handlerPolygon.handlerDrawing().then(
-    (res) => {
+    (res:any) => {
       let positions = tool.CartesiantoDegrees(res.object.positions);
       isolineUpdate(positions);
       isolinePosition = positions;
-      // console.log(handlerPolygon.polygon);
       if (state.isEdit) setEditHandler(handlerPolygon.polygon, isolineUpdate);
     },
-    (err) => {
+    (err:any) => {
       console.log(err);
     }
   );

@@ -1,18 +1,18 @@
 <template>
   <div class="row-item">
-      <span>扫描模式</span>
-        <div style="width: 1.96rem;height: 0.32rem;">
+      <span>{{$t('global.scanMode')}}</span>
+        <div style="width: 1.96rem;">
           <n-radio-group v-model:value="state.scanMode" name="scanMode">
             <n-space>
-              <n-radio :value="0">线状</n-radio>
-              <n-radio :value="1">环状</n-radio>
+              <n-radio :value="0">{{$t('global.lineShape')}}</n-radio>
+              <n-radio :value="1">{{$t('global.circleShape')}}</n-radio>
             </n-space>
           </n-radio-group>
         </div>
     </div>
     <div class="row-item">
-      <span>扫描颜色</span>
-      <div class="color-pick-box" style="width: 1.96rem;height: 0.32rem; margin-left: 0rem">
+      <span>{{$t('global.scanColor')}}</span>
+      <div class="color-pick-box" style="width: 1.96rem;">
         <n-color-picker
           v-model:value="state.scanColor"
           :render-label="
@@ -26,11 +26,10 @@
     </div>
 
     <div class="row-item">
-      <span>扫描纹理</span>
+      <span>{{$t('global.scanTexture')}}</span>
       <n-select
-        style="width: 1.96rem;height: 0.32rem;"
+        style="width: 1.96rem;"
         v-model:value="state.selectedTexture"
-        size="small"
         :options="state.scanTextures"
       />
     </div>
@@ -58,14 +57,14 @@
   </div> -->
 
   <div class="row-item" v-show="state.scanMode === 0">
-      <span>自定义扫描方向</span>
-      <div class="check-box">
+      <span :style="state.currentLanguage=='en'?'width:30%':''">{{$t('global.customScanDirection')}}</span>
+      <div class="check-box" style="width:1.96rem">
         <n-checkbox v-model:checked="state.customDirection"></n-checkbox>
       </div>
     </div>
   <div class="row-item" v-show="state.scanMode === 1">
-      <span>自定义扫描中心</span>
-      <div class="check-box">
+      <span :style="state.currentLanguage=='en'?'width:30%':''">{{$t('global.customScanCenter')}}</span>
+      <div class="check-box" style="width:1.96rem">
         <n-checkbox v-model:checked="state.customCenter"></n-checkbox>
       </div>
     </div>
@@ -77,9 +76,9 @@
       text-color="#fff"
       @click="addScans"
       style="margin-right: 0.1rem"
-      >添加</n-button
+      >{{$t('global.add')}}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
   
@@ -87,7 +86,6 @@
 import { reactive, onBeforeUnmount, watch } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
-import locale from "@/tools/locateTemp";
 
 const notification = useNotification();
 
@@ -103,13 +101,14 @@ type stateType = {
   customDirection:boolean, // 自定义扫描方向
   customCenter:boolean,// 自定义扫描中心
   addTextures:any, // 纹理选项
+  currentLanguage:string
 }
 
 // 初始化数据
 let state = reactive<stateType>({
   scanMode: 0,
   scanColor: "rgba(0,174,255,1)",
-  scanTextures: [{ label: () => locale.NoTexture, value: 0, url: "" }],
+  scanTextures: [{ label: () => '无纹理', value: 0, url: "" }],
   selectedTexture: 0,
   lineWidth: 100, //获取或设置线状扫描线的宽度，单位：米。
   period: 3.0, //获取或设置扫描线的运行周期，单位：秒。
@@ -119,45 +118,47 @@ let state = reactive<stateType>({
   customCenter:true,
   addTextures: [
     {
-      name: "线状纹理1",
+      name: GlobalLang.lineTexture1,
       nameEN: "Linear texture 1",
       type: "line",
       url: "./images/particleSystem/line-1.jpg",
     },
     {
-      name: "线状纹理2",
+      name: GlobalLang.lineTexture2,
       nameEN: "Linear texture 2",
       type: "line",
       url: "./images/particleSystem/line-2.jpg",
     },
     {
-      name: "环状纹理1",
+      name: GlobalLang.ringTexture1,
       nameEN: "Ring texture 1",
       type: "ring",
       url: "./images/particleSystem/ring-1.jpg",
     },
     {
-      name: "环状纹理2",
+      name: GlobalLang.ringTexture2,
       nameEN: "Ring texture 2",
       type: "ring",
       url: "./images/particleSystem/ring-2.jpg",
     },
     {
-      name: "环状六边形纹理",
+      name: GlobalLang.loopedhexagonTexture,
       nameEN: "Looped hexagon texture",
       type: "ring",
       url: "./images/particleSystem/ring-3.jpg",
     },
   ],
+  currentLanguage:window.navigator.language
 });
 let defaultLineTextrues = [
-  { label: () => locale.NoTexture, value: 0, url: "" },
+  { label: () => GlobalLang.noneScanTexture, value: 0, url: "" },
 ];
 let defaultCircleTextrues = [
-  { label: () => locale.NoTexture, value: 0, url: "" },
+  { label: () => GlobalLang.noneScanTexture, value: 0, url: "" },
 ];
 let handlerPolyline;
 
+// 设置纹理
 function setTexturesByProps(isZH: boolean) {
   defaultLineTextrues = defaultLineTextrues.slice(0, 1);
   defaultCircleTextrues = defaultCircleTextrues.slice(0, 1);
@@ -177,8 +178,9 @@ function setTexturesByProps(isZH: boolean) {
   if (state.scanMode < 1) state.scanTextures = defaultLineTextrues;
   else state.scanTextures = defaultCircleTextrues;
 }
-setTexturesByProps(locale.Type === "zh");
+setTexturesByProps('zh' === "zh");
 
+// 初始化
 function init() {
   if (!window.viewer) return;
   viewer.scene.scanEffect.color = SuperMap3D.Color.fromCssColorString(
@@ -194,9 +196,9 @@ function init() {
     0
   );
 }
-
 init();
 
+// 添加线扫描
 function addLineScans(positions) {
   let dir = new SuperMap3D.Cartesian3();
   SuperMap3D.Cartesian3.subtract(positions[1], positions[0], dir); // 获取扫描方向向量
@@ -210,6 +212,7 @@ function addLineScans(positions) {
   state.scanShow = true;
 }
 
+// 添加环状扫描
 function addCircleScans(e) {
   viewer.enableCursorStyle = true;
   document.body.classList.remove("measureCur");
@@ -223,11 +226,12 @@ function addCircleScans(e) {
   viewer.eventManager.removeEventListener("CLICK", addCircleScans);
 }
 
+// 扫描
 function addScans() {
   if (state.scanMode < 1) {
     drawPolyline();
     notification.create({
-      content: () => locale.ScanEffectTip,
+      content: () => GlobalLang.addScanLineTip,
       duration: 3500,
     });
     return;
@@ -238,6 +242,7 @@ function addScans() {
   viewer.eventManager.addEventListener("CLICK", addCircleScans, true);
 }
 
+// 画线
 function drawPolyline() {
   if (!handlerPolyline) {
     handlerPolyline = initHandler("Polyline");
@@ -265,7 +270,6 @@ function clear() {
   if (handlerPolyline) handlerPolyline.clearHandler();
 }
 
-// 监听
 // 监听
 watch(
   () => state.scanShow,
@@ -325,12 +329,14 @@ watch(
   () => state.addTextures,
   (val) => {
     if (typeof val === "object") {
-      setTexturesByProps(locale.Type === "zh");
+      setTexturesByProps('zh' === "zh");
     }
   }
 );
 
-onBeforeUnmount(() => {});
+onBeforeUnmount(() => {
+  clear();
+});
 </script>
   
 
