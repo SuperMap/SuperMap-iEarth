@@ -583,8 +583,11 @@ export const useLayerStore = defineStore({
 					return GlobalLang.stkTerrain;
 				} else {
 					if (baseUrl.indexOf('supermapol.com') != -1) {
-						return baseUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
-					} else {
+						return baseUrl.split('realspace/services/')[1].split('/rest/realspace')[0];
+					} else if (baseUrl.indexOf('iserver/services') != -1) {
+						return baseUrl.split('iserver/services/')[1].split('/rest/realspace')[0];
+					}
+					else {
 						// return '未命名地形';
 						return 'invisible';
 					}
@@ -601,7 +604,7 @@ export const useLayerStore = defineStore({
 				// return '无地形';
 				return 'invisible';
 			}
-		},
+		},	
 
 		// 更新已勾选选项
 		updateSelectedOption(selectedOption:any){
