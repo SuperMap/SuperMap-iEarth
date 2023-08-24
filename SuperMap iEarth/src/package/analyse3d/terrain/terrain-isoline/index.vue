@@ -105,7 +105,7 @@ let state = reactive<stateType>({
   lineColor: "rgba(255,128,64,1)", //颜色
   isEdit: false, //是否编辑
   options: [
-    {
+  {
       label: () => GlobalLang.contourLineFill,
       value: 2,
     },
@@ -121,17 +121,17 @@ let state = reactive<stateType>({
       label: () => GlobalLang.contourNoFill,
       value: 0,
     },
-  ],
+  ]
 });
 
 // 初始化数据
-let handlerPolygon, editHandler, isolinePosition, hyp, colorTable;
+let handlerPolygon,editHandler, isolinePosition,hyp,colorTable;
 
-function init() {
+init();
+function init(){
   hyp = new SuperMap3D.HypsometricSetting();
   colorTable = new SuperMap3D.ColorTable(); //建立颜色表
   colorTableInit(colorTable);
-  // hyp.DisplayMode = SuperMap3D.HypsometricSettingEnum.DisplayMode.LINE; //显示模式
   hyp.DisplayMode = state.fillOptionsSelected; //显示模式
   hyp._lineColor = SuperMap3D.Color.fromCssColorString(state.lineColor);
   hyp.LineInterval = Math.floor(state.equivalentIsoline);
@@ -140,22 +140,22 @@ function init() {
   hyp.ColorTableMinKey = 2736.88110351563;
   hyp.ColorTableMaxKey = 5597.06640625;
   hyp.ColorTable = colorTable;
-  // hyp.Opacity = 0.4;
-}
-init();
+// hyp.Opacity = 0.4;
 
-// 等值线分析
+}
+
 function isoLineAnalysis() {
   if (!handlerPolygon) {
     handlerPolygon = initHandler("Polygon");
   }
 
+  init();
   handlerPolygon.handlerDrawing().then(
     (res:any) => {
       let positions = tool.CartesiantoDegrees(res.object.positions);
       isolineUpdate(positions);
       isolinePosition = positions;
-      if (state.isEdit) setEditHandler(handlerPolygon.polygon, isolineUpdate);
+      if (state.isEdit) setEditHandler(handlerPolygon.polygon,isolineUpdate);
     },
     (err:any) => {
       console.log(err);
@@ -163,17 +163,16 @@ function isoLineAnalysis() {
   );
   handlerPolygon.activate();
 }
-
 // 更新
 function isolineUpdate(p:any) {
   if (!p || p.length == 0) return;
   hyp.CoverageArea = p;
   viewer.scene.globe.HypsometricSetting = {
     hypsometricSetting: hyp,
-    analysisMode:
-      SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_REGION,
+    analysisMode: SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_REGION
   };
 }
+
 // 设置编辑handle
 function setEditHandler(entity:any, callback:any) {
   handlerPolygon.polygon.show = true;
@@ -189,6 +188,7 @@ function setEditHandler(entity:any, callback:any) {
     editHandler.setEditObject(entity);
   }
 }
+
 
 // 创建颜色表
 function colorTableInit(colorTable:any) {
@@ -258,33 +258,30 @@ function rgbaNum(rgba, index) {
   return val[index];
 }
 
+
 // 清除
 function clear() {
   if (handlerPolygon) handlerPolygon.clearHandler();
   if (editHandler) editHandler.clear();
+  state.isEdit = false;
   viewer.scene.globe.HypsometricSetting = undefined;
   hyp && (hyp.MaxVisibleValue = -1000);
   hyp && (hyp.MinVisibleValue = -1000);
   isolinePosition = undefined;
-  // clearEditHandler("Polygon");
 
-  // hyp.destroy();
   hyp = new SuperMap3D.HypsometricSetting();
-  // colorTable.destroy();
-  // hyp = undefined;
-  // colorTable = undefined;
 }
 //监听
 watch(
   () => state.fillMaxHeight,
-  (val: any) => {
+  (val:any) => {
     hyp.MaxVisibleValue = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
 );
 watch(
   () => state.fillMinHeight,
-  (val: any) => {
+  (val:any) => {
     hyp.MinVisibleValue = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
@@ -292,14 +289,15 @@ watch(
 
 watch(
   () => state.equivalentIsoline,
-  (val: any) => {
+  (val:any) => {
     hyp.LineInterval = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
 );
 watch(
   () => state.lineColor,
-  (val: any) => {
+  (val:any) => {
+
     let color = SuperMap3D.Color.fromCssColorString(val);
     if (color) hyp._lineColor = color;
     if (isolinePosition) isolineUpdate(isolinePosition);
@@ -307,7 +305,7 @@ watch(
 );
 watch(
   () => state.fillOptionsSelected,
-  (val: any) => {
+  (val:any) => {
     switch (val) {
       case 0:
         {
@@ -341,19 +339,23 @@ watch(
 );
 watch(
   () => state.isEdit,
-  (val) => {
+  val => {
     if (val) {
-      if (handlerPolygon && handlerPolygon.polygon)
-        setEditHandler(handlerPolygon.polygon, isolineUpdate);
-    } else if (editHandler) editHandler.clear();
+      if(handlerPolygon && handlerPolygon.polygon)
+      setEditHandler(handlerPolygon.polygon,isolineUpdate);
+    } else if(editHandler) editHandler.clear();
   }
 );
 
+
 // 销毁
 onBeforeUnmount(() => {
+  clear();
   hyp.destroy();
   colorTable.destroy();
   hyp = undefined;
   colorTable = undefined;
 });
+
 </script>
+
