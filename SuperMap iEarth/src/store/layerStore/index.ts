@@ -532,49 +532,49 @@ export const useLayerStore = defineStore({
 
 		// 传入影像图层，获取并返回他在项目中的名称
 		getImageryLayerName(imageryLayer: any) {
-			// let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
-			// // if (!imageUrl) return window.LangGlobal.global.lnglatMap;
-			// if (imageUrl.indexOf("earth-skin.jpg") != -1) {
-			// 	return "默认影像"
-			// }
-			// let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
-			// if (targetItem) {
-			// 	return targetItem.name;
-			// } else if (imageUrl) {
-			// 	if (imageUrl.indexOf("realspace/datas/") != -1) {
-			// 		let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
-			// 		return otherImageLayerName;
-			// 	} else {
-			// 		// return window.LangGlobal.global.unnamedLayer;
-			// 	}
-			// } else {
-			// 	// return window.LangGlobal.global.unnamedLayer;
-			// }
-
 			let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
 
-			if(!imageUrl) return GlobalLang.lnglatMap;
-		
-			if(imageUrl.indexOf("earth-skin.jpg")!=-1){
+			if (!imageUrl) return GlobalLang.lnglatMap;
+
+			if (imageUrl.indexOf("earth-skin.jpg") != -1) {
 				return GlobalLang.defaultImage;
 			}
-		
+
+			// 项目底图
 			let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
 			if (targetItem) {
 				return GlobalLang[targetItem.type];
-			}else if(imageUrl){
-			//    let otherImageLayerName = imageUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
-		
-				if(imageUrl.indexOf("realspace/datas/")!=-1){
+			} else if (imageUrl) {
+				if (imageUrl.indexOf("realspace/datas/") != -1) {
 					let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
 					return otherImageLayerName;
-				}else{
+				} else {
 					return 'Unnamed';
 				}
-			}else{
+			}
+
+			// 网络底图
+			if (imageryLayer._imageryProvider.tablename) {
+				let tableName = imageryLayer._imageryProvider.tablename;
+				if (tableName.indexOf('http') === -1) {
+					if (tableName.indexOf('%') != -1) {
+						let newName = tableName.split('%')[0];
+						return newName;
+					}
+					// 支持地图服务
+					if (tableName.indexOf('/maps/') != -1) {
+						let newName = tableName.split('/maps/')[1].replace('/', '');
+						return newName;
+					}
+					return tableName;
+				} else {
+					return 'Unnamed';
+				}
+			} else {
 				return 'Unnamed';
 			}
 		},
+
 		// 获取地形图层名称
 		getTerrainLayerName(): any {
 			if (window.viewer.terrainProvider._baseUrl) {
@@ -604,7 +604,7 @@ export const useLayerStore = defineStore({
 				// return '无地形';
 				return 'invisible';
 			}
-		},	
+		},		
 
 		// 更新已勾选选项
 		updateSelectedOption(selectedOption:any){
