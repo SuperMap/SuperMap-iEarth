@@ -68,6 +68,7 @@ let state = reactive<stateType>({
 let frustumEntity;
 let entities = viewer.entities;
 let handlerPoint_frustum = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
+let targetEntity: any = null;
 
 //注册绘制椎体事件
 handlerPoint_frustum.drawEvt.addEventListener(function (res) {
@@ -82,23 +83,23 @@ handlerPoint_frustum.drawEvt.addEventListener(function (res) {
             topRadius: 0.0,
             bottomRadius: 20.0,
             material: color,
-            fill: true,
-            outline: false,
+            fill: state.displayMode === 'Fill',
+            outline: state.displayMode === 'Outline',
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
     });
+    targetEntity = frustumEntity;
 });
 
 // 场景中拾取获得选中entity
-let targetEntity: any = null;
 let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
 handler.setInputAction(function (e) {
     let pickedObject = viewer.scene.pick(e.position);
     if (SuperMap3D.defined(pickedObject) && (pickedObject.id instanceof SuperMap3D.Entity)) {
         targetEntity = pickedObject.id;
     } else {
-        targetEntity = null;
+        // targetEntity = null;
     }
 }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 
