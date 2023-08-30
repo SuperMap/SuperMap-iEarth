@@ -79,6 +79,7 @@ let state = reactive<stateType>({
 
 let boxEntity;
 let entities = viewer.entities;
+let targetEntity: any = null;
 
 let handlerPoint_box = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 //注册绘制长方体事件
@@ -92,23 +93,23 @@ handlerPoint_box.drawEvt.addEventListener(function (res) {
         box: {
             dimensions: new SuperMap3D.Cartesian3(20.0, 20.0, 20.0),
             material: color,
-            fill: true,
-            outline: false,
+            fill: state.displayMode === 'Fill',
+            outline: state.displayMode === 'Outline',
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
     });
+    targetEntity = boxEntity;
 });
 
 // 场景中拾取获得选中entity
-let targetEntity: any = null;
 let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
 handler.setInputAction(function (e) {
     let pickedObject = viewer.scene.pick(e.position);
     if (SuperMap3D.defined(pickedObject) && (pickedObject.id instanceof SuperMap3D.Entity)) {
         targetEntity = pickedObject.id;
     } else {
-        targetEntity = null;
+        // targetEntity = null;
     }
 }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 

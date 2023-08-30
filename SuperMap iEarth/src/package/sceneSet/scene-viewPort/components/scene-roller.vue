@@ -338,6 +338,8 @@ watch(
   val => {
     switch (val) {
       case "noRoller":
+        state.lrRoller = 1;
+        state.tbRoller = 4;
         enableSlider(0);
         cancelLayersRoller(false);
         break;
@@ -363,6 +365,7 @@ watch(
 watch(
   () => state.lrRoller,
   val => {
+    if(state.selectedType === 'noRoller') return;
     rollerShutterConfig.mode = Number(val);
     setRollerShutterSplit();
   }
@@ -370,6 +373,7 @@ watch(
 watch(
   () => state.tbRoller,
   val => {
+    if(state.selectedType === 'noRoller') return;
     rollerShutterConfig.mode = Number(val);
     setRollerShutterSplit();
   }

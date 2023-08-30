@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.supermap.ispeco.apps</groupId>
   <artifactId>webjar-earth-v2</artifactId>
-  <version>11.1.1-SNAPSHOT</version>
+  <version>11.2.0-SNAPSHOT</version>
   <distributionManagement>
     <!-- use the following if you're not using a snapshot version. -->
     <repository>

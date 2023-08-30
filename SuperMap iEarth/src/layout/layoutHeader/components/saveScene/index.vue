@@ -53,7 +53,7 @@
                   {{$t('global.save')}}
                 </n-button>
                 <n-button attr-type="button" @click="close">
-                  {{$t('global.save')}}
+                  {{$t('global.cancle')}}
                 </n-button>
               </n-space>
             </n-form-item>

@@ -271,8 +271,10 @@ function openExistScene() {
   
       switch (terrainType) {
         case "StkTerrain":
-          let isSctFlag = false;
-          if(content.layers.terrainLayer[0].url.indexOf("8090") != -1) isSctFlag = true;
+          let isSctFlag = true;
+          // 是否为iServer发布的TIN地形服务,stk地形设置为false。
+          // if(content.layers.terrainLayer[0].url.indexOf("8090") != -1) isSctFlag = true;
+          if(content.layers.terrainLayer[0].url.indexOf("/info/") != -1) isSctFlag = false; // 目前以"/info/"来判断是否为stk地形
           viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
             url: content.layers.terrainLayer[0].url,
             isSct: isSctFlag

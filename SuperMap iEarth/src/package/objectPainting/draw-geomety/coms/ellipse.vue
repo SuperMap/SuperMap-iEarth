@@ -99,9 +99,8 @@ let state = reactive<stateType>({
 
 let ellipseEntity;
 let entities = viewer.entities;
-let targetEntity: any = null;
-
 let handlerPoint_ellipse = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
+let targetEntity: any = null;
 
 // 注册绘制圆柱事件
 handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
@@ -119,8 +118,8 @@ handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
             material: color,
             granularity: SuperMap3D.Math.RADIANS_PER_DEGREE,
             rotation: 0,
-            fill: true,
-            outline: false,
+            fill: state.displayMode === 'Fill',
+            outline: state.displayMode === 'Outline',
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
@@ -135,7 +134,7 @@ handler.setInputAction(function (e) {
     if (SuperMap3D.defined(pickedObject) && (pickedObject.id instanceof SuperMap3D.Entity)) {
         targetEntity = pickedObject.id;
     } else {
-        targetEntity = null;
+        // targetEntity = null;
     }
 }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 
