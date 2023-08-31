@@ -63,6 +63,7 @@ const global = {
   customService: "CustomService",
   onlineBaseMap: "BaseMap",
   onlineTerrain: "Terrain",
+  portalService: "MyServer",
 
   // 操作面板-三维分析
   clip: 'Clip', // 内嵌

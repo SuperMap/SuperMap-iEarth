@@ -21,16 +21,23 @@
       <n-tab-pane name="onlineTerrain" :tab="$t('global.onlineTerrain')">
         <SmLayerTerrain></SmLayerTerrain>
       </n-tab-pane>
+      <!-- 我的服务 -->
+      <n-tab-pane name="portalService" :tab="$t('global.portalService')" v-if="IportalStore.isLogin">
+        <SmPortalService></SmPortalService>
+      </n-tab-pane>
     </n-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
+import { IportalStoreCreate } from "@/store/iportalManage/index";
 import SmLayerService from "./layer-service/index";
 import SmLayerCustom from "./layer-custom/index";
 import SmLayerBase from "./layer-base/index";
 import SmLayerTerrain from "./layer-terrain/index";
+import SmPortalService from "./layer-mine/index";
 
+const IportalStore = IportalStoreCreate();
 </script>
 
 <style lang="scss" scoped>

@@ -62,6 +62,7 @@ const global = {
   customService: "自定义服务",
   onlineBaseMap: "在线底图",
   onlineTerrain: "在线地形",
+  portalService: "我的服务",
 
   // 操作面板-三维分析
   clip: '裁剪', // 内嵌
