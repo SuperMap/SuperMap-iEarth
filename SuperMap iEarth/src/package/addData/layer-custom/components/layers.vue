@@ -225,9 +225,9 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
   SuperMap3D.when.all(
     promiseArray,
     function (layers: any) {
-      for (let i = 0; i < layers.length; i++) {
-        layers[i]._visibleDistanceMax = 16000;
-      }
+      // for (let i = 0; i < layers.length; i++) {
+      //   layers[i]._visibleDistanceMax = 16000;
+      // }
       if (isSCP) {
         viewer.flyTo(layers[0]);
         layerStore.updateLayer({ type: "s3m" });
