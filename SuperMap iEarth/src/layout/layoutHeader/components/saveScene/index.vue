@@ -161,7 +161,13 @@ function checkLayers() {
 
   layers["terrainLayer"] = saveTerrain(); //地形图层
 
-  layers["SelectedOptions"] = layerStore.SelectedOptions;
+  layers["SelectedOptions"] = layerStore.SelectedOptions; // 选择的项目
+
+  layers["sceneAttrState"] = layerStore.sceneAttrState; // 场景属性状态
+  
+  layers["particleOptions"] = layerStore.particleOptions; // 三维特效 - 粒子
+
+  layers["layerStyleOptions"] = layerStore.layerStyleOptions; // s3m图层风格
 
   return layers;
 }

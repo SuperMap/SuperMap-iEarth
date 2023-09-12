@@ -103,14 +103,17 @@ export const usePanelStore = defineStore({
                 item.isSelected = false;
             })
 
-            this.rightTooPanel = true;
-            this.panelList.rightToolBarList.map((item:any) => {
-                if (item.id == iconItem.id) {
-                    item.isSelected = true;
-                } else {
-                    item.isSelected = false;
-                }
-            })
+            // 确保所有面板能全部刷新
+            setTimeout(()=>{
+                this.rightTooPanel = true;
+                this.panelList.rightToolBarList.map((item:any) => {
+                    if (item.id == iconItem.id) {
+                        item.isSelected = true;
+                    } else {
+                        item.isSelected = false;
+                    }
+                })
+            },10)
         },
         // 关闭弹窗面板
         closeRightToolPanel(leftOrRght: any) {

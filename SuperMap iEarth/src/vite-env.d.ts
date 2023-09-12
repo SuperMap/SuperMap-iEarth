@@ -14,6 +14,7 @@ declare interface Window {
   axios: any,
   editHandler:any,
   LangGlobal:any, // 全局语言管理
+  EarthGlobal:any
 }
 
 //全局声明Cesium和viewer
@@ -22,3 +23,4 @@ declare var viewer : Window.viewer
 declare var SuperMap3D : Window.SuperMap3D
 declare var h337 : Window.h337
 declare var GlobalLang : Window.GlobalLang
+declare var EarthGlobal : Window.EarthGlobal

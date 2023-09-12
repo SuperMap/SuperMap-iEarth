@@ -17,6 +17,7 @@ const { isViewer } = storeToRefs(GlobalStore);
 
 onMounted(() => initViewer());
 
+window.EarthGlobal = {};
 //初始化viewer
 let viewer;
 function initViewer() {

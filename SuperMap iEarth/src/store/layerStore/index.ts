@@ -125,7 +125,7 @@ export const useLayerStore = defineStore({
 				// 	thumbnail: "./images/addData/CBD.jpg",
 				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
 				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-				// 	name: "global.BeijingCBD",
+				// 	name: "global.originCBD",
 				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 				// 	chooseType: false
 				// },
@@ -249,6 +249,32 @@ export const useLayerStore = defineStore({
 		skyBoxShow:false,
 		layerChangeCount:0,
 		s3mLayerSelectIndex:0,
+		sceneAttrState: {
+			earthShow: true, //地球显隐
+			shadow: true, //场景阴影
+			sunShow: false, //太阳
+			depthInspection: true,//深度检测
+			atomsphereRender: false, //大气渲染
+			fogEffect: false, //雾化效果
+			cloudLayer: false,//云层
+			skyBoxShow: true,//天空盒
+			timeAxis: false,//时间轴
+			displayFrame: false,//显示帧率
+
+			showUnderground: false,// 显示地下
+			surfaceTransparency: 1,//地表透明度
+
+			brightness: 1,// 亮度
+			contrast: 1,// 对比度
+			hue: 0,// 色调
+			saturation: 1,// 饱和度
+		},
+		particleOptions: {
+			fire: null,
+			water: null,
+			fireWork: null,
+		},
+		layerStyleOptions: {}
 	}),
 	getters: {
 	},
@@ -364,6 +390,27 @@ export const useLayerStore = defineStore({
 					isShow: true
 				});
 			});
+
+			// 专门处理阴影
+			if (this.sceneAttrState.shadow === true) {
+
+				window.viewer.shadows = true;
+				// UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
+				window.viewer.pcss = true;
+				window.viewer.shadowQuality = 0;
+				//设置阴影的出现距离
+				window.viewer.scene.shadowMap.maximumDistance = 2000;
+				//设置阴影的浓度，值越高，阴影越淡
+				window.viewer.shadowMap.darkness = 0.4
+				//默认值是0.1，值越小越清晰
+				window.viewer.shadowMap.penumbraRatio = 0.1
+
+				let layers = window.viewer.scene.layers.layerQueue;
+				for (var i = 0; i < layers.length; i++) {
+					// 设置图层的阴影模式
+					layers[i].shadowType = 2;
+				}
+			}
 
 			// 刷新影像图层
 			viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
@@ -637,6 +684,319 @@ export const useLayerStore = defineStore({
 			}
 
 			console.log(" this.layerServiceData:", this.layerServiceData);
+		},
+
+		// 设置当前场景属性
+		setSceneAttr(sceneAttrState: any) {
+			// console.log("content.layers.sceneAttrState:", sceneAttrState);
+			for (let key in sceneAttrState) {
+				this.sceneAttrSwitch(key, sceneAttrState[key]);
+			}
+		},
+
+		sceneAttrSwitch(key: string, value: boolean | number) {
+			switch (key) {
+				case "atomsphereRender":
+					window.viewer.scene.skyAtmosphere.show = value;
+					break;
+				case "depthInspection":
+					window.viewer.scene.globe.depthTestAgainstTerrain = value;
+					break;
+				case "displayFrame":
+					window.viewer.scene.debugShowFramesPerSecond = value;
+					break;
+				case "earthShow":
+					window.viewer.scene.globe.show = value;
+					break;
+				case "fogEffect":
+					window.viewer.scene.fog.enabled = value;
+					break;
+				case "shadow":
+					if (value) {
+						window.viewer.shadows = true;
+						// UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
+						window.viewer.pcss = true;
+						window.viewer.shadowQuality = 0;
+						//设置阴影的出现距离
+						window.viewer.scene.shadowMap.maximumDistance = 2000;
+						//设置阴影的浓度，值越高，阴影越淡
+						window.viewer.shadowMap.darkness = 0.4
+						//默认值是0.1，值越小越清晰
+						window.viewer.shadowMap.penumbraRatio = 0.1
+					} else {
+						window.viewer.shadows = false;
+					}
+					break;
+				case "sunShow":
+					window.viewer.scene.globe.enableLighting = value;
+					break;
+				case "timeAxis":
+					let timeline = document.getElementsByClassName(
+						"supermap3d-viewer-timelineContainer"
+					)[0] as HTMLElement;
+					if (value) {
+						timeline.style.visibility = "visible";
+						timeline.style['z-index'] = 99999999999;
+					} else {
+						timeline.style.visibility = "hidden";
+					}
+					break;
+				case "brightness":
+					window.viewer.scene.colorCorrection.show = true; // 场景颜色开关打开
+					window.viewer.scene.colorCorrection.brightness = value;
+					break;
+				case "contrast":
+					window.viewer.scene.colorCorrection.show = true;
+					window.viewer.scene.colorCorrection.contrast = value;
+					break;
+				case "hue":
+					window.viewer.scene.colorCorrection.show = true;
+					window.viewer.scene.colorCorrection.hue = value;
+					break;
+				case "saturation":
+					window.viewer.scene.colorCorrection.show = true;
+					window.viewer.scene.colorCorrection.saturation = value;
+					break;
+				case "surfaceTransparency":
+					window.viewer.scene.globe.globeAlpha = value;
+					break;
+			};
+		},
+
+		// 设置场景特效 - 粒子系统
+		setParticle(particleOptions) {
+			if (particleOptions['fire'] != null) {
+				let fireOption = particleOptions['fire'];
+				this.addParticleFile(fireOption, 'fire');
+			}
+			if (particleOptions['water'] != null) {
+				let waterOption = particleOptions['water'];
+				this.addParticleFile(waterOption, 'water');
+			}
+			if (particleOptions['fireWork'] != null) {
+				let fireWorkOption = particleOptions['fireWork'];
+				this.addFireWork(fireWorkOption);
+			}
+		},
+		// 添加场景中已保存的粒子
+		addParticleFile(options: any, type: string) {
+			let modelMatrix_fire = new SuperMap3D.Matrix4();
+			SuperMap3D.Transforms.eastNorthUpToFixedFrame(options.particlePosition, undefined, modelMatrix_fire);
+			this.loadParticleFile(options.particleUrl, modelMatrix_fire, type, options.particleAttr);
+		},
+		// 加载粒子文件
+		loadParticleFile(url: string, modelMatrix: any, type: string, option?: any) {
+			let particle: any = {};
+			let scene = window.viewer.scene;
+			SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
+				particle = particleSystem;
+				particle.modelMatrix = modelMatrix;
+				// 设置参数
+				if (option) {
+					for (let key in option) {
+						switch (key) {
+							case "emitRate":
+								particle['emitRate'] = Number(option[key]);
+								break;
+							case "minLifeTime":
+								particle['minLifeTime'] = Number(option[key]);
+								break;
+							case "maxLifeTime":
+								particle['maxLifeTime'] = Number(option[key]);
+								break;
+							case "minEmitPower":
+								particle['minEmitPower'] = Number(option[key]);
+								break;
+							case "maxEmitPower":
+								particle['maxEmitPower'] = Number(option[key]);
+								break;
+							case "minSize":
+								particle['minSize'] = Number(option[key]);
+								break;
+							case "maxSize":
+								particle['maxSize'] = Number(option[key]);
+								break;
+							case "minScaleX":
+								particle['minScaleX'] = Number(option[key]);
+								break;
+							case "minScaleY":
+								particle['minScaleY'] = Number(option[key]);
+								break;
+							case "maxScaleX":
+								particle['maxScaleX'] = Number(option[key]);
+								break;
+							case "maxScaleY":
+								particle['maxScaleY'] = Number(option[key]);
+								break;
+							case "gravity":
+								particle.gravity = new SuperMap3D.Cartesian3(0, 0, Number(option[key]));
+								break;
+							case "emitType":
+								switch (option[key]) {
+									case "Cone":
+										particle.createConeEmitter(1.0, 1.05);
+										break;
+									case "Sphere":
+										particle.createSphereEmitter(1.0);
+										break;
+									case "Box":
+										let direction1 = new SuperMap3D.Cartesian3(-1, 1, 1);
+										let direction2 = new SuperMap3D.Cartesian3(1, 1, -1);
+										let minBox = new SuperMap3D.Cartesian3(-10, 0, -10);
+										let maxBox = new SuperMap3D.Cartesian3(10, 0, 10);
+										particle.createBoxEmitter(direction1, direction2, minBox, maxBox);
+										break;
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+
+				window.EarthGlobal[type] = particle;
+			});
+
+		},
+		// 添加烟花
+		addFireWork(fireWorkOption) {
+			let modelMatrix = new SuperMap3D.Matrix4();
+			let clickHandle, setIntervalList: any[] = [], particleSystemList: any[] = [];
+			let scene = window.viewer.scene;
+			scene.skyAtmosphere = new SuperMap3D.SkyAtmosphere();
+			scene.globe.show = false
+			scene.skyAtmosphere.show = false; //关闭大气
+
+			let sparkOneUrl = './Resource/particle/babylon/sparkGravityOne.json';
+			let sparkTwoUrl = './Resource/particle/babylon/sparkGravityTwo.json';
+			let sparkThreeUrl = './Resource/particle/babylon/sparkGravityThree.json';
+			let sparkFourUrl = './Resource/particle/babylon/sparkGravityFour.json';
+
+			let numberOfSparks = 8;
+			let xMin = -2100.0;
+			let xMax = 300.0;
+			let yMin = 0.0;
+			let yMax = 2000.0;
+			let zMin = 150.0;
+			let zMax = 550.0;
+			// 创建烟花
+			let sparkInterval = (xMax - xMin) / numberOfSparks;
+
+			function createSpark() {
+				for (let i = 0; i < numberOfSparks; ++i) {
+					let x = SuperMap3D.Math.randomBetween(xMin + i * sparkInterval, xMin + (i + 1) * sparkInterval);
+					let y = SuperMap3D.Math.randomBetween(yMin, yMax);
+					let z = SuperMap3D.Math.randomBetween(zMin, zMax);
+					let offset = new SuperMap3D.Cartesian3(x, y, z);
+					let url = '';
+					if (i % 4 === 0)
+						url = sparkOneUrl;
+					if (i % 4 === 1)
+						url = sparkTwoUrl;
+					if (i % 4 === 2)
+						url = sparkThreeUrl;
+					if (i % 4 === 3)
+						url = sparkFourUrl;
+					SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
+						settingParticleSys(particleSystem, offset, i);
+					});
+				}
+			}
+
+			// 设置当前粒子系统
+			function settingParticleSys(particleSystem, offset, index) {
+
+				// 添加多个
+				particleSystem.modelMatrix = modelMatrix;
+				particleSystem.worldOffset.x = offset.x;
+				particleSystem.worldOffset.y = offset.y;
+				particleSystem.worldOffset.z = offset.z;
+				let setIntervalFlag = setInterval(() => {
+					particleSystem.start();
+				}, 2000 + index * 50);
+				scene.primitives.add(particleSystem);
+				setIntervalList.push(setIntervalFlag);
+
+				window.EarthGlobal["fireWork"] = setIntervalList;
+			}
+
+			function addSpark(centerPosition) {
+				SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
+				createSpark();
+			}
+
+			addSpark(fireWorkOption.fireWorkPosition);
+		},
+
+		removeParticle() {
+			if (window.EarthGlobal["fire"]) {
+				window.viewer.scene.primitives.remove(window.EarthGlobal["fire"]);
+			}
+			if (window.EarthGlobal["water"]) {
+				window.viewer.scene.primitives.remove(window.EarthGlobal["fire"]);
+			}
+		},
+		// 设置保存的图层属性
+		setLayerStyle(layerStyleOptions) {
+			console.log("layerStyleOptions:", layerStyleOptions);
+			let keys = Object.keys(layerStyleOptions);
+			for (let i = 0; i < keys.length; i++) {
+				let layerName = keys[i];
+				let layerStyleOption = layerStyleOptions[layerName];
+				let currentLayer = window.viewer.scene.layers.find(layerName);
+				if (!currentLayer) return;
+				for (let key in layerStyleOption) {
+					let lineColor = layerStyleOption["lineColor"];
+					this.layerStyleSwitch(currentLayer, key, layerStyleOption[key], lineColor);
+				}
+			}
+		},
+
+		layerStyleSwitch(currentLayer: any, key: string, value: string | number, lineColor: string) {
+			switch (key) {
+				case "foreColor":
+					currentLayer.style3D.fillForeColor = SuperMap3D.Color.fromCssColorString(value);
+					break;
+				case "lineColor":
+					currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(value);
+					break;
+				case "selectedColor":
+					currentLayer.selectedColor = SuperMap3D.Color.fromCssColorString(value);
+					break;
+				case "selectColorMode":
+					currentLayer.selectColorType = value;
+					break;
+				case "bottomAltitude":
+					currentLayer.style3D.bottomAltitude = Number(value);
+					currentLayer.refresh();
+					break;
+				case "layerTrans":
+					currentLayer.style3D.fillForeColor.alpha = Number(value);
+					break;
+				case "fillStyle":
+					if (currentLayer) {
+						switch (value) {
+							case 0:
+								currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.Fill;
+								break;
+							case 1:
+								currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.WireFrame;
+								currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(lineColor);
+								break;
+							case 2:
+								currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.Fill_And_WireFrame;
+								currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(lineColor);
+								break;
+							default:
+								break;
+						}
+						currentLayer.refresh();
+					}
+					break;
+				default:
+					break;
+			}
+
 		}
 	}
 

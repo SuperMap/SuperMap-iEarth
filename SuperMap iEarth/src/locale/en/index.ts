@@ -523,6 +523,7 @@ const global = {
    * 图片资源名称 - 演示
    * */
   BeijingCBD: "BeijingCBD",
+  originCBD: "OriginCBD(Test)",
   SophiaChurch: "SophiaChurch",
   MountEverest: "MountEverest",
   BIMBuilding: "BIMBuilding",

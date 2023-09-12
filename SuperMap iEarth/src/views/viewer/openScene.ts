@@ -105,6 +105,16 @@ function openExistScene() {
           layerStore.SelectedOptions = content.layers.SelectedOptions;
           layerStore.updateSelectedOption(content.layers.SelectedOptions);
         }
+        // 将sceneAttrState传入
+        if (content.layers.sceneAttrState) {
+          layerStore.sceneAttrState = content.layers.sceneAttrState;
+          layerStore.setSceneAttr(content.layers.sceneAttrState)
+        }
+        // 将particleOptions传入
+        if (content.layers.particleOptions) {
+          layerStore.particleOptions = content.layers.particleOptions;
+          layerStore.setParticle(content.layers.particleOptions)
+        }
       }
       let cameraX = content.camera.position.x;
       let cameraY = content.camera.position.y;
@@ -121,6 +131,12 @@ function openExistScene() {
   
         // GlobalStore.SceneLayerChangeCount++;
         layerStore.refreshLayerTree();
+
+        // 将layerStyleOptions传入 - 需要等layer都加载完在设置图层风格
+        if (content.layers.layerStyleOptions) {
+          layerStore.layerStyleOptions = content.layers.layerStyleOptions;
+          layerStore.setLayerStyle(content.layers.layerStyleOptions)
+        }
       }, 3000);
     } else if (response.data.url) {
   

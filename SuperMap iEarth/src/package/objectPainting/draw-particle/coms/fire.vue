@@ -72,8 +72,10 @@
 </template>
     
 <script lang="ts" setup>
-import { reactive, onBeforeUnmount, watch } from "vue";
+import { reactive, onMounted,onBeforeUnmount, watch } from "vue";
+import { useLayerStore } from "@/store/index";
 
+const layerStore = useLayerStore();
 const scene = viewer.scene;
 
 // 初始化数据
@@ -93,20 +95,55 @@ let fireUrl: string = './Resource/particle/Fire.json';
 let modelMatrix = new SuperMap3D.Matrix4();
 let particle,clickHandle;
 
-// onMounted(() => {
-//   init();
-// })
+onMounted(() => {
+  init();
+})
 
-// function init() {
-//   loadParticleFile(fireUrl);
-// }
+function init() {
+  if(window.EarthGlobal && window.EarthGlobal["fire"]){
+      particle = window.EarthGlobal["fire"];
+  }
 
+  if(layerStore.particleOptions.fire){
+    let option = layerStore.particleOptions.fire['particleAttr'];
+    if(option) switchCase(option);
+  }
+}
 
 // 加载粒子文件
-function loadParticleFile(url) {
+function loadParticleFile(url:string,option?:any) {
   SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
     particle = particleSystem;
     particle.modelMatrix = modelMatrix;
+    
+    // 设置参数
+    if (option) {
+      for (let key in option) {
+        switch (key) {
+          case "emitRate":
+            particle['emitRate'] = Number(option[key]);
+            break;
+          case "minLifeTime":
+            particle['minLifeTime'] = Number(option[key]);
+            break;
+          case "maxLifeTime":
+            particle['maxLifeTime'] = Number(option[key]);
+            break;
+          case "minEmitPower":
+            particle['minEmitPower'] = Number(option[key]);
+            break;
+          case "maxEmitPower":
+            particle['maxEmitPower'] = Number(option[key]);
+            break;
+          case "minSize":
+            particle['minSize'] = Number(option[key]);
+            break;
+          case "maxSize":
+            particle['maxSize'] = Number(option[key]);
+            break;
+        }
+      }
+    }
     // scene.primitives.add(particle); // 注释避免删除报错
     // particle.start();
   });
@@ -114,28 +151,73 @@ function loadParticleFile(url) {
 
 // 立体火焰 环形火 爆炸火 喷泉
 function add() {
+  clear();
   clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandle.setInputAction(function (click) {
     let centerPosition = viewer.scene.pickPosition(click.position);
     SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
     loadParticleFile(fireUrl);
+    layerStore.particleOptions['fire'] = {
+      particleUrl:fireUrl,
+      particlePosition:centerPosition,
+      particleAttr:{}
+    };
+
+    // let options = {
+    //   particleUrl:fireUrl,
+    //   particlePosition:centerPosition
+    // }
+    // layerStore.addParticleFile(options);
     clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-function clear() {
-  // particle.clearAll();
+function clear(flag=true) {
   if (!SuperMap3D.defaultValue(particle)) return;
   scene.primitives.remove(particle);
-  // clickHandle.distory();
-  // scene.primitives.removeAll();
+  if(flag) layerStore.particleOptions['fire'] = null;
 };
+
+// 设置参数
+function switchCase(option:any) {
+  for (let key in option) {
+    switch (key) {
+      case "emitRate":
+        state.emitRate = Number(option[key]);
+        break;
+      case "gravity":
+        state.gravity = Number(option[key]);
+        break;
+      case "minLifeTime":
+        state.lifeRange[0] = Number(option[key]);
+        break;
+      case "maxLifeTime":
+        state.lifeRange[1] = Number(option[key]);
+        break;
+      case "minEmitPower":
+        state.speedRange[0] = Number(option[key]);
+        break;
+      case "maxEmitPower":
+        state.speedRange[1] = Number(option[key]);
+        break;
+      case "minSize":
+        state.scaleRange[0] = Number(option[key]);
+        break;
+      case "maxSize":
+        state.scaleRange[1] = Number(option[key]);
+        break;
+      default:
+        break;
+    }
+  }
+}
 
 watch(
   () => state.emitRate,
   val => {
     if (!particle) return;
     particle['emitRate'] = Number(val);
+    layerStore.particleOptions['fire']['particleAttr']['emitRate'] = Number(val);
   }
 );
 
@@ -146,6 +228,8 @@ watch(
       // console.log("生命周期:",val);
       particle["minLifeTime"] = Number(val[0]);
       particle["maxLifeTime"] = Number(val[1]);
+      layerStore.particleOptions['fire']['particleAttr']['minLifeTime'] = Number(val[0]);
+      layerStore.particleOptions['fire']['particleAttr']['maxLifeTime'] = Number(val[1]);
     }
   }
 );
@@ -157,6 +241,8 @@ watch(
       // console.log("速度范围:",val);
       particle["minEmitPower"] = Number(val[0]);
       particle["maxEmitPower"] = Number(val[1]);
+      layerStore.particleOptions['fire']['particleAttr']['minEmitPower'] = Number(val[0]);
+      layerStore.particleOptions['fire']['particleAttr']['maxEmitPower'] = Number(val[1]);
     }
   }
 );
@@ -168,13 +254,15 @@ watch(
       // console.log("比例范围:",val);
       particle["minSize"] = Number(val[0]);
       particle["maxSize"] = Number(val[1]);
+      layerStore.particleOptions['fire']['particleAttr']['minSize'] = Number(val[0]);
+      layerStore.particleOptions['fire']['particleAttr']['maxSize'] = Number(val[1]);
     }
   }
 );
 
 
 onBeforeUnmount(() => {
-  clear();
+  clear(false);
 });
 
 </script>
