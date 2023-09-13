@@ -25,7 +25,7 @@
   
   <script lang="ts" setup>
   import { ref, reactive ,watch} from "vue";
-  import openSceneMinify from "./js/openSceneMinify.js"
+  import openSceneMinify from "./js/openSceneMinify"
   import { useLayerStore } from "@/store/layerStore";
 
   const layerStore = useLayerStore();
@@ -62,7 +62,7 @@
     //   // }
     // }
 
-    console.log("layerStore.layerStyleOptions:",layerStore.layerStyleOptions);
+    console.log(`查看${state.layerUrl}：`,layerStore[state.layerUrl]);
     // console.log("layerStore.particleOptions:",layerStore.particleOptions);
   
   }
@@ -126,8 +126,8 @@
         "hue": -0.3,
         "saturation": 2.8
       }
-      layerStore.sceneAttrState = attr;
-    layerStore.setSceneAttr(attr)
+    //   layerStore.sceneAttrState = attr;
+    // layerStore.setSceneAttr(attr)
 
     // 场景风格
     let style = {
@@ -162,8 +162,8 @@
         "fillStyle": 0
     }
     }
-    // layerStore.layerStyleOptions = style;
-    // layerStore.setLayerStyle(style);
+    layerStore.layerStyleOptions = style;
+    layerStore.setLayerStyle(style);
 
     // 测试粒子系统
     let obj = {

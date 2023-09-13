@@ -93,6 +93,11 @@ function openScene(response) {
           layers[i].shadowType = 2;
         }
       }
+
+      // 将layerStyleOptions传入 - 需要等layer都加载完在设置图层风格
+      if (content.layers.layerStyleOptions) {
+        setLayerStyle(content.layers.layerStyleOptions)
+      }
     }, 3000);
   } else if (response.data.url) {
 
@@ -461,6 +466,70 @@ function loadParticleFile(url, modelMatrix, type, option) {
       }
     }
   });
+
+}
+
+// 设置保存的图层属性
+function setLayerStyle(layerStyleOptions) {
+  console.log("layerStyleOptions:", layerStyleOptions);
+  let keys = Object.keys(layerStyleOptions);
+  for (let i = 0; i < keys.length; i++) {
+    let layerName = keys[i];
+    let layerStyleOption = layerStyleOptions[layerName];
+    let currentLayer = window.viewer.scene.layers.find(layerName);
+    if (!currentLayer) return;
+    for (let key in layerStyleOption) {
+      let lineColor = layerStyleOption["lineColor"];
+      layerStyleSwitch(currentLayer, key, layerStyleOption[key], lineColor);
+    }
+  }
+}
+
+// 根据option内容中每个属性赋值
+function layerStyleSwitch(currentLayer, key, value, lineColor) {
+  switch (key) {
+    case "foreColor":
+      currentLayer.style3D.fillForeColor = SuperMap3D.Color.fromCssColorString(value);
+      break;
+    case "lineColor":
+      currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(value);
+      break;
+    case "selectedColor":
+      currentLayer.selectedColor = SuperMap3D.Color.fromCssColorString(value);
+      break;
+    case "layerTrans":
+      currentLayer.style3D.fillForeColor.alpha = Number(value);
+      break;
+    case "selectColorMode":
+      currentLayer.selectColorType = value;
+      break;
+    case "bottomAltitude":
+      currentLayer.style3D.bottomAltitude = Number(value);
+      currentLayer.refresh();
+      break;
+    case "fillStyle":
+      if (currentLayer) {
+        switch (value) {
+          case 0:
+            currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.Fill;
+            break;
+          case 1:
+            currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.WireFrame;
+            currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(lineColor);
+            break;
+          case 2:
+            currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.Fill_And_WireFrame;
+            currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(lineColor);
+            break;
+          default:
+            break;
+        }
+        currentLayer.refresh();
+      }
+      break;
+    default:
+      break;
+  }
 
 }
 

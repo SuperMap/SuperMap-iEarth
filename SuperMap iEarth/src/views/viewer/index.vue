@@ -1,5 +1,14 @@
 <template>
-  <div id="superMapContainer"></div>
+    <div id="superMapContainer"></div>
+  
+    <!-- 新版表格弹窗 - s3m图层列表:属性查询 -->
+    <!-- <div id="bubbleNew" class="bubble" style="bottom:0;left:82%;" v-show="layerStore.isDisplayBubble">
+        <div id="tools" style="text-align : right">
+            <span  style="color: rgb(95, 74, 121);padding: 5px;position: absolute;left: 10px;top: 4px;">对象属性</span>
+            <span  class="fui-cross" title="关闭" id="close" style="color: darkgrey;padding:5px"></span>
+        </div>
+        <div style="overflow-y:scroll;height:150px" id="tableContainer"><table id="tab"></table></div>
+    </div>  -->
 </template>
 
 <script lang="ts" setup>
@@ -7,6 +16,7 @@ import { onMounted, onBeforeUnmount, watch, reactive } from "vue";
 import EventManager from "@/tools/ScreenEventManage/EventManager.js";
 import { GlobalStoreCreate } from '@/store/global/global';
 import { IportalStoreCreate } from "@/store/iportalManage/index";
+import { useLayerStore } from "@/store/layerStore";
 import { storeToRefs } from 'pinia';
 import openScene from "./openScene"
 import layerManagement from "@/tools/layerManagement";
@@ -14,6 +24,7 @@ import layerManagement from "@/tools/layerManagement";
 const IportalStore = IportalStoreCreate();
 const GlobalStore = GlobalStoreCreate();
 const { isViewer } = storeToRefs(GlobalStore);
+const layerStore = useLayerStore();
 
 onMounted(() => initViewer());
 
@@ -50,7 +61,7 @@ function initViewer() {
   )[0];
   timelineDom.style.visibility = "hidden";
 
-  
+
   // 其他设置
   window["viewer"] = viewer; //绑定到window
   GlobalStore.isViewer = true; // viewer初始化完成标志
@@ -75,15 +86,11 @@ function initViewer() {
     })
   );
 
-  // 开启云层
-  let cloudBoxUrl = './images/sceneProperties/clouds/clouds1.png';
-  let cloudBox = new SuperMap3D.CloudBox({ url:cloudBoxUrl });
-  viewer.scene.cloudBox = cloudBox;
 
-  // 开启太阳
-  viewer.scene.globe.enableLighting = true;
+  // 开启太阳 - 开启太阳有时候会导致一些场景加载不出来，比如http://10.10.4.90:8090/iserver/services/3D-Mine_Minerales3DV2/rest/realspace
+  // viewer.scene.globe.enableLighting = true;
 
-  layerManagement.setSkyBox(true);
+  // layerManagement.setSkyBox(true);
 
   // 设置皮肤，影像图层的效果
   // earthSkinImgLayer.brightness = 0.5; // > 1.0 增加亮度  < 1.0减少亮度
@@ -114,11 +121,32 @@ function initViewer() {
       GlobalStore.isEditMode = true;
       console.log("当前环境：IPortal-编辑模式");
       GlobalStore.isNormalMode = false;
-      
+
       openScene.openExistScene();
     }
   }
   getCreateOrEditScene();
+
+  // 设置场景
+  setTimeout(() => {
+    // 云层
+    let cloudBoxUrl = './images/sceneProperties/clouds/clouds1.png';
+    let cloudBox = new SuperMap3D.CloudBox({ url: cloudBoxUrl });
+    if (layerStore.sceneAttrState.cloudLayer) {
+      viewer.scene.cloudBox = cloudBox;
+    } else {
+      viewer.scene.cloudBox = null;
+    }
+
+    // 天空盒
+    if (layerStore.sceneAttrState.skyBoxShow) {
+      layerManagement.setSkyBox(true);
+    } else {
+      layerManagement.setSkyBox(false);
+    }
+
+    layerStore.setSceneAttr(layerStore.sceneAttrState);
+  }, 1000)
 }
 
 // 销毁

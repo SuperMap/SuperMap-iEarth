@@ -56,6 +56,8 @@ const global = {
   layerOpration: '图层操作',
   layerAttribute: '图层属性',
   layerStyle: '图层风格',
+  layerQuery: '属性查询',
+  mapQuery: '地图查询',
 
   // 操作面板-添加数据
   publicService: "公共服务",
@@ -79,7 +81,7 @@ const global = {
   FacePlot: '立面图',
 
   // 裁剪
-  boxClip: 'Box裁剪',  
+  boxClip: 'Box裁剪',
   planeClip: '平面裁剪',
   crossClip: 'Cross裁剪',
   polygonClip: '多边形裁剪',
@@ -196,8 +198,8 @@ const global = {
   createFlyRoute: '创建飞行路线',
   addedStops: '已添站点',
   downLoad: '下载',
-  addStopSuccess:'添加站点成功',
-  atLeastTwoStop:'至少需要两个节点才能保存',
+  addStopSuccess: '添加站点成功',
+  atLeastTwoStop: '至少需要两个节点才能保存',
 
   //操作面板-灯光
   symbolLibrary: '符号库',
@@ -330,6 +332,7 @@ const global = {
   width: '宽度',
   length: '长度',
   height: '高度',
+  distence: "距离",
   Xradius: 'X半径',
   Yradius: 'Y半径',
   Zradius: 'Z半径',
@@ -356,6 +359,14 @@ const global = {
   //按钮
   query: '查询',
 
+  // 视频投放
+  videoFileSet: '视频投放',
+  videoSet: '投放',
+  visibleVideoLine: '显示视频投放线',
+  localVideoPath: '请选择视频文件',
+  videoPath: '视频地址',
+  deleteVideo: '请删除当前投放视频',
+
   // 图层列表
   isShow: '显隐',
   rapidLocate: '快速定位',
@@ -370,6 +381,7 @@ const global = {
   imgLayer: '影像图层',
   mvtLayer: 'MVT图层',
   terrainLayer: '地形图层',
+  wmtsLayer: 'wmts服务',
   sure: '确定',
   cancle: '取消',
   analysis: '分析',
@@ -404,6 +416,7 @@ const global = {
   localFilePath: '请选择本地KML数据',
   localFilePathFly: '请选择本地fpf文件',
   chooseFile: '选择',
+  selectableLayers: '可选图层',
 
   urlIsNull: '图层URL不能为空，请输入URL !',
   urlCheckedsuccess: '图层URL校验成功',
@@ -507,18 +520,79 @@ const global = {
   layerTransparency: '图层透明度',
   reset: '重置',
   fillBothMode: '填充和线框模式',
+  attrSaveOk:'图层属性保存成功',
 
   // 图层操作
-  qxModel: '倾斜摄影模型',
+  qxModel: '开挖与压平',
   offSet: '偏移',
   layerColor: '图层颜色',
   excavate: '开挖',
   flatten: '压平',
+  onQXModel: '该功能只支持倾斜摄影三维模型',
   offsetMode: '操作模式',
   offsetX: '沿X轴偏移',
   offsetY: '沿Y轴偏移',
   offsetZ: '沿Z轴偏移',
   selected: '选中',
+
+  // 属性查询
+  dataServerUrl: "数据服务",
+  dataSourceName: '数据源',
+  inputServerUrl: '请输入该图层数据服务URL',
+  inputSourceName: '请输入该图层对应数据源',
+  queryResult: '查询结果',
+  inputUrlName: '请填入该图层查询所需的数据服务和对应数据源',
+  bindInfoOK: "绑定成功，请点击模型查询信息",
+  hadBind: "该图层已绑定数据源",
+  noData: "暂无数据",
+
+  // 地图查询
+  mapDataUrl: "数据服务",
+  datasetName: "数据集",
+  attributeList: '属性表',
+  listTotal_s:'属性表(共计',
+  listTotal_e:'个要素)',
+  chooseFieldTip:'选择待过滤的字段',
+  filter:'过滤',
+  shpQueryTip:' 指定数据查询(查询数据务必与地图服务坐标系一致)',
+  clickQuery: '点选查询',
+  clearEntityTip:'清除球面绘制的图形',
+  refreshData:'刷新数据',
+  mydata:'我的数据',
+  queryPlaceHolder:"请输入选择字段过滤关键字",
+  queryWait: '正在查询请稍等',
+  resouceName:'资源名称',
+  resouceType:'资源类型',
+  createTime:'创建时间',
+  mapQueryTip:'请输入数据服务URL和对应数据集',
+  clickQueryClose:'点选功能已关闭',
+  clickQueryCloseTip:'鼠标点击获取要素信息，右键可关闭点选',
+  dataFiltering:'过滤数据中...',
+  recently:'不久前',
+  chooseField:'选择字段',
+  filterFiledTip:'属性表显示字段筛选',
+
+  // 我的服务-iportal
+  getData: '获取数据中，请稍后',
+  serviceName: '服务名称',
+  resourceSubType: '服务类型',
+  updateTime: '更新时间',
+  serviceUrl: '服务链接',
+  year: '年',
+  month: '月',
+  day: '日',
+  yearsAgo: ' 年前',
+  monthsAgo: ' 月前',
+  weeksAgo: ' 周前',
+  daysAgo: ' 天前',
+  hoursAgo: ' 小时前',
+  minutesAgo: '分钟前',
+  secondsAgo: '刚刚',
+
+  // message
+  layerExistMsg: '该图层已经存在，请勿重复加载!',
+  imgUrlErrorMsg: '影像服务URL错误，影像加载失败！',
+  scpUrlErrorMsg: 'SCP URL地址错误，S3M图层加载失败！',
 
   /**
    * 图片资源名称 - 演示
@@ -534,7 +608,7 @@ const global = {
   JingJinMVT: "京津地区MVT",
   ChongqingBaimo: "重庆白模",
   YokohamaBaimo: "横滨白模",
-  transformerStation: '变电站',
+  transformerStation: '石油厂站',
 
   LocalImage: '本地图片',
   BingMap: '必应底图',
@@ -542,12 +616,12 @@ const global = {
   OSM: 'OSM底图',
   GRIDIMAGERY: '经纬底图',
 
-
   SuperMapOnlineTerrain: '超图在线地形',
   TiandituTerrain: '天地图地形',
   STKTerrain: 'STK地形',
 
-
+  // Tip
+  qxModelTip:'该功能只支持倾斜摄影三维模型'
 }
 
 export default {

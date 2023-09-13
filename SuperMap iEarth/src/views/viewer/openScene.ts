@@ -2,13 +2,11 @@ import { reactive, onMounted } from "vue"
 import { useMessage } from "naive-ui"
 import { IportalStoreCreate } from "@/store/index";
 import { usePanelStore } from "@/store/panelStore/index";
-import { GlobalStoreCreate } from '@/store/global/global';
 import { getRootUrl, isIportalProxyServiceUrl, getHostName } from "@/tools/iportal/portalTools";
 import layerManagement from "@/tools/layerManagement";
 import { useLayerStore } from "@/store/layerStore";
 
 const IportalStore = IportalStoreCreate();
-const GlobalStore = GlobalStoreCreate();
 const panelStore = usePanelStore();
 const message = useMessage();
 const layerStore = useLayerStore();
@@ -105,16 +103,25 @@ function openExistScene() {
           layerStore.SelectedOptions = content.layers.SelectedOptions;
           layerStore.updateSelectedOption(content.layers.SelectedOptions);
         }
+        // 将layerQueryOptions传入
+        if(content.layers.layerQueryOptions){
+          layerStore.layerQueryOptions = content.layers.layerQueryOptions;
+        }
+        // 将mapQueryOptions传入
+        if(content.layers.mapQueryOptions){
+          layerStore.mapQueryOptions = content.layers.mapQueryOptions;
+        }
         // 将sceneAttrState传入
-        if (content.layers.sceneAttrState) {
+        if(content.layers.sceneAttrState){
           layerStore.sceneAttrState = content.layers.sceneAttrState;
           layerStore.setSceneAttr(content.layers.sceneAttrState)
         }
         // 将particleOptions传入
-        if (content.layers.particleOptions) {
+        if(content.layers.particleOptions){
           layerStore.particleOptions = content.layers.particleOptions;
           layerStore.setParticle(content.layers.particleOptions)
         }
+
       }
       let cameraX = content.camera.position.x;
       let cameraY = content.camera.position.y;
@@ -129,7 +136,6 @@ function openExistScene() {
           }
         });
   
-        // GlobalStore.SceneLayerChangeCount++;
         layerStore.refreshLayerTree();
 
         // 将layerStyleOptions传入 - 需要等layer都加载完在设置图层风格
@@ -159,7 +165,6 @@ function openExistScene() {
         setTrustedServers(url);
         viewer.scene.addS3MTilesLayerByScp(url, { name: name });
   
-        // GlobalStore.SceneLayerChangeCount++;
         layerStore.updateLayer({ type: "s3m" });
       }
     }
@@ -214,53 +219,10 @@ function openExistScene() {
             default:
               break;
           }
-          // GlobalStore.SceneLayerChangeCount++;
           layerStore.updateLayer({ type: "imagery" });
     
           viewer.imageryLayers.addImageryProvider(imageryProvider);
         }
-        
-        // let imageryType = content.layers.imageryLayer[i].type;
-        // switch (imageryType) {
-        //   case "BingMapsImageryProvider":
-        //     imageryProvider = new SuperMap3D.BingMapsImageryProvider({
-        //       url: content.layers.imageryLayer[i].url,
-        //       key: state.key
-        //       // key: "Aq0D7MCY5ErORA9vrwFtfE9aancUq5J6uNjw0GieF0ostaIrVuJZ8ScXxNHHvEwS",
-        //     });
-        //     break;
-        //   case "TiandituImageryProvider":
-        //     imageryProvider = new SuperMap3D.TiandituImageryProvider({
-        //       url: content.layers.imageryLayer[i].url,
-        //       // token: this.token
-        //       token: content.layers.imageryLayer[i].token
-        //     });
-        //     break;
-        //   case "SingleTileImageryProvider":
-        //     imageryProvider = new SuperMap3D.SingleTileImageryProvider({
-        //       url: content.layers.imageryLayer[i].url
-        //     });
-        //     break;
-        //   case "UrlTemplateImageryProvider":
-        //     imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
-        //       url: content.layers.imageryLayer[i].url
-        //     });
-        //     break;
-        //   case "SuperMapImageryProvider":
-        //     imageryProvider = new SuperMap3D.SuperMapImageryProvider({
-        //       url: content.layers.imageryLayer[i].url
-        //     });
-        //     break;
-        //   case "GRIDIMAGERY":
-        //     imageryProvider = new SuperMap3D.TileCoordinatesImageryProvider();
-        //     break;
-        //   default:
-        //     break;
-        // }
-        // // GlobalStore.SceneLayerChangeCount++;
-        // layerStore.updateLayer({ type: "imagery" });
-  
-        // viewer.imageryLayers.addImageryProvider(imageryProvider);
       }
     }
   
@@ -282,7 +244,6 @@ function openExistScene() {
       let url = content.layers.terrainLayer[0].url;
       setTrustedServers(url);
   
-      // GlobalStore.SceneLayerChangeCount++;
       layerStore.updateLayer({ type: "terrain" });
   
       switch (terrainType) {

@@ -1,15 +1,21 @@
 <template>
   <div class="row-item">
     <span>{{$t('global.address')}}</span>
-    <n-input
-      class="add-input-border"
-      v-model:value="sceneUrl"
-      type="text"
-      style="width: 2.4rem"
-      :placeholder="sceneUrlPlaceholder"
-      :title="sceneUrl"
-      @input="handleChange"
-    />
+
+    
+    <n-tooltip placement="top-end" trigger="hover">
+        <template #trigger>
+          <n-input
+            class="add-input-border"
+            v-model:value="sceneUrl"
+            type="text"
+            style="width: 2.4rem"
+            :title="sceneUrl"
+            @input="handleChange"
+          />
+        </template>
+        {{urlTip}}
+      </n-tooltip>
   </div>
 
   <div style="margin-left: 0.62rem; margin-bottom: 0.1rem">
@@ -41,7 +47,7 @@ import { ref } from "vue";
 import layerManagement from "@/tools/layerManagement";
 
 let sceneUrl = ref("");
-let sceneUrlPlaceholder = "http://www.supermapol.com/realspace/services/3D-CBD-2/rest/realspace";
+let urlTip = "http://<server>:<port>/realspace/services/<component>/rest/realspace";
 let sceneToken = ref("");
 let token = ref(false);
 

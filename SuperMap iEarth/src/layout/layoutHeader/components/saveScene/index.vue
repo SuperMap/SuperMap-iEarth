@@ -163,6 +163,10 @@ function checkLayers() {
 
   layers["SelectedOptions"] = layerStore.SelectedOptions; // 选择的项目
 
+  layers["layerQueryOptions"] = layerStore.layerQueryOptions; // s3m图层绑定的查询数据源信息
+
+  layers["mapQueryOptions"] = layerStore.mapQueryOptions; // 地图查询绑定的数据源信息
+  
   layers["sceneAttrState"] = layerStore.sceneAttrState; // 场景属性状态
   
   layers["particleOptions"] = layerStore.particleOptions; // 三维特效 - 粒子
@@ -349,7 +353,6 @@ function createAndSaveScene() {
     enableFog: viewer.scene.fog.enabled
   };
   data.version = "2.0";
-  // data.SelectedOptions = layerStore.SelectedOptions; // 打开场景后无法返回该SelectedOptions属性
   let saveData = {
     name: name,
     tags: tagsArray,

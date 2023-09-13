@@ -38,6 +38,7 @@ import SmLayerTerrain from "./layer-terrain/index";
 import SmPortalService from "./layer-mine/index";
 
 const IportalStore = IportalStoreCreate();
+
 </script>
 
 <style lang="scss" scoped>

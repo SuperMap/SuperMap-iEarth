@@ -118,7 +118,7 @@
   function updateLayers() {
     layers = viewer.scene.layers.layerQueue;
     if (!layers || layers.length < 1) {
-      state.s3mlayers = [{ label: () => '暂无图层', value: 0 }];
+      state.s3mlayers = [{ label: () => GlobalLang.noLayer, value: 0 }];
       return;
     }
     state.s3mlayers.length = 0;

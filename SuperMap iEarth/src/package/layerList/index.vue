@@ -94,12 +94,31 @@ function setOptionsByType(type: string) {
         icon: () => h("i", { class: "iconfont icontuceng" }, ""),
       },
       {
+        label: GlobalLang.layerQuery,
+        key: 10,
+        icon: () => h("i", { class: "iconfont iconsousuo" }, ""),
+      },
+      {
         label: GlobalLang.remove,
         key: 5,
         icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849" }, ""),
       },
     ]
-  } else if (type === 'mvt') {
+  }else if (type === 'imagery'){
+    return [
+      {
+        label:GlobalLang.mapQuery,
+        key: 11,
+        icon: () => h("i", { class: "iconfont icondituchaxun" }, ""),
+      },
+      {
+        label: GlobalLang.remove,
+        key: 5,
+        icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849" }, ""),
+      },
+    ]
+  } 
+  else if (type === 'mvt') {
     return [
       {
         label: GlobalLang.rapidLocate,
@@ -218,6 +237,12 @@ function setDropdownAction(option: any, key: number) {
         new SuperMap3D.EllipsoidTerrainProvider();
       layerStore.removeLayer(option);
     }
+  }
+  else if (key === 10) {
+    panelStore.setRightToolBarList({ id: 10 });
+  }
+  else if (key === 11) {
+    panelStore.setRightToolBarList({ id: 11 });
   }
 }
 </script>

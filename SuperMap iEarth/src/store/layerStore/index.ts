@@ -1,4 +1,5 @@
 import { isTemplateNode } from '@vue/compiler-core';
+import { number } from 'echarts/core';
 import { update } from 'lodash';
 // import layerManagement from "@/tools/layerManagement";
 import { defineStore } from 'pinia'
@@ -116,7 +117,8 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/BDZ.jpg",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BianDianZhan0614/rest/realspace",
+					// proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BianDianZhan0614/rest/realspace", // old 太慢了
+					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-0725RVM/rest/realspace",
 					name: "global.transformerStation",
 					chooseType: false
 				},
@@ -241,14 +243,16 @@ export const useLayerStore = defineStore({
 			},
 		],
 		MVTLayerNameList: [], // 用来存储添加到场景中MVT图层的名称，在删除MVT图层时会用到
-		SelectedOptions:{ // 用来存储已添加到场景中的服务（名称）
-			publicService:[],
-			baseMap:[],
-			onlineTerrain:[],
+		SelectedOptions: { // 用来存储已添加到场景中的服务（名称）
+			publicService: [],
+			baseMap: [],
+			onlineTerrain: [],
 		},
-		skyBoxShow:false,
-		layerChangeCount:0,
-		s3mLayerSelectIndex:0,
+		skyBoxShow: false,
+		layerChangeCount: 0,
+		s3mLayerSelectIndex: 0,
+		layerQueryOptions: [],
+		mapQueryOptions: [],
 		sceneAttrState: {
 			earthShow: true, //地球显隐
 			shadow: true, //场景阴影
@@ -263,18 +267,19 @@ export const useLayerStore = defineStore({
 
 			showUnderground: false,// 显示地下
 			surfaceTransparency: 1,//地表透明度
-
+			
 			brightness: 1,// 亮度
 			contrast: 1,// 对比度
 			hue: 0,// 色调
 			saturation: 1,// 饱和度
 		},
-		particleOptions: {
-			fire: null,
-			water: null,
-			fireWork: null,
+		particleOptions:{ //粒子特效保存
+			fire:null,
+			water:null,
+			fireWork:null,
 		},
-		layerStyleOptions: {}
+		layerStyleOptions:{}, // 图层风格保存
+		isDisplayBubble:false, // 是否显示弹窗
 	}),
 	getters: {
 	},
@@ -299,12 +304,9 @@ export const useLayerStore = defineStore({
 					this.layerTreeData[1].children = [];
 					viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
 						let imageryLayerName = this.getImageryLayerName(imageryLayer);
-						// console.log("imageryLayerName：",imageryLayerName);
-						// console.log("this.layerTreeData[1].children",this.layerTreeData[1].children);
-						if(imageryLayerName === 'Unnamed') return;
+						if (imageryLayerName === 'Unnamed') return;
 						let flag = this.checkImageryRepeat(imageryLayerName);
-						// console.log("flag-update",flag);
-						if(!flag){
+						if (!flag) {
 							this.layerTreeData[1].children.push({
 								label: imageryLayerName,
 								key: "2-" + String(index),
@@ -332,10 +334,10 @@ export const useLayerStore = defineStore({
 				case "terrain":
 					this.layerTreeData[3].children = [];
 					// 地形只加一个
-					if(viewer.terrainProvider.name){
+					if (viewer.terrainProvider.name) {
 						this.layerTreeData[3].children.push({
 							label: option.label,
-							key: "2-0",
+							key: "4-0",
 							type: "terrain",
 							children: undefined,
 							isShow: true
@@ -349,14 +351,14 @@ export const useLayerStore = defineStore({
 
 			// 专门处理地形
 			let terrainLayerName = viewer.terrainProvider.name
-			if(!terrainLayerName || ['超图在线地形','天地图地形','STK地形'].indexOf(terrainLayerName) === -1){
-				this.layerServiceData.onlineTerrainLayerList.forEach((item:any) => {
+			if (!terrainLayerName || ['超图在线地形', '天地图地形', 'STK地形'].indexOf(terrainLayerName) === -1) {
+				this.layerServiceData.onlineTerrainLayerList.forEach((item: any) => {
 					item.chooseType = false;
 				});
 			}
 		},
 		// 刷新图层
-		refreshLayerTree(){
+		refreshLayerTree() {
 			this.layerTreeData = [
 				{
 					key: "1",
@@ -415,7 +417,7 @@ export const useLayerStore = defineStore({
 			// 刷新影像图层
 			viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
 				let imageryLayerName = this.getImageryLayerName(imageryLayer);
-				if(imageryLayerName === 'Unnamed') return;
+				if (imageryLayerName === 'Unnamed') return;
 				this.layerTreeData[1].children.push({
 					label: imageryLayerName,
 					key: "2-" + String(index),
@@ -438,10 +440,10 @@ export const useLayerStore = defineStore({
 
 			// 刷新地形图层
 			let terrainLayerName = this.getTerrainLayerName();
-			if(terrainLayerName!='invisible'){
+			if (terrainLayerName != 'invisible') {
 				this.layerTreeData[3].children.push({
 					label: terrainLayerName,
-					key: "2-0",
+					key: "4-0",
 					type: "terrain",
 					children: undefined,
 					isShow: true
@@ -464,11 +466,11 @@ export const useLayerStore = defineStore({
 					this.layerTreeData[1].children.map((S3Mlayer: any, index: string) => {
 						if (S3Mlayer.key == option.key) {
 							let item = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.title === option.label);
-							if(item){
+							if (item) {
 								item.chooseType = false;
 								let key = item.name;
 								let delIndex = this.SelectedOptions.baseMap.indexOf(key);
-								if(delIndex != -1) this.SelectedOptions.baseMap.splice(delIndex,1);
+								if (delIndex != -1) this.SelectedOptions.baseMap.splice(delIndex, 1);
 							}
 							this.layerTreeData[1].children.splice(index, 1);
 						}
@@ -487,9 +489,9 @@ export const useLayerStore = defineStore({
 				case "terrain":
 					this.layerTreeData[3].children = [];
 					let item = this.layerServiceData.onlineTerrainLayerList.find((item: any) => item.title === option.label);
-					if(item) item.chooseType = false;
+					if (item) item.chooseType = false;
 					let index = this.SelectedOptions.onlineTerrain.indexOf(option.label);
-					this.SelectedOptions.onlineTerrain.splice(index,1);
+					this.SelectedOptions.onlineTerrain.splice(index, 1);
 					this.updateLayer({ type: "terrain" });
 					break;
 				default:
@@ -566,7 +568,7 @@ export const useLayerStore = defineStore({
 			}
 		},
 		//检查影像图层是否重复添加
-		checkImageryRepeat(name:string){
+		checkImageryRepeat(name: string) {
 			let item = this.layerTreeData[1].children.find((item: any) => item.label === name);
 			// if(item){
 			// 	return true;
@@ -574,7 +576,7 @@ export const useLayerStore = defineStore({
 			// 	return false;
 			// }
 
-			return item ? true :false;
+			return item ? true : false;
 		},
 
 		// 传入影像图层，获取并返回他在项目中的名称
@@ -598,8 +600,8 @@ export const useLayerStore = defineStore({
 				} else {
 					return 'Unnamed';
 				}
-			}
-
+			} 
+		
 			// 网络底图
 			if (imageryLayer._imageryProvider.tablename) {
 				let tableName = imageryLayer._imageryProvider.tablename;
@@ -609,7 +611,7 @@ export const useLayerStore = defineStore({
 						return newName;
 					}
 					// 支持地图服务
-					if (tableName.indexOf('/maps/') != -1) {
+					if(tableName.indexOf('/maps/') != -1) {
 						let newName = tableName.split('/maps/')[1].replace('/', '');
 						return newName;
 					}
@@ -617,11 +619,10 @@ export const useLayerStore = defineStore({
 				} else {
 					return 'Unnamed';
 				}
-			} else {
+			}else {
 				return 'Unnamed';
 			}
 		},
-
 		// 获取地形图层名称
 		getTerrainLayerName(): any {
 			if (window.viewer.terrainProvider._baseUrl) {
@@ -651,34 +652,34 @@ export const useLayerStore = defineStore({
 				// return '无地形';
 				return 'invisible';
 			}
-		},		
+		},
 
 		// 更新已勾选选项
-		updateSelectedOption(selectedOption:any){
-			console.log("selectedOption:",selectedOption);
+		updateSelectedOption(selectedOption: any) {
+			console.log("selectedOption:", selectedOption);
 			this.SelectedOptions = selectedOption;
 			let publicServiceList = this.layerServiceData.publicServiceList;
 			let onlineBaseLayerList = this.layerServiceData.onlineBaseLayerList;
 			let onlineTerrainLayerList = this.layerServiceData.onlineTerrainLayerList;
 
 			// this.layerServiceData.publicService.map()
-			for(let i=0;i<publicServiceList.length;i++){
+			for (let i = 0; i < publicServiceList.length; i++) {
 				let item = publicServiceList[i];
-				if(selectedOption.publicService.indexOf(item.name) != -1){
+				if (selectedOption.publicService.indexOf(item.name) != -1) {
 					publicServiceList[i].chooseType = true;
 				}
 			}
 
-			for(let i=0;i<onlineBaseLayerList.length;i++){
+			for (let i = 0; i < onlineBaseLayerList.length; i++) {
 				let item = onlineBaseLayerList[i];
-				if(selectedOption.baseMap.indexOf(item.name) != -1){
+				if (selectedOption.baseMap.indexOf(item.name) != -1) {
 					onlineBaseLayerList[i].chooseType = true;
 				}
 			}
 
-			for(let i=0;i<onlineTerrainLayerList.length;i++){
+			for (let i = 0; i < onlineTerrainLayerList.length; i++) {
 				let item = onlineTerrainLayerList[i];
-				if(selectedOption.onlineTerrain.indexOf(item.name) != -1){
+				if (selectedOption.onlineTerrain.indexOf(item.name) != -1) {
 					onlineTerrainLayerList[i].chooseType = true;
 				}
 			}
@@ -690,11 +691,11 @@ export const useLayerStore = defineStore({
 		setSceneAttr(sceneAttrState: any) {
 			// console.log("content.layers.sceneAttrState:", sceneAttrState);
 			for (let key in sceneAttrState) {
-				this.sceneAttrSwitch(key, sceneAttrState[key]);
+				this.sceneAttrSwitch(key,sceneAttrState[key]);
 			}
 		},
 
-		sceneAttrSwitch(key: string, value: boolean | number) {
+		sceneAttrSwitch(key: string, value: boolean|number) {
 			switch (key) {
 				case "atomsphereRender":
 					window.viewer.scene.skyAtmosphere.show = value;
@@ -746,15 +747,15 @@ export const useLayerStore = defineStore({
 					window.viewer.scene.colorCorrection.brightness = value;
 					break;
 				case "contrast":
-					window.viewer.scene.colorCorrection.show = true;
+					window.viewer.scene.colorCorrection.show = true; 
 					window.viewer.scene.colorCorrection.contrast = value;
 					break;
 				case "hue":
-					window.viewer.scene.colorCorrection.show = true;
+					window.viewer.scene.colorCorrection.show = true; 
 					window.viewer.scene.colorCorrection.hue = value;
 					break;
 				case "saturation":
-					window.viewer.scene.colorCorrection.show = true;
+					window.viewer.scene.colorCorrection.show = true; 
 					window.viewer.scene.colorCorrection.saturation = value;
 					break;
 				case "surfaceTransparency":
@@ -767,11 +768,11 @@ export const useLayerStore = defineStore({
 		setParticle(particleOptions) {
 			if (particleOptions['fire'] != null) {
 				let fireOption = particleOptions['fire'];
-				this.addParticleFile(fireOption, 'fire');
+				this.addParticleFile(fireOption,'fire');
 			}
 			if (particleOptions['water'] != null) {
 				let waterOption = particleOptions['water'];
-				this.addParticleFile(waterOption, 'water');
+				this.addParticleFile(waterOption,'water');
 			}
 			if (particleOptions['fireWork'] != null) {
 				let fireWorkOption = particleOptions['fireWork'];
@@ -779,13 +780,13 @@ export const useLayerStore = defineStore({
 			}
 		},
 		// 添加场景中已保存的粒子
-		addParticleFile(options: any, type: string) {
+		addParticleFile(options:any,type:string) {
 			let modelMatrix_fire = new SuperMap3D.Matrix4();
 			SuperMap3D.Transforms.eastNorthUpToFixedFrame(options.particlePosition, undefined, modelMatrix_fire);
-			this.loadParticleFile(options.particleUrl, modelMatrix_fire, type, options.particleAttr);
+			this.loadParticleFile(options.particleUrl, modelMatrix_fire,type,options.particleAttr);
 		},
 		// 加载粒子文件
-		loadParticleFile(url: string, modelMatrix: any, type: string, option?: any) {
+		loadParticleFile(url:string,modelMatrix:any,type:string, option?:any) {
 			let particle: any = {};
 			let scene = window.viewer.scene;
 			SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
@@ -796,41 +797,41 @@ export const useLayerStore = defineStore({
 					for (let key in option) {
 						switch (key) {
 							case "emitRate":
-								particle['emitRate'] = Number(option[key]);
-								break;
+							  particle['emitRate'] = Number(option[key]);
+							  break;
 							case "minLifeTime":
-								particle['minLifeTime'] = Number(option[key]);
-								break;
+							  particle['minLifeTime'] = Number(option[key]);
+							  break;
 							case "maxLifeTime":
-								particle['maxLifeTime'] = Number(option[key]);
-								break;
+							  particle['maxLifeTime'] = Number(option[key]);
+							  break;
 							case "minEmitPower":
-								particle['minEmitPower'] = Number(option[key]);
-								break;
+							  particle['minEmitPower'] = Number(option[key]);
+							  break;
 							case "maxEmitPower":
-								particle['maxEmitPower'] = Number(option[key]);
-								break;
+							  particle['maxEmitPower'] = Number(option[key]);
+							  break;
 							case "minSize":
-								particle['minSize'] = Number(option[key]);
-								break;
+							  particle['minSize'] = Number(option[key]);
+							  break;
 							case "maxSize":
-								particle['maxSize'] = Number(option[key]);
-								break;
+							  particle['maxSize'] = Number(option[key]);
+							  break;
 							case "minScaleX":
-								particle['minScaleX'] = Number(option[key]);
-								break;
+							  particle['minScaleX'] = Number(option[key]);
+							  break;
 							case "minScaleY":
-								particle['minScaleY'] = Number(option[key]);
-								break;
+							  particle['minScaleY'] = Number(option[key]);
+							  break;
 							case "maxScaleX":
-								particle['maxScaleX'] = Number(option[key]);
-								break;
+							  particle['maxScaleX'] = Number(option[key]);
+							  break;
 							case "maxScaleY":
-								particle['maxScaleY'] = Number(option[key]);
-								break;
+							  particle['maxScaleY'] = Number(option[key]);
+							  break;
 							case "gravity":
-								particle.gravity = new SuperMap3D.Cartesian3(0, 0, Number(option[key]));
-								break;
+							  particle.gravity= new SuperMap3D.Cartesian3(0, 0, Number(option[key]));
+							  break;
 							case "emitType":
 								switch (option[key]) {
 									case "Cone":
@@ -844,13 +845,13 @@ export const useLayerStore = defineStore({
 										let direction2 = new SuperMap3D.Cartesian3(1, 1, -1);
 										let minBox = new SuperMap3D.Cartesian3(-10, 0, -10);
 										let maxBox = new SuperMap3D.Cartesian3(10, 0, 10);
-										particle.createBoxEmitter(direction1, direction2, minBox, maxBox);
-										break;
+									  	particle.createBoxEmitter(direction1, direction2, minBox, maxBox);
+									  	break;
 								}
-								break;
+							  break;
 							default:
-								break;
-						}
+							  break;
+						  }
 					}
 				}
 
@@ -859,19 +860,19 @@ export const useLayerStore = defineStore({
 
 		},
 		// 添加烟花
-		addFireWork(fireWorkOption) {
+		addFireWork(fireWorkOption){
 			let modelMatrix = new SuperMap3D.Matrix4();
-			let clickHandle, setIntervalList: any[] = [], particleSystemList: any[] = [];
+			let clickHandle, setIntervalList:any[] = [],particleSystemList:any[] = [];
 			let scene = window.viewer.scene;
 			scene.skyAtmosphere = new SuperMap3D.SkyAtmosphere();
 			scene.globe.show = false
 			scene.skyAtmosphere.show = false; //关闭大气
-
+			
 			let sparkOneUrl = './Resource/particle/babylon/sparkGravityOne.json';
 			let sparkTwoUrl = './Resource/particle/babylon/sparkGravityTwo.json';
 			let sparkThreeUrl = './Resource/particle/babylon/sparkGravityThree.json';
 			let sparkFourUrl = './Resource/particle/babylon/sparkGravityFour.json';
-
+			
 			let numberOfSparks = 8;
 			let xMin = -2100.0;
 			let xMax = 300.0;
@@ -881,78 +882,79 @@ export const useLayerStore = defineStore({
 			let zMax = 550.0;
 			// 创建烟花
 			let sparkInterval = (xMax - xMin) / numberOfSparks;
-
+			
 			function createSpark() {
-				for (let i = 0; i < numberOfSparks; ++i) {
-					let x = SuperMap3D.Math.randomBetween(xMin + i * sparkInterval, xMin + (i + 1) * sparkInterval);
-					let y = SuperMap3D.Math.randomBetween(yMin, yMax);
-					let z = SuperMap3D.Math.randomBetween(zMin, zMax);
-					let offset = new SuperMap3D.Cartesian3(x, y, z);
-					let url = '';
-					if (i % 4 === 0)
-						url = sparkOneUrl;
-					if (i % 4 === 1)
-						url = sparkTwoUrl;
-					if (i % 4 === 2)
-						url = sparkThreeUrl;
-					if (i % 4 === 3)
-						url = sparkFourUrl;
-					SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
-						settingParticleSys(particleSystem, offset, i);
-					});
-				}
+			  for (let i = 0; i < numberOfSparks; ++i) {
+				let x = SuperMap3D.Math.randomBetween(xMin + i * sparkInterval, xMin + (i + 1) * sparkInterval);
+				let y = SuperMap3D.Math.randomBetween(yMin, yMax);
+				let z = SuperMap3D.Math.randomBetween(zMin, zMax);
+				let offset = new SuperMap3D.Cartesian3(x, y, z);
+				let url = '';
+				if (i % 4 === 0)
+				  url = sparkOneUrl;
+				if (i % 4 === 1)
+				  url = sparkTwoUrl;
+				if (i % 4 === 2)
+				  url = sparkThreeUrl;
+				if (i % 4 === 3)
+				  url = sparkFourUrl;
+				SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
+				  settingParticleSys(particleSystem, offset, i);
+				});
+			  }
 			}
-
+			
 			// 设置当前粒子系统
 			function settingParticleSys(particleSystem, offset, index) {
-
-				// 添加多个
-				particleSystem.modelMatrix = modelMatrix;
-				particleSystem.worldOffset.x = offset.x;
-				particleSystem.worldOffset.y = offset.y;
-				particleSystem.worldOffset.z = offset.z;
-				let setIntervalFlag = setInterval(() => {
-					particleSystem.start();
-				}, 2000 + index * 50);
-				scene.primitives.add(particleSystem);
-				setIntervalList.push(setIntervalFlag);
-
-				window.EarthGlobal["fireWork"] = setIntervalList;
+			
+			  // 添加多个
+			  particleSystem.modelMatrix = modelMatrix;
+			  particleSystem.worldOffset.x = offset.x;
+			  particleSystem.worldOffset.y = offset.y;
+			  particleSystem.worldOffset.z = offset.z;
+			  let setIntervalFlag = setInterval(() => {
+				particleSystem.start();
+			  }, 2000 + index * 50);
+			  scene.primitives.add(particleSystem);
+			  setIntervalList.push(setIntervalFlag);
+			  
+			  window.EarthGlobal["fireWork"] = setIntervalList; 
 			}
-
-			function addSpark(centerPosition) {
-				SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
-				createSpark();
+			
+			function addSpark(centerPosition){
+			  SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
+			  createSpark();
 			}
 
 			addSpark(fireWorkOption.fireWorkPosition);
 		},
-
-		removeParticle() {
-			if (window.EarthGlobal["fire"]) {
+		
+		removeParticle(){
+			if(window.EarthGlobal["fire"]){
 				window.viewer.scene.primitives.remove(window.EarthGlobal["fire"]);
 			}
-			if (window.EarthGlobal["water"]) {
+			if(window.EarthGlobal["water"]){
 				window.viewer.scene.primitives.remove(window.EarthGlobal["fire"]);
 			}
 		},
+
 		// 设置保存的图层属性
-		setLayerStyle(layerStyleOptions) {
-			console.log("layerStyleOptions:", layerStyleOptions);
+		setLayerStyle(layerStyleOptions){
+			console.log("layerStyleOptions:",layerStyleOptions);
 			let keys = Object.keys(layerStyleOptions);
-			for (let i = 0; i < keys.length; i++) {
+			for(let i=0;i<keys.length;i++){
 				let layerName = keys[i];
 				let layerStyleOption = layerStyleOptions[layerName];
 				let currentLayer = window.viewer.scene.layers.find(layerName);
-				if (!currentLayer) return;
+				if(!currentLayer) return;
 				for (let key in layerStyleOption) {
 					let lineColor = layerStyleOption["lineColor"];
-					this.layerStyleSwitch(currentLayer, key, layerStyleOption[key], lineColor);
+					this.layerStyleSwitch(currentLayer,key,layerStyleOption[key],lineColor);
 				}
 			}
 		},
 
-		layerStyleSwitch(currentLayer: any, key: string, value: string | number, lineColor: string) {
+		layerStyleSwitch(currentLayer:any, key: string, value: string|number,lineColor:string) {
 			switch (key) {
 				case "foreColor":
 					currentLayer.style3D.fillForeColor = SuperMap3D.Color.fromCssColorString(value);
@@ -963,15 +965,15 @@ export const useLayerStore = defineStore({
 				case "selectedColor":
 					currentLayer.selectedColor = SuperMap3D.Color.fromCssColorString(value);
 					break;
+				case "layerTrans":
+					currentLayer.style3D.fillForeColor.alpha = Number(value);
+					break;
 				case "selectColorMode":
 					currentLayer.selectColorType = value;
 					break;
 				case "bottomAltitude":
 					currentLayer.style3D.bottomAltitude = Number(value);
 					currentLayer.refresh();
-					break;
-				case "layerTrans":
-					currentLayer.style3D.fillForeColor.alpha = Number(value);
 					break;
 				case "fillStyle":
 					if (currentLayer) {
@@ -995,11 +997,10 @@ export const useLayerStore = defineStore({
 					break;
 				default:
 					break;
+				}
+		
 			}
-
-		}
 	}
-
 })
 
 

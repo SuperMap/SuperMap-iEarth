@@ -57,6 +57,8 @@ const global = {
   layerOpration: 'Opration',
   layerAttribute: 'Attribute',
   layerStyle: 'Style',
+  layerQuery: 'Query',
+  mapQuery: 'Map',
 
   // 操作面板 - 添加数据
   publicService: "PublicService",
@@ -71,8 +73,8 @@ const global = {
   analysis3d: '3D-analysis',
   spatialAnalysis: 'Spatial analysis',
 
-// 三维分析
-  Intervisibility: 'Visibility',   
+  // 三维分析
+  Intervisibility: 'Visibility',
   viewableRange: 'Viewshed',
   ligShadowAnalysisth: 'Shadow',
   profile: 'Profile',
@@ -80,7 +82,7 @@ const global = {
   FacePlot: 'Plot',
 
   // 裁剪
-  boxClip: 'Box',  
+  boxClip: 'Box',
   planeClip: 'Plane',
   crossClip: 'Cross',
   polygonClip: 'Polygon',
@@ -194,8 +196,8 @@ const global = {
   createFlyRoute: 'Create fly route',
   addedStops: 'Added Stops',
   downLoad: 'DownLoad',
-  addStopSuccess:'Successfully added Stop',
-  atLeastTwoStop:'At least two nodes are required to save',
+  addStopSuccess: 'Successfully added Stop',
+  atLeastTwoStop: 'At least two nodes are required to save',
 
 
   //操作面板-灯光
@@ -330,6 +332,7 @@ const global = {
   width: 'Width',
   length: 'Length',
   height: 'Height',
+  distence: "Distence",
   Xradius: 'X-Radius',
   Yradius: 'Y-Radius',
   Zradius: 'Z-Radius',
@@ -355,6 +358,14 @@ const global = {
   //按钮
   query: 'Query',
 
+  // 视频投放
+  videoFileSet: 'Video Set',
+  videoSet: 'Set',
+  visibleVideoLine: 'Video Line',
+  localVideoPath: 'Please select a video file',
+  videoPath: 'Video Path',
+  deleteVideo: 'Please delete current video file',
+
   // 图层列表
   isShow: 'Explicit and implicit',
   rapidLocate: 'Locate',
@@ -369,6 +380,7 @@ const global = {
   imgLayer: 'ImgLayer',
   mvtLayer: 'MvtLayer',
   terrainLayer: 'TerrainLayer',
+  wmtsLayer: 'WMTSLayer',
   sure: 'Sure',
   cancle: 'Cancle',
   analysis: 'Analysis',
@@ -403,6 +415,7 @@ const global = {
   localFilePath: 'Choose local .KML file',
   localFilePathFly: 'Choose local .fpf file',
   chooseFile: 'File',
+  selectableLayers: 'Selectable Layers',
 
   urlIsNull: 'Layer URL cannot be empty, please enter URL!',
   urlCheckedsuccess: 'Layer URL verification successful',
@@ -506,18 +519,80 @@ const global = {
   layerTransparency: 'Layer Transparency',
   reset: 'Reset',
   fillBothMode: 'Fill and wireframe',
+  attrSaveOk:'Layer attributes saved successfully',
 
   // 图层操作
-  qxModel: 'ObliqueModel',
+  qxModel: 'Excavate&flat',
   offSet: 'OffSet',
   layerColor: 'LayerColor',
   excavate: 'Excavate',
   flatten: 'Flatten',
+  onQXModel: 'Only Supports Oblique Photography Of 3D Models',
   offsetMode: 'Offset Mode',
   offsetX: 'OffsetX',
   offsetY: 'OffsetY',
   offsetZ: 'OffsetZ',
   selected: 'Selected',
+
+  // 属性查询
+  dataServerUrl: "DataServerUrl",
+  dataSourceName: 'SourceName',
+  inputServerUrl: 'Please enter the layer data service URL',
+  inputSourceName: 'Please enter the corresponding data source for this layer',
+  queryResult: 'Query Results',
+  inputUrlName: 'Please fill in the data service and corresponding data source required for this layer query',
+  bindInfoOK: "Successfully bound, please click on the model to query information",
+  hadBind: "This layer is already bound to a data source",
+  noData: "There is currently no data available",
+
+
+  // 地图查询
+  mapDataUrl: "MapDataUrl",
+  datasetName: "DatasetName",
+  attributeList: 'AttributeList',
+  listTotal_s:'Attribute table (total',
+  listTotal_e:'features)',
+  chooseFieldTip:'Select the fields to be filtered',
+  filter:'Filter',
+  shpQueryTip:'Specify data query (query data must be consistent with the map service coordinate system)',
+  clickQuery: 'ClickQuery',
+  clearEntityTip:'Clear the shape drawn on the sphere',
+  refreshData:'Refresh data',
+  mydata:'My data',
+  queryPlaceHolder:"Please enter the selection field to filter keywords",
+  queryWait: 'Querying, please wait',
+  resouceName:'ResouceName',
+  resouceType:'ResouceType',
+  createTime:'CreateTime',
+  mapQueryTip:'Please enter the data service URL and corresponding dataset',
+  clickQueryClose:'The click function has been turned off',
+  clickQueryCloseTip:'Click with the mouse to obtain element information, right-click to close the selection',
+  dataFiltering:'Filtering data...',
+  recently:'Recently',
+  chooseField:'Select Field',
+  filterFiledTip:'Property sheet display field filtering',
+
+  // 我的服务-iportal
+  getData: 'Obtaining data, please wait',
+  serviceName: 'Name',
+  resourceSubType: 'Type',
+  updateTime: 'UpdateTime',
+  serviceUrl: 'URL',
+  year: 'year',
+  month: 'month',
+  day: 'day',
+  yearsAgo: ' yearsAgo',
+  monthsAgo: ' monthsAgo',
+  weeksAgo: ' weeksAgo',
+  daysAgo: ' daysAgo',
+  hoursAgo: ' hoursAgo',
+  minutesAgo: 'minutesAgo',
+  secondsAgo: ' secondsAgo',
+
+  // message
+  layerExistMsg: 'This layer already exists, please do not load it again!',
+  imgUrlErrorMsg: 'Image service URL error, image loading failed!',
+  scpUrlErrorMsg: 'SCP URL address error, S3M layer loading failed!',
 
   /**
    * 图片资源名称 - 演示
@@ -533,7 +608,7 @@ const global = {
   JingJinMVT: "JingJinMVT",
   ChongqingBaimo: "Chongqing",
   YokohamaBaimo: "Yokohama",
-  transformerStation: 'Transformer',
+  transformerStation: 'Oil station',
 
   LocalImage: 'LocalImage',
   BingMap: 'BingMap',
@@ -544,6 +619,9 @@ const global = {
   SuperMapOnlineTerrain: 'SuperMap',
   TiandituTerrain: 'Tianditu',
   STKTerrain: 'STK',
+
+  // Tip
+  qxModelTip:'This feature only supports oblique photography of 3D models'
 }
 
 export default {

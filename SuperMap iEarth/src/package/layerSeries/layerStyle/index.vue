@@ -73,7 +73,7 @@
     </div>
 
       <div class="row-item">
-        <span>底部高程</span>
+        <span>{{$t('global.bottomHeight')}}</span>
         <div class="slider-box">
             <n-slider
             v-model:value="state.bottomAltitude"
@@ -303,7 +303,7 @@ function saveStyle(){
 
   layerStore.layerStyleOptions[key] = layerStyleItem;
 
-  message.success(`${key}图层属性保存成功`);
+  message.success(`${key}${GlobalLang.attrSaveOk}`);
 }
 
 // 设置参数
@@ -350,7 +350,7 @@ watch(
   () => state.selectedIndex,
   val => {
     getAttributes();
-    init();
+
     if(layers[state.selectedIndex].name === "POINTCLOUD23"){
       state.isCloudPoint = true;
     }
@@ -466,9 +466,8 @@ watch(
 watch(
   () => layerStore.s3mLayerSelectIndex,
   val => {
-    state.selectedIndex = Number(val);
     reset();
-    init();
+    state.selectedIndex = Number(val);
   }
 );
 onBeforeUnmount(() => {});
