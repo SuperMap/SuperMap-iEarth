@@ -22,9 +22,9 @@
         <SmSceneSpecialEffect></SmSceneSpecialEffect>
       </n-tab-pane>
       <!-- 视频投放 -->
-      <!-- <n-tab-pane name="videoSet" :tab="$t('global.videoFileSet')">
+      <n-tab-pane name="videoSet" :tab="$t('global.videoFileSet')">
         <SmVideoSet></SmVideoSet>
-      </n-tab-pane> -->
+      </n-tab-pane>
     </n-tabs>
   </div>
 </template>
