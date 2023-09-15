@@ -63,9 +63,8 @@
                 <!-- 操作按钮 -->
                 <div class="items">
                     <div class="icon-list-box" style="width: 2.2rem;">
-                        <span class="icon-span-three">
-                            <column-setting v-model:columns="columns" />
-                        </span>
+                        <!-- 字段筛选 -->
+                        
                         <span class="icon-span-three">
                             <n-tooltip placement="top-end" trigger="hover">
                                 <template #trigger>
@@ -153,7 +152,7 @@
 import { ref,reactive, onBeforeUnmount, watch, computed } from "vue";
 import { useLayerStore } from "@/store/layerStore";
 import { useMessage } from "naive-ui";
-import ColumnSetting from './coms/column-setting.vue';
+// import ColumnSetting from './coms/column-setting.vue';
 import { getRootUrl} from "@/tools/iportal/portalTools";
 import { IportalStoreCreate } from "@/store/index";
 
