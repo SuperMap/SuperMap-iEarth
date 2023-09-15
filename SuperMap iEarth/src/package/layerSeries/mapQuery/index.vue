@@ -152,7 +152,6 @@
 import { ref,reactive, onBeforeUnmount, watch, computed } from "vue";
 import { useLayerStore } from "@/store/layerStore";
 import { useMessage } from "naive-ui";
-// import ColumnSetting from './coms/column-setting.vue';
 import { getRootUrl} from "@/tools/iportal/portalTools";
 import { IportalStoreCreate } from "@/store/index";
 
