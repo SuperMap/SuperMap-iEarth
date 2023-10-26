@@ -17,10 +17,19 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive } from "vue"
 import { useMessage } from "naive-ui";
 import { useLayerStore } from "@/store/layerStore";
+import { usePanelStore } from "@/store";
+
 const message = useMessage();
 const layerStore = useLayerStore();
+const panelStore = usePanelStore();
+
+let state = reactive({
+  BingMapKey: layerStore.configToken.BingMapKey, // 必应地图token,
+  TiandituToken: layerStore.configToken.TiandituToken, // 天地图token,
+})
 
 let imageryProvider: any = null;
 
@@ -36,14 +45,14 @@ function addBaseLayer(item: any) {
     case "BingMap":
       imageryProvider = new SuperMap3D.BingMapsImageryProvider({
         url: layerUrl,
-        key: item.key,
+        key: state.BingMapKey,
       });
       item.chooseType = true;
       break;
     case "TIANDITU":
       imageryProvider = new SuperMap3D.TiandituImageryProvider({
         url: layerUrl,
-        token: item.token,
+        token: state.TiandituToken,
       });
       item.chooseType = true;
       break;
@@ -68,7 +77,7 @@ function addBaseLayer(item: any) {
       item.chooseType = true;
       break;
     case "UrlTemplateImageryProvider":
-      message.warning("日本服务不稳定，如果不行请稍后再试");
+      // message.warning("日本服务不稳定，如果不行请稍后再试");
       imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
         url: layerUrl,
       });
@@ -80,6 +89,8 @@ function addBaseLayer(item: any) {
   viewer.imageryLayers.addImageryProvider(imageryProvider);
 
   layerStore.updateLayer({ type: "imagery" });
+
+  panelStore.closeRightToolPanel(1);// 1为关闭左侧面板
 }
 </script>
 
@@ -87,6 +98,7 @@ function addBaseLayer(item: any) {
 .layer-base-container {
   display: flex;
   flex-wrap: wrap;
+  margin-right: 7px;
 
   .ItemBox {
     width: 30%;

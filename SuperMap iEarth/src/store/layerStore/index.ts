@@ -8,6 +8,10 @@ import { defineStore } from 'pinia'
 export const useLayerStore = defineStore({
 	id: 'useLayerManageStore',
 	state: (): any => ({
+		configToken:{
+			TiandituToken:'', // 天地图token
+			BingMapKey:'' // 必应地图key
+		},
 		layerServiceData: {
 			// 公共服务
 			publicServiceList: [
@@ -15,7 +19,7 @@ export const useLayerStore = defineStore({
 					type: "REALSPACE",
 					thumbnail: "./images/addData/CBD.jpg",
 					// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-					proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
 					name: "global.BeijingCBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
@@ -23,14 +27,14 @@ export const useLayerStore = defineStore({
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Sophia.jpg",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-suofeiya_church-2/rest/realspace",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-suofeiya_church-2/rest/realspace",
 					name: "global.SophiaChurch",
 					chooseType: false
 				},
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/ZfTerranAndImagery.jpg",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-ZF_normal/rest/realspace",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-ZF_normal/rest/realspace",
 					name: "global.MountEverest",
 					layers: [{ type: 'IMG', layerName: 'image' }, { type: 'TERRAIN', layerName: 'srtm_54_07%40zhufeng' }],
 					chooseType: false
@@ -39,7 +43,7 @@ export const useLayerStore = defineStore({
 					type: "REALSPACE",
 					thumbnail: "./images/addData/BIM.jpg",
 					// proxiedUrl: "http://www.supermapol.com/realspace/services/3D-wireFrame-2/rest/realspace",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BIMbuilding-2/rest/realspace",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-BIMbuilding-2/rest/realspace",
 					name: "global.BIMBuilding",
 					layers: [{ type: 'S3M', layerName: "BIMbuilding" }],
 					chooseType: false
@@ -82,7 +86,7 @@ export const useLayerStore = defineStore({
 				{
 					type: "MVT",
 					thumbnail: "./images/addData/MVT.jpg",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/map-mvt-JingJinDiQuDiTu/restjsr/v1/vectortile/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/map-mvt-JingJinDiQuDiTu/restjsr/v1/vectortile/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE",
 					name: "global.JingJinMVT",
 					VectorTilesMapName: 'JingJinMVT',
 					layers: [{ type: 'MVT', layerName: '京津地区MVT' }],
@@ -101,36 +105,36 @@ export const useLayerStore = defineStore({
 					type: "ThematicMap",
 					thumbnail: "./images/addData/cqbm.jpg",
 					// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000/rest/realspace/datas/CQmodel/config",
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000-2/rest/realspace/datas/wireFrame/config",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-CQmodel_wireframe_2000-2/rest/realspace/datas/wireFrame/config",
 					name: "global.ChongqingBaimo",
 					S3MLayer: true,
 					chooseType: false
 				},
+				// {
+				// 	type: "ThematicMap",
+				// 	thumbnail: "./images/addData/hbbm.jpg",
+				// 	proxiedUrl: "https://www.supermapol.com/realspace/services/3D-XinBaiMo-2/rest/realspace/datas/%E4%B8%80%E8%88%AC%E5%AE%B6%E5%B1%8B/config",
+				// 	name: "global.YokohamaBaimo",
+				// 	S3MLayer: true,
+				// 	chooseType: false
+				// },
 				{
-					type: "ThematicMap",
-					thumbnail: "./images/addData/hbbm.jpg",
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-XinBaiMo-2/rest/realspace/datas/%E4%B8%80%E8%88%AC%E5%AE%B6%E5%B1%8B/config",
-					name: "global.YokohamaBaimo",
-					S3MLayer: true,
+					type: "REALSPACE",
+					thumbnail: "./images/addData/Petroleum.jpg",
+					// proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BianDianZhan0614/rest/realspace", // old 太慢了
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-0725RVM/rest/realspace",
+					name: "global.transformerStation",
 					chooseType: false
 				},
 				{
 					type: "REALSPACE",
-					thumbnail: "./images/addData/BDZ.jpg",
-					// proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BianDianZhan0614/rest/realspace", // old 太慢了
-					proxiedUrl: "http://www.supermapol.com/realspace/services/3D-0725RVM/rest/realspace",
-					name: "global.transformerStation",
+					thumbnail: "./images/addData/CBD.jpg",
+					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+					name: "global.originCBD",
+					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
 				},
-				// {
-				// 	type: "REALSPACE",
-				// 	thumbnail: "./images/addData/CBD.jpg",
-				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-				// 	name: "global.originCBD",
-				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
-				// 	chooseType: false
-				// },
 			],
 			// 在线底图服务
 			onlineBaseLayerList: [{
@@ -151,7 +155,6 @@ export const useLayerStore = defineStore({
 				title: '必应底图',
 				type: 'BingMap',
 				imgsrc: '@/../static/css/cross.png',
-				key: "Aq0D7MCY5ErORA9vrwFtfE9aancUq5J6uNjw0GieF0ostaIrVuJZ8ScXxNHHvEwS",
 				chooseType: false,
 				isMultipleChoose: false,
 				index: 1
@@ -160,7 +163,6 @@ export const useLayerStore = defineStore({
 				url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
 				name: "global.TIANDITU",
 				thumbnail: './images/baseMap/tianditu.png',
-				token: '7933ae29d47bcf1440889ad983dbe0af',
 				title: '天地图',
 				type: 'TIANDITU',
 				imgsrc: '@/../static/css/cross.png',
@@ -168,18 +170,18 @@ export const useLayerStore = defineStore({
 				isMultipleChoose: false,
 				index: 2
 			},
-			{
-				url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-				name: "global.OSM",
-				thumbnail: './images/baseMap/OSM.png',
-				title: 'OSM底图',
-				type: 'OSM',
-				imgsrc: '@/../static/css/cross.png',
-				subdomains: ["a", "b", "c", "d"],
-				chooseType: false,
-				isMultipleChoose: false,
-				index: 3
-			},
+			// {
+			// 	url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+			// 	name: "global.OSM",
+			// 	thumbnail: './images/baseMap/OSM.png',
+			// 	title: 'OSM底图',
+			// 	type: 'OSM',
+			// 	imgsrc: '@/../static/css/cross.png',
+			// 	subdomains: ["a", "b", "c", "d"],
+			// 	chooseType: false,
+			// 	isMultipleChoose: false,
+			// 	index: 3
+			// },
 			{
 				name: "global.GRIDIMAGERY",
 				thumbnail: './images/baseMap/grad.png',
@@ -189,6 +191,54 @@ export const useLayerStore = defineStore({
 				chooseType: false,
 				isMultipleChoose: false,
 				index: 4
+			},
+			{
+				url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+				name: "global.japanStand",
+				thumbnail: './images/baseMap/standard_jp.png',
+				title: '日本地理院标准地图',
+				type: 'UrlTemplateImageryProvider',
+				type_ja:'japanStand',
+				imgsrc: '@/../static/css/cross.png',
+				chooseType: false,
+				isMultipleChoose: false,
+				index: 5
+			},
+			{
+				url: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
+				name: "global.japanPale",
+				thumbnail: './images/baseMap/tinge_jp.png',
+				title: '日本地理院淡色地图',
+				type: 'UrlTemplateImageryProvider',
+				type_ja:'japanPale',
+				imgsrc: '@/../static/css/cross.png',
+				chooseType: false,
+				isMultipleChoose: false,
+				index: 6
+			},
+			// {
+			// 	url: 'https://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png',
+			// 	name: "global.japanBlank",
+			// 	thumbnail: './images/baseMap/grad.png',
+			// 	title: '日本地理院白色地图',
+			// 	type: 'UrlTemplateImageryProvider',
+			// 	type_ja:'japanBlank',
+			// 	imgsrc: '@/../static/css/cross.png',
+			// 	chooseType: false,
+			// 	isMultipleChoose: false,
+			// 	index: 7
+			// },
+			{
+				url: 'https://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg',
+				name: "global.japanImage",
+				thumbnail: './images/baseMap/image_jp.png',
+				title: '日本地理院影像图',
+				type: 'UrlTemplateImageryProvider',
+				type_ja:'japanImage',
+				imgsrc: '@/../static/css/cross.png',
+				chooseType: false,
+				isMultipleChoose: false,
+				index: 8
 			}
 			],
 			// 在线地形
@@ -253,15 +303,19 @@ export const useLayerStore = defineStore({
 		s3mLayerSelectIndex: 0,
 		layerQueryOptions: [],
 		mapQueryOptions: [],
+		mediaFeildOptions:{
+			"img":{},
+			"video":{}
+		},
 		sceneAttrState: {
 			earthShow: true, //地球显隐
 			shadow: true, //场景阴影
 			sunShow: false, //太阳
 			depthInspection: true,//深度检测
-			atomsphereRender: false, //大气渲染
+			atomsphereRender: true, //大气渲染
 			fogEffect: false, //雾化效果
-			cloudLayer: false,//云层
-			skyBoxShow: true,//天空盒
+			cloudLayer: true,//云层
+			skyBoxShow: false,//天空盒
 			timeAxis: false,//时间轴
 			displayFrame: false,//显示帧率
 
@@ -280,6 +334,7 @@ export const useLayerStore = defineStore({
 		},
 		layerStyleOptions:{}, // 图层风格保存
 		isDisplayBubble:false, // 是否显示弹窗
+		wmtsLayerOption:{}
 	}),
 	getters: {
 	},
@@ -592,7 +647,11 @@ export const useLayerStore = defineStore({
 			// 项目底图
 			let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
 			if (targetItem) {
-				return GlobalLang[targetItem.type];
+				if(targetItem.type_ja){
+					return GlobalLang[targetItem.type_ja];
+				}else{
+					return GlobalLang[targetItem.type];
+				}
 			} else if (imageUrl) {
 				if (imageUrl.indexOf("realspace/datas/") != -1) {
 					let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
@@ -999,7 +1058,35 @@ export const useLayerStore = defineStore({
 					break;
 				}
 		
-			}
+		},
+
+		// // 设置configtoken
+		// setConfigToken(field:string,value:string){
+		// }
+
+		// 设置wmts服务
+		setWmts(wmtsLayerOption){
+			if(JSON.stringify(wmtsLayerOption) === '{}') return;
+			let rectangle = wmtsLayerOption.rectangle;
+			let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
+			  url: wmtsLayerOption.wmtsLayerUrl,
+			  style: "default",
+			  format: 'image/png',
+			  layer: wmtsLayerOption.layerName,
+			  tileMatrixSetID: wmtsLayerOption.tileMatrixSetID,
+			  tilingScheme: new SuperMap3D.GeographicTilingScheme({
+				rectangle: SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]),
+				//ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+				//numberOfLevelZeroTilesX: 1,
+				//numberOfLevelZeroTilesY: 1,
+				scaleDenominators: wmtsLayerOption.scaleDenominatorsList,
+				customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+			  }),
+			}));
+		
+			// wmtsLayer.alpha = 0.5;
+			viewer.flyTo(wmtsLayer);
+		}
 	}
 })
 

@@ -5,6 +5,7 @@ import { usePanelStore } from "@/store/panelStore/index";
 import { getRootUrl, isIportalProxyServiceUrl, getHostName } from "@/tools/iportal/portalTools";
 import layerManagement from "@/tools/layerManagement";
 import { useLayerStore } from "@/store/layerStore";
+import getConfig from '@/tools/getConfig'// 导入配置
 
 const IportalStore = IportalStoreCreate();
 const panelStore = usePanelStore();
@@ -20,58 +21,67 @@ let state = reactive({
   scenePortalDescription: '',
   sceneID: '',
 
-  key: "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
-  token: "7933ae29d47bcf1440889ad983dbe0af",
-  terrainToken: "e90d56e5a09d1767899ad45846b0cefd",
+  key: layerStore.configToken.BingMapKey, // 必应地图key
+  TiandituToken: layerStore.configToken.TiandituToken, // 天地图token
 })
 
 function openExistScene() {
-    console.log("打开已存在的保存场景");
-  
-    let openExistSceneUrl = window.location.href;
-    let parmeter = openExistSceneUrl.split("id=")[1];
-    state.sceneID = parmeter.split("&")[0];
-  
-    panelStore.showSavePanel = false;
-    let url = getRootUrl() + "web/scenes/" + state.sceneID + ".json";
-    console.log("exit-Scene-url:", url)
-  
-    window.axios
-      .get(url, { withCredentials: true })
-      .then(function (response) {
-        console.log("已保存的场景返回信息:",response);
-  
-        if (response.status === 200) {
-          let highestpermissionurl =
-            getRootUrl() +
-            "web/permissions/highestpermission.json?resourceIds=" +
-            encodeURIComponent("[" + state.sceneID + "]") +
-            "&resourceType=SCENE";
-  
-          window.axios
-            .get(highestpermissionurl, { withCredentials: true })
-            .then(function (responseHigh) {
-  
-              if (responseHigh.data[state.sceneID] === "DELETE") {
-                // 编辑/删除，可以编辑保存
-                openScene(response);
-              } else if (responseHigh.data[state.sceneID] === "READ") {
-                // 查看，能看到内容，不能编辑保存
-                openScene(response);
-  
-              } else {
-                // 私有 或者 检索，看不到内容
-                message.error("没有权限");
-              }
-            });
-        } else if (response.status === 401) {
-          //无权限，未登录或者访问的是私有场景
-          message.error("没有权限");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getConfig().then((res:any)=>{
+      console.log("当前configToken配置-open:", res);
+      state.key = res.BingMapKey;
+      state.TiandituToken = res.TiandituToken;
+
+      console.log("打开已存在的保存场景");
+      let openExistSceneUrl = window.location.href;
+      let parmeter = openExistSceneUrl.split("id=")[1];
+      state.sceneID = parmeter.split("&")[0];
+    
+      panelStore.showSavePanel = false;
+      let url = getRootUrl() + "web/scenes/" + state.sceneID + ".json";
+      console.log("exit-Scene-url:", url)
+    
+      window.axios
+        .get(url, { withCredentials: true })
+        .then(function (response) {
+          console.log("已保存的场景返回信息:",response);
+    
+          if (response.status === 200) {
+            let highestpermissionurl =
+              getRootUrl() +
+              "web/permissions/highestpermission.json?resourceIds=" +
+              encodeURIComponent("[" + state.sceneID + "]") +
+              "&resourceType=SCENE";
+
+              // console.log("对接online-highestpermissionurl:",highestpermissionurl);
+
+            window.axios
+              .get(highestpermissionurl, { withCredentials: true })
+              .then(function (responseHigh) {
+                // console.log("对接online-responseHigh:",responseHigh);
+
+                if (responseHigh.data[state.sceneID] === "DELETE") {
+                  // 编辑/删除，可以编辑保存
+                  openScene(response);
+                } else if (responseHigh.data[state.sceneID] === "READ") {
+                  // 查看，能看到内容，不能编辑保存
+                  openScene(response);
+    
+                } else {
+                  // 私有 或者 检索，看不到内容
+                  message.error("没有权限");
+                }
+              });
+          } else if (response.status === 401) {
+            //无权限，未登录或者访问的是私有场景
+            message.error("没有权限");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+    });
+
   }
   
   function openScene(response?: any) {
@@ -111,6 +121,10 @@ function openExistScene() {
         if(content.layers.mapQueryOptions){
           layerStore.mapQueryOptions = content.layers.mapQueryOptions;
         }
+        // 将mediaFeildOptions传入
+        if(content.layers.mediaFeildOptions){
+          layerStore.mediaFeildOptions = content.layers.mediaFeildOptions;
+        }
         // 将sceneAttrState传入
         if(content.layers.sceneAttrState){
           layerStore.sceneAttrState = content.layers.sceneAttrState;
@@ -120,6 +134,11 @@ function openExistScene() {
         if(content.layers.particleOptions){
           layerStore.particleOptions = content.layers.particleOptions;
           layerStore.setParticle(content.layers.particleOptions)
+        }
+        // 将wmtsLayerOption传入 
+        if(content.layers.wmtsLayerOption){
+          layerStore.wmtsLayerOption = content.layers.wmtsLayerOption;
+          layerStore.setWmts(content.layers.wmtsLayerOption)
         }
 
       }
@@ -194,8 +213,8 @@ function openExistScene() {
             case "TiandituImageryProvider":
               imageryProvider = new SuperMap3D.TiandituImageryProvider({
                 url: content.layers.imageryLayer[i].url,
-                // token: this.token
-                token: content.layers.imageryLayer[i].token
+                token: state.TiandituToken
+                // token: content.layers.imageryLayer[i].token
               });
               break;
             case "SingleTileImageryProvider":
@@ -259,7 +278,7 @@ function openExistScene() {
           break;
         case "tianDiTuTerrain":
           viewer.terrainProvider = new SuperMap3D.TiandituTerrainProvider({
-            token: state.terrainToken
+            token: state.TiandituToken
           });
           break;
         case "supermapOnlineTerrain":

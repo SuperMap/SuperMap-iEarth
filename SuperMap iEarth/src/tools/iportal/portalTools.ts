@@ -1,10 +1,14 @@
 import axios from 'axios';
 import { IportalStoreCreate } from "@/store/iportalManage/index";
+import suffix from 'naive-ui/es/_internal/suffix';
 
-
+// https://cdtest.supermapol.com/apps/earth/v2/index.html
 function getRootUrl() {
     const path = "/apps";
     let url = "";
+    if(window.location.host.includes('supermapol')){
+      return window.location.protocol + '//' + window.location.host + '/';
+    }
     if (window.location.href.indexOf(path) !== -1) {
         url = window.location.href.substring(
             0,
@@ -93,13 +97,10 @@ function initPortal() {
     let portalConfigPromise = axios.get(portalConfigUrl);
     let portalSystemPromise = axios.get(systemJSONUrl);
 
-    // console.log("userInfoPromise", userInfoPromise);
-    // console.log("portalConfigPromise", portalConfigPromise);
-    // console.log("portalSystemPromise", portalSystemPromise);
 
     Promise.all([userInfoPromise, portalConfigPromise, portalSystemPromise]).then(results => {
-        // console.log("results", results);
-        const userInfoObj = results[0];
+      console.log("项目初始化获取信息：", results);  
+      const userInfoObj = results[0];
         const portalConfigObj = results[1];
         const portalSystemObj = results[2];
 
@@ -107,7 +108,7 @@ function initPortal() {
         IportalStore.portalConfig = results[1].data;
         IportalStore.systemConfig = results[2].data;
 
-        console.log("IportalStore.portalUserprofile:",IportalStore.portalUserprofile);
+        // console.log("IportalStore.portalUserprofile:",IportalStore.portalUserprofile);
         // console.log("IportalStore.portalConfig:",IportalStore.portalConfig);
         // console.log("IportalStore.systemConfig:",IportalStore.systemConfig);
 

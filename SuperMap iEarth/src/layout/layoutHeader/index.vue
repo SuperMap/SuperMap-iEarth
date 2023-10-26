@@ -7,12 +7,13 @@
       </div>
       <!-- 头部切换 -->
       <div class="head-content header-center">
-        <img src="@/assets/images/earth.png" alt="" />
-        <span class="head-title">{{$t('global.earth3D')}}</span>
-        <i class="iconfont iconxiala" @click="headerFold"></i>
+        <img src="@/assets/images/earth.png" style="width: 0.36rem;height: 0.36rem;margin-top: 3px;margin-right: 3px;" alt="" />
+        <span style="font-size: 0.28rem; color: rgba(255,255,255,0.85);" class="head-title">{{$t('global.earth3D')}}</span>
+        <i class="iconfont iconxiala" @click="headerFold" style="font-size: 0.12rem;"></i>
       </div>
 
       <div class="head-content header-right">
+        <!-- <i class="iconfont iconbaocun" @click="save"></i> -->
         <i class="iconfont iconbaocun" @click="save" v-show="IportalStore.isLogin"></i>
         <!-- <i class="iconfont iconbaocun" @click="save" v-if="IportalStore.isLogin"></i> -->
         <n-divider vertical />
@@ -21,7 +22,7 @@
     </div>
 
     <div class="headerFoldBox" v-else>
-    <i class="iconfont iconxiala downSvg" @click="headerOpen"></i>
+    <i class="iconfont iconxiala downSvg" @click="headerOpen" style="font-size: 0.12rem;"></i>
     </div>
     <!-- 保存场景弹窗 -->
     <SaveScene></SaveScene>
@@ -72,6 +73,15 @@ function headerOpen(){
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: OptimizationTitle;
+  src: url('@/assets/fonts/OptimizationTitleBlack.TTF');
+}
+ 
+.head-title {
+  font-family: 'OptimizationTitle';
+}
+
 .header-container {
   position: absolute;
   z-index: 2;
@@ -80,8 +90,7 @@ function headerOpen(){
   @include setBackground(100%, 0.48rem, "@/assets/images/header-bg.png");
   @include flexLayout(center);
   .head-title {
-    font-size: 0.14rem;
-    font-weight: bold;
+    font-size: 26px;
   }
   .iconxiala {
     transform: rotate(180deg);

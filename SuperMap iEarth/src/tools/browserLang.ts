@@ -5,7 +5,7 @@ const langStore = useLangStoreCreate(store);
 function setBrowserLang() {
     let navigator:any = window.navigator;
     let language = navigator.languages && navigator.languages[0] ||
-        navigator.language 
+        navigator.language;
         // ||
         // navigator.userLanguage ||
         // navigator.browserLanguage;
@@ -15,6 +15,10 @@ function setBrowserLang() {
         language = language.substr(0, 2);
     }
 
+    let supportLanguage = ['zh','en','ja']
+    if(supportLanguage.indexOf(language) === -1){
+        language = 'en';
+    }
     console.log("Browser-language:",language);
 
     langStore.changeLang(language);

@@ -7,6 +7,7 @@ export enum ThemeEnum {
 // 语言
 export enum LangEnum {
   ZH = 'zh',
-  EN = 'en'
+  EN = 'en',
+  JA = 'ja',
 }
 

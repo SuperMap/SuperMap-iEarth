@@ -9,7 +9,6 @@
           <n-form ref="formRef" :model="fromData" label-placement="left" require-mark-placement="right-hanging" :style="{ maxWidth: '640px' }">
             <n-form-item label-width="1.3rem" :label="$t('global.saveDate')" path="storageSceneCurrentTime" :rule="{
               required: false,
-             
               trigger: ['input', 'blur']
             }">
               <n-input v-model:value="fromData.storageSceneCurrentTime" clearable />
@@ -17,23 +16,39 @@
 
             <n-form-item label-width="1.3rem" :label="$t('global.sceneName')" path="scenePortalName" :rule="{
               required: true,
-              message: 'Must Option',
-              trigger: ['input', 'blur']
+              trigger: ['input', 'blur'],
+              // message: 'Must Option',
+              renderMessage: () => {
+                if(language == 'zh'){
+                  return '必选项';
+                }else if(language == 'ja'){
+                  return '必須オプション';
+                }else{
+                  return 'Must Option';
+                }
+              }
             }">
               <n-input v-model:value="fromData.scenePortalName" :placeholder="$t('global.placeHolder')" clearable />
             </n-form-item>
 
             <n-form-item label-width="1.3rem" :label="$t('global.sceneLable')" path="scenePortalTages" :rule="{
               required: true,
-              message: 'Must Option',
-              trigger: ['input', 'blur']
+              trigger: ['input', 'blur'],
+              renderMessage: () => {
+                if(language == 'zh'){
+                  return '必选项';
+                }else if(language == 'ja'){
+                  return '必須オプション';
+                }else{
+                  return 'Must Option';
+                }
+              }
             }">
               <n-input v-model:value="fromData.scenePortalTages" :placeholder="$t('global.placeHolder')" clearable />
             </n-form-item>
 
             <n-form-item label-width="1.3rem" :label="$t('global.authorName')" path="scenePortalUser" :rule="{
               required: false,
-           
               trigger: ['input', 'blur']
             }">
               <n-input v-model:value="fromData.scenePortalUser" :placeholder="$t('global.placeHolder')" clearable />
@@ -41,7 +56,6 @@
 
             <n-form-item label-width="1.3rem" :label="$t('global.sceneDescribe')" path="scenePortalDescription" :rule="{
               required: false,
-              
               trigger: ['input', 'blur']
             }">
               <n-input v-model:value="fromData.scenePortalDescription" :placeholder="$t('global.placeHolder')" clearable />
@@ -49,7 +63,7 @@
 
             <n-form-item>
               <n-space justify="space-between">
-                <n-button type="info" color="#3499E5" text-color="#fff" attr-type="button" @click="onSaveUserClk">
+                <n-button type="info" color="#3499E5" :loading="state.isloading" text-color="#fff" attr-type="button" @click="onSaveUserClk">
                   {{$t('global.save')}}
                 </n-button>
                 <n-button attr-type="button" @click="close">
@@ -68,28 +82,32 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch } from "vue"
+import { reactive, watch ,computed} from "vue"
 import { useMessage } from "naive-ui"
 import { IportalStoreCreate } from "@/store/index";
 import { usePanelStore } from "@/store/panelStore/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useLayerStore } from "@/store/layerStore";
+import i18n from '@/locale/index';
 
 const IportalStore = IportalStoreCreate();
 const panelStore = usePanelStore();
 const message = useMessage();
 const layerStore = useLayerStore();
 
+
+let language = computed(()=>{
+  console.log("i18n.global.locale:",i18n.global.locale);
+  return i18n.global.locale;
+})
+
+
 // 初始化数据
 let state = reactive({
   storageSceneShow: false,
   sceneID: '',
-
-  key: "Av63hPkCmH18oGGn5Qg3QhLBJvknZ97xbhyw3utDLRtFv7anHjXNOUQbyWBL5fK5",
-  token: "7933ae29d47bcf1440889ad983dbe0af",
-  terrainToken: "e90d56e5a09d1767899ad45846b0cefd",
-
   loadingShow: false,// 模态框
+  isloading:false
 })
 
 let fromData = reactive({
@@ -103,6 +121,7 @@ let fromData = reactive({
 // 关闭保存面板
 function close() {
   panelStore.showSavePanel = false;
+  state.isloading = false;
 }
 
 // 获取当前时间
@@ -136,7 +155,6 @@ function getNowFormatDate() {
 // 点击执行保存
 function onSaveUserClk() {
   let isCreateScene = IportalStore.isCreateScene;
-  console.log("save-open-click-isCreateScene:", isCreateScene)
 
   if (isCreateScene) {
     //true 创建并保存场景
@@ -166,12 +184,16 @@ function checkLayers() {
   layers["layerQueryOptions"] = layerStore.layerQueryOptions; // s3m图层绑定的查询数据源信息
 
   layers["mapQueryOptions"] = layerStore.mapQueryOptions; // 地图查询绑定的数据源信息
+
+  layers["mediaFeildOptions"] = layerStore.mediaFeildOptions; // 地图查询中媒体字段的绑定信息
   
   layers["sceneAttrState"] = layerStore.sceneAttrState; // 场景属性状态
   
   layers["particleOptions"] = layerStore.particleOptions; // 三维特效 - 粒子
 
   layers["layerStyleOptions"] = layerStore.layerStyleOptions; // s3m图层风格
+
+  layers["wmtsLayerOption"] = layerStore.wmtsLayerOption; // wmts服务
 
   return layers;
 }
@@ -322,6 +344,8 @@ function createAndSaveScene() {
     return;
   }
 
+  state.isloading = true;
+
   let name = fromData.scenePortalName;
   let tagsArray = fromData.scenePortalTages.replace("，", ",").split(",");
   let userName = fromData.scenePortalUser;
@@ -361,18 +385,22 @@ function createAndSaveScene() {
     content: JSON.stringify(data)
   };
 
-  let iportaluserName = IportalStore.portalUserprofile.userName;
+  console.log("对接online-saveData:",saveData);
+  console.log("对接online-IportalStore.userInfo:",IportalStore.userInfo);
+
+  // let iportaluserName = IportalStore.portalUserprofile.userName;
+  let iportaluserName = IportalStore.userInfo.userName;
   if (iportaluserName === "GUEST") {
     message.error(GlobalLang.saveErrorNeedOnline);
     return;
   }
 
   // modulePermissions : [true]
-  let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions[0];
-  if (iportalUpdateScene != true) {
-    message.error(GlobalLang.saveErrorNeedOnline);
-    return;
-  }
+  // let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions[0];
+  // if (iportalUpdateScene != true) {
+  //   message.error(GlobalLang.saveErrorNeedOnline);
+  //   return;
+  // }
 
   // 之前的，这里始终接口好像有变化，暂时不用，不然部署保存打开会有问题
   // let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions;
@@ -391,7 +419,7 @@ function createAndSaveScene() {
   window.axios
     .post(url, JSON.stringify(saveData), { withCredentials: true })
     .then(function (response) {
-
+      console.log("对接online-保存后-response:",response);
       state.sceneID = response.data.newResourceID;
       //保存缩略图
       let putSceneUrl =
@@ -409,7 +437,7 @@ function createAndSaveScene() {
           withCredentials: true
         })
         .then(function () {
-
+          state.isloading = false;
           message.success(GlobalLang.saveSuccess);
           panelStore.showSavePanel = false;
           setTimeout(() => {
@@ -417,13 +445,17 @@ function createAndSaveScene() {
               getRootUrl() +
               "apps/earth/v2/index.html?id=" +
               response.data.newResourceID;
-            // console.log("currentUrl:",currentUrl)
+            console.log("对接online-currentUrl:",currentUrl)
             window.open(currentUrl, "_self");
           }, 1000);
         })
         .catch(function (error) {
           message.error(error.message.toString());
         });
+    },function(err){
+      console.log(err);
+      state.isloading = false;
+      message.warning('配额不足');
     });
 }
 
@@ -438,6 +470,8 @@ function updateScene() {
     message.warning(GlobalLang.sceneSaveLableCannotBeNull);
     return;
   }
+  
+  state.isloading = true;
 
   let name = fromData.scenePortalName;
   let tagsArray = fromData.scenePortalTages.replace("，", ",").split(",");
@@ -484,25 +518,30 @@ function updateScene() {
     content: JSON.stringify(data)
   };
 
+  console.log("对接online-saveData-更新:",saveData);
+  console.log("对接online-IportalStore.userInfo-更新:",IportalStore.userInfo);
 
-  let iportaluserName = IportalStore.portalUserprofile.userName;
+  // let iportaluserName = IportalStore.portalUserprofile.userName;
+  let iportaluserName = IportalStore.userInfo.userName;
   if (iportaluserName === "GUEST") {
     message.error(GlobalLang.saveErrorNeedOnline);
     return;
   }
 
   // modulePermissions : [true]
-  let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions[0];
-  if (iportalUpdateScene != true) {
-    message.error(GlobalLang.saveErrorNeedOnline);
-    return;
-  }
+  // let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions[0];
+  // if (iportalUpdateScene != true) {
+  //   message.error(GlobalLang.saveErrorNeedOnline);
+  //   return;
+  // }
 
   // 更新场景
   let url = getRootUrl() + "web/scenes/" + state.sceneID + ".json";
   window.axios
     .put(url, JSON.stringify(saveData), { withCredentials: true })
     .then(function () {
+      console.log("对接online-更新成功:");
+
       //保存缩略图
       let putSceneUrl =
         getRootUrl() + "web/scenes/" + state.sceneID + "/thumbnail.json";
@@ -516,6 +555,7 @@ function updateScene() {
         })
         .then(function () {
           panelStore.showSavePanel = false;
+          state.isloading = false;
           message.success(GlobalLang.saveUpdate);
           let currentUrl =
             getRootUrl() + "apps/earth/v2/index.html?id=" + state.sceneID;
@@ -525,11 +565,14 @@ function updateScene() {
         .catch(function (error) {
           console.log(error)
         });
+    },function(err){
+      console.log(err);
+      state.isloading = false;
+      message.warning('配额不足');
     });
 }
 watch(() => panelStore.showSavePanel, () => {
   fromData.storageSceneCurrentTime = getNowFormatDate();
-  console.log("IportalStore.saveInfo-watch:", IportalStore.saveInfo);
   fromData.scenePortalUser = IportalStore.userInfo.userName;
   if (IportalStore.saveInfo) {
     fromData.scenePortalName = IportalStore.saveInfo.scenePortalName;
