@@ -20,7 +20,8 @@ let state = reactive({
   scenePortalUser: "",
   scenePortalDescription: '',
   sceneID: '',
-
+  // updateTime:undefined,
+  isNewVersion:true,
   key: layerStore.configToken.BingMapKey, // 必应地图key
   TiandituToken: layerStore.configToken.TiandituToken, // 天地图token
 })
@@ -44,7 +45,7 @@ function openExistScene() {
         .get(url, { withCredentials: true })
         .then(function (response) {
           console.log("已保存的场景返回信息:",response);
-    
+          // state.updateTime = response.data.updateTime;
           if (response.status === 200) {
             let highestpermissionurl =
               getRootUrl() +
@@ -87,7 +88,11 @@ function openExistScene() {
   function openScene(response?: any) {
     let content = JSON.parse(response.data.content);
     console.log("exit-openScene-content:", content)
-  
+    if(content.layers.sceneAttrState){ // 新版的layers才有sceneAttrState属性
+      state.isNewVersion = true;
+    }else{
+      state.isNewVersion = false;
+    }
     state.scenePortalName = response.data.name;
     state.scenePortalTages = response.data.tags.join(",");
     state.scenePortalUser = response.data.userName;
@@ -146,15 +151,33 @@ function openExistScene() {
       let cameraY = content.camera.position.y;
       let cameraZ = content.camera.position.z;
       setTimeout(function () {
-        viewer.scene.camera.setView({
-          destination: new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ),
-          orientation: {
-            heading: content.camera.heading,
-            pitch: content.camera.pitch,
-            roll: content.camera.roll
-          }
-        });
-  
+        // if(Number(state.updateTime) > 11){ // 新老版本判断依据：时间
+        if(state.isNewVersion){
+          // 新版保存的场景
+          console.log('新版IEarth保存的场景');
+          viewer.scene.camera.setView({
+            destination: new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ),
+            orientation: {
+              heading: content.camera.heading,
+              pitch: content.camera.pitch,
+              roll: content.camera.roll
+            }
+          });
+        }else{
+          // 旧版保存的场景
+          console.log('旧版IEarth保存的场景');
+          let position = CartesiantoDegrees(new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ))
+          viewer.scene.camera.setView({
+              destination: position,
+              orientation: {
+                  heading: content.camera.heading,
+                  pitch: content.camera.pitch,
+                  roll: content.camera.roll
+              }
+          });
+        }
+
+
         layerStore.refreshLayerTree();
 
         // 将layerStyleOptions传入 - 需要等layer都加载完在设置图层风格
@@ -174,10 +197,30 @@ function openExistScene() {
       viewer.scene.open(realspaceUrl);
     }
   }
+
+  // 老版Cesium保存的圆球相机坐标转椭球
+  function CartesiantoDegrees(Cartesians){
+    // 当坐标为Cesium中保存的，使用圆球进行转换
+    var ellipsoid = new SuperMap3D.Ellipsoid(6378137.0, 6378137.0, 6378137.0)
+    let array = [].concat(Cartesians);
+    let positions:any = [];
+    for (let i = 0, len = array.length; i < len; i++) {
+        let cartographic = SuperMap3D.Cartographic.fromCartesian(array[i],ellipsoid);
+        let longitude = Number(SuperMap3D.Math.toDegrees(cartographic.longitude));
+        let latitude = Number(SuperMap3D.Math.toDegrees(cartographic.latitude));
+        let h = Number(cartographic.height);
+        if (positions.indexOf(longitude) == -1 && positions.indexOf(latitude) == -1) {
+        positions.push(longitude);
+        positions.push(latitude);
+        positions.push(h);
+        }
+        return SuperMap3D.Cartesian3.fromDegrees(longitude, latitude, h);
+    }
+};
   
   function openS3M(content: any) {
     let s3mlayer = content.layers.s3mLayer;
-    if (s3mlayer.length > 0) {
+    if (s3mlayer && s3mlayer.length > 0) {
       for (let t = 0; t < s3mlayer.length; t++) {
         let url = content.layers.s3mLayer[t].url;
         let name = content.layers.s3mLayer[t].name;
@@ -191,9 +234,13 @@ function openExistScene() {
   function openImagery(content: any) {
     let imageryLayer = content.layers.imageryLayer;
     let imageryProvider;
-    if (imageryLayer.length > 0) {
+    if (imageryLayer && imageryLayer.length > 0) {
       for (let i = 0; i < imageryLayer.length; i++) {
         let url = content.layers.imageryLayer[i].url;
+        if(url.indexOf('static/Cesium') != -1){
+          console.log('该url不存在');
+          continue;
+        }
         if (url.length > 1) {
           setTrustedServers(url);
         }
@@ -248,16 +295,17 @@ function openExistScene() {
   }
   function openMVT(content: any) {
     let MVTLayerUrlList = content.layers.MVTLayer;
-  
-    MVTLayerUrlList.forEach(item => {
-      layerManagement.addMvtLayer(item.url, item.name,"MVT");
-    })
+    if(MVTLayerUrlList && MVTLayerUrlList.length > 0){
+      MVTLayerUrlList.forEach(item => {
+        layerManagement.addMvtLayer(item.url, item.name,"MVT");
+      })
+    }
   }
   function openTerrain(content: any) {
   
     viewer.terrainProvider = new SuperMap3D.EllipsoidTerrainProvider();
     let terrainLayer = content.layers.terrainLayer;
-    if (terrainLayer.length > 0) {
+    if (terrainLayer && terrainLayer.length > 0) {
       let terrainType = content.layers.terrainLayer[0].type;
   
       let url = content.layers.terrainLayer[0].url;
