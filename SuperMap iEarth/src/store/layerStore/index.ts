@@ -126,15 +126,15 @@ export const useLayerStore = defineStore({
 					name: "global.transformerStation",
 					chooseType: false
 				},
-				{
-					type: "REALSPACE",
-					thumbnail: "./images/addData/CBD.jpg",
-					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-					name: "global.originCBD",
-					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
-					chooseType: false
-				},
+				// {
+				// 	type: "REALSPACE",
+				// 	thumbnail: "./images/addData/CBD.jpg",
+				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+				// 	name: "global.originCBD",
+				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
+				// 	chooseType: false
+				// },
 			],
 			// 在线底图服务
 			onlineBaseLayerList: [{
@@ -652,14 +652,13 @@ export const useLayerStore = defineStore({
 				}else{
 					return GlobalLang[targetItem.type];
 				}
-			} else if (imageUrl) {
-				if (imageUrl.indexOf("realspace/datas/") != -1) {
-					let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
-					return otherImageLayerName;
-				} else {
-					return 'Unnamed';
-				}
 			} 
+
+			
+			if (imageUrl && imageUrl.indexOf("realspace/datas/") != -1) {
+				let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
+				return otherImageLayerName;
+			}
 		
 			// 网络底图
 			if (imageryLayer._imageryProvider.tablename) {
