@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "37097694",
+      "name": "点选",
+      "font_class": "dianxuan",
+      "unicode": "e891",
+      "unicode_decimal": 59537
+    },
+    {
+      "icon_id": "37093927",
+      "name": "shp查询",
+      "font_class": "shpchaxun",
+      "unicode": "e890",
+      "unicode_decimal": 59536
+    },
+    {
+      "icon_id": "37088950",
+      "name": "地图查询",
+      "font_class": "dituchaxun",
+      "unicode": "e88f",
+      "unicode_decimal": 59535
+    },
+    {
       "icon_id": "36324060",
       "name": "空间距离",
       "font_class": "kongjianjuli",

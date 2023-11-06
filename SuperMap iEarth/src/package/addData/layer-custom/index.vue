@@ -26,6 +26,7 @@ import { reactive, markRaw } from "vue";
 import layers from "./components/layers.vue";
 import scene from "./components/scene.vue";
 import localData from "./components/localData.vue";
+// import iEarthtest from "./components/iEarthtest.vue";
 // import myService from "./components/myService.vue";
 
 // 使用vue3 setUp实现动态组件
@@ -46,8 +47,8 @@ let comList = reactive([
     isSelect: false,
   },
   // {
-  //   name: "我的服务",
-  //   com: markRaw(myService),
+  //   name: "测试",
+  //   com: markRaw(iEarthtest),
   //   isSelect: false,
   // },
 ]);

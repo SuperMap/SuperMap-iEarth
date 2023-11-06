@@ -4,6 +4,7 @@ import { getLang } from '@/utils'
 import { LangEnum } from '@/enums/styleEnum'
 import zh from './zh/index'
 import en from './en/index'
+import ja from './ja/index'
 
 // 获取当前浏览器语言环境
 var currentLanguage;
@@ -20,20 +21,26 @@ export const langList = [
   {
     label: 'English',
     key: LangEnum.EN
+  },
+  {
+    label: 'Japanese',
+    key: LangEnum.JA
   }
 ]
 
 // 全局语言对象
 export const langGlobal = {
   "zh":zh,
-  "en":en
+  "en":en,
+  "ja":ja,
 }
 
 const i18n = createI18n({
   locale: currentLanguage,
   messages: {
     [LangEnum.ZH]: zh,
-    [LangEnum.EN]: en
+    [LangEnum.EN]: en,
+    [LangEnum.JA]: ja
   }
 })
 

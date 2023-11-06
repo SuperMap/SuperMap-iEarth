@@ -8,7 +8,7 @@
             :options="state.s3mlayers"
         />
      </div> -->
-     <div class="row-item">
+     <div class="row-item" v-show="state.isBaiMo">
         <span>{{$t('global.fillStyle')}}</span>
         <n-select
             class="add-input-border"
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" v-show="state.isBaiMo">
         <span>{{$t('global.lineColor')}}</span>
         <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
         <n-color-picker
@@ -72,10 +72,8 @@
         </n-radio-group>
     </div>
 
-
-
-      <!-- <div class="row-item">
-        <span>底部高程</span>
+      <div class="row-item">
+        <span>{{$t('global.bottomHeight')}}</span>
         <div class="slider-box">
             <n-slider
             v-model:value="state.bottomAltitude"
@@ -84,7 +82,7 @@
             />
             <div class="row-slider-num">{{ state.bottomAltitude }}</div>
         </div>
-      </div> -->
+      </div>
 
       <div class="row-item" v-show="state.isCloudPoint">
         <span>LOD</span>
@@ -109,9 +107,23 @@
             <div class="row-slider-num">{{ state.layerTrans }}</div>
         </div>
       </div>
-      <div class="btn-row-item">
+      <!-- <div class="btn-row-item">
+        <n-button type="info" color="#3499E5" text-color="#fff" attr-type="button" @click="onSaveUserClk">
+                  {{$t('global.save')}}
+                </n-button>
         <n-button @click="reset">{{$t('global.reset')}}</n-button>
-      </div>
+      </div> -->
+      <div class="btn-row-item">
+      <n-button
+        type="info"
+        color="#3499E5"
+        text-color="#fff"
+        class="ans-btn"
+        @click="saveStyle"
+        >{{$t('global.save')}}</n-button
+      >
+      <n-button class="btn-secondary" @click="reset" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.reset')}}</n-button>
+    </div>
     </div>
 
 
@@ -127,8 +139,11 @@
   </template>
 
 <script setup lang="ts">
-import { reactive, onBeforeUnmount, watch } from "vue";
+import { reactive,onMounted, onBeforeUnmount, watch } from "vue";
 import { useLayerStore } from "@/store/layerStore";
+import { useMessage } from "naive-ui";
+
+const message = useMessage();
 const layerStore = useLayerStore();
 
 type StateType = {
@@ -146,6 +161,7 @@ type StateType = {
   visibleDistanceMax: number, //最大可见距离
   fillStyleMode:any,
   isCloudPoint:boolean,// 当前图层是否为点云
+  isBaiMo:boolean,// 当前图层是否为白膜
 }
 
 // 初始化数据
@@ -168,6 +184,7 @@ let state = reactive<StateType>({
     { label: () => GlobalLang.fillBothMode, value: 2 }
   ],
   isCloudPoint:false,
+  isBaiMo:false,
 });
 let layers;
 
@@ -193,11 +210,27 @@ function init() {
   updateLayers();
   state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
 
-  if(layers[state.selectedIndex].name === "POINTCLOUD23"){
+  // _fileType:8 => 点云
+  if(layers[state.selectedIndex]._fileType === 8){
       state.isCloudPoint = true;
   }
+
+  // 白膜图层
+  if(layers[state.selectedIndex]._name == '重庆白模' || layers[state.selectedIndex]._name == '横滨白模'){
+      state.isBaiMo = true;
+  }
+
+  let keys = Object.keys(layerStore.layerStyleOptions);
+  if(keys.length>0){
+    let s3mLayerName = layers[state.selectedIndex]._name;
+    let option = layerStore.particleOptions[s3mLayerName];
+    if(option) switchCase(option);
+  }
 }
-init();
+// init();
+onMounted(() => {
+  init();
+})
 
 function getAttributes() {
   if (!SuperMap3D.defined(layers) || !SuperMap3D.defined(layers[state.selectedIndex]))
@@ -247,12 +280,65 @@ function reset(){
   state.selectColorMode = 0; //选中色模式
   state.bottomAltitude = 0; //底部高程
   state.layerTrans = 1; //图层透明度
+  state.fillStyle = 0; //填充模式
 
   if(state.isCloudPoint){
     state.LODScale = 1; //LOD
   }
 }
 
+function saveStyle(){
+  let layer = layers[state.selectedIndex];
+  let key = layer._name;
+  let layerStyleItem:any = {};
+
+  layerStyleItem['foreColor'] = state.foreColor;
+  layerStyleItem['lineColor'] = state.lineColor;
+  layerStyleItem['selectedColor'] = state.selectedColor;
+  layerStyleItem['selectColorMode'] = state.selectColorMode;
+  layerStyleItem['bottomAltitude'] = state.bottomAltitude;
+  layerStyleItem['layerTrans'] = state.layerTrans;
+  layerStyleItem['LODScale'] = state.LODScale;
+  layerStyleItem['fillStyle'] = state.fillStyle;
+
+  layerStore.layerStyleOptions[key] = layerStyleItem;
+
+  message.success(`${key}${GlobalLang.attrSaveOk}`);
+}
+
+// 设置参数
+function switchCase(option:any) {
+  for (let key in option) {
+    switch (key) {
+      case "foreColor":
+        state.foreColor = option[key];
+        break;
+      case "lineColor":
+        state.lineColor = option[key];
+        break;
+      case "selectedColor":
+        state.selectedColor = option[key];
+        break;
+      case "selectColorMode":
+        state.selectColorMode = Number(option[key]);
+        break;
+      case "bottomAltitude":
+        state.bottomAltitude = Number(option[key]);
+        break;
+      case "fillStyle":
+        state.fillStyle = Number(option[key]);
+        break;
+      case "LODScale":
+        state.LODScale = Number(option[key]);
+        break;
+      case "layerTrans":
+        state.layerTrans = Number(option[key]);
+        break;
+      default:
+        break;
+    }
+  }
+}
 // 监听
 watch(
   () => layerStore.layerChangeCount,
@@ -283,10 +369,13 @@ watch(
 watch(
   () => state.lineColor,
   val => {
-    if (layers[state.selectedIndex])
-      layers[
-        state.selectedIndex
-      ].style3D.lineColor = SuperMap3D.Color.fromCssColorString(val);
+    if (layers[state.selectedIndex]){
+      // layers[
+      //   state.selectedIndex
+      // ].style3D.lineColor = SuperMap3D.Color.fromCssColorString(val);
+      let layer =   layers[state.selectedIndex];
+      layer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(val);
+    }
   }
 );
 watch(

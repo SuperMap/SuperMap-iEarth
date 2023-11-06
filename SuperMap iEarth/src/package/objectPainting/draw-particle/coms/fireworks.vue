@@ -7,15 +7,24 @@
 </template>
     
 <script lang="ts" setup>
-import { onBeforeUnmount } from "vue";
+import { onMounted,onBeforeUnmount } from "vue";
+import { useLayerStore } from "@/store/index"
 
+const layerStore = useLayerStore();
 const scene = viewer.scene;
+
+onMounted(() => {
+  init();
+})
+
+function init() {
+  if(window.EarthGlobal && window.EarthGlobal["fireWork"]){
+    setIntervalList = window.EarthGlobal["fireWork"];
+  }
+}
 
 let modelMatrix = new SuperMap3D.Matrix4();
 let clickHandle, setIntervalList:any[] = [],particleSystemList:any[] = [];
-scene.skyAtmosphere = new SuperMap3D.SkyAtmosphere();
-scene.globe.show = false
-scene.skyAtmosphere.show = false; //关闭大气
 
 let sparkOneUrl = './Resource/particle/babylon/sparkGravityOne.json';
 let sparkTwoUrl = './Resource/particle/babylon/sparkGravityTwo.json';
@@ -74,21 +83,25 @@ function settingParticleSys(particleSystem, offset, index) {
   // particleSystem.start(); 
 }
 
+function addSpark(centerPosition){
+  SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
+  createSpark();
+}
 
 // 添加粒子
 function add() {
-  scene.globe.show = false
-  scene.skyAtmosphere.show = false; //关闭大气
   clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandle.setInputAction(function (click) {
     let centerPosition = viewer.scene.pickPosition(click.position);
-    SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
-    createSpark();
+    layerStore.particleOptions['fireWork'] = {
+      fireWorkPosition:centerPosition
+    }
+    addSpark(centerPosition);
     clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-function clear() {
+function clear(flag=true) {
   // 这种删除方式遇到通视分析会卡死
   // if(setIntervalList.length>0){
   //   scene.primitives.removeAll();
@@ -99,8 +112,6 @@ function clear() {
   //   scene.primitives.remove(particleSystem);
   // })
   particleSystemList = [];
-  scene.globe.show = true;
-  scene.skyAtmosphere.show = true; //开启大气
 
   // 暂时还是使用这种方式，等生命周期结束,就是不能一哈子删除
   if(setIntervalList.length>0){
@@ -110,11 +121,13 @@ function clear() {
     setIntervalList = []
   }
 
+  if(flag) layerStore.particleOptions['fireWork'] = null;
+
 };
 
 
 onBeforeUnmount(() => {
-  clear();
+  clear(false);
 });
 
 </script>

@@ -73,6 +73,20 @@ export const usePanelStore = defineStore({
                     isSelected: false,
                     panelName: "layerStyle"
                 },
+                {
+                    id: 10,
+                    iconName: "iconhuizhi",
+                    title: "global.layerQuery",
+                    isSelected: false,
+                    panelName: "layerQuery"
+                },
+                {
+                    id: 11,
+                    iconName: "iconhuizhi",
+                    title: "global.mapQuery",
+                    isSelected: false,
+                    panelName: "mapQuery"
+                },
             ]
         },
         rightTooPanel: false,
@@ -81,6 +95,8 @@ export const usePanelStore = defineStore({
         showSavePanel:false, // 保存面板是否显示
         isEditMode:false, // iportal中用来控制保存面板的与showSavePanel搭配使用，以便适应不同环境
         // isViewer:false, // Cesium.Viewer这个东西初始化完成的标志
+        myDataPanleShow:false,// 我的数据面板
+        queryData:[],// 通过我的数据查询到的要素记录
     }),
     getters: {
     },
@@ -103,14 +119,17 @@ export const usePanelStore = defineStore({
                 item.isSelected = false;
             })
 
-            this.rightTooPanel = true;
-            this.panelList.rightToolBarList.map((item:any) => {
-                if (item.id == iconItem.id) {
-                    item.isSelected = true;
-                } else {
-                    item.isSelected = false;
-                }
-            })
+            // 确保所有面板能全部刷新
+            setTimeout(()=>{
+                this.rightTooPanel = true;
+                this.panelList.rightToolBarList.map((item:any) => {
+                    if (item.id == iconItem.id) {
+                        item.isSelected = true;
+                    } else {
+                        item.isSelected = false;
+                    }
+                })
+            },10)
         },
         // 关闭弹窗面板
         closeRightToolPanel(leftOrRght: any) {

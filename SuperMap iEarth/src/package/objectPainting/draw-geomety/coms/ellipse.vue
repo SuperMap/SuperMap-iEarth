@@ -99,8 +99,9 @@ let state = reactive<stateType>({
 
 let ellipseEntity;
 let entities = viewer.entities;
-let handlerPoint_ellipse = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 let targetEntity: any = null;
+
+let handlerPoint_ellipse = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 
 // 注册绘制圆柱事件
 handlerPoint_ellipse.drawEvt.addEventListener(function (res) {

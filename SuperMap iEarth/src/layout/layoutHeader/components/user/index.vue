@@ -2,12 +2,12 @@
   <div class="userinfoBox" v-show="!GlobalStore.isNormalMode">
     <i class="iconfont iconuser"></i>
     <div v-if="IportalStore.isLogin" @click="toUserInfoPage">
-    {{ IportalStore.userInfo.userName }}
+    <span style="font-size: 0.15rem;"> {{ UserName }}</span>
   </div>
   <n-tooltip v-else>
     <template #trigger>
-      <n-button @click="showLoginBox" :bordered="false" tag="div">{{
-        IportalStore.userInfo.userName === '游客' ? $t('global.tourists') : IportalStore.userInfo.userName
+      <n-button @click="showLoginBox" :bordered="false" tag="div" style="font-size: 0.15rem;">{{
+        IportalStore.userInfo.userName === 'GUEST' ? $t('global.tourists') : IportalStore.userInfo.userName
       }}</n-button>
     </template>
     {{$t('global.loginPlease')}}
@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 
-// import { ref } from "vue";
+import { computed } from "vue";
 import Authenticate from "@ispeco/authentication-sdk"; // 超图iportal第三方库
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { GlobalStoreCreate } from '@/store/global/global';
@@ -57,7 +57,7 @@ const authInstance = new Authenticate({
     // rootUrl: "/iportal/", // 正确的地址
   },
   onSucceed: function (result: any){
-    console.log("result-用户信息", result);
+    console.log("用户信息", result);
     const { data } = result;
     if (data && data.success && data.user) {
       IportalStore.isLogin = true;
@@ -82,6 +82,22 @@ function toUserInfoPage() {
   let myAccountUrl = getRootUrl() + "web-ui/my-account/account";
   window.open(myAccountUrl);
 }
+
+// 有昵称优先使用昵称，没有再使用用户名
+let UserName = computed(()=>{
+  if(IportalStore.userInfo.nickName && IportalStore.userInfo.nickName != ""){
+    return IportalStore.userInfo.nickName;
+  }else{
+    // return IportalStore.userInfo.userName;
+    let userName = IportalStore.userInfo.userName;
+    if(userName == 'GUEST'){
+      return GlobalLang.tourists;
+    }else{
+      return userName;
+    }
+
+  }
+})
 </script>
 
 <style lang="scss" scoped>

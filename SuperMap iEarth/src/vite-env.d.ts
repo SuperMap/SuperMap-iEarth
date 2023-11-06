@@ -14,6 +14,8 @@ declare interface Window {
   axios: any,
   editHandler:any,
   LangGlobal:any, // 全局语言管理
+  L:any, // 二维地图库：iclient-leaflet
+  EarthGlobal:any
 }
 
 //全局声明Cesium和viewer
@@ -22,3 +24,5 @@ declare var viewer : Window.viewer
 declare var SuperMap3D : Window.SuperMap3D
 declare var h337 : Window.h337
 declare var GlobalLang : Window.GlobalLang
+declare var L : Window.L
+declare var EarthGlobal : Window.EarthGlobal

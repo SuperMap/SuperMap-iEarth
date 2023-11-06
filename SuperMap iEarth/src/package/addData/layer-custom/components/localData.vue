@@ -78,12 +78,14 @@ function fileChange() {
         SuperMap3D.KmlDataSource.load(blob, {
           camera: viewer.scene.camera,
           canvas: viewer.scene.canvas,
+        //   clampToGround:true,
+        // sourceUri:"./Resource/ylw-pushpin.png",
+        // sourceUri:"http://www.opengis.net/kml/2.2",
         })
       )
       .then(function (dataSource: any) {
         viewer.flyTo(dataSource);
         viewer.scene.layer = dataSource;
-
       });
     });
 }

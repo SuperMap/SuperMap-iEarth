@@ -27,7 +27,10 @@ function changePanel(iconItem: any) {
   panelStore.setLeftToolBarList(iconItem);
 
   if(iconItem.id === 1){
-    layerStore.refreshLayerTree();
+    // 提交注释掉
+    if(layerStore.layerTreeData[1].children.length === 0){
+      layerStore.refreshLayerTree();
+    }
   }
 }
 </script>

@@ -8,11 +8,22 @@
         </n-space>
       </n-radio-group>
     </div>
-    <div class="btn-row-item">
+    <div class="btn-row-item" v-if="state.isQxModel">
       <n-button type="info" color="#3499E5" text-color="#fff" @click="start" style="margin-right: 0.1rem">
         {{ state.actionName }}
         </n-button>
       <n-button class="btn-secondary" @click="clear">{{$t('global.clear')}}</n-button>
+    </div>
+    <div class="btn-row-item" v-else>
+        <n-tooltip>
+          <template #trigger>
+            <n-button type="info" tag="div" disabled color="#3499E5" text-color="#fff" @click="start" style="margin-right: 0.1rem">
+            {{ state.actionName }}
+            </n-button>
+          </template>
+          {{$t('global.qxModelTip')}}
+        </n-tooltip>
+      <n-button class="btn-secondary" disabled @click="clear">{{$t('global.clear')}}</n-button>
     </div>
 </template>
   
@@ -29,6 +40,7 @@
     selectedIndex: number, //默认选择图层index
     operationType: number //操作类型
     actionName:string,// 当前操作名称
+    isQxModel:boolean,//是否为倾斜模型
   }
   
   // 初始化数据
@@ -36,14 +48,15 @@
     s3mlayers: [], //当前存在的可选择s3m图层
     selectedIndex: 0, //默认选择图层index
     operationType: 0, //操作类型
-    actionName:''
+    actionName:'',
+    isQxModel:false
   });
   let layers, handlerPolygon;
   
   function updateLayers() {
     layers = viewer.scene.layers.layerQueue;
     if (!layers || layers.length < 1) {
-      state.s3mlayers = [{ label: () => '暂无图层', value: 0 }];
+      state.s3mlayers = [{ label: () => GlobalLang.noLayer, value: 0 }];
       return;
     }
     state.s3mlayers.length = 0;
@@ -62,6 +75,13 @@
     updateLayers();
     state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
     state.actionName = GlobalLang.excavate;
+
+    // 判断当前图层是否为倾斜摄影模型 - 目前以RealityMesh来做判断
+    if(layers[state.selectedIndex]._dataType === "RealityMesh"){
+      state.isQxModel = true;
+    }else{
+      state.isQxModel = false;
+    }
   }
   init();
   

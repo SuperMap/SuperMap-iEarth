@@ -21,6 +21,10 @@
       <n-tab-pane name="SmSceneSpecialEffect" :tab="$t('global.speciallyEffect')">
         <SmSceneSpecialEffect></SmSceneSpecialEffect>
       </n-tab-pane>
+      <!-- 视频投放 -->
+      <n-tab-pane name="videoSet" :tab="$t('global.videoFileSet')">
+        <SmVideoSet></SmVideoSet>
+      </n-tab-pane>
     </n-tabs>
   </div>
 </template>
@@ -32,6 +36,7 @@ import SmFlyRoute from "./fly-route/index";
 import SmSceneLight from "./scene-light/index";
 import SmSceneViewPort from "./scene-viewPort/index";
 import SmSceneSpecialEffect from "./scene-specialEffect/index";
+import SmVideoSet from "./video-set/index";
 
 // const panelStore = usePanelStore();
 function tabsChange() {}

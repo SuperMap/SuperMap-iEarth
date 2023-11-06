@@ -57,6 +57,16 @@
           v-if="panelStore.panelList.rightToolBarList[6].isSelected"
           >{{ $t('global.layerStyle') }}</span
         >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[7].isSelected"
+          >{{ $t('global.layerQuery') }}</span
+        >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[8].isSelected"
+          >{{ $t('global.mapQuery') }}</span
+        >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(2)">
@@ -87,6 +97,12 @@
         <LayerStyle
           v-if="panelStore.panelList.rightToolBarList[6].isSelected"
         ></LayerStyle>
+        <LayerQuery
+          v-if="panelStore.panelList.rightToolBarList[7].isSelected"
+        ></LayerQuery>
+        <MapQuery
+          v-if="panelStore.panelList.rightToolBarList[8].isSelected"
+        ></MapQuery>
       </div>
       <div class="panle-footer"></div>
     </div>
@@ -112,6 +128,8 @@ import ObjectPainting from "@/package/objectPainting/index";
 import LayerOpration from "@/package/layerSeries/layerOpration/index";
 import LayerAttribute from "@/package/layerSeries/layerAttribute/index";
 import LayerStyle from "@/package/layerSeries/layerStyle/index";
+import LayerQuery from "@/package/layerSeries/layerQuery/index";
+import MapQuery from "@/package/layerSeries/mapQuery/index";
 
 import { usePanelStore } from "@/store/index";
 

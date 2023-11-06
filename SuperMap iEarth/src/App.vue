@@ -93,10 +93,11 @@ const overridesTheme = {
   overflow: visible;
 }
 .drawCur {
-  cursor: url(./images/cur/draw.cur), auto;
+  // cursor: url(./images/cur/draw.cur), auto;
+  cursor: url(../public/images/cur/draw.cur), auto;
 }
 
 .measureCur {
-  cursor: url(./images/cur/measure.cur), auto;
+  cursor: url(../public/images/cur/measure.cur), auto;
 }
 </style>

@@ -90,7 +90,7 @@ watch(SceneLayerChangeCount, val => {
 
 // 定义数据
 let data = ref<any[]>([
-  { label: () => '暂无图层', key: 0, disabled: true }
+  { label: () => GlobalLang.noLayer, key: 0, disabled: true }
 ]);
 
 // 创建节点函数
@@ -192,7 +192,7 @@ function updateLayers() {
   // }
   if (newData.length === 0) {
     data.value = [
-      { label: () => '暂无图层', key: 0, checkboxDisabled: true }
+      { label: () => GlobalLang.noLayer, key: 0, checkboxDisabled: true }
     ];
     return;
   }
