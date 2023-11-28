@@ -9,7 +9,7 @@
     />
   </div>
 
-  <div class="row-item">
+  <div class="row-item no-center">
     <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list-space" style="width: 1.96rem;">
       <span
@@ -46,11 +46,21 @@
       <n-slider
         style="width: 1.5rem"
         v-model:value="state.lineWidth"
-        :step="1"
+        :step="0.1"
         :min="1"
-        :max="10"
+        :max="50"
       />
-      <span>{{ state.lineWidth }}</span>
+      <n-input-number 
+        v-model:value="state.lineWidth" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="1"
+        :max="50"
+        placeholder=""
+        size="small" 
+      />
     </div>
   </div>
 
@@ -448,6 +458,9 @@ onBeforeUnmount(() => {
   
   
 <style lang="scss" scoped>
+.no-center{
+  align-items: start !important;
+}
 </style>
   
   

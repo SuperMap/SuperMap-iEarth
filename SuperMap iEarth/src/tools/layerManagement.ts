@@ -1,12 +1,10 @@
 // 这一句必须加，和以前直接在main.ts中直接引入不同，因为有个模块加载和引用先后的问题，具体参考: https://blog.csdn.net/zlting_/article/details/127495583
 import store from '../store';
-
 import { useLayerStore } from '../store/layerStore/index';
 import { storeToRefs } from 'pinia';
 
 const layerStore = useLayerStore(store);
 const { onlineBaseLayerList } = storeToRefs(layerStore);
-
 
 // 检验url地址
 function checkURL(url: string) {
@@ -24,9 +22,10 @@ function checkURL(url: string) {
 function openScene(url: string, type: any, sceneName?: string) {
   if (checkURL(url)) {
     // 专门对CBD和变电站场景做设置
-    if (sceneName === 'global.BeijingCBD') {
-      addCBD(url);
-    } else if (sceneName === 'global.transformerStation') {
+    // if (sceneName === 'global.BeijingCBD') {
+    //   addCBD(url);
+    // } 
+    if (sceneName === 'global.transformerStation') {
       addBDZ(url);
     } else {
       let promiseArray = [
@@ -35,6 +34,7 @@ function openScene(url: string, type: any, sceneName?: string) {
       SuperMap3D.when.all(promiseArray, function (layers: any) {
         layerStore.updateLayer({ type: "s3m" });
       });
+      return promiseArray[0];
     }
   }
 }
@@ -109,9 +109,8 @@ function addBaiMo(url: string, sceneName: string, type: any) {
       let initialColor = "rgb(67,67,67)";
       layer.style3D.lineColor =
         SuperMap3D.Color.fromCssColorString(initialColor);
-      layer.wireFrameMode = SuperMap3D.WireFrameType.Sketch; //草图模式,即线框
-      layer._visibleDistanceMax = 60000;
-
+      // layer.wireFrameMode = SuperMap3D.WireFrameType.Sketch; //草图模式,即线框
+      // layer._visibleDistanceMax = 60000;
       layerStore.updateLayer({ type: "s3m" });
     });
 }
@@ -134,7 +133,36 @@ function getLayerNameFromUrl(url: any, type: string): any {
     case "Imagery":
       {
         let imageLayerName = url.split('/rest/realspace/datas/')[1];
-        return imageLayerName;
+        if(!imageLayerName){
+          if (url.indexOf('http') != -1) {
+            if(url.indexOf('/rest/maps/') != -1){
+              let name = url.split('/rest/maps/')[1];
+              if(name.indexOf('%') != -1){
+                let str = decodeURIComponent(name);
+                if(str.indexOf('@')){
+                  let newName = str.split('@')[0];
+                  return newName;
+                }
+              }else{
+                return name;
+              }
+            }
+            if (url.indexOf('%') != -1) {
+              let newName = url.split('%')[0];
+              return newName;
+            }
+            // 支持地图服务
+            if(url.indexOf('/maps/') != -1) {
+              let newName = url.split('/maps/')[1].replace('/', '');
+              return newName;
+            }
+            return url;
+          } else {
+            return 'Unnamed';
+          }
+        }else{
+          return imageLayerName;
+        }
       }
       break;
     case "Terrain":
@@ -150,58 +178,58 @@ function getLayerNameFromUrl(url: any, type: string): any {
 }
 
 
-// // 传入影像图层，获取并返回他在项目中的名称 - 废弃
-// function getImageryLayerName(imageryLayer: any) {
-//   let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
+// 传入影像图层，获取并返回他在项目中的名称
+function getImageryLayerName(imageryLayer: any) {
+  let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
 
-//   if (!imageUrl) return '经纬底图';
+  if (!imageUrl) return '经纬底图';
 
-//   if (imageUrl.indexOf("earth-skin.jpg") != -1) {
-//     return '默认影像';
-//   }
+  if (imageUrl.indexOf("earth-skin.jpg") != -1) {
+    return '默认影像';
+  }
 
-//   let targetItem = onlineBaseLayerList.value.find((item: any) => item.url === imageUrl)
-//   if (targetItem) {
-//     return targetItem.name;
-//   } else if (imageUrl) {
-//     //    let otherImageLayerName = imageUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
+  let targetItem = onlineBaseLayerList.value.find((item: any) => item.url === imageUrl)
+  if (targetItem) {
+    return targetItem.name;
+  } else if (imageUrl) {
+    //    let otherImageLayerName = imageUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
 
-//     if (imageUrl.indexOf("realspace/datas/") != -1) {
-//       let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
-//       return otherImageLayerName;
-//     } else {
-//       return '未命名图层';
-//     }
-//   } else {
-//     return '未命名图层';
-//   }
-// }
+    if (imageUrl.indexOf("realspace/datas/") != -1) {
+      let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
+      return otherImageLayerName;
+    } else {
+      return '未命名图层';
+    }
+  } else {
+    return '未命名图层';
+  }
+}
 
-// // 获取地形图层名称 - 废弃
-// function getTerrainLayerName(): any {
-//   if (window.viewer.terrainProvider._baseUrl) {
-//     let baseUrl = window.viewer.terrainProvider._baseUrl
-//     if (baseUrl.indexOf('3D-stk_terrain') != -1) {
-//       return 'STK地形';
-//     } else {
-//       if (baseUrl.indexOf('supermapol.com') != -1) {
-//         return baseUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
-//       } else {
-//         return '未命名地形';
-//       }
-//     }
-//   } else if (window.viewer.terrainProvider._urls) {
-//     let url0 = window.viewer.terrainProvider._urls[0]
-//     if (url0.indexOf('supermapol.com') != -1) {
-//       return 'SuperMapOnline 地形';
-//     } else {
-//       return '天地图地形'; // viewer.terrainProvider._urls[0].indexOf('tianditu') 看情况在加
-//     }
-//   } else {
-//     // return '标准椭球'
-//     return '无地形';
-//   }
-// }
+// 获取地形图层名称
+function getTerrainLayerName(): any {
+  if (window.viewer.terrainProvider._baseUrl) {
+    let baseUrl = window.viewer.terrainProvider._baseUrl
+    if (baseUrl.indexOf('3D-stk_terrain') != -1) {
+      return 'STK地形';
+    } else {
+      if (baseUrl.indexOf('supermapol.com') != -1) {
+        return baseUrl.split('realspace/services/')[1].split('/rest/realspace')[0]
+      } else {
+        return '未命名地形';
+      }
+    }
+  } else if (window.viewer.terrainProvider._urls) {
+    let url0 = window.viewer.terrainProvider._urls[0]
+    if (url0.indexOf('supermapol.com') != -1) {
+      return 'SuperMapOnline 地形';
+    } else {
+      return '天地图地形'; // viewer.terrainProvider._urls[0].indexOf('tianditu') 看情况在加
+    }
+  } else {
+    // return '标准椭球'
+    return '无地形';
+  }
+}
 
 // 等用到iportal统一放到util中管理
 // //检查请求是否带cookie
@@ -903,9 +931,9 @@ function setSkyBox(skyBoxShow: boolean) {
     viewer.scene.skyBox = skybox;
     if (cameraHeight < 22e4) {
       viewer.scene.skyBox.show = true;
-      viewer.scene.skyAtmosphere.show = false
+      viewer.scene.skyAtmosphere.show = false;
     } else {
-      viewer.scene.skyAtmosphere.show = true
+      viewer.scene.skyAtmosphere.show = true;
     }
   } else {
     viewer.scene.skyAtmosphere.show = true;
@@ -934,8 +962,8 @@ export default {
   addMvtLayer,
   addBaiMo,
   getLayerNameFromUrl,
-  // getImageryLayerName,
-  // getTerrainLayerName,
+  getImageryLayerName,
+  getTerrainLayerName,
   setSkyBox
 }
 

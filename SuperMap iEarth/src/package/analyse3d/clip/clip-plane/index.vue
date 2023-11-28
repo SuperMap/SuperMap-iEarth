@@ -101,6 +101,8 @@ function left_click(e: any) {
   state.pickPosition = pickPosition;
   state.normal = normal;
   if (pickPosition) clipPlane.startClip(pickPosition, normal);
+  clipPlane.setClipPlaneScale(5);
+
   viewer.eventManager.removeEventListener("CLICK", left_click);
   viewer.eventManager.removeEventListener("MOUSE_MOVE", mouse_move);
   document.body.classList.remove("measureCur");

@@ -31,8 +31,18 @@
     <div class="row-item">
       <span>{{$t('global.emitSpeed')}}</span>
       <div class="slider-box">
-        <n-slider v-model:value="state.emitRate" :min="1" :max="2500" :step="20" />
-        <div class="row-slider-num">{{ state.emitRate }}</div>
+        <n-slider v-model:value="state.emitRate" style="width: 70%" :min="10" :max="2500" :step="10" />
+        <n-input-number 
+            v-model:value="state.emitRate" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="10"
+            :max="2500"
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
     <div class="row-item">
@@ -152,6 +162,9 @@ function loadParticleFile(url:string,option?:any) {
 // 立体火焰 环形火 爆炸火 喷泉
 function add() {
   clear();
+  window.viewer.enableCursorStyle = false;
+  window.viewer._element.style.cursor = '';
+  document.body.classList.add("measureCur");
   clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandle.setInputAction(function (click) {
     let centerPosition = viewer.scene.pickPosition(click.position);
@@ -169,6 +182,8 @@ function add() {
     // }
     // layerStore.addParticleFile(options);
     clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
+    window.viewer.enableCursorStyle = true;
+    document.body.classList.remove('measureCur');
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 

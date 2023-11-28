@@ -38,9 +38,17 @@
       <span>{{ $t('global.brightness') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.5rem;" v-model:value="state.brightness" :step="0.1" :min="0" :max="5" />
-        <div class="slider-suffix">
-          <span>{{ state.brightness }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.brightness" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="5"
+          placeholder=""
+          size="small" 
+        />
       </div>
     </div>
 
@@ -48,9 +56,17 @@
       <span>{{ $t('global.contrastRatio') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.5rem;" v-model:value="state.contrast" :step="0.1" :min="0" :max="5" />
-        <div class="slider-suffix">
-          <span>{{ state.contrast }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.contrast" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="5"
+          placeholder=""
+          size="small" 
+        />
       </div>
     </div>
 
@@ -58,9 +74,17 @@
       <span>{{ $t('global.colorTone') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.5rem;" v-model:value="state.hue" :step="0.1" :min="-1" :max="1" />
-        <div class="slider-suffix">
-          <span>{{ state.hue }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.hue" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="-1"
+          :max="1"
+          placeholder=""
+          size="small" 
+        />
       </div>
     </div>
 
@@ -68,32 +92,48 @@
       <span>{{ $t('global.saturation') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.5rem;" v-model:value="state.saturation" :step="0.1" :min="0" :max="5" />
-        <div class="slider-suffix">
-          <span>{{ state.saturation }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.saturation" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="5"
+          placeholder=""
+          size="small" 
+        />
       </div>
     </div>
 
-    <div class="row-item">
+    <!-- <div class="row-item">
       <span>{{ $t('global.showUnderground') }}</span>
       <div style="width: 1.96rem;;margin-right: 0.1rem">
         <n-switch v-model:value="state.showUnderground" size="small" />
       </div>
     </div>
-    <div class="row-item" v-show="state.showUnderground">
+    <div class="row-item" v-show="state.showUnderground" style="margin-right: 0.1rem">
       <span>{{ $t('global.surfaceTransparency') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.5rem;" v-model:value="state.surfaceTransparency" :step="0.1" :min="0" :max="1" />
-        <div class="slider-suffix">
-          <span>{{ state.surfaceTransparency }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.surfaceTransparency" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="1"
+          placeholder=""
+          size="small" 
+        />
       </div>
-    </div>
+    </div> -->
     <n-divider />
 
     <div class="row-item" style="margin-bottom:0px;margin-right: 0.1rem">
       <span>{{ $t('global.coordinateQuery') }}</span>
-      <n-input :placeholder="$t('global.displayCoordinate')" v-model:value="coordinate" autosize
+      <n-input disabled :placeholder="$t('global.displayCoordinate')" v-model:value="coordinate" autosize
         style="width: 1.96rem;" />
     </div>
     <div class="row-item queryTips">
@@ -101,17 +141,6 @@
       <span class="row-content">{{ $t('global.coordinateTip') }}</span>
     </div>
   </n-scrollbar>
-  <!-- <div class="btn-row-item" style="margin-bottom: 0.1rem">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="queryCoordinate"
-      style="margin-right: 0.1rem"
-      >{{$t('global.query')}}</n-button
-    >
-    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
-  </div> -->
 </template>
 
 <script lang="ts" setup>
@@ -142,12 +171,10 @@ function init() {
   //开启坐标查询
   queryCoordinate();
 
-  // 设置图层阴影效果
-  viewer.scene.shadows = false;
-  let layers = viewer.scene.layers.layerQueue;
-  for (var i = 0; i < layers.length; i++) {
-    // 设置图层的阴影模式
-    layers[i].shadowType = 2;
+  if(state.shadow){
+    setShadow();
+  }else{
+    viewer.shadows = false;
   }
 }
 
@@ -171,13 +198,9 @@ function clear() {
   coordinate.value = ''
 }
 
-// 监听
-watch(() => state.earthShow, val => {
-  viewer.scene.globe.show = val;
-})
-watch(() => state.shadow, val => {
-  if (val) {
-    let layers = viewer.scene.layers.layerQueue;
+// 设置阴影相关参数
+function setShadow(){
+  let layers = viewer.scene.layers.layerQueue;
     for (var i = 0; i < layers.length; i++) {
       // 设置图层的阴影模式
       layers[i].shadowType = 2;
@@ -190,9 +213,18 @@ watch(() => state.shadow, val => {
     //设置阴影的出现距离
     viewer.scene.shadowMap.maximumDistance = 2000;
     //设置阴影的浓度，值越高，阴影越淡
-    viewer.shadowMap.darkness = 0.4;
+    viewer.shadowMap.darkness = 0.7;
     //默认值是0.1，值越小越清晰
     viewer.shadowMap.penumbraRatio = 0.1;
+}
+
+// 监听
+watch(() => state.earthShow, val => {
+  viewer.scene.globe.show = val;
+})
+watch(() => state.shadow, val => {
+  if (val) {
+    setShadow();
   } else {
     viewer.shadows = false;
   }
@@ -224,6 +256,8 @@ watch(
     } else {
       viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
       viewer.scene.terrainProvider.isCreateSkirt = true; // 开启裙边
+      viewer.scene.globe.globeAlpha = 1;
+      state.surfaceTransparency = 1;
     }
   }
 );
@@ -231,7 +265,6 @@ watch(
   () => state.surfaceTransparency,
   val => {
     viewer.scene.globe.globeAlpha = val;
-    
   }
 );
 watch(() => state.cloudLayer, val => {
@@ -286,5 +319,12 @@ onBeforeUnmount(() => {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.45);
 
+}
+// .n-input.n-input--disabled .n-input__input-el, .n-input.n-input--disabled .n-input__textarea-el{
+//   color:rgba(255, 255, 255, 0.82) !important; 
+// }
+
+.n-input.n-input--autosize .n-input__input-el {
+  color:rgba(255, 255, 255, 0.82) !important; 
 }
 </style>

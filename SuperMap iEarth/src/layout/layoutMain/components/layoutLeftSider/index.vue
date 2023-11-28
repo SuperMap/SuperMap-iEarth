@@ -40,7 +40,7 @@ function changePanel(iconItem: any) {
   padding-top: 0.05rem;
   box-sizing: border-box;
   position: fixed;
-  top: 0.6rem;
+  top: 0.8rem;
   left: 0.16rem;
   z-index: 2;
   @include setBackground(0.32rem, 0.76rem, "@/assets/images/left-tool-bg.png");

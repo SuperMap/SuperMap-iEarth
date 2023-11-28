@@ -15,11 +15,20 @@ export const useLayerStore = defineStore({
 		layerServiceData: {
 			// 公共服务
 			publicServiceList: [
+				// {
+				// 	type: "REALSPACE",
+				// 	thumbnail: "./images/addData/CBD.jpg",
+				// 	// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+				// 	name: "global.BeijingCBD",
+				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
+				// 	chooseType: false
+				// },
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/CBD.jpg",
-					// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
 					name: "global.BeijingCBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
@@ -131,7 +140,7 @@ export const useLayerStore = defineStore({
 				// 	thumbnail: "./images/addData/CBD.jpg",
 				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
 				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-				// 	name: "global.originCBD",
+				// 	name: "global.BeijingCBD",
 				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 				// 	chooseType: false
 				// },
@@ -334,7 +343,7 @@ export const useLayerStore = defineStore({
 		},
 		layerStyleOptions:{}, // 图层风格保存
 		isDisplayBubble:false, // 是否显示弹窗
-		wmtsLayerOption:{}
+		wmtsLayerOption:[]
 	}),
 	getters: {
 	},
@@ -654,7 +663,6 @@ export const useLayerStore = defineStore({
 				}
 			} 
 
-			
 			if (imageUrl && imageUrl.indexOf("realspace/datas/") != -1) {
 				let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
 				return otherImageLayerName;
@@ -664,6 +672,18 @@ export const useLayerStore = defineStore({
 			if (imageryLayer._imageryProvider.tablename) {
 				let tableName = imageryLayer._imageryProvider.tablename;
 				if (tableName.indexOf('http') === -1) {
+					if(tableName.indexOf('/rest/maps/') != -1){
+						let name = tableName.split('/rest/maps/')[1];
+						if(name.indexOf('%') != -1){
+							let str = decodeURIComponent(name);
+							if(str.indexOf('@')){
+								let newName = str.split('@')[0];
+								return newName;
+							}
+						}else{
+							return name;
+						}
+					}
 					if (tableName.indexOf('%') != -1) {
 						let newName = tableName.split('%')[0];
 						return newName;
@@ -714,7 +734,7 @@ export const useLayerStore = defineStore({
 
 		// 更新已勾选选项
 		updateSelectedOption(selectedOption: any) {
-			console.log("selectedOption:", selectedOption);
+			// console.log("selectedOption:", selectedOption);
 			this.SelectedOptions = selectedOption;
 			let publicServiceList = this.layerServiceData.publicServiceList;
 			let onlineBaseLayerList = this.layerServiceData.onlineBaseLayerList;
@@ -742,7 +762,7 @@ export const useLayerStore = defineStore({
 				}
 			}
 
-			console.log(" this.layerServiceData:", this.layerServiceData);
+			// console.log(" this.layerServiceData:", this.layerServiceData);
 		},
 
 		// 设置当前场景属性
@@ -1064,27 +1084,37 @@ export const useLayerStore = defineStore({
 		// }
 
 		// 设置wmts服务
-		setWmts(wmtsLayerOption){
-			if(JSON.stringify(wmtsLayerOption) === '{}') return;
-			let rectangle = wmtsLayerOption.rectangle;
-			let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
-			  url: wmtsLayerOption.wmtsLayerUrl,
-			  style: "default",
-			  format: 'image/png',
-			  layer: wmtsLayerOption.layerName,
-			  tileMatrixSetID: wmtsLayerOption.tileMatrixSetID,
-			  tilingScheme: new SuperMap3D.GeographicTilingScheme({
-				rectangle: SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]),
-				//ellipsoid: SuperMap3D.Ellipsoid.WGS84,
-				//numberOfLevelZeroTilesX: 1,
-				//numberOfLevelZeroTilesY: 1,
-				scaleDenominators: wmtsLayerOption.scaleDenominatorsList,
-				customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
-			  }),
-			}));
-		
-			// wmtsLayer.alpha = 0.5;
-			viewer.flyTo(wmtsLayer);
+		setWmts(wmtsLayerOptionList:any){
+			if(wmtsLayerOptionList.length == 0) return;
+			wmtsLayerOptionList.forEach((item:any) =>{
+			  let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
+				url: item.wmtsLayerUrl,
+				style: "default",
+				format: 'image/png',
+				layer: item.layerName,
+				tileMatrixSetID: item.tileMatrixSetID,
+				tilingScheme: new SuperMap3D.GeographicTilingScheme({
+				  ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+				  numberOfLevelZeroTilesX: 2,
+				  numberOfLevelZeroTilesY: 1,
+				}),
+				tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
+			  }));
+			  if(!item.wmtsImageLayerPosition){
+				  viewer.flyTo(wmtsLayer);
+				}else{
+				  let wmtsImageLayerPosition = item.wmtsImageLayerPosition;
+				  wmtsLayer.wmtsImageLayerPosition = wmtsImageLayerPosition;
+				  viewer.scene.camera.flyTo({
+					destination: new SuperMap3D.Cartesian3.fromDegrees(wmtsImageLayerPosition.lng, wmtsImageLayerPosition.lat, wmtsImageLayerPosition.height),
+					duration: 1,
+					orientation: {
+					  heading: 0,
+					  roll: 0,
+					},
+				  });
+				}
+			})
 		}
 	}
 })

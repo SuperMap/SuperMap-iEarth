@@ -64,6 +64,7 @@ import { reactive, onBeforeUnmount, watch } from "vue";
 import tool from "@/tools/tool";
 import initHandler from "@/tools/drawHandler";
 import setEditHandler from "@/tools/editHandler";
+import { useMessage } from "naive-ui";
 
 type stateType = {
   digDepth: number, // 开挖深度
@@ -94,18 +95,25 @@ let comList = reactive([
     isSelect: false,
   },
 ]);
+const message = useMessage();
 let handlerPolygon, digPisitions, removeEdit;
-
+let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.canvas);
+handler.setInputAction(clearHandler,SuperMap3D.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 // 分析
 function Analyze() {
-  clear();
+  // clear();
   if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
   handlerPolygon.handlerDrawing().then(
     (res:any) => {
+      clear();
+      message.success('左键双击关闭绘制');
       handlerPolygon.polylineTransparent.show = false;
       let positions = tool.CartesiantoDegrees(res.object.positions);
-      if (state.operationType === "dig") digUpdate(positions);
-      else modifyUpdate(positions);
+      if (state.operationType === "dig"){
+        digUpdate(positions);
+      }else{
+        modifyUpdate(positions);
+      } 
       if (state.isEdit) {
         setEdit();
       }
@@ -140,6 +148,9 @@ function digUpdate(positions:any) {
       transparent: false,
     });
   }
+
+  Analyze(); // 连续开挖修改
+
 }
 
 // 修改地形更新
@@ -149,6 +160,8 @@ function modifyUpdate(positions:any) {
     name: "ggg",
     position: positions,
   });
+
+  Analyze(); // 连续开挖修改
 }
 
 // 编辑
@@ -218,6 +231,12 @@ function clearModify() {
   viewer.scene.globe.removeAllModifyRegion();
 }
 
+function clearHandler(){
+  if (handlerPolygon) handlerPolygon.clearHandler();
+  removeEditHandler();
+}
+
+
 //监听
 watch(
   () => state.isEdit,
@@ -259,6 +278,7 @@ watch(
 // 销毁
 onBeforeUnmount(() => {
   clear();
+  handler.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 });
 </script>
 

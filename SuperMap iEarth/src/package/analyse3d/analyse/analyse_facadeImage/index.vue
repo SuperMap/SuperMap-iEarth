@@ -5,10 +5,16 @@
       <span>{{ $t('global.maxHeight') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.2rem;" v-model:value="state.maxHeight" :step="10" :min="1" :max="1000" />
-        <div class="slider-suffix">
-          <span>{{ state.maxHeight }}</span>
-          <span class="slider-unit">{{ $t('global.meter') }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.maxHeight" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          placeholder=""
+          size="small" 
+          />  
+        <span class="slider-unit">{{ $t('global.meter') }}</span>
       </div>
     </div>
 
@@ -16,10 +22,16 @@
       <span>{{ $t('global.maxDistence') }}</span>
       <div class="slider-box">
         <n-slider style="width: 1.2rem;" v-model:value="state.maxDistence" :step="10" :min="1" :max="1000" />
-        <div class="slider-suffix">
-          <span>{{ state.maxDistence }}</span>
-          <span class="slider-unit">{{ $t('global.meter') }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.maxDistence" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          placeholder=""
+          size="small" 
+          />  
+        <span class="slider-unit">{{ $t('global.meter') }}</span>
       </div>
     </div>
   </div>
@@ -59,6 +71,17 @@ function init() {
   handlerLine = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Line);
 }
 init();
+
+handlerLine.activeEvt.addEventListener((isActive: any) => {
+  if (isActive == true) {
+    window.viewer.enableCursorStyle = false;
+    window.viewer._element.style.cursor = '';
+    document.body.classList.add("drawCur");
+  } else {
+    window.viewer.enableCursorStyle = true;
+    document.body.classList.remove('drawCur');
+  }
+});
 
 handlerLine.drawEvt.addEventListener(function (result:any) {
   result.object.show = false;

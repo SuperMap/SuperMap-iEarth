@@ -3,7 +3,7 @@ const setFont = () => {
 		width: window.innerWidth,
 		hight: window.innerHeight
 	}
-	console.log("Browser-Size:",windowInfo);
+	// console.log("Browser-Size:",windowInfo);
 	let html = document.getElementsByTagName('html')[0];
 	var w = html.clientWidth,
 	  h = html.clientHeight;

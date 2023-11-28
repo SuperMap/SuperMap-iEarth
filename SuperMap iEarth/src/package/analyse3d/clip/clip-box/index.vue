@@ -68,6 +68,11 @@ function startBoxClipByEitor() {
     handlerBox.activate();
     return;
   }
+
+  window.viewer.enableCursorStyle = false;
+  window.viewer._element.style.cursor = '';
+  document.body.classList.add("drawCur");
+
   // 设置裁剪线颜色
   setAllLayersClipColor();
 
@@ -101,6 +106,9 @@ function startBoxClipByEitor() {
     setAllLayersClipOptions(boxOption);
     handlerBox.clear();
     handlerBox.deactivate();
+    
+    window.viewer.enableCursorStyle = true;
+    document.body.classList.remove('drawCur');
   });
   handlerBox.activate();
 }

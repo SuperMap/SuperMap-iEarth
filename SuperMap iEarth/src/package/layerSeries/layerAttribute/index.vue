@@ -166,7 +166,7 @@ let state = reactive<StateType>({
   saturation: 1,
   gamma: 1,
   shadowMode: 0,
-  shadowDarkness: 0.3,
+  shadowDarkness: 0.2,
   selectEnabled: true,
   multiChoose: false,
   cullEnabled: false,
@@ -318,7 +318,8 @@ watch(
 watch(
   () => state.shadowDarkness,
   val => {
-    viewer.shadowMap.darkness = Number(val);
+    viewer.shadowMap.darkness = 1-Number(val);
+    // viewer.shadowMap.darkness = Number(val);
   }
 );
 watch(

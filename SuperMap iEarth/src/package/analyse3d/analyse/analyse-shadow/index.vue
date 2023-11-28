@@ -9,7 +9,11 @@
         v-show="!state.showStartTimeBtn" @click="sunLightForTime(false)"></i>
     </div>
     <div class="itemBox-shadow" style="margin-bottom: 0.12rem">
-      <n-date-picker class="shadow-date-picker" v-model:value="currentTime" type="date" />
+      <n-date-picker class="shadow-date-picker" v-model:value="currentTime" type="date" >
+        <template #date-icon>
+          <i class="iconfont icondown iconfanhui" style="margin-top:0px"></i>
+        </template>
+      </n-date-picker>
       <i class="iconfont iconSize iconbofang btnImg" :title="$t('global.ShadowStartTip2')" v-show="state.showStartDateBtn"
         @click="sunLightForDate(true)"></i>
       <i class="iconfont iconSize iconzanting btnImg" :title="$t('global.ShadowStartTip2')"
@@ -19,19 +23,19 @@
   <n-divider />
   <div class="row-item">
     <span>{{ $t('global.bottomHeight') }}</span>
-    <n-input-number style="width: 1.96rem;" v-model:value="state.bottomHeight" :show-button="false">
+    <n-input-number style="width: 1.96rem;" v-model:value="state.bottomHeight" :update-value-on-input="false" :show-button="false">
       <template #suffix>{{ $t('global.meter') }}</template>
     </n-input-number>
   </div>
   <div class="row-item">
     <span>{{ $t('global.stretchingHeight') }}</span>
-    <n-input-number style="width: 1.96rem;" v-model:value="state.extrudeHeight" :show-button="false">
+    <n-input-number style="width: 1.96rem;" v-model:value="state.extrudeHeight" :update-value-on-input="false" :show-button="false">
       <template #suffix>{{ $t('global.meter') }}</template></n-input-number>
   </div>
 
   <div class="row-item">
     <span>{{ $t('global.space') }}</span>
-    <n-input-number style="width: 1.96rem;" v-model:value="state.spacing" :show-button="false">
+    <n-input-number style="width: 1.96rem;" v-model:value="state.spacing" :update-value-on-input="false" :show-button="false">
       <template #suffix>{{ $t('global.meter') }}</template>
     </n-input-number>
   </div>
@@ -88,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onBeforeUnmount, watch } from "vue";
+import { ref, reactive, onBeforeUnmount, watch, computed} from "vue";
 import initHandler from "@/tools/drawHandler";
 import ShadowQuery from "./js/shadow-query";
 import tool from "@/tools/tool";
@@ -146,10 +150,13 @@ let state = reactive<stateType>({
   shadowQueryRegion: []
 });
 
-let currentTime = ref<any>(Date.now()); // 直接获取时间戳
+// let currentTime = ref<any>(Date.now()); // 直接获取时间戳
+let currentTime = computed(() => state.currentDate.getTime());
+
 // 初始化数据
 let timeArray = [...state.timeArray],
   timerTime,
+  currentSelectedEntity,
   timerDate;
 let shadow, handlerPolygon;
 let bableShadowDom = ref();
@@ -281,12 +288,27 @@ function shadowQueryStart(regionPositionList, startTime, endTime) {
 
 }
 
+// 更新弹窗位置
+function updatePopup(){
+  if(currentSelectedEntity) {
+    let position = currentSelectedEntity.primitive._position;
+    updatePopupPosition(position);
+  }
+}
+
+function updatePopupPosition(position){
+  var WindowCoordinates = SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, position)
+  bableShadowDom.value.style.top = (WindowCoordinates.y - bableShadowDom.value.offsetHeight - 10) + 'px';
+  bableShadowDom.value.style.left = (WindowCoordinates.x - bableShadowDom.value.offsetWidth / 2) + 140 + 'px';
+}
+
 // 鼠标左键事件 点击获取阴影率
 function LEFT_CLICK(e) {
   // bubble.addEvent(); //设置气泡监听事件
   if (state.shadowBodyShow) {
     let box = viewer.scene.pick(e.message.position);
     if (box && box.id) {
+      currentSelectedEntity = box;
       let index = box.id.split("-")[1];
       let point = shadow.shadowPoints[index];
       if (!point) {
@@ -307,7 +329,11 @@ function LEFT_CLICK(e) {
       };
       bableShadowDom.value.style.top = (e.message.position.y - 220) + 'px';
       bableShadowDom.value.style.left = (e.message.position.x) + 'px';
+      viewer.clock.onTick.addEventListener(updatePopup)
+      // viewer.scene.preRender.addEventListener(updatePopup);
       return;
+    }else{
+      viewer.clock.onTick.removeEventListener(updatePopup);
     }
   } else {
     let position1 = viewer.scene.pickPosition(e.message.position);
@@ -335,8 +361,10 @@ function timeChanged(val) {
   }
 };
 
+
 // 清除
 function clear() {
+  viewer.clock.onTick.removeEventListener(updatePopup);
   state.shadowRadio = { radio: 0, longitude: 0, latitude: 0, height: 0 };
   viewer.eventManager.removeEventListener("CLICK", LEFT_CLICK); //移除鼠标点击事件监听
   if (handlerPolygon) handlerPolygon.clearHandler();
@@ -368,18 +396,31 @@ watch(
   () => state.spacing,
   (val) => {
     shadow.spacing = val;
+    shadow.updateOptionsParams({spacing:val});
+    if(state.shadowQueryRegion.length >= 3){
+      shadowQueryStart(state.shadowQueryRegion, timeArray[0], timeArray[1]);
+    }
   }
 );
 watch(
   () => state.bottomHeight,
   (val) => {
+    console.log("bottomHeight-val:",val);
     shadow.bottomHeight = val;
+    shadow.updateOptionsParams({bottomHeight:val});
+    if(state.shadowQueryRegion.length >= 3){
+      shadowQueryStart(state.shadowQueryRegion, timeArray[0], timeArray[1]);
+    }
   }
 );
 watch(
   () => state.extrudeHeight,
   (val) => {
     shadow.extrudeHeight = val;
+    shadow.updateOptionsParams({extrudeHeight:val});
+    if(state.shadowQueryRegion.length >= 3){
+      shadowQueryStart(state.shadowQueryRegion, timeArray[0], timeArray[1]);
+    }
   }
 );
 watch(
@@ -403,6 +444,7 @@ watch(
 
 // 销毁
 onBeforeUnmount(() => {
+  viewer.clock.onTick.removeEventListener(updatePopup);
   clear();
   shadow.destroy();
 });
@@ -458,10 +500,11 @@ onBeforeUnmount(() => {
 }
 
 .bableShadow {
+  cursor: default;
   position: fixed;
   top: 2rem;
   left: 5rem;
-  background-color: #3B5168;
+  background-color: #383838;
   opacity: 0.8;
   z-index: 200000;
   height: 2.2rem;
@@ -477,6 +520,13 @@ onBeforeUnmount(() => {
   span {
     font-size: 12px;
   }
+}
+
+.icondown{
+    display: block;
+    margin: 2px;
+    font-size: .12rem;
+    transform: rotate(-90deg);
 }
 </style>
 

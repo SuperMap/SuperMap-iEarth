@@ -73,10 +73,10 @@ function headerOpen(){
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: OptimizationTitle;
-  src: url('@/assets/fonts/OptimizationTitleBlack.TTF');
-}
+// @font-face {
+//   font-family: OptimizationTitle;
+//   src: url('@/assets/fonts/OptimizationTitleBlack.TTF');
+// }
  
 .head-title {
   font-family: 'OptimizationTitle';

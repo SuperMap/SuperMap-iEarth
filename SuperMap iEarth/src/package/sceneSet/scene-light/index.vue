@@ -25,7 +25,17 @@
     <span>{{$t('global.diffusionDistance')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.cutoffDistance" :step="1" :min="0" :max="500" />
-      <span>{{ state.cutoffDistance }}</span>
+      <n-input-number 
+          v-model:value="state.cutoffDistance" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="500"
+          placeholder=""
+          size="small" 
+        />
     </div>
   </div>
 
@@ -33,7 +43,17 @@
     <span>{{$t('global.lightDecay')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.lightDecay" :step="0.1" :min="0" :max="10" />
-      <span>{{ state.lightDecay }}</span>
+      <n-input-number 
+          v-model:value="state.lightDecay" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="10"
+          placeholder=""
+          size="small" 
+        />
     </div>
   </div>
 
@@ -41,7 +61,17 @@
     <span>{{$t('global.lightsourceIntensity')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.lightIntensity" :step="0.1" :min="0" :max="10" />
-      <span>{{ state.lightIntensity }}</span>
+      <n-input-number 
+          v-model:value="state.lightIntensity" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="10"
+          placeholder=""
+          size="small" 
+        />
     </div>
   </div>
 
@@ -49,7 +79,17 @@
     <span>{{$t('global.spotlightRange')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.spotLightAngle" :step="1" :min="1" :max="90" />
-      <span>{{ state.spotLightAngle }}</span>
+      <n-input-number 
+          v-model:value="state.spotLightAngle" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="1"
+          :max="90"
+          placeholder=""
+          size="small" 
+        />
     </div>
   </div>
 
@@ -67,7 +107,7 @@
   </div>
 
   <div class="bableLight" ref="bableLightDom" v-show="state.visiblePositions && state.bableShow">
-    <div class="row-item" style="margin-top:0.12rem">
+    <div class="row-item" style="margin-top:0.12rem;cursor: default;">
       <span class="light-anaylse-pop-titie">{{$t('global.modelInformation')}}</span>
       <span @click="state.visiblePositions = false;" style="margin-right:14px">X</span>
     </div>
@@ -141,7 +181,8 @@ type stateType = {
   dockFontShow:boolean
   visiblePositions:boolean,
   bableShow:boolean,
-  tipFlag:boolean
+  tipFlag:boolean,
+  // currentSelectedEntityPosition:
 };
 
 // 设置默认值数据
@@ -356,6 +397,7 @@ function addPointLight(position: any) {
   };
   let pointLight = new SuperMap3D.PointLight(position, options);
   viewer.scene.addLightSource(pointLight);
+  selectdeLightSource = pointLight;
   addModel(position, pointLight);
   lightSource.push(pointLight);
   state.addLightFlag = false;
@@ -374,6 +416,7 @@ function addSpotLight(positions: any) {
   };
   let spotLight = new SuperMap3D.SpotLight(position1, position2, options);
   viewer.scene.addLightSource(spotLight);
+  selectdeLightSource = spotLight;
   addModel(position1, spotLight)
   lightSource.push(spotLight);
   state.addLightFlag = false;
@@ -389,6 +432,7 @@ function addDirectionalLight(positions: any) {
   };
   let directionalLight = new SuperMap3D.DirectionalLight(position1, options);
   viewer.scene.addLightSource(directionalLight);
+  selectdeLightSource = directionalLight;
   addModel(position1, directionalLight)
   lightSource.push(directionalLight);
   state.addLightFlag = false;
@@ -410,7 +454,7 @@ function clear() {
     return;
   };
   viewer.scene.removeLightSource(selectdeLightSource);
-
+  state.visiblePositions = false;
   if (currentSelectedEntity) {
     entityLightPairs.delete(currentSelectedEntity.id);
     s3mInstanceColc.removeInstance(modelUrl, currentSelectedEntity.id);
@@ -459,10 +503,32 @@ function tipClearLight(){
   });
 }
 
+
+// 更新弹窗位置
+function updatePopup(){
+  if(currentSelectedEntity) {
+    let position = currentSelectedEntity.primitive._position;
+    updatePopupPosition(position);
+  }
+}
+
+function updatePopupPosition(position){
+  var WindowCoordinates = SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, position)
+  bableLightDom.value.style.top = (WindowCoordinates.y - bableLightDom.value.offsetHeight - 10) + 'px';
+  bableLightDom.value.style.left = (WindowCoordinates.x - bableLightDom.value.offsetWidth / 2) + 140 + 'px';
+}
+
 watch(() => state.lightColor, val => {
   if (!selectdeLightSource) return;
   let color = SuperMap3D.Color.fromCssColorString(val);
   selectdeLightSource.color = color;
+})
+watch(() => state.visiblePositions, val => {
+  if(val){
+    viewer.clock.onTick.addEventListener(updatePopup)
+  }else{
+    viewer.clock.onTick.removeEventListener(updatePopup);
+  }
 })
 watch(() => state.cutoffDistance, val => {
   if (!selectdeLightSource) return;
@@ -512,6 +578,7 @@ watch(() => state.modelPosition, val => {
     let lat = Number(val[1]);
     let hei = Number(val[2]);
     let position = SuperMap3D.Cartesian3.fromDegrees(lon, lat, hei);
+    if(!position) return;
     selectdeLightSource.position = position;
     currentSelectedEntity.primitive.updatePosition(position);
     if (modelEditor) modelEditor.setEditObject(currentSelectedEntity.primitive);
@@ -544,7 +611,7 @@ onBeforeUnmount(() => {
   position: fixed;
   top: 2rem;
   left: 5rem;
-  background-color: #3B5168;
+  background-color: #383838;
   opacity: 0.8;
   height: 1.8rem;
   width: 2.28rem;

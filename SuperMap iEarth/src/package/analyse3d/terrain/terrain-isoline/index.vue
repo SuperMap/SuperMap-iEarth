@@ -156,6 +156,7 @@ function isoLineAnalysis() {
       isolineUpdate(positions);
       isolinePosition = positions;
       if (state.isEdit) setEditHandler(handlerPolygon.polygon,isolineUpdate);
+      if(handlerPolygon) handlerPolygon.polylineTransparent.show = false;
     },
     (err:any) => {
       console.log(err);
@@ -343,7 +344,10 @@ watch(
     if (val) {
       if(handlerPolygon && handlerPolygon.polygon)
       setEditHandler(handlerPolygon.polygon,isolineUpdate);
-    } else if(editHandler) editHandler.clear();
+    } else if(editHandler) {
+      if(handlerPolygon && handlerPolygon.polygon) handlerPolygon.polygon.show = false;
+      editHandler.clear();
+    }
   }
 );
 

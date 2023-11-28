@@ -5,7 +5,7 @@
     <n-input-group>
     <n-input
       class="add-input-border"
-      style=" margin-bottom: 0.1rem;width: 1.8rem"
+      style="width: 1.8rem"
       :placeholder="$t('global.localFilePath')"
       v-model:value="state.fileSrc"
     />
@@ -14,15 +14,7 @@
     </div>
     <input type="file" accept=".kml" id="localFile" style="display:none" ref="localKML_dom" />
   </div>
-  <div class="btn-row-item1">
-    <!-- <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      class="ans-btn"
-      @click="chooseFile"
-      >{{$t('global.sure')}}</n-button
-    > -->
+  <div class="btn-row-item1" style="margin-left: 0.37rem;">
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>

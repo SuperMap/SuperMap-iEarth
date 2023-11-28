@@ -59,9 +59,9 @@
       </div>
     </div>
 
-    <!-- <div class="btn-row-item">
+    <div class="btn-row-item">
         <n-button @click="reset">{{$t('global.reset')}}</n-button>
-      </div> -->
+      </div>
 </template>
 
   
@@ -96,7 +96,7 @@
   function updateLayers() {
     layers = viewer.scene.layers.layerQueue;
     if (!layers || layers.length < 1) {
-      state.s3mlayers = [{ label: () => GlobalLang.noLayer, value: 0 }];
+      state.s3mlayers = [{ label: () => '暂无图层', value: 0 }];
       return;
     }
     state.s3mlayers.length = 0;
@@ -130,12 +130,13 @@
   }
 
   function reset(){
-    // let selectLayer = layers[state.selectedIndex];
-    viewer.scene.colorCorrection.brightness = 1;
-    viewer.scene.colorCorrection.contrast = 1;
-    viewer.scene.colorCorrection.hue = 0;
-    viewer.scene.colorCorrection.saturation = 1;
-    viewer.scene.colorCorrection.gamma = 1;
+    let selectLayer = layers[state.selectedIndex];
+
+    selectLayer.brightness = 1;
+    selectLayer.contrast = 1;
+    selectLayer.hue = 0;
+    selectLayer.saturation = 1;
+    selectLayer.gamma = 1;
 
     state.brightness = 1;
     state.contrast = 1;
@@ -143,7 +144,7 @@
     state.saturation = 1;
     state.gamma = 1;
 
-    // viewer.scene.colorCorrection.show = false;
+    selectLayer.refresh();
   };
 
 
@@ -166,6 +167,9 @@
     val => {
       if (layers[state.selectedIndex])
         layers[state.selectedIndex].brightness = Number(val);
+
+      // var BuildingLayer = viewer.scene.layers.find('Building@CBD');
+      // BuildingLayer.brightness = Number(val);
     }
   );
   watch(
@@ -200,12 +204,14 @@
   watch(
     () => layerStore.s3mLayerSelectIndex,
     val => {
-      // reset();
+      reset();
       state.selectedIndex = Number(val);
     }
   );
   
-  onBeforeUnmount(() => {});
+  onBeforeUnmount(() => {
+    reset();
+  });
   </script>
   
   <style lang="scss" scoped>

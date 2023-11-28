@@ -27,7 +27,7 @@
   <div class="row-item">
     <span>{{$t('global.elevation')}}</span>
     <n-input-number
-      style="width: 1.96rem"
+      style="width: 1.96rem;margin-bottom: 0.1rem;"
       v-model:value="state.degreesArray[2]"
       :show-button="false"
       disabled
@@ -36,7 +36,7 @@
     </n-input-number>
   </div>
 
-  <n-divider />
+  <!-- <n-divider /> -->
 
   <!-- <div class="row-item">
     <span>{{$t('global.highlightBarrier')}}</span>

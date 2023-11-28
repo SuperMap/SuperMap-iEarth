@@ -5,7 +5,17 @@
         <span>{{$t('global.semiMinorAxis')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.semiMinorAxis" :step="1" :min="5" :max="100" />
-            <span>{{ state.semiMinorAxis }}</span>
+            <n-input-number 
+                v-model:value="state.semiMinorAxis" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="5"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -13,15 +23,35 @@
         <span>{{$t('global.semiMajorAxis')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.semiMajorAxis" :step="1" :min="5" :max="200" />
-            <span>{{ state.semiMajorAxis }}</span>
+            <n-input-number 
+                v-model:value="state.semiMajorAxis" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="5"
+                :max="200"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
     <div class="row-item">
         <span>{{$t('global.stretchingHeight')}}</span>
         <div class="slider-box" >
-            <n-slider style="width: 1.5rem" v-model:value="state.extrudedHeight" :step="10" :min="10" :max="100" />
-            <span>{{ state.extrudedHeight }}</span>
+            <n-slider style="width: 1.5rem" v-model:value="state.extrudedHeight" :step="1" :min="10" :max="100" />
+            <n-input-number 
+                v-model:value="state.extrudedHeight" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -29,14 +59,35 @@
         <span>{{$t('global.granularity')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.granularity" :step="0.1" :min="0.5" :max="2" />
-            <span>{{ state.granularity }}</span>
+            <n-input-number 
+                v-model:value="state.granularity" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="0.5"
+                :max="2"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
     <div class="row-item">
         <span>{{$t('global.rotate')}}</span>
         <div class="slider-box" >
-            <n-slider style="width: 1.5rem" v-model:value="state.rotation" :step="0.1" :min="0" :max="90" />
-            <span>{{ state.rotation }}</span>
+            <!-- 旋转没起作用 -->
+            <n-slider style="width: 1.5rem" v-model:value="state.rotation" :step="0" :min="0" :max="90" />
+            <n-input-number 
+                v-model:value="state.rotation" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="0"
+                :max="90"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -93,6 +144,10 @@ let state = reactive<stateType>({
         {
             label: () => GlobalLang.wireframe,
             value: "Outline",
+        },
+        {
+            label: () => GlobalLang.fillBothMode,
+            value: "Both",
         }
     ],
 });
@@ -103,12 +158,25 @@ let targetEntity: any = null;
 
 let handlerPoint_ellipse = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 
+handlerPoint_ellipse.activeEvt.addEventListener((isActive: any) => {
+    if (isActive == true) {
+        window.viewer.enableCursorStyle = false;
+        window.viewer._element.style.cursor = '';
+        document.body.classList.add("measureCur");
+    } else {
+        window.viewer.enableCursorStyle = true;
+        document.body.classList.remove('measureCur');
+    }
+});
+
 // 注册绘制圆柱事件
 handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
     let point = res.object;
     let position = point.position;
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
     let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
+    let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
+    let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
     ellipseEntity = entities.add({
         position: position,
         ellipse: {
@@ -119,8 +187,8 @@ handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
             material: color,
             granularity: SuperMap3D.Math.RADIANS_PER_DEGREE,
             rotation: 0,
-            fill: state.displayMode === 'Fill',
-            outline: state.displayMode === 'Outline',
+            fill:  fillFlag,
+            outline: outlineFlag,
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
@@ -216,8 +284,11 @@ watch(
             if (val === 'Fill') {
                 targetEntity.ellipse.fill = true;
                 targetEntity.ellipse.outline = false;
-            } else {
+            } else if(val === 'Outline') {
                 targetEntity.ellipse.fill = false;
+                targetEntity.ellipse.outline = true;
+            } else{
+                targetEntity.ellipse.fill = true;
                 targetEntity.ellipse.outline = true;
             }
         }

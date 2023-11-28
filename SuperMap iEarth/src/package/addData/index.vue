@@ -23,6 +23,7 @@
       </n-tab-pane>
       <!-- 我的服务 -->
       <n-tab-pane name="portalService" :tab="$t('global.portalService')" v-if="IportalStore.isLogin">
+      <!-- <n-tab-pane name="portalService" :tab="$t('global.portalService')"> -->
         <SmPortalService></SmPortalService>
       </n-tab-pane>
     </n-tabs>
@@ -45,15 +46,22 @@ const IportalStore = IportalStoreCreate();
 .add-data-box {
   width: 100%;
   height: 100%;
+  // padding: 0 0.12rem;
   padding: 0 0.01rem 0 0.12rem;
   box-sizing: border-box;
-  overflow-y: scroll;
-  @include setsSrollbar();
-  // :deep(.n-tabs-tab__label) {
-  //   color: rgba(255, 255, 255, 0.65);
-  // };
 }
 :deep(.n-tabs-tab-wrapper){
   margin-right:0.16rem;
 }
+  :deep(.n-tabs-nav){
+    padding:0 0.12rem;
+  };
+  :deep(.n-tab-pane) {
+    box-sizing: border-box;
+    padding-left: 0.12rem;
+    padding-right: 0.12rem;
+  }
+  .use-scroll{
+    padding-right: 0px;
+  }
 </style>

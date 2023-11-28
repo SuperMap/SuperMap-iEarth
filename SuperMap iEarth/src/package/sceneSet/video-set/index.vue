@@ -14,15 +14,35 @@
     <span>{{ $t('global.width') }}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.horizontal" :step="1" :min="1" :max="60" />
-      <span>{{ state.horizontal }}</span>
+      <n-input-number 
+        v-model:value="state.horizontal" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="1"
+        :max="60"
+        placeholder=""
+        size="small" 
+      />
     </div>
   </div>
 
   <div class="row-item">
     <span>{{ $t('global.height') }}</span>
     <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.vertical" :step="1" :min="0.5" :max="60" />
-      <span>{{ state.vertical }}</span>
+      <n-slider style="width: 1.2rem" v-model:value="state.vertical" :step="1" :min="1" :max="60" />
+      <n-input-number 
+        v-model:value="state.vertical" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="1"
+        :max="60"
+        placeholder=""
+        size="small" 
+      />
     </div>
   </div>
 
@@ -30,7 +50,17 @@
     <span>{{ $t('global.distence') }}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.distance" :step="1" :min="1" :max="500" />
-      <span>{{ state.distance }}</span>
+      <n-input-number 
+        v-model:value="state.distance" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="1"
+        :max="500"
+        placeholder=""
+        size="small" 
+      />
     </div>
   </div>
 
@@ -38,7 +68,17 @@
     <span>{{ $t('global.MaxVisibleDistance') }}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.visibleDistanceMax" :step="1" :min="300" :max="2000" />
-      <span>{{ state.visibleDistanceMax }}</span>
+      <n-input-number 
+        v-model:value="state.visibleDistanceMax" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="300"
+        :max="2000"
+        placeholder=""
+        size="small" 
+      />
     </div>
   </div>
 

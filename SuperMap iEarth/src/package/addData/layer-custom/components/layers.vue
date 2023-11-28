@@ -22,7 +22,7 @@
       :placeholder="$t('global.layerName')" :title="state.layerName" :disabled="true" />
   </div>
 
-  <div style="margin-left: 0.62rem; margin-bottom: 0.1rem" v-show="state.layerType != 'WMTS'">
+  <div style="margin-left: 0.37rem; margin-bottom: 0.1rem" v-show="state.layerType != 'WMTS'">
     <n-checkbox v-model:checked="state.token"> {{ $t('global.addToken') }} </n-checkbox>
     <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.token" v-model:value="state.layerToken" type="text"
       placeholder="token..." />
@@ -31,7 +31,7 @@
   <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0">
     <span>{{ $t('global.selectableLayers') }}</span>
     <n-select class="add-input-border" v-model:value="state.wmtsLayer" :options="state.wmtsLayerOptions"
-      style="width: 2.4rem; margin-bottom: 0.1rem" />
+      style="width: 2.4rem;" />
   </div>
 
   <!-- <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayer != ''">
@@ -40,7 +40,7 @@
       style="width: 2.4rem; margin-bottom: 0.1rem" />
   </div> -->
 
-  <div class="btn-row-item1">
+  <div class="btn-row-item1" style="margin-left: 0.37rem;">
     <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="openLayer">{{ $t('global.sure')
     }}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear')
@@ -54,7 +54,6 @@ import { useMessage } from "naive-ui"
 import layerManagement from "@/tools/layerManagement";
 import { useLayerStore } from "@/store/layerStore";
 
-// import x2js from 'xml-js' 
 const layerStore = useLayerStore();
 const message = useMessage();
 const widget = viewer.cesiumWidget;
@@ -90,7 +89,7 @@ let state = reactive({
   rectangleObj: null,
   scaleDenominatorsObj: null,
   addWmtsFlag:true,
-  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`
+  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`,
 })
 
 function clear() {
@@ -152,13 +151,14 @@ function handleChange() {
       }
       break;
     case "Imagery":
-      if (
-        state.layerUrl.indexOf("/rest/realspace/datas/") != -1 &&
-        state.layerUrl.indexOf("/rest/maps/") != 0
-      ) {
-        // message.success(langGlobal.urlCheckedsuccess);
-        state.layerName = layerManagement.getLayerNameFromUrl(state.layerUrl, "Imagery");
-      }
+      state.layerName = layerManagement.getLayerNameFromUrl(state.layerUrl, "Imagery");
+      // if (
+      //   state.layerUrl.indexOf("/rest/realspace/datas/") != -1 &&
+      //   state.layerUrl.indexOf("/rest/maps/") != 0
+      // ) {
+      //   // message.success(langGlobal.urlCheckedsuccess);
+      //   state.layerName = layerManagement.getLayerNameFromUrl(state.layerUrl, "Imagery");
+      // }
       break;
     case "Terrain":
       if (state.layerUrl.indexOf("/rest/realspace/datas/") != -1) {
@@ -269,15 +269,23 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
 function addWMTS(wmtsLayerUrl: string) {
   if(!state.addWmtsFlag) return ;
 
-  let rectangle:any,scaleDenominatorsList;
-  if(state.rectangleObj && state.wmtsLayer && state.scaleDenominatorsObj){
-    rectangle = state.rectangleObj[state.wmtsLayer];
-    scaleDenominatorsList = state.scaleDenominatorsObj[state.wmtsLayer];
-  }else{
-    return;
-  }
+  // let rectangle:any,scaleDenominatorsList;
+  // let rectangle:any;
+  // if(state.rectangleObj && state.wmtsLayer){
+  //   rectangle = state.rectangleObj[state.wmtsLayer];
+  // }else{
+  //   return;
+  // }
   let item:any = state.wmtsLayerOptions.find((item:any)=>item.value === state.wmtsLayer)
   let layerName = item.label;
+  let items = layerStore.wmtsLayerOption.filter((item:any) => {
+    return (item.wmtsLayerUrl == wmtsLayerUrl && item.layerName == layerName);
+  })
+  if(items.length > 0){ // 该wmts服务已存在，不在重复添加
+    message.warning("该wmts图层已添加,请勿重复添加");
+    return;
+  }
+  
   let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
     url: wmtsLayerUrl,
     style: "default",
@@ -285,37 +293,69 @@ function addWMTS(wmtsLayerUrl: string) {
     layer: layerName,
     tileMatrixSetID: state.tileMatrixSetID,
     tilingScheme: new SuperMap3D.GeographicTilingScheme({
-      rectangle: SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]),
-      //ellipsoid: SuperMap3D.Ellipsoid.WGS84,
-      //numberOfLevelZeroTilesX: 1,
-      //numberOfLevelZeroTilesY: 1,
-      scaleDenominators: scaleDenominatorsList,
-      customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+      // rectangle: SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]),
+      ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+      numberOfLevelZeroTilesX: 2,
+      numberOfLevelZeroTilesY: 1,
+      // scaleDenominators: scaleDenominatorsList,
+      // customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
     }),
+    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
   }));
 
   // wmtsLayer.alpha = 0.5;
-  viewer.flyTo(wmtsLayer);
+  // viewer.flyTo(wmtsLayer);
 
+  if(state.rectangleObj && state.wmtsLayer!=''){
+    let rectangle:any = state.rectangleObj[state.wmtsLayer];
+    if(rectangle.length < 4) return;
+    let isGlobalBound = false;
+    rectangle.forEach((num) => {
+      if(Math.abs(num) > 178) { // 也即是bounds为180附近，这种一般为全球地图，就不在求Bounds了
+        viewer.flyTo(wmtsLayer);
+        isGlobalBound = true;
+        return;
+      }
+    })
+    if(!isGlobalBound){
+      let lng = (rectangle[0]+rectangle[2])/2;
+      let lat = (rectangle[1]+rectangle[3])/2;
+      viewer.scene.camera.flyTo({
+        destination: new SuperMap3D.Cartesian3.fromDegrees(lng, lat, 5000),
+        duration: 1,
+        orientation: {
+          heading: 0,
+          roll: 0,
+        },
+      });
+      let wmtsImageLayerPosition = {
+        lng:lng, 
+        lat:lat, 
+        height:5000
+      };
+      wmtsLayer.wmtsImageLayerPosition = wmtsImageLayerPosition;
+    }
+  }else{
+    viewer.flyTo(wmtsLayer);
+  }
+
+  let wmtsLayerObj = {
+    wmtsLayerUrl:wmtsLayerUrl,
+		layerName:layerName,
+		tileMatrixSetID:state.tileMatrixSetID,
+    wmtsImageLayerPosition:wmtsLayer.wmtsImageLayerPosition
+    // rectangle:rectangle,
+		// scaleDenominatorsList:scaleDenominatorsList
+  }
+  let list = layerStore.wmtsLayerOption.filter((item:any) => {
+    return (item.wmtsLayerUrl == wmtsLayerObj.wmtsLayerUrl && item.layerName == wmtsLayerObj.layerName);
+  })
+  if(list.length == 0){
+    layerStore.wmtsLayerOption.push(wmtsLayerObj);
+  }
+
+  layerStore.updateLayer({ type: "imagery" });
 }
-
-// let shadedRelief1 = new SuperMap3D.WebMapTileServiceImageryProvider({
-//     url: "http://172.16.15.203:8090/iserver/services/map-China400/wmts100",
-//     layer: 'China400',
-//     style: 'default',
-//     format: 'image/jpg',
-//     tileMatrixSetID: 'Custom_China400',
-//     // tilingScheme: new SuperMap3D.GeographicTilingScheme({
-//     //     ellipsoid: SuperMap3D.Ellipsoid.WGS84, //所用坐标系
-//     //     numberOfLevelZeroTilesX: 2,
-//     //     numberOfLevelZeroTilesY: 1,
-//     //     rectangle: new SuperMap3D.Rectangle.fromDegrees(-180, -90, 180, 90)
-//     // }),
-//     // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
-//     // maximumLevel: 19,
-//     // credit : new SuperMap3D.Credit('U. S. Geological Survey')
-// });
-// viewer.imageryLayers.addImageryProvider(shadedRelief1);
 
 let xmlDoc: any;
 // 获取xml信息
@@ -331,7 +371,7 @@ function getXmlInfo(xmlUrl?: string) {
       state.wmtsLayerOptions = getXMLNode(xmlDoc, 'Layer');
       state.tileMatrixSetIDOptions = getXMLNode(xmlDoc, 'TileMatrixSet');
       state.rectangleObj = getRectangleObj(xmlDoc);
-      state.scaleDenominatorsObj = getScaleDenominatorsObj(xmlDoc);
+      // state.scaleDenominatorsObj = getScaleDenominatorsObj(xmlDoc);
     });
 }
 
@@ -505,7 +545,7 @@ watch(()=>state.layerType,(val:string)=>{
     state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
       break;
     case "WMTS":
-    state.urlTip = `http://<server>:<port>/iserver/services/{dataSourceName}/{dataSetName}`;
+    state.urlTip = `http://<server>:<port>/iserver/services/{serviceName}`;
       break;
     default:
       console.log("hello world");

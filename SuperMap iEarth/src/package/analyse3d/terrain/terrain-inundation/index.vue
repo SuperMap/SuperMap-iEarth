@@ -72,11 +72,22 @@
       <n-slider
         style="width: 1.2rem"
         v-model:value="state.floodTrans"
-        :step="0.1"
+        :step="0.01"
         :min="0"
         :max="1"
       />
-      <span>{{ state.floodTrans * 100}}<span> %</span></span>
+      <n-input-number 
+        v-model:value="state.floodTrans" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="100"
+        placeholder=""
+        size="small" 
+      />
+      <!-- <span> %</span> -->
     </div>
   </div>
 
@@ -84,13 +95,23 @@
     <span>{{$t('global.inundationSpeed')}}</span>
     <div class="slider-box">
       <n-slider
-        style="width: 1.2rem"
+        style="width: 1rem"
         v-model:value="state.floodSpeed"
         :step="10"
         :min="1"
         :max="2000"
       />
-      <span>{{ state.floodSpeed }}<span>{{$t('global.meterSecond')}}</span></span>
+      <n-input-number 
+        v-model:value="state.floodSpeed" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        placeholder=""
+        size="small" 
+        style="width: 31%;"
+      />
+      <span style="width: 36px;">{{$t('global.meterSecond')}}</span>
     </div>
   </div>
 

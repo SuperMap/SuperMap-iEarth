@@ -79,6 +79,10 @@ const overridesTheme = {
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: OptimizationTitle;
+  src: url('@/assets/fonts/OptimizationTitleBlack.TTF');
+}
 // 以下样式 先放到这里 后续再看怎么处理
 .n-tabs .n-tabs-bar {
   background-color: #3499e5 !important;
@@ -99,5 +103,14 @@ const overridesTheme = {
 
 .measureCur {
   cursor: url(../public/images/cur/measure.cur), auto;
+}
+
+// n-input等居中
+.n-input .n-input__input-el {
+  height: 100%;
+}
+
+.supermap3d-performanceDisplay-defaultContainer{
+  top: 10px;
 }
 </style>

@@ -13,7 +13,7 @@ export const IportalStoreCreate = defineStore({
             systemConfig:undefined,
     
             userInfo: <userInfoType>{
-                userName: "游客", // 用户名
+                userName: "GUEST", // 用户名
                 nickName: "", // 用户的昵称
                 type: "", // 用户的类型，包括创建者 "CREATOR" 和查看者 "VIEWER" 两类。
                 theme: "", // 用户设置的偏好主题。默认使用管理员配置好的默认主题。

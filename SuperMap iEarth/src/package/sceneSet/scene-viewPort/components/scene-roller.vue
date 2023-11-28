@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<div class="row-item" v-if="state.selectedType != 'noRoller'">
+<div class="row-item no-center" v-if="state.selectedType != 'noRoller'">
   <span>{{ $t('global.t_layerList') }}</span>
   <div class="comLayerTreeBox" style="width: 1.96rem;">
     <ComLayerTree v-show="state.selectedType !== 'noRoller'" :is-update="true" :draggable="false"
@@ -91,7 +91,8 @@ customRoller:0 //自定义
 });
 
 onMounted(() => {
-createSlider();
+  createSlider();
+  state.selectedType = "lrRoller";
 });
 
 let verticalSliderLeft: any = "verticalSliderLeft",
@@ -462,6 +463,10 @@ top: 66%;
 
 .comLayerTreeBox {
 border: 0.01rem solid $--SM--BgColor-15;
+}
+
+.no-center{
+  align-items: start !important;
 }
 </style>
 

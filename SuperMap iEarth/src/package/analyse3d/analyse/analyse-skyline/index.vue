@@ -7,7 +7,7 @@
   <div class="row-item">
     <span>{{ $t('global.AnalysisRadius') }}</span>
     <n-input-number style="width: 1.96rem;" v-model:value="state.skylineRadius" :show-button="false">
-      <template #suffix>°</template>
+      <template #suffix>{{$t('global.meter')}}</template>
     </n-input-number>
   </div>
 
@@ -104,7 +104,7 @@ type stateType = {
 // 设置默认值数据
 let state = reactive<stateType>({
   skylineRadius: 10000, //分析半径
-  lineWidth: 1, //天际线宽度
+  lineWidth: 2, //天际线宽度
   skylineColor: "rgb(200, 0, 0)", //天际线颜色
   displaySkyBody: false, // 是否显示天际体
   skyBodyColor: "rgba(44,149,197,0.6)", //天际体颜色
@@ -358,6 +358,7 @@ watch(
   () => state.skylineColor,
   newValue => {
     let color = SuperMap3D.Color.fromCssColorString(newValue);
+    if(Number(color.alpha) < 0.1) return;
     skylineAnalysis.skyline.color = color;
   }
 );
@@ -366,6 +367,7 @@ watch(
   () => state.skyBodyColor,
   newValue => {
     let color = SuperMap3D.Color.fromCssColorString(newValue);
+    if(Number(color.alpha) < 0.1) return;
     skylineAnalysis.setSkyLineBodyColor(color);
   }
 );
@@ -374,6 +376,7 @@ watch(
   () => state.barrierColor,
   newValue => {
     let BarrierColor = SuperMap3D.Color.fromCssColorString(newValue);
+    if(Number(BarrierColor.alpha) < 0.1) return;
     skylineAnalysis.setBarrierColor(BarrierColor);
   }
 );
@@ -411,7 +414,7 @@ watch(
     if (newValue) {
       setTimeout(() => {
         let object = skylineAnalysis.skyline.getSkyline2D();
-        setOptions(object); // 设置二维天际线
+        if(!state.clearFlag) setOptions(object); // 设置二维天际线
       }, 500);
 
       if (!myChart) initMyChart();

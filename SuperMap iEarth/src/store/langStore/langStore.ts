@@ -33,7 +33,8 @@ export const useLangStoreCreate = defineStore({
 
       // GlobalStore.currentLanguage = lang;
       // 有两种方式来切换语言：控件切换、初始化根据浏览器环境自动切换，都会经过这里来实现具体切换，在这里我们把语言包绑定在window对象上，以便在TS代码中使用
-      window.LangGlobal = langGlobal[lang];
+      // window.LangGlobal = langGlobal[lang];
+      window.LangGlobal = langGlobal[this.lang];
       window.GlobalLang = window.LangGlobal.global;
     }
   }

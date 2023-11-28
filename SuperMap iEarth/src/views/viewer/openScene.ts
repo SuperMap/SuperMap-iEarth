@@ -27,12 +27,14 @@ let state = reactive({
 })
 
 function openExistScene() {
-    getConfig().then((res:any)=>{
-      console.log("当前configToken配置-open:", res);
-      state.key = res.BingMapKey;
-      state.TiandituToken = res.TiandituToken;
-
-      console.log("打开已存在的保存场景");
+    // getConfig().then((res:any)=>{
+    //   console.log("当前configToken配置-open:", res);
+    //   state.key = res.BingMapKey;
+    //   state.TiandituToken = res.TiandituToken;
+      // if(configtoken.)
+      
+      // 打开已保存的场景
+      console.log("打开已保存的场景-tokenKey:",layerStore.configToken);
       let openExistSceneUrl = window.location.href;
       let parmeter = openExistSceneUrl.split("id=")[1];
       state.sceneID = parmeter.split("&")[0];
@@ -44,7 +46,7 @@ function openExistScene() {
       window.axios
         .get(url, { withCredentials: true })
         .then(function (response) {
-          console.log("已保存的场景返回信息:",response);
+          // console.log("已保存的场景返回信息:",response);
           // state.updateTime = response.data.updateTime;
           if (response.status === 200) {
             let highestpermissionurl =
@@ -80,14 +82,12 @@ function openExistScene() {
         .catch(function (error) {
           console.log(error);
         });
-
-    });
-
+    // });
   }
   
   function openScene(response?: any) {
     let content = JSON.parse(response.data.content);
-    console.log("exit-openScene-content:", content)
+    console.log("已保存的场景返回内容:", content)
     if(content.layers.sceneAttrState){ // 新版的layers才有sceneAttrState属性
       state.isNewVersion = true;
     }else{
@@ -103,10 +103,13 @@ function openExistScene() {
       scenePortalUser:state.scenePortalUser || '',
       scenePortalDescription:state.scenePortalDescription || '',
     }
-    console.log("IportalStore.saveInfo-openExit:",IportalStore.saveInfo);
+    // console.log("IportalStore.saveInfo-openExit:",IportalStore.saveInfo);
   
     if (content) {
       if (JSON.stringify(content.layers) !== "{}") {
+        if(content.environmentState && content.environmentState.sceneMode){
+          viewer.scene.mode = content.environmentState.sceneMode;
+        }
         //需要改动
         openS3M(content);
         openImagery(content);
@@ -150,33 +153,52 @@ function openExistScene() {
       let cameraX = content.camera.position.x;
       let cameraY = content.camera.position.y;
       let cameraZ = content.camera.position.z;
+      let positionCartographic = content.camera.positionCartographic;
       setTimeout(function () {
-        // if(Number(state.updateTime) > 11){ // 新老版本判断依据：时间
-        if(state.isNewVersion){
-          // 新版保存的场景
-          console.log('新版IEarth保存的场景');
-          viewer.scene.camera.setView({
-            destination: new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ),
-            orientation: {
-              heading: content.camera.heading,
-              pitch: content.camera.pitch,
-              roll: content.camera.roll
-            }
-          });
-        }else{
-          // 旧版保存的场景
-          console.log('旧版IEarth保存的场景');
-          let position = CartesiantoDegrees(new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ))
-          viewer.scene.camera.setView({
-              destination: position,
-              orientation: {
+        // 平面场景下（哥伦布视图），如果保存了弧度制的经纬度，就通过经纬度跳转，没有则通过s3m图层跳转
+        if(viewer.scene.mode == SuperMap3D.SceneMode.COLUMBUS_VIEW){
+            if(positionCartographic){
+              let longitude:number = Number(SuperMap3D.Math.toDegrees(positionCartographic.longitude));
+              let latitude:number = Number(SuperMap3D.Math.toDegrees(positionCartographic.latitude));
+              let height:number = Number(positionCartographic.height);
+              viewer.scene.camera.setView({
+                destination: new SuperMap3D.Cartesian3.fromDegrees(longitude,latitude,height),
+                orientation: {
                   heading: content.camera.heading,
                   pitch: content.camera.pitch,
                   roll: content.camera.roll
+                }
+              });
+            }else{
+              let s3mLayer = viewer.scene.layers._layerQueue[0];
+              viewer.flyTo(s3mLayer,{ duration: 0 });
+            }
+        }else{
+          if(state.isNewVersion){
+            // 新版保存的场景
+            console.log('新版IEarth保存的场景');
+            viewer.scene.camera.setView({
+              destination: new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ),
+              orientation: {
+                heading: content.camera.heading,
+                pitch: content.camera.pitch,
+                roll: content.camera.roll
               }
-          });
+            });
+          }else{
+            // 旧版保存的场景
+            console.log('旧版IEarth保存的场景');
+            let position = CartesiantoDegrees(new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ))
+            viewer.scene.camera.setView({
+                destination: position,
+                orientation: {
+                    heading: content.camera.heading,
+                    pitch: content.camera.pitch,
+                    roll: content.camera.roll
+                }
+            });
+          }
         }
-
 
         layerStore.refreshLayerTree();
 

@@ -18,7 +18,7 @@
       </n-tooltip>
   </div>
 
-  <div style="margin-left: 0.62rem; margin-bottom: 0.1rem">
+  <div style="margin-left: 0.37rem; margin-bottom: 0.1rem">
     <n-checkbox v-model:checked="token"> {{$t('global.addToken')}} </n-checkbox>
     <n-input
       style="margin-top: 0.1rem; width: 2.4rem"
@@ -29,7 +29,7 @@
     />
   </div>
 
-  <div class="btn-row-item1" >
+  <div class="btn-row-item1" style="margin-left: 0.37rem;">
     <n-button
       type="info"
       color="#3499E5"
@@ -44,12 +44,14 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useMessage } from "naive-ui"
 import layerManagement from "@/tools/layerManagement";
 
 let sceneUrl = ref("");
 let urlTip = "http://<server>:<port>/realspace/services/<component>/rest/realspace";
 let sceneToken = ref("");
 let token = ref(false);
+const message = useMessage();
 
 // 校验URL
 function handleChange() {
@@ -99,8 +101,10 @@ function openScene() {
     );
   }
 
-  layerManagement.openScene(sceneUrl.value, "REALSPACE");
-
+  let promiseResult =  layerManagement.openScene(sceneUrl.value, "REALSPACE");
+  SuperMap3D.when(promiseResult, function (layers: any) {
+    message.success('打开场景成功');
+  });
 }
 
 

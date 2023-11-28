@@ -10,24 +10,39 @@
     <span>{{$t('global.brightnessThreshold')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem;" v-model:value="state.threshold" :step="0.01" :min="0" :max="1" />
-      <div class="slider-suffix">
-        <span>{{ state.threshold }}</span>
-      </div>
+      <n-input-number 
+          v-model:value="state.threshold" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="1"
+          placeholder=""
+          size="small" 
+        />
     </div>
   </div>
-
 
   <div class="row-item" v-show="state.bloomShow">
     <span>{{$t('global.floodlightThreshold')}}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem;" v-model:value="state.bloomIntensity" :step="0.01" :min="0" :max="1" />
-      <div class="slider-suffix">
-        <span>{{ state.bloomIntensity }}</span>
-      </div>
+      <n-input-number 
+          v-model:value="state.bloomIntensity" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="1"
+          placeholder=""
+          size="small" 
+        />
     </div>
   </div>
 
-  <div class="row-item">
+  <!-- <div class="row-item">
     <span>{{$t('global.heatMap')}}</span>
     <div style="width: 1.96rem;">
       <n-switch v-model:value="state.showHeatMap" size="small" />
@@ -43,7 +58,9 @@
   <div class="heatmap" v-show="false" style="overflow: hidden; width: 840px;height: 400px;">
     <div class="heatmap-canvas" width="50%" height="25%">
     </div>
-  </div>
+  </div> -->
+
+  <n-card class="tipDom" v-show="state.tipFlag">{{$t('global.scanLineTip')}}</n-card>
 </template>
 
 <script lang="ts" setup>
@@ -54,14 +71,16 @@ type stateType = {
   bloomShow: boolean, // 是否开启泛光
   threshold: number, // 亮度阈值
   bloomIntensity: number, // 泛光强度
-  showHeatMap: boolean
+  showHeatMap: boolean,
+  tipFlag:boolean
 }
 
 let state = reactive<stateType>({
   bloomShow: false,
   threshold: 0.65,
   bloomIntensity: 1,
-  showHeatMap: false
+  showHeatMap: false,
+  tipFlag:false
 });
 let handlerPolyline: any, pts: any,nameHeatMap:any;
 let layers: any = viewer.scene.layers._layerQueue;
@@ -77,7 +96,8 @@ function setBloom() {
 // 添加线
 function add_heatMap() {
   clearHeatMap();
-  let heatmapInstance = createHeatMap(40);
+  // let heatmapInstance = createHeatMap(40);
+  state.tipFlag = true;
   if (!handlerPolyline) {
     handlerPolyline = initHandler("Polyline");
   }
@@ -92,6 +112,7 @@ function add_heatMap() {
       let img = new Image();
       img.src = imgData;
       nameHeatMap = "heatMap-"+Date.parse(String(new Date()));
+      state.tipFlag = false;
       img.onload = function () {
         for (let layer of layers) {
             layer.addOverlayImage({
@@ -160,7 +181,9 @@ function clearHeatMap(){
 
 function clear() {
   if (handlerPolyline) handlerPolyline.clearHandler();
-  clearHeatMap();
+  // clearHeatMap();
+
+  
   // let layers:any = viewer.scene.layers._layerQueue;
   // for (let layer of layers) {
   //   if(layer.name === 'Building@CBD'){
@@ -219,6 +242,8 @@ onUnmounted(() => {
   viewer.scene.bloomEffect.show = false;
   viewer.scene.bloomEffect.threshold = 0.65;
   viewer.scene.bloomEffect.bloomIntensity = 1;
+
+  clear();
 });
 </script>
 <style lang="scss" scoped>
@@ -229,5 +254,15 @@ onUnmounted(() => {
 
   top: 20rem;
   left: 20rem;
+}
+
+.tipDom{
+  position: fixed;
+    bottom: 2.8rem;
+    width: auto;
+    /* height: 0.5rem; */
+    text-align: center;
+    height: auto;
+    right: 0.6rem;
 }
 </style>

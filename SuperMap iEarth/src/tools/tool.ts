@@ -25,7 +25,6 @@ function getAngleAndRadian(pointA:any, pointB:any) {
     return {angle,radian};
   }
 
-  //坐标转化
 //笛卡尔转经纬度
 const CartesiantoDegrees = (Cartesians:any) => {
   let array = [].concat(Cartesians);

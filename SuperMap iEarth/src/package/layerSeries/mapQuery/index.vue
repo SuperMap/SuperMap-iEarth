@@ -64,7 +64,6 @@
                 <div class="items">
                     <div class="icon-list-box" style="width: 2.2rem;">
                         <!-- 字段筛选 -->
-                        
                         <span class="icon-span-three">
                             <n-tooltip placement="top-end" trigger="hover">
                                 <template #trigger>
@@ -80,6 +79,15 @@
                                     <i class="iconfont iconSize icondianxuan" @click="clickQuery"></i>
                                 </template>
                                 {{$t('global.clickQuery')}}
+                            </n-tooltip>
+                        </span>
+                        <span class="icon-span-three">
+                            <n-tooltip placement="top-end" trigger="hover">
+                                <template #trigger>
+                                    <i class="iconfont iconSize iconzengjia"
+                                        @click="openMediaField"></i>
+                                </template>
+                                {{$t('global.bindMediaField')}}
                             </n-tooltip>
                         </span>
                         <span class="icon-span-three">
@@ -145,6 +153,107 @@
                 </n-card>
             </n-modal>
         </div>
+
+        <!-- 添加媒体字段面板 -->
+        <div v-if="state.mediaFieldPanleShow">
+            <!-- <myDataPanel v-model:queryInfo="queryInfo"></myDataPanel> -->
+            <n-modal v-model:show="state.mediaFieldPanleShow" preset="dialog" :title="$t('global.mediaField')" :mask-closable="false" >
+                <n-card style="width: 400px" :bordered="false" size="huge" role="dialog" aria-modal="true">
+                    <div class="row-item" style="margin-bottom: 0.1rem">
+                        <span>{{$t('global.type')}}</span>
+                        <n-select class="add-input-border" v-model:value="state.mediaType" :options="state.mediaTypeOptions"
+                        style="width: 2.4rem; margin-bottom: 0.1rem" />
+                    </div>
+
+                    <div class="row-item" style="margin-bottom: 0.1rem">
+                        <span>{{$t('global.field')}}</span>
+                        <n-tooltip placement="top-end" trigger="hover">
+                            <template #trigger>
+                                <n-select class="add-input-border" v-model:value="state.selectMediaFeild" :options="state.mediaFeilds"
+                                style="width: 2.4rem;" />
+                            </template>
+                            {{$t('global.selectMediaFieldTip')}}
+                        </n-tooltip>
+                    </div>
+
+                    <div class="row-item" style="margin-bottom: 0.1rem">
+                        <span>{{$t('global.title')}}</span>
+                        <n-input class="add-input-border" :placeholder="$t('global.inputTitle')" style="width: 2.4rem" v-model:value="state.mediaTitle" type="text"/>
+                    </div>
+
+                    <div style="margin-left: 0.62rem; margin-bottom: 0.1rem">
+                        <n-checkbox v-model:checked="state.isCustomMediaUrl"> {{$t('global.customMediaLink')}} </n-checkbox>
+                    </div>
+                    <div class="row-item" v-if="state.isCustomMediaUrl" style="margin-bottom: 0.1rem">
+                        <span>{{$t('global.featureID')}}</span>
+                        <n-input class="add-input-border" disabled style="width: 2.4rem" v-model:value="state.currentFeatureID" type="text"/>
+                    </div>
+                    <div class="row-item"  v-if="state.isCustomMediaUrl" style="margin-bottom: 0.1rem">
+                        <span>{{$t('global.link')}}</span>
+                        <n-input class="add-input-border" v-model:value="state.mediaUrl" :placeholder="state.mediaType == 'img' ? '请输入在线图片地址' : '请输入视频地址（仅限iportal）'" style="width: 2.4rem" type="text">
+                            <!-- <template #suffix>
+                                <n-popover placement="bottom" trigger="click" style="max-height: 240px" scrollable>
+                                    <template #trigger>
+                                        <n-tooltip placement="top-end" trigger="hover">
+                                            <template #trigger>
+                                                <i class="iconfont iconkongjianfenxi" style="font-size: 18px"></i>
+                                            </template>
+                                            请选择需要绑定的媒体字段
+                                        </n-tooltip>
+                                    </template>
+                                    <n-radio-group v-model:value="state.selectMediaFeild" name="radiogroup" >
+                                        <n-space vertical>
+                                            <n-radio v-for="song in columns" :key="song.title" :value="song.title">
+                                                {{ song.title }}
+                                            </n-radio>
+                                        </n-space>
+                                    </n-radio-group>
+                                </n-popover>
+                            </template> -->
+                        </n-input>
+                            
+                    </div>
+
+
+                    <div class="btn-row-item1">
+                        <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="saveMediaField">{{ $t('global.sure')
+                        }}</n-button>
+                        <n-button class="btn-secondary" @click="clearMediaField" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear')
+                        }}</n-button>
+                    </div>
+                </n-card>
+            </n-modal>
+        </div>
+
+        <!-- 弹窗 -->
+        <div class="bableShadow" ref="bableQuery" v-show="state.shadowRadioShow">
+            <div class="row-item" style="margin-top:0.12rem">
+                <span class="shadow-anaylse-pop-titie">{{$t('global.clickQuery')}}</span>
+                <span @click="closebable" style="margin-right:14px">X</span>
+            </div>
+            <div class="bable-container">
+                <n-scrollbar style="max-height: 3.8rem">
+                    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem"
+                        v-for="item in state.modelInfo">
+                        <span>{{ item.lable }}</span>
+                        <n-input placeholder="null" style="width: 1.8rem;" v-model:value="item.value" :show-button="false" disabled>
+                        </n-input>
+                    </div>
+                    <div style="margin-bottom: 0.1rem">
+                        <span style="margin-left: 0.12rem;">{{state.mediaTitle}}</span>
+                        <div class="mediaContainer">
+                            <img class = "bableMedia" :src="state.mediaUrl" alt="" v-if="state.mediaType === 'img'">
+                            <!-- <video class = "bableMedia" controls v-else>
+                                <source src="./coms/video.mp4" type="video/mp4">
+                            </video> -->
+                            <video class = "bableMedia" id="videoDom" controls src="" v-else></video>
+
+                            <!-- <iframe class = "bableMedia" v-else src="https://fanyi.baidu.com/?aldtype=16047#en/zh/Antialiased%20Sampling" frameborder="0"></iframe> -->
+                        </div>
+                    </div>
+                </n-scrollbar>
+            </div>
+        </div>
     </div>
 </template>
   
@@ -189,6 +298,19 @@ type StateType = {
     isMydate:boolean
     isloading_mydata:boolean,
     chooseField:string,
+    shadowRadioShow: boolean,
+    scenePosition: any,
+    mediaFieldPanleShow:boolean,
+    mediaType:string,
+    mediaTypeOptions:any,
+    mediaTitle:string,
+    mediaUrl:string,
+    modelInfo:any,
+    selectMediaFeild:string,
+    mediaFeilds:any,
+    currentFeature:any,
+    isCustomMediaUrl:boolean,
+    currentFeatureID:string
 }
 
 // 初始化数据
@@ -202,6 +324,8 @@ let state = reactive<StateType>({
     // datasetName: "DLTB80w:DLTB_1", // 80多万
     // dataUrl: "http://127.0.0.1:8090/iserver/services/data-mapqueryProjection/rest/data",
     // datasetName: "0830:NewDataset", 
+    // dataUrl: "http://localhost:8090/iserver/services/data-mediaField/rest/data",
+    // datasetName: "1009:NewDataset", 
     dataUrl: "",
     datasetName: "",
 
@@ -220,6 +344,7 @@ let state = reactive<StateType>({
     myDataPanleShow: false,
     isClickQuery: false,
     isChangeDataSet: false,
+    modelInfo:{},
 
     // 输入提示
     dataUrlTip: `http://<server>:<port>/iserver/services/{dataProvider}/rest/data`,
@@ -264,18 +389,60 @@ let state = reactive<StateType>({
     checkedRowKeys_mydata: ["1"],
     isloading_mydata:false,
     chooseField:GlobalLang.chooseField,
+
+    // 新增
+    shadowRadioShow: false,
+    scenePosition: null,
+
+    // 媒体字段
+    mediaFieldPanleShow:false,
+    mediaType:'img',
+    mediaTypeOptions:[
+    {
+      label: GlobalLang.picture,
+      value: "img",
+    },
+    {
+      label: GlobalLang.video,
+      value: "video",
+    },
+  ],
+    mediaTitle:'',
+    mediaUrl:'',
+    selectMediaFeild:'SMID',
+    mediaFeilds:[],
+    currentFeature:null,
+    isCustomMediaUrl:false,
+    currentFeatureID:''
 });
 
 let handler;
 let targerMapLayer;
+let bableQuery = ref();
 
 function init() {
     state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
     targerMapLayer = layerStore.layerTreeData[1].children[state.selectedIndex];
     // 获取图层绑定的数据源信息
     setQueryInfo();
+
+    // 关闭云层，以防遮挡Entity实体
+    viewer.scene.cloudBox = null;
 }
 init();
+
+
+// 设置气泡位置
+function setBablePosition() {
+    if (state.scenePosition) {
+        var canvasHeight =viewer.scene.canvas.height;
+        var windowPosition = new SuperMap3D.Cartesian2();
+        SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, state.scenePosition, windowPosition);
+        bableQuery.value.style.bottom = (canvasHeight - windowPosition.y - 10) + 'px';
+        bableQuery.value.style.left = (windowPosition.x) + 'px';
+        bableQuery.value.style.visibility = "visible";
+    }
+}
 
 // 获取数据-第一页
 function startQuery() {
@@ -340,6 +507,7 @@ function queryAll(){
         // 获取服务器返回的结果
         let result = serviceResult.result;
         console.log("result-all:", result);
+        if(!result) return;
         let features: any = result.features.features;
         state.itemCount = result.totalCount;
         let features_pageSize = features.slice(0, 10);
@@ -381,15 +549,20 @@ function clickQuery() {
         // 恢复鼠标样式
         window.viewer.enableCursorStyle = true;
         document.body.classList.remove('drawCur');
+        state.shadowRadioShow = false;
+        viewer.scene.postRender.removeEventListener(setBablePosition);
         return;
     }
     message.success(GlobalLang.clickQueryCloseTip);
     state.isClickQuery = true;
-
+    // state.showQueryTable = false;
     // 修改鼠标样式
     window.viewer.enableCursorStyle = false;
     window.viewer._element.style.cursor = '';
     document.body.classList.add("drawCur");
+
+    // 每一帧都去计算气泡的正确位置
+    viewer.scene.postRender.addEventListener(setBablePosition);
 
     handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction(function (event) {
@@ -397,6 +570,7 @@ function clickQuery() {
 
         let position = viewer.scene.pickPosition(event.position);
         let position2 = CartesiantoDegrees(position);
+        state.scenePosition = position; // 气泡位置
 
         let point = L.marker([position2[1], position2[0]]); // SuperMap3D和leaflet这里对调了
 
@@ -418,16 +592,55 @@ function clickQuery() {
             .getFeaturesByGeometry(geometryParam, function (serviceResult) {
                 console.log("点选查询:", serviceResult);
                 if (!serviceResult.result.features) return;
+                state.shadowRadioShow = true;
                 let features = serviceResult.result?.features?.features;
-                state.itemCount = 1;
-                updateTable(features);
+                // state.itemCount = 1;
+                // updateTable(features); //将feature添加至表格
+                state.currentFeature = features[0];
                 addFeature(features[0]);
+                getModelInfo(features[0]);
+                let mediaURL:any;
+                if(state.currentFeature.properties){
+                    state.currentFeatureID = state.currentFeature.id;
+                    mediaURL = state.currentFeature.properties[state.selectMediaFeild];
+                }
+                let customUrl = getCustomMediaUrl(state.currentFeature);
+                if (customUrl) {
+                    state.mediaUrl = customUrl;
+                } else {
+                    state.mediaUrl = mediaURL;
+                }
+                console.log("媒体链接-mediaUrl:",state.mediaUrl);
+                // 自定义媒体连接地址
+                if(state.mediaType == 'video'){
+                    let videoDom:any = document.getElementById("videoDom");
+                    videoDom.src = state.mediaUrl;
+                    videoDom.load();
+                    // videoDom.play();
+                }
             });
 
     }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
     handler.setInputAction(e => {
         clickQuery();
+        // queryAll();
+        state.showQueryTable = true;
+        if (state.mediaType == 'video') {
+            let videoDom: any = document.getElementById("videoDom");
+            if(videoDom) videoDom.pause();
+        }
     }, SuperMap3D.ScreenSpaceEventType.RIGHT_CLICK);
+}
+
+function getCustomMediaUrl(feature:any){
+    let featureID = String(feature.id);
+    let customMediaUrl:any;
+    if(layerStore.mediaFeildOptions[state.mediaType][featureID]){
+        customMediaUrl = layerStore.mediaFeildOptions[state.mediaType][featureID][state.selectMediaFeild];
+    }else{
+        customMediaUrl = undefined;
+    }
+    return customMediaUrl;
 }
 
 //笛卡尔转经纬度
@@ -448,6 +661,29 @@ function CartesiantoDegrees(Cartesians) {
     return positions
 };
 
+// 点击拾取实体，获取属性信息
+function getModelInfo(feature: any) {
+    console.log("click-feature:",feature)
+    if (feature) {
+        let properties = feature.properties;
+        state.shadowRadioShow = true;
+        let list: any = [];
+        for (let key in properties) {
+            let value = String(properties[key]);
+            // let value = properties[key];
+            // if (value.indexOf('.') != -1) value = Number(value).toFixed(2);
+            list.push({
+                lable: key,
+                value: value
+            })
+        }
+        state.modelInfo = list;
+    } else {
+        state.shadowRadioShow = false;
+        message.success(GlobalLang.noData);
+    }
+}
+
 // 获取已绑定的图层查询信息
 function setQueryInfo() {
     if (layerStore.mapQueryOptions.length > 0) {
@@ -458,6 +694,12 @@ function setQueryInfo() {
             state.datasetName = targetItem[0].datasetName;
         }
     }
+}
+
+// 媒体字段相关
+function openMediaField(){
+    state.mediaFieldPanleShow = true;
+    state.isCustomMediaUrl = false;
 }
 
 // 清除
@@ -506,6 +748,16 @@ function clear(isClearInfo = true) {
     // }
 }
 
+// 关闭弹窗
+function closebable(){
+    state.shadowRadioShow = false;
+    if (state.mediaType == 'video') {
+        let videoDom: any = document.getElementById("videoDom");
+        if (videoDom) videoDom.pause();
+    }
+}
+
+// 清除实体
 function clearEntity() {
     // 删除添加的geojson数据源
     for (let i = 0; i < geoJsonDataSourceList.length; i++) {
@@ -535,8 +787,18 @@ function updateTable(features: any[]) {
                 // resizable: true, // 列宽可拖拽
                 align: 'center',
                 width: 100,
+                ellipsis: {
+                    tooltip: true
+                }
             },);
             // }
+
+
+            // 媒体字段
+            state.mediaFeilds.push({
+                label: key,
+                value: key,
+            })
         })
     }
 
@@ -564,6 +826,8 @@ function handleCheck(rowKeys: any) {
         console.log("选中行查询结果:", serviceResult.result);
         let feature = serviceResult.result.features.features[0];
         addFeature(feature);
+        state.currentFeature = feature;
+        state.currentFeatureID = state.currentFeature.id;
     });
 }
 
@@ -589,6 +853,8 @@ function addFeature(feature: any) {
             let entity = entities[i];
             entity.polygon.material = SuperMap3D.Color.BLUE.withAlpha(0); // 闪面
             entity.polygon.heightReference = SuperMap3D.HeightReference.CLAMP_TO_GROUND; // 贴地
+            // entity.polygon.outlineColor = SuperMap3D.Color.BLUE; // 轮廓颜色
+            // entity.polygon.outlineWidth = 10; // 轮廓宽度
         }
         viewer.zoomTo(entities[0]);
     }).otherwise(function (error) {
@@ -628,6 +894,32 @@ function GeoJsonProjectToLatLng(feature:any) {
     }
 
     return feature;
+}
+
+// 保存媒体字段
+function saveMediaField(){
+    state.mediaFieldPanleShow = false;
+    if(state.currentFeatureID != '' && state.selectMediaFeild != '' && state.isCustomMediaUrl){
+        let obj = {};
+        let key:string = String(state.currentFeatureID);
+        obj[state.selectMediaFeild] = state.mediaUrl;
+        
+        if(!layerStore.mediaFeildOptions[state.mediaType][key]){
+            layerStore.mediaFeildOptions[state.mediaType][key] = obj;
+        }else{
+            let objConnect = Object.assign({}, layerStore.mediaFeildOptions[state.mediaType][key], obj);
+            layerStore.mediaFeildOptions[state.mediaType][key] = objConnect;
+        }
+    }
+    state.isCustomMediaUrl = false;
+    message.success(GlobalLang.bingMediaFieldSuccessTip);
+} 
+
+// 清除媒体字段
+function clearMediaField(){
+    state.mediaTitle = '';
+    state.mediaUrl = '';
+    state.selectMediaFeild = 'SMID';
 }
 
 
@@ -717,6 +1009,18 @@ function onUpdatePageSize(pageSize: number) {
 
 let tableCount = computed(() => {
     return state.itemCount;
+})
+
+let mediaTitleBuble = computed(() => {
+    if(state.mediaTitle == ''){
+        if(state.mediaType == 'img' && state.mediaUrl != '' && state.mediaUrl != undefined){
+            return '图片';
+        }else{
+            return '视频';
+        }
+    }else{
+        return state.mediaTitle;
+    }
 })
 
 let queryInfo = computed(() => {
@@ -937,6 +1241,51 @@ watch(() => state.datasetName, (val) => {
     state.isChangeDataSet = true;
 })
 
+watch(() => state.mediaType, (val) => {
+    state.mediaTitle = '';
+    state.mediaUrl = '';
+})
+
+watch(columns, (newValue) => {
+    state.mediaFeilds = [];
+    for(let i=0;i<newValue.length;i++){
+        let item = newValue[i];
+        let obj =   {
+            label: item.key,
+            value: item.key,
+        }
+        state.mediaFeilds.push(obj);
+    }
+},{immediate:true})
+
+watch(() => state.isCustomMediaUrl, (val) => {
+    if(!state.currentFeature) {
+        state.mediaUrl = '';
+        return;
+    }
+    let currentSaveMediaUrl = getCustomMediaUrl(state.currentFeature);
+    console.log("当前保存的媒体链接:",currentSaveMediaUrl);
+    if(currentSaveMediaUrl && val){
+        state.mediaUrl = currentSaveMediaUrl;
+    }else{
+        state.mediaUrl = '';
+    }
+})
+
+watch(() => state.selectMediaFeild, (val) => {
+    if(!state.currentFeature) {
+        state.mediaUrl = '';
+        return;
+    }
+    let currentSaveMediaUrl = getCustomMediaUrl(state.currentFeature);
+    console.log("当前保存的媒体链接:",currentSaveMediaUrl);
+    if(currentSaveMediaUrl && state.isCustomMediaUrl){
+        state.mediaUrl = currentSaveMediaUrl;
+    }else{
+        state.mediaUrl = '';
+    }
+})
+
 
 onBeforeUnmount(() => {
     clear(true);
@@ -1088,6 +1437,46 @@ onBeforeUnmount(() => {
 
     .selected-icon {
         color: #3499e5;
+    }
+}
+
+// 弹窗
+.bableShadow {
+    position: fixed;
+    top: 2rem;
+    left: 5rem;
+    background-color: #383838;
+    opacity: 0.9;
+    z-index: 200000;
+    height: 4.5rem;
+    width: 3rem;
+
+    .bable-container {
+        // height: 1.7rem;
+        // width: 2.28rem;
+        overflow-y: scroll;
+        @include setsSrollbar();
+    }
+
+    .shadow-anaylse-pop-titie {
+        margin-left: 0.12rem;
+        font-size: 12px;
+        line-height: 20px;
+
+    }
+
+    .mediaContainer{
+        display: flex;
+        justify-content: center;
+    }
+
+    span {
+        font-size: 12px;
+    }
+
+    .bableMedia{
+        width: 80%;
+        height: auto;
     }
 }
 </style>

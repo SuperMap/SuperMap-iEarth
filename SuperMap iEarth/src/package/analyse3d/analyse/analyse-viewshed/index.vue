@@ -51,10 +51,16 @@
           :min="1"
           :max="100"
         />
-        <div class="slider-suffix">
-          <span>{{ state.addheight }}</span>
+          <n-input-number 
+          v-model:value="state.addheight" 
+          :update-value-on-input="false"
+          class="slider-input-number"
+          :bordered="false" 
+          :show-button="false" 
+          placeholder=""
+          size="small" 
+          />
           <span class="slider-unit">{{$t('global.meter')}}</span>
-        </div>
       </div>
     </div>
     <div class="row-item" style="margin-right: 0.1rem">
@@ -201,8 +207,8 @@ let state = reactive<stateType>({
   hintLineColor: "rgb(212,202,45)",
   visibleColorBarShow: false,
   invisibleColorBarShow: false,
-  visibleAreaColor: "rgba(9,199,112,0.5)",
-  hiddenAreaColor: "rgba(238,114,22,0.5)",
+  visibleAreaColor: "rgba(9,199,112,0.8)",
+  hiddenAreaColor: "rgba(238,114,22,0.8)",
   visibleBody: false,
   invisibleBody: false,
   viewshedAnimation: false,
@@ -411,7 +417,7 @@ function clear() {
   timers = null;
   state.viewshedAnimation = false;
   if (handlerPolyline) handlerPolyline.clearHandler();
-  state.observerInformation = [];
+  state.observerInformation = [0, 0, 0];
 }
 // 清除可视域
 function clearViewshed() {

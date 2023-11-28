@@ -9,7 +9,7 @@
     />
   </div>
 
-  <div class="row-item">
+  <div class="row-item no-center">
     <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list-space" style="width: 1.96rem;">
       <div v-for="(model, index) in state.symbolOptionsList.data"
@@ -22,6 +22,7 @@
           v-show="model.name"
           class="draw-img"
           @click="changleIconItem(model)"
+          @dblclick="cancleIconItem(model)"
         />
       </div>
 
@@ -50,6 +51,33 @@
       :options="state.optionAddWay"
       style="width: 1.96rem"
     />
+  </div>
+  <div class="btn-row-item" v-if="state.addType === 'face'">
+      <n-checkbox
+          v-model:checked="state.multiSelection"
+          style="margin-bottom: 0.1rem"
+      >
+      {{$t('global.multiSelection')}}
+      </n-checkbox>
+  </div>
+
+  <div class="row-item">
+    <span>{{$t('global.delMode')}}</span>
+    <n-radio-group
+      v-model:value="state.delType"
+      name="radiogroup"
+      class="radio-group"
+    >
+      <n-space>
+        <n-radio
+          v-for="item in state.delOption"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </n-radio>
+      </n-space>
+    </n-radio-group>
   </div>
 
   <div class="row-item" v-if="state.addType === 'line'">
@@ -83,14 +111,16 @@
   </div>
 </template>
   
-  <script lang="ts" setup>
-import {reactive, onBeforeUnmount, watch } from "vue";
+<script lang="ts" setup>
+import {reactive, onMounted,onBeforeUnmount, watch } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
 import AddSymbol from "./js/draw-skit";
 import symbolOptions from "./js/skit-config";
+import { useMessage } from "naive-ui"
 
 const notification = useNotification();
+const message = useMessage();
 
 type stateType = {
   selectedTypeId: number, //选中符号类型id
@@ -103,7 +133,11 @@ type stateType = {
   optionClass:any, // 模型类型选项
   optionAddWay:any, // 添加方式
   symbolOptionsList:any, // 模型资源列表
-
+  multiSelection:boolean,// 支持多选
+  currentModelUrlArray:any,
+  delType:number, // 删除方式
+  delOption:any // 删除模式options
+  selectS3mInstenceID:string,
 }
 
 // 初始化数据
@@ -119,6 +153,7 @@ let state = reactive<stateType>({
   //   value: i,
   // })),
   currentModelUrl:"./Resource/skitStore/newTree/001_Platanus.s3mb",
+  currentModelUrlArray:["./Resource/skitStore/newTree/001_Platanus.s3mb"],
   optionClass:[
     {
       label:()=>GlobalLang.tree,
@@ -148,6 +183,18 @@ let state = reactive<stateType>({
     },
   ],
   symbolOptionsList:symbolOptions[0],
+  multiSelection:false,
+  delType:1,
+  delOption:[
+    {
+      label: GlobalLang.singleDel,
+      value: 1,
+    }, {
+      label: GlobalLang.wholeDel,
+      value: 2,
+    },
+  ],
+  selectS3mInstenceID:''
 });
 
 let addSymbol, handlerPolyline, isAddSingle, isAddLIneFace, handlerPolygon;
@@ -157,10 +204,24 @@ function init() {
   addSymbol = new AddSymbol(viewer, {});
 }
 
-init();
+onMounted(()=>{
+  init();
+  state.symbolOptionsList.data[0].isSelect = true;
+})
 
 // 分析
 function add() {
+  if(!state.multiSelection){
+    if(state.currentModelUrl == '') {
+      message.warning(GlobalLang.addSkitTip);
+      return;
+    }
+  }else{
+    if(state.currentModelUrlArray.length == 0) {
+      message.warning(GlobalLang.addSkitTip);
+      return;
+    }
+  }
   notification.create({
     content: () => GlobalLang.editLineTip,
     duration: 3500,
@@ -192,7 +253,7 @@ function add_single() {
   viewer.eventManager.addEventListener("RIGHT_CLICK", right_click, true);
 }
 
-// 左键控制选中或者添加
+// 左键控制选中或者添加d
 function click_symbol(e) {
   if (isAddLIneFace) return;
   if (isAddSingle) {
@@ -202,7 +263,15 @@ function click_symbol(e) {
     return;
   }
   let symbol = viewer.scene.pick(e.message.position) || viewer.selectedEntity;
-  addSymbol.setModelEditor(symbol);
+  if(symbol.id.indexOf('addSymbol') != -1){
+    state.selectS3mInstenceID = symbol.id;
+    // symbol.primitive.updateColor(SuperMap3D.Color.fromCssColorString('rgba(255,1,1,1)'), symbol.id);
+    addSymbol.setModelEditor(symbol);
+    // addSymbol.setItemsHighlight(symbol);
+  }else{
+    addSymbol.delModelEditor();
+  }
+
 }
 
 // 右键结束添加
@@ -243,8 +312,10 @@ function add_face() {
   handlerPolygon.handlerDrawing().then(
     (res) => {
       isAddLIneFace = false;
-      let path = state.currentModelUrl;
+      // let path = state.currentModelUrl;
+      let path = state.currentModelUrlArray;
       addSymbol.addByFace(path, res.object.positions, state.density);
+      handlerPolygon.polylineTransparent.show = false;
     },
     (err) => {
       console.log(err);
@@ -253,13 +324,67 @@ function add_face() {
   handlerPolygon.activate();
 }
 
+// 符号
+function changleIconItem(item: any) {
+    if (!state.multiSelection) {
+      for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
+        if (state.symbolOptionsList.data[i].id == item.id) {
+          state.symbolOptionsList.data[i].isSelect = true;
+          // state.selectedSymbolId = item.id;
+        } else {
+          state.symbolOptionsList.data[i].isSelect = false;
+        }
+      }
+      state.currentModelUrl = item.path;
+      state.currentModelUrlArray = [item.path];
+    }else{
+      for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
+        if (state.symbolOptionsList.data[i].id == item.id) {
+          state.symbolOptionsList.data[i].isSelect = true;
+        }
+      }
+      let itemIndex = state.currentModelUrlArray.indexOf(item.path);
+      if(itemIndex == -1){
+        state.currentModelUrlArray.push(item.path);
+      }
+    }
+
+}
+
+// 取消所选符号
+function cancleIconItem(item: any){
+  if (!state.multiSelection) {
+    for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
+      if (state.symbolOptionsList.data[i].id == item.id) {
+        state.symbolOptionsList.data[i].isSelect = false;
+        state.currentModelUrl = '';
+        state.currentModelUrlArray = [];
+      }
+    }
+  }else{
+    for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
+      if (state.symbolOptionsList.data[i].id == item.id) {
+        state.symbolOptionsList.data[i].isSelect = false;
+        let pathIndex = state.currentModelUrlArray.indexOf(item.path); 
+        state.currentModelUrlArray.splice(pathIndex,1);
+      }
+    }
+
+  }
+
+}
+
 // 清除
 function clear() {
-  if (!addSymbol.selectedSymbol)
-    viewer.eventManager.removeEventListener("CLICK", click_symbol); //移除鼠标点击事件监听
+  if(state.selectS3mInstenceID.indexOf('addSymbol') != -1){
+    addSymbol.clear(state.selectS3mInstenceID,state.delType);
+  }else{
+    message.warning(GlobalLang.delSkitTip);
+  }
+
+  state.selectS3mInstenceID = '';
   if (handlerPolyline) handlerPolyline.clearHandler();
   if (handlerPolygon) handlerPolygon.clearHandler();
-  addSymbol.clear(state.currentModelUrl);
   right_click();
 }
 
@@ -271,6 +396,14 @@ watch(
     addSymbol.setSymbolColor(val);
   }
 );
+
+watch(
+  () => state.addType,
+  (val) => {
+    state.multiSelection = false;
+  }
+);
+
 watch(
   () => state.selectedTypeId,
   (val) => {
@@ -290,22 +423,26 @@ watch(
       break;
   }
 });
-// 符号
-function changleIconItem(item: any) {
-  for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
-    if (state.symbolOptionsList.data[i].id == item.id) {
-      state.symbolOptionsList.data[i].isSelect = true;
-      // state.selectedSymbolId = item.id;
-    } else {
+
+watch(()=>state.multiSelection,(val)=>{
+  if(!val){
+    for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
       state.symbolOptionsList.data[i].isSelect = false;
     }
+    state.currentModelUrlArray = [];
   }
-  state.currentModelUrl = item.path;
-}
+})
+
 
 onBeforeUnmount(() => {
-  clear();
+  // clear();
   addSymbol.destroy();
+  if (!addSymbol.selectedSymbol)
+    viewer.eventManager.removeEventListener("CLICK", click_symbol); //移除鼠标点击事件监听
+
+  for (let i = 0; i < state.symbolOptionsList.data.length; i++) {
+    state.symbolOptionsList.data[i].isSelect = false;
+  }
 });
 </script>
   
@@ -324,6 +461,9 @@ onBeforeUnmount(() => {
   }
   .draw-img{
     height: 100%;
+  }
+  .no-center{
+    align-items: start !important;
   }
 </style>
   

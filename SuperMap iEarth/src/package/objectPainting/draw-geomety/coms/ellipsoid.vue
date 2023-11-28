@@ -5,7 +5,17 @@
         <span>{{$t('global.Xradius')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.xRadii" :step="1" :min="10" :max="100" />
-            <span>{{ state.xRadii }}</span>
+            <n-input-number 
+                v-model:value="state.xRadii" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -13,15 +23,35 @@
         <span>{{$t('global.Yradius')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.yRadii" :step="1" :min="10" :max="200" />
-            <span>{{ state.yRadii }}</span>
+            <n-input-number 
+                v-model:value="state.yRadii" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="200"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
     <div class="row-item">
         <span>{{$t('global.Zradius')}}</span>
         <div class="slider-box" >
-            <n-slider style="width: 1.5rem" v-model:value="state.zRadii" :step="10" :min="10" :max="100" />
-            <span>{{ state.zRadii }}</span>
+            <n-slider style="width: 1.5rem" v-model:value="state.zRadii" :step="1" :min="10" :max="100" />
+            <n-input-number 
+                v-model:value="state.zRadii" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -39,9 +69,6 @@
         <n-select style="width: 1.96rem" v-model:value="state.displayMode" 
             :options="state.optionsMode" />
     </div>
-
-
-
 
     <div class="btn-row-item">
         <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.Draw')}}</n-button>
@@ -76,6 +103,10 @@ let state = reactive<stateType>({
         {
             label: () => GlobalLang.wireframe,
             value: "Outline",
+        },
+        {
+            label: () => GlobalLang.fillBothMode,
+            value: "Both",
         }
     ],   
 });
@@ -84,6 +115,17 @@ let ellipsoidEntity;
 let entities = viewer.entities;
 let handlerPoint_ellipsoid = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 let targetEntity: any = null;
+
+handlerPoint_ellipsoid.activeEvt.addEventListener((isActive: any) => {
+    if (isActive == true) {
+        window.viewer.enableCursorStyle = false;
+        window.viewer._element.style.cursor = '';
+        document.body.classList.add("measureCur");
+    } else {
+        window.viewer.enableCursorStyle = true;
+        document.body.classList.remove('measureCur');
+    }
+});
 
 // 注册绘制球体事件
 handlerPoint_ellipsoid.drawEvt.addEventListener(function (res) {
@@ -94,13 +136,15 @@ handlerPoint_ellipsoid.drawEvt.addEventListener(function (res) {
     position = SuperMap3D.Cartesian3.fromRadians(posDeg.longitude, posDeg.latitude, posDeg.height);
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
     let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
+    let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
+    let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
     ellipsoidEntity = entities.add({
         position: position,
         ellipsoid: {
             radii: new SuperMap3D.Cartesian3(20.0, 20.0, 20.0),
             material: color,
-            fill: state.displayMode === 'Fill',
-            outline: state.displayMode === 'Outline',
+            fill:  fillFlag,
+            outline: outlineFlag,
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
@@ -178,8 +222,11 @@ watch(
             if (val === 'Fill') {
                 targetEntity.ellipsoid.fill = true;
                 targetEntity.ellipsoid.outline = false;
-            } else {
+            } else if(val === 'Outline') {
                 targetEntity.ellipsoid.fill = false;
+                targetEntity.ellipsoid.outline = true;
+            } else {
+                targetEntity.ellipsoid.fill = true;
                 targetEntity.ellipsoid.outline = true;
             }
         }

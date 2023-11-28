@@ -8,14 +8,14 @@
           :options="state.s3mlayers"
       />
     </div>
-
+<!-- 
     <div class="row-item">
-          <span>{{$t('global.offsetMode')}}</span>
-          <n-radio-group v-model:value="state.offsetMode" name="shadowMode" style="width:1.96rem">
-              <n-radio :value="0"><n-ellipsis >{{$t('global.selected')}}</n-ellipsis></n-radio>
-              <!-- <n-radio :value="1"><n-ellipsis >多边形 </n-ellipsis></n-radio> -->
-          </n-radio-group>
-      </div>
+        <span>{{$t('global.offsetMode')}}</span>
+        <n-radio-group v-model:value="state.offsetMode" name="shadowMode" style="width:1.96rem">
+            <n-radio :value="0"><n-ellipsis >{{$t('global.selected')}}</n-ellipsis></n-radio>
+            <n-radio :value="1"><n-ellipsis >多边形 </n-ellipsis></n-radio>
+        </n-radio-group>
+    </div> -->
 
     <div v-show="state.offsetMode === 0">        
       <div class="row-item" >

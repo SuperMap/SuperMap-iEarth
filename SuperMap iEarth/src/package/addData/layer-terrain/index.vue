@@ -17,11 +17,15 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive } from "vue"
 import { useMessage } from "naive-ui";
 import { useLayerStore } from "@/store/layerStore";
 
 const message = useMessage();
 const layerStore = useLayerStore();
+let state = reactive({
+  terrainToken: layerStore.configToken.TiandituToken, // 天地图token,
+})
 
 // 添加地形
 function addTerrainLayer(item: any) {
@@ -41,7 +45,7 @@ function addTerrainLayer(item: any) {
       break;
     case "tianDiTuTerrain":
       viewer.terrainProvider = new SuperMap3D.TiandituTerrainProvider({
-        token: "e90d56e5a09d1767899ad45846b0cefd",
+        token:state.terrainToken
       });
       break;
     case "supermapOnlineTerrain":

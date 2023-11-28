@@ -7,7 +7,13 @@
         v-model:value="state.measureMode"
         :options="state.options"
         @update:value="update_mode"
-      />
+        v-model:show="show2"
+      >
+      <!-- 改变下拉列表图标 -->
+        <!-- <template v-if="show2" #arrow>
+          <i class="iconfont iconSize iconceju" style="margin-top:0px"></i>
+        </template> -->
+      </n-select>
     </div>
 
     <div class="row-item" >
@@ -27,8 +33,6 @@
       </div>
     </div>
 
-
-    
     <div>
       <div class="btn-row-item">
         <n-checkbox
@@ -68,8 +72,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, onBeforeUnmount ,watch} from "vue";
-
+import { ref, reactive, onBeforeUnmount ,watch} from "vue";
+let show2 = ref(false)
 type stateType = {
   measureMode: string, //测量模式
   clampMode: any, //贴地模式
@@ -225,6 +229,7 @@ isoline.MinVisibleValue = -100;
 init();
 function init() {
   if (!viewer) return;
+  viewer.scene.pickPointInterval = 20;
   layers = viewer.scene.layers.layerQueue;
   viewer.scene.globe.HypsometricSetting = {
     hypsometricSetting: isoline,
@@ -526,6 +531,7 @@ function update_showDVH(val:boolean) {
 function openPickPoint(val:boolean){
   state.pickPointEnabled = val;
   viewer.scene.pickPointEnabled = val;
+  viewer.scene.pickPointInterval = 20;
 }
 
 // 清除

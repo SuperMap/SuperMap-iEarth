@@ -90,6 +90,9 @@ function addSpark(centerPosition){
 
 // 添加粒子
 function add() {
+  window.viewer.enableCursorStyle = false;
+  window.viewer._element.style.cursor = '';
+  document.body.classList.add("measureCur");
   clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandle.setInputAction(function (click) {
     let centerPosition = viewer.scene.pickPosition(click.position);
@@ -98,6 +101,8 @@ function add() {
     }
     addSpark(centerPosition);
     clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
+    window.viewer.enableCursorStyle = true;
+    document.body.classList.remove('measureCur');
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 

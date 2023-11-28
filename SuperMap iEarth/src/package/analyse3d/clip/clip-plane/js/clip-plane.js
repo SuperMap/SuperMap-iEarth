@@ -107,7 +107,7 @@ class ClipPlane {
             this.s3mInstanceColc.add(this.modelUrl, {
                 id: "clip-model",
                 position: position,
-                scale: new SuperMap3D.Cartesian3(1, 1, 0.01)
+                scale: new SuperMap3D.Cartesian3(0.1, 0.1, 0.01)
             });
             this.referencePlane = this.s3mInstanceColc.getInstance(this.modelUrl, "clip-model");
             if (quaternion) {
@@ -147,6 +147,7 @@ class ClipPlane {
         if (!SuperMap3D.defined(this.planeSurface)) this.addsurface();
         if (!this.modelEditor) this.addModelEditor(this.referencePlane);
         else {
+            // this.addModelEditor(this.referencePlane);
             this.modelEditor.setEditObject(this.referencePlane);
             this.modelEditor.activate();
         }
@@ -161,12 +162,13 @@ class ClipPlane {
         this.modelEditor = new SuperMap3D.ModelEditor({
             model: model,
             scene: this.viewer.scene,
-            scaleByDistance:new SuperMap3D.NearFarScalar(10,0.1,1000,10),  //设置根据距离缩放编辑器
+            scale:3,
             axesShow: {
                 translation: true,
                 rotation: true,
                 scale: false
-            }
+            },
+            lineWidthScale:5
         });
         this.modelEditor.activate();
         this.modelEditor.changedEvt.addEventListener(param => {
@@ -233,6 +235,7 @@ class ClipPlane {
         if (this.planeSurface) {
             this.viewer.entities.remove(this.planeSurface);
             this.modelEditor.deactivate();
+            this.modelEditor = null;
             this.planeSurface = null;
             this.clipPlanePositions = null;
             this.LocalToWorldMatrix = null;

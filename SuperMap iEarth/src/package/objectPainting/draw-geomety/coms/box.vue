@@ -4,7 +4,17 @@
         <span>{{$t('global.length')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.boxLength" :step="1" :min="10" :max="100" />
-            <span>{{ state.boxLength }}</span>
+            <n-input-number 
+                v-model:value="state.boxLength" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -12,15 +22,35 @@
         <span>{{$t('global.width')}}</span>
         <div class="slider-box">
             <n-slider style="width: 1.5rem" v-model:value="state.boxWidth" :step="1" :min="10" :max="200" />
-            <span>{{ state.boxWidth }}</span>
+            <n-input-number 
+                v-model:value="state.boxLength" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="200"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
     <div class="row-item">
         <span>{{$t('global.height')}}</span>
         <div class="slider-box">
-            <n-slider style="width: 1.5rem" v-model:value="state.boxHeight" :step="10" :min="10" :max="100" />
-            <span>{{ state.boxHeight }}</span>
+            <n-slider style="width: 1.5rem" v-model:value="state.boxHeight" :step="1" :min="10" :max="100" />
+            <n-input-number 
+                v-model:value="state.boxLength" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -72,6 +102,10 @@ let state = reactive<stateType>({
         {
             label: () => GlobalLang.wireframe,
             value: "Outline",
+        },
+        {
+            label: () => GlobalLang.fillBothMode,
+            value: "Both",
         }
     ],
 
@@ -82,19 +116,33 @@ let entities = viewer.entities;
 let targetEntity: any = null;
 
 let handlerPoint_box = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
+
+handlerPoint_box.activeEvt.addEventListener((isActive: any) => {
+    if (isActive == true) {
+        window.viewer.enableCursorStyle = false;
+        window.viewer._element.style.cursor = '';
+        document.body.classList.add("measureCur");
+    } else {
+        window.viewer.enableCursorStyle = true;
+        document.body.classList.remove('measureCur');
+    }
+});
+
 //注册绘制长方体事件
 handlerPoint_box.drawEvt.addEventListener(function (res) {
     let point = res.object;
     let position = point.position;
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
     let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
+    let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
+    let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
     boxEntity = entities.add({
         position: position,
         box: {
             dimensions: new SuperMap3D.Cartesian3(20.0, 20.0, 20.0),
             material: color,
-            fill: state.displayMode === 'Fill',
-            outline: state.displayMode === 'Outline',
+            fill:  fillFlag,
+            outline: outlineFlag,
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
@@ -176,8 +224,11 @@ watch(
             if (val === 'Fill') {
                 targetEntity.box.fill = true;
                 targetEntity.box.outline = false;
-            } else {
+            } else if(val === 'Outline') {
                 targetEntity.box.fill = false;
+                targetEntity.box.outline = true;
+            }else{
+                targetEntity.box.fill = true;
                 targetEntity.box.outline = true;
             }
         }

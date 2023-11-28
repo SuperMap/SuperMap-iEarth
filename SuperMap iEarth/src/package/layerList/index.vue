@@ -13,10 +13,12 @@ import {
   NDropdown,
 } from "naive-ui";
 import { h } from "vue";
+import { useMessage } from "naive-ui";
 import { usePanelStore } from "@/store";
 
 const panelStore = usePanelStore();
 const layerStore = useLayerStore();
+const message = useMessage();
 let currentTerrainProvider: any; // 保存当前地形图层，方便控制其显隐
 
 // 给树添加icon
@@ -91,7 +93,7 @@ function setOptionsByType(type: string) {
       {
         label: GlobalLang.layerStyle,
         key: 4,
-        icon: () => h("i", { class: "iconfont icontuceng" }, ""),
+        icon: () => h("i", { class: "iconfont iconlayer-property" }, ""),
       },
       {
         label: GlobalLang.layerQuery,
@@ -106,6 +108,11 @@ function setOptionsByType(type: string) {
     ]
   }else if (type === 'imagery'){
     return [
+      {
+        label: GlobalLang.rapidLocate,
+        key: 1,
+        icon: () => h("i", { class: "iconfont icondingwei" }, ""),
+      },
       {
         label:GlobalLang.mapQuery,
         key: 11,
@@ -188,7 +195,7 @@ function setDropdownAction(option: any, key: number) {
       viewer.flyTo(s3mLayer, { duration: 0 });
     } else if (option.type === "mvt") {
       let index = String(option.key).split("-")[1];
-      let mvtLayer = viewer.scene._vectorTileMaps._layerQueue[index];
+      let mvtLayer = viewer.scene._vectorTileMaps._layerQueue[Number(index)];
       var bounds = mvtLayer.rectangle;
       viewer.scene.camera.flyTo({
         destination: new SuperMap3D.Cartesian3.fromRadians(
@@ -202,6 +209,22 @@ function setDropdownAction(option: any, key: number) {
           roll: 0,
         },
       });
+    }else if(option.type === "imagery"){
+      let index = String(option.key).split("-")[1];
+      let imgLayer = viewer.imageryLayers._layers[Number(index)];
+      if(!imgLayer.wmtsImageLayerPosition){
+        viewer.flyTo(imgLayer);
+      }else{
+        let wmtsImageLayerPosition = imgLayer.wmtsImageLayerPosition;
+        viewer.scene.camera.flyTo({
+          destination: new SuperMap3D.Cartesian3.fromDegrees(wmtsImageLayerPosition.lng, wmtsImageLayerPosition.lat, wmtsImageLayerPosition.height),
+          duration: 1,
+          orientation: {
+            heading: 0,
+            roll: 0,
+          },
+        });
+      }
     }
   }
   else if (key === 2) {
@@ -224,6 +247,10 @@ function setDropdownAction(option: any, key: number) {
     }
     if (type === "imagery") {
       let delImagelayer = viewer.imageryLayers._layers[layerIndex];
+      if(delImagelayer._imageryProvider.url == './images/earth-skin.jpg') {
+        message.warning(GlobalLang.delUnsupported);
+        return;
+      }
       viewer.imageryLayers.remove(delImagelayer);
       layerStore.removeLayer(option);
     }

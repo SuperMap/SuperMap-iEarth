@@ -35,5 +35,5 @@ app.mount('#app')
 if(location.href.indexOf('/apps') != -1){
     initPortal();
 }
-// initPortal();
+
 setBrowserLang();

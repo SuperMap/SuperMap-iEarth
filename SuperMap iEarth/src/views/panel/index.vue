@@ -7,7 +7,7 @@
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(1)">
-          <i class="iconfont iconguanbi"></i>
+          <i class="iconfont iconguanbi" style="font-size: 0.14rem;"></i>
         </div>
       </div>
       <div class="panle-container" :style="{overflowY: panelStore.panelList.leftToolBarList[0].isSelected? 'scroll':'hidden'}">
@@ -70,10 +70,10 @@
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(2)">
-          <i class="iconfont iconguanbi"></i>
+          <i class="iconfont iconguanbi" style="font-size: 0.14rem;"></i>
         </div>
       </div>
-      <div class="panle-container">
+      <div class="panle-container panle-container-right">
         <!-- <component :is="comName"></component>s -->
         <Analyse3D
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
@@ -143,7 +143,7 @@ function panelCloseHandle(leftOrRght: any) {
 
 <style lang="scss" scoped>
 .left-panel {
-  width: 3.38rem;
+  width: 3.37rem;
   @include setPanelTitle();
   position: fixed;
   z-index: 2;
@@ -170,7 +170,7 @@ function panelCloseHandle(leftOrRght: any) {
   @include setBackground(1.32rem, 0.08rem, "@/assets/panelbg/zst2.png");
 }
 .panle-header {
-  width: 3.38rem;
+  width: 3.37rem;
   height: 0.43rem;
   background: url("@/assets/panelbg/toubu.png") no-repeat;
   background-size: 100% 100%;
@@ -179,7 +179,7 @@ function panelCloseHandle(leftOrRght: any) {
 }
 .panle-container {
   // padding: 2px 0px;
-  width: 3.38rem;
+  width: 3.37rem;
   height: auto;
   background: url("@/assets/panelbg/zhongjian.png");
   background-size: 100% 100%;
@@ -187,8 +187,12 @@ function panelCloseHandle(leftOrRght: any) {
   // overflow-y: scroll;
   @include setsSrollbar();
 }
+
+.panle-container-right{
+  width: 3.365rem;
+}
 .panle-footer {
-  width: 3.38rem;
+  width: 3.37rem;
   height: 0.24rem;
   background: url("@/assets/panelbg/weibu.png") no-repeat;
   background-size: 100% 100%;

@@ -29,11 +29,11 @@
                 <span @click="state.shadowRadioShow = false" style="margin-right:14px">X</span>
             </div>
             <div class="bable-container">
-                <n-scrollbar style="max-height: 1.7rem">
+                <n-scrollbar style="max-height: 3.8rem">
                     <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem"
                         v-for="item in state.modelInfo">
                         <span>{{ item.lable }}</span>
-                        <n-input style="width: 1.2rem;" v-model:value="item.value" :show-button="false" disabled>
+                        <n-input style="width: 1.6rem;" v-model:value="item.value" :show-button="false" disabled>
                         </n-input>
                     </div>
                 </n-scrollbar>
@@ -184,7 +184,7 @@ function setBablePosition() {
 
 // 点击拾取实体，获取属性信息
 function getModelInfo(feature: any) {
-    console.log(feature)
+    console.log("feature:",feature)
     if (feature) {
         state.shadowRadioShow = true;
         let list: any = [];
@@ -267,11 +267,11 @@ onBeforeUnmount(() => {
     position: fixed;
     top: 2rem;
     left: 5rem;
-    background-color: #3B5168;
+    background-color: #383838;
     opacity: 0.9;
     z-index: 200000;
-    height: 2.2rem;
-    width: 2.28rem;
+    height: 4.5rem;
+    width: 3rem;
 
     .bable-container {
         // height: 1.7rem;

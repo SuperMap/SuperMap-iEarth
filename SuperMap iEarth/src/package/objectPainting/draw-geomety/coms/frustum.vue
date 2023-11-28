@@ -3,7 +3,17 @@
         <span>{{$t('global.length')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.cylinderLength" :step="1" :min="10" :max="100" />
-            <span>{{ state.cylinderLength }}</span>
+            <n-input-number 
+                v-model:value="state.cylinderLength" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="100"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
 
@@ -11,7 +21,17 @@
         <span>{{$t('global.bottomHeight')}}</span>
         <div class="slider-box" >
             <n-slider style="width: 1.5rem" v-model:value="state.bottomRadius" :step="1" :min="10" :max="200" />
-            <span>{{ state.bottomRadius }}</span>
+            <n-input-number 
+                v-model:value="state.bottomRadius" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="10"
+                :max="200"
+                placeholder=""
+                size="small" 
+            />
         </div>
     </div>
     <div class="row-item">
@@ -28,7 +48,6 @@
         <n-select style="width: 1.96rem;" v-model:value="state.displayMode" 
             :options="state.optionsMode" />
     </div>
-
 
     <div class="btn-row-item">
         <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.Draw')}}</n-button>
@@ -61,6 +80,10 @@ let state = reactive<stateType>({
         {
             label: () => GlobalLang.wireframe,
             value: "Outline",
+        },
+        {
+            label: () => GlobalLang.fillBothMode,
+            value: "Both",
         }
     ],
 });
@@ -70,11 +93,24 @@ let entities = viewer.entities;
 let handlerPoint_frustum = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 let targetEntity: any = null;
 
+handlerPoint_frustum.activeEvt.addEventListener((isActive: any) => {
+    if (isActive == true) {
+        window.viewer.enableCursorStyle = false;
+        window.viewer._element.style.cursor = '';
+        document.body.classList.add("measureCur");
+    } else {
+        window.viewer.enableCursorStyle = true;
+        document.body.classList.remove('measureCur');
+    }
+});
+
 //注册绘制椎体事件
 handlerPoint_frustum.drawEvt.addEventListener(function (res) {
     let point = res.object;
     let position = point.position;
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
+    let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
+    let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
     let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
     frustumEntity = entities.add({
         position: position,
@@ -83,8 +119,8 @@ handlerPoint_frustum.drawEvt.addEventListener(function (res) {
             topRadius: 0.0,
             bottomRadius: 20.0,
             material: color,
-            fill: state.displayMode === 'Fill',
-            outline: state.displayMode === 'Outline',
+            fill:  fillFlag,
+            outline: outlineFlag,
             outlineColor: SuperMap3D.Color.BLACK,
             outlineWidth: 1
         }
@@ -150,8 +186,11 @@ watch(
             if (val === 'Fill') {
                 targetEntity.cylinder.fill = true;
                 targetEntity.cylinder.outline = false;
-            } else {
+            } else if(val === 'Outline') {
                 targetEntity.cylinder.fill = false;
+                targetEntity.cylinder.outline = true;
+            } else {
+                targetEntity.cylinder.fill = true;
                 targetEntity.cylinder.outline = true;
             }
         }

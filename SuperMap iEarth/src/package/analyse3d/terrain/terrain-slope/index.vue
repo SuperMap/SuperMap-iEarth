@@ -19,7 +19,18 @@
         :max="90"
         :step="1"
       />
-      <div class="row-slider-num">{{ state.wideMinR }} <span> °</span></div>
+      <n-input-number 
+        v-model:value="state.wideMinR" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="90"
+        placeholder=""
+        size="small" 
+      />
+      <span> °</span>
     </div>
   </div>
 
@@ -33,7 +44,18 @@
         :max="90"
         :step="1"
       />
-      <div class="row-slider-num">{{ state.wideMaxR }} <span> °</span></div>
+      <n-input-number 
+        v-model:value="state.wideMaxR" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="90"
+        placeholder=""
+        size="small" 
+      />
+      <span> °</span>
     </div>
   </div>
 
@@ -54,9 +76,20 @@
         style="width: 70%"
         :min="0"
         :max="1"
-        :step="0.1"
+        :step="0.01"
       />
-      <div class="row-slider-num">{{ state.trans * 100 }} <span> %</span></div>
+      <n-input-number 
+        v-model:value="state.trans" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="1"
+        placeholder=""
+        size="small" 
+      />
+      <!-- <div class="row-slider-num">{{ state.trans * 100 }} <span> %</span></div> -->
     </div>
   </div>
 
@@ -75,9 +108,12 @@
       text-color="#fff"
       @click="startSlope"
       style="margin-right: 0.1rem"
-      >{{$t('global.analysis')}}</n-button
-    >
+      >{{$t('global.analysis')}}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
+  </div>
+
+  <div class="stktip">
+    <span>{{$t('global.stkUnsupported')}}</span>
   </div>
 </template>
 <script lang="ts" setup>
@@ -443,5 +479,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="scss" scoped>
+.stktip{
+  
+  color: rgba(255,255,255,0.45);
+  margin-top: -20px;
+  span {
+    // font-family: 'Microsoft Yahei', sans-serif;
+    font-family: 'Microsoft JhengHe', sans-serif;
+    font-size: 12px;
+    // font-family:"\5FAE\8F6F\96C5\9ED1"
+  }
+}
 </style>
 

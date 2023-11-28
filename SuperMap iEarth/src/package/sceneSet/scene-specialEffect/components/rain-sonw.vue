@@ -13,8 +13,19 @@
       <n-slider v-model:value="state.rainAngle" style="width: 70%" 
       :min="0"
       :max="90"
-      :step="10"/>
-      <div class="row-slider-num" >{{ state.rainAngle }} <span> °</span></div>
+      :step="1"/>
+      <n-input-number 
+        v-model:value="state.rainAngle" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="90"
+        placeholder=""
+        size="small" 
+      />
+      <span> °</span>
     </div>
   </div>
   <div class="row-item" v-show="state.rainShow">
@@ -22,9 +33,20 @@
     <div class="slider-box">
       <n-slider v-model:value="state.rainSpeed" style="width: 70%" 
       :min="0"
-      :max="30"
-      :step="2"/>
-      <div class="row-slider-num" >{{ state.rainSpeed }} <span>{{$t('global.meterSecond')}}</span></div>
+      :max="100"
+      :step="1"/>
+      <n-input-number 
+        v-model:value="state.rainSpeed" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="100"
+        placeholder=""
+        size="small" 
+      />
+      <span style="width: 42px;">{{$t('global.meterSecond')}}</span>
     </div>
   </div>
 
@@ -42,8 +64,19 @@
       <n-slider v-model:value="state.snowAngle" style="width: 70%" 
       :min="0"
       :max="90"
-      :step="10"/>
-      <div class="row-slider-num" >{{ state.snowAngle }} <span> °</span></div>
+      :step="1"/>
+      <n-input-number 
+        v-model:value="state.snowAngle" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="90"
+        placeholder=""
+        size="small" 
+      />
+      <span> °</span>
     </div>
   </div>
   
@@ -52,9 +85,20 @@
     <div class="slider-box">
       <n-slider v-model:value="state.snowSpeed" style="width: 70%" 
       :min="0"
-      :max="30"
+      :max="100"
       :step="1"/>
-      <div class="row-slider-num" >{{ state.snowSpeed }} <span>{{$t('global.meterSecond')}}</span></div>
+      <n-input-number 
+        v-model:value="state.snowSpeed" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="100"
+        placeholder=""
+        size="small" 
+      />
+      <span style="width: 42px;">{{$t('global.meterSecond')}}</span>
     </div>
   </div>
 
@@ -63,9 +107,19 @@
     <div class="slider-box" >
       <n-slider v-model:value="state.snowDesity" style="width: 70%" 
       :min="0"
-      :max="30"
+      :max="60"
       :step="1"/>
-      <div class="row-slider-num" >{{ state.snowDesity }} <span> °</span></div>
+      <n-input-number 
+        v-model:value="state.snowDesity" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="60"
+        placeholder=""
+        size="small" 
+      />
     </div>
   </div>
 </template>
@@ -149,4 +203,7 @@ onUnmounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+// .row-slider-num{
+//   width: 0.5rem;
+// }
 </style>

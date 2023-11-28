@@ -219,7 +219,7 @@ function goHome() {
 // 工具栏位置
 .right-tool-bar {
   position: fixed;
-  top: 0.6rem;
+  top: 0.8rem;
   right: 0.1rem;
   z-index: 2;
 

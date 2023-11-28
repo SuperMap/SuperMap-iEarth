@@ -17,7 +17,7 @@
             :options="state.fillStyleMode"
         />
      </div>
-     <div class="row-item">
+     <div class="row-item" v-show="state.fillStyle != 1">
         <span>{{$t('global.foreColor')}}</span>
         <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
         <n-color-picker
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="row-item" v-show="state.isBaiMo">
+    <div class="row-item" v-show="state.isBaiMo && state.fillStyle != 0">
         <span>{{$t('global.lineColor')}}</span>
         <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
         <n-color-picker
@@ -84,13 +84,14 @@
         </div>
       </div>
 
-      <div class="row-item" v-show="state.isCloudPoint">
+      <!-- <div class="row-item" v-show="state.isCloudPoint"> -->
+      <div class="row-item">
         <span>LOD</span>
         <div class="slider-box">
             <n-slider
             v-model:value="state.LODScale"
             style="width: 70%"
-            :step="0.5" :min="0" :max="10"
+            :step="0.01" :min="0" :max="10"
             />
             <div class="row-slider-num">{{ state.LODScale }}</div>
         </div>
@@ -169,13 +170,13 @@ let state = reactive<StateType>({
   s3mlayers: [], //当前存在的可选择s3m图层
   selectedIndex: 0, //默认选择图层index
   foreColor: "rgba(255, 255, 255, 1)", //前景色
-  lineColor: "rgba(255, 255, 255, 1)", //线颜色
+  lineColor: "rgba(56, 56, 56, 1)", //线颜色
   selectedColor: "rgba(179,179,255, 1)", //选中色
   selectColorMode: 0, //选中色模式
   bottomAltitude: 0, //底部高程
   LODScale: 1, //LOD
   layerTrans: 1, //图层透明度
-  fillStyle: 0, //填充风格
+  fillStyle: 2, //填充风格
   visibleDistanceMin: 0, //最小可见距离
   visibleDistanceMax: 12000, //最大可见距离
   fillStyleMode: [
@@ -242,7 +243,7 @@ function getAttributes() {
   );
   state.lineColor = SuperMap3D.defaultValue(
     selectLayer.style3D.lineColor.toCssColorString (),
-    "rgba(255,255,255, 1)"
+    "rgba(56, 56, 56, 1)"
   );
   state.selectedColor = SuperMap3D.defaultValue(
     selectLayer.selectedColor.toCssColorString (),
@@ -275,13 +276,12 @@ function getAttributes() {
 // 重置
 function reset(){
   state.foreColor = "rgba(255, 255, 255, 1)"; //前景色
-  state.lineColor = "rgba(255, 255, 255, 1)"; //线颜色
+  state.lineColor = "rgba(56, 56, 56, 1)"; //线颜色
   state.selectedColor = "rgba(179,179,255, 1)";//选中色
   state.selectColorMode = 0; //选中色模式
   state.bottomAltitude = 0; //底部高程
   state.layerTrans = 1; //图层透明度
-  state.fillStyle = 0; //填充模式
-
+  state.fillStyle = 2; //填充模式
   if(state.isCloudPoint){
     state.LODScale = 1; //LOD
   }

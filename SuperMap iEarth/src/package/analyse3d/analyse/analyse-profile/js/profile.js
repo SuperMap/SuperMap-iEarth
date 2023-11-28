@@ -49,10 +49,10 @@ class ProfileAnalysis {
             },
             tooltip: {},
             xAxis: {
-                show: false
+                show: true
             },
             yAxis: {
-                show: false
+                show: true
             },
             series: [
                 {

@@ -369,12 +369,14 @@ function createAndSaveScene() {
     },
     heading: camera.heading,
     pitch: camera.pitch,
-    roll: camera.roll
+    roll: camera.roll,
+    positionCartographic:camera.positionCartographic,//供平面场景（哥伦布视图）下使用
   };
   data.environmentState = {
     enableLighting: viewer.scene.globe.enableLighting,
     skyAtmosphereShow: viewer.scene.skyAtmosphere.show,
-    enableFog: viewer.scene.fog.enabled
+    enableFog: viewer.scene.fog.enabled,
+    sceneMode:viewer.scene.mode
   };
   data.version = "2.0";
   let saveData = {
@@ -502,12 +504,14 @@ function updateScene() {
     },
     heading: camera.heading,
     pitch: camera.pitch,
-    roll: camera.roll
+    roll: camera.roll,
+    positionCartographic:camera.positionCartographic,//供平面场景（哥伦布视图）下使用
   };
   data.environmentState = {
     enableLighting: viewer.scene.globe.enableLighting,
     skyAtmosphereShow: viewer.scene.skyAtmosphere.show,
-    enableFog: viewer.scene.fog.enabled
+    enableFog: viewer.scene.fog.enabled,
+    sceneMode:viewer.scene.mode
   };
   data.version = "2.0";
   let saveData = {

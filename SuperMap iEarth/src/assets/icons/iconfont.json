@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11414249",
+      "name": "layer-property",
+      "font_class": "layer-property",
+      "unicode": "e7af",
+      "unicode_decimal": 59311
+    },
+    {
       "icon_id": "37097694",
       "name": "点选",
       "font_class": "dianxuan",

@@ -4,12 +4,21 @@
     <div class="slider-box">
       <n-slider
         v-model:value="state.clipWidth"
-        style="width: 70%"
+        style="width: 1.6rem"
         :min="0"
         :max="90"
         :step="10"
       />
-      <div class="row-slider-num">{{ state.clipWidth }} <span> {{$t('global.meter')}}</span></div>
+      <n-input-number 
+        v-model:value="state.clipWidth" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        placeholder=""
+        size="small" 
+      />
+      <span>{{$t('global.meter')}}</span>
     </div>
   </div>
 
@@ -18,12 +27,21 @@
     <div class="slider-box">
       <n-slider
         v-model:value="state.clipHeight"
-        style="width: 70%"
+        style="width: 1.6rem"
         :min="0"
         :max="90"
         :step="10"
       />
-      <div class="row-slider-num">{{ state.clipHeight }} <span> {{$t('global.meter')}}</span></div>
+      <n-input-number 
+        v-model:value="state.clipHeight" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        placeholder=""
+        size="small" 
+      />
+      <span>{{$t('global.meter')}}</span>
     </div>
   </div>
 
@@ -32,36 +50,93 @@
     <div class="slider-box">
       <n-slider
         v-model:value="state.heading"
-        style="width: 70%"
+        style="width: 1.4rem"
         :min="0"
-        :max="90"
-        :step="10"
+        :max="360"
+        :step="1"
       />
-      <div class="row-slider-num">{{ state.heading }} <span> °</span></div>
+    <n-input-number 
+        v-model:value="state.heading" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="360"
+        placeholder=""
+        size="small" 
+      />
+      <span>°</span>
     </div>
   </div>
 
   <div class="row-item">
     <span>{{$t('global.rotateY')}}</span>
     <div class="slider-box">
-      <n-slider v-model:value="state.pitch" style="width: 70%" />
-      <div class="row-slider-num">{{ state.pitch }} <span> °</span></div>
+      <n-slider 
+        v-model:value="state.pitch" 
+        style="width: 1.4rem" 
+        :min="0"
+        :max="360"
+        :step="1"
+      />
+      <n-input-number 
+        v-model:value="state.pitch" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="360"
+        placeholder=""
+        size="small" 
+      />
+      <span> °</span>
     </div>
   </div>
 
   <div class="row-item">
     <span>{{$t('global.rotateZ')}}</span>
     <div class="slider-box">
-      <n-slider v-model:value="state.roll" style="width: 70%" />
-      <div class="row-slider-num">{{ state.roll }} <span> °</span></div>
+      <n-slider 
+        v-model:value="state.roll" 
+        style="width: 1.4rem" 
+        :min="0"
+        :max="360"
+        :step="1"
+      />
+      <n-input-number 
+        v-model:value="state.roll" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="0"
+        :max="360"
+        placeholder=""
+        size="small" 
+      />
+      <span> °</span>
     </div>
   </div>
 
   <div class="row-item">
     <span>{{$t('global.stretchingHeight')}}</span>
     <div class="slider-box">
-      <n-slider v-model:value="state.extrude" style="width: 70%" />
-      <div class="row-slider-num">{{ state.extrude }} <span> {{$t('global.meter')}}</span></div>
+      <n-slider 
+        v-model:value="state.extrude" 
+        style="width: 1.6rem" 
+      />
+      <n-input-number 
+        v-model:value="state.extrude" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        placeholder=""
+        size="small" 
+      />
+      <span> {{$t('global.meter')}}</span>
     </div>
   </div>
 
@@ -118,6 +193,9 @@ layers = viewer.scene.layers.layerQueue;
 
 // 分析
 function startCross(e: any) {
+  viewer.enableCursorStyle = false;
+  viewer._element.style.cursor = "";
+  document.body.classList.add("measureCur");
   e.preventDefault();
   if (!viewer) {
     return;
@@ -192,6 +270,7 @@ function start() {
       SuperMap3D.ScreenSpaceEventType.LEFT_CLICK
     );
     hpr = null;
+    document.body.classList.remove("measureCur");
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 // 更新

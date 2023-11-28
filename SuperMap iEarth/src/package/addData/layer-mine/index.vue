@@ -365,7 +365,7 @@ function dateDiff(timestamp) {
   // display: flex;
   // justify-content: space-between;
   margin-top: 0.1rem;
-  margin-left: 60%;
+  margin-left: 56%;
   // margin-left: 1.95rem;
   // margin-right: 0.1rem;
 }

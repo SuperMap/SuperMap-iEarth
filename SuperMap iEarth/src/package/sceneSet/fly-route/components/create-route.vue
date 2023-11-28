@@ -1,19 +1,4 @@
 <template>
-  <div class="row-item">
-      <span>{{$t('global.flySpeed')}}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem;"
-          v-model:value="state.routeSpeed"
-          :step="1" :min="0" :max="500"
-        />
-        <div class="slider-suffix">
-          <span>{{ state.routeSpeed }}</span>
-          <!-- <span class="slider-unit">M</span> -->
-        </div>
-      </div>
-    </div>
-
     <div class="row-item">
       <span></span>
       <div class="icon-container">
@@ -56,7 +41,7 @@
         </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" style="margin-bottom: -4px;">
       <span></span>
         <div class="row-content">
           <n-checkbox v-model:checked="state.showRoute">{{$t('global.displayRoute')}}</n-checkbox>
@@ -65,9 +50,31 @@
     </div>
 
     <div class="row-item">
+      <span>{{$t('global.flySpeed')}}</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem;"
+          v-model:value="state.routeSpeed"
+          :step="1" :min="0" :max="500"
+        />
+        <n-input-number 
+          v-model:value="state.routeSpeed" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="500"
+          placeholder=""
+          size="small" 
+        />
+      </div>
+    </div>
+
+    <div class="row-item">
       <span></span>
       <div class="icon-container">
-        <div class="icon-list" style="width: 1.9rem;">
+        <div class="icon-list" style="width: 1.96rem;">
           <span
             v-for="(item, index) in state.actionOptions"
             :key="index"
@@ -172,7 +179,7 @@ let state = reactive<stateType>({
   itemOptions: [
     {
       index: 1,
-      lable: GlobalLang.add,
+      lable: GlobalLang.addStation,
       iconName: "icontianjia",
       isSelect: false,
     },
@@ -525,6 +532,12 @@ watch(
   }
 );
 watch(
+  () => state.routeSpeed,
+  (val) => {
+    saveStop();
+  }
+);
+watch(
   () => state.showStop,
   (val) => {
     let route = flyManager.currentRoute;
@@ -591,7 +604,6 @@ onBeforeUnmount(() => {
   currentStops = null;
   createXml = null;
   flyLineXmls = null;
-
 });
 </script>
   

@@ -27,15 +27,35 @@
     <div class="row-item">
       <span>{{$t('global.particleNumber')}}</span>
       <div class="slider-box">
-        <n-slider v-model:value="state.emitRate" style="width: 70%" :min="1" :max="2500" :step="20" />
-        <div class="row-slider-num">{{ state.emitRate }}</div>
+        <n-slider v-model:value="state.emitRate" style="width: 70%" :min="1" :max="2500" :step="10" />
+        <n-input-number 
+            v-model:value="state.emitRate" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="1"
+            :max="2500"
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
     <div class="row-item">
       <span>{{$t('global.particleSize')}}</span>
       <div class="slider-box">
         <n-slider v-model:value="state.particleSize" style="width: 70%" :min="1" :max="60" :step="1" />
-        <div class="row-slider-num">{{ state.particleSize }}</div>
+        <n-input-number 
+            v-model:value="state.particleSize" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="1"
+            :max="60"
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
     <div class="row-item">
@@ -63,7 +83,17 @@
       <span>{{$t('global.gravity')}}</span>
       <div class="slider-box" >
         <n-slider style="width: 1.5rem" v-model:value="state.gravity" :step="1" :min="-20" :max="20" />
-        <span>{{ state.gravity }}</span>
+        <n-input-number 
+            v-model:value="state.gravity" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="-20"
+            :max="20"
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
   </div>
@@ -187,6 +217,9 @@ function loadParticleFile(url,option?:any) {
 // 添加粒子
 function add() {
   clear();
+  window.viewer.enableCursorStyle = false;
+  window.viewer._element.style.cursor = '';
+  document.body.classList.add("measureCur");
   clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandle.setInputAction(function (click) {
     let centerPosition = viewer.scene.pickPosition(click.position);
@@ -198,6 +231,8 @@ function add() {
       particleAttr:{}
     }
     clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
+    window.viewer.enableCursorStyle = true;
+    document.body.classList.remove('measureCur');
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 

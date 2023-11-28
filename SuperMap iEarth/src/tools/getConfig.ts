@@ -8,20 +8,26 @@ const layerStore = useLayerStore(store);
 function getConfig() {
 
     return new Promise((resolve, reject) => {
+
+        if (configToken.tiandituKey) {
+            layerStore.configToken.TiandituToken = configToken.tiandituKey;
+        }
+        if (configToken.bingMapsKey) {
+            layerStore.configToken.BingMapKey = configToken.bingMapsKey;
+        }
+        console.log("token-key-start");
+
         // 在iportal环境中，启动iportal处理程序
         if (location.href.indexOf('/iportal/apps') != -1) {
             let configTokenUrl = getRootUrl() + "apps/config.rjson";
-            console.log("configTokenUrl:", configTokenUrl);
 
             window.axios
                 .get(configTokenUrl, { withCredentials: true })
                 .then(function (response) {
-                    // console.log("获取配置:", response);
+                    console.log("获取iportal地图tokenKey配置:", response);
                     if (response.data && response.data.commonConfig) {
                         // let commonConfig = JSON.parse("{\"tiandituKey\":\"7933ae29d47bcf1440889ad983dbe0af\",\"googleMapsAPIKey\":\"\"}");
-
                         let commonConfig = JSON.parse(response.data.commonConfig);
-                        // console.log("地图token在线配置-commonConfig:", commonConfig);
                         if (commonConfig.tiandituKey && commonConfig.tiandituKey != '') {
                             layerStore.configToken.TiandituToken = commonConfig.tiandituKey;
                         } else {
@@ -34,22 +40,17 @@ function getConfig() {
                             layerStore.configToken.BingMapKey = configToken.bingMapsKey;
                         }
                         resolve(layerStore.configToken);
+                    }else{
+                        resolve(layerStore.configToken);
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    reject('获取地图token配置信息失败');
+                    console.log("获取tokenKey配置失败");
+                    resolve(layerStore.configToken);
                 });
         } else {
             // 普通模式
-            // console.log('地图token本地配置-json:', configToken);
-            if (configToken.tiandituKey) {
-                layerStore.configToken.TiandituToken = configToken.tiandituKey;
-            }
-
-            if (configToken.bingMapsKey) {
-                layerStore.configToken.BingMapKey = configToken.bingMapsKey;
-            }
+            console.log("使用默认json配置");
             resolve(layerStore.configToken);
         }
     })

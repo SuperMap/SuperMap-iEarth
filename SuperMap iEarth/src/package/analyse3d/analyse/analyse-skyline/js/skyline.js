@@ -30,7 +30,7 @@ export class SkylineAnalysis {
         this.skyline.radius = 10000;
         this.skyline.color = SuperMap3D.Color.fromCssColorString("rgb(200, 0, 0, 1.0)");
         this.skyline.displayStyle = 0;
-        this.skyline.lineWidth = 1;
+        this.skyline.lineWidth = 2;
         this.skyBodyColor = SuperMap3D.Color.fromCssColorString("rgba(44,149,197,0.6)");   //天际体颜色
         this.barrierColor = SuperMap3D.Color.fromCssColorString("rgba(255, 186, 1, 1)");   //障碍物颜色
         this.highlightBarrier = false;   //是否显示高亮障碍物

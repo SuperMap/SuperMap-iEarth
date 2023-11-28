@@ -37,16 +37,24 @@
           v-model:value="state.speedRatio"
           :step="0.1" :min="0" :max="20"
         />
-        <div class="slider-suffix">
-          <span>{{ state.speedRatio }}</span>
-        </div>
+        <n-input-number 
+          v-model:value="state.speedRatio" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0"
+          :max="20"
+          placeholder=""
+          size="small" 
+        />
       </div>
     </div>
 
     <div class="row-item">
       <span></span>
         <div class="row-content">
-          <n-checkbox v-model:checked="state.flyCircleLoop"></n-checkbox><span> {{$t('global.rotateRepeat')}}</span>
+          <n-checkbox v-model:checked="state.flyCircleLoop">{{$t('global.rotateRepeat')}}</n-checkbox>
         </div>
     </div>
 
