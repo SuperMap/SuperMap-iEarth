@@ -146,6 +146,11 @@ const global = {
   measureDistence: '距離計測',
   measureArea: '面積計測',
   measureHeight: '高度計測',
+  distence_cl:"きょり",
+  area:"エリア",
+  spaceDistance:"くうかんきょり",
+  verticalHeight:"垂直方向の高さ",
+  horizontalDistance:"すいへいきょり",
 
   // 操作面板-パラメータの設定
   baseAttribute: 'シーン属性',

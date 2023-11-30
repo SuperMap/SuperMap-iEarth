@@ -145,6 +145,11 @@ const global = {
   measureDistence: 'MeasureDistence',
   measureArea: 'MeasureArea',
   measureHeight: 'MeasureHeight',
+  distence_cl:"Distence",
+  area:"Area",
+  spaceDistance:"Space Distance",
+  verticalHeight:"Vertical Height",
+  horizontalDistance:"Horizontal Distance",
 
   // 操作面板-参数设置
   baseAttribute: 'Attribute',

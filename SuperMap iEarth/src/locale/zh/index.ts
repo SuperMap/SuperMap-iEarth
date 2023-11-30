@@ -147,6 +147,11 @@ const global = {
   measureDistence: '测量距离',
   measureArea: '测量面积',
   measureHeight: '测量高度',
+  distence_cl:"距离",
+  area:"面积",
+  spaceDistance:"空间距离",
+  verticalHeight:"垂直高度",
+  horizontalDistance:"水平距离",
 
   // 操作面板-参数设置
   baseAttribute: '场景属性',
