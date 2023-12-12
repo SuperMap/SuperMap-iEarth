@@ -117,6 +117,9 @@ function initViewer() {
     new Date(2023, 3, 20, 12)
   );
 
+  // 设置环境光
+  viewer.scene.lightSource.ambientLightColor = new SuperMap3D.Color(0.65,0.65,0.65,1);
+  
   // 更换球皮
   let earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
     new SuperMap3D.SingleTileImageryProvider({
