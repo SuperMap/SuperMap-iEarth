@@ -49,7 +49,7 @@ function tabsChange() {}
 .scene-set-box {
   width: 100%;
   height: 100%;
-  // padding: 0 0.12rem;
+  padding: 0 0.12rem;
   box-sizing: border-box;
 }
 :deep(.n-tabs-tab-wrapper){
