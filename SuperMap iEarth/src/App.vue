@@ -2,8 +2,8 @@
   <n-config-provider
     :theme-overrides="overridesTheme"
     :theme="darkTheme"
-    :locale="zhCN"
-    :date-locale="dateZhCN"
+    :locale="locale.locale"
+    :date-locale="locale.dateLocale"
   >
     <n-loading-bar-provider>
       <n-dialog-provider>
@@ -27,9 +27,11 @@ import { MessageContent } from "@/components/Plugins/MessageContent";
 import { DialogContent } from "@/components/Plugins/DialogContent";
 import { LoadingContent } from "@/components/Plugins/LoadingContent";
 import { loadAsyncComponent } from "@/utils/index";
-import { darkTheme, zhCN, dateZhCN } from "naive-ui";
+import { darkTheme} from "naive-ui";
+import { useLocaleHook } from "@/tools/localHook";
 const layout = loadAsyncComponent(() => import("@/layout/index.vue"));
 
+const locale = useLocaleHook();
 // 重写主题样式
 /**
  * js 文件下使用这个做类型提示
