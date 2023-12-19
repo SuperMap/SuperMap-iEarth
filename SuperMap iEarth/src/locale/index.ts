@@ -5,6 +5,7 @@ import { LangEnum } from '@/enums/styleEnum'
 import zh from './zh/index'
 import en from './en/index'
 import ja from './ja/index'
+import ru from './ru/index'
 
 // 获取当前浏览器语言环境
 var currentLanguage;
@@ -25,6 +26,10 @@ export const langList = [
   {
     label: 'Japanese',
     key: LangEnum.JA
+  },
+  {
+    label: 'Русский',
+    key: LangEnum.RU
   }
 ]
 
@@ -33,6 +38,7 @@ export const langGlobal = {
   "zh":zh,
   "en":en,
   "ja":ja,
+  "ru":ru,
 }
 
 const i18n = createI18n({
@@ -40,7 +46,8 @@ const i18n = createI18n({
   messages: {
     [LangEnum.ZH]: zh,
     [LangEnum.EN]: en,
-    [LangEnum.JA]: ja
+    [LangEnum.JA]: ja,
+    [LangEnum.RU]: ru,
   }
 })
 
