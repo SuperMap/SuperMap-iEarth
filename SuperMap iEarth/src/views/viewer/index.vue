@@ -63,7 +63,6 @@ function initViewer() {
     //  UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
     pcss: true,
     shadowQuality: 0,
-
     creditContainer: document.createElement('div'), //去掉底部logo
   });
 
