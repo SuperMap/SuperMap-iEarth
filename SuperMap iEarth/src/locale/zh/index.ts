@@ -397,7 +397,7 @@ const global = {
   imgLayer: '影像图层',
   mvtLayer: 'MVT图层',
   terrainLayer: '地形图层',
-  wmtsLayer: 'wmts服务',
+  wmtsLayer: 'WMTS服务',
   sure: '确定',
   cancle: '取消',
   analysis: '分析',
