@@ -49,14 +49,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive ,watch} from "vue";
+import { reactive ,watch} from "vue";
 import { useMessage } from "naive-ui"
 import layerManagement from "@/tools/layerManagement";
 import { useLayerStore } from "@/store/layerStore";
+import proj4 from 'proj4'
 
 const layerStore = useLayerStore();
 const message = useMessage();
 const widget = viewer.cesiumWidget;
+
+// 南京EPSG::4549自定义投影坐标系
+proj4.defs([["EPSG:4549","+proj=tmerc +lat_0=0 +lon_0=120 +k=1 +x_0=500000 +y_0=0 +ellps=GRS80 +units=m +no_defs"]]);
 
 let state = reactive({
   layerType: 'S3M',
@@ -86,8 +90,9 @@ let state = reactive({
       value: "WMTS",
     },
   ],
-  rectangleObj: null,
-  scaleDenominatorsObj: null,
+  rectangleObj: [],
+  scaleDenominatorsObj: [],
+  epsg:-1,
   addWmtsFlag:true,
   urlTip:`http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`,
 })
@@ -101,8 +106,9 @@ function clear() {
   // 获取必要参数
   state.wmtsLayerOptions = [];
   state.tileMatrixSetIDOptions = [];
-  state.rectangleObj = null;
-  state.scaleDenominatorsObj = null;
+  state.rectangleObj = [];
+  state.scaleDenominatorsObj = [];
+  state.epsg = -1;
 
   state.tileMatrixSetID = '';
   state.wmtsLayer = '';
@@ -111,7 +117,7 @@ function clear() {
 // 打开自定义图层
 function openLayer() {
   if (state.layerUrl === null || state.layerUrl === "") {
-    // message.warning(langGlobal.urlIsNull);
+    message.warning(GlobalLang.urlIsNull);
     return;
   }
   if (state.token) {
@@ -269,38 +275,62 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
 function addWMTS(wmtsLayerUrl: string) {
   if(!state.addWmtsFlag) return ;
 
-  // let rectangle:any,scaleDenominatorsList;
-  // let rectangle:any;
-  // if(state.rectangleObj && state.wmtsLayer){
-  //   rectangle = state.rectangleObj[state.wmtsLayer];
-  // }else{
-  //   return;
-  // }
+  let rectangle:any,scaleDenominatorsList:any;
+  if(state.rectangleObj && state.wmtsLayer){
+    rectangle = state.rectangleObj[state.wmtsLayer];
+    scaleDenominatorsList = state.scaleDenominatorsObj[state.wmtsLayer];
+  }else{
+    return;
+  }
   let item:any = state.wmtsLayerOptions.find((item:any)=>item.value === state.wmtsLayer)
   let layerName = item.label;
   let items = layerStore.wmtsLayerOption.filter((item:any) => {
     return (item.wmtsLayerUrl == wmtsLayerUrl && item.layerName == layerName);
   })
   if(items.length > 0){ // 该wmts服务已存在，不在重复添加
-    message.warning("该wmts图层已添加,请勿重复添加");
+    message.warning(GlobalLang.repeatAddWMTSTip);
     return;
   }
   
+  // 暂时还没有兼容墨卡托投影：rectangleSouthwestInMeters + rectangleNortheastInMeters:WebMercatorScheme.js:42
+  /**
+   *   tilingScheme: new SuperMap3D.WebMercatorTilingScheme({
+          ellipsoid: SuperMap3D.Ellipsoid.CGCS2000,
+          rectangleSouthwestInMeters: new SuperMap3D.Cartesian2(378471.9223898967, 4227396.8970197905),
+          rectangleNortheastInMeters: new SuperMap3D.Cartesian2(659964.0186170355, 4382309.27437868),
+          // rectangle: rectangle1,
+          customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+          scaleDenominators: [505718.4160205697, 252859.20801028484, 126429.60400514242, 63214.80200257121,
+            31607.401001285605, 15803.700500642803,
+            7901.850250321401, 3950.9251251607006, 1975.4625625803503
+          ],
+          // scaleDenominators: [4.2248017166367546E7, 2.1124008583183773E7, 1.0562004291591886E7, 5281002.145795943,
+          // 	2640501.0728979716, 1320250.5364489858, 660125.2682244929, 330062.63411224645, 165031.31705612323,
+          // 	82515.65852806161,
+          // 	41257.82926403081, 20628.914632015403
+          // ],
+          // wmtsOrgin: wmtsOrgin,
+          orgin: new SuperMap3D.Cartesian3(433547.7721070266, 4376643.030293404, 0.0),
+
+        }),
+   */
+  let wmtsRectangle = computedRectangle(rectangle);
   let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
     url: wmtsLayerUrl,
     style: "default",
     format: 'image/png',
     layer: layerName,
     tileMatrixSetID: state.tileMatrixSetID,
+    // tilingScheme: computedTilingScheme(wmtsRectangle,scaleDenominatorsList),
     tilingScheme: new SuperMap3D.GeographicTilingScheme({
-      // rectangle: SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]),
-      ellipsoid: SuperMap3D.Ellipsoid.WGS84,
-      numberOfLevelZeroTilesX: 2,
-      numberOfLevelZeroTilesY: 1,
-      // scaleDenominators: scaleDenominatorsList,
-      // customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+      // ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+      // numberOfLevelZeroTilesX: 2,
+      // numberOfLevelZeroTilesY: 1,
+      rectangle:wmtsRectangle,
+      scaleDenominators: scaleDenominatorsList,
+      customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
     }),
-    tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
+    // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
   }));
 
   // wmtsLayer.alpha = 0.5;
@@ -343,9 +373,10 @@ function addWMTS(wmtsLayerUrl: string) {
     wmtsLayerUrl:wmtsLayerUrl,
 		layerName:layerName,
 		tileMatrixSetID:state.tileMatrixSetID,
-    wmtsImageLayerPosition:wmtsLayer.wmtsImageLayerPosition
-    // rectangle:rectangle,
-		// scaleDenominatorsList:scaleDenominatorsList
+    wmtsImageLayerPosition:wmtsLayer.wmtsImageLayerPosition,
+    wmtsESPG:state.epsg,
+    rectangle:wmtsRectangle,
+		scaleDenominatorsList:scaleDenominatorsList
   }
   let list = layerStore.wmtsLayerOption.filter((item:any) => {
     return (item.wmtsLayerUrl == wmtsLayerObj.wmtsLayerUrl && item.layerName == wmtsLayerObj.layerName);
@@ -356,6 +387,44 @@ function addWMTS(wmtsLayerUrl: string) {
 
   layerStore.updateLayer({ type: "imagery" });
 }
+
+// 计算bound范围
+function computedRectangle(rectangle:any){
+  if(state.epsg == 4549){
+    let LowerCorner = proj4("EPSG:4549","EPSG:4326",[rectangle[0],rectangle[1]]);
+    let UpperCorner = proj4("EPSG:4549","EPSG:4326",[rectangle[2],rectangle[3]]);
+    return SuperMap3D.Rectangle.fromDegrees(LowerCorner[0], LowerCorner[1], UpperCorner[0], UpperCorner[1]);
+  }else if(rectangle[0] == 0){
+    return undefined;
+  }else if(Math.abs(rectangle[0])>0 && Math.abs(rectangle[0]) <= 180){
+    return SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]);
+  }else{
+    return undefined;
+  }
+}
+
+// // 计算瓦片协议
+// function computedTilingScheme(wmtsRectangle: any, scaleDenominatorsList: any) {
+//   // 坐标系是3857的墨卡托投影，使用WebMercatorTilingScheme
+//   if (state.epsg == 3857 || state.epsg == 0) {
+//     return new SuperMap3D.WebMercatorTilingScheme({
+//       rectangleSouthwestInMeters: new SuperMap3D.Cartesian2(378471.9223898967, 4227396.8970197905),
+//       rectangleNortheastInMeters: new SuperMap3D.Cartesian2(659964.0186170355, 4382309.27437868),
+//       customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+//       scaleDenominators: [505718.4160205697, 252859.20801028484, 126429.60400514242, 63214.80200257121,
+//         31607.401001285605, 15803.700500642803,
+//         7901.850250321401, 3950.9251251607006, 1975.4625625803503
+//       ],
+//       orgin: new SuperMap3D.Cartesian3(433547.7721070266, 4376643.030293404, 0.0),
+//     })
+//   } else { // 除了3857，统一使用GeographicTilingScheme
+//     return new SuperMap3D.GeographicTilingScheme({
+//       rectangle: wmtsRectangle,
+//       scaleDenominators: scaleDenominatorsList,
+//       customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+//     })
+//   }
+// }
 
 let xmlDoc: any;
 // 获取xml信息
@@ -371,7 +440,8 @@ function getXmlInfo(xmlUrl?: string) {
       state.wmtsLayerOptions = getXMLNode(xmlDoc, 'Layer');
       state.tileMatrixSetIDOptions = getXMLNode(xmlDoc, 'TileMatrixSet');
       state.rectangleObj = getRectangleObj(xmlDoc);
-      // state.scaleDenominatorsObj = getScaleDenominatorsObj(xmlDoc);
+      state.scaleDenominatorsObj = getScaleDenominatorsObj(xmlDoc);
+      state.epsg = getEPSG(xmlDoc);
     });
 }
 
@@ -423,6 +493,7 @@ function getXMLNode(xmlDoc: any, Lable: string) {
   return list;
 }
 
+// 从xml中获取bound范围信息
 function getRectangleObj(xmlDoc: any):any {
   let finds = xmlDoc.querySelectorAll('Layer');   //获取find节点
   let RectangleObj:any = {}
@@ -438,15 +509,15 @@ function getRectangleObj(xmlDoc: any):any {
     let UpperCorner = tag_BoundingBox.childNodes[3].textContent;
     LowerCornerlnglat = LowerCorner.split(' ');
     UpperCornerlnglat = UpperCorner.split(' ');
-    if(Math.abs(LowerCornerlnglat[0]) > 180){ // 确保为经纬度坐标
-      LowerCornerlnglat = [];
-      UpperCornerlnglat = [];
-      tag_BoundingBox = nods[7]; 
-      let LowerCorner = tag_BoundingBox.childNodes[1].textContent;
-      let UpperCorner = tag_BoundingBox.childNodes[3].textContent;
-      LowerCornerlnglat = LowerCorner.split(' ');
-      UpperCornerlnglat = UpperCorner.split(' ');
-    }
+    // if(Math.abs(LowerCornerlnglat[0]) > 180){ // 确保为经纬度坐标
+    //   LowerCornerlnglat = [];
+    //   UpperCornerlnglat = [];
+    //   tag_BoundingBox = nods[7]; 
+    //   let LowerCorner = tag_BoundingBox.childNodes[1].textContent;
+    //   let UpperCorner = tag_BoundingBox.childNodes[3]?.textContent;
+    //   LowerCornerlnglat = LowerCorner.split(' ');
+    //   UpperCornerlnglat = UpperCorner.split(' ');
+    // }
     list.push(Number(LowerCornerlnglat[0]), Number(LowerCornerlnglat[1]));
     list.push(Number(UpperCornerlnglat[0]), Number(UpperCornerlnglat[1]));
     
@@ -459,6 +530,7 @@ function getRectangleObj(xmlDoc: any):any {
   return RectangleObj;
 }
 
+// 从xml中获取比例尺信息
 function getScaleDenominatorsObj(xmlDoc: any):any {
   let finds = xmlDoc.querySelectorAll('TileMatrixSet');   //获取find节点
   
@@ -496,6 +568,38 @@ function getScaleDenominatorsObj(xmlDoc: any):any {
     }
   }
   return scaleDenominatorsObj;
+}
+
+// 获取当前wmts的坐标系EPSG
+function getEPSG(xmlDoc: any):any{
+  let finds = xmlDoc.querySelectorAll('Layer');   //获取find节点
+  if(finds.length == 0) return;
+  let firstElement = finds[0];
+  let epsgValue = -1;
+  if(firstElement.childNodes[5] && firstElement.childNodes[5].localName.indexOf('Bounding') != -1){
+    let BoundingBox =  firstElement.childNodes[5];
+    let crs = BoundingBox.attributes.crs;
+    let crsValue = crs.nodeValue;
+    if(crsValue.indexOf('::') == -1){
+      epsgValue = -1;
+    }else{
+      epsgValue = crsValue.split('::')[1];
+      if(Number(epsgValue) > 10) return Number(epsgValue);
+    }
+  }
+
+  if(firstElement.childNodes[7] && firstElement.childNodes[7].localName.indexOf('Bounding') != -1){
+    let BoundingBox =  firstElement.childNodes[7];
+    let crs = BoundingBox.attributes.crs;
+    let crsValue = crs.nodeValue;
+    if(crsValue.indexOf('::') == -1){
+      epsgValue = -1;
+    }else{
+      epsgValue = crsValue.split('::')[1];
+    }
+  }
+
+  return Number(epsgValue);
 }
 
 watch(()=>state.wmtsLayer,(val)=>{
