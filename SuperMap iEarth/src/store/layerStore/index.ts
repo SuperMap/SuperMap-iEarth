@@ -1094,9 +1094,9 @@ export const useLayerStore = defineStore({
 				layer: item.layerName,
 				tileMatrixSetID: item.tileMatrixSetID,
 				tilingScheme: new SuperMap3D.GeographicTilingScheme({
-				  ellipsoid: SuperMap3D.Ellipsoid.WGS84,
-				  numberOfLevelZeroTilesX: 2,
-				  numberOfLevelZeroTilesY: 1,
+					rectangle:item.wmtsRectangle,
+					scaleDenominators: item.scaleDenominatorsList,
+					customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
 				}),
 				tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
 			  }));
