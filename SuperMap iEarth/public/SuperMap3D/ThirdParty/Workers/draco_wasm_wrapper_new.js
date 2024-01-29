@@ -333,8 +333,8 @@ var DracoDecoderModule = function () {
 
         function ba() {
             if (!ba.strings) {
-                var a = {USER: "web_user",
-                    LOGNAME: "web_user", PATH: "/", PWD: "/", HOME: "/home/web_user", LANG: ("object" === typeof navigator && navigator.languages && navigator.languages[0] || "C").replace("-", "_") + ".UTF-8", _: na}, c;
+                var a = {USER: "draco_wasm_wrapper_new",
+                    LOGNAME: "draco_wasm_wrapper_new", PATH: "/", PWD: "/", HOME: "/home/draco_wasm_wrapper_new", LANG: ("object" === typeof navigator && navigator.languages && navigator.languages[0] || "C").replace("-", "_") + ".UTF-8", _: na}, c;
                 for (c in Aa)a[c] = Aa[c];
                 var b = [];
                 for (c in a)b.push(c + "=" + a[c]);
