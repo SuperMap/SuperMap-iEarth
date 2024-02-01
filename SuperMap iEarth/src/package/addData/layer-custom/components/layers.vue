@@ -28,6 +28,11 @@
       placeholder="token..." />
   </div>
 
+  <!-- <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS'">
+    <span>测试南京</span>
+    <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="addWmtsLayerNJ"> 添加 </n-button>
+  </div> -->
+
   <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0">
     <span>{{ $t('global.selectableLayers') }}</span>
     <n-select class="add-input-border" v-model:value="state.wmtsLayer" :options="state.wmtsLayerOptions"
@@ -49,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive ,watch} from "vue";
+import { reactive ,watch,onMounted,onBeforeUnmount} from "vue";
 import { useMessage } from "naive-ui"
 import layerManagement from "@/tools/layerManagement";
 import { useLayerStore } from "@/store/layerStore";
@@ -58,6 +63,15 @@ import proj4 from 'proj4'
 const layerStore = useLayerStore();
 const message = useMessage();
 const widget = viewer.cesiumWidget;
+
+onMounted(() => {
+  viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
+  window.viewer.shadows = false; // 关闭阴影
+});
+
+// onBeforeUnmount(() => {
+//   viewer.scene.globe.depthTestAgainstTerrain = true; //开启深度检测
+// });
 
 // 南京EPSG::4549自定义投影坐标系
 proj4.defs([["EPSG:4549","+proj=tmerc +lat_0=0 +lon_0=120 +k=1 +x_0=500000 +y_0=0 +ellps=GRS80 +units=m +no_defs"]]);
@@ -113,6 +127,41 @@ function clear() {
   state.tileMatrixSetID = '';
   state.wmtsLayer = '';
 };
+
+// 添加大范围南京wmts服务 - EPSG:4549
+// function addWmtsLayerNJ() {
+//   let wmtsLayer_NJ = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
+//     url: 'http://10.10.10.211:32458/iserver/services/map-agscache-conf/wmts100',
+//     style: "default",
+//     format: 'image/png',
+//     layer: '比例尺测试',
+//     tileMatrixSetID: 'Custom_比例尺测试',
+//     // tilingScheme: computedTilingScheme(wmtsRectangle,scaleDenominatorsList),
+//     tilingScheme: new SuperMap3D.GeographicTilingScheme({
+//       // ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+//       // numberOfLevelZeroTilesX: 2,
+//       // numberOfLevelZeroTilesY: 1,
+
+//       rectangle: SuperMap3D.Rectangle.fromDegrees(118.12831433839051, 31.13696450897523, 119.57554283141414, 32.713599753959045),
+//       scaleDenominators: [
+//         483810.49143050663,
+//         241905.24571525332,
+//         120952.62285762666,
+//         60476.31142881333,
+//         30238.155714406665,
+//         15119.077857203332,
+//         7559.538928601666,
+//         3779.769464300833,
+//         1889.8847321504165
+//       ],
+//       customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+//     }),
+//     // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
+//   }));
+//   console.log("wmtsLayer_NJ:",wmtsLayer_NJ);
+
+//   viewer.flyTo(wmtsLayer_NJ);
+// }
 
 // 打开自定义图层
 function openLayer() {
@@ -275,6 +324,9 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
 function addWMTS(wmtsLayerUrl: string) {
   if(!state.addWmtsFlag) return ;
 
+  viewer.shadows = false; // 关闭阴影，防止报错
+  viewer.scene.colorCorrection.show = false; // 颜色开关也关闭，保险起见
+
   let rectangle:any,scaleDenominatorsList:any;
   if(state.rectangleObj && state.wmtsLayer){
     rectangle = state.rectangleObj[state.wmtsLayer];
@@ -315,6 +367,13 @@ function addWMTS(wmtsLayerUrl: string) {
         }),
    */
   let wmtsRectangle = computedRectangle(rectangle);
+  // console.log('wmts测试打印-wmtsLayerUrl:',wmtsLayerUrl);
+  // console.log('wmts测试打印-layerName:',layerName);
+  // console.log('wmts测试打印-state.tileMatrixSetID:',state.tileMatrixSetID);
+  // console.log('wmts测试打印-rectangle:',rectangle);
+  // console.log('wmts测试打印-scaleDenominatorsList:',scaleDenominatorsList);
+  // console.log('wmts测试打印-wmtsRectangle:',wmtsRectangle);
+
   let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
     url: wmtsLayerUrl,
     style: "default",
@@ -393,6 +452,8 @@ function computedRectangle(rectangle:any){
   if(state.epsg == 4549){
     let LowerCorner = proj4("EPSG:4549","EPSG:4326",[rectangle[0],rectangle[1]]);
     let UpperCorner = proj4("EPSG:4549","EPSG:4326",[rectangle[2],rectangle[3]]);
+    // console.log('wmts测试打印-LowerCorner:',LowerCorner);
+    // console.log('wmts测试打印-UpperCorner:',UpperCorner);
     return SuperMap3D.Rectangle.fromDegrees(LowerCorner[0], LowerCorner[1], UpperCorner[0], UpperCorner[1]);
   }else if(rectangle[0] == 0){
     return undefined;

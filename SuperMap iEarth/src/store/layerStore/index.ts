@@ -318,7 +318,7 @@ export const useLayerStore = defineStore({
 		},
 		sceneAttrState: {
 			earthShow: true, //地球显隐
-			shadow: true, //场景阴影
+			shadow: false, //场景阴影
 			sunShow: false, //太阳
 			depthInspection: true,//深度检测
 			atomsphereRender: true, //大气渲染

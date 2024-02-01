@@ -90,7 +90,7 @@
 
 .supermap3d-performanceDisplay-defaultContainer {
     position: absolute;
-    top: 50px;
+    bottom: 30px;
     right: 10px;
     text-align: right;
 }

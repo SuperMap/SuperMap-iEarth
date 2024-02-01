@@ -192,7 +192,6 @@ function initViewer() {
 
     layerStore.setSceneAttr(layerStore.sceneAttrState);
 
-    viewer.scene.skyBox.show = true;
   }, 1000)
 }
 
