@@ -36,7 +36,7 @@
   <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0">
     <span>{{ $t('global.selectableLayers') }}</span>
     <n-select class="add-input-border" v-model:value="state.wmtsLayer" :options="state.wmtsLayerOptions"
-      style="width: 2.4rem;" />
+      style="width: 2rem;" />
   </div>
 
   <!-- <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayer != ''">
@@ -374,23 +374,44 @@ function addWMTS(wmtsLayerUrl: string) {
   // console.log('wmts测试打印-scaleDenominatorsList:',scaleDenominatorsList);
   // console.log('wmts测试打印-wmtsRectangle:',wmtsRectangle);
 
-  let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
-    url: wmtsLayerUrl,
-    style: "default",
-    format: 'image/png',
-    layer: layerName,
-    tileMatrixSetID: state.tileMatrixSetID,
-    // tilingScheme: computedTilingScheme(wmtsRectangle,scaleDenominatorsList),
-    tilingScheme: new SuperMap3D.GeographicTilingScheme({
-      // ellipsoid: SuperMap3D.Ellipsoid.WGS84,
-      // numberOfLevelZeroTilesX: 2,
-      // numberOfLevelZeroTilesY: 1,
-      rectangle:wmtsRectangle,
-      scaleDenominators: scaleDenominatorsList,
-      customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
-    }),
-    // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
-  }));
+  viewer.shadows = false; // 关闭阴影，防止报错
+  let wmtsLayer:any = undefined;
+  if (state.epsg == 3857) {
+    wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
+      url: wmtsLayerUrl,
+      style: "default",
+      format: 'image/png',
+      layer: layerName,
+      tileMatrixSetID: state.tileMatrixSetID,
+      tilingScheme: new SuperMap3D.WebMercatorTilingScheme({
+        rectangleSouthwestInMeters: new SuperMap3D.Cartesian2(rectangle[0], rectangle[1]),
+        rectangleNortheastInMeters: new SuperMap3D.Cartesian2(rectangle[2], rectangle[3]),
+        // customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+        scaleDenominators: scaleDenominatorsList,
+        // orgin: new SuperMap3D.Cartesian3(10836627.447863173, 4071175.9917132845, 0.0),
+      }),
+    }));
+  } else {
+    wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
+      url: wmtsLayerUrl,
+      style: "default",
+      format: 'image/png',
+      layer: layerName,
+      tileMatrixSetID: state.tileMatrixSetID,
+      // tilingScheme: computedTilingScheme(wmtsRectangle,scaleDenominatorsList),
+      tilingScheme: new SuperMap3D.GeographicTilingScheme({
+        // ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+        // numberOfLevelZeroTilesX: 2,
+        // numberOfLevelZeroTilesY: 1,
+        rectangle:wmtsRectangle,
+        scaleDenominators: scaleDenominatorsList,
+        customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+      }),
+      // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
+    }));
+  }
+
+  // if(!wmtsLayer) return;
 
   // wmtsLayer.alpha = 0.5;
   // viewer.flyTo(wmtsLayer);

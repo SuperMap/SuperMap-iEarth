@@ -253,6 +253,23 @@ function setDropdownAction(option: any, key: number) {
       }
       viewer.imageryLayers.remove(delImagelayer);
       layerStore.removeLayer(option);
+
+      // 针对wmts服务的在图层列表的删除
+      let delLayerImageryProvider = delImagelayer._imageryProvider;
+      if(delLayerImageryProvider._baseUrl && delLayerImageryProvider._baseUrl.indexOf('wmts') != -1){
+        layerStore.removeWmtsLayer({
+          name:delLayerImageryProvider.tablename,
+          url:delLayerImageryProvider._baseUrl,
+        })
+        return;
+      }
+      if(delLayerImageryProvider._resource && delLayerImageryProvider._resource._url.indexOf('wmts') != -1){
+        layerStore.removeWmtsLayer({
+          name:delLayerImageryProvider.tablename,
+          url:delLayerImageryProvider._resource._url,
+        })
+        return;
+      }
     }
     if (type === "mvt") {
       let mvtLayerName = layerStore.MVTLayerNameList[layerIndex];

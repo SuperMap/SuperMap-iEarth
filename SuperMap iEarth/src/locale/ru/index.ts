@@ -376,6 +376,7 @@ const global = {
   // 视频投放
   videoFileSet:  'Набор видеофайлов',
   videoSet:  'Набор',
+  distencePlace:'Расстояние сброса',
   visibleVideoLine:  'Линия видео',
   localVideoPath:  'Выберите видеофайл',
   videoPath:  'Путь к видеофайлу',
@@ -645,7 +646,18 @@ const global = {
   STKTerrain: 'STK',
   
   // Tip
-  qxModelTip: 'Эта функция поддерживает только наклонные снимки для 3D-моделей'
+  qxModelTip: 'Эта функция поддерживает только наклонные снимки для 3D-моделей',
+  repeatAddTip:"Не добавляйте повторно!",
+  repeatAddWMTSTip:"Слой WMTS добавлен, не добавляйте повторно ",
+
+  // 新增
+  outLineColor:"Цвет контура",
+  outLineWidth:"Ширина контура",
+  lightTip_edit:"Выберите модель источника света и отредактируйте свойства ",
+  lightTip_del:"Выберите модель источника света для удаления",
+  wireframeColor:"Цвет рамки",
+  chooseThenOffset:"Нажмите на выбранную модель, а затем переместите",
+  fillColor:"Цвет заполнения"
 }
 
 export default {

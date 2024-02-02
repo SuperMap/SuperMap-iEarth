@@ -564,6 +564,18 @@ export const useLayerStore = defineStore({
 
 			// this.updateLayer({ type: "refresh" });
 		},
+		// 专门用来删除store上wmts服务的
+		removeWmtsLayer(option:any){
+			if (option.url && option.name) {
+				let items = this.wmtsLayerOption.filter((item: any) => {
+					return (item.wmtsLayerUrl == option.url && item.layerName == option.name);
+				})
+				console.log("wmts-del:", items);
+				if(items.length == 0) return;
+				let delIndex = this.wmtsLayerOption.indexOf(items[0]);
+				this.wmtsLayerOption.splice(delIndex, 1);
+			}
+		},
 		// 专门用来处理公共服务场景项目的删除选中
 		removePublicService(layerName: string) {
 			let item: any;

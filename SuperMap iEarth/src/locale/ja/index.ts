@@ -58,6 +58,8 @@ const global = {
   layerStyle: 'レイヤースタイル',
   layerQuery: '属性クエリ',
   mapQuery: 'マップクエリ',
+  qxModelSingle: '傾斜モデルの単体化',
+  qxSingle:"傾斜の単体化",
 
   // 操作面板-の追加データ
   publicService: "パブリックサービス",
@@ -377,6 +379,7 @@ const global = {
   // 映像再生
   videoFileSet: '映像再生',
   videoSet: '再生',
+  distencePlace:'投影距離',
   visibleVideoLine: '映像再生線の表示',
   localVideoPath: '映像ファイルを選択してください',
   videoPath: '映像パス',
@@ -529,8 +532,8 @@ const global = {
   foreColor: '前景色',
   selectedColor: '選択カラー',
   selectColorMode: '選択カラーモード',
-  colorMix: '選択カラー混合',
-  colorReplace: '選択カラー置換',
+  colorMix: '混合',
+  colorReplace: '置換',
   layerTransparency: 'レイヤー透明度',
   reset: 'リセット',
   fillBothMode: 'フィルとフレームモード',
@@ -559,14 +562,37 @@ const global = {
   hadBind: "当レイヤーはデータソースにバンドしました",
   noData: "データ無し",
 
-  // マップクエリ
-  mapDataUrl: "マップデータサービス",
-  datasetName: "データセット名",
-  attributeList: '属性リスト',
-  clickQuery: 'ポイントクエリ',
-  field: "フィールド",
-  pleaseSelectField: 'フィールドを選択してください',
-  queryWait: 'クエリ中、お待ちください',
+  // 地図検索
+  mapDataUrl: "データサービス",
+  datasetName: "データセット",
+  attributeList: 'プロパティ・シート',
+  listTotal_s:'属性テーブル（合計',
+  listTotal_e:'個の要素',
+  chooseFieldTip:'フィルタするフィールドの選択',
+  filter:'フィルタリング',
+  shpQueryTip:'データクエリーを指定する（クエリーデータは必ず地図サービス座標系と一致する）',
+  clickQuery: 'ポイント選択クエリー',
+  clearEntityTip:'球面に描画されたシェイプを消去するには',
+  refreshData:'データのリフレッシュ',
+  mydata:'マイデータ',
+  queryPlaceHolder:"選択フィールドフィルタリングキーを入力してください",
+  queryWait: 'お問い合わせしております少々お待ちください',
+  resouceName:'リソース名',
+  resouceType:'リソースタイプ',
+  createTime:'作成時間',
+  mapQueryTip:'データサービスURLと対応データセットを入力してください',
+  clickQueryClose:'ポイント選択機能がオフになっています',
+  clickQueryCloseTip:'要素情報を取得するにはマウスクリック、ポイント選択を閉じるには右クリック',
+  dataFiltering:'データのフィルタ...',
+  recently:'少し前',
+  chooseField:'フィールドの選択',
+  filterFiledTip:'プロパティ・シート表示フィールドのフィルタ',
+
+  // 倾斜模型单体化
+  featrueID:"要素ID",
+  singleTip_waring:'この傾斜撮影レイヤーに対応するデータサービス、データソース、データセットを入力してください',
+  singleTip_success:'傾斜撮影レイヤーとデータサービスのバインドに成功し、クリックして単体化検索を行う',
+
 
   // 我的サービス-iportal
   getData: 'データ取得中、お待ちください',
@@ -619,6 +645,20 @@ const global = {
   SuperMapOnlineTerrain: 'SuperMapオンライン地形',
   TiandituTerrain: 'TiandiMap地形',
   STKTerrain: 'STK地形',
+
+  // Tip
+  qxModelTip: 'この機能は、傾斜撮影用の3 Dモデルのみをサポートしています',
+  repeatAddTip: "繰り返し追加しないでください!",
+  repeatAddWMTSTip: "このwmtsレイヤーは追加されています。繰り返し追加しないでください",
+
+  // 新增
+  outLineColor: "輪郭線の色",
+  outLineWidth: "輪郭線の幅",
+  lightTip_edit: "ライトモデルを選択し、プロパティを編集してください",
+  lightTip_del: "光源モデルを選択して削除してください",
+  wireframeColor: "ワイヤフレームカラー",
+  chooseThenOffset:"選択したモデルをクリックしてオフセットします",
+  fillColor:"じゅうてんカラー"
 }
 
 export default {

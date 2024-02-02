@@ -59,6 +59,8 @@ const global = {
   layerStyle: 'Style',
   layerQuery: 'Query',
   mapQuery: 'Map',
+  qxModelSingle: 'Oblique photography Query',
+  qxSingle:"Oblique photography Query",
 
   // 操作面板 - 添加数据
   publicService: "PublicService",
@@ -377,6 +379,7 @@ const global = {
   // 视频投放
   videoFileSet: 'Video Set',
   videoSet: 'Set',
+  distencePlace:'Placement Distance',
   visibleVideoLine: 'Video Line',
   localVideoPath: 'Please select a video file',
   videoPath: 'Video Path',
@@ -588,6 +591,11 @@ const global = {
   chooseField:'Select Field',
   filterFiledTip:'Property sheet display field filtering',
 
+  // 倾斜模型单体化
+  featrueID:"Feature ID",
+  singleTip_waring:'Please enter the corresponding data service, data source, and dataset for this oblique photography layer',
+  singleTip_success:'The tilted photography layer has been successfully bound to the data service. Click to perform a personalized query',
+  
   // 我的服务-iportal
   getData: 'Obtaining data, please wait',
   serviceName: 'Name',
@@ -641,7 +649,18 @@ const global = {
   STKTerrain: 'STK',
 
   // Tip
-  qxModelTip:'This feature only supports oblique photography of 3D models'
+  qxModelTip:'This feature only supports oblique photography of 3D models',
+  repeatAddTip:"Do not add again!",
+  repeatAddWMTSTip:"The wmts layer has been added, please do not add it again",
+
+  // 新增
+  outLineColor:"Outline Color",
+  outLineWidth:"Outline Width",
+  lightTip_edit:"Please select the light source model and then edit the properties",
+  lightTip_del:"Please select the light source model before deleting it",
+  wireframeColor:"Wireframe Color",
+  chooseThenOffset:"Click to select the model, then offset it",
+  fillColor:"Fill Color"
 }
 
 export default {

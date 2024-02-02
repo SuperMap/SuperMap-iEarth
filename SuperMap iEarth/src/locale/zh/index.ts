@@ -58,6 +58,8 @@ const global = {
   layerStyle: '图层风格',
   layerQuery: '属性查询',
   mapQuery: '地图查询',
+  qxModelSingle: '倾斜模型单体化',
+  qxSingle:"倾斜单体化",
 
   // 操作面板-添加数据
   publicService: "公共服务",
@@ -378,6 +380,7 @@ const global = {
   // 视频投放
   videoFileSet: '视频投放',
   videoSet: '投放',
+  distencePlace:'投放距离',
   visibleVideoLine: '视频投放线',
   localVideoPath: '请选择视频文件',
   videoPath: '视频地址',
@@ -529,10 +532,10 @@ const global = {
   // 图层风格
   fillStyle: '填充风格',
   foreColor: '前景色',
-  selectedColor: '选中色',
+  selectedColor: '选中颜色',
   selectColorMode: '选中颜色模式',
-  colorMix: '选中色混合',
-  colorReplace: '选中色替换',
+  colorMix: '混合',
+  colorReplace: '替换',
   layerTransparency: '图层透明度',
   reset: '重置',
   fillBothMode: '填充和线框模式',
@@ -544,6 +547,7 @@ const global = {
   layerColor: '图层颜色',
   excavate: '开挖',
   flatten: '修改',
+  flatten2: '压平',
   onQXModel: '该功能只支持倾斜摄影三维模型',
   offsetMode: '操作模式',
   offsetX: '沿X轴偏移',
@@ -587,6 +591,11 @@ const global = {
   recently:'不久前',
   chooseField:'选择字段',
   filterFiledTip:'属性表显示字段筛选',
+
+  // 倾斜模型单体化
+  featrueID:"要素ID",
+  singleTip_waring:'请输入与该倾斜摄影图层对应的:数据服务、数据源、数据集',
+  singleTip_success:'倾斜摄影图层与数据服务绑定成功，点击进行单体化查询',
 
   // 我的服务-iportal
   getData: '获取数据中，请稍后',
@@ -646,7 +655,18 @@ const global = {
   STKTerrain: 'STK地形',
 
   // Tip
-  qxModelTip:'该功能只支持倾斜摄影三维模型'
+  qxModelTip:'该功能只支持倾斜摄影三维模型',
+  repeatAddTip:"请勿重复添加!",
+  repeatAddWMTSTip:"该wmts图层已添加,请勿重复添加",
+
+  // 新增
+  outLineColor:"轮廓线颜色",
+  outLineWidth:"轮廓线宽度",
+  lightTip_edit:"请选中光源模型,再编辑属性",
+  lightTip_del:"请选中光源模型在删除",
+  wireframeColor:"线框颜色",
+  chooseThenOffset:"点击选中模型，再偏移",
+  fillColor:"填充颜色"
 }
 
 export default {
