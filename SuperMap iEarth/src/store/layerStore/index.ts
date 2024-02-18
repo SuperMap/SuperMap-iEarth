@@ -15,24 +15,24 @@ export const useLayerStore = defineStore({
 		layerServiceData: {
 			// 公共服务
 			publicServiceList: [
-				// {
-				// 	type: "REALSPACE",
-				// 	thumbnail: "./images/addData/CBD.jpg",
-				// 	// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-				// 	name: "global.BeijingCBD",
-				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
-				// 	chooseType: false
-				// },
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/CBD.jpg",
-					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-					name: "global.originCBD",
+					// proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+					name: "global.BeijingCBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
 				},
+				// {
+				// 	type: "REALSPACE",
+				// 	thumbnail: "./images/addData/CBD.jpg",
+				// 	proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+				// 	// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
+				// 	name: "global.originCBD",
+				// 	layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
+				// 	chooseType: false
+				// },
 				{
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Sophia.jpg",
