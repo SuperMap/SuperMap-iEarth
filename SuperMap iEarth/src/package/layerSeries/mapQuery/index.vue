@@ -65,6 +65,9 @@
                     <div class="icon-list-box" style="width: 2.2rem;">
                         <!-- 字段筛选 -->
                         <span class="icon-span-three">
+                            <column-setting v-model:columns="columns" />
+                        </span>
+                        <span class="icon-span-three">
                             <n-tooltip placement="top-end" trigger="hover">
                                 <template #trigger>
                                     <i class="iconfont iconSize iconshpchaxun"
@@ -263,6 +266,7 @@ import { useLayerStore } from "@/store/layerStore";
 import { useMessage } from "naive-ui";
 import { getRootUrl} from "@/tools/iportal/portalTools";
 import { IportalStoreCreate } from "@/store/index";
+import ColumnSetting from './coms/column-setting.vue';
 
 const message = useMessage();
 
