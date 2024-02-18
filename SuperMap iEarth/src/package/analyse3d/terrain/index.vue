@@ -1,6 +1,6 @@
 <template>
   <div class="terrain-box">
-    <n-tabs type="line" animated :on-update:value="tabsChange">
+    <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left">
       <!-- 地形操作 -->
       <n-tab-pane name="operation" :tab="$t('global.terrainOperation')">
         <SmTerrainOperation></SmTerrainOperation>
@@ -42,7 +42,19 @@ function panelCloseHandle() {}
 <style lang="scss" scoped>
 .terrain-box {
   width: 100%;
-  padding: 0 0.12rem;
+  height: 100%;
+  // padding: 0 0.12rem;
   box-sizing: border-box;
+}
+:deep(.n-tabs-tab-wrapper){
+  margin-right:0.3rem;
+}
+:deep(.n-tabs-nav){
+    padding:0 0.12rem;
+  };
+:deep(.n-tab-pane) {
+    box-sizing: border-box;
+    padding-left: 0.12rem;
+    padding-right: 0.12rem;
 }
 </style>

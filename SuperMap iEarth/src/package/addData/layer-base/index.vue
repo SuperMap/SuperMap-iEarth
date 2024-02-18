@@ -1,6 +1,6 @@
 <template>
   <!-- 在线底图 -->
-  <div class="layer-base-container">
+  <div class="addData-base-container">
     <div
       v-for="(item, index) in layerStore.layerServiceData.onlineBaseLayerList"
       class="ItemBox"
@@ -35,7 +35,7 @@ let imageryProvider: any = null;
 
 function addBaseLayer(item: any) {
   if (item.chooseType) {
-    message.warning("请勿重复添加！");
+    message.warning(GlobalLang.repeatAddTip);
     return;
   }
   layerStore.SelectedOptions.baseMap.push(item.name); // 存入已选择的在线底图选项
@@ -95,41 +95,21 @@ function addBaseLayer(item: any) {
 </script>
 
 <style lang="scss" scoped>
-.layer-base-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: 7px;
+  .img-box {
+    height: 0.74rem !important;
+  }
 
-  .ItemBox {
-    width: 30%;
-    color: $--SM--FontColor-Sub;
-    margin-bottom: 0.07rem;
-    margin-right: 0.12rem;
-    box-sizing: border-box;
-    cursor: pointer;
+  .img{
+     object-fit: none !important;
+  }
 
-    .img-box {
-      width: 100%;
-      height: 0.84rem;
-      border-radius: 0.05rem;
-      overflow: hidden;
-      margin-bottom: 0.04rem;
-      background-color: #000;
-      border: 0.02rem solid #3498e500;
-      .img {
-        width: 100%;
-        height: 100%;
-        object-fit: none;
-      }
-    }
+  .img-box{
+     background-color: #000;
+     border: 0.02rem solid #3498e500;
   }
-  .ItemBox:nth-child(3n) {
-    margin-right: 0;
+
+  .addData-base-container{
+    margin-bottom: -0.1rem;
   }
-  .isSelect {
-    .img-box {
-      border: 0.02rem solid #3499e5;
-    }
-  }
-}
+
 </style>

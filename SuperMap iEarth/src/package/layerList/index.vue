@@ -95,11 +95,16 @@ function setOptionsByType(type: string) {
         key: 4,
         icon: () => h("i", { class: "iconfont iconlayer-property" }, ""),
       },
-      {
-        label: GlobalLang.layerQuery,
-        key: 10,
-        icon: () => h("i", { class: "iconfont iconsousuo" }, ""),
-      },
+      // {
+      //   label: GlobalLang.layerQuery,
+      //   key: 10,
+      //   icon: () => h("i", { class: "iconfont iconsousuo" }, ""),
+      // },
+      // {
+      //   label: GlobalLang.qxSingle,
+      //   key: 12,
+      //   icon: () => h("i", { class: "iconfont iconsousuo" }, ""),
+      // },
       {
         label: GlobalLang.remove,
         key: 5,
@@ -113,11 +118,11 @@ function setOptionsByType(type: string) {
         key: 1,
         icon: () => h("i", { class: "iconfont icondingwei" }, ""),
       },
-      {
-        label:GlobalLang.mapQuery,
-        key: 11,
-        icon: () => h("i", { class: "iconfont icondituchaxun" }, ""),
-      },
+      // {
+      //   label:GlobalLang.mapQuery,
+      //   key: 11,
+      //   icon: () => h("i", { class: "iconfont icondituchaxun" }, ""),
+      // },
       {
         label: GlobalLang.remove,
         key: 5,
@@ -247,14 +252,14 @@ function setDropdownAction(option: any, key: number) {
     }
     if (type === "imagery") {
       let delImagelayer = viewer.imageryLayers._layers[layerIndex];
-      if(delImagelayer._imageryProvider.url == './images/earth-skin.jpg') {
+      if(delImagelayer._imageryProvider.url == './images/earth-skin2.jpg') {
         message.warning(GlobalLang.delUnsupported);
         return;
       }
       viewer.imageryLayers.remove(delImagelayer);
       layerStore.removeLayer(option);
 
-      // 针对wmts服务的在图层列表的删除
+      // 针对wmts服务在图层列表的删除
       let delLayerImageryProvider = delImagelayer._imageryProvider;
       if(delLayerImageryProvider._baseUrl && delLayerImageryProvider._baseUrl.indexOf('wmts') != -1){
         layerStore.removeWmtsLayer({
@@ -270,6 +275,7 @@ function setDropdownAction(option: any, key: number) {
         })
         return;
       }
+
     }
     if (type === "mvt") {
       let mvtLayerName = layerStore.MVTLayerNameList[layerIndex];
@@ -287,6 +293,9 @@ function setDropdownAction(option: any, key: number) {
   }
   else if (key === 11) {
     panelStore.setRightToolBarList({ id: 11 });
+  }
+  else if (key === 12) {
+    panelStore.setRightToolBarList({ id: 12 });
   }
 }
 </script>

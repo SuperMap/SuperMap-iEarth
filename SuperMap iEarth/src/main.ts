@@ -5,7 +5,8 @@ import axios from 'axios'
 import naive from 'naive-ui'
 import i18n from '@/locale'
 import store from './store'
-// import "@/styles/index.scss"
+// import "@/styles/index.scss" // - 在vite.config.ts全局注入index.scss
+
 // 根据屏幕大小，设置font-size
 import 'lib-flexible';
 import "@/assets/icons/iconfont.css"
@@ -15,7 +16,6 @@ import { initPortal } from "@/tools/iportal/portalTools"
 
 // 导入语言设置
 import setBrowserLang from '@/tools/browserLang'
-
 
 // 检测页面变化，实时改变根字体大小
 import { setFontImmediately } from '@/utils'

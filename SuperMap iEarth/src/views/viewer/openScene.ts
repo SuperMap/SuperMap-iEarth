@@ -5,7 +5,6 @@ import { usePanelStore } from "@/store/panelStore/index";
 import { getRootUrl, isIportalProxyServiceUrl, getHostName } from "@/tools/iportal/portalTools";
 import layerManagement from "@/tools/layerManagement";
 import { useLayerStore } from "@/store/layerStore";
-import getConfig from '@/tools/getConfig'// 导入配置
 
 const IportalStore = IportalStoreCreate();
 const panelStore = usePanelStore();
@@ -27,12 +26,6 @@ let state = reactive({
 })
 
 function openExistScene() {
-    // getConfig().then((res:any)=>{
-    //   console.log("当前configToken配置-open:", res);
-    //   state.key = res.BingMapKey;
-    //   state.TiandituToken = res.TiandituToken;
-      // if(configtoken.)
-      
       // 打开已保存的场景
       console.log("打开已保存的场景-tokenKey:",layerStore.configToken);
       let openExistSceneUrl = window.location.href;
@@ -82,7 +75,6 @@ function openExistScene() {
         .catch(function (error) {
           console.log(error);
         });
-    // });
   }
   
   function openScene(response?: any) {

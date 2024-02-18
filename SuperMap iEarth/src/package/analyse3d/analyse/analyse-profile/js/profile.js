@@ -52,6 +52,7 @@ class ProfileAnalysis {
                 show: true
             },
             yAxis: {
+                type: 'value',
                 show: true
             },
             series: [
@@ -250,6 +251,7 @@ class ProfileAnalysis {
                 show: true,
             },
             yAxis: {
+                type: 'value',
                 min: function (value) {
                     return value.min < 20 ? 0 : Math.floor(value.min);
                 },
@@ -264,6 +266,7 @@ class ProfileAnalysis {
                 splitLine: {
                     show: true,
                 },
+                show: true,
             },
             dataZoom: [
                 {

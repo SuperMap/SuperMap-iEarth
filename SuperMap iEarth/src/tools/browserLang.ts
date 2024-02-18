@@ -15,7 +15,7 @@ function setBrowserLang() {
         language = language.substr(0, 2);
     }
 
-    let supportLanguage = ['zh','en','ja','ru']
+    let supportLanguage = ['zh','en','ja','ru'];
     if(supportLanguage.indexOf(language) === -1){
         language = 'en';
     }

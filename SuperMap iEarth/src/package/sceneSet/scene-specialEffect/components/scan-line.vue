@@ -3,10 +3,8 @@
     <span>{{ $t('global.scanMode') }}</span>
     <div style="width: 1.96rem;">
       <n-radio-group v-model:value="state.scanMode" name="scanMode">
-        <n-space>
           <n-radio :value="0">{{ $t('global.lineShape') }}</n-radio>
           <n-radio :value="1">{{ $t('global.circleShape') }}</n-radio>
-        </n-space>
       </n-radio-group>
     </div>
   </div>
@@ -92,7 +90,7 @@
     </div>
   </div>
 
-  <div class="btn-row-item">
+  <div class="btn-row-item" style="margin-left: 0.96rem">
     <n-button type="info" color="#3499E5" text-color="#fff" @click="addScans"
       style="margin-right: 0.1rem">{{ $t('global.add') }}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)"

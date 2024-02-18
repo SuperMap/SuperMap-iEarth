@@ -1,93 +1,95 @@
 <template>
-  <div class="shadow-time">
-    <div class="itemBox-shadow">
-      <n-slider v-model:value="state.timeArray" @update:value="timeChanged" :max="96" :step="0.5" range
-        :marks="state.marks" :format-tooltip="formatTime" />
-      <i class="iconfont iconSize iconbofang btnImg" :title="$t('global.ShadowStartTip')" v-show="state.showStartTimeBtn"
-        @click="sunLightForTime(true)"></i>
-      <i class="iconfont iconSize iconzanting btnImg" :title="$t('global.ShadowStartTip')"
-        v-show="!state.showStartTimeBtn" @click="sunLightForTime(false)"></i>
-    </div>
-    <div class="itemBox-shadow" style="margin-bottom: 0.12rem">
-      <n-date-picker class="shadow-date-picker" v-model:value="currentTime" type="date" >
-        <template #date-icon>
-          <i class="iconfont icondown iconfanhui" style="margin-top:0px"></i>
-        </template>
-      </n-date-picker>
-      <i class="iconfont iconSize iconbofang btnImg" :title="$t('global.ShadowStartTip2')" v-show="state.showStartDateBtn"
-        @click="sunLightForDate(true)"></i>
-      <i class="iconfont iconSize iconzanting btnImg" :title="$t('global.ShadowStartTip2')"
-        v-show="!state.showStartDateBtn" @click="sunLightForDate(false)"></i>
-    </div>
-  </div>
-  <n-divider />
-  <div class="row-item">
-    <span>{{ $t('global.bottomHeight') }}</span>
-    <n-input-number style="width: 1.96rem;" v-model:value="state.bottomHeight" :update-value-on-input="false" :show-button="false">
-      <template #suffix>{{ $t('global.meter') }}</template>
-    </n-input-number>
-  </div>
-  <div class="row-item">
-    <span>{{ $t('global.stretchingHeight') }}</span>
-    <n-input-number style="width: 1.96rem;" v-model:value="state.extrudeHeight" :update-value-on-input="false" :show-button="false">
-      <template #suffix>{{ $t('global.meter') }}</template></n-input-number>
-  </div>
+  <!-- 阴影分析 -->
+    <n-scrollbar style="max-height: 3.8rem">
+      <div class="shadow-time">
+        <div class="itemBox-shadow">
+          <n-slider v-model:value="state.timeArray" @update:value="timeChanged" :max="96" :step="0.5" range
+            :marks="state.marks" :format-tooltip="formatTime" />
+          <i class="iconfont iconSize iconbofang btnImg" :title="$t('global.ShadowStartTip')" v-show="state.showStartTimeBtn"
+            @click="sunLightForTime(true)"></i>
+          <i class="iconfont iconSize iconzanting btnImg" :title="$t('global.ShadowStartTip')"
+            v-show="!state.showStartTimeBtn" @click="sunLightForTime(false)"></i>
+        </div>
+        <div class="itemBox-shadow" style="margin-bottom: 0.12rem">
+          <n-date-picker class="shadow-date-picker" v-model:value="state.currentTime" type="date" >
+            <template #date-icon>
+              <i class="iconfont icondown iconfanhui" style="margin-top:0px"></i>
+            </template>
+          </n-date-picker>
+          <i class="iconfont iconSize iconbofang btnImg" :title="$t('global.ShadowStartTip2')" v-show="state.showStartDateBtn"
+            @click="sunLightForDate(true)"></i>
+          <i class="iconfont iconSize iconzanting btnImg" :title="$t('global.ShadowStartTip2')"
+            v-show="!state.showStartDateBtn" @click="sunLightForDate(false)"></i>
+        </div>
+      </div>
+      <n-divider />
+      <div class="row-item">
+        <span>{{ $t('global.bottomHeight') }}</span>
+        <n-input-number style="width: 1.96rem;" v-model:value="state.bottomHeight" :update-value-on-input="false" :show-button="false">
+          <template #suffix>{{ $t('global.meter') }}</template>
+        </n-input-number>
+      </div>
+      <div class="row-item">
+        <span>{{ $t('global.stretchingHeight') }}</span>
+        <n-input-number style="width: 1.96rem;" v-model:value="state.extrudeHeight" :update-value-on-input="false" :show-button="false">
+          <template #suffix>{{ $t('global.meter') }}</template></n-input-number>
+      </div>
 
-  <div class="row-item">
-    <span>{{ $t('global.space') }}</span>
-    <n-input-number style="width: 1.96rem;" v-model:value="state.spacing" :update-value-on-input="false" :show-button="false">
-      <template #suffix>{{ $t('global.meter') }}</template>
-    </n-input-number>
-  </div>
+      <div class="row-item">
+        <span>{{ $t('global.space') }}</span>
+        <n-input-number style="width: 1.96rem;" v-model:value="state.spacing" :update-value-on-input="false" :show-button="false">
+          <template #suffix>{{ $t('global.meter') }}</template>
+        </n-input-number>
+      </div>
 
-  <div class="row-item">
-    <span>{{ $t('global.bodyDisplay') }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.shadowBodyShow"></n-checkbox>
-    </div>
-  </div>
+      <div class="row-item">
+        <span>{{ $t('global.bodyDisplay') }}</span>
+        <div class="check-box">
+          <n-checkbox v-model:checked="state.shadowBodyShow"></n-checkbox>
+        </div>
+      </div>
 
-  <!-- 开启阴影 -->
-  <div class="row-item">
-    <span>{{ $t('global.showShadow') }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.shadowShow"></n-checkbox>
-    </div>
-  </div>
+      <!-- 开启阴影 -->
+      <div class="row-item">
+        <span>{{ $t('global.showShadow') }}</span>
+        <div class="check-box">
+          <n-checkbox v-model:checked="state.shadowShow"></n-checkbox>
+        </div>
+      </div>
+    </n-scrollbar>
 
   <div class="bableShadow" ref="bableShadowDom" v-show="state.shadowRadioShow">
-    <div class="row-item" style="margin-top:0.12rem">
-      <span class="shadow-anaylse-pop-titie">{{ $t('global.analyseResult') }}</span>
-      <span @click="state.shadowRadioShow = false;" style="margin-right:14px">X</span>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>{{ $t('global.DaylightingRate') }}</span>
-      <n-input style="width: 1.5rem;" v-model:value="state.shadowRadio.radio" :show-button="false" disabled>
-      </n-input>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>{{ $t('global.longitude') }}</span>
-      <n-input-number style="width: 1.5rem" v-model:value="state.shadowRadio.longitude" :show-button="false" disabled>
-      </n-input-number>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>{{ $t('global.latitude') }}</span>
-      <n-input-number style="width: 1.5rem" v-model:value="state.shadowRadio.latitude" :show-button="false" disabled>
-      </n-input-number>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
-      <span>{{ $t('global.elevation') }}</span>
-      <n-input-number style="width: 1.5rem" v-model:value="state.shadowRadio.height" :show-button="false" disabled>
-      </n-input-number>
-    </div>
+      <div class="row-item" style="margin-top:0.12rem">
+        <span class="shadow-anaylse-pop-titie">{{ $t('global.analyseResult') }}</span>
+        <span @click="state.shadowRadioShow = false;" style="margin-right:14px">X</span>
+      </div>
+      <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+        <span>{{ $t('global.DaylightingRate') }}</span>
+        <n-input style="width: 1.5rem;" v-model:value="state.shadowRadio.radio" :show-button="false" disabled>
+        </n-input>
+      </div>
+      <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+        <span>{{ $t('global.longitude') }}</span>
+        <n-input-number style="width: 1.5rem" v-model:value="state.shadowRadio.longitude" :show-button="false" disabled>
+        </n-input-number>
+      </div>
+      <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+        <span>{{ $t('global.latitude') }}</span>
+        <n-input-number style="width: 1.5rem" v-model:value="state.shadowRadio.latitude" :show-button="false" disabled>
+        </n-input-number>
+      </div>
+      <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem">
+        <span>{{ $t('global.elevation') }}</span>
+        <n-input-number style="width: 1.5rem" v-model:value="state.shadowRadio.height" :show-button="false" disabled>
+        </n-input-number>
+      </div>
   </div>
-
 
   <div class="btn-row-item">
     <n-button type="info" color="#3499E5" text-color="#fff" @click="analysis"
       class="ans-btn">{{ $t('global.analysis') }}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)"
-      ghost>{{ $t('global.clear') }}</n-button>
+    ghost>{{ $t('global.clear') }}</n-button>
   </div>
 </template>
 
@@ -113,7 +115,8 @@ type stateType = {
   shadowRadio: any,
   shadowRadioShow: boolean,
   initBubble: boolean,
-  shadowQueryRegion: any
+  shadowQueryRegion: any,
+  currentTime:any
 }
 
 // 设置默认值数据
@@ -147,11 +150,14 @@ let state = reactive<stateType>({
   shadowRadio: {},
   shadowRadioShow: false,
   initBubble: false,
-  shadowQueryRegion: []
+  shadowQueryRegion: [],
+  currentTime:undefined
 });
 
 // let currentTime = ref<any>(Date.now()); // 直接获取时间戳
-let currentTime = computed(() => state.currentDate.getTime());
+// let currentTime = computed(() => state.currentDate.getTime());
+
+state.currentTime = state.currentDate.getTime();
 
 // 初始化数据
 let timeArray = [...state.timeArray],
@@ -248,6 +254,7 @@ function sunLightForDate(isStart: boolean) {
     else mon = 0;
     d.setMonth(mon);
     state.currentDate = new Date(d);
+    state.currentTime = state.currentDate.getTime();
   }, 1000);
 }
 

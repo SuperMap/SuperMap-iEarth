@@ -122,6 +122,7 @@ function digUpdate(positions:any) {
   viewer.scene.globe.removeAllExcavationRegion();
 
   if (state.isPullOut) {
+    viewer.scene.globe.removeAllExtractRegion();
     // 地形开挖并抽出
     viewer.scene.globe.addExtractRegion({
       name: 'extract', //名称
@@ -198,13 +199,17 @@ function changeItem(item: any) {
 
   state.isEdit = false;
   state.isEditZ = false;
+
+  clear();
 }
 
 // 清除
 function clear() {
   if (handlerPolygon) handlerPolygon.clearHandler();
-  if (state.operationType === "dig") clearDig();
-  else clearModify();
+  // if (state.operationType === "dig") clearDig();
+  // else clearModify();
+  clearDig();
+  clearModify();
   removeEditHandler();
 }
 // 清除开挖地形
@@ -265,24 +270,13 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .btn-list {
-  // font-size: 0.14rem;
-  display: flex;
+  width: 3.4rem;
   justify-content: space-evenly;
   margin-bottom: 0.15rem;
-  cursor: pointer;
-
+  
   .btn {
     width: fit-content;
-    padding: 0 0.08rem ;
-    height: 0.26rem;
-    line-height: 0.26rem;
-    text-align: center;
-  }
-
-  .select-btn {
-    border-radius: 0.02rem;
-    color: #3499e5;
-    background: rgba(255, 255, 255, 0.15);
+    padding: 0 0.08rem;
   }
 }
 </style>

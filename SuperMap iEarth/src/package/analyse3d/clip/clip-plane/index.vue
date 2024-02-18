@@ -2,7 +2,6 @@
   <div class="row-item">
     <span>{{$t('global.clipMode')}}</span>
     <n-radio-group v-model:value="state.directionByNormal" name="radiogroup" class="radio-group">
-      <n-space>
         <n-radio
           v-for="item in state.modeOptions"
           :key="item.value"
@@ -10,7 +9,6 @@
         >
           {{ item.label }}
         </n-radio>
-      </n-space>
     </n-radio-group>
   </div>
   <div class="row-item">
@@ -165,7 +163,4 @@ onBeforeUnmount(() => {
   clear();
 });
 </script>
-
-<style lang="scss" scoped>
-</style>
 

@@ -6,7 +6,6 @@
       class="radio-group"
       name="radiogroup"
     >
-      <n-space>
         <n-radio
           v-for="item in state.modeOptions"
           :key="item.value"
@@ -14,7 +13,6 @@
         >
           {{ item.label }}
         </n-radio>
-      </n-space>
     </n-radio-group>
   </div>
 
@@ -42,7 +40,7 @@ type stateType = {
 }
 
 // 初始化默认数据
-let state = reactive({
+let state = reactive<stateType>({
   clipMode: SuperMap3D.ModifyRegionMode.CLIP_INSIDE,
   modeOptions: [
     {
@@ -118,4 +116,11 @@ onBeforeUnmount(() => {
   // layers = undefined;
 });
 </script>
+
+<style lang="scss" scoped>
+.radio-group{
+  margin-right: 0.3rem;
+  width: 1.65rem !important;
+}
+</style>
 

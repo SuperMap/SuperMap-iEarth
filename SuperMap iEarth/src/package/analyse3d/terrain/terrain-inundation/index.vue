@@ -1,7 +1,7 @@
 <template>
   <!-- 淹没分析 -->
   <div class="row-item">
-    <div>{{$t('global.maximumVisibleElevation')}}</div>
+    <span>{{$t('global.maximumVisibleElevation')}}</span>
     <n-input-number
       v-model:value="state.maxHeight"
       style="width: 1.96rem;"
@@ -14,7 +14,7 @@
   </div>
 
   <div class="row-item">
-    <div>{{$t('global.minimumVisibleElevation')}}</div>
+    <span>{{$t('global.minimumVisibleElevation')}}</span>
     <n-input-number
       v-model:value="state.minHeight"
       style="width: 1.96rem;"
@@ -28,7 +28,7 @@
   </div>
 
   <div class="row-item">
-    <div>{{$t('global.currentElevation')}}</div>
+    <span>{{$t('global.currentElevation')}}</span>
     <n-input-number
       style="width: 1.96rem;"
       v-model:value="state.currentHeight"
@@ -111,7 +111,7 @@
         size="small" 
         style="width: 31%;"
       />
-      <span style="width: 36px;">{{$t('global.meterSecond')}}</span>
+      <span style="width:0.4rem;">{{$t('global.meterSecond')}}</span>
     </div>
   </div>
 
@@ -378,6 +378,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-</style>
 

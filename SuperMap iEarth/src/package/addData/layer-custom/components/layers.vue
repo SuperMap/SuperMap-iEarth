@@ -1,6 +1,6 @@
 <template>
   <n-space justify="end">
-    <n-select class="add-input-border" v-model:value="state.layerType" :options="state.typeOptions"
+    <n-select v-model:value="state.layerType" :options="state.typeOptions"
       style="width: 2.4rem; margin-bottom: 0.1rem" />
   </n-space>
 
@@ -22,30 +22,19 @@
       :placeholder="$t('global.layerName')" :title="state.layerName" :disabled="true" />
   </div>
 
-  <div style="margin-left: 0.37rem; margin-bottom: 0.1rem" v-show="state.layerType != 'WMTS'">
-    <n-checkbox v-model:checked="state.token"> {{ $t('global.addToken') }} </n-checkbox>
+  <div style="margin-left: 0.95rem; margin-bottom: 0.1rem" v-show="state.layerType != 'WMTS'">
+    <n-checkbox v-model:checked="state.token" :label="$t('global.addToken')"/>  
     <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.token" v-model:value="state.layerToken" type="text"
       placeholder="token..." />
   </div>
 
-  <!-- <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS'">
-    <span>测试南京</span>
-    <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="addWmtsLayerNJ"> 添加 </n-button>
-  </div> -->
-
   <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0">
     <span>{{ $t('global.selectableLayers') }}</span>
     <n-select class="add-input-border" v-model:value="state.wmtsLayer" :options="state.wmtsLayerOptions"
-      style="width: 2rem;" />
+      style="width: 2.4rem;" />
   </div>
 
-  <!-- <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayer != ''">
-    <span>标识符</span>
-    <n-select class="add-input-border" v-model:value="state.tileMatrixSetID" :options="state.tileMatrixSetIDOptions"
-      style="width: 2.4rem; margin-bottom: 0.1rem" />
-  </div> -->
-
-  <div class="btn-row-item1" style="margin-left: 0.37rem;">
+  <div class="btn-row-item" style="margin-left: 0.95rem;">
     <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="openLayer">{{ $t('global.sure')
     }}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear')
@@ -738,5 +727,3 @@ watch(()=>state.layerType,(val:string)=>{
   }
 })
 </script>
-
-<style lang="scss" scoped></style>

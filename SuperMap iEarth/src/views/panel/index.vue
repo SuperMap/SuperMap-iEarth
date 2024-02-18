@@ -21,7 +21,7 @@
       <div class="panle-footer"></div>
     </div>
     <div class="right-panel" v-if="panelStore.rightTooPanel">
-      <div class="panle-header">
+      <div class="panle-header panle-header-right">
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
@@ -67,6 +67,11 @@
           v-if="panelStore.panelList.rightToolBarList[8].isSelected"
           >{{ $t('global.mapQuery') }}</span
         >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[9].isSelected"
+          >{{ $t('global.qxModelSingle') }}</span
+        >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(2)">
@@ -103,8 +108,11 @@
         <MapQuery
           v-if="panelStore.panelList.rightToolBarList[8].isSelected"
         ></MapQuery>
+        <QxSingle
+          v-if="panelStore.panelList.rightToolBarList[9].isSelected"
+        ></QxSingle>
       </div>
-      <div class="panle-footer"></div>
+      <div class="panle-footer panle-footer-right"></div>
     </div>
   </div>
 </template>
@@ -130,6 +138,7 @@ import LayerAttribute from "@/package/layerSeries/layerAttribute/index";
 import LayerStyle from "@/package/layerSeries/layerStyle/index";
 import LayerQuery from "@/package/layerSeries/layerQuery/index";
 import MapQuery from "@/package/layerSeries/mapQuery/index";
+import QxSingle from "@/package/layerSeries/qxSingle/index";
 
 import { usePanelStore } from "@/store/index";
 
@@ -147,21 +156,21 @@ function panelCloseHandle(leftOrRght: any) {
   @include setPanelTitle();
   position: fixed;
   z-index: 2;
-  top: 0.6rem;
-  left: 0.6rem;
+  top: 0.75rem;
+  left: 0.55rem;
 }
 .right-panel {
   width: 3.38rem;
   @include setPanelTitle();
   position: fixed;
   z-index: 2;
-  top: 0.6rem;
-  right: 0.6rem;
+  top: 0.7rem;
+  right: 0.45rem;
 }
 .zst1 {
   position: absolute;
   top: 0rem;
-  left: 1.4rem;
+  left: 1.6rem;
   @include setBackground(0.44rem, 0.11rem, "@/assets/panelbg/zst1.png");
 }
 .zst2 {
@@ -170,7 +179,7 @@ function panelCloseHandle(leftOrRght: any) {
   @include setBackground(1.32rem, 0.08rem, "@/assets/panelbg/zst2.png");
 }
 .panle-header {
-  width: 3.37rem;
+  width: 3.84rem;
   height: 0.43rem;
   background: url("@/assets/panelbg/toubu.png") no-repeat;
   background-size: 100% 100%;
@@ -179,7 +188,7 @@ function panelCloseHandle(leftOrRght: any) {
 }
 .panle-container {
   // padding: 2px 0px;
-  width: 3.37rem;
+  width: 3.84rem;
   height: auto;
   background: url("@/assets/panelbg/zhongjian.png");
   background-size: 100% 100%;
@@ -188,13 +197,20 @@ function panelCloseHandle(leftOrRght: any) {
   @include setsSrollbar();
 }
 
-.panle-container-right{
-  width: 3.365rem;
-}
 .panle-footer {
-  width: 3.37rem;
+  width: 3.84rem;
   height: 0.24rem;
   background: url("@/assets/panelbg/weibu.png") no-repeat;
   background-size: 100% 100%;
+}
+
+.panle-header-right{
+  width: 3.36rem;
+}
+.panle-container-right{
+  width: 3.36rem;
+}
+.panle-footer-right{
+  width: 3.36rem;
 }
 </style>

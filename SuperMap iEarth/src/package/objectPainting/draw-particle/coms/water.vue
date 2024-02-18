@@ -17,8 +17,6 @@
 
   <!-- 参数设置 -->
   <div v-show="state.setParam">
-
-
     <div class="row-item">
       <span>{{$t('global.emitType')}}</span>
       <n-select style="width: 1.96rem;height: 32px;" v-model:value="state.selectedType" 
@@ -61,22 +59,85 @@
     <div class="row-item">
       <span>{{$t('global.lifeCycle')}}</span>
       <div class="slider-box" >
-        <n-slider style="width: 1.5rem" v-model:value="state.lifeRange" :step="1" range :min="0.1" :max="30" />
-        <!-- <span>{{ state.lifeRange }}</span> -->
+        <n-input-number 
+            v-model:value="state.lifeRange[0]" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="0.1" 
+            :max="30"
+            placeholder=""
+            size="small" 
+        />
+        <n-slider style="width: 1.5rem" v-model:value="state.lifeRange" range :step="1" :min="0.1" :max="30" />
+        <n-input-number 
+            v-model:value="state.lifeRange[1]" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="0.1" 
+            :max="30"
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
     <div class="row-item">
       <span>{{$t('global.speedRange')}}</span>
       <div class="slider-box" >
-        <n-slider style="width: 1.5rem" v-model:value="state.speedRange" :step="1" range :min="1" :max="30" />
-        <!-- <span>{{ state.speedRange }}</span> -->
+        <n-input-number 
+            v-model:value="state.speedRange[0]" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="1" 
+            :max="30" 
+            placeholder=""
+            size="small" 
+        />
+        <n-slider style="width: 1.5rem" v-model:value="state.speedRange" range :step="1" :min="1" :max="30" />
+        <n-input-number 
+            v-model:value="state.speedRange[1]" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="1" 
+            :max="30" 
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
     <div class="row-item">
       <span>{{$t('global.scaleRange')}}</span>
       <div class="slider-box" >
-        <n-slider style="width: 1.5rem" v-model:value="state.scaleRange" :step="1" range :min="1" :max="10" />
-        <!-- <span>{{ state.scaleRange }}</span> -->
+        <n-input-number 
+            v-model:value="state.scaleRange[0]" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="1" 
+            :max="10"
+            placeholder=""
+            size="small" 
+        />
+        <n-slider style="width: 1.5rem" v-model:value="state.scaleRange" range :step="1" :min="1" :max="10" />
+        <n-input-number 
+            v-model:value="state.scaleRange[1]" 
+            class="slider-input-number"
+            :update-value-on-input="false"
+            :bordered="false" 
+            :show-button="false" 
+            :min="1" 
+            :max="10" 
+            placeholder=""
+            size="small" 
+        />
       </div>
     </div>
     <div class="row-item">
@@ -119,8 +180,8 @@ let state = reactive({
   setParam: false,
   emitRate: 1500,
   particleSize: 1,
-  lifeRange: [1, 4],
-  speedRange: [6, 7],
+  lifeRange: [5, 15],
+  speedRange: [2, 8],
   scaleRange: [1, 4],
   gravity: -8.0,
   optionMode: [
@@ -399,7 +460,9 @@ onBeforeUnmount(() => {
 </script>
     
 <style lang="scss" scoped>
-
+.slider-input-number {
+  margin: 0px -10px 0px 0px;
+}
 </style>
     
     

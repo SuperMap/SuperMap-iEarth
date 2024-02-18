@@ -7,15 +7,13 @@
       name="radiogroup"
       class="radio-group"
     >
-      <n-space>
-        <n-radio
+          <n-radio
           v-for="item in state.modeOptions"
-          :key="item.value"
-          :value="item.value"
-        >
+            :key="item.value"
+            :value="item.value"
+          >
           {{ item.label }}
-        </n-radio>
-      </n-space>
+          </n-radio>
     </n-radio-group>
   </div>
   <div class="btn-row-item">
@@ -207,5 +205,9 @@ onBeforeUnmount(() => {
 </script>
     
 <style lang="scss" scoped>
+.radio-group{
+  margin-right: 0.3rem;
+  width: 1.65rem !important;
+}
 
 </style>

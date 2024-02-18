@@ -55,9 +55,18 @@
     </div>
 
     <div class="row-item">
-        <span>{{$t('global.color')}}</span>
+        <span>{{$t('global.fillColor')}}</span>
         <div class="color-pick-box row-content">
-            <n-color-picker v-model:value="state.geometryMaterial" :render-label="() => {
+            <n-color-picker v-model:value="state.geometryColor" :render-label="() => {
+                return '';
+            }
+                " size="small"></n-color-picker>
+        </div>
+    </div>
+    <div class="row-item" v-show="state.displayMode != 'Fill'">
+        <span>{{$t('global.wireframeColor')}}</span>
+        <div class="color-pick-box">
+            <n-color-picker v-model:value="state.wireframeColor" :render-label="() => {
                 return '';
             }
                 " size="small"></n-color-picker>
@@ -82,9 +91,10 @@ type stateType = {
     boxLength: number, // 长度
     boxWidth: number, // 宽度
     boxHeight: number, // 高度
-    geometryMaterial: string, // 颜色
+    geometryColor: string, // 颜色
     displayMode: string,// 显示模式
     optionsMode:any,// 显示模式选项
+    wireframeColor:string,// 线框颜色
 }
 // 初始化数据
 let state = reactive<stateType>({
@@ -92,7 +102,7 @@ let state = reactive<stateType>({
     boxLength: 20,
     boxWidth: 20,
     boxHeight: 20,
-    geometryMaterial: 'rgba(255,255,255, 1)',
+    geometryColor: 'rgba(255,255,255, 1)',
     displayMode: "Fill",
     optionsMode: [
         {
@@ -108,7 +118,7 @@ let state = reactive<stateType>({
             value: "Both",
         }
     ],
-
+    wireframeColor:'rgba(0,0,0, 1)',
 });
 
 let boxEntity;
@@ -132,18 +142,18 @@ handlerPoint_box.activeEvt.addEventListener((isActive: any) => {
 handlerPoint_box.drawEvt.addEventListener(function (res) {
     let point = res.object;
     let position = point.position;
-    // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
-    let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
+    let geometryColor = SuperMap3D.Color.fromCssColorString(state.geometryColor);
+    let wireframeColor = SuperMap3D.Color.fromCssColorString(state.wireframeColor);
     let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
     let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
     boxEntity = entities.add({
         position: position,
         box: {
             dimensions: new SuperMap3D.Cartesian3(20.0, 20.0, 20.0),
-            material: color,
+            material: geometryColor,
             fill:  fillFlag,
             outline: outlineFlag,
-            outlineColor: SuperMap3D.Color.BLACK,
+            outlineColor: wireframeColor,
             outlineWidth: 1
         }
     });
@@ -210,10 +220,18 @@ watch(
 );
 
 watch(
-    () => state.geometryMaterial,
+    () => state.geometryColor,
     (val) => {
         if (targetEntity) {
             targetEntity.box['material'] = SuperMap3D.Color.fromCssColorString(val);
+        }
+    }
+);
+watch(
+    () => state.wireframeColor,
+    (val) => {
+        if (targetEntity) {
+            targetEntity.box['outlineColor'] = SuperMap3D.Color.fromCssColorString(val);
         }
     }
 );

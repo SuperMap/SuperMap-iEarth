@@ -9,12 +9,15 @@
   <KeepAlive>
     <component :is="currentItem.com"></component>
   </KeepAlive>
+
+  <rotate></rotate>
 </template>
 
 <script lang="ts" setup>
 import { reactive, markRaw } from "vue";
 import createRoute from "./components/create-route.vue";
 import importRoute from "./components/import-route.vue";
+import rotate from "./components/rotate.vue";
 
 // 使用vue3 setUp实现动态组件
 let comList = reactive([
@@ -51,26 +54,14 @@ function changeItem(item: any) {
 
 <style lang="scss" scoped>
 .btn-list {
-  // font-size: 0.14rem;
-  display: flex;
   margin-left: 0.1rem;
+  width: 2.7rem;
   margin-bottom: 0.15rem;
-  cursor: pointer;
   justify-content: space-evenly;
 
   .btn {
     width: fit-content;
     padding: 0 0.1rem;
-    height: 0.26rem;
-    line-height: 0.26rem;
-    text-align: center;
-
-  }
-
-  .select-btn {
-    border-radius: 0.02rem;
-    color: #3499e5;
-    background: rgba(255, 255, 255, 0.15);
   }
 }
 </style>

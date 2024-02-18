@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" style="margin-bottom: -0.1rem;">
       <span></span>
         <div class="row-content">
           <n-checkbox v-model:checked="state.flyCircleLoop">{{$t('global.rotateRepeat')}}</n-checkbox>

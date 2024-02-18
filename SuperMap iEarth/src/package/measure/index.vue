@@ -1,5 +1,5 @@
 <template>
-  <div class="measure-box">
+  <div class="layerSeries-box">
     <div class="row-item">
       <span>{{$t('global.measureMode')}}</span>
       <n-select
@@ -271,7 +271,7 @@ function init() {
     }
     let distance =
       dis > 1000 ? (dis / 1000).toFixed(2) + "km" : dis.toFixed(2) + "m";
-    handlerDis.disLabel.text = GlobalLang.distence_cl + ": " + distance;
+    handlerDis.disLabel.text = GlobalLang.distence_cl + distance;
   });
 
   //初始化测量面积
@@ -299,7 +299,7 @@ function init() {
     }
     let area =
       mj > 1000000 ? (mj / 1000000).toFixed(2) + "km²" : mj.toFixed(2) + "㎡";
-    handlerArea.areaLabel.text = GlobalLang.area + ": " + area;
+    handlerArea.areaLabel.text = GlobalLang.area + area;
   });
 
   // let point1, point2;
@@ -308,9 +308,9 @@ function init() {
     let distance = result.distance > 1000 ? (result.distance / 1000).toFixed(2) + 'km' : result.distance + 'm';
     let vHeight = result.verticalHeight > 1000 ? (result.verticalHeight / 1000).toFixed(2) + 'km' : result.verticalHeight + 'm';
     let hDistance = result.horizontalDistance > 1000 ? (result.horizontalDistance / 1000).toFixed(2) + 'km' : result.horizontalDistance + 'm';
-              handlerHeight.disLabel.text = GlobalLang.spaceDistance + ": " + distance;
-              handlerHeight.vLabel.text = GlobalLang.verticalHeight + ": " + vHeight;
-              handlerHeight.hLabel.text = GlobalLang.horizontalDistance + ": " + hDistance;
+              handlerHeight.disLabel.text = GlobalLang.spaceDistance + distance;
+              handlerHeight.vLabel.text = GlobalLang.verticalHeight + vHeight;
+              handlerHeight.hLabel.text = GlobalLang.horizontalDistance + hDistance;
               //实时等高线显示
               lineHeight = Number(result.endHeight);
               if (state.isShowLine) updateContourLine(lineHeight)
@@ -585,17 +585,6 @@ onBeforeUnmount(() => {
   layers = undefined;
 });
 </script>
-
-
-<style lang="scss" scoped>
-.measure-box {
-  width: 100%;
-  height: 100%;
-  padding: 0 0.12rem;
-  box-sizing: border-box;
-}
-</style>
-
 
 
 

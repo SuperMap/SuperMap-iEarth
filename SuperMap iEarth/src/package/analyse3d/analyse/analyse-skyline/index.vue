@@ -67,8 +67,8 @@
   </div>
   <div class="btn-row-item2">
     <n-button type="info" color="#3499E5" text-color="#fff" @click="analysis" style="margin-right: 0.1rem">{{ $t('global.analysis') }}</n-button>
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="setLimitBody"
-      style="margin-right: 0.1rem">{{ $t('global.limitingBody') }}</n-button>
+    <n-button type="info" class="limitingBody" color="#3499E5" text-color="#fff" @click="setLimitBody"
+      style="margin-right: 0.1rem;">{{ $t('global.limitingBody') }}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear') }}</n-button>
   </div>
 
@@ -198,37 +198,6 @@ function initMyChart() {
       myChart.resize(); //自适应屏幕
     };
   }
-  myChart.setOption({
-    title: {
-      text: GlobalLang.Skyline2D,
-      textStyle: {
-        fontSize: 15,
-        color: '#fff'
-      },
-      top: '3%',
-      left: '3%',
-    },
-    grid: {
-      top: '20%',
-      left: '3%',
-      right: '3%',
-      bottom: '6%',
-      containLabel: true
-    },
-    tooltip: {},
-    xAxis: {
-      show: true
-    },
-    yAxis: {
-      show: true
-    },
-    series: [
-      {
-        type: "line",
-        data: []
-      }
-    ]
-  });
 }
 
 // 设置二维天际线
@@ -452,13 +421,17 @@ onBeforeUnmount(() => {
 #echartsSkyLine {
   position: fixed !important;
   bottom: 0.3rem;
-  left: 3.5rem;
-  width: 6.75rem !important;
-  height: 2.33rem !important;
-  background-color: rgba(0, 8, 23, 0.7) !important;
+  left: 32vw;
+  width: 36vw;
+  height: 30vh;
+  background-color: rgba(0, 8, 23, 0.7);
   opacity: 0.7;
   padding: 0.05rem 0.1rem 0.1rem 0.05rem;
   z-index: 99;
   // display: none;
+}
+
+.limitingBody{
+  padding-left: 0.1rem;
 }
 </style>

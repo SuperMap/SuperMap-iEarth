@@ -1,5 +1,5 @@
 <template>
-  <div class="layer-terrain-container">
+  <div class="addData-base-container">
     <div
       v-for="(item, index) in layerStore.layerServiceData
         .onlineTerrainLayerList"
@@ -30,7 +30,7 @@ let state = reactive({
 // 添加地形
 function addTerrainLayer(item: any) {
   if (item.chooseType) {
-    message.warning("请勿重复添加！");
+    message.warning(GlobalLang.repeatAddTip);
     return;
   }
   layerStore.SelectedOptions.onlineTerrain.push(item.name); // 存入已选择的地形服务选项
@@ -68,39 +68,8 @@ function addTerrainLayer(item: any) {
 }
 </script>
 
-<style lang="scss" scoped>
-.layer-terrain-container {
-  display: flex;
-  flex-wrap: wrap;
-
-  .ItemBox {
-    width: 30%;
-    color: $--SM--FontColor-Sub;
-    margin-bottom: 0.07rem;
-    margin-right: 0.12rem;
-    box-sizing: border-box;
-    cursor: pointer;
-
-    .img-box {
-      width: 100%;
-      height: 0.84rem;
-      border-radius: 0.05rem;
-      overflow: hidden;
-      margin-bottom: 0.04rem;
-      .img {
-        width: 100%;
-        height: 100%;
-      }
-    }
+<style>
+  .addData-base-container{
+    margin-bottom: -0.1rem;
   }
-  .ItemBox:nth-child(3n) {
-    margin-right: 0;
-  }
-  .isSelect {
-    color: #3499e5;
-    .img-box {
-      border: 0.02rem solid #3499e5;
-    }
-  }
-}
 </style>

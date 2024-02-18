@@ -49,11 +49,11 @@ function tabsChange() {}
 .scene-set-box {
   width: 100%;
   height: 100%;
-  padding: 0 0.12rem;
+  padding: 0 0.1rem;
   box-sizing: border-box;
 }
 :deep(.n-tabs-tab-wrapper){
-  margin-right:0.16rem;
+  margin-right:0.12rem;
 }
   :deep(.n-tabs-nav){
     padding:0 0.12rem;

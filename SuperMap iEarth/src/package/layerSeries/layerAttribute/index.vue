@@ -3,7 +3,6 @@
     <div class="row-item">
       <span>{{$t('global.chooseLayer')}}</span>
       <n-select
-        class="add-input-border"
         style="width: 62%"
         v-model:value="state.selectedIndex"
         :options="state.s3mlayers"
@@ -12,11 +11,9 @@
 
     <div class="row-item">
       <span>{{$t('global.renderMode')}}</span>
-      <n-radio-group v-model:value="state.cullEnabled" name="operationType" style="width: 62%">
-          <n-space>
+      <n-radio-group v-model:value="state.cullEnabled" name="operationType" class="radio-group">
             <n-radio :value="true">{{$t('global.singleRender')}}</n-radio>
             <n-radio :value="false">{{$t('global.doubleRender')}}</n-radio>
-          </n-space>
         </n-radio-group>
     </div>
 
@@ -32,12 +29,21 @@
           style="width: 70%"
           :step="0.05" :min="0" :max="1"
         />
-        <div class="row-slider-num">{{ state.shadowDarkness }}</div>
+        <n-input-number 
+          v-model:value="state.shadowDarkness" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0" :max="1"
+          placeholder=""
+          size="small" 
+         />
       </div>
     </div>
     <div class="row-item">
       <span>{{$t('global.objectHiding')}}</span>
-      <n-select class="add-input-border" v-model:value="state.visibility" style="width: 62%" :options="state.visibilityMode" />
+      <n-select v-model:value="state.visibility" style="width: 62%" :options="state.visibilityMode" />
     </div>
     <div class="row-item" style="justify-content: left; margin-left: 38%">
       <!-- <n-checkbox v-model:checked="state.selectEnabled">是否可选</n-checkbox> -->
@@ -392,16 +398,6 @@ watch(
 
 onBeforeUnmount(() => {});
 </script>
-
-<style lang="scss" scoped>
-.layerSeries-box {
-  width: 100%;
-  height: 100%;
-  padding: 0 0.12rem;
-  box-sizing: border-box;
-
-}
-</style>
 
 
 

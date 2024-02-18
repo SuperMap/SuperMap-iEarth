@@ -1,5 +1,4 @@
 <template>
-  <div class="row-container" style="max-height: 4.0rem">
     <!-- 可视域 -->
     <n-scrollbar style="max-height: 3.8rem">
     <div class="row-item" style="margin-right: 0.1rem">
@@ -104,7 +103,7 @@
     <div class="row-item" style="margin-right: 0.1rem">
       <span>{{$t('global.visibleBody')}}</span>
       <div class="check-color-pick">
-        <n-checkbox v-model:checked="state.visibleBody"></n-checkbox>
+        <n-checkbox v-model:checked="state.visibleBody" :disabled="state.viewshedAnimation"></n-checkbox>
         <div class="color-pick-box">
           <n-color-picker
             v-model:value="state.visibleAreaColor"
@@ -122,7 +121,7 @@
     <div class="row-item" style="margin-right: 0.1rem">
       <span>{{$t('global.invisibleBody')}}</span>
       <div class="check-color-pick">
-        <n-checkbox v-model:checked="state.invisibleBody"></n-checkbox>
+        <n-checkbox v-model:checked="state.invisibleBody" :disabled="state.viewshedAnimation"></n-checkbox>
         <div class="color-pick-box">
           <n-color-picker
             v-model:value="state.hiddenAreaColor"
@@ -144,7 +143,6 @@
       </div>
     </div>
     </n-scrollbar>
-  </div>
 
   <div class="btn-row-item" style="margin-right: 0.1rem;margin-top: 0.12rem">
     <n-button
@@ -207,8 +205,8 @@ let state = reactive<stateType>({
   hintLineColor: "rgb(212,202,45)",
   visibleColorBarShow: false,
   invisibleColorBarShow: false,
-  visibleAreaColor: "rgba(9,199,112,0.8)",
-  hiddenAreaColor: "rgba(238,114,22,0.8)",
+  visibleAreaColor: "rgba(9,199,112,0.4)",
+  hiddenAreaColor: "rgba(238,114,22,0.4)",
   visibleBody: false,
   invisibleBody: false,
   viewshedAnimation: false,
@@ -279,12 +277,10 @@ function LEFT_CLICK(e:any) {
   // 添加观察者点
   let p2 = SuperMap3D.Cartesian3.fromDegrees(p[0], p[1], p[2]);
   addPoint(p2);
-  viewshed3D.visibleAreaColor = SuperMap3D.Color.fromCssColorString(
-    state.visibleAreaColor
-  );
-  viewshed3D.hiddenAreaColor = SuperMap3D.Color.fromCssColorString(
-    state.hiddenAreaColor
-  );
+
+  viewshed3D.visibleAreaColor = colorUpdate(state.visibleAreaColor);
+  viewshed3D.hiddenAreaColor = colorUpdate(state.hiddenAreaColor);
+
   document.body.classList.remove("measureCur");
   viewer.eventManager.removeEventListener("CLICK", LEFT_CLICK);
   viewer.eventManager.addEventListener("MOUSE_MOVE", MOUSE_MOVE, true);
@@ -644,7 +640,15 @@ watch(
         .updateColor(colorUpdate(val));
   }
 );
-
+watch(
+  () => state.viewshedAnimation,
+  (val: any) => {
+    if(val){
+      state.visibleBody = false;
+      state.invisibleBody = false;
+    }
+  }
+);
 watch(
   () => state.hiddenAreaColor,
   (val: any) => {
@@ -682,6 +686,3 @@ onBeforeUnmount(() => {
 });
 
 </script>
-    
-<style lang="scss" scoped>
-</style>

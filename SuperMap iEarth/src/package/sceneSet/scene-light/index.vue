@@ -143,7 +143,7 @@
     </div>
   </div>
 
-  <div class="btn-row-item" style="margin-bottom:0.1rem">
+  <div class="btn-row-item" style="margin-left: 0.96rem">
     <n-button type="info" color="#3499E5" text-color="#fff" @click="addLight" style="margin-right: 0.1rem">{{$t('global.add')}}</n-button>
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
@@ -234,8 +234,8 @@ let entityLightPairs = new Map(); // Entity和点光源对象的键值对
 let modelUrl = './Resource/model/light.s3m';
 let modelEditor;
 
-let editString = '请选中光源模型,再编辑属性';
-let clearString = '请选中光源模型在删除';
+let editString = GlobalLang.lightTip_edit;
+let clearString = GlobalLang.lightTip_del;
 let tip = ref('');
 const scene = viewer.scene;
 s3mInstanceColc = new SuperMap3D.S3MInstanceCollection(scene._context);
@@ -259,8 +259,7 @@ function addLight() {
   tip.value = editString;
   state.tipFlag = true;
 }
-// 提示
-// tipChangeLight();
+
 
 function click_light(e) {
   if (!state.addLightFlag) {
@@ -484,23 +483,6 @@ function changleIconItem(item: any) {
       state.itemOptions[i].isSelect = false;
     }
   }
-}
-
-// 提示编辑
-function tipChangeLight(){
-  notification.create({
-    content: () => "请选中光源模型,再编辑属性",
-    duration: 1500,
-    // placement:'bottom -right'
-  });
-}
-
-// 提示清除
-function tipClearLight(){
-  notification.create({
-    content: () => "请选中光源模型在删除",
-    duration: 2500,
-  });
 }
 
 

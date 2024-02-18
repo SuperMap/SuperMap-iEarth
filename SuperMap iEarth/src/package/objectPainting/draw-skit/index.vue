@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>{{$t('global.symbolType')}}</span>
     <n-select
-      style="width: 1.96rem"
+      style="width: 1.98rem"
       v-model:value="state.selectedTypeId"
       :options="state.optionClass"
     />
@@ -11,7 +11,7 @@
 
   <div class="row-item no-center">
     <span class="name">{{$t('global.symbolLibrary')}}</span>
-    <div class="icon-list-space" style="width: 1.96rem;">
+    <div class="icon-list-space" style="width: 1.98rem;">
       <div v-for="(model, index) in state.symbolOptionsList.data"
           :class="model.isSelect ? 'selected-img' : 'normal-img'"
           style="width:0.4rem;height: 0.4rem;margin: 0.08rem 0.1rem"
@@ -31,7 +31,7 @@
 
   <div class="row-item">
     <span>{{$t('global.symbolColor')}}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
+    <div class="color-pick-box" style="width: 1.98rem; margin-left: 0rem">
       <n-color-picker
         v-model:value="state.symbolColor"
         :render-label="
@@ -68,7 +68,6 @@
       name="radiogroup"
       class="radio-group"
     >
-      <n-space>
         <n-radio
           v-for="item in state.delOption"
           :key="item.value"
@@ -76,7 +75,6 @@
         >
           {{ item.label }}
         </n-radio>
-      </n-space>
     </n-radio-group>
   </div>
 
@@ -381,7 +379,7 @@ function clear() {
   }else{
     message.warning(GlobalLang.delSkitTip);
   }
-
+  isAddLIneFace = false;
   state.selectS3mInstenceID = '';
   if (handlerPolyline) handlerPolyline.clearHandler();
   if (handlerPolygon) handlerPolygon.clearHandler();
@@ -447,7 +445,7 @@ onBeforeUnmount(() => {
 </script>
   
   
-  <style lang="scss" scoped>
+<style lang="scss" scoped>
   .icon-list-space{
     display: flex;
     flex-wrap: wrap;
@@ -461,9 +459,6 @@ onBeforeUnmount(() => {
   }
   .draw-img{
     height: 100%;
-  }
-  .no-center{
-    align-items: start !important;
   }
 </style>
   

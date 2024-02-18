@@ -184,28 +184,3 @@ onBeforeUnmount(() => {
   sight.destroy();
 });
 </script>
-
-
-<style lang="scss" scoped>
-
-.btn-info {
-  color: #fff;
-  background: rgba(52, 153, 229, 1);
-}
-.check-color-pick {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.color-pick-bg {
-  width: 1.68rem;
-  height: 0.32rem;
-  border-radius: 0.04rem;
-  background: rgba(255, 255, 255, 0.04);
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  padding: 0 0.12rem;
-}
-</style>

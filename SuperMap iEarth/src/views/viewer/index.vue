@@ -1,14 +1,5 @@
 <template>
   <div id="superMapContainer"></div>
-
-  <!-- 新版表格弹窗 - s3m图层列表:属性查询 -->
-  <!-- <div id="bubbleNew" class="bubble" style="bottom:0;left:82%;" v-show="layerStore.isDisplayBubble">
-      <div id="tools" style="text-align : right">
-          <span  style="color: rgb(95, 74, 121);padding: 5px;position: absolute;left: 10px;top: 4px;">对象属性</span>
-          <span  class="fui-cross" title="关闭" id="close" style="color: darkgrey;padding:5px"></span>
-      </div>
-      <div style="overflow-y:scroll;height:150px" id="tableContainer"><table id="tab"></table></div>
-  </div>  -->
 </template>
 
 <script lang="ts" setup>
@@ -22,7 +13,6 @@ import layerManagement from "@/tools/layerManagement";
 // 导入配置
 import getConfig from '@/tools/getConfig'
 import getIPortalSceneInfo from '@/tools/getIPortalSceneInfo'
-import { number } from "echarts/core";
 
 const IportalStore = IportalStoreCreate();
 const GlobalStore = GlobalStoreCreate();
@@ -32,9 +22,6 @@ let viewer: any;
 
 onMounted(() => {
   initViewer();
-  // getIPortalSceneInfo().then(res => {
-  //   initViewer(res); // 有问题，layout初始化遇到viewer未定义相关问题
-  // })
 });
 
 // 获取token和key相关配置
@@ -63,6 +50,7 @@ function initViewer() {
     //  UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
     pcss: true,
     shadowQuality: 0,
+
     creditContainer: document.createElement('div'), //去掉底部logo
   });
 
@@ -111,33 +99,35 @@ function initViewer() {
     viewer.geocoder.viewModel.geoKey = "fvV2osxwuZWlY0wJb8FEb2i5";
   }
 
-  // 设定项目当前时间
+  // // 设定项目当前时间 - 强制设置时间后，平面场景会发黑
   viewer.clock.currentTime = SuperMap3D.JulianDate.fromDate(
     new Date(2023, 3, 20, 12)
   );
 
   // 设置环境光
-  viewer.scene.lightSource.ambientLightColor = new SuperMap3D.Color(0.65,0.65,0.65,1);
-  
+  viewer.scene.lightSource.ambientLightColor = new SuperMap3D.Color(
+    0.65,
+    0.65,
+    0.65,
+    1
+  )
+
   // 更换球皮
-  let earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
+ let earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
     new SuperMap3D.SingleTileImageryProvider({
-      url: "./images/earth-skin.jpg",
+      url: "./images/earth-skin2.jpg",
     })
   );
+  // 设置皮肤，影像图层的效果
+  earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
+  earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
+  // earthSkinImgLayer.hue = 0.5 // 图层色调。值为0.0表示使用原图。
+  // earthSkinImgLayer.saturation = 0.8; // 图层饱和度 > 1 增加   < 1 减少
+  // earthSkinImgLayer.gamma = 0.5 // 图层伽马校正。值为1.0表示使用原图。
 
 
   // 开启太阳 - 开启太阳有时候会导致一些场景加载不出来，比如http://10.10.4.90:8090/iserver/services/3D-Mine_Minerales3DV2/rest/realspace
   // viewer.scene.globe.enableLighting = true;
-
-  // layerManagement.setSkyBox(true);
-
-  // 设置皮肤，影像图层的效果
-  // earthSkinImgLayer.brightness = 0.5; // > 1.0 增加亮度  < 1.0减少亮度
-  earthSkinImgLayer.contrast = 1.28; // 图层对比度 > 1 增加   < 1 减少
-  // earthSkinImgLayer.hue = 0.5 // 图层色调。值为0.0表示使用原图。
-  earthSkinImgLayer.saturation = 0.8; // 图层饱和度 > 1 增加   < 1 减少
-  // earthSkinImgLayer.gamma = 0.5 // 图层伽马校正。值为1.0表示使用原图。
 
 
   // 获取当前环境：创建 || 编辑  or 非iportal环境（普通环境）
@@ -192,6 +182,7 @@ function initViewer() {
 
     layerStore.setSceneAttr(layerStore.sceneAttrState);
 
+    // viewer.scene.skyBox.show = true;
   }, 1000)
 }
 

@@ -5,11 +5,11 @@
       :options="state.optionMode" />
   </div> -->
   <n-checkbox v-model:checked="state.showEditCheck" style="margin-left: 1.2rem; margin-bottom: 0.1rem">
-    {{$t('global.displayEdit')}}
+    {{ $t('global.displayEdit') }}
   </n-checkbox>
 
   <div class="row-item" v-show="state.showEditCheck">
-    <span>{{$t('global.parameterSet')}}</span>
+    <span>{{ $t('global.parameterSet') }}</span>
     <div style="width: 1.96rem;">
       <n-switch v-model:value="state.setParam" size="small" />
     </div>
@@ -23,66 +23,66 @@
         :options="state.optionMode" />
     </div> -->
 
-    <!-- <div class="row-item">
-      <span>发射速度</span>
-      <n-input-number style="width: 1.96rem;" v-model:value="state.emitRate" :show-button="false">
-      </n-input-number>
-    </div> -->
     <div class="row-item">
-      <span>{{$t('global.emitSpeed')}}</span>
+      <span>{{ $t('global.emitSpeed') }}</span>
       <div class="slider-box">
         <n-slider v-model:value="state.emitRate" style="width: 70%" :min="10" :max="2500" :step="10" />
-        <n-input-number 
-            v-model:value="state.emitRate" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="10"
-            :max="2500"
-            placeholder=""
-            size="small" 
-        />
+        <n-input-number v-model:value="state.emitRate" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="10" :max="2500" placeholder="" size="small" />
       </div>
     </div>
     <div class="row-item">
-      <span>{{$t('global.lifeCycle')}}</span>
-      <div class="slider-box" >
-        <n-slider style="width: 1.5rem" v-model:value="state.lifeRange" :step="0.001" range :min="0.005" :max="0.25" />
-        <!-- <span>{{ state.lifeRange }}</span> -->
+      <span>{{ $t('global.lifeCycle') }}</span>
+      <div class="slider-box">
+        <!-- <span style="margin-right: 10px;"> {{state.lifeRange[0]}} </span>
+        <n-slider style="width: 1.5rem" v-model:value="state.lifeRange" :step="0.01" range :min="0.005" :max="0.25" />
+        <span style="margin-left: 10px;"> {{state.lifeRange[1]}} </span> -->
+        <n-input-number v-model:value="state.lifeRange[0]" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.1" :max="1.0" placeholder="" size="small" />
+        <n-slider style="width: 1.5rem" v-model:value="state.lifeRange" :step="0.1" range :min="0.1" :max="1.0" />
+        <n-input-number v-model:value="state.lifeRange[1]" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.1" :max="1.0" placeholder="" size="small" />
       </div>
     </div>
     <div class="row-item">
-      <span>{{$t('global.speedRange')}}</span>
-      <div class="slider-box" >
+      <span>{{ $t('global.speedRange') }}</span>
+      <div class="slider-box">
+        <n-input-number v-model:value="state.speedRange[0]" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="100" placeholder="" size="small" />
         <n-slider style="width: 1.5rem" v-model:value="state.speedRange" :step="1" range :min="1" :max="100" />
-        <!-- <span>{{ state.speedRange }}</span> -->
+        <n-input-number v-model:value="state.speedRange[1]" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="100" placeholder="" size="small" />
       </div>
     </div>
     <div class="row-item">
-            <span>{{$t('global.scaleRange')}}</span>
-            <div class="slider-box" >
-                <n-slider style="width: 1.5rem" v-model:value="state.scaleRange" :step="1" range :min="1" :max="100" />
-                <!-- <span>{{ state.scaleRange }}</span> -->
-            </div>
-        </div>
-    <!-- <div class="row-item">
-      <span>重力</span>
-      <div class="slider-box" style="width: 1.96rem;height: 32px;">
-        <n-slider style="width: 1.5rem" v-model:value="state.gravity" :step="1" :min="10" :max="200" />
-        <span>{{ state.gravity }}</span>
+      <span>{{ $t('global.scaleRange') }}</span>
+      <div class="slider-box">
+        <n-input-number v-model:value="state.scaleRange[0]" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="100" placeholder="" size="small" />
+        <n-slider style="width: 1.5rem" v-model:value="state.scaleRange" :step="1" range :min="1" :max="100" />
+        <n-input-number v-model:value="state.scaleRange[1]" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="100" placeholder="" size="small" />
       </div>
-    </div> -->
+    </div>
+    <div class="row-item">
+      <span>{{$t('global.gravity')}}</span>
+      <div class="slider-box">
+        <n-slider v-model:value="state.gravity" style="width: 70%" :min="-20" :max="20" :step="1" />
+        <n-input-number v-model:value="state.gravity" class="slider-input-number" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :step="1" :min="-20" :max="20" placeholder="" size="small" />
+      </div>
+    </div>
   </div>
 
   <div class="btn-row-item">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.add')}}</n-button>
-    <n-button class="btn-secondary" @click="clear">{{$t('global.clear')}}</n-button>
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="add"
+      style="margin-right: 0.1rem">{{ $t('global.add') }}</n-button>
+    <n-button class="btn-secondary" @click="clear">{{ $t('global.clear') }}</n-button>
   </div>
 </template>
     
 <script lang="ts" setup>
-import { reactive, onMounted,onBeforeUnmount, watch } from "vue";
+import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import { useLayerStore } from "@/store/index";
 
 const layerStore = useLayerStore();
@@ -95,37 +95,37 @@ let state = reactive({
   showEditCheck: true,
   setParam: false,
   emitRate: 50,
-  lifeRange: [0.005, 0.25],
-  speedRange: [1, 10],
-  scaleRange:[1,10],
-  gravity: 0,
+  lifeRange: [0.2, 0.8],
+  speedRange: [20, 80],
+  scaleRange: [20, 80],
+  gravity: -8.0,
 });
 
 let fireUrl: string = './Resource/particle/Fire.json';
 let modelMatrix = new SuperMap3D.Matrix4();
-let particle,clickHandle;
+let particle, clickHandle;
 
 onMounted(() => {
   init();
 })
 
 function init() {
-  if(window.EarthGlobal && window.EarthGlobal["fire"]){
-      particle = window.EarthGlobal["fire"];
+  if (window.EarthGlobal && window.EarthGlobal["fire"]) {
+    particle = window.EarthGlobal["fire"];
   }
 
-  if(layerStore.particleOptions.fire){
+  if (layerStore.particleOptions.fire) {
     let option = layerStore.particleOptions.fire['particleAttr'];
-    if(option) switchCase(option);
+    if (option) switchCase(option);
   }
 }
 
 // 加载粒子文件
-function loadParticleFile(url:string,option?:any) {
+function loadParticleFile(url: string, option?: any) {
   SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
     particle = particleSystem;
     particle.modelMatrix = modelMatrix;
-    
+
     // 设置参数
     if (option) {
       for (let key in option) {
@@ -171,9 +171,9 @@ function add() {
     SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
     loadParticleFile(fireUrl);
     layerStore.particleOptions['fire'] = {
-      particleUrl:fireUrl,
-      particlePosition:centerPosition,
-      particleAttr:{}
+      particleUrl: fireUrl,
+      particlePosition: centerPosition,
+      particleAttr: {}
     };
 
     // let options = {
@@ -187,14 +187,14 @@ function add() {
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-function clear(flag=true) {
+function clear(flag = true) {
   if (!SuperMap3D.defaultValue(particle)) return;
   scene.primitives.remove(particle);
-  if(flag) layerStore.particleOptions['fire'] = null;
+  if (flag) layerStore.particleOptions['fire'] = null;
 };
 
 // 设置参数
-function switchCase(option:any) {
+function switchCase(option: any) {
   for (let key in option) {
     switch (key) {
       case "emitRate":
@@ -239,8 +239,8 @@ watch(
 watch(
   () => state.lifeRange,
   val => {
-    if(val.length>1){
-      // console.log("生命周期:",val);
+    if (!particle) return;
+    if (val.length > 1) {
       particle["minLifeTime"] = Number(val[0]);
       particle["maxLifeTime"] = Number(val[1]);
       layerStore.particleOptions['fire']['particleAttr']['minLifeTime'] = Number(val[0]);
@@ -252,8 +252,8 @@ watch(
 watch(
   () => state.speedRange,
   val => {
-    if(val.length>1){
-      // console.log("速度范围:",val);
+    if (!particle) return;
+    if (val.length > 1) {
       particle["minEmitPower"] = Number(val[0]);
       particle["maxEmitPower"] = Number(val[1]);
       layerStore.particleOptions['fire']['particleAttr']['minEmitPower'] = Number(val[0]);
@@ -265,13 +265,22 @@ watch(
 watch(
   () => state.scaleRange,
   val => {
-    if(val.length>1){
-      // console.log("比例范围:",val);
+    if (!particle) return;
+    if (val.length > 1) {
       particle["minSize"] = Number(val[0]);
       particle["maxSize"] = Number(val[1]);
       layerStore.particleOptions['fire']['particleAttr']['minSize'] = Number(val[0]);
       layerStore.particleOptions['fire']['particleAttr']['maxSize'] = Number(val[1]);
     }
+  }
+);
+
+watch(
+  () => state.gravity,
+  val => {
+    if (!particle) return;
+    particle.gravity = new SuperMap3D.Cartesian3(0, 0, Number(val));
+    layerStore.particleOptions['fire']['particleAttr']['gravity'] = Number(val)
   }
 );
 
@@ -283,7 +292,9 @@ onBeforeUnmount(() => {
 </script>
     
 <style lang="scss" scoped>
-
+.slider-input-number {
+  margin: 0px -10px 0px 0px;
+}
 </style>
     
     

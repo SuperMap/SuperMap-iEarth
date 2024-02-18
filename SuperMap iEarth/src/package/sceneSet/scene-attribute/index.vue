@@ -1,6 +1,6 @@
 <template>
   <n-scrollbar style="max-height: 3.6rem">
-    <n-grid :y-gap="8" :cols="3">
+    <n-grid :y-gap="8" :cols="3" style="padding-top: 0.1rem;">
       <n-gi>
         <n-checkbox v-model:checked="state.earthShow" :label="$t('global.earth')" />
       </n-gi>
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    <!-- <div class="row-item">
+    <div class="row-item">
       <span>{{ $t('global.showUnderground') }}</span>
       <div style="width: 1.96rem;;margin-right: 0.1rem">
         <n-switch v-model:value="state.showUnderground" size="small" />
@@ -128,12 +128,12 @@
           size="small" 
         />
       </div>
-    </div> -->
+    </div>
     <n-divider />
 
     <div class="row-item" style="margin-bottom:0px;margin-right: 0.1rem">
       <span>{{ $t('global.coordinateQuery') }}</span>
-      <n-input disabled :placeholder="$t('global.displayCoordinate')" v-model:value="coordinate" autosize
+      <n-input class="coordinateQueryBox" disabled :placeholder="$t('global.displayCoordinate')" v-model:value="coordinate" autosize
         style="width: 1.96rem;" />
     </div>
     <div class="row-item queryTips">
@@ -153,6 +153,8 @@ const layerStore = useLayerStore();
 
 // 设置state
 let state = layerStore.sceneAttrState;
+
+state.shadow = viewer.shadows;
 
 // 初始化变量
 let coordinate = ref('');
@@ -318,13 +320,12 @@ onBeforeUnmount(() => {
 .queryTips {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.45);
-
 }
-// .n-input.n-input--disabled .n-input__input-el, .n-input.n-input--disabled .n-input__textarea-el{
-//   color:rgba(255, 255, 255, 0.82) !important; 
-// }
-
 .n-input.n-input--autosize .n-input__input-el {
   color:rgba(255, 255, 255, 0.82) !important; 
+}
+
+.coordinateQueryBox{
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 </style>

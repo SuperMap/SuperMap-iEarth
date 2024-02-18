@@ -92,9 +92,18 @@
     </div>
 
     <div class="row-item">
-        <span>{{$t('global.color')}}</span>
+        <span>{{$t('global.fillColor')}}</span>
         <div class="color-pick-box">
-            <n-color-picker v-model:value="state.geometryMaterial" :render-label="() => {
+            <n-color-picker v-model:value="state.geometryColor" :render-label="() => {
+                return '';
+            }
+                " size="small"></n-color-picker>
+        </div>
+    </div>
+    <div class="row-item" v-show="state.displayMode != 'Fill'">
+        <span>{{$t('global.wireframeColor')}}</span>
+        <div class="color-pick-box">
+            <n-color-picker v-model:value="state.wireframeColor" :render-label="() => {
                 return '';
             }
                 " size="small"></n-color-picker>
@@ -121,20 +130,21 @@ type stateType = {
     extrudedHeight: number, // 拉伸高度
     granularity: number, // 粒度
     rotation: number, // 旋转
-    geometryMaterial: string, // 颜色
+    geometryColor: string, // 颜色
     displayMode: string,// 显示模式
     optionsMode:any,// 显示模式选项
+    wireframeColor:string,// 线框颜色
 }
 
 // 初始化数据
 let state = reactive<stateType>({
     // 圆柱体
-    semiMinorAxis: 21,
-    semiMajorAxis: 40,
-    extrudedHeight: 50,
+    semiMinorAxis: 12,
+    semiMajorAxis: 20,
+    extrudedHeight: 30,
     granularity: 1,
     rotation: 0,
-    geometryMaterial: 'rgba(255,255,255, 1)',
+    geometryColor: 'rgba(255,255,255, 1)',
     displayMode: "Fill",
     optionsMode: [
         {
@@ -150,6 +160,7 @@ let state = reactive<stateType>({
             value: "Both",
         }
     ],
+    wireframeColor:'rgba(0,0,0, 1)',
 });
 
 let ellipseEntity;
@@ -174,22 +185,23 @@ handlerPoint_ellipse.drawEvt.addEventListener(function (res) {
     let point = res.object;
     let position = point.position;
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
-    let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
+    let geometryColor = SuperMap3D.Color.fromCssColorString(state.geometryColor);
+    let wireframeColor = SuperMap3D.Color.fromCssColorString(state.wireframeColor);
     let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
     let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
     ellipseEntity = entities.add({
         position: position,
         ellipse: {
-            semiMinorAxis: 20.0,
-            semiMajorAxis: 40.0,
+            semiMinorAxis: state.semiMinorAxis,
+            semiMajorAxis: state.semiMajorAxis,
             height: 0,
-            extrudedHeight: 50.0,
-            material: color,
+            extrudedHeight: state.extrudedHeight,
+            material: geometryColor,
             granularity: SuperMap3D.Math.RADIANS_PER_DEGREE,
             rotation: 0,
             fill:  fillFlag,
             outline: outlineFlag,
-            outlineColor: SuperMap3D.Color.BLACK,
+            outlineColor: wireframeColor,
             outlineWidth: 1
         }
     });
@@ -270,10 +282,18 @@ watch(
     }
 );
 watch(
-    () => state.geometryMaterial,
+    () => state.geometryColor,
     (val) => {
         if (targetEntity) {
             targetEntity.ellipse['material'] = SuperMap3D.Color.fromCssColorString(val);
+        }
+    }
+);
+watch(
+    () => state.wireframeColor,
+    (val) => {
+        if (targetEntity) {
+            targetEntity.ellipse['outlineColor'] = SuperMap3D.Color.fromCssColorString(val);
         }
     }
 );

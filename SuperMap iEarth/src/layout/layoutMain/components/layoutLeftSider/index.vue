@@ -23,7 +23,6 @@ const panelStore = usePanelStore();
 const layerStore = useLayerStore();
 
 function changePanel(iconItem: any) {
-  // console.log("iconItem：",iconItem);
   panelStore.setLeftToolBarList(iconItem);
 
   if(iconItem.id === 1){

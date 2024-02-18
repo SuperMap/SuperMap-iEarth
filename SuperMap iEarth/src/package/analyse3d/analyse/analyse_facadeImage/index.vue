@@ -1,6 +1,5 @@
 <template>
   <!-- 立面图 -->
-  <div class="row-container">
     <div class="row-item">
       <span>{{ $t('global.maxHeight') }}</span>
       <div class="slider-box">
@@ -34,7 +33,6 @@
         <span class="slider-unit">{{ $t('global.meter') }}</span>
       </div>
     </div>
-  </div>
 
   <div class="btn-row-item2">
     <n-button type="info" color="#3499E5" text-color="#fff" @click="drawRegion"
@@ -160,6 +158,3 @@ onBeforeUnmount(()=>{
   clear();
 })
 </script>
-    
-<style lang="scss" scoped>
-</style>

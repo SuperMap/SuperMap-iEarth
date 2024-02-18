@@ -87,6 +87,13 @@ export const usePanelStore = defineStore({
                     isSelected: false,
                     panelName: "mapQuery"
                 },
+                {
+                    id: 12,
+                    iconName: "iconhuizhi",
+                    title: "global.qxModelSingle",
+                    isSelected: false,
+                    panelName: "qxSingle"
+                },
             ]
         },
         rightTooPanel: false,

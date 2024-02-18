@@ -26,7 +26,7 @@ import { reactive, markRaw } from "vue";
 import layers from "./components/layers.vue";
 import scene from "./components/scene.vue";
 import localData from "./components/localData.vue";
-// import iEarthtest from "./components/iEarthtest.vue";
+// import iEarthTest from "./components/iEarthTest.vue";
 // import myService from "./components/myService.vue";
 
 // 使用vue3 setUp实现动态组件
@@ -48,7 +48,7 @@ let comList = reactive([
   },
   // {
   //   name: "测试",
-  //   com: markRaw(iEarthtest),
+  //   com: markRaw(iEarthTest),
   //   isSelect: false,
   // },
 ]);
@@ -75,28 +75,17 @@ function changeItem(item: any) {
 
 <style lang="scss" scoped>
 .custom-content{
-    padding-left: 0.12rem;
+    // padding-left: 0.12rem;
     padding-right: 0.12rem;
     box-sizing: border-box;
-    .btn-list {
-  width: 2.4rem;
-  display: flex;
-  cursor: pointer;
-  .btn {
-    width: 25%;
-    height: 0.26rem;
-    line-height: 0.26rem;
-    text-align: center;
-  }
-  .select-btn {
-    border-radius: 0.02rem;
-    color: #3499e5;
-    background: rgba(255, 255, 255, 0.15);
-  }
-}
-.btn-row-item {
-  margin-left: 0.75rem;
-}
+
+    .btn-row-item {
+      margin-left: 0.75rem;
+    }
+
+    .btn{
+      padding: 0.03rem 0.1rem;
+    }
 }
 
 </style>

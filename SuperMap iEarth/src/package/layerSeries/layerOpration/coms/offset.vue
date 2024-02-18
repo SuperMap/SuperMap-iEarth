@@ -2,14 +2,13 @@
     <div class="row-item">
       <span>{{$t('global.chooseLayer')}}</span>
       <n-select
-          class="add-input-border"
           style="width: 1.96rem"
           v-model:value="state.selectedIndex"
           :options="state.s3mlayers"
       />
     </div>
-<!-- 
-    <div class="row-item">
+
+    <!-- <div class="row-item">
         <span>{{$t('global.offsetMode')}}</span>
         <n-radio-group v-model:value="state.offsetMode" name="shadowMode" style="width:1.96rem">
             <n-radio :value="0"><n-ellipsis >{{$t('global.selected')}}</n-ellipsis></n-radio>
@@ -26,7 +25,16 @@
               style="width: 70%"
               :min="-50" :max="50"
               />
-              <div class="row-slider-num">{{ state.offsetX }}</div>
+              <n-input-number 
+                v-model:value="state.offsetX" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="-50" :max="50"
+                placeholder=""
+                size="small" 
+              />
           </div>
       </div>
 
@@ -38,7 +46,16 @@
               style="width: 70%"
               :min="-50" :max="50"
               />
-              <div class="row-slider-num">{{ state.offsetY }}</div>
+              <n-input-number 
+                v-model:value="state.offsetY" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="-50" :max="50"
+                placeholder=""
+                size="small" 
+              />
           </div>
       </div>
 
@@ -50,7 +67,16 @@
               style="width: 70%"
               :min="-50" :max="50"
               />
-              <div class="row-slider-num">{{ state.offsetZ }}</div>
+              <n-input-number 
+                v-model:value="state.offsetZ" 
+                class="slider-input-number"
+                :update-value-on-input="false"
+                :bordered="false" 
+                :show-button="false" 
+                :min="-50" :max="50"
+                placeholder=""
+                size="small" 
+              />
           </div>
       </div>
 
@@ -80,16 +106,18 @@
       </div>
 
     </div> -->
-    <div class="btn-row-item">
+    <div class="btn-row-item" style="margin-left: 0.9rem;">
         <n-button @click="reset">{{$t('global.reset')}}</n-button>
       </div>
 </template>
   
   <script setup lang="ts">
-  import { reactive, onBeforeUnmount, watch } from "vue";
+  import { reactive, onMounted,onBeforeUnmount, watch } from "vue";
   import { useLayerStore } from "@/store/layerStore";
+  import { useMessage } from "naive-ui";
 
   const layerStore = useLayerStore();
+  const message = useMessage();
 
   type StateType = {
     s3mlayers: any, //当前存在的可选择s3m图层
@@ -281,7 +309,12 @@
   //   }
   // );
   
+  onMounted(() => {
+    message.success(GlobalLang.chooseThenOffset);
+  })
+
   onBeforeUnmount(() => {
+    reset();
     layers = null;
   });
   </script>

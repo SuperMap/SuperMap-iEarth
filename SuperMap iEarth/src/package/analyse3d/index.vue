@@ -9,7 +9,7 @@
       :key="item.id"
       :title="item.title"
     >
-      <i class="iconfont" :class="item.iconName" style="font-size: 18px"></i>
+      <i class="iconfont" :class="item.iconName" style="font-size: 0.18rem"></i>
     </div>
   </div>
 

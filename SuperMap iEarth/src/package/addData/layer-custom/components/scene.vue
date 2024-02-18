@@ -1,8 +1,6 @@
 <template>
   <div class="row-item">
     <span>{{$t('global.address')}}</span>
-
-    
     <n-tooltip placement="top-end" trigger="hover">
         <template #trigger>
           <n-input
@@ -18,7 +16,7 @@
       </n-tooltip>
   </div>
 
-  <div style="margin-left: 0.37rem; margin-bottom: 0.1rem">
+  <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
     <n-checkbox v-model:checked="token"> {{$t('global.addToken')}} </n-checkbox>
     <n-input
       style="margin-top: 0.1rem; width: 2.4rem"
@@ -29,7 +27,7 @@
     />
   </div>
 
-  <div class="btn-row-item1" style="margin-left: 0.37rem;">
+  <div class="btn-row-item" style="margin-left: 0.95rem;">
     <n-button
       type="info"
       color="#3499E5"
@@ -107,7 +105,4 @@ function openScene() {
   });
 }
 
-
 </script>
-<style lang="scss" scoped>
-</style>

@@ -65,6 +65,45 @@
   </div>
 
   
+  <div class="row-item" v-show="state.selectedId === 2">
+    <span>{{$t('global.outLineColor')}}</span>
+    <div class="color-pick-box">
+      <n-color-picker
+        v-model:value="state.outLineColor"
+        :render-label="
+          () => {
+            return '';
+          }
+        "
+        size="small"
+      ></n-color-picker>
+    </div>
+  </div>
+
+  <div class="row-item" v-show="state.selectedId === 2">
+    <span>{{$t('global.outLineWidth')}}</span>
+    <div class="slider-box">
+      <n-slider
+        style="width: 1.5rem"
+        v-model:value="state.outLineWidth"
+        :step="0.1"
+        :min="1"
+        :max="50"
+      />
+      <n-input-number 
+        v-model:value="state.outLineWidth" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        :min="1"
+        :max="50"
+        placeholder=""
+        size="small" 
+      />
+    </div>
+  </div>
+
   <div class="row-item">
       <span>{{$t('global.editLine')}}</span>
       <div class="check-box" >
@@ -90,7 +129,7 @@
   </div>
 </template>
   
-  <script lang="ts" setup>
+<script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
@@ -103,8 +142,8 @@ type stateType = {
   lineWidth: number, //设置选中线宽
   dottedColor: string, //间隔颜色
   dottedLength: number, 
-  outLineColor: string,
-  outLineWidth: number,
+  outLineColor: string,// 轮廓线颜色
+  outLineWidth: number,// 轮廓线宽度
   glowStrength: number,
   trailPercentage: number,
   isEdit: boolean, // 是否编辑
@@ -125,7 +164,7 @@ let state = reactive<stateType>({
   outLineWidth: 2,
   glowStrength: 0.5,
   trailPercentage: 0.3,
-  isEdit: false,
+  isEdit: true,
   isEditZ: false,
   optionMode: [
     {
@@ -218,6 +257,7 @@ function add_line() {
     (res) => {
       creat_entity_line(res.object.positions);
       handlerPolyline.polylineTransparent.show = false;
+      if(state.isEdit) setEdit();
     },
     (err) => {
       console.log(err);
@@ -238,7 +278,7 @@ function clear() {
   }
   removeEditHandler();
 
-  state.isEdit = false;
+  // state.isEdit = false;
 }
 
 // 根据索引创建不同类型的线实体 - entity
@@ -455,13 +495,7 @@ onBeforeUnmount(() => {
 });
 
 </script>
-  
-  
-<style lang="scss" scoped>
-.no-center{
-  align-items: start !important;
-}
-</style>
+
   
   
   

@@ -5,7 +5,7 @@
         flex-height class="flex-1-hidden" v-model:checked-row-keys="state.checkedRowKeys" />
     </div>
 
-    <div class="btn-row-item1 opration">
+    <div class="btn-row-item opration">
       <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn"
         @click="addService">{{ $t('global.sure') }}</n-button>
       <n-button class="btn-secondary" @click="cancle" color="rgba(255, 255, 255, 0.65)"

@@ -17,27 +17,13 @@
   </div>
 
   <KeepAlive>
-        <component :is="currentItem.com"></component>
-    </KeepAlive>
-
-
-
-  <!-- <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >添加</n-button
-    >
-    <n-button class="btn-secondary" @click="clear">清除</n-button>
-  </div> -->
+      <component :is="currentItem.com"></component>
+  </KeepAlive>
 </template>
   
 
 <script lang="ts" setup>
-import { ref,reactive, onBeforeUnmount, markRaw } from "vue";
+import { reactive, onBeforeUnmount, markRaw } from "vue";
 
 import fire from "./coms/fire.vue"
 import water from "./coms/water.vue"

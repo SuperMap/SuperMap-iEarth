@@ -1,10 +1,8 @@
 <template>
   <n-layout-header bordered>
     <div class="header-container" v-if="headShow">
-      <div class="head-content header-left">
-        <!-- 切换语言 -->
-        <!-- <lang-select></lang-select> -->
-      </div>
+      <div class="head-content header-left"></div>
+
       <!-- 头部切换 -->
       <div class="head-content header-center">
         <img src="@/assets/images/earth.png" style="width: 0.36rem;height: 0.36rem;margin-top: 3px;margin-right: 3px;" alt="" />
@@ -13,16 +11,15 @@
       </div>
 
       <div class="head-content header-right">
-        <!-- <i class="iconfont iconbaocun" @click="save"></i> -->
         <i class="iconfont iconbaocun" @click="save" v-show="IportalStore.isLogin"></i>
-        <!-- <i class="iconfont iconbaocun" @click="save" v-if="IportalStore.isLogin"></i> -->
+        <!-- <i class="iconfont iconbaocun" @click="save"></i> -->
         <n-divider vertical />
         <User></User>
       </div>
     </div>
 
     <div class="headerFoldBox" v-else>
-    <i class="iconfont iconxiala downSvg" @click="headerOpen" style="font-size: 0.12rem;"></i>
+        <i class="iconfont iconxiala downSvg" @click="headerOpen" style="font-size: 0.12rem;"></i>
     </div>
     <!-- 保存场景弹窗 -->
     <SaveScene></SaveScene>
@@ -43,7 +40,6 @@ let headShow = ref(false);
 
 // 保存弹窗
 function save() {
-  // panelStore.setSceneModal(true);
   panelStore.showSavePanel = true;
   panelStore.isEditMode = true;
 
@@ -73,11 +69,6 @@ function headerOpen(){
 </script>
 
 <style lang="scss">
-// @font-face {
-//   font-family: OptimizationTitle;
-//   src: url('@/assets/fonts/OptimizationTitleBlack.TTF');
-// }
- 
 .head-title {
   font-family: 'OptimizationTitle';
 }
@@ -86,8 +77,9 @@ function headerOpen(){
   position: absolute;
   z-index: 2;
   color: #fff;
-  // @include flexLayout(space-between);
+  top:0px;
   @include setBackground(100%, 0.48rem, "@/assets/images/header-bg.png");
+  background-size: 100% 0.48rem;
   @include flexLayout(center);
   .head-title {
     font-size: 26px;
@@ -96,9 +88,6 @@ function headerOpen(){
     transform: rotate(180deg);
     margin-left: 0.1rem;
   }
-  // .iconfont {
-  //   @include setIconstyle();
-  // }
   .head-content {
     width: 33%;
     @include flexLayout(center);
@@ -120,7 +109,6 @@ function headerOpen(){
 
   text-align: center;
   background-color: #fff;
-  // border-radius: 20px;
   width: 100px !important;
   height: 12px !important;
 
@@ -137,9 +125,5 @@ function headerOpen(){
   /*实现水平居中*/
   justify-content: center;
 
-  // .downSvg {
-  //   transform: rotateZ(180deg);
-  //   // margin-left: 0.45rem;
-  // }
 }
 </style>

@@ -1,10 +1,8 @@
 <template>
     <div class="layerSeries-box">
-
-
         <div class="row-item">
             <span>{{ $t('global.chooseLayer') }}</span>
-            <n-select class="add-input-border" style="width: 1.96rem" v-model:value="state.selectedIndex"
+            <n-select style="width: 1.96rem" v-model:value="state.selectedIndex"
                 :options="state.s3mlayers" />
         </div>
         <div class="row-item" style="margin-bottom: 0.1rem">
@@ -33,8 +31,9 @@
                     <div class="row-item" style="margin-left: 0.12rem;margin-right: 0.12rem"
                         v-for="item in state.modelInfo">
                         <span>{{ item.lable }}</span>
-                        <n-input style="width: 1.6rem;" v-model:value="item.value" :show-button="false" disabled>
-                        </n-input>
+                        <span>{{ item.value }}</span>
+                        <!-- <n-input style="width: 1.6rem;" v-model:value="item.value" :show-button="false" disabled>
+                        </n-input> -->
                     </div>
                 </n-scrollbar>
 
@@ -47,7 +46,6 @@
 import { ref, reactive, onBeforeUnmount, watch } from "vue";
 import { useLayerStore } from "@/store/layerStore";
 import { useMessage } from "naive-ui";
-import axios from "axios";
 const message = useMessage();
 
 const layerStore = useLayerStore();
@@ -173,12 +171,9 @@ function startQuery() {
 // 设置气泡位置
 function setBablePosition() {
     if (state.scenePosition) {
-        var canvasHeight = scene.canvas.height;
-        var windowPosition = new SuperMap3D.Cartesian2();
-        SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(scene, state.scenePosition, windowPosition);
-        bableQuery.value.style.bottom = (canvasHeight - windowPosition.y - 10) + 'px';
-        bableQuery.value.style.left = (windowPosition.x) + 'px';
-        bableQuery.value.style.visibility = "visible";
+        let WindowCoordinates = SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, state.scenePosition)
+        bableQuery.value.style.top = (WindowCoordinates.y - bableQuery.value.offsetHeight - 10) + 'px';
+        bableQuery.value.style.left = (WindowCoordinates.x - bableQuery.value.offsetWidth / 2) + 140 + 'px';
     }
 }
 
@@ -227,12 +222,6 @@ function clear() {
     state.isSetForLayer = false;
     scene.postRender.removeEventListener(setBablePosition);
     viewer.pickEvent.removeEventListener(getModelInfo);
-
-    // window.axios
-    // .get('http://www.supermapol.com/realspace/services/data-BIMbuilding/rest/data/datasources')
-    // .then((res: any) => {
-    //     console.log("res:",res);
-    // });
 }
 
 // 监听
@@ -255,14 +244,6 @@ onBeforeUnmount(() => {
 </script>
   
 <style lang="scss" scoped>
-.layerSeries-box {
-    width: 100%;
-    height: 100%;
-    padding: 0 0.12rem;
-    box-sizing: border-box;
-
-}
-
 .bableShadow {
     position: fixed;
     top: 2rem;

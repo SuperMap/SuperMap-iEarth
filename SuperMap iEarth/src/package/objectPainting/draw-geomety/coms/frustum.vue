@@ -35,9 +35,18 @@
         </div>
     </div>
     <div class="row-item">
-        <span>{{$t('global.color')}}</span>
+        <span>{{$t('global.fillColor')}}</span>
         <div class="color-pick-box" >
-            <n-color-picker v-model:value="state.geometryMaterial" :render-label="() => {
+            <n-color-picker v-model:value="state.geometryColor" :render-label="() => {
+                return '';
+            }
+                " size="small"></n-color-picker>
+        </div>
+    </div>
+    <div class="row-item" v-show="state.displayMode != 'Fill'">
+        <span>{{$t('global.wireframeColor')}}</span>
+        <div class="color-pick-box">
+            <n-color-picker v-model:value="state.wireframeColor" :render-label="() => {
                 return '';
             }
                 " size="small"></n-color-picker>
@@ -61,16 +70,17 @@ import { reactive, onBeforeUnmount, watch } from "vue";
 type stateType = {
     cylinderLength: number, // 长度
     bottomRadius: number, // 底部高程
-    geometryMaterial: string, // 颜色
+    geometryColor: string, // 颜色
     displayMode: string,// 显示模式
     optionsMode:any,// 显示模式选项
+    wireframeColor:string,// 线框颜色
 }
 // 初始化数据
 let state = reactive<stateType>({
     // 圆锥
     cylinderLength: 40,
     bottomRadius: 20,
-    geometryMaterial: 'rgba(255,255,255, 1)',
+    geometryColor: 'rgba(255,255,255, 1)',
     displayMode: "Fill",
     optionsMode: [
         {
@@ -86,6 +96,7 @@ let state = reactive<stateType>({
             value: "Both",
         }
     ],
+    wireframeColor:'rgba(0,0,0, 1)',
 });
 
 let frustumEntity;
@@ -111,17 +122,18 @@ handlerPoint_frustum.drawEvt.addEventListener(function (res) {
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
     let fillFlag = ['Fill','Both'].indexOf(state.displayMode) != -1;
     let outlineFlag = ['Outline','Both'].indexOf(state.displayMode) != -1;
-    let color = SuperMap3D.Color.fromCssColorString(state.geometryMaterial);
+    let geometryColor = SuperMap3D.Color.fromCssColorString(state.geometryColor);
+    let wireframeColor = SuperMap3D.Color.fromCssColorString(state.wireframeColor);
     frustumEntity = entities.add({
         position: position,
         cylinder: {
             length: 40.0,
             topRadius: 0.0,
             bottomRadius: 20.0,
-            material: color,
+            material: geometryColor,
             fill:  fillFlag,
             outline: outlineFlag,
-            outlineColor: SuperMap3D.Color.BLACK,
+            outlineColor: wireframeColor,
             outlineWidth: 1
         }
     });
@@ -172,10 +184,18 @@ watch(
 );
 
 watch(
-    () => state.geometryMaterial,
+    () => state.geometryColor,
     (val) => {
         if (targetEntity) {
             targetEntity.cylinder['material'] = SuperMap3D.Color.fromCssColorString(val);
+        }
+    }
+);
+watch(
+    () => state.wireframeColor,
+    (val) => {
+        if (targetEntity) {
+            targetEntity.cylinder['outlineColor'] = SuperMap3D.Color.fromCssColorString(val);
         }
     }
 );

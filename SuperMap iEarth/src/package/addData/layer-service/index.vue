@@ -1,7 +1,7 @@
 <template>
   <!-- 公共服务 -->
   <n-scrollbar style="max-height: 3.42rem">
-  <div class="layer-server-container">
+  <div class="addData-base-container">
     <div
       v-for="(item, index) in layerStore.layerServiceData.publicServiceList"
       class="ItemBox"
@@ -31,7 +31,7 @@ const panelStore = usePanelStore();
 // 添加公共服务：三类
 function addPublicService(item: any) {
   if (item.chooseType) {
-    message.warning("请勿重复添加！");
+    message.warning(GlobalLang.repeatAddTip);
     return;
   }
 
@@ -56,45 +56,3 @@ function addPublicService(item: any) {
 
 </script>
 
-<style lang="scss" scoped>
-.layer-server-container {
-  display: flex;
-  flex-wrap: wrap;
-
-  .ItemBox {
-    width: 30%;
-    color: $--SM--FontColor-Sub;
-    margin-bottom: 0.07rem;
-    margin-right: 0.12rem;
-    box-sizing: border-box;
-    cursor: pointer;
-
-    .img-box {
-      width: 100%;
-      height: 0.84rem;
-      border-radius: 0.05rem;
-      overflow: hidden;
-      margin-bottom: 0.04rem;
-      border: 0.02rem solid #3498e500;
-      box-sizing: border-box;
-      .img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-  .ItemBox:nth-child(3n) {
-    margin-right: 0;
-  }
-  .isSelect {
-    color: rgba(52, 153, 229, 0.85);
-
-    .img-box {
-      box-sizing: border-box;
-      border: 0.02rem solid #3499e5;
-      object-fit: cover;
-    }
-  }
-}
-</style>

@@ -22,7 +22,7 @@ class ClipPlane {
         viewer.scene.primitives.add(this.s3mInstanceColc);
         this.clipPlanePositions = null;
         this.ClipPlaneShow = true;
-        this.clipPlaneScale = 1;
+        this.clipPlaneScale = 5;
         this.LocalToWorldMatrix = null;
         this.setDirectionByNormal = false;
     }
@@ -204,9 +204,12 @@ class ClipPlane {
    */
     setModelEditorShow(val) {
         if (!this.modelEditor) return;
-        if (!val) this.modelEditor.deactivate();
-        else {
+        if (!val){
+            this.modelEditor.deactivate();
+            // this.modelEditor = null;
+        }else {
             let editEntity = this.s3mInstanceColc.getInstance(this.modelUrl, "clip-model");
+            // if (!this.modelEditor) this.addModelEditor(this.referencePlane);
             this.modelEditor.setEditObject(editEntity);
             this.modelEditor.activate();
         }

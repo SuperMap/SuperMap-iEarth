@@ -12,10 +12,8 @@
   <span>{{ $t('global.shieldDirection') }}</span>
   <div style="width: 1.96rem;">
     <n-radio-group v-model:value="state.lrRoller" name="radiogroup">
-      <n-space>
         <n-radio :value="1">{{ $t('global.left') }}</n-radio>
         <n-radio :value="2">{{ $t('global.right') }}</n-radio>
-      </n-space>
     </n-radio-group>
   </div>
 </div>
@@ -24,10 +22,8 @@
   <span>{{ $t('global.shieldDirection') }}</span>
   <div style="width: 1.96rem;">
     <n-radio-group v-model:value="state.tbRoller" name="radiogroup">
-      <n-space>
         <n-radio :value="4">{{ $t('global.up') }}</n-radio>
         <n-radio :value="8">{{ $t('global.down') }}</n-radio>
-      </n-space>
     </n-radio-group>
   </div>
 </div>
@@ -36,15 +32,11 @@
   <span>{{ $t('global.shieldDirection') }}</span>
   <div style="width: 1.96rem;">
     <n-radio-group v-model:value="state.customRoller" name="radiogroup">
-      <n-space justify="space-between">
         <n-radio :value="1">{{ $t('global.left') }}</n-radio>
         <n-radio :value="2">{{ $t('global.right') }}</n-radio>
         <br/>
-      </n-space>
-      <n-space>
         <n-radio :value="4">{{ $t('global.up') }}</n-radio>
         <n-radio :value="8">{{ $t('global.down') }}</n-radio>
-      </n-space>
     </n-radio-group>
   </div>
 </div>
@@ -465,9 +457,6 @@ top: 66%;
 border: 0.01rem solid $--SM--BgColor-15;
 }
 
-.no-center{
-  align-items: start !important;
-}
 </style>
 
 

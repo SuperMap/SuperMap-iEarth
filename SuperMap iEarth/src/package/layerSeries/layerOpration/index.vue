@@ -1,5 +1,5 @@
 <template>
-  <div class="scene-set-box">
+  <div class="layerSeries-box">
     <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left">
       <n-tab-pane name="QingXieModel" :tab="$t('global.qxModel')" class="use-scroll">
         <QingXieModel></QingXieModel>
@@ -32,10 +32,10 @@ function tabsChange() {}
 </script>
 
 <style lang="scss" scoped>
-.scene-set-box {
+.layerSeries-box {
   width: 100%;
   height: 100%;
-  // padding: 0 0.12rem;
+  padding: 0 0.12rem;
   box-sizing: border-box;
 }
 :deep(.n-tabs-tab-wrapper){

@@ -29,7 +29,7 @@ export const useLayerStore = defineStore({
 					thumbnail: "./images/addData/CBD.jpg",
 					proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
 					// proxiedUrl: 'http://www.supermapol.com/realspace/services/3D-0523/rest/realspace',
-					name: "global.BeijingCBD",
+					name: "global.originCBD",
 					layers: [{ type: 'S3M', layerName: 'Building@CBD' }, { type: 'S3M', layerName: 'Tree@CBD' }, { type: 'S3M', layerName: 'Xiaopin@CBD' }, { type: 'S3M', layerName: 'Lake@CBD' }, { type: 'S3M', layerName: 'Ground@CBD' }, { type: 'S3M', layerName: 'Ground2@CBD' }, { type: 'S3M', layerName: 'Bridge@CBD' }],
 					chooseType: false
 				},
@@ -131,7 +131,8 @@ export const useLayerStore = defineStore({
 					type: "REALSPACE",
 					thumbnail: "./images/addData/Petroleum.jpg",
 					// proxiedUrl: "http://www.supermapol.com/realspace/services/3D-BianDianZhan0614/rest/realspace", // old 太慢了
-					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-0725RVM/rest/realspace",
+					// proxiedUrl: "https://www.supermapol.com/realspace/services/3D-0725RVM/rest/realspace",
+					proxiedUrl: "https://www.supermapol.com/realspace/services/3D-PowerPlant-2/rest/realspace",
 					name: "global.transformerStation",
 					chooseType: false
 				},
@@ -323,7 +324,7 @@ export const useLayerStore = defineStore({
 			depthInspection: true,//深度检测
 			atomsphereRender: true, //大气渲染
 			fogEffect: false, //雾化效果
-			cloudLayer: true,//云层
+			cloudLayer: false,//云层
 			skyBoxShow: false,//天空盒
 			timeAxis: false,//时间轴
 			displayFrame: false,//显示帧率
@@ -565,7 +566,7 @@ export const useLayerStore = defineStore({
 			// this.updateLayer({ type: "refresh" });
 		},
 		// 专门用来删除store上wmts服务的
-		removeWmtsLayer(option:any){
+		removeWmtsLayer(option){
 			if (option.url && option.name) {
 				let items = this.wmtsLayerOption.filter((item: any) => {
 					return (item.wmtsLayerUrl == option.url && item.layerName == option.name);
@@ -661,7 +662,7 @@ export const useLayerStore = defineStore({
 
 			if (!imageUrl) return GlobalLang.lnglatMap;
 
-			if (imageUrl.indexOf("earth-skin.jpg") != -1) {
+			if (imageUrl.indexOf("earth-skin2.jpg") != -1) {
 				return GlobalLang.defaultImage;
 			}
 
@@ -1090,10 +1091,6 @@ export const useLayerStore = defineStore({
 				}
 		
 		},
-
-		// // 设置configtoken
-		// setConfigToken(field:string,value:string){
-		// }
 
 		// 设置wmts服务
 		setWmts(wmtsLayerOptionList:any){

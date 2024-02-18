@@ -9,12 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, reactive } from "vue";
-import {
-  getRootUrl,
-  isIportalProxyServiceUrl,
-  getHostName,
-} from "@/tools/iportal/portalTools";
+import { ref, onMounted } from "vue";
+import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useMessage } from "naive-ui";
 
 const message = useMessage();
@@ -115,10 +111,6 @@ function handleCheck(rowKeys: any) {
   ];
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
 
 
 

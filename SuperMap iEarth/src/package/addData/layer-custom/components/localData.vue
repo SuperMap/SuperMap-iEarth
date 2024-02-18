@@ -14,7 +14,7 @@
     </div>
     <input type="file" accept=".kml" id="localFile" style="display:none" ref="localKML_dom" />
   </div>
-  <div class="btn-row-item1" style="margin-left: 0.37rem;">
+  <div class="btn-row-item" style="margin-left: 0.95rem;">
     <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
   </div>
 </template>
@@ -87,7 +87,5 @@ onMounted(() => {
 
 
 </script>
-<style lang="scss" scoped>
-</style>
 
 

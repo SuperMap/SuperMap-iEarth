@@ -1,336 +1,385 @@
 @import './scss/sm-variables.scss';
 @import './scss/sm-mixin.scss';
+
 // @import './scss/sm-format.scss';
 // @import './scss/sm-function.scss';
-html, body,#app{
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
+
 .n-config-provider {
-    height: 100%;
-}
-.n-layout.n-layout--static-positioned{
-    height: 100%;
-}
-.row-container {
-    width: 100%;
-    max-height: 3rem;
-    overflow-y: hidden;
-    // overflow-y: scroll;
-
-    /* 移除滚动条 */
-    &::-webkit-scrollbar {
-        background: none;
-        display: none;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: none;
-        display: none;
-    }
+  height: 100%;
 }
 
+.n-layout.n-layout--static-positioned {
+  height: 100%;
+}
+
+// 横向布局:class = "row-item"
 .row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.11rem;
+  // font-size: 14px; // number-input的罪魁祸首
+  font-size: 0.14rem;
+
+  span,div {
+    font-size: 0.14rem;
+  }
+
+  .check-color-pick {
+    width: 1.96rem;
+    height: 0.33rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.11rem;
-    font-size: 14px;
 
-    .check-color-pick {
-        width: 1.96rem;
-        height: 0.33rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .color-pick-box{
-            margin-left: 0.1rem;
-        }
+    .color-pick-box {
+      margin-left: 0.1rem;
     }
-    .check-box {
-        width: 1.96rem;height: 0.32rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+  }
 
-    .slider-box {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 1.76rem;
-        height: 0.32rem;
-        padding: 0 .1rem;
-        border-radius: 0.04rem;
-        background: rgba(255, 255, 255, 0.04);
-        // box-sizing: border-box;
-        border: 1px solid rgba(255, 255, 255, 0.15);
+  .check-box {
+    width: 1.96rem;
+    height: 0.32rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-        // .slider-suffix{
-        //     display: flex;
-        //     justify-content: space-between;
-        //     align-items: center;
-        // }
-        .slider-unit{
-            margin-left: 0.1rem;
-        }
-    }
+  .slider-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1.76rem;
+    height: 0.32rem;
+    padding: 0 .1rem;
+    border-radius: 0.04rem;
+    background: rgba(255, 255, 255, 0.04);
+    // box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 
-    .radio-group {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 1.96rem;
-        height: 0.32rem;
+    .slider-unit {
+      margin-left: 0.1rem;
     }
+  }
 
-    .row-slider-num {
-        width: .3rem;
-        display: flex;
-        justify-content: space-between;
-    }
+  .radio-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1.96rem;
+    height: 0.32rem;
+  }
 
-    .row-content{
-        width: 1.96rem;
-        height: 0.33rem;
-    }
+  .row-slider-num {
+    width: .3rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .row-content {
+    width: 1.96rem;
+    height: 0.33rem;
+  }
 }
 
-.slider-input-number{
-    width: 27%;
-    margin: 0px -10px 0px 8px;
-    // background-color: transparent;
-    border: none !important;
-    // background-color: transparent !important;
-    height:auto; 
-    outline:medium; 
-    text-align:center;
+// slinder滑块的统一样式
+.slider-input-number {
+  width: 27%;
+  margin: 0px -10px 0px 8px;
+  border: none !important;
+  height: auto;
+  outline: medium;
+  text-align: center;
 }
-.slider-input-number .n-input{
-    background-color: transparent !important;
+
+.slider-input-number .n-input {
+  background-color: transparent !important;
 }
-// .n-input {
-//     background-color: transparent !important;
-// }
 
-// .row-item-radio-group {
-//     display: flex;
-//     align-items: center;
-//     // justify-content: space-between;
-//     margin-bottom: 0.11rem;
-//     font-size: 14px;
+//操作按钮样式:2个
+.btn-row-item {
+  // margin-left: 0.96rem;
+  margin-left: 1.15rem;
 
-//     .radio-group {
-//         margin-left: .4rem;
+  .ans-btn {
+    margin-right: .08rem;
+  }
+}
+
+//操作按钮样式:3个
+.btn-row-item2 {
+  display: flex;
+  justify-content: right;
+
+  button {
+    display: block;
+  }
+}
+
+// 操作按钮-第二个按钮（清除）样式
+.btn-secondary {
+  :hover {
+    color: #5EB7F2 !important;
+  }
+}
+
+// 设置数字输入框
+.n-input-number {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.n-input-border {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.add-input-border {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+// 颜色选择器（色带）的相关样式
+.color-pick-box {
+  width: 1.96rem;
+  height: 0.33rem;
+  border-radius: 0.04rem;
+  background: rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 0 0.12rem;
+  margin-left: .38rem;
+}
+
+.n-color-picker-trigger__fill {
+  // 色带的固定尺寸
+  // height: 0.08rem;
+  height: 8px;
+  top: 10px !important;
+  bottom: 10px !important;
+}
+
+.color-pick-box-full {
+  width: 1.96rem;
+}
+
+// .n-dropdown-menu{
+//     box-sizing: border-box;
+//     width: 1.16rem;
+//     border: 1px solid;
+//     border-radius: 0px;
+//     border-image: radial-gradient(67% 67% at 50% 50%, #CAE6FF 0%, rgba(202,230,255,0.00) 99%) 1;
+//     box-shadow: inset 0px 0px 6px -2px rgba(118, 194, 252, 0.35),inset 0px 0px 6px 0px rgba(173, 216, 255, 0.15);
+//     background: linear-gradient(0deg, rgba(202, 230, 255, 0.08), rgba(202, 230, 255, 0.08)), rgba(0, 8, 23, 0.7);
+//     .n-dropdown-option-body__label{
+//         font-size: 0.12rem;
 //     }
 // }
 
-//控制三个按钮时，排列方式
-.btn-row-item2 {
-    display: flex;
-    justify-content: right;
-  
-    button {
-      display: block;
-    }
-  }
-  
-.btn-row-item1 {
-    margin-left: 0.60rem;
-    // margin-top: -0.1rem;
-    .ans-btn {
-        margin-right: .08rem;
-    }
-}
-.btn-row-item {
-    margin-left: 1.2rem;
-    // margin-top: -0.1rem;
-    .ans-btn {
-        margin-right: .08rem;
-    }
-}
-
-
-.btn-secondary {
-    // color: rgba(255, 255, 255, 0.65);
-    // border: 1px solid rgba(255, 255, 255, 0.65);
-    :hover {
-        color: #5EB7F2 !important;
-    }
-}
-.n-input {
-    height:0.32rem;
-    .n-input__input-el{
-        line-height: 0.32rem;
-    }
-}
-// 设置数字输入框
-.n-input-number {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
-}
-.n-input-border {
-    border: 1px solid rgba(255, 255, 255, 0.15) ;
-    border-radius: 4px;
-}
-.add-input-border {
-    border: 1px solid rgba(255, 255, 255, 0.15) ;
-    border-radius: 4px; 
-}
-.n-button {
-    font-size: 16px;
-    height: 0.32rem !important;
-}
-.n-color-picker-trigger__fill {
-    height: 8px;
-    top: 10px !important;
-    bottom: 10px !important;
-}
-.n-dropdown-menu{
-    box-sizing: border-box;
-    width: 1.16rem;
-    border: 1px solid;
-    border-radius: 0px;
-    border-image: radial-gradient(67% 67% at 50% 50%, #CAE6FF 0%, rgba(202,230,255,0.00) 99%) 1;
-    box-shadow: inset 0px 0px 6px -2px rgba(118, 194, 252, 0.35),inset 0px 0px 6px 0px rgba(173, 216, 255, 0.15);
-    background: linear-gradient(0deg, rgba(202, 230, 255, 0.08), rgba(202, 230, 255, 0.08)), rgba(0, 8, 23, 0.7);
-    .n-dropdown-option-body__label{
-        font-size: 0.12rem;
-    }
-
-}
-.color-pick-box {
-    width: 1.96rem;
-    height: 0.33rem;
-    border-radius: 0.04rem;
-    background: rgba(255, 255, 255, 0.04);
-    box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    display: flex;
-    align-items: center;
-    padding: 0 0.12rem;
-    margin-left: .38rem;
-    // .color-pick-box-container{
-    //     height: 18px;
-    // }
-}
-
-.color-pick-box-full{
-    width: 1.96rem;
-}
-
+// 面板上图标的排列样式等
 .icon-list {
-    display: flex;
-    // justify-content: center;
-    // height: 0.32rem;
-    width: 1.96rem;
-    height: 0.32rem;
-    line-height: 0.32rem;
+  display: flex;
+  width: 1.96rem;
+  height: 0.32rem;
+  line-height: 0.32rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.01rem solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.04rem;
+
+  .icon-span {
+    width: 33%;
+    display: inline-block;
     text-align: center;
-    background: rgba(255, 255, 255, 0.04);
-    border: 0.01rem solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.04rem;
+    cursor: pointer;
+  }
 
-    .icon-span {
-        width: 33%;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .selected-icon {
-        color: #3499e5;
-    }
+  .selected-icon {
+    color: #3499e5;
+  }
 }
+
+// 小品绘制线面的大量图标的排列样式
 .icon-list-space {
-    // display: flex;
-    // justify-content: center;
-    // height: 0.32rem;
-    width: 2.2rem;
-    height: auto;
-    background: rgba(255, 255, 255, 0.04);
-    border: 0.01rem solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.04rem;
+  width: 2.2rem;
+  height: auto;
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.01rem solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.04rem;
 
-    .icon-span {
-        width: 33%;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-    }
+  .icon-span {
+    width: 33%;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+  }
 
-    .icon-span-four {
-        width: 25%;
-        // display: flex;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-    }
-    .icon-span-six {
-        width: 22%;
-        // display: flex;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-    }
+  .icon-span-four {
+    width: 25%;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+  }
 
-    .selected-icon {
-        color: #3499e5;
-    }
+  .icon-span-six {
+    width: 22%;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .selected-icon {
+    color: #3499e5;
+  }
 }
-.iconfont{
- font-size: 0.18rem;   
+
+// 界面上引用图标的大小-基于font-size
+.iconfont {
+  font-size: 0.18rem;
 }
-.iconSize{
-    display: block;
-    // height: 0.22rem;
-    // width: 0.22rem;
-    margin: 2px;
-    // scale: 1.6;
-    font-size: .22rem;
-  }
-  :deep(.n-scrollbar-rail--vertical) {
-    right: 0px !important;
-    width: 8px !important;
-  }
+// 单独控制一些特殊的图标
+.iconSize {
+  display: block;
+  margin: 2px;
+  font-size: 0.2rem;
+}
 
-  // 保存面板 按钮居中
-  .n-form-item-blank{
-    display: flex;
-    justify-content: center;
-  }
-  .n-tabs-tab__label{
-    color: rgba(255, 255, 255, 0.65);
-  }
-  //slider样式
-  .n-slider-handle{
-    background-color: #414141 !important;
-    border: 1.5px solid #3499E5 !important;
-  }
+:deep(.n-scrollbar-rail--vertical) {
+  right: 0px !important;
+  width: 8px !important;
+}
 
-  //图层面板小三角
-  .n-tree-node-switcher{
-    margin-left:0.06rem;
-  }
+// 保存面板 按钮居中
+.n-form-item-blank {
+  display: flex;
+  justify-content: center;
+}
 
-  .n-tabs-tab--active{
-    .n-tabs-tab__label{
-       color: rgba(255, 255, 255, 0.85);
+// 面板上选项tab-items的颜色
+.n-tabs-tab__label {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+//slider样式
+.n-slider-handle {
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+
+//图层面板小三角
+.n-tree-node-switcher {
+  margin-left: 0.06rem;
+}
+
+.n-tabs-tab--active {
+  .n-tabs-tab__label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+// 时间控件样式
+.supermap3d-viewer-timelineContainer {
+  visibility: visible;
+  width: 100%;
+  z-index: 2147483647;
+  left: 0px;
+  right: 0px;
+}
+
+.n-tree-node-content__suffix>div {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+// 添加数据面板
+.addData-base-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 7px;
+
+  .ItemBox {
+    width: 30%;
+    color: $--SM--FontColor-Sub;
+    margin-bottom: 0.07rem;
+    margin-right: 0.12rem;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    span {
+      font-size: 0.14rem;
+    }
+
+    .img-box {
+      // width: 100%;
+      // height: 0.64rem;
+      width: 1.06rem;
+      height: 0.85rem;
+      border-radius: 0.05rem;
+      overflow: hidden;
+      margin-bottom: 0.04rem;
+      // background-color: #000;
+      // border: 0.02rem solid #3498e500;
+
+      .img {
+        width: 100%;
+        height: 100%;
+        // object-fit: none;
+        object-fit: cover; // 图片不被挤压
+      }
     }
   }
 
-  .supermap3d-viewer-timelineContainer{
-    visibility: visible;
-    width: 100%;
-    z-index: 2147483647;
-    left: 0px; 
-    right: 0px;
+  .ItemBox:nth-child(3n) {
+    margin-right: 0;
   }
 
-  .n-tree-node-content__suffix > div{
-    display: flex;
-    flex-wrap: nowrap;
+  .isSelect {
+    .img-box {
+      border: 0.02rem solid #3499e5;
+    }
   }
+}
+
+// 地形操作飞行等切换btn的样式
+.btn-list {
+  width: 2.4rem;
+  display: flex;
+  cursor: pointer;
+  font-size: 0.14rem;
+
+  .btn {
+    width: 25%;
+    height: 0.26rem;
+    line-height: 0.26rem;
+    text-align: center;
+  }
+
+  .select-btn {
+    border-radius: 0.02rem;
+    color: #3499e5;
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+// 图层列表侧边栏-面板
+.layerSeries-box {
+  width: 100%;
+  height: 100%;
+  padding: 0 0.12rem;
+  box-sizing: border-box;
+}
+
+// 符号库等不让他们居中的
+.no-center{
+  align-items: start !important;
+}

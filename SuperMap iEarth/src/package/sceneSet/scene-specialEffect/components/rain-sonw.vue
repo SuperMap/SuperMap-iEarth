@@ -3,7 +3,7 @@
   <div class="row-item">
     <span>{{$t('global.openRain')}}</span>
     <div style="width: 1.96rem;">
-      <n-switch v-model:value="state.rainShow" @update:value="setRain" size="small"/>
+      <n-switch v-model:value="state.rainShow" size="small"/>
     </div>
   </div>
 
@@ -54,7 +54,7 @@
   <div class="row-item">
     <span>{{$t('global.openSnow')}}</span>
     <div style="width: 1.96rem;">
-      <n-switch v-model:value="state.snowShow" @update:value="setSnow" size="small"/>
+      <n-switch v-model:value="state.snowShow" size="small"/>
     </div>
   </div>
 
@@ -149,11 +149,35 @@ let state = reactive<stateType>({
   snowDesity: 16,
 });
 
+let scene = viewer.scene;
+
 // 开启雨景
 function setRain() {
   viewer.scene.postProcessStages.rain.enabled = state.rainShow;
   viewer.scene.postProcessStages.rain.uniforms.angle = state.rainAngle;
   viewer.scene.postProcessStages.rain.uniforms.speed = state.rainSpeed;
+
+  if (state.rainShow) {
+    for (let i = 0; i < scene.layers.layerQueue.length; i++) {
+      let layer = scene.layers.layerQueue[i];
+      layer.setPBRMaterialFromJSON("./Resource/pbr/MaterialJson/rain_.json");
+      // layer.rainEffect.wetnessFactor = 0.65;
+      // 实现雨水渐增的效果
+      let intervalValue = setInterval(() => {
+        if (layer.rainEffect !== undefined) {
+          layer.rainEffect.wetnessFactor += 0.005;
+        }
+        if (layer.rainEffect !== undefined && layer.rainEffect.wetnessFactor > 0.65)
+          clearInterval(intervalValue);
+      }, 40)
+    }
+
+  } else {
+    for (let i = 0; i < scene.layers.layerQueue.length; i++) {
+      let layer = scene.layers.layerQueue[i];
+      layer.removePBRMaterial();
+    }
+  }
 }
 
 // 开启雪景
@@ -162,7 +186,42 @@ function setSnow() {
   viewer.scene.postProcessStages.snow.uniforms.angle = state.snowAngle;
   viewer.scene.postProcessStages.snow.uniforms.speed = state.snowSpeed;
   viewer.scene.postProcessStages.snow.uniforms.density = state.snowDesity;
+
+  if (state.snowShow) {
+    for (let i = 0; i < scene.layers.layerQueue.length; i++) {
+      let layer = scene.layers.layerQueue[i];
+      layer.setPBRMaterialFromJSON("./Resource/pbr/MaterialJson/M_Brick_Clay_Old_.json");
+      let intervalValue = setInterval(() => {
+        if (layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect !== undefined) {
+          layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect.snow_coverage += 0.0006;
+        }
+        if (layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect !== undefined && layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect.snow_coverage - 1 > 0)
+          clearInterval(intervalValue);
+      }, 30)
+    }
+  } else {
+    for (let i = 0; i < scene.layers.layerQueue.length; i++) {
+      let layer = scene.layers.layerQueue[i];
+      layer.removePBRMaterial();
+    }
+  }
 }
+
+watch(
+  () => state.rainShow,
+  () => {
+    state.snowShow = false;
+    setRain();
+  }
+);
+watch(
+  () => state.snowShow,
+  () => {
+    state.rainShow = false;
+    setSnow();
+  }
+);
+
 
 watch(
   () => state.rainAngle,
@@ -200,10 +259,9 @@ onUnmounted(() => {
   // state.snowShow = false;
   viewer.scene.postProcessStages.rain.enabled = false;
   viewer.scene.postProcessStages.snow.enabled = false;
+  for (let i = 0; i < scene.layers.layerQueue.length; i++) {
+      let layer = scene.layers.layerQueue[i];
+      layer.removePBRMaterial();
+    }
 });
 </script>
-<style lang="scss" scoped>
-// .row-slider-num{
-//   width: 0.5rem;
-// }
-</style>

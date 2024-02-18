@@ -36,7 +36,7 @@
     </n-input-number>
   </div>
 
-  <div class="row-item">
+  <div class="row-item" v-show="state.fillOptionsSelected == 2 || state.fillOptionsSelected == 3">
     <span>{{$t('global.contourColor')}}</span>
     <div class="color-pick-box" style="width: 1.96rem;; margin-left: 0rem">
       <n-color-picker

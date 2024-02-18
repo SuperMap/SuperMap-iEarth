@@ -66,7 +66,7 @@
         <span>{{$t('global.selectColorMode')}}</span>
         <n-radio-group v-model:value="state.selectColorMode" name="shadowMode" style="width:1.96rem">
           <!-- <n-space justify="space-between"> -->
-            <n-radio :value="0"><n-ellipsis >{{$t('global.colorMix')}}</n-ellipsis></n-radio>
+            <n-radio :value="0" style="margin-right: 0.2rem;"><n-ellipsis >{{$t('global.colorMix')}}</n-ellipsis></n-radio>
             <n-radio :value="1"><n-ellipsis >{{$t('global.colorReplace')}} </n-ellipsis></n-radio>
           <!-- </n-space> -->
         </n-radio-group>
@@ -80,7 +80,16 @@
             style="width: 70%"
             :step="1" :min="-100" :max="100"
             />
-            <div class="row-slider-num">{{ state.bottomAltitude }}</div>
+            <n-input-number 
+              v-model:value="state.bottomAltitude" 
+              class="slider-input-number"
+              :update-value-on-input="false"
+              :bordered="false" 
+              :show-button="false" 
+              :min="-100" :max="100"
+              placeholder=""
+              size="small" 
+            />
         </div>
       </div>
 
@@ -91,9 +100,18 @@
             <n-slider
             v-model:value="state.LODScale"
             style="width: 70%"
-            :step="0.01" :min="0" :max="10"
+            :step="0.1" :min="0" :max="10"
             />
-            <div class="row-slider-num">{{ state.LODScale }}</div>
+            <n-input-number 
+              v-model:value="state.LODScale" 
+              class="slider-input-number"
+              :update-value-on-input="false"
+              :bordered="false" 
+              :show-button="false" 
+              :min="0" :max="10"
+              placeholder=""
+              size="small" 
+            />
         </div>
       </div>
 
@@ -105,15 +123,18 @@
             style="width: 70%"
             :step="0.05" :min="0" :max="1"
             />
-            <div class="row-slider-num">{{ state.layerTrans }}</div>
+            <n-input-number 
+              v-model:value="state.layerTrans" 
+              class="slider-input-number"
+              :update-value-on-input="false"
+              :bordered="false" 
+              :show-button="false" 
+              :min="0" :max="1"
+              placeholder=""
+              size="small" 
+            />
         </div>
       </div>
-      <!-- <div class="btn-row-item">
-        <n-button type="info" color="#3499E5" text-color="#fff" attr-type="button" @click="onSaveUserClk">
-                  {{$t('global.save')}}
-                </n-button>
-        <n-button @click="reset">{{$t('global.reset')}}</n-button>
-      </div> -->
       <div class="btn-row-item">
       <n-button
         type="info"
@@ -126,17 +147,6 @@
       <n-button class="btn-secondary" @click="reset" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.reset')}}</n-button>
     </div>
     </div>
-
-
-   
-      <!-- <div class="sm-box">
-        <n-ellipsis style="line-height: 28px;">最小可见距离</n-ellipsis>
-        <n-input-number v-model:value="state.visibleDistanceMin" size="small" style="width:100%"></n-input-number>
-      </div>
-      <div class="sm-box">
-        <n-ellipsis style="line-height: 28px;">最大可见距离</n-ellipsis>
-        <n-input-number v-model:value="state.visibleDistanceMax" size="small" style="width:100%"></n-input-number>
-      </div> -->
   </template>
 
 <script setup lang="ts">
@@ -474,11 +484,11 @@ onBeforeUnmount(() => {});
 </script>
   
   <style lang="scss" scoped>
-  .layerSeries-box {
-    width: 100%;
-    height: 100%;
-    padding: 0 0.12rem;
-    box-sizing: border-box;
+  .n-radio-group{
+    display: flex;
+  }
+  .n-radio .n-radio__label{
+    padding-right: 0.1rem;
   }
   </style>
   

@@ -7,7 +7,16 @@
           style="width: 70%"
           :step="0.05" :min="0" :max="3"
         />
-        <div class="row-slider-num">{{ state.brightness }}</div>
+        <n-input-number 
+          v-model:value="state.brightness" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0" :max="3"
+          placeholder=""
+          size="small" 
+         />
       </div>
     </div>
     
@@ -19,7 +28,16 @@
           style="width: 70%"
           :step="0.05" :min="0" :max="3"
         />
-        <div class="row-slider-num">{{ state.contrast }}</div>
+        <n-input-number 
+          v-model:value="state.contrast" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0" :max="3"
+          placeholder=""
+          size="small" 
+         />
       </div>
     </div>
 
@@ -31,7 +49,16 @@
           style="width: 70%"
           :step="0.05" :min="0" :max="3"
         />
-        <div class="row-slider-num">{{ state.hue }}</div>
+        <n-input-number 
+          v-model:value="state.hue" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0" :max="3"
+          placeholder=""
+          size="small" 
+         />
       </div>
     </div>
 
@@ -43,7 +70,16 @@
           style="width: 70%"
           :step="0.05" :min="0" :max="3"
         />
-        <div class="row-slider-num">{{ state.saturation }}</div>
+        <n-input-number 
+          v-model:value="state.saturation" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0" :max="3"
+          placeholder=""
+          size="small" 
+         />
       </div>
     </div>
 
@@ -55,11 +91,20 @@
           style="width: 70%"
           :step="0.05" :min="0" :max="3"
         />
-        <div class="row-slider-num">{{ state.gamma }}</div>
+        <n-input-number 
+          v-model:value="state.saturation" 
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false" 
+          :show-button="false" 
+          :min="0" :max="3"
+          placeholder=""
+          size="small" 
+         />
       </div>
     </div>
 
-    <div class="btn-row-item">
+    <div class="btn-row-item" style="margin-left: 0.9rem;">
         <n-button @click="reset">{{$t('global.reset')}}</n-button>
       </div>
 </template>

@@ -18,6 +18,7 @@
         placeholder=""
         size="small" 
       />
+      <!-- {{state.clipWidth}} -->
       <span>{{$t('global.meter')}}</span>
     </div>
   </div>
@@ -42,6 +43,26 @@
         size="small" 
       />
       <span>{{$t('global.meter')}}</span>
+    </div>
+  </div>
+
+  <div class="row-item">
+    <span>{{$t('global.stretchingHeight')}}</span>
+    <div class="slider-box">
+      <n-slider 
+        v-model:value="state.extrude" 
+        style="width: 1.6rem" 
+      />
+      <n-input-number 
+        v-model:value="state.extrude" 
+        class="slider-input-number"
+        :update-value-on-input="false"
+        :bordered="false" 
+        :show-button="false" 
+        placeholder=""
+        size="small" 
+      />
+      <span> {{$t('global.meter')}}</span>
     </div>
   </div>
 
@@ -117,26 +138,6 @@
         size="small" 
       />
       <span> °</span>
-    </div>
-  </div>
-
-  <div class="row-item">
-    <span>{{$t('global.stretchingHeight')}}</span>
-    <div class="slider-box">
-      <n-slider 
-        v-model:value="state.extrude" 
-        style="width: 1.6rem" 
-      />
-      <n-input-number 
-        v-model:value="state.extrude" 
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false" 
-        :show-button="false" 
-        placeholder=""
-        size="small" 
-      />
-      <span> {{$t('global.meter')}}</span>
     </div>
   </div>
 
@@ -422,8 +423,4 @@ onBeforeUnmount(() => {
   dim = undefined;
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>
 

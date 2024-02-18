@@ -154,10 +154,10 @@ let state = reactive<stateType>({
       label: () => GlobalLang.allRegion,
       value: "ARM_ALL",
     },
-    {
-      label: () => GlobalLang.noRegion,
-      value: "ARM_NONE",
-    },
+    // {
+    //   label: () => GlobalLang.noRegion,
+    //   value: "ARM_NONE",
+    // },
   ],
   options_display: [
     {
@@ -225,6 +225,7 @@ function startSlope() {
       let positions = tool.CartesiantoDegrees(res.object.positions);
       slopeUpdate(positions);
       slopePosition = positions;
+      handlerPolygon.polylineTransparent.show = false;
       if (state.isEdit) setEditHandler(handlerPolygon.polygon,slopeUpdate);
     },
     (err:any) => {
@@ -292,10 +293,11 @@ watch(
         break;
     }
 
-    viewer.scene.globe.SlopeSetting = {
-      slopeSetting: slope,
-      analysisMode: wide,
-    };
+    // viewer.scene.globe.SlopeSetting = {
+    //   slopeSetting: slope,
+    //   analysisMode: wide,
+    // };
+    clear();
   }
 );
 
@@ -486,7 +488,7 @@ onBeforeUnmount(() => {
   span {
     // font-family: 'Microsoft Yahei', sans-serif;
     font-family: 'Microsoft JhengHe', sans-serif;
-    font-size: 12px;
+    font-size: 0.14rem;
     // font-family:"\5FAE\8F6F\96C5\9ED1"
   }
 }

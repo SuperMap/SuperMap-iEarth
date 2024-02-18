@@ -15,7 +15,7 @@ function getConfig() {
         if (configToken.bingMapsKey) {
             layerStore.configToken.BingMapKey = configToken.bingMapsKey;
         }
-        console.log("token-key-start");
+        // console.log("token-key-start");
 
         // 在iportal环境中，启动iportal处理程序
         if (location.href.indexOf('/iportal/apps') != -1) {
@@ -24,7 +24,7 @@ function getConfig() {
             window.axios
                 .get(configTokenUrl, { withCredentials: true })
                 .then(function (response) {
-                    console.log("获取iportal地图tokenKey配置:", response);
+                    // console.log("获取iportal地图tokenKey配置:", response);
                     if (response.data && response.data.commonConfig) {
                         // let commonConfig = JSON.parse("{\"tiandituKey\":\"7933ae29d47bcf1440889ad983dbe0af\",\"googleMapsAPIKey\":\"\"}");
                         let commonConfig = JSON.parse(response.data.commonConfig);
@@ -45,12 +45,12 @@ function getConfig() {
                     }
                 })
                 .catch(function (error) {
-                    console.log("获取tokenKey配置失败");
+                    // console.log("获取tokenKey配置失败");
                     resolve(layerStore.configToken);
                 });
         } else {
             // 普通模式
-            console.log("使用默认json配置");
+            // console.log("使用默认json配置");
             resolve(layerStore.configToken);
         }
     })

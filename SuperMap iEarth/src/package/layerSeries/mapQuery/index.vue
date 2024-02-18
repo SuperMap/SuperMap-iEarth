@@ -215,7 +215,7 @@
                     </div>
 
 
-                    <div class="btn-row-item1">
+                    <div class="btn-row-item">
                         <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="saveMediaField">{{ $t('global.sure')
                         }}</n-button>
                         <n-button class="btn-secondary" @click="clearMediaField" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear')
@@ -1293,13 +1293,6 @@ onBeforeUnmount(() => {
 </script>
   
 <style lang="scss" scoped>
-.layerSeries-box {
-    width: 100%;
-    height: 100%;
-    padding: 0 0.12rem;
-    box-sizing: border-box;
-}
-
 .oprationBtn {
     margin-left: 30%;
     display: flex;

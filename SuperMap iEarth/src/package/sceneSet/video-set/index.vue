@@ -3,7 +3,7 @@
     <div>{{ $t('global.videoPath') }}</div>
     <div>
       <n-input-group>
-        <n-input class="add-input-border" :placeholder="$t('global.localVideoPath')" style=" margin-bottom: 0.1rem;width: 1.4rem" v-model:value="state.fileText" />
+        <n-input style="width: 1.4rem" class="add-input-border" :placeholder="$t('global.localVideoPath')" v-model:value="state.fileText" />
         <n-button type="tertiary" @click="chooseFile" style="width:0.6rem">{{ $t('global.chooseFile') }}</n-button>
       </n-input-group>
     </div>
@@ -47,7 +47,7 @@
   </div>
 
   <div class="row-item">
-    <span>{{ $t('global.distence') }}</span>
+    <span>{{ $t('global.distencePlace') }}</span>
     <div class="slider-box">
       <n-slider style="width: 1.2rem" v-model:value="state.distance" :step="1" :min="1" :max="500" />
       <n-input-number 
@@ -85,11 +85,9 @@
   <div class="row-item">
     <span>{{ $t('global.clipMode') }}</span>
     <n-radio-group v-model:value="state.clipMode" name="radiogroup" class="radio-group">
-      <n-space>
         <n-radio v-for="item in state.modeOptions" :key="item.value" :value="item.value">
           {{ item.label }}
         </n-radio>
-      </n-space>
     </n-radio-group>
   </div>
 
@@ -341,7 +339,9 @@ function clipProjectImg() {
         positionList.push(position[2]);
       }
 
-      updateClipImg(positionList)
+      updateClipImg(positionList);
+      handlerPolygon.polylineTransparent.show = false;
+
     },
     (err: any)  => {
       console.log(err);
@@ -431,7 +431,4 @@ onBeforeUnmount(() => {
 });
 
 </script>
-
-
-<style lang="scss" scoped></style>
 

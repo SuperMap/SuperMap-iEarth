@@ -2,16 +2,16 @@
   <div class="userinfoBox" v-show="!GlobalStore.isNormalMode">
     <i class="iconfont iconuser"></i>
     <div v-if="IportalStore.isLogin" @click="toUserInfoPage">
-    <span style="font-size: 0.15rem;"> {{ UserName }}</span>
-  </div>
-  <n-tooltip v-else>
-    <template #trigger>
-      <n-button @click="showLoginBox" :bordered="false" tag="div" style="font-size: 0.15rem;">{{
-        IportalStore.userInfo.userName === 'GUEST' ? $t('global.tourists') : IportalStore.userInfo.userName
-      }}</n-button>
-    </template>
-    {{$t('global.loginPlease')}}
-  </n-tooltip>
+      <span style="font-size: 0.15rem;"> {{ UserName }}</span>
+    </div>
+    <n-tooltip v-else>
+      <template #trigger>
+        <n-button @click="showLoginBox" :bordered="false" tag="div" style="font-size: 0.15rem;">{{
+          IportalStore.userInfo.userName === 'GUEST' ? $t('global.tourists') : IportalStore.userInfo.userName
+        }}</n-button>
+      </template>
+      {{$t('global.loginPlease')}}
+    </n-tooltip>
   </div>
 </template>
 

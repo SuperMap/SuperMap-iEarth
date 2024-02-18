@@ -6,7 +6,7 @@
             <n-input
               class="add-input-border"
               size="medium"
-              style="width: 2.0 rem;"
+              style="width: 2.0rem;"
               :placeholder="$t('global.localFilePathFly')"
               v-model:value="state.fileSrc"
             />
@@ -22,11 +22,11 @@
         </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" style="margin-bottom: 0px;">
       <span></span>
-        <div class="row-content">
-          <n-checkbox v-model:checked="state.showRoute">{{$t('global.displayRoute')}}</n-checkbox>
-          <n-checkbox v-model:checked="state.showStop">{{$t('global.displayStation')}}</n-checkbox>
+        <div class="row-content" style="display: flex;">
+          <n-checkbox v-model:checked="state.showRoute"/><span class="checkbox-lable">{{$t('global.displayRoute')}}</span>
+          <n-checkbox v-model:checked="state.showStop"/><span class="checkbox-lable">{{$t('global.displayStation')}}</span>
         </div>
     </div>
     <div class="row-item">
@@ -56,15 +56,11 @@
           />
         </div>
     </div>
-    <n-divider />
-
-    <rotate></rotate>
 </template>
   
   
 <script lang="ts" setup>
 import { ref, onBeforeUnmount, watch, reactive, onMounted } from "vue";
-import rotate from "./rotate.vue";
 
 type stateType = {
   fileSrc: string; //文件地址
@@ -275,7 +271,13 @@ onBeforeUnmount(() => {
   
   
 <style lang="scss" scoped>
-
+.row-content .checkbox-lable{
+  width: auto;
+  height: 24px;
+  line-height: 24px;
+  margin-right: 0.1rem;
+  margin-left:  0.16rem;
+}
 </style>
   
   

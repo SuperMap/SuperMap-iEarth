@@ -6,7 +6,7 @@
       :options="state.optionMode" />
   </div>
 
-  <div class="row-item">
+  <div class="row-item" style="margin-top: 0.15rem;">
     <span class="name">{{$t('global.symbolLibrary')}}</span>
     <div class="icon-list">
       <span v-for="(surfaces, index) in state.surfaces" :key="index" class="icon-span" :title="surfaces.name"
@@ -464,10 +464,6 @@ onBeforeUnmount(() => {
   viewer.entities.removeAll(); // 移除所有绘制面（entity）
 });
 </script>
-
-  
-<style lang="scss" scoped></style>
-  
   
   
   
