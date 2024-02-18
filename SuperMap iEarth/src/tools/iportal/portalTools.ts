@@ -99,18 +99,18 @@ function initPortal() {
 
 
     Promise.all([userInfoPromise, portalConfigPromise, portalSystemPromise]).then(results => {
-      console.log("项目初始化获取信息：", results);  
-      const userInfoObj = results[0];
-        const portalConfigObj = results[1];
-        const portalSystemObj = results[2];
+        if(window.iEarthConsole) console.log("项目初始化获取信息：", results);  
+        const userInfoObj = results[0];
 
         IportalStore.portalUserprofile = results[0].data;
         IportalStore.portalConfig = results[1].data;
         IportalStore.systemConfig = results[2].data;
 
-        // console.log("IportalStore.portalUserprofile:",IportalStore.portalUserprofile);
-        // console.log("IportalStore.portalConfig:",IportalStore.portalConfig);
-        // console.log("IportalStore.systemConfig:",IportalStore.systemConfig);
+        if(window.iEarthConsole) {
+            // console.log("IportalStore.portalUserprofile:",IportalStore.portalUserprofile);
+            // console.log("IportalStore.portalConfig:",IportalStore.portalConfig);
+            // console.log("IportalStore.systemConfig:",IportalStore.systemConfig);
+        }
 
         // 暂时先用这个进行判断是否登录
         if (userInfoObj.status == 200 && userInfoObj.data.userName !== "GUEST") {

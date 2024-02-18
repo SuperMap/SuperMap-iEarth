@@ -44,7 +44,6 @@
   type List = Column & { checked?: boolean };
   
   const list = ref(initList());
-  console.log("list-setting:",list);
   function initList(): List[] {
     return props.columns.map(item => ({ ...item, checked: true }));
   }

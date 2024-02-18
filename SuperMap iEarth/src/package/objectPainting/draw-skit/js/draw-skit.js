@@ -204,8 +204,6 @@ class AddSymbol {
 
     // // 设置选中的实体项目高亮 - 还未完成
     // setItemsHighlight(symbol){
-    //     console.log("treeManage:",this.treeManage);
-    //     console.log("symbol:",symbol);
     //     let instanceID = symbol.id;
     //     let key = instanceID.split('-')[0];
     //     if(key.includes('polyline')){
@@ -221,13 +219,8 @@ class AddSymbol {
     //     }
     // }
 
-    consoleTreeData(){
-        console.log("treeManage:",this.treeManage);
-    }
-
     // 清除
     clear(instanceID,delType) {
-        // console.log("instanceID:",instanceID);
         if(!delType) return;
         if(delType == 2){
             let key = instanceID.split('-')[0];

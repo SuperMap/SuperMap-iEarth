@@ -26,7 +26,7 @@ onMounted(() => {
 
 // 获取token和key相关配置
 getConfig().then(res => {
-  console.log("当前configToken配置:", res);
+  if(window.iEarthConsole) console.log("当前configToken配置:", res);
 });
 
 //初始化viewer
@@ -56,7 +56,7 @@ function initViewer() {
 
   // 获取iportal中保存的场景模式：平面 or 三维
   getIPortalSceneInfo().then(res => {
-    console.log("场景模式:",res);
+    if(window.iEarthConsole) console.log("场景模式:",res);
     if (Number(res) == 1) {
       viewer.scene.mode = SuperMap3D.SceneMode.COLUMBUS_VIEW; // 平面场景
       viewer.camera.flyTo({
@@ -136,24 +136,24 @@ function initViewer() {
 
     // 判断当前环境：普通、iportal、online
     if (url.indexOf("/apps") === -1) {
-      console.log("当前环境：普通环境");
+      if(window.iEarthConsole) console.log("当前环境：普通环境");
       GlobalStore.isNormalMode = true;
       return;
     } else if (url.indexOf('/iportal') != -1) {
-      console.log("当前环境：iPortal环境");
+      if(window.iEarthConsole) console.log("当前环境：iPortal环境");
     } else if (window.location.host.includes('supermapol')) {
-      console.log("当前环境：Online环境");
+      if(window.iEarthConsole) console.log("当前环境：Online环境");
     }
 
     //判断当前模式：创建模式、编辑模式
     if (url.indexOf("id=") === -1) {
       IportalStore.isCreateScene = true;
-      console.log("当前模式：创建模式");
+      if(window.iEarthConsole) console.log("当前模式：创建模式");
       GlobalStore.isNormalMode = false;
     } else {
       IportalStore.isCreateScene = false;
       GlobalStore.isEditMode = true;
-      console.log("当前模式：编辑模式");
+      if(window.iEarthConsole) console.log("当前模式：编辑模式");
       GlobalStore.isNormalMode = false;
       setTimeout(()=>{
         openScene.openExistScene();

@@ -97,7 +97,6 @@ const layerStore = useLayerStore();
 
 
 let language = computed(()=>{
-  console.log("i18n.global.locale:",i18n.global.locale);
   return i18n.global.locale;
 })
 
@@ -387,8 +386,8 @@ function createAndSaveScene() {
     content: JSON.stringify(data)
   };
 
-  console.log("对接online-saveData:",saveData);
-  console.log("对接online-IportalStore.userInfo:",IportalStore.userInfo);
+  if(window.iEarthConsole) console.log("对接online-saveData:",saveData);
+  if(window.iEarthConsole) console.log("对接online-IportalStore.userInfo:",IportalStore.userInfo);
 
   // let iportaluserName = IportalStore.portalUserprofile.userName;
   let iportaluserName = IportalStore.userInfo.userName;
@@ -406,7 +405,6 @@ function createAndSaveScene() {
 
   // 之前的，这里始终接口好像有变化，暂时不用，不然部署保存打开会有问题
   // let iportalUpdateScene = IportalStore.portalUserprofile.modulePermissions;
-  // console.log("save-iportalUpdateScene:",iportalUpdateScene);
   // if (
   //   !iportalUpdateScene.includes("portal:user:createUpdateDeleteScenes") &&
   //   !iportalUpdateScene.includes("*")
@@ -421,7 +419,7 @@ function createAndSaveScene() {
   window.axios
     .post(url, JSON.stringify(saveData), { withCredentials: true })
     .then(function (response) {
-      console.log("对接online-保存后-response:",response);
+      if(window.iEarthConsole) console.log("对接online-保存后-response:",response);
       state.sceneID = response.data.newResourceID;
       //保存缩略图
       let putSceneUrl =
@@ -447,7 +445,7 @@ function createAndSaveScene() {
               getRootUrl() +
               "apps/earth/v2/index.html?id=" +
               response.data.newResourceID;
-            console.log("对接online-currentUrl:",currentUrl)
+              if(window.iEarthConsole) console.log("对接online-currentUrl:",currentUrl)
             window.open(currentUrl, "_self");
           }, 1000);
         })
@@ -522,8 +520,8 @@ function updateScene() {
     content: JSON.stringify(data)
   };
 
-  console.log("对接online-saveData-更新:",saveData);
-  console.log("对接online-IportalStore.userInfo-更新:",IportalStore.userInfo);
+  if(window.iEarthConsole) console.log("对接online-saveData-更新:",saveData);
+  if(window.iEarthConsole) console.log("对接online-IportalStore.userInfo-更新:",IportalStore.userInfo);
 
   // let iportaluserName = IportalStore.portalUserprofile.userName;
   let iportaluserName = IportalStore.userInfo.userName;
@@ -544,7 +542,7 @@ function updateScene() {
   window.axios
     .put(url, JSON.stringify(saveData), { withCredentials: true })
     .then(function () {
-      console.log("对接online-更新成功:");
+      if(window.iEarthConsole) console.log("对接online-更新成功:");
 
       //保存缩略图
       let putSceneUrl =
@@ -563,7 +561,7 @@ function updateScene() {
           message.success(GlobalLang.saveUpdate);
           let currentUrl =
             getRootUrl() + "apps/earth/v2/index.html?id=" + state.sceneID;
-          // console.log("currentUrl:",currentUrl)
+            if(window.iEarthConsole) console.log("currentUrl:",currentUrl)
           window.open(currentUrl, "_self");
         })
         .catch(function (error) {

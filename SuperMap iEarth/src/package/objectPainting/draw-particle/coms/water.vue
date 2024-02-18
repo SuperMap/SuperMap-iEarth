@@ -406,7 +406,6 @@ watch(
   val => {
     if (!particle_water) return;
     if (val.length > 1) {
-      // console.log("生命周期:",val);
       particle_water["minLifeTime"] = Number(val[0]);
       particle_water["maxLifeTime"] = Number(val[1]);
       layerStore.particleOptions['water']['particleAttr']['minLifeTime'] = Number(val[0]);
@@ -420,7 +419,6 @@ watch(
   val => {
     if (!particle_water) return;
     if (val.length > 1) {
-      // console.log("速度范围:",val);
       particle_water["minEmitPower"] = Number(val[0]);
       particle_water["maxEmitPower"] = Number(val[1]);
       layerStore.particleOptions['water']['particleAttr']['minEmitPower'] = Number(val[0]);
@@ -434,7 +432,6 @@ watch(
   val => {
     if (!particle_water) return;
     if (val.length > 1) {
-      // console.log("比例范围:",val);
       particle_water["minSize"] = Number(val[0]);
       particle_water["maxSize"] = Number(val[1]);
       layerStore.particleOptions['water']['particleAttr']['minSize'] = Number(val[0]);

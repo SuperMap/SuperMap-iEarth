@@ -14,7 +14,7 @@ function getIPortalSceneInfo() {
               .get(url, { withCredentials: true })
               .then(function (response) {
                 let content = JSON.parse(response.data.content);
-                console.log("content-已保存-获取场景信息：",content);
+                if(window.iEarthConsole) console.log("content-已保存-获取场景信息：",content);
                 if(content.environmentState && content.environmentState.sceneMode){
                     resolve(Number(content.environmentState.sceneMode));
                 }else{

@@ -73,7 +73,6 @@ Object.assign(EventDispatcher.prototype, {
             if (this._mutex[event.type]){
                 const find = array.find(item => item === this._mutex[event.type])
                 find.call(this, event)
-                // console.log(' 事件互斥已启动')
                 return
             }
             for (var i = 0, l = array.length; i < l; i++) {

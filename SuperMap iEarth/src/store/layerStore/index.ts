@@ -571,7 +571,7 @@ export const useLayerStore = defineStore({
 				let items = this.wmtsLayerOption.filter((item: any) => {
 					return (item.wmtsLayerUrl == option.url && item.layerName == option.name);
 				})
-				console.log("wmts-del:", items);
+				if(window.iEarthConsole) console.log("wmts-del:", items);
 				if(items.length == 0) return;
 				let delIndex = this.wmtsLayerOption.indexOf(items[0]);
 				this.wmtsLayerOption.splice(delIndex, 1);
@@ -1031,7 +1031,7 @@ export const useLayerStore = defineStore({
 
 		// 设置保存的图层属性
 		setLayerStyle(layerStyleOptions){
-			console.log("layerStyleOptions:",layerStyleOptions);
+			if(window.iEarthConsole) console.log("layerStyleOptions:",layerStyleOptions);
 			let keys = Object.keys(layerStyleOptions);
 			for(let i=0;i<keys.length;i++){
 				let layerName = keys[i];

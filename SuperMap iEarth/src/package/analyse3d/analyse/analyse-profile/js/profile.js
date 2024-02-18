@@ -119,7 +119,7 @@ class ProfileAnalysis {
                     // return Promise.resolve(true);
                     resolve(true);
             },(err)=>{
-                console.log("剖面:",err)
+                console.log(err);
             });
         })
     };
@@ -181,7 +181,6 @@ class ProfileAnalysis {
 
     // 设置echarts
     setOptions() {
-        console.log("this.LatAndLons：",this.LatAndLons);
         this.myChart.clear();
         let option = {
             title: {

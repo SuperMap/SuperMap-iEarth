@@ -238,12 +238,6 @@ function creatVideo_dom(src, index) {
   });
 };
 
-// window.axios
-//     .get('http://localhost:8090/zhw/video.mp4')
-//     .then((res: any) => {
-//       console.log(res);
-//     })
-
 function startProjection() {
   if(state.fileText === '') {
     message.warning(GlobalLang.localVideoPath);

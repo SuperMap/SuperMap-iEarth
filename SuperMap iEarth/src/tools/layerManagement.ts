@@ -460,24 +460,6 @@ function addCBD(url: string) {
       // gamma
       layer6.gamma = 1;
 
-
-      // setTimeout(() => {
-      //     //添加树木
-      //     $.getJSON("./CBD/(32)小区.json", function (data) {
-      //         console.log('datahh：', data);
-      //         growTreeByJSON(data)
-      //     }).fail(function () {
-      //         console.log("An erro.");
-      //     });
-
-      //     $.getJSON("./CBD/(36)道路_Del.json", function (data) {
-      //         console.log('datahh：', data);
-      //         growTreeByJSON(data)
-      //     }).fail(function () {
-      //         console.log("An erro.");
-      //     });
-      // }, 1000)
-
     }, function (e) {
       if (widget._showRenderLoopErrors) {
         var title = '渲染时发生错误，已停止渲染。';

@@ -63,8 +63,6 @@ function handleChange() {
     let url = sceneUrl.value.split("rest/realspace")[0] + "rest/realspace";
     let scenesUrl = url + "/scenes.json";
 
-    // console.log(`向${scenesUrl}发送请求，获取name`)
-
     // // 有跨域，之后看看
     // let sceneListPromise = window.axios.get(scenesUrl, {
     //     //需要cookie验证
@@ -72,7 +70,6 @@ function handleChange() {
     // });
 
     // sceneListPromise.then((results:any) => {
-    //     console.log("results.data:", results.data)
     // });
   }
 }

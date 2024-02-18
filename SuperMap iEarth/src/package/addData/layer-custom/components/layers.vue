@@ -147,7 +147,6 @@ function clear() {
 //     }),
 //     // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
 //   }));
-//   console.log("wmtsLayer_NJ:",wmtsLayer_NJ);
 
 //   viewer.flyTo(wmtsLayer_NJ);
 // }
@@ -180,7 +179,7 @@ function openLayer() {
       addWMTS(state.layerUrl);
       break;
     default:
-      console.log("hello world");
+      break;
   }
 }
 
@@ -356,12 +355,6 @@ function addWMTS(wmtsLayerUrl: string) {
         }),
    */
   let wmtsRectangle = computedRectangle(rectangle);
-  // console.log('wmts测试打印-wmtsLayerUrl:',wmtsLayerUrl);
-  // console.log('wmts测试打印-layerName:',layerName);
-  // console.log('wmts测试打印-state.tileMatrixSetID:',state.tileMatrixSetID);
-  // console.log('wmts测试打印-rectangle:',rectangle);
-  // console.log('wmts测试打印-scaleDenominatorsList:',scaleDenominatorsList);
-  // console.log('wmts测试打印-wmtsRectangle:',wmtsRectangle);
 
   viewer.shadows = false; // 关闭阴影，防止报错
   let wmtsLayer:any = undefined;
@@ -462,8 +455,6 @@ function computedRectangle(rectangle:any){
   if(state.epsg == 4549){
     let LowerCorner = proj4("EPSG:4549","EPSG:4326",[rectangle[0],rectangle[1]]);
     let UpperCorner = proj4("EPSG:4549","EPSG:4326",[rectangle[2],rectangle[3]]);
-    // console.log('wmts测试打印-LowerCorner:',LowerCorner);
-    // console.log('wmts测试打印-UpperCorner:',UpperCorner);
     return SuperMap3D.Rectangle.fromDegrees(LowerCorner[0], LowerCorner[1], UpperCorner[0], UpperCorner[1]);
   }else if(rectangle[0] == 0){
     return undefined;
@@ -723,7 +714,7 @@ watch(()=>state.layerType,(val:string)=>{
     state.urlTip = `http://<server>:<port>/iserver/services/{serviceName}`;
       break;
     default:
-      console.log("hello world");
+      break;
   }
 })
 </script>

@@ -27,19 +27,18 @@ let state = reactive({
 
 function openExistScene() {
       // 打开已保存的场景
-      console.log("打开已保存的场景-tokenKey:",layerStore.configToken);
       let openExistSceneUrl = window.location.href;
       let parmeter = openExistSceneUrl.split("id=")[1];
       state.sceneID = parmeter.split("&")[0];
     
       panelStore.showSavePanel = false;
       let url = getRootUrl() + "web/scenes/" + state.sceneID + ".json";
-      console.log("exit-Scene-url:", url)
+      if(window.iEarthConsole) console.log("exit-Scene-url:", url)
     
       window.axios
         .get(url, { withCredentials: true })
         .then(function (response) {
-          // console.log("已保存的场景返回信息:",response);
+          if(window.iEarthConsole) console.log("已保存的场景返回信息:",response);
           // state.updateTime = response.data.updateTime;
           if (response.status === 200) {
             let highestpermissionurl =
@@ -48,12 +47,9 @@ function openExistScene() {
               encodeURIComponent("[" + state.sceneID + "]") +
               "&resourceType=SCENE";
 
-              // console.log("对接online-highestpermissionurl:",highestpermissionurl);
-
             window.axios
               .get(highestpermissionurl, { withCredentials: true })
               .then(function (responseHigh) {
-                // console.log("对接online-responseHigh:",responseHigh);
 
                 if (responseHigh.data[state.sceneID] === "DELETE") {
                   // 编辑/删除，可以编辑保存
@@ -79,7 +75,7 @@ function openExistScene() {
   
   function openScene(response?: any) {
     let content = JSON.parse(response.data.content);
-    console.log("已保存的场景返回内容:", content)
+    if(window.iEarthConsole) console.log("已保存的场景返回内容:", content)
     if(content.layers.sceneAttrState){ // 新版的layers才有sceneAttrState属性
       state.isNewVersion = true;
     }else{
@@ -95,7 +91,6 @@ function openExistScene() {
       scenePortalUser:state.scenePortalUser || '',
       scenePortalDescription:state.scenePortalDescription || '',
     }
-    // console.log("IportalStore.saveInfo-openExit:",IportalStore.saveInfo);
   
     if (content) {
       if (JSON.stringify(content.layers) !== "{}") {
@@ -168,7 +163,7 @@ function openExistScene() {
         }else{
           if(state.isNewVersion){
             // 新版保存的场景
-            console.log('新版IEarth保存的场景');
+            if(window.iEarthConsole) console.log('新版IEarth保存的场景');
             viewer.scene.camera.setView({
               destination: new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ),
               orientation: {
@@ -179,7 +174,7 @@ function openExistScene() {
             });
           }else{
             // 旧版保存的场景
-            console.log('旧版IEarth保存的场景');
+            if(window.iEarthConsole) console.log('旧版IEarth保存的场景');
             let position = CartesiantoDegrees(new SuperMap3D.Cartesian3(cameraX, cameraY, cameraZ))
             viewer.scene.camera.setView({
                 destination: position,
@@ -259,8 +254,6 @@ function openExistScene() {
           setTrustedServers(url);
         }
         let flag = checkImageryRepeat(url);
-        // console.log("flag-open:",flag);
-        // console.log("url-open:",url);
         if(!flag && imageryLayer[i].type){
           let imageryType = content.layers.imageryLayer[i].type;
           switch (imageryType) {

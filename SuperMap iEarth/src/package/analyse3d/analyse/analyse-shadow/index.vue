@@ -412,7 +412,6 @@ watch(
 watch(
   () => state.bottomHeight,
   (val) => {
-    console.log("bottomHeight-val:",val);
     shadow.bottomHeight = val;
     shadow.updateOptionsParams({bottomHeight:val});
     if(state.shadowQueryRegion.length >= 3){

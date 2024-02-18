@@ -154,7 +154,6 @@ function setOptionsByType(type: string) {
 
 // 控制图层显隐
 function setLayerShow(option: any) {
-  // console.log("option:",option)
   if (!option.key) return;
   let optionKey: any = option.key;
   if (optionKey.indexOf("-") != -1) {
@@ -193,7 +192,6 @@ function setLayerShow(option: any) {
 function setDropdownAction(option: any, key: number) {
   // key为1：定位，key为2：删除图层
   layerStore.s3mLayerSelectIndex = option.key.split('-')[1];
-  // console.log(option)
   if (key === 1) {
     if (option.type === "s3m") {
       let s3mLayer = viewer.scene.layers.find(option.label);

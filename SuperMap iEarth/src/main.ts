@@ -28,12 +28,17 @@ window.axios = axios;
 
 const app = createApp(App)
 app.use(naive).use(i18n).use(store);
-
+app.config.warnHandler = (msg) => {}; // 将警告处理函数设为空函数
 app.mount('#app')
 
 // 在iportal环境中，启动iportal处理程序
 if(location.href.indexOf('/apps') != -1){
     initPortal();
+}
+
+// 检查iEarthConsole状态,以便打印输出信息
+if(localStorage.getItem("iEarthConsole") === 'yes'){
+    window.iEarthConsole = true;
 }
 
 setBrowserLang();

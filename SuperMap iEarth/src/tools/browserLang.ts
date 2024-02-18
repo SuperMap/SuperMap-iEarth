@@ -19,7 +19,7 @@ function setBrowserLang() {
     if(supportLanguage.indexOf(language) === -1){
         language = 'en';
     }
-    console.log("Browser-language:",language);
+    if(window.iEarthConsole) console.log("Browser-language:",language);
 
     langStore.changeLang(language);
 }

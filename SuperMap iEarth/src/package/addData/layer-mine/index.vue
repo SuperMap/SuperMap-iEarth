@@ -84,7 +84,7 @@ function init() {
     getRootUrl() +
     "gateway/catalog/resource/search.json?searchType=MY_RES&resourceType=SERVICE";
 
-  console.log("searchUrl-mine:", searchUrl);
+    if(window.iEarthConsole) console.log("searchUrl-mine:", searchUrl);
 
   window.axios
     //todo
@@ -92,7 +92,7 @@ function init() {
     .get(searchUrl, { withCredentials: IportalStore.isPortal })
     .then(function (response) {
       let data = response.data.content;
-      console.log("response-mine:", response);
+      if(window.iEarthConsole) console.log("response-mine:", response);
       data.forEach(item => {
         let sceneID = item.resourceId;
 
@@ -139,7 +139,7 @@ function init() {
                   disabled: disabled
                 });
 
-                console.log(" state.portalServiceList：", state.portalServiceList);
+                if(window.iEarthConsole) console.log(" state.portalServiceList：", state.portalServiceList);
               });
           });
       });

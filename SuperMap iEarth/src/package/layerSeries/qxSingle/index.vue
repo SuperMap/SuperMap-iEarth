@@ -209,7 +209,6 @@ function singleQuery() {
 
 // // 校验URL
 function handleChange() {
-    console.log("111");
     state.dataServiceUrl = state.dataServiceUrl.trim();
     state.dataSourceName = state.dataSourceName.trim();;
     state.dataSetName = state.dataSetName.trim();;

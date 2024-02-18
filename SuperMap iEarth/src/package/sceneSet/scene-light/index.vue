@@ -270,7 +270,6 @@ function click_light(e) {
       selectdeLightSource = entityLightPairs.get(symbol.id);
       if (!modelEditor) addModelEditor(symbol.primitive)
       else modelEditor.setEditObject(symbol.primitive);
-      // console.log(modelEditor)
       let position = tool.CartesiantoDegrees(modelEditor._position);
       state.modelPosition.length = 0;
       state.modelPosition.push(...[position[0].toFixed(6), position[1].toFixed(6), position[2].toFixed(2)]);

@@ -1,13 +1,8 @@
 const setFont = () => {
-	// const windowInfo = {
-	// 	width: window.innerWidth,
-	// 	hight: window.innerHeight
-	// }
-	// console.log("Browser-Size:",windowInfo);
 	let html = document.getElementsByTagName('html')[0];
 	let w = html.clientWidth
 	let h = html.clientHeight;
-	console.log(`width:${w};height:${h}`);
+	if(window.iEarthConsole) console.log(`width:${w} - height:${h}`);
 	// html.style.fontSize = w > h ? (w / 1536) * 100 + 'px' : (w / 731) * 100 + 'px';
 	// html.style.fontSize = w > h ? (w / 1903) * 100 + 'px' : (w / 967) * 100 + 'px';
 
@@ -17,7 +12,7 @@ const setFont = () => {
 	}else{
 		html.style.fontSize = w > h ? (w / 1536) * 100 + 'px' : (w / 731) * 100 + 'px';
 	}
-    console.log("Font-Size:",html.style.fontSize)
+    if(window.iEarthConsole) console.log("Font-Size:",html.style.fontSize)
 };
 
 

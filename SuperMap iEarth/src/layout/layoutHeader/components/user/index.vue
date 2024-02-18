@@ -57,7 +57,7 @@ const authInstance = new Authenticate({
     // rootUrl: "/iportal/", // 正确的地址
   },
   onSucceed: function (result: any){
-    console.log("用户信息", result);
+    if(window.iEarthConsole) console.log("用户信息", result);
     const { data } = result;
     if (data && data.success && data.user) {
       IportalStore.isLogin = true;

@@ -19,9 +19,7 @@ import { watch, ref } from "vue";
 import { GlobalStoreCreate } from '@/store/global/global';
 import { storeToRefs } from 'pinia';
 // import layerManagement from "@/tools/layerManagement";
-
 // import ids from 'virtual:svg-icons-names'
-// console.log("svgIDS:",ids) 查看所用svg的symbolId：icon-measure-Aear
 
 const GlobalStore = GlobalStoreCreate();
 const { SceneLayerChangeCount } = storeToRefs(GlobalStore);
@@ -79,7 +77,6 @@ watch(
   () => props.updateData,
   val => {
     if (val) data.value = val;
-    console.log('updateData:',val)
   }
 );
 

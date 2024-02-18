@@ -557,7 +557,6 @@ watch(
       // 避免删除导致崩溃
       val = 0;
     }
-    // console.log(viewer.entities.getById('viewshedPoint').position);
     if (state.observerInformation) {
       state.observerInformation[2] = parseFloat(val) + state.defaultheight;
       viewshed3D.viewPosition = state.observerInformation;

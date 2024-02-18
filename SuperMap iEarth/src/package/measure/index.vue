@@ -370,7 +370,6 @@ function StartMeasure() {
           MeasureArea();
           break;
       default:
-          console.log('请选择测量方式');
           break;
   }
 }
