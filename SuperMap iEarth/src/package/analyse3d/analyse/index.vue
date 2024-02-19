@@ -35,7 +35,7 @@ import SmAnalyseViewshed from "./analyse-viewshed/index";
 import SmAnalyseShadow from "./analyse-shadow/index";
 import SmAnalyseProfile from "./analyse-profile/index";
 import SmAnalyseSkyline from "./analyse-skyline/index";
-import SmAnalyseFacadeImage from "./analyse_facadeImage/index";
+import SmAnalyseFacadeImage from "./analyse-facadeImage/index";
 
 const panelStore = usePanelStore();
 function tabsChange(value) {}

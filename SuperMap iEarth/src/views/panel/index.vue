@@ -133,12 +133,12 @@ import ObjectPainting from "@/package/objectPainting/index";
 
 
 // 图层系列操作
-import LayerOpration from "@/package/layerSeries/layerOpration/index";
-import LayerAttribute from "@/package/layerSeries/layerAttribute/index";
-import LayerStyle from "@/package/layerSeries/layerStyle/index";
-import LayerQuery from "@/package/layerSeries/layerQuery/index";
-import MapQuery from "@/package/layerSeries/mapQuery/index";
-import QxSingle from "@/package/layerSeries/qxSingle/index";
+import LayerOpration from "@/package/layerSeries/layer-opration/index";
+import LayerAttribute from "@/package/layerSeries/layer-attribute/index";
+import LayerStyle from "@/package/layerSeries/layer-style/index";
+import LayerQuery from "@/package/layerSeries/layer-query/index";
+import MapQuery from "@/package/layerSeries/map-query/index";
+import QxSingle from "@/package/layerSeries/qx-single/index";
 
 import { usePanelStore } from "@/store/index";
 

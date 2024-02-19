@@ -1,3 +1,3 @@
-import SmAnalyseSkyline from './index.vue';
+import SmAnalyseSightLine from './index.vue';
 
-export default SmAnalyseSkyline;
+export default SmAnalyseSightLine;
