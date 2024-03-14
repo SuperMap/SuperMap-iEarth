@@ -16,45 +16,51 @@
 
 <script lang="ts" setup>
 import { watch, ref } from "vue";
-import { GlobalStoreCreate } from '@/store/global/global';
-import { storeToRefs } from 'pinia';
+import { GlobalStoreCreate } from "@/store/global/global";
+import { storeToRefs } from "pinia";
 // import layerManagement from "@/tools/layerManagement";
 // import ids from 'virtual:svg-icons-names'
 
 const GlobalStore = GlobalStoreCreate();
 const { SceneLayerChangeCount } = storeToRefs(GlobalStore);
 
-let layers:any, imgLayers:any, terrainLayers:any, mvtLayers:any, terrainProvider:any;
+let layers: any, imgLayers: any, terrainLayers: any, mvtLayers: any;
 
 // 触发更新
 let props = defineProps({
   isUpdate: {
     type: Boolean,
-    default: true
+    default: true,
   },
   defaultExpandedKeys: Array,
   defaultCheckedKeys: {
     type: Array,
-    default: ["S3M--Root", "IMG--Root", "MVT--Root", "TERRAIN--Root","GLOBE--Root---1"]
+    default: [
+      "S3M--Root",
+      "IMG--Root",
+      "MVT--Root",
+      "TERRAIN--Root",
+      "GLOBE--Root---1",
+    ],
   },
   defaultShowTypes: {
     type: Array,
-    default: ["S3M", "TERRAIN", "IMG", "MVT"]
+    default: ["S3M", "TERRAIN", "IMG", "MVT"],
   },
   deletButtonShow: {
     type: Boolean,
-    default: true
+    default: true,
   },
   draggable: {
     //是否可拖拽
     type: Boolean,
-    default: false
+    default: false,
   },
   style: {
     type: Object,
-    default: "max-height: 5rem;max-width:2.6rem"
+    default: "max-height: 5rem;max-width:2.6rem",
   },
-  updateData:Array
+  updateData: Array,
 });
 
 const emit = defineEmits([
@@ -64,31 +70,49 @@ const emit = defineEmits([
   "getImgLayers",
   "getMvtLayers",
   "getAllLayers",
-  "getDropedNodes"
+  "getDropedNodes",
 ]);
-
-watch(
-  () => props.isUpdate,
-  val => {
-    if (val) setTimeout(() => updateLayers(), 500);
-  }
-);
-watch(
-  () => props.updateData,
-  val => {
-    if (val) data.value = val;
-  }
-);
-
-//监听图层改变
-watch(SceneLayerChangeCount, val => {
-  if (props.isUpdate) updateLayers();
-});
 
 // 定义数据
-let data = ref<any[]>([
-  { label: () => GlobalLang.noLayer, key: 0, disabled: true }
-]);
+let data = ref<any[]>([{ label: () => $t("noLayer"), key: 0, disabled: true }]);
+
+let s3mRootNode = creatNode(
+  () => "s3m图层",
+  "S3M--Root",
+  [],
+  "S3M--Root",
+  false
+);
+let imgRootNode = creatNode(
+  () => "影像图层",
+  "IMG--Root",
+  [],
+  "IMG--Root",
+  false
+);
+let mvtRootNode = creatNode(
+  () => "影像图层",
+  "MVT--Root",
+  [],
+  "MVT--Root",
+  false
+);
+
+let terrainRootNode = creatNode(
+  () => "地形图层",
+  "TERRAIN--Root",
+  [],
+  "TERRAIN--Root",
+  false
+);
+
+// let globeNode = creatNode(
+//   () => "地球",
+//   "GLOBE--Root---1",
+//   undefined,
+//   "GLOBE--Root",
+//   false
+// );
 
 // 创建节点函数
 function creatNode(label, key, children, type, is_suffix) {
@@ -99,44 +123,6 @@ function creatNode(label, key, children, type, is_suffix) {
     type: type,
   };
 }
-
-let s3mRootNode = creatNode(
-  () => 's3m图层',
-  "S3M--Root",
-  [],
-  "S3M--Root",
-  false
-);
-let imgRootNode = creatNode(
-  () => '影像图层',
-  "IMG--Root",
-  [],
-  "IMG--Root",
-  false
-);
-let mvtRootNode = creatNode(
-  () => '影像图层',
-  "MVT--Root",
-  [],
-  "MVT--Root",
-  false
-);
-
-let terrainRootNode = creatNode(
-  () => '地形图层',
-  "TERRAIN--Root",
-  [],
-  "TERRAIN--Root",
-  false
-);
-
-let globeNode = creatNode(
-  () => '地球',
-  "GLOBE--Root---1",
-  undefined,
-  "GLOBE--Root",
-  false
-);
 
 // update图层
 function updateLayers() {
@@ -153,12 +139,12 @@ function updateLayers() {
   emit("getS3mLayers", layers);
   // emit("getImgLayers", imgLayers);
   // emit("getMvtLayers", mvtLayers);
-  emit("getAllLayers", layers,imgLayers,mvtLayers);
+  emit("getAllLayers", layers, imgLayers, mvtLayers);
   updataS3MLayer();
   // updataImgLayers();
   // updataMvtLayers();
   // updataTerrainLayers();
-  let newData:any[] = [];
+  let newData: any[] = [];
 
   if (
     s3mRootNode.children.length > 0 &&
@@ -189,7 +175,7 @@ function updateLayers() {
   // }
   if (newData.length === 0) {
     data.value = [
-      { label: () => GlobalLang.noLayer, key: 0, checkboxDisabled: true }
+      { label: () => $t("noLayer"), key: 0, checkboxDisabled: true },
     ];
     return;
   }
@@ -207,6 +193,46 @@ function updataS3MLayer() {
     );
   });
 }
+
+// 获得选中的图层keys
+function getCheckedKeys(params) {
+  emit("getCheckedKeys", params, data.value);
+}
+
+// 点击节点
+function getSelectedKeys(params) {
+  emit("getSelectedKeys", params);
+}
+
+// 监听
+watch(
+  () => props.isUpdate,
+  (val) => {
+    if (val) setTimeout(() => updateLayers(), 500);
+  }
+);
+watch(
+  () => props.updateData,
+  (val) => {
+    if (val) data.value = val;
+  }
+);
+watch(SceneLayerChangeCount, () => {
+  // 监听图层改变
+  if (props.isUpdate) updateLayers();
+});
+
+// function findSiblingsAndIndex(node, nodes) {
+//   if (!nodes) return [null, null];
+//   for (let i = 0; i < nodes.length; ++i) {
+//     const siblingNode = nodes[i];
+//     if (siblingNode.key === node.key) return [nodes, i];
+//     const [siblings, index] = findSiblingsAndIndex(node, siblingNode.children);
+//     if (siblings) return [siblings, index];
+//   }
+//   return [null, null];
+// }
+
 //updatImg
 // function updataImgLayers() {
 //   if (!imgLayers || imgLayers.length < 1) return;
@@ -244,27 +270,4 @@ function updataS3MLayer() {
 // }
 
 // 勾选节点
-function getCheckedKeys(params) {
-  emit("getCheckedKeys", params, data.value);
-}
-
-// 点击节点
-function getSelectedKeys(params) {
-  emit("getSelectedKeys", params);
-}
-
-
-
-function findSiblingsAndIndex(node, nodes) {
-  if (!nodes) return [null, null];
-  for (let i = 0; i < nodes.length; ++i) {
-    const siblingNode = nodes[i];
-    if (siblingNode.key === node.key) return [nodes, i];
-    const [siblings, index] = findSiblingsAndIndex(node, siblingNode.children);
-    if (siblings) return [siblings, index];
-  }
-  return [null, null];
-}
-
 </script>
-

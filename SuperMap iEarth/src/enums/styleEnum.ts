@@ -11,4 +11,3 @@ export enum LangEnum {
   JA = 'ja',
   RU = 'ru',
 }
-

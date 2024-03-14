@@ -1,38 +1,41 @@
 <template>
-    <div class="row-item">
-      <span></span>
-      <div class="icon-container">
-        <div class="icon-list" style="width: 1.96rem;">
-          <span
-            v-for="(item, index) in state.itemOptions"
-            :key="index"
-            class="icon-span"
-            :title="item.lable"
-            :class="item.isSelect ? 'selected-icon' : ''"
-            @click="changleIconItem(item)"
-          >
-            <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
-          </span>
-        </div>
+  <div class="row-item">
+    <span></span>
+    <div class="icon-container">
+      <div class="icon-list" style="width: 1.96rem">
+        <span
+          v-for="(item, index) in state.itemOptions"
+          :key="index"
+          class="icon-span"
+          :title="item.lable"
+          :class="item.isSelect ? 'selected-icon' : ''"
+          @click="changleIconItem(item)"
+        >
+          <i
+            class="iconfont iconSize"
+            :class="item.iconName"
+            style="margin-top: 0px"
+          ></i>
+        </span>
       </div>
     </div>
-  
+  </div>
+
   <div v-show="state.customRouteNames.length > 0">
     <div class="row-item">
-      <span>{{$t('global.addedStops')}}</span>
-        <div class="row-content">
-          <n-select
-            v-model:value="state.selectedAddedStopIndex"
-            :options="state.routeStops"
-            label-field="stopName"
-            value-field="index"
-          />
-        </div>
+      <span>{{ $t("addedStops") }}</span>
+      <div class="row-content">
+        <n-select
+          v-model:value="state.selectedAddedStopIndex"
+          :options="state.routeStops"
+          label-field="stopName"
+          value-field="index"
+        />
+      </div>
     </div>
 
     <!-- <div class="row-item">
-      <span>{{$t('global.flyRoute')}}</span>
+      <span>{{$t('flyRoute')}}</span>
         <div class="row-content">
           <n-select
             v-model:value="state.customRouteSelectedIndex"
@@ -41,32 +44,40 @@
         </div>
     </div> -->
 
-    <div class="row-item" style="margin-bottom: 0px;">
+    <div class="row-item" style="margin-bottom: 0px">
       <span></span>
-        <div class="row-content" style="display: flex;">
-          <n-checkbox v-model:checked="state.showRoute"/><span class="checkbox-lable">{{$t('global.displayRoute')}}</span>
-          <n-checkbox v-model:checked="state.showStop"/><span class="checkbox-lable">{{$t('global.displayStation')}}</span>
-        </div>
+      <div class="row-content" style="display: flex">
+        <n-checkbox v-model:checked="state.showRoute" /><span
+          class="checkbox-lable"
+          >{{ $t("displayRoute") }}</span
+        >
+        <n-checkbox v-model:checked="state.showStop" /><span
+          class="checkbox-lable"
+          >{{ $t("displayStation") }}</span
+        >
+      </div>
     </div>
 
     <div class="row-item">
-      <span>{{$t('global.flySpeed')}}</span>
+      <span>{{ $t("flySpeed") }}</span>
       <div class="slider-box">
         <n-slider
-          style="width: 1.5rem;"
+          style="width: 1.5rem"
           v-model:value="state.routeSpeed"
-          :step="1" :min="0" :max="500"
+          :step="1"
+          :min="0"
+          :max="500"
         />
-        <n-input-number 
-          v-model:value="state.routeSpeed" 
+        <n-input-number
+          v-model:value="state.routeSpeed"
           class="slider-input-number"
           :update-value-on-input="false"
-          :bordered="false" 
-          :show-button="false" 
+          :bordered="false"
+          :show-button="false"
           :min="0"
           :max="500"
           placeholder=""
-          size="small" 
+          size="small"
         />
       </div>
     </div>
@@ -74,7 +85,7 @@
     <div class="row-item">
       <span></span>
       <div class="icon-container">
-        <div class="icon-list" style="width: 1.96rem;">
+        <div class="icon-list" style="width: 1.96rem">
           <span
             v-for="(item, index) in state.actionOptions"
             :key="index"
@@ -83,30 +94,39 @@
             :class="item.isSelect ? 'selected-icon' : ''"
             @click="changleIconItemAction(item)"
           >
-            <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
+            <i
+              class="iconfont iconSize"
+              :class="item.iconName"
+              style="margin-top: 0px"
+            ></i>
           </span>
         </div>
       </div>
     </div>
 
-    <div class="btn-row-item" style="margin-left: 0.94rem;">
+    <div class="btn-row-item" style="margin-left: 0.94rem">
       <n-button
         type="info"
         color="#3499E5"
         text-color="#fff"
         @click="downLoad"
-        style="margin-right: 0.1rem;margin-left: 0.03rem;"
-        >{{$t('global.downLoad')}}</n-button
+        style="margin-right: 0.1rem; margin-left: 0.03rem"
+        >{{ $t("downLoad") }}</n-button
       >
-      <n-button class="btn-secondary" @click="clearRoute" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
+      <n-button
+        class="btn-secondary"
+        @click="clearRoute"
+        color="rgba(255, 255, 255, 0.65)"
+        ghost
+        >{{ $t("clear") }}</n-button
+      >
     </div>
   </div>
 </template>
-  
-<script lang='ts' setup>
-import { watch, reactive, onBeforeUnmount } from "vue";
-import { useNotification,useMessage } from "naive-ui";
+
+<script lang="ts" setup>
+import { watch, reactive, onMounted, onBeforeUnmount } from "vue";
+import { useNotification, useMessage } from "naive-ui";
 import tool from "@/tools/tool";
 import createFlyLine_xml from "./fly-line-xml.js";
 
@@ -139,9 +159,9 @@ type stateType = {
   isAlongline: boolean; //获取或者设置该飞行路线是否是沿线飞行。
   routeSpeed: number; //飞行路线速度
   //   allRoutes:any[]
-  itemOptions:any, // 功能选项
-  actionOptions:any, // 操作选项
-  isSaveAutoFlag:boolean,// 是否开启自动保存
+  itemOptions: any; // 功能选项
+  actionOptions: any; // 操作选项
+  isSaveAutoFlag: boolean; // 是否开启自动保存
 };
 
 // 设置默认值数据
@@ -170,72 +190,83 @@ let state = reactive<stateType>({
   //飞行路线设置
   isAlongline: false, //获取或者设置该飞行路线是否是沿线飞行。
   routeSpeed: 200, //飞行路线速度
-  isSaveAutoFlag:false,
+  isSaveAutoFlag: false,
   //   allRoutes:[]
   itemOptions: [
     {
       index: 1,
-      lable: GlobalLang.addStation,
+      lable: $t("addStation"),
       iconName: "icontianjia",
       isSelect: false,
     },
     {
       index: 2,
-      lable: GlobalLang.deleteStation,
+      lable: $t("deleteStation"),
       iconName: "iconshanchu",
       isSelect: false,
     },
     {
       index: 3,
-      lable: GlobalLang.restore,
+      lable: $t("restore"),
       iconName: "iconfuwei",
       isSelect: false,
     },
     {
       index: 4,
-      lable: GlobalLang.save,
+      lable: $t("save"),
       iconName: "iconbaocun",
       isSelect: false,
     },
   ],
-  actionOptions:[
+  actionOptions: [
     {
       index: 1,
-      lable: GlobalLang.play,
+      lable: $t("play"),
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 2,
-      lable: GlobalLang.pause,
+      lable: $t("pause"),
       iconName: "iconzanting",
       isSelect: false,
     },
     {
       index: 3,
-      lable: GlobalLang.stop,
+      lable: $t("stop"),
       iconName: "icontingzhi",
       isSelect: false,
-    }
+    },
   ],
 });
 
-// 初始化数据
+// 初始化变量
 let flyManager: any, routeCollection: any; //创建飞行路线集合对象类
 let currentStops: any; //当前路线所有站点集合
-// let reader = new FileReader();
 let createXml: any,
   flyLineXmls: any = []; //创建和保存xml飞行路线文件
 
-initFlyManager();
+onMounted(() => {
+  initFlyManager();
+});
 
-/**
- * 指定路线分析
- */
+// 销毁
+onBeforeUnmount(() => {
+  clearRoute();
+
+  let route = flyManager.currentRoute;
+  if (route) {
+    route.isLineVisible = false;
+    route.isStopVisible = false;
+  }
+  flyManager = routeCollection = null;
+  currentStops = null;
+  createXml = null;
+  flyLineXmls = null;
+});
 
 // 功能切换
-function changleIconItem(item:any){
-
+function changleIconItem(item: any) {
   state.itemOptions.map((itemObj) => {
     if (itemObj.index == item.index) {
       itemObj.isSelect = true;
@@ -244,56 +275,54 @@ function changleIconItem(item:any){
     }
   });
 
-  switch(item.index){
-    case 1:{
+  switch (item.index) {
+    case 1: {
       addStop();
       break;
     }
-    case 2:{
+    case 2: {
       deleteStop();
       break;
     }
-    case 3:{
+    case 3: {
       restStops();
       break;
     }
-    case 4:{
+    case 4: {
       saveStop();
       break;
     }
     default:
-        break;
+      break;
   }
 }
 // 操作切换
-function changleIconItemAction(item:any){
+function changleIconItemAction(item: any) {
+  state.actionOptions.map((itemObj) => {
+    if (itemObj.index == item.index) {
+      itemObj.isSelect = true;
+    } else {
+      itemObj.isSelect = false;
+    }
+  });
 
-state.actionOptions.map((itemObj) => {
-  if (itemObj.index == item.index) {
-    itemObj.isSelect = true;
-  } else {
-    itemObj.isSelect = false;
-  }
-});
-
-switch(item.index){
-    case 1:{
+  switch (item.index) {
+    case 1: {
       flyStart();
       break;
     }
-    case 2:{
+    case 2: {
       flyPause();
       break;
     }
-    case 3:{
+    case 3: {
       flyStop();
       break;
     }
     default:
-        break;
+      break;
   }
 }
-
 
 //初始化飞行管理
 function initFlyManager() {
@@ -303,11 +332,7 @@ function initFlyManager() {
     routes: routeCollection,
   });
   createXml = new createFlyLine_xml();
-  // if (state.fpfUrl) {
-  //   fpfUrlChange();
-  // }
 }
-
 
 // 异步飞行管理准备就绪函数
 function readyPromise() {
@@ -334,22 +359,10 @@ function updateCurrentStops() {
     state.currentStopNamesIndex++;
   }
 }
-//   // 更新当前飞行管理的所有路线(暂不支持路线选择,所有未开放)
-//   function updateAllRoutes() {
-//       state.allRoutes.length = 0;
-//       let allRoutes = routeCollection.routes;
-//       for (let i = 0, j = allRoutes.length; i < j; i++) {
-//           let route = '飞行路线' + (i + 1);
-//           state.allRoutes.push(route)
-//       }
-//   }
 
 // 开始
 function flyStart() {
   flyManager.play();
-  // flyManager.readyPromise.then(() => {
-  //   flyManager.play();
-  // });
 }
 // 暂停
 function flyPause() {
@@ -360,9 +373,6 @@ function flyStop() {
   flyManager && flyManager.stop();
 }
 
-/**
- * 自定义路线分析
- */
 // 添加站点
 function addStop() {
   flyManager.stop();
@@ -380,11 +390,12 @@ function addStop() {
     waitTime: state.waitTime,
   };
   state.routeStops.push(stop);
-  if(state.isSaveAutoFlag) saveStop();// 一旦添加站点，立即保存
+  if (state.isSaveAutoFlag) saveStop(); // 一旦添加站点，立即保存
   let routeLen = state.routeStops.length;
-  if(routeLen>0) state.addCurrentStopIndex = state.routeStops[routeLen-1].index+1; // 保证新增的站点index始终比前一位大1
-  message.success(`${GlobalLang.addStopSuccess}: ${state.setStopName}`);
-  
+  if (routeLen > 0)
+    state.addCurrentStopIndex = state.routeStops[routeLen - 1].index + 1; // 保证新增的站点index始终比前一位大1
+  message.success(`${$t("addStopSuccess")}: ${state.setStopName}`);
+
   if (state.routeStops.length > 0) {
     let len = state.routeStops.length;
     let lastStopName = state.routeStops[len - 1].stopName;
@@ -392,18 +403,22 @@ function addStop() {
     let name = "Stop-" + (Number(index) + 1);
     state.setStopName = name;
   }
-  state.selectedAddedStopIndex = state.routeStops[state.routeStops.length - 1].index;
+  state.selectedAddedStopIndex =
+    state.routeStops[state.routeStops.length - 1].index;
 }
 
 // 清除选中站点
 function deleteStop() {
-  let delIndex = state.routeStops.findIndex(e => e.index == state.selectedAddedStopIndex);
+  let delIndex = state.routeStops.findIndex(
+    (e) => e.index == state.selectedAddedStopIndex
+  );
   state.routeStops.splice(delIndex, 1);
-  if(state.routeStops.length>1 && state.isSaveAutoFlag){
+  if (state.routeStops.length > 1 && state.isSaveAutoFlag) {
     saveStop(); // 一旦删除站点，实时保存
   }
   if (state.routeStops.length > 0) {
-    state.selectedAddedStopIndex = state.routeStops[state.routeStops.length - 1].index;
+    state.selectedAddedStopIndex =
+      state.routeStops[state.routeStops.length - 1].index;
     return;
   }
   state.selectedAddedStopIndex = undefined;
@@ -417,23 +432,23 @@ function restStops() {
     route.isLineVisible = false;
     route.isStopVisible = false;
   }
-  // state.routeStops.length = 0;
   state.setStopName = "Stop-1";
+  state.routeStops = [];
+  state.addCurrentStopIndex = 0;
+  state.selectedAddedStopIndex = 0;
+  // state.routeStops.length = 0;
   // state.setStopSpeed = 0;
   // state.stopPlayMode = "StopPause";
   // state.waitTime = 0;
   // state.surroundDuration = 1;
-  state.routeStops = [];
-  state.addCurrentStopIndex = 0;
-  state.selectedAddedStopIndex = 0;
 }
 
 // 保存站点
 function saveStop() {
   if (state.routeStops.length < 2) {
-    if(state.customRouteNames.length == 0){
+    if (state.customRouteNames.length == 0) {
       notification.create({
-        content: () => GlobalLang.atLeastTwoStop,
+        content: () => $t("atLeastTwoStop"),
         duration: 3500,
       });
     }
@@ -442,7 +457,7 @@ function saveStop() {
 
   // 飞行路线配置
   let route = {
-    routeName: GlobalLang.flyRoute_1,
+    routeName: $t("flyRoute_1"),
     index: state.addCurrentRouteIndex,
     speed: state.routeSpeed,
     isAlongLine: "False",
@@ -450,27 +465,29 @@ function saveStop() {
   };
   let xml = createXml.createXMLflyLine(route);
   flyLineXmls[0] = xml;
-  state.isSaveAutoFlag = true;//一旦点击保存，开启实时自动保存
+  state.isSaveAutoFlag = true; //一旦点击保存，开启实时自动保存
   // 保证只有一条飞行路线
-  if(state.customRouteNames.length === 0) {
+  if (state.customRouteNames.length === 0) {
     state.customRouteNames.push({
-    label: route.routeName,
-    value: route.index,
-  });
-  }; 
+      label: route.routeName,
+      value: route.index,
+    });
+  }
   updateRouteCollection();
 
   state.addCurrentRouteIndex++;
-  if (state.customRouteSelectedIndex === null) state.customRouteSelectedIndex = 0;
+  if (state.customRouteSelectedIndex === null)
+    state.customRouteSelectedIndex = 0;
 }
+
 // 更新飞行路径
-function updateRouteCollection(){
-    flyManager && flyManager.stop();
-    let route = flyManager.currentRoute;
-    if (route) route.clear(); //清除之前的
-    routeCollection = new SuperMap3D.RouteCollection(viewer.entities); //飞行路线底层默认第一条路线，所以重新new
-    routeCollection.fromXML(flyLineXmls[0]); // 默认飞行路径只有一条
-    readyPromise();
+function updateRouteCollection() {
+  flyManager && flyManager.stop();
+  let route = flyManager.currentRoute;
+  if (route) route.clear(); //清除之前的
+  routeCollection = new SuperMap3D.RouteCollection(viewer.entities); //飞行路线底层默认第一条路线，所以重新new
+  routeCollection.fromXML(flyLineXmls[0]); // 默认飞行路径只有一条
+  readyPromise();
 }
 
 // 下载选择的飞行路线fpf文件
@@ -483,6 +500,7 @@ function downLoad() {
   alink.href = URL.createObjectURL(blob); //根据blob 创建 url
   alink.click(); //自动点击
 }
+
 // 清除选中飞行路线
 function clearRoute() {
   flyManager.stop();
@@ -504,14 +522,13 @@ function clearRoute() {
   state.addCurrentStopIndex = 0;
 }
 
-
 // 监听
 watch(
   () => state.selectedStopIndex,
   (val) => {
     flyManager && flyManager.stop();
     //  updateCurrentStops();
-     let index = Number(val);
+    let index = Number(val);
     let currentStopList = flyManager.getAllRouteStops();
     let stop = currentStopList[index];
     flyManager.viewToStop(stop);
@@ -526,7 +543,7 @@ watch(
 );
 watch(
   () => state.routeSpeed,
-  (val) => {
+  () => {
     saveStop();
   }
 );
@@ -537,13 +554,6 @@ watch(
     if (route) route.isStopVisible = val;
   }
 );
-// watch(
-//   () => state.fpfUrl,
-//   (val) => {
-//     fpfUrlChange();
-//   }
-// );
-
 watch(
   () => state.customRouteSelectedIndex,
   (val) => {
@@ -551,12 +561,10 @@ watch(
     updateRouteCollection();
   }
 );
-
 watch(
   () => state.selectedAddedStopIndex,
   (val) => {
-    // let stop = state.routeStops[val];
-    let stop = state.routeStops.find((stop)=>stop.index === val);
+    let stop = state.routeStops.find((stop) => stop.index === val);
     if (!stop) return;
     viewer.camera.setView({
       destination: SuperMap3D.Cartesian3.fromDegrees(
@@ -572,42 +580,14 @@ watch(
     });
   }
 );
-
-watch(
-  () => state.routeType,
-  () => {
-    notification.create({
-      content: () =>
-        "调整当前相机位置和视角,以当前相机位置和视角设置站点,点击添加保存此站点",
-      duration: 3500,
-    });
-  }
-);
-
-// 销毁
-onBeforeUnmount(() => {
-  clearRoute();
-  
-  let route = flyManager.currentRoute;
-  if (route) {
-    route.isLineVisible = false;
-    route.isStopVisible = false;
-  }
-  flyManager = routeCollection = null;
-  currentStops = null;
-  createXml = null;
-  flyLineXmls = null;
-});
 </script>
-  
+
 <style lang="scss" scoped>
-.row-content .checkbox-lable{
+.row-content .checkbox-lable {
   width: auto;
   height: 24px;
   line-height: 24px;
   margin-right: 0.1rem;
-  margin-left:  0.16rem;
+  margin-left: 0.16rem;
 }
-
 </style>
-  

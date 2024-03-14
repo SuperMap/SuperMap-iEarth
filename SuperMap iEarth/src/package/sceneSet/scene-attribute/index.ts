@@ -1,3 +1,3 @@
-import SmSceneAttribute from './index.vue';
+import SmSceneAttribute from './attribute.vue';
 
 export default SmSceneAttribute;

@@ -21,5 +21,3 @@ export const loadAsyncComponent = (loader: AsyncComponentLoader<any>) =>
     loadingComponent: AsyncLoading,
     delay: 20,
   })
-
-

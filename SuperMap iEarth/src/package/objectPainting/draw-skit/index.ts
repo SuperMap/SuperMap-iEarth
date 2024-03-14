@@ -1,3 +1,3 @@
-import SmDrawSkit from './index.vue';
+import SmDrawSkit from './drawSkit.vue';
 
 export default SmDrawSkit;

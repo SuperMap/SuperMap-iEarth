@@ -1,17 +1,15 @@
 import { defineStore } from 'pinia'
-import { userInfoType,IportalStoreStateType} from './index.d'
+import { userInfoType, IportalStoreStateType } from './index.d'
 
 export const IportalStoreCreate = defineStore({
     id: "IportalStoreState",
     state: (): IportalStoreStateType => {
         return {
             isPortal: true,
-
             // 存储相关信息的
-            portalUserprofile:undefined,
-            portalConfig:undefined,
-            systemConfig:undefined,
-    
+            portalUserprofile: undefined,
+            portalConfig: undefined,
+            systemConfig: undefined,
             userInfo: <userInfoType>{
                 userName: "GUEST", // 用户名
                 nickName: "", // 用户的昵称
@@ -23,10 +21,10 @@ export const IportalStoreCreate = defineStore({
             },
             isLogin: false, // 是否登录
             isSuperAdmin: false, // 是否是超级管理员,
-            isCreateScene:true, // iportal中IEarth分为两种模式：创建场景、编辑场景（打开已保存场景）
-            saveInfo:{}, // 保存场景时的相关信息
+            isCreateScene: true, // iportal中IEarth分为两种模式：创建场景、编辑场景（打开已保存场景）
+            saveInfo: {}, // 保存场景时的相关信息
         };
-      },
+    },
     getters: {
         getUserInfo(): Object {
             return this.userInfo;
@@ -34,7 +32,7 @@ export const IportalStoreCreate = defineStore({
     },
     actions: {
         setUserInfo(userinfoParam: userInfoType) {
-            if(userinfoParam.nickName === "GUEST") {
+            if (userinfoParam.nickName === "GUEST") {
                 userinfoParam.userName = "游客";
             }
             this.userInfo = userinfoParam;

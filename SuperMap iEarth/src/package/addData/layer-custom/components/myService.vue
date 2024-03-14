@@ -20,37 +20,37 @@ let columns = ref([
     type: "selection",
   },
   {
-    title: "名称",
+    title: $t("name"),
     key: "name",
   },
   {
-    title: "类型",
+    title: $t("type"),
     key: "type",
   },
   {
-    title: "更新时间",
+    title: $t("updateTime"),
     key: "time",
   },
 ]);
 
 let myServiceData: any = ref([]);
-
 let iportalToken = ref(
   "&token=BTKYtyi2bsoLNUA2xn7nRg3V9IfETNnmskQhpsmCz8Q5ClFYCWGAMJSX1ESedBqCF1jFmHLY_20jhpHssvwNQg.."
 );
+
 onMounted(() => {
   initMyServiceData();
 });
-// 初始化数据 只请求三维场景数据
+
+// 初始化变量 只请求三维场景数据
 function initMyServiceData() {
-  //   let requestUrl = "/gateway/catalog/resource/search.json";
   let requestUrl =
     "/gateway/catalog/resource/search.json?searchType=MY_RES&resourceType=SERVICE&pageSize=1000";
   let rootUrl = getRootUrl();
   let url = rootUrl.includes("iportal")
     ? rootUrl + requestUrl
     : "/iportal" + requestUrl + iportalToken.value;
-  let realspaceArr: any = [];
+
   // get请求参数没有生效 后续在看怎么改
   window.axios
     .get(url, {
@@ -60,11 +60,9 @@ function initMyServiceData() {
     })
     .then((dataObj: any) => {
       dataObj.data.content.map((item: any) => {
-        // resourceSubType: "REALSPACE"
         if (item.resourceSubType == "REALSPACE") {
           // 通过场景id去请求对应的数据
           let scenePostUrl = "/web/services/" + item.resourceId + ".json";
-          // let sceneurl = rootUrl.includes("iportal")
           let sceneurl = rootUrl.includes("iportal")
             ? rootUrl + scenePostUrl
             : "/iportal" + scenePostUrl;
@@ -106,12 +104,6 @@ function handleCheck(rowKeys: any) {
     return;
   }
   let url = rowKeys;
-  let promiseArray = [
-    window.viewer.scene.open(url[0], undefined, { autoSetView: true }),
-  ];
+  window.viewer.scene.open(url[0], undefined, { autoSetView: true });
 }
 </script>
-
-
-
-

@@ -1,6 +1,6 @@
 // 这一句必须加，和以前直接在main.ts中直接引入不同，因为有个模块加载和引用先后的问题，具体参考: https://blog.csdn.net/zlting_/article/details/127495583
 import store from '../store';
-import { useLayerStore } from '../store/layerStore/index';
+import { useLayerStore } from '../store/layerStore/layer';
 
 const layerStore = useLayerStore(store);
 
@@ -20,10 +20,10 @@ function checkURL(url: string) {
 function openScene(url: string, type: any, sceneName?: string) {
   if (checkURL(url)) {
     // 专门对CBD和变电站场景做设置
-    if (sceneName === 'global.BeijingCBD') {
+    if (sceneName === 'BeijingCBD') {
       addCBD(url);
-    } 
-    if (sceneName === 'global.transformerStation') {
+    }
+    if (sceneName === 'transformerStation') {
       addBDZ(url);
     } else {
       let promiseArray = [
@@ -49,7 +49,7 @@ function addMvtLayer(LayerURL: string, name: string, type: any) {
 
   SuperMap3D.when(mvtMap.readyPromise, function (data: any) {
     layerStore.MVTLayerNameList.push(name); // 存入MVT图层名称，以便删除
-    var bounds = mvtMap.rectangle;
+    let bounds = mvtMap.rectangle;
     window.viewer.scene.camera.flyTo({
       destination: new SuperMap3D.Cartesian3.fromRadians(
         (bounds.east + bounds.west) * 0.5,
@@ -73,7 +73,7 @@ function addBaiMo(url: string, sceneName: string, type: any) {
   let name: string = sceneName;
   if (sceneName.indexOf('global') != -1) {
     let attr = sceneName.split('.')[1];
-    name = GlobalLang[attr];
+    name = $t(attr);
   }
   window.viewer.scene
     .addS3MTilesLayerByScp(url, {
@@ -108,14 +108,13 @@ function addBaiMo(url: string, sceneName: string, type: any) {
       layer.style3D.lineColor =
         SuperMap3D.Color.fromCssColorString(initialColor);
       // layer.wireFrameMode = SuperMap3D.WireFrameType.Sketch; //草图模式,即线框
-      // layer._visibleDistanceMax = 60000;
+      // layer._visibleDistanceMax = 60000; // 设置图层最大可见距离
       layerStore.updateLayer({ type: "s3m" });
     });
 }
 
 // 根据输入的lauerUrl，自动匹配其图层名称
 function getLayerNameFromUrl(url: any, type: string): any {
-
   switch (type) {
     case "S3M":
       {
@@ -131,17 +130,17 @@ function getLayerNameFromUrl(url: any, type: string): any {
     case "Imagery":
       {
         let imageLayerName = url.split('/rest/realspace/datas/')[1];
-        if(!imageLayerName){
+        if (!imageLayerName) {
           if (url.indexOf('http') != -1) {
-            if(url.indexOf('/rest/maps/') != -1){
+            if (url.indexOf('/rest/maps/') != -1) {
               let name = url.split('/rest/maps/')[1];
-              if(name.indexOf('%') != -1){
+              if (name.indexOf('%') != -1) {
                 let str = decodeURIComponent(name);
-                if(str.indexOf('@')){
+                if (str.indexOf('@')) {
                   let newName = str.split('@')[0];
                   return newName;
                 }
-              }else{
+              } else {
                 return name;
               }
             }
@@ -150,7 +149,7 @@ function getLayerNameFromUrl(url: any, type: string): any {
               return newName;
             }
             // 支持地图服务
-            if(url.indexOf('/maps/') != -1) {
+            if (url.indexOf('/maps/') != -1) {
               let newName = url.split('/maps/')[1].replace('/', '');
               return newName;
             }
@@ -158,62 +157,33 @@ function getLayerNameFromUrl(url: any, type: string): any {
           } else {
             return 'Unnamed';
           }
-        }else{
+        } else {
           return imageLayerName;
         }
       }
-      break;
     case "Terrain":
       {
         let terrainLayerName = url.split('/rest/realspace/datas/')[1];
         return terrainLayerName;
       }
-      break;
     default:
       return '';
-      break;
   }
 }
-
-// 等用到iportal统一放到util中管理
-// //检查请求是否带cookie
-// function setTrustedServers(url) {
-//     if (window.store.isPortal) {
-//         if (window.store.portalConfig) {
-//             let serviceProxy = window.store.portalConfig.serviceProxy;
-//             let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
-//             if (withCredentials) {
-//                 let ip = getHostName(url);
-//                 if (
-//                     !Cesium.TrustedServers.contains(
-//                         "http://" + ip + "/" + serviceProxy.port
-//                     )
-//                 ) {
-//                     Cesium.TrustedServers.add(ip, serviceProxy.port);
-//                 }
-//             }
-//         }
-//     }
-// }
 
 // 专门添加CBD场景
 function addCBD(url: string) {
   // 新版CBD属性
   const scene = viewer.scene;
+  const widget = viewer.cesiumWidget;
   scene.camera.frustum.fov = 1.57;
-  //帧率显示
-  // scene.debugShowFramesPerSecond = true;
-  var canvas = scene.canvas;
-  var widget = viewer.cesiumWidget;
+  scene.fog.enabled = false;
+  scene.globe.depthTestAgainstTerrain = false;
+  scene.context.shaderPreprocess = true;
   scene.fog.enabled = false;
   scene.globe.depthTestAgainstTerrain = false;
   scene.context.shaderPreprocess = true;
   viewer.resolutionScale = window.devicePixelRatio; // 设置渲染分辨率的缩放因子
-
-  scene.fog.enabled = false;
-  scene.globe.depthTestAgainstTerrain = false;
-  scene.context.shaderPreprocess = true;
-  viewer.resolutionScale = window.devicePixelRatio;
 
   //设置阴影的出现距离
   scene.shadowMap.maximumDistance = 2000;
@@ -228,82 +198,54 @@ function addCBD(url: string) {
 
   // scene.logarithmicDepthBuffer = false; 
 
-
   //设置太阳光的颜色与强度
   // scene.lightSource.sunLightColor = new SuperMap3D.Color(0.996*2, 0.85*2, 0.675*2,  1);
   // scene.lightSource.sunLightColor = new SuperMap3D.Color(255/255*1.0, 224/255*1.0, 179/255*1.0,  1);
+  // scene.lightSource.ambientLightColor = new SuperMap3D.Color(0.0, 0.0, 0.0, 1); // 环境光
   scene.lightSource.sunLightColor = new SuperMap3D.Color(1 * 1, 1 * 1, 1 * 1, 1);
 
-  //添加全球影像
-  // viewer.imageryLayers.addImageryProvider(new SuperMap3D.BingMapsImageryProvider({
-  //     key: URL_CONFIG.BING_MAP_KEY,//可至官网（https://www.bingmapsportal.com/）申请key
-  //     url: URL_CONFIG.BINGMAP
-  // }));
-
-  var L00 = new SuperMap3D.Cartesian3(0.255985647439957, 0.324294656515121, 0.448104858398438);
-  var L1_1 = new SuperMap3D.Cartesian3(0.052135497331619, 0.127489775419235, 0.259717047214508);
-  var L10 = new SuperMap3D.Cartesian3(-0.043244555592537, -0.037950038909912, -0.036239303648472);
-  var L11 = new SuperMap3D.Cartesian3(0.014937655068934, -0.003836219897494, -0.021041290834546);
-  var L2_2 = new SuperMap3D.Cartesian3(0.037908826023340, 0.013326642103493, -0.008756417781115);
-  var L2_1 = new SuperMap3D.Cartesian3(-0.040351137518883, -0.020264262333512, -0.004807807970792);
-  var L20 = new SuperMap3D.Cartesian3(0.004116172902286, 0.001403471920639, -0.004473014734685);
-  var L21 = new SuperMap3D.Cartesian3(-0.039947938174009, -0.028241466730833, -0.011872956529260);
-  var L22 = new SuperMap3D.Cartesian3(0.042825646698475, 0.035332202911377, 0.014503183774650);
-  scene.specularEnvironmentMaps = "./Resource/CBD/HongKong_sphere_original_1k.ktx2";
-
-  var coefficients = [L00, L1_1, L10, L11, L2_2, L2_1, L20, L21, L22];
-  scene.sphericalHarmonicCoefficients = coefficients;
-
-
   // 测试光照：
-  //凌晨
-  // viewer.clock.currentTime = SuperMap3D.JulianDate.fromDate(new Date(2023,3,5,0));
   viewer.clock.currentTime = SuperMap3D.JulianDate.fromDate(new Date(2023, 3, 5, 10));
-  // scene.lightSource.ambientLightColor = new SuperMap3D.Color(0.0, 0.0, 0.0, 1);
   scene.sun.show = true;
   scene.envMapIntensity = 1.0;
 
-  // viewer.scene.globe.enableLighting = true;
+  let L00 = new SuperMap3D.Cartesian3(0.255985647439957, 0.324294656515121, 0.448104858398438);
+  let L1_1 = new SuperMap3D.Cartesian3(0.052135497331619, 0.127489775419235, 0.259717047214508);
+  let L10 = new SuperMap3D.Cartesian3(-0.043244555592537, -0.037950038909912, -0.036239303648472);
+  let L11 = new SuperMap3D.Cartesian3(0.014937655068934, -0.003836219897494, -0.021041290834546);
+  let L2_2 = new SuperMap3D.Cartesian3(0.037908826023340, 0.013326642103493, -0.008756417781115);
+  let L2_1 = new SuperMap3D.Cartesian3(-0.040351137518883, -0.020264262333512, -0.004807807970792);
+  let L20 = new SuperMap3D.Cartesian3(0.004116172902286, 0.001403471920639, -0.004473014734685);
+  let L21 = new SuperMap3D.Cartesian3(-0.039947938174009, -0.028241466730833, -0.011872956529260);
+  let L22 = new SuperMap3D.Cartesian3(0.042825646698475, 0.035332202911377, 0.014503183774650);
+  scene.specularEnvironmentMaps = "./Resource/CBD/HongKong_sphere_original_1k.ktx2";
+
+  let coefficients = [L00, L1_1, L10, L11, L2_2, L2_1, L20, L21, L22];
+  scene.sphericalHarmonicCoefficients = coefficients;
 
   // 整个场景的后处理
-  var correction = scene.colorCorrection;//创建颜色校正对象
+  let correction = scene.colorCorrection;//创建颜色校正对象
   correction.show = true;//开启颜色校正
   correction.brightness = 1.0;
   correction.contrast = 1.3;
   correction.saturation = 1.0;
   correction.hue = 0.0;
 
-
   // 添加光源
   //光源位置--公园中心点
-  var position1 = new SuperMap3D.Cartesian3.fromDegrees(116.459972821387, 39.9098456272661, 200);
-  //光源方向点--打向西北方向，模拟日出之后的朝阳的效果
-  // var targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(116.455768896303    ,  39.9120854569244    , 100);
-  //光源方向点--打向西偏北方向，模拟日出之后1h的效果
-  // var targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(116.455703152747     ,  39.9111393953965     , 100);
-  //光源方向点--打向西偏北方向，模拟日出之后2h的效果
-  // var targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(116.455700406131, 39.9115056668316, 100);
+  let position1 = new SuperMap3D.Cartesian3.fromDegrees(116.459972821387, 39.9098456272661, 200);
   //光源方向点--打向东偏南方向，补光
-  var targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(116.461118031787, 39.9083142302968, 20);
-  var dirLightOptions = {
+  let targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(116.461118031787, 39.9083142302968, 20);
+  let dirLightOptions = {
     targetPosition: targetPosition1,
-    // color: new SuperMap3D.Color(2.0, 1.46, 0.98, 1),
-    // color: new SuperMap3D.Color(0.996, 0.85, 0.675, 1),
-    // color: new SuperMap3D.Color(255/255, 224/255, 179/255, 1),
-    // color: new SuperMap3D.Color(133/255, 149/255, 177/255, 1),
     color: new SuperMap3D.Color(1, 1, 1, 1),
     intensity: 3.0
   };
   //光源方向点--打向西偏北方向，模拟日出之后4h的效果
-  var targetPosition2 = new SuperMap3D.Cartesian3.fromDegrees(116.455700406131, 39.9115056668316, 20);
-  var dirLightOptions1 = {
+  let targetPosition2 = new SuperMap3D.Cartesian3.fromDegrees(116.455700406131, 39.9115056668316, 20);
+  let dirLightOptions1 = {
     targetPosition: targetPosition2,
-    // color: new SuperMap3D.Color(2.0, 1.46, 0.98, 1),
-    // color: new SuperMap3D.Color(0.996, 0.85, 0.675, 1),
-    // color: new SuperMap3D.Color(255/255, 214/255, 153/255, 1),
     color: new SuperMap3D.Color(255 / 255, 229 / 255, 191 / 255, 1),
-    // color: new SuperMap3D.Color(255/255, 234/255, 204/255, 1),
-    // color: new SuperMap3D.Color(1, 1, 1, 1),
     intensity: 5.0
   };
   let directionalLight_1 = new SuperMap3D.DirectionalLight(position1, dirLightOptions);
@@ -311,86 +253,29 @@ function addCBD(url: string) {
   let directionalLight_2 = new SuperMap3D.DirectionalLight(position1, dirLightOptions1);
   scene.addLightSource(directionalLight_2);
 
-
-  //点光源
-  var pointLightPoshuatan1 = new SuperMap3D.Cartesian3.fromDegrees(116.454972817356, 39.9120224613012, 80.0);
-
-  var pointLightOptionshuatan1 = {
-    cutoffDistance: 900.0,
-    color: new SuperMap3D.Color(1.0, 1.0, 1.0, 1.0),
-    intensity: 10.6
-  };
-  let pointLighthuatan1 = new SuperMap3D.PointLight(pointLightPoshuatan1, pointLightOptionshuatan1);
-  // scene.addLightSource(pointLighthuatan1);
-
-  // 新增聚光灯
-  var spotLightPosludeng4_1 = new SuperMap3D.Cartesian3.fromDegrees(116.454972817356, 39.9120224613012, 80);
-  var spotLightTargetPosludeng4_1 = new SuperMap3D.Cartesian3.fromDegrees(116.454972817356, 39.9120224613012, 0);
-
-  var spotLightOtionsludeng4_1 = {
-    color: new SuperMap3D.Color(10.0, 1.0, 1.0, 1),
-    distance: 100,
-    decay: 3,
-    intensity: 12,
-    angle: Math.PI / 2
-  };
-  let spotLightludeng4_1 = new SuperMap3D.SpotLight(spotLightPosludeng4_1, spotLightTargetPosludeng4_1, spotLightOtionsludeng4_1);
-  // scene.addLightSource(spotLightludeng4_1);
-
-
-
-  // const scene = viewer.scene;
-  // const widget = viewer.cesiumWidget;
   try {
-
-    //测试场景
-    // var promise = scene.open("http://www.supermapol.com/realspace/services/3D-CBD/rest/realspace");
-    //测试场景
-    // var promise = scene.open("http://localhost:8090/iserver/services/3D-XiaoGuoDuiBi0207/rest/realspace");
-    //椭球场景E:\DEMO1205\Data3椭球
-    // var promise = scene.open("http://localhost:8090/iserver/services/3D-TuoQiuChangJing0220/rest/realspace");
-
-    // 椭球场景E:\DEMO1205\Data4椭球-重切片-整体场景
-    // var promise = scene.open("http://localhost:8090/iserver/services/3D-CBD2-4/rest/realspace");
-    // var promise = scene.open("http://localhost:8090/iserver/services/3D-CBDChangJing2/rest/realspace");
-    // var promise = scene.open("http://172.16.12.68:8090/iserver/services/3D-CBDChangJing2/rest/realspace");
-    var promise = scene.open(url);
-    // var promise = scene.open("http://localhost:8090/iserver/services/3D-0315ZhongQiePianWanZhengChangJing/rest/realspace");
-    // var promise = scene.open("http://10.10.7.245:8090/iserver/services/3D-0315ZhongQiePianWanZhengChangJing/rest/realspace");
-
-
+    let promise = scene.open(url);
 
     SuperMap3D.when(promise, function (layers) {
       if (!scene.pickPositionSupported) {
         alert('不支持深度拾取,属性查询功能无法使用！');
       }
+
       //设置建筑的外部金属框架的可见距离，解决摩尔纹的问题
-      // var layer1 = scene.layers.find('Buildlding_v2_detail');
-      // layer1.visibleDistanceMax = 100;
-      //设置
-      var layer1 = scene.layers.find('Ground_smallRe');
-      layer1.lodRangeScale = 0.1;
-
-
-      for (var layer of layers) {
+      for (let layer of layers) {
         layer.cullMode = SuperMap3D.WindingOrder.COUNTER_CLOCKWISE;
         // layer.envMapIntensity = 1.2;
-        // layer.envMapIntensity = 0.0;
-        // layer_envMapIntensity = 0.0;
         //开启阴影
         layer.shadowType = 2;
-
         // layer.lodRangeScale = 0.1;
 
         // 根节点驻留与不立即释放
         layer.residentRootTile = true;
         layer.clearMemoryImmediately = false;
-
-
       }
 
       // 针对单个图层的处理：
-      var layer1 = scene.layers.find("RoadRe");
+      let layer1 = scene.layers.find("RoadRe");
       //色相，默认是0，值域-1-1
       layer1.hue = 0;
       //亮度，默认0
@@ -402,7 +287,7 @@ function addCBD(url: string) {
       // gamma
       layer1.gamma = 1;
 
-      var layer2 = scene.layers.find("Ground_smallRe");
+      let layer2 = scene.layers.find("Ground_smallRe");
       //色相，默认是0，值域-1-1
       layer2.hue = 0.0;
       //亮度，默认0
@@ -413,12 +298,14 @@ function addCBD(url: string) {
       layer2.saturation = 0.5;
       // gamma
       layer2.gamma = 1;
+      // lod层级
+      layer2.lodRangeScale = 0.1;
 
-      var layer3 = scene.layers.find("Building_v1Re");
+      let layer3 = scene.layers.find("Building_v1Re");
       //色相，默认是0，值域-1-1
-      layer3.hue =0;
+      layer3.hue = 0;
       //亮度，默认0
-      layer3.brightness= 0.85;
+      layer3.brightness = 0.85;
       // 对比度，默认1
       layer3.contrast = 1.3;
       // 饱和度，默认1
@@ -426,7 +313,7 @@ function addCBD(url: string) {
       // gamma
       layer3.gamma = 1;
 
-      var layer4 = scene.layers.find("Building_v2_mainRe");
+      let layer4 = scene.layers.find("Building_v2_mainRe");
       //色相，默认是0，值域-1-1
       layer4.hue = -0.0;
       //亮度，默认0
@@ -439,7 +326,7 @@ function addCBD(url: string) {
       layer4.gamma = 1;
 
       // 找到水面的图层：
-      var layer5 = scene.layers.find("Waters@CBD");
+      let layer5 = scene.layers.find("Waters@CBD");
       //设置水面的颜色
       // layer5.waterColor = new SuperMap3D.Color(0/255,66/255,61/255,1);
       layer5.waterColor = new SuperMap3D.Color(0 / 255, 53 / 255, 43 / 255, 1);
@@ -448,7 +335,7 @@ function addCBD(url: string) {
       //设置水面的波动幅度
       layer5.waterWaveScale = 1;
 
-      var layer6 = scene.layers.find("Building_NoCBD_5huan_WebGL");
+      let layer6 = scene.layers.find("Building_NoCBD_5huan_WebGL");
       //色相，默认是0，值域-1-1
       layer6.hue = -0.0;
       //亮度，默认0
@@ -462,14 +349,14 @@ function addCBD(url: string) {
 
     }, function (e) {
       if (widget._showRenderLoopErrors) {
-        var title = '渲染时发生错误，已停止渲染。';
+        let title = '渲染时发生错误，已停止渲染。';
         widget.showErrorPanel(title, undefined, e);
       }
     });
   }
   catch (e) {
     if (widget._showRenderLoopErrors) {
-      var title = '渲染时发生错误，已停止渲染。';
+      let title = '渲染时发生错误，已停止渲染。';
       widget.showErrorPanel(title, undefined, e);
     }
   }
@@ -493,7 +380,7 @@ function addBDZ(url: string) {
   scene.sun.show = true
 
   // 整个场景的后处理
-  var correction = scene.colorCorrection; //创建颜色校正对象
+  let correction = scene.colorCorrection; //创建颜色校正对象
   correction.show = true //开启颜色校正
   correction.brightness = 1.0
   correction.contrast = 1.15
@@ -501,33 +388,33 @@ function addBDZ(url: string) {
   correction.hue = 0.0
 
   //来自西北平行光
-  var position1 = new SuperMap3D.Cartesian3.fromDegrees(
+  let position1 = new SuperMap3D.Cartesian3.fromDegrees(
     115.998460430547,
     40.0005740797481,
     3
   );
-  var targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(
+  let targetPosition1 = new SuperMap3D.Cartesian3.fromDegrees(
     115.999464851774,
     39.999780713494,
     3
   );
-  var dirLightOptions1 = {
+  let dirLightOptions1 = {
     targetPosition: targetPosition1,
     color: new SuperMap3D.Color(255 / 255, 237 / 255, 217 / 255, 1),
     intensity: 0,
   };
   //来自东北平行光
-  var position2 = new SuperMap3D.Cartesian3.fromDegrees(
+  let position2 = new SuperMap3D.Cartesian3.fromDegrees(
     116.000333104312,
     40.0005771848742,
     3
   );
-  var targetPosition2 = new SuperMap3D.Cartesian3.fromDegrees(
+  let targetPosition2 = new SuperMap3D.Cartesian3.fromDegrees(
     115.999464851774,
     39.999780713494,
     3
   );
-  var dirLightOptions2 = {
+  let dirLightOptions2 = {
     targetPosition: targetPosition2,
     intensity: 0,
   };
@@ -545,13 +432,10 @@ function addBDZ(url: string) {
 
   scene.envMapIntensity = 1.0;
 
-  //测试场景
-  // var promise = scene.open(
-  //   'http://www.supermapol.com/realspace/services/3D-0725RVM/rest/realspace'
-  // )
-  var promise = scene.open(url);
+  // 添加场景
+  let promise = scene.open(url);
   promise.then(function (layers) {
-    for (var layer of layers) {
+    for (let layer of layers) {
       //开启阴影
       layer.shadowType = 2
       layer.residentRootTile = true
@@ -563,9 +447,8 @@ function addBDZ(url: string) {
       // layer.style3D.lineWidth  = 0.3;
     }
 
-
     // 针对单个图层的处理：
-    var layer1 = scene.layers.find("PI_UV");
+    let layer1 = scene.layers.find("PI_UV");
     //色相，默认是0，值域-1-1        
     layer1.hue = 0;
     //亮度，默认0
@@ -600,18 +483,18 @@ function addBDZ(url: string) {
   function loadLight(lightChecked) {
     if (lightChecked) {
       //环境光贴图ktx压缩测试--原始工具生成的
-      var L00 = new SuperMap3D.Cartesian3(0.170253232121468, 0.186530470848083, 0.250162333250046);
-      var L1_1 = new SuperMap3D.Cartesian3(-0.019948856905103, 0.036114457994699, 0.121223092079163);
-      var L10 = new SuperMap3D.Cartesian3(0.021870676428080, 0.031954143196344, 0.039059657603502);
-      var L11 = new SuperMap3D.Cartesian3(-0.016260044649243, -0.026163732632995, -0.032524436712265);
-      var L2_2 = new SuperMap3D.Cartesian3(-0.026016067713499, -0.025068568065763, -0.024604434147477);
-      var L2_1 = new SuperMap3D.Cartesian3(0.029782924801111, 0.029722381383181, 0.029306791722775);
-      var L20 = new SuperMap3D.Cartesian3(0.007061737123877, 0.008292092941701, 0.010273135267198);
-      var L21 = new SuperMap3D.Cartesian3(-0.025165025144815, -0.026656696572900, -0.027361012995243);
-      var L22 = new SuperMap3D.Cartesian3(0.013707554899156, 0.018742486834526, 0.026223894208670);
+      let L00 = new SuperMap3D.Cartesian3(0.170253232121468, 0.186530470848083, 0.250162333250046);
+      let L1_1 = new SuperMap3D.Cartesian3(-0.019948856905103, 0.036114457994699, 0.121223092079163);
+      let L10 = new SuperMap3D.Cartesian3(0.021870676428080, 0.031954143196344, 0.039059657603502);
+      let L11 = new SuperMap3D.Cartesian3(-0.016260044649243, -0.026163732632995, -0.032524436712265);
+      let L2_2 = new SuperMap3D.Cartesian3(-0.026016067713499, -0.025068568065763, -0.024604434147477);
+      let L2_1 = new SuperMap3D.Cartesian3(0.029782924801111, 0.029722381383181, 0.029306791722775);
+      let L20 = new SuperMap3D.Cartesian3(0.007061737123877, 0.008292092941701, 0.010273135267198);
+      let L21 = new SuperMap3D.Cartesian3(-0.025165025144815, -0.026656696572900, -0.027361012995243);
+      let L22 = new SuperMap3D.Cartesian3(0.013707554899156, 0.018742486834526, 0.026223894208670);
       scene.specularEnvironmentMaps = './Resource/BDZ/drakensberg_solitary_mountain_1k_2_S-20.hdr';
 
-      var coefficients = [L00, L1_1, L10, L11, L2_2, L2_1, L20, L21, L22];
+      let coefficients = [L00, L1_1, L10, L11, L2_2, L2_1, L20, L21, L22];
       scene.sphericalHarmonicCoefficients = coefficients;
     } else {
       scene.sphericalHarmonicCoefficients = undefined;
@@ -679,4 +562,3 @@ export default {
   getLayerNameFromUrl,
   setSkyBox
 }
-

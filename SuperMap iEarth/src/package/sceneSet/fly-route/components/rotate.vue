@@ -1,15 +1,12 @@
 <template>
-
   <div class="row-item">
-    <span>{{$t('global.rotateByPoint')}}</span>
-    <div  style="width:1.96rem">
+    <span>{{ $t("rotateByPoint") }}</span>
+    <div style="width: 1.96rem">
       <n-switch v-model:value="state.rotateShow" size="small" />
     </div>
   </div>
 
-
   <div v-show="state.rotateShow">
-
     <div class="row-item">
       <span></span>
       <div class="icon-container">
@@ -22,97 +19,105 @@
             :class="item.isSelect ? 'selected-icon' : ''"
             @click="changleIconItem(item)"
           >
-            <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
-            <i class="iconfont iconSize" :class="item.iconName"  style="margin-top:0px"></i>
+            <i
+              class="iconfont iconSize"
+              :class="item.iconName"
+              style="margin-top: 0px"
+            ></i>
           </span>
         </div>
       </div>
     </div>
 
     <div class="row-item">
-      <span>{{$t('global.rotateSpeed')}}</span>
+      <span>{{ $t("rotateSpeed") }}</span>
       <div class="slider-box">
         <n-slider
-          style="width: 1.5rem;"
+          style="width: 1.5rem"
           v-model:value="state.speedRatio"
-          :step="0.1" :min="0" :max="20"
+          :step="0.1"
+          :min="0"
+          :max="20"
         />
-        <n-input-number 
-          v-model:value="state.speedRatio" 
+        <n-input-number
+          v-model:value="state.speedRatio"
           class="slider-input-number"
           :update-value-on-input="false"
-          :bordered="false" 
-          :show-button="false" 
+          :bordered="false"
+          :show-button="false"
           :min="0"
           :max="20"
           placeholder=""
-          size="small" 
+          size="small"
         />
       </div>
     </div>
 
-    <div class="row-item" style="margin-bottom: -0.1rem;">
+    <div class="row-item" style="margin-bottom: -0.1rem">
       <span></span>
-        <div class="row-content">
-          <n-checkbox v-model:checked="state.flyCircleLoop">{{$t('global.rotateRepeat')}}</n-checkbox>
-        </div>
+      <div class="row-content">
+        <n-checkbox v-model:checked="state.flyCircleLoop">{{
+          $t("rotateRepeat")
+        }}</n-checkbox>
+      </div>
     </div>
-
   </div>
 </template>
-  
-<script lang='ts' setup>
-import { onBeforeUnmount, watch, reactive } from "vue";
+
+<script lang="ts" setup>
+import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 
 type stateType = {
-  speedRatio: 1, // 旋转速度
-  flyCircleLoop: true, // 是否循环
-  rotateShow: false, // 是否绕点旋转
-  itemOptions: any,// 功能选项
-  position: any, // 绕点选择中心点
-}
+  speedRatio: 1; // 旋转速度
+  flyCircleLoop: true; // 是否循环
+  rotateShow: false; // 是否绕点旋转
+  itemOptions: any; // 功能选项
+  position: any; // 绕点选择中心点
+};
 
-// 初始化数据
+// 初始化变量
 let state = reactive<stateType>({
   speedRatio: 1,
   flyCircleLoop: true,
-  rotateShow: false, 
+  rotateShow: false,
   position: null,
   itemOptions: [
     {
       index: 1,
-      lable: GlobalLang.add,
+      lable: $t("add"),
       iconName: "icontianjia",
       isSelect: false,
     },
     {
       index: 2,
-      lable: GlobalLang.play,
+      lable: $t("play"),
       iconName: "iconbofang",
       isSelect: false,
     },
     {
       index: 3,
-      lable: GlobalLang.pause,
+      lable: $t("pause"),
       iconName: "iconzanting",
       isSelect: false,
-    }, {
+    },
+    {
       index: 4,
-      lable: GlobalLang.restore,
+      lable: $t("restore"),
       iconName: "iconfuwei",
       isSelect: false,
-    }
+    },
   ],
 });
-
-init();
 
 const scene = viewer.scene;
 let windowPosition = new SuperMap3D.Cartesian2();
 let scratchTiltFrame = new SuperMap3D.Matrix4();
 let scratchOldTransform = new SuperMap3D.Matrix4();
+let handlerPoint = new SuperMap3D.DrawHandler(
+  viewer,
+  SuperMap3D.DrawMode.Point
+);
 let listener;
-let handlerPoint = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Point);
 
 function init() {
   if (!window.viewer) return;
@@ -120,8 +125,17 @@ function init() {
   viewer.scene.camera.speedRatio = state.speedRatio;
 }
 
-// 功能切换 
-function changleIconItem(item:any){
+onMounted(() => {
+  init();
+});
+
+onBeforeUnmount(() => {
+  clearFlyCircle();
+  handlerPoint.clear();
+});
+
+// 功能切换
+function changleIconItem(item: any) {
   state.itemOptions.map((itemObj) => {
     if (itemObj.index == item.index) {
       itemObj.isSelect = true;
@@ -144,6 +158,7 @@ function changleIconItem(item:any){
       break;
     }
     case 4: {
+      clearFlyCircle();
       reset();
       break;
     }
@@ -151,7 +166,6 @@ function changleIconItem(item:any){
       break;
   }
 }
-
 
 // 绑定监听事件
 function addCenter() {
@@ -163,11 +177,9 @@ function addCenter() {
 }
 
 // 注册绘制球体事件
-handlerPoint.drawEvt.addEventListener(function (res) {
-  // state.position = res.object.position;
-});
-
-
+// handlerPoint.drawEvt.addEventListener(function (res) {
+//   state.position = res.object.position;
+// });
 
 // 添加点
 function left_click(e: any) {
@@ -199,33 +211,41 @@ function reset() {
   if (!viewCenter || listener !== undefined) {
     return;
   }
-  let tiltFrame = SuperMap3D.Transforms.eastNorthUpToFixedFrame(viewCenter, scene.globe.ellipsoid, scratchTiltFrame);
+  let tiltFrame = SuperMap3D.Transforms.eastNorthUpToFixedFrame(
+    viewCenter,
+    scene.globe.ellipsoid,
+    scratchTiltFrame
+  );
   // scene.camera.lookAtTransform(tiltFrame);
   let rotateAngle;
   listener = setInterval(function () {
     let currentHeading = SuperMap3D.Math.toDegrees(scene.camera.heading);
-    let oldTransform = SuperMap3D.Matrix4.clone(scene.camera.transform, scratchOldTransform);
+    let oldTransform = SuperMap3D.Matrix4.clone(
+      scene.camera.transform,
+      scratchOldTransform
+    );
     scene.camera.lookAtTransform(tiltFrame);
     if (currentHeading > 180 && currentHeading < 360) {
       rotateAngle = SuperMap3D.Math.toRadians(360 - currentHeading) / 2;
-      scene.camera.rotateLeft(rotateAngle);    //顺时针旋转
+      scene.camera.rotateLeft(rotateAngle); //顺时针旋转
       scene.camera.lookAtTransform(oldTransform);
-      if ((360 - currentHeading) < 1) {               //罗盘指北移除监听
+      if (360 - currentHeading < 1) {
+        //罗盘指北移除监听
         clearInterval(listener);
         listener = undefined;
       }
     } else {
       rotateAngle = SuperMap3D.Math.toRadians(currentHeading) / 2;
-      scene.camera.rotateRight(rotateAngle);     //逆时针旋转
+      scene.camera.rotateRight(rotateAngle); //逆时针旋转
       scene.camera.lookAtTransform(oldTransform);
-      if ((1 - currentHeading) > 0) {               //罗盘指北移除监听
+      if (1 - currentHeading > 0) {
+        //罗盘指北移除监听
         clearInterval(listener);
         listener = undefined;
       }
     }
   }, 100);
 }
-
 
 watch(
   () => state.speedRatio,
@@ -239,23 +259,4 @@ watch(
     viewer.scene.camera.flyCircleLoop = val;
   }
 );
-
-onBeforeUnmount(() => {
-  clearFlyCircle();
-  handlerPoint.clear();
-});
 </script>
-<style lang="scss" scoped>
-
-</style>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 
-
 export const usePanelStore = defineStore({
     id: 'usePanelStore',
     state: (): any => ({
@@ -11,14 +10,14 @@ export const usePanelStore = defineStore({
                 {
                     id: 1,
                     iconName: "icontuceng",
-                    title: "global.t_layerList",
+                    title: "t_layerList",
                     isSelected: false,
                     panelName: "LayerList"
                 },
                 {
                     id: 2,
                     iconName: "icontianjia",
-                    title: "global.t_addData",
+                    title: "t_addData",
                     isSelected: false,
                     panelName: "AddLayerData"
                 },
@@ -26,71 +25,71 @@ export const usePanelStore = defineStore({
             rightToolBarList: [
                 {
                     id: 3,
-                    iconName: "iconfenxi",
-                    title: "global.analyseSeries",
+                    iconName: "iconsanweifenxi",
+                    title: "analyseSeries",
                     isSelected: false,
                     panelName: "Analyse3D"
                 },
                 {
                     id: 4,
                     iconName: "iconliangsuan",
-                    title: "global.measure",
+                    title: "measure",
                     isSelected: false,
                     panelName: "Measure"
                 },
                 {
                     id: 5,
                     iconName: "iconkapianshi",
-                    title: "global.sceneProperties",
+                    title: "sceneProperties",
                     isSelected: false,
                     panelName: "SceneSet"
                 },
                 {
                     id: 6,
-                    iconName: "iconhuizhi",
-                    title: "global.objectPainting",
+                    iconName: "iconduixianghuizhi",
+                    title: "objectPainting",
                     isSelected: false,
                     panelName: "ObjectPainting"
                 },
                 {
                     id: 7,
                     iconName: "iconhuizhi",
-                    title: "global.layerOpration",
+                    title: "layerOpration",
                     isSelected: false,
                     panelName: "layerOpration"
                 },
                 {
                     id: 8,
                     iconName: "iconhuizhi",
-                    title: "global.layerAttribute",
+                    title: "layerAttribute",
                     isSelected: false,
                     panelName: "layerAttr"
                 },
                 {
                     id: 9,
                     iconName: "iconhuizhi",
-                    title: "global.layerStyle",
+                    title: "layerStyle",
                     isSelected: false,
                     panelName: "layerStyle"
                 },
                 {
                     id: 10,
                     iconName: "iconhuizhi",
-                    title: "global.layerQuery",
+                    title: "layerQuery",
                     isSelected: false,
                     panelName: "layerQuery"
                 },
                 {
                     id: 11,
                     iconName: "iconhuizhi",
-                    title: "global.mapQuery",
+                    title: "mapQuery",
                     isSelected: false,
                     panelName: "mapQuery"
                 },
                 {
                     id: 12,
                     iconName: "iconhuizhi",
-                    title: "global.qxModelSingle",
+                    title: "qxSingle",
                     isSelected: false,
                     panelName: "qxSingle"
                 },
@@ -99,11 +98,11 @@ export const usePanelStore = defineStore({
         rightTooPanel: false,
         leftTooPanel: false,
         showSceneModal: false,
-        showSavePanel:false, // 保存面板是否显示
-        isEditMode:false, // iportal中用来控制保存面板的与showSavePanel搭配使用，以便适应不同环境
+        showSavePanel: false, // 保存面板是否显示
+        isEditMode: false, // iportal中用来控制保存面板的与showSavePanel搭配使用，以便适应不同环境
         // isViewer:false, // Cesium.Viewer这个东西初始化完成的标志
-        myDataPanleShow:false,// 我的数据面板
-        queryData:[],// 通过我的数据查询到的要素记录
+        myDataPanleShow: false,// 我的数据面板
+        queryData: [],// 通过我的数据查询到的要素记录
     }),
     getters: {
     },
@@ -122,21 +121,21 @@ export const usePanelStore = defineStore({
         // 设置右侧导航栏
         setRightToolBarList(iconItem: any) {
             // 每次切换，先将所有面板关闭
-            this.panelList.rightToolBarList.map((item:any) => {
+            this.panelList.rightToolBarList.map((item: any) => {
                 item.isSelected = false;
             })
 
             // 确保所有面板能全部刷新
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.rightTooPanel = true;
-                this.panelList.rightToolBarList.map((item:any) => {
+                this.panelList.rightToolBarList.map((item: any) => {
                     if (item.id == iconItem.id) {
                         item.isSelected = true;
                     } else {
                         item.isSelected = false;
                     }
                 })
-            },10)
+            }, 10)
         },
         // 关闭弹窗面板
         closeRightToolPanel(leftOrRght: any) {
@@ -151,7 +150,6 @@ export const usePanelStore = defineStore({
                     item.isSelected = false;
                 })
             }
-
         },
         // 设置保存场景弹窗
         setSceneModal(isShow: Boolean) {
@@ -159,14 +157,3 @@ export const usePanelStore = defineStore({
         }
     }
 })
-
-
-
-
-
-
-
-
-
-
-

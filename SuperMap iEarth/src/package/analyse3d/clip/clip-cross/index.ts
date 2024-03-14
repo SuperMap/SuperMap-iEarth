@@ -1,3 +1,3 @@
-import SmClipCross from './index.vue';
+import SmClipCross from './clipCross.vue';
 
 export default SmClipCross;

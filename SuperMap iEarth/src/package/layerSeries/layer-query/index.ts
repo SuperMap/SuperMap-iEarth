@@ -1,3 +1,3 @@
-import LayerQuery from './index.vue';
+import LayerQuery from './layerQuery.vue';
 
 export default LayerQuery;

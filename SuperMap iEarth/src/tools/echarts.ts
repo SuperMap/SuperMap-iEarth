@@ -36,4 +36,4 @@ echarts.use([
 ]);
 
 // 接下来的使用就跟之前一样，初始化图表，设置配置项
-export default echarts
+export default echarts;

@@ -1,3 +1,3 @@
-import LayerAttribute from './index.vue';
+import LayerAttribute from './layerAttribute.vue';
 
 export default LayerAttribute;

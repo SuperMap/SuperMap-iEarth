@@ -1,3 +1,3 @@
-import SmAnalyseViewshed from './index.vue';
+import SmAnalyseViewshed from './viewshed.vue';
 
 export default SmAnalyseViewshed;

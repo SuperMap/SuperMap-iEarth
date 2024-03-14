@@ -1,3 +1,3 @@
-import SmTerrainSlope from './index.vue';
+import SmTerrainSlope from './slope.vue';
 
 export default SmTerrainSlope;

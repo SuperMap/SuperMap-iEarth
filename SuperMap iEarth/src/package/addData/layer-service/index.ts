@@ -1,3 +1,3 @@
-import SmLayerService from './index.vue';
+import SmLayerService from './layerService.vue';
 
 export default SmLayerService;

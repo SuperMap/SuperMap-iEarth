@@ -1,8 +1,6 @@
 @import './scss/sm-variables.scss';
 @import './scss/sm-mixin.scss';
 
-// @import './scss/sm-format.scss';
-// @import './scss/sm-function.scss';
 html,
 body,
 #app {
@@ -29,7 +27,8 @@ body,
   // font-size: 14px; // number-input的罪魁祸首
   font-size: 0.14rem;
 
-  span,div {
+  span,
+  div {
     font-size: 0.14rem;
   }
 
@@ -63,7 +62,7 @@ body,
     border-radius: 0.04rem;
     background: rgba(255, 255, 255, 0.04);
     // box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 0.01rem solid rgba(255, 255, 255, 0.15);
 
     .slider-unit {
       margin-left: 0.1rem;
@@ -93,7 +92,7 @@ body,
 // slinder滑块的统一样式
 .slider-input-number {
   width: 27%;
-  margin: 0px -10px 0px 8px;
+  margin: 0rem -0.1rem 0rem 0.08rem;
   border: none !important;
   height: auto;
   outline: medium;
@@ -106,7 +105,6 @@ body,
 
 //操作按钮样式:2个
 .btn-row-item {
-  // margin-left: 0.96rem;
   margin-left: 1.15rem;
 
   .ans-btn {
@@ -133,18 +131,18 @@ body,
 
 // 设置数字输入框
 .n-input-number {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  border: 0.01rem solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.04rem;
 }
 
 .n-input-border {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  border: 0.01rem solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.04rem;
 }
 
 .add-input-border {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  border: 0.01rem solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.04rem;
 }
 
 // 颜色选择器（色带）的相关样式
@@ -154,7 +152,7 @@ body,
   border-radius: 0.04rem;
   background: rgba(255, 255, 255, 0.04);
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 0.01rem solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   padding: 0 0.12rem;
@@ -164,27 +162,14 @@ body,
 .n-color-picker-trigger__fill {
   // 色带的固定尺寸
   // height: 0.08rem;
-  height: 8px;
-  top: 10px !important;
-  bottom: 10px !important;
+  height: 0.08rem;
+  top: 0.1rem !important;
+  bottom: 0.1rem !important;
 }
 
 .color-pick-box-full {
   width: 1.96rem;
 }
-
-// .n-dropdown-menu{
-//     box-sizing: border-box;
-//     width: 1.16rem;
-//     border: 1px solid;
-//     border-radius: 0px;
-//     border-image: radial-gradient(67% 67% at 50% 50%, #CAE6FF 0%, rgba(202,230,255,0.00) 99%) 1;
-//     box-shadow: inset 0px 0px 6px -2px rgba(118, 194, 252, 0.35),inset 0px 0px 6px 0px rgba(173, 216, 255, 0.15);
-//     background: linear-gradient(0deg, rgba(202, 230, 255, 0.08), rgba(202, 230, 255, 0.08)), rgba(0, 8, 23, 0.7);
-//     .n-dropdown-option-body__label{
-//         font-size: 0.12rem;
-//     }
-// }
 
 // 面板上图标的排列样式等
 .icon-list {
@@ -247,16 +232,17 @@ body,
 .iconfont {
   font-size: 0.18rem;
 }
+
 // 单独控制一些特殊的图标
 .iconSize {
   display: block;
-  margin: 2px;
+  margin: 0.02rem;
   font-size: 0.2rem;
 }
 
 :deep(.n-scrollbar-rail--vertical) {
-  right: 0px !important;
-  width: 8px !important;
+  right: 0rem !important;
+  width: 0.08rem !important;
 }
 
 // 保存面板 按钮居中
@@ -291,9 +277,8 @@ body,
 .supermap3d-viewer-timelineContainer {
   visibility: visible;
   width: 100%;
-  z-index: 2147483647;
-  left: 0px;
-  right: 0px;
+  left: 0rem;
+  right: 0rem;
 }
 
 .n-tree-node-content__suffix>div {
@@ -302,14 +287,15 @@ body,
 }
 
 // 添加数据面板
-.addData-base-container {
+.addData-data-container {
   display: flex;
   flex-wrap: wrap;
-  margin-right: 7px;
+  margin-right: 0.07rem;
 
   .ItemBox {
     width: 30%;
-    color: $--SM--FontColor-Sub;
+    // color: $--SM--FontColor-Sub;
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 0.07rem;
     margin-right: 0.12rem;
     box-sizing: border-box;
@@ -320,15 +306,11 @@ body,
     }
 
     .img-box {
-      // width: 100%;
-      // height: 0.64rem;
       width: 1.06rem;
       height: 0.85rem;
       border-radius: 0.05rem;
       overflow: hidden;
       margin-bottom: 0.04rem;
-      // background-color: #000;
-      // border: 0.02rem solid #3498e500;
 
       .img {
         width: 100%;
@@ -375,11 +357,11 @@ body,
 .layerSeries-box {
   width: 100%;
   height: 100%;
-  padding: 0 0.12rem;
+  padding: 0 0.16rem;
   box-sizing: border-box;
 }
 
 // 符号库等不让他们居中的
-.no-center{
+.no-center {
   align-items: start !important;
 }

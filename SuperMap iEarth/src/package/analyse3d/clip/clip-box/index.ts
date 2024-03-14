@@ -1,3 +1,3 @@
-import SmClipBox from './index.vue';
+import SmClipBox from './clipBox.vue';
 
 export default SmClipBox;

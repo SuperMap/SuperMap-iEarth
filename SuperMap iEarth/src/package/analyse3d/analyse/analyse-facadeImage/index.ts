@@ -1,2 +1,3 @@
-import SmAnalyseFacadeImage from "./index.vue"
+import SmAnalyseFacadeImage from "./facadeImage.vue";
+
 export default SmAnalyseFacadeImage;

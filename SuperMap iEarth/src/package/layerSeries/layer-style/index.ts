@@ -1,3 +1,3 @@
-import LayerStyle from './index.vue';
+import LayerStyle from './layerStyle.vue';
 
 export default LayerStyle;

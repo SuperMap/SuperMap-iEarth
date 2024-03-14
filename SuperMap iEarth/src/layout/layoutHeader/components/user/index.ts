@@ -1,3 +1,3 @@
-import User from './index.vue';
+import User from './user.vue';
 
 export { User };

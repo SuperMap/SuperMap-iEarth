@@ -1,8 +1,8 @@
 import store from '@/store';
-import configToken from "@/../public/Resource/config/configToken.json"
-import { useLayerStore } from "@/store/layerStore";
+import { useLayerStore } from "@/store/layerStore/layer";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 
+const configToken = window.configToken;
 const layerStore = useLayerStore(store);
 
 function getConfig() {
@@ -38,7 +38,7 @@ function getConfig() {
                             layerStore.configToken.BingMapKey = configToken.bingMapsKey;
                         }
                         resolve(layerStore.configToken);
-                    }else{
+                    } else {
                         resolve(layerStore.configToken);
                     }
                 })
@@ -51,8 +51,6 @@ function getConfig() {
             resolve(layerStore.configToken);
         }
     })
-
-
 }
 
 export default getConfig;

@@ -1,10 +1,7 @@
-
 /**
  * 编辑功能
  */
-
-
-function setEditHandler(entity:any,isEditZ:any, callback ?:any) {
+function setEditHandler(entity: any, isEditZ: any, callback?: any) {
     if (!window.SuperMap3D.defined(entity)) {
         if (window.SuperMap3D.defined(window.editHandler)) window.editHandler.clear();
         else { };

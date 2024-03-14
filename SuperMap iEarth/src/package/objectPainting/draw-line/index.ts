@@ -1,3 +1,3 @@
-import SmDrawLine from './index.vue';
+import SmDrawLine from './drawLine.vue';
 
 export default SmDrawLine;

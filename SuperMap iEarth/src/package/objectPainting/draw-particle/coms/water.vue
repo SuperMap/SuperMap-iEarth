@@ -1,16 +1,15 @@
 <template>
-  <!-- <div class="row-item">
-    <span>类型</span>
-    <n-select style="width: 1.96rem;height: 32px;" v-model:value="state.selectedType" size="small"
-      :options="state.optionMode" />
-  </div> -->
-  <n-checkbox v-model:checked="state.showEditCheck" style="margin-left: 1.2rem; margin-bottom: 0.1rem">
-    {{$t('global.displayEdit')}}
-  </n-checkbox>
+  <!-- <n-checkbox
+    v-model:checked="state.showEditCheck"
+    style="margin-left: 1.2rem; margin-bottom: 0.1rem"
+  >
+    {{ $t("displayEdit") }}
+  </n-checkbox> -->
 
-  <div class="row-item" v-show="state.showEditCheck">
-    <span>{{$t('global.parameterSet')}}</span>
-    <div style="width: 1.96rem;">
+  <!-- <div class="row-item" v-show="state.showEditCheck"> -->
+  <div class="row-item">
+    <span>{{ $t("parameterSet") }}</span>
+    <div style="width: 1.96rem">
       <n-switch v-model:value="state.setParam" size="small" />
     </div>
   </div>
@@ -18,161 +17,216 @@
   <!-- 参数设置 -->
   <div v-show="state.setParam">
     <div class="row-item">
-      <span>{{$t('global.emitType')}}</span>
-      <n-select style="width: 1.96rem;height: 32px;" v-model:value="state.selectedType" 
-        :options="state.optionMode" />
+      <span>{{ $t("emitType") }}</span>
+      <n-select
+        style="width: 1.96rem; height: 32px"
+        v-model:value="state.selectedType"
+        :options="state.optionMode"
+      />
     </div>
+
     <div class="row-item">
-      <span>{{$t('global.particleNumber')}}</span>
+      <span>{{ $t("particleNumber") }}</span>
       <div class="slider-box">
-        <n-slider v-model:value="state.emitRate" style="width: 70%" :min="1" :max="2500" :step="10" />
-        <n-input-number 
-            v-model:value="state.emitRate" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="1"
-            :max="2500"
-            placeholder=""
-            size="small" 
+        <n-slider
+          v-model:value="state.emitRate"
+          style="width: 70%"
+          :min="1"
+          :max="2500"
+          :step="10"
+        />
+        <n-input-number
+          v-model:value="state.emitRate"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="1"
+          :max="2500"
+          placeholder=""
+          size="small"
         />
       </div>
     </div>
+
     <div class="row-item">
-      <span>{{$t('global.particleSize')}}</span>
+      <span>{{ $t("particleSize") }}</span>
       <div class="slider-box">
-        <n-slider v-model:value="state.particleSize" style="width: 70%" :min="1" :max="60" :step="1" />
-        <n-input-number 
-            v-model:value="state.particleSize" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="1"
-            :max="60"
-            placeholder=""
-            size="small" 
+        <n-slider
+          v-model:value="state.particleSize"
+          style="width: 70%"
+          :min="1"
+          :max="60"
+          :step="1"
+        />
+        <n-input-number
+          v-model:value="state.particleSize"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="1"
+          :max="60"
+          placeholder=""
+          size="small"
         />
       </div>
     </div>
+
     <div class="row-item">
-      <span>{{$t('global.lifeCycle')}}</span>
-      <div class="slider-box" >
-        <n-input-number 
-            v-model:value="state.lifeRange[0]" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="0.1" 
-            :max="30"
-            placeholder=""
-            size="small" 
+      <span>{{ $t("lifeCycle") }}</span>
+      <div class="slider-box">
+        <n-input-number
+          v-model:value="state.lifeRange[0]"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="0.1"
+          :max="30"
+          placeholder=""
+          size="small"
         />
-        <n-slider style="width: 1.5rem" v-model:value="state.lifeRange" range :step="1" :min="0.1" :max="30" />
-        <n-input-number 
-            v-model:value="state.lifeRange[1]" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="0.1" 
-            :max="30"
-            placeholder=""
-            size="small" 
+        <n-slider
+          style="width: 1.5rem"
+          v-model:value="state.lifeRange"
+          range
+          :step="1"
+          :min="0.1"
+          :max="30"
+        />
+        <n-input-number
+          v-model:value="state.lifeRange[1]"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="0.1"
+          :max="30"
+          placeholder=""
+          size="small"
         />
       </div>
     </div>
+
     <div class="row-item">
-      <span>{{$t('global.speedRange')}}</span>
-      <div class="slider-box" >
-        <n-input-number 
-            v-model:value="state.speedRange[0]" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="1" 
-            :max="30" 
-            placeholder=""
-            size="small" 
+      <span>{{ $t("speedRange") }}</span>
+      <div class="slider-box">
+        <n-input-number
+          v-model:value="state.speedRange[0]"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="1"
+          :max="30"
+          placeholder=""
+          size="small"
         />
-        <n-slider style="width: 1.5rem" v-model:value="state.speedRange" range :step="1" :min="1" :max="30" />
-        <n-input-number 
-            v-model:value="state.speedRange[1]" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="1" 
-            :max="30" 
-            placeholder=""
-            size="small" 
+        <n-slider
+          style="width: 1.5rem"
+          v-model:value="state.speedRange"
+          range
+          :step="1"
+          :min="1"
+          :max="30"
+        />
+        <n-input-number
+          v-model:value="state.speedRange[1]"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="1"
+          :max="30"
+          placeholder=""
+          size="small"
         />
       </div>
     </div>
+
     <div class="row-item">
-      <span>{{$t('global.scaleRange')}}</span>
-      <div class="slider-box" >
-        <n-input-number 
-            v-model:value="state.scaleRange[0]" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="1" 
-            :max="10"
-            placeholder=""
-            size="small" 
+      <span>{{ $t("scaleRange") }}</span>
+      <div class="slider-box">
+        <n-input-number
+          v-model:value="state.scaleRange[0]"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="1"
+          :max="10"
+          placeholder=""
+          size="small"
         />
-        <n-slider style="width: 1.5rem" v-model:value="state.scaleRange" range :step="1" :min="1" :max="10" />
-        <n-input-number 
-            v-model:value="state.scaleRange[1]" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="1" 
-            :max="10" 
-            placeholder=""
-            size="small" 
+        <n-slider
+          style="width: 1.5rem"
+          v-model:value="state.scaleRange"
+          range
+          :step="1"
+          :min="1"
+          :max="10"
+        />
+        <n-input-number
+          v-model:value="state.scaleRange[1]"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="1"
+          :max="10"
+          placeholder=""
+          size="small"
         />
       </div>
     </div>
+
     <div class="row-item">
-      <span>{{$t('global.gravity')}}</span>
-      <div class="slider-box" >
-        <n-slider style="width: 1.5rem" v-model:value="state.gravity" :step="1" :min="-20" :max="20" />
-        <n-input-number 
-            v-model:value="state.gravity" 
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false" 
-            :show-button="false" 
-            :min="-20"
-            :max="20"
-            placeholder=""
-            size="small" 
+      <span>{{ $t("gravity") }}</span>
+      <div class="slider-box">
+        <n-slider
+          style="width: 1.5rem"
+          v-model:value="state.gravity"
+          :step="1"
+          :min="-20"
+          :max="20"
+        />
+        <n-input-number
+          v-model:value="state.gravity"
+          class="slider-input-number"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          :min="-20"
+          :max="20"
+          placeholder=""
+          size="small"
         />
       </div>
     </div>
   </div>
 
   <div class="btn-row-item">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{$t('global.add')}}</n-button>
-    <n-button class="btn-secondary" @click="clear">{{$t('global.clear')}}</n-button>
+    <n-button
+      type="info"
+      color="#3499E5"
+      text-color="#fff"
+      @click="add"
+      style="margin-right: 0.1rem"
+      >{{ $t("add") }}</n-button
+    >
+    <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button>
   </div>
 </template>
-    
+
 <script lang="ts" setup>
-import { reactive,onMounted, onBeforeUnmount, watch } from "vue";
+import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import { useLayerStore } from "@/store/index";
 
 const layerStore = useLayerStore();
 const scene = viewer.scene;
 
-// 初始化数据
+// 初始化变量
 let state = reactive({
   selectedType: "Cone",
   selectedId: 0,
@@ -186,41 +240,47 @@ let state = reactive({
   gravity: -8.0,
   optionMode: [
     {
-      label: () => GlobalLang.coneEmit,
+      label: () => $t("coneEmit"),
       value: "Cone",
     },
     {
-      label: () => GlobalLang.sphereEmit,
+      label: () => $t("sphereEmit"),
       value: "Sphere",
     },
     {
-      label: () => GlobalLang.boxEmit,
+      label: () => $t("boxEmit"),
       value: "Box",
-    }
+    },
   ],
 });
 
-let waterUrl: string = './Resource/particle/fountain.json';
-let modelMatrix = new SuperMap3D.Matrix4();
+let waterUrl: string = "./Resource/particle/fountain.json";
 let particle_water, clickHandle;
-
-onMounted(() => {
-  init();
-})
+let modelMatrix = new SuperMap3D.Matrix4();
 
 function init() {
-  if(window.EarthGlobal && window.EarthGlobal["water"]){
+  if (window.EarthGlobal && window.EarthGlobal["water"]) {
     particle_water = window.EarthGlobal["water"];
   }
-  if(layerStore.particleOptions.water){
-    let option = layerStore.particleOptions.water['particleAttr'];
-    if(option) switchCase(option);
+  if (layerStore.particleOptions.water) {
+    let option = layerStore.particleOptions.water["particleAttr"];
+    if (option) switchCase(option);
   }
 }
 
+onMounted(() => {
+  init();
+});
+
+onBeforeUnmount(() => {
+  clear(false);
+});
+
 // 加载粒子文件
-function loadParticleFile(url,option?:any) {
-  SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
+function loadParticleFile(url, option?: any) {
+  SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (
+    particleSystem
+  ) {
     particle_water = particleSystem;
     particle_water.modelMatrix = modelMatrix;
     // scene.primitives.add(particle_water); // 注释避免报错
@@ -231,47 +291,50 @@ function loadParticleFile(url,option?:any) {
       for (let key in option) {
         switch (key) {
           case "emitRate":
-            particle_water['emitRate'] = Number(option[key]);
+            particle_water["emitRate"] = Number(option[key]);
             break;
           case "minLifeTime":
-            particle_water['minLifeTime'] = Number(option[key]);
+            particle_water["minLifeTime"] = Number(option[key]);
             break;
           case "maxLifeTime":
-            particle_water['maxLifeTime'] = Number(option[key]);
+            particle_water["maxLifeTime"] = Number(option[key]);
             break;
           case "minEmitPower":
-            particle_water['minEmitPower'] = Number(option[key]);
+            particle_water["minEmitPower"] = Number(option[key]);
             break;
           case "maxEmitPower":
-            particle_water['maxEmitPower'] = Number(option[key]);
+            particle_water["maxEmitPower"] = Number(option[key]);
             break;
           case "minSize":
-            particle_water['minSize'] = Number(option[key]);
+            particle_water["minSize"] = Number(option[key]);
             break;
           case "maxSize":
-            particle_water['maxSize'] = Number(option[key]);
+            particle_water["maxSize"] = Number(option[key]);
             break;
           case "minScaleX":
-            particle_water['minScaleX'] = Number(option[key]);
+            particle_water["minScaleX"] = Number(option[key]);
             break;
           case "minScaleY":
-            particle_water['minScaleY'] = Number(option[key]);
+            particle_water["minScaleY"] = Number(option[key]);
             break;
           case "maxScaleX":
-            particle_water['maxScaleX'] = Number(option[key]);
+            particle_water["maxScaleX"] = Number(option[key]);
             break;
           case "maxScaleY":
-            particle_water['maxScaleY'] = Number(option[key]);
+            particle_water["maxScaleY"] = Number(option[key]);
             break;
           case "gravity":
-            particle_water.gravity= new SuperMap3D.Cartesian3(0, 0, Number(option[key]));
+            particle_water.gravity = new SuperMap3D.Cartesian3(
+              0,
+              0,
+              Number(option[key])
+            );
             break;
           default:
             break;
         }
       }
     }
-
   });
 }
 
@@ -279,35 +342,30 @@ function loadParticleFile(url,option?:any) {
 function add() {
   clear();
   window.viewer.enableCursorStyle = false;
-  window.viewer._element.style.cursor = '';
+  window.viewer._element.style.cursor = "";
   document.body.classList.add("measureCur");
   clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandle.setInputAction(function (click) {
     let centerPosition = viewer.scene.pickPosition(click.position);
-    SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
+    SuperMap3D.Transforms.eastNorthUpToFixedFrame(
+      centerPosition,
+      undefined,
+      modelMatrix
+    );
     loadParticleFile(waterUrl);
-    layerStore.particleOptions['water'] = {
-      particleUrl:waterUrl,
-      particlePosition:centerPosition,
-      particleAttr:{}
-    }
-    clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK)//移除事件
+    layerStore.particleOptions["water"] = {
+      particleUrl: waterUrl,
+      particlePosition: centerPosition,
+      particleAttr: {},
+    };
+    clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK); //移除事件
     window.viewer.enableCursorStyle = true;
-    document.body.classList.remove('measureCur');
+    document.body.classList.remove("measureCur");
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-function clear(flag=true) {
-  // particle_water.clearAll();
-  if (!SuperMap3D.defaultValue(particle_water)) return;
-  scene.primitives.remove(particle_water);
-  // clickHandle.distory();
-  // scene.primitives.removeAll();
-  if(flag) layerStore.particleOptions['water'] = null;
-};
-
 // 设置初始参数
-function switchCase(option:any) {
+function switchCase(option: any) {
   for (let key in option) {
     switch (key) {
       case "selectedType":
@@ -355,9 +413,20 @@ function switchCase(option:any) {
   }
 }
 
+// 清除
+function clear(flag = true) {
+  if (!SuperMap3D.defaultValue(particle_water)) return;
+  scene.primitives.remove(particle_water);
+  if (flag) layerStore.particleOptions["water"] = null;
+  // particle_water.clearAll();
+  // clickHandle.distory();
+  // scene.primitives.removeAll();
+}
+
+// 监听
 watch(
   () => state.selectedType,
-  val => {
+  (val) => {
     if (!particle_water) return;
     switch (val) {
       case "Cone":
@@ -374,96 +443,93 @@ watch(
         particle_water.createBoxEmitter(direction1, direction2, minBox, maxBox);
         break;
     }
-    layerStore.particleOptions['water']['particleAttr']['emitType'] = val;
+    layerStore.particleOptions["water"]["particleAttr"]["emitType"] = val;
   }
 );
-
 watch(
   () => state.emitRate,
-  val => {
+  (val) => {
     if (!particle_water) return;
-    particle_water['emitRate'] = Number(val);
-    layerStore.particleOptions['water']['particleAttr']['emitRate'] = Number(val);
+    particle_water["emitRate"] = Number(val);
+    layerStore.particleOptions["water"]["particleAttr"]["emitRate"] =
+      Number(val);
   }
 );
 watch(
   () => state.particleSize,
-  val => {
+  (val) => {
     if (!particle_water) return;
     particle_water.minScaleX = Number(val);
     particle_water.minScaleY = Number(val);
     particle_water.maxScaleX = Number(val);
     particle_water.maxScaleY = Number(val);
-    layerStore.particleOptions['water']['particleAttr']['minScaleX'] = Number(val);
-    layerStore.particleOptions['water']['particleAttr']['minScaleY'] = Number(val);
-    layerStore.particleOptions['water']['particleAttr']['maxScaleX'] = Number(val);
-    layerStore.particleOptions['water']['particleAttr']['maxScaleY'] = Number(val);
+    layerStore.particleOptions["water"]["particleAttr"]["minScaleX"] =
+      Number(val);
+    layerStore.particleOptions["water"]["particleAttr"]["minScaleY"] =
+      Number(val);
+    layerStore.particleOptions["water"]["particleAttr"]["maxScaleX"] =
+      Number(val);
+    layerStore.particleOptions["water"]["particleAttr"]["maxScaleY"] =
+      Number(val);
   }
 );
-
 watch(
   () => state.lifeRange,
-  val => {
+  (val) => {
     if (!particle_water) return;
     if (val.length > 1) {
       particle_water["minLifeTime"] = Number(val[0]);
       particle_water["maxLifeTime"] = Number(val[1]);
-      layerStore.particleOptions['water']['particleAttr']['minLifeTime'] = Number(val[0]);
-      layerStore.particleOptions['water']['particleAttr']['maxLifeTime'] = Number(val[1]);
+      layerStore.particleOptions["water"]["particleAttr"]["minLifeTime"] =
+        Number(val[0]);
+      layerStore.particleOptions["water"]["particleAttr"]["maxLifeTime"] =
+        Number(val[1]);
     }
   }
 );
-
 watch(
   () => state.speedRange,
-  val => {
+  (val) => {
     if (!particle_water) return;
     if (val.length > 1) {
       particle_water["minEmitPower"] = Number(val[0]);
       particle_water["maxEmitPower"] = Number(val[1]);
-      layerStore.particleOptions['water']['particleAttr']['minEmitPower'] = Number(val[0]);
-      layerStore.particleOptions['water']['particleAttr']['maxEmitPower'] = Number(val[1]);
+      layerStore.particleOptions["water"]["particleAttr"]["minEmitPower"] =
+        Number(val[0]);
+      layerStore.particleOptions["water"]["particleAttr"]["maxEmitPower"] =
+        Number(val[1]);
     }
   }
 );
-
 watch(
   () => state.scaleRange,
-  val => {
+  (val) => {
     if (!particle_water) return;
     if (val.length > 1) {
       particle_water["minSize"] = Number(val[0]);
       particle_water["maxSize"] = Number(val[1]);
-      layerStore.particleOptions['water']['particleAttr']['minSize'] = Number(val[0]);
-      layerStore.particleOptions['water']['particleAttr']['maxSize'] = Number(val[1]);
+      layerStore.particleOptions["water"]["particleAttr"]["minSize"] = Number(
+        val[0]
+      );
+      layerStore.particleOptions["water"]["particleAttr"]["maxSize"] = Number(
+        val[1]
+      );
     }
   }
 );
-
 watch(
   () => state.gravity,
-  val => {
+  (val) => {
     if (!particle_water) return;
     particle_water.gravity = new SuperMap3D.Cartesian3(0, 0, Number(val));
-    layerStore.particleOptions['water']['particleAttr']['gravity'] = Number(val)
+    layerStore.particleOptions["water"]["particleAttr"]["gravity"] =
+      Number(val);
   }
 );
-
-
-onBeforeUnmount(() => {
-  clear(false);
-});
-
 </script>
-    
+
 <style lang="scss" scoped>
 .slider-input-number {
-  margin: 0px -10px 0px 0px;
+  margin: 0px -0.1rem 0px 0px;
 }
 </style>
-    
-    
-    
-    
-    
-    

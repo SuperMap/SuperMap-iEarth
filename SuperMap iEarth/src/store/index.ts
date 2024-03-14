@@ -1,4 +1,4 @@
-export { useLayerStore } from './layerStore/index';
+export { useLayerStore } from './layerStore/layer';
 export { usePanelStore } from './panelStore/index';
 export { IportalStoreCreate } from './iportalManage/index';
 
@@ -11,5 +11,3 @@ const store: any = createPinia();
 store.use(PiniaPluginPersist);
 
 export default store;
-
-

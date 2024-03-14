@@ -1,3 +1,3 @@
-import SmSceneViewPort from './index.vue';
+import SmSceneViewPort from './viewPort.vue';
 
 export default SmSceneViewPort;

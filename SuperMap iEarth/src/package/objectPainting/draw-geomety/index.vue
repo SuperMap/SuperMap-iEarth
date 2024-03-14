@@ -1,12 +1,16 @@
 <template>
   <!-- 绘制线 -->
-
   <div class="row-item">
-    <span class="name">{{$t('global.symbolLibrary')}}</span>
-    <div class="icon-list-space" style="width: 1.96rem;">
-      <span v-for="(line, index) in state.lines" :key="index" class="icon-span-four" :title="line.name"
-        :class="line.isSelect ? 'selected-icon' : ''" @click="changleIconItem(line)">
-        <!-- <svg-icon :name="line.iconName" class="icon-size" /> -->
+    <span class="name">{{ $t("symbolLibrary") }}</span>
+    <div class="icon-list-space" style="width: 1.96rem">
+      <span
+        v-for="(line, index) in state.lines"
+        :key="index"
+        class="icon-span-four"
+        :title="line.name"
+        :class="line.isSelect ? 'selected-icon' : ''"
+        @click="changleIconItem(line)"
+      >
         <i class="iconfont iconSize" :class="line.iconName"></i>
       </span>
     </div>
@@ -31,48 +35,47 @@
   <div v-if="state.selectedId === 3">
     <frustum></frustum>
   </div>
-
 </template>
-  
+
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount } from "vue";
 
-import ellipseGeo from "./coms/ellipse.vue"
-import box from "./coms/box.vue"
-import ellipsoid from "./coms/ellipsoid.vue"
-import frustum from "./coms/frustum.vue"
+import ellipseGeo from "./coms/ellipse.vue";
+import box from "./coms/box.vue";
+import ellipsoid from "./coms/ellipsoid.vue";
+import frustum from "./coms/frustum.vue";
 
-// 初始化数据
+// 初始化变量
 let state = reactive({
   lines: [
     {
       id: 0,
       iconName: "iconyuanzhu",
-      name: GlobalLang.cylinder,
+      name: $t("cylinder"),
       nameEN: "elipse",
       isSelect: true,
     },
     {
       id: 1,
       iconName: "iconlifangti",
-      name: GlobalLang.cube,
+      name: $t("cube"),
       nameEN: "box",
       isSelect: false,
     },
     {
       id: 2,
       iconName: "iconqiuti",
-      name: GlobalLang.sphere,
+      name: $t("sphere"),
       nameEN: "ellipsoid",
       isSelect: false,
     },
     {
       id: 3,
       iconName: "iconyuanzhui",
-      name: GlobalLang.cone,
+      name: $t("cone"),
       nameEN: "frustum",
       isSelect: false,
-    }
+    },
   ],
   selectedId: 0,
 });
@@ -92,12 +95,4 @@ function changleIconItem(item: any) {
 onBeforeUnmount(() => {
   viewer.entities.removeAll();
 });
-
-
 </script>
-  
-  
-  
-  
-  
-  

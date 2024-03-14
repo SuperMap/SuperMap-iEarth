@@ -1,3 +1,3 @@
-import qxSingle from './index.vue';
+import qxSingle from './qxSingle.vue';
 
 export default qxSingle;

@@ -13,17 +13,27 @@ declare interface Window {
   scene: any,
   axios: any,
   editHandler:any,
-  LangGlobal:any, // 全局语言管理
   L:any, // 二维地图库：iclient-leaflet
   EarthGlobal:any, 
-  iEarthConsole:boolean
+  iEarthConsole:boolean,
+  lang_support_list:any,
+  lang_default:string,
+  lang_data:any,
+  $t:any,
+  layerServiceData:any,
+  configToken:any
 }
 
 //全局声明Cesium和viewer
 declare var viewer : Window.viewer
 declare var SuperMap3D : Window.SuperMap3D
 declare var h337 : Window.h337
-declare var GlobalLang : Window.GlobalLang
 declare var L : Window.L
 declare var EarthGlobal : Window.EarthGlobal
 declare var iEarthConsole : Window.iEarthConsole
+declare var lang_support_list : Window.lang_support_list
+declare var lang_default : Window.lang_default
+declare var lang_data : Window.lang_data
+declare var $t : Window.$t
+declare var layerServiceData : window.layerServiceData
+declare var configToken : window.configToken

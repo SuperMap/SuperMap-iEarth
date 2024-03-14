@@ -1,3 +1,3 @@
-import SmVideoSet from './index.vue';
+import SmVideoSet from './videoSet.vue';
 
 export default SmVideoSet;

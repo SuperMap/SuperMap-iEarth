@@ -1,3 +1,3 @@
-import SmLayerBase from './index.vue';
+import SmLayerBase from './layerBase.vue';
 
 export default SmLayerBase;

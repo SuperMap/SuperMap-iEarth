@@ -121,7 +121,7 @@ class ClipPlane {
     setReferencePlane(position, normal) {
         if (!SuperMap3D.defined(position)) return;
         this.addModel(position);
-        if(!this.referencePlane) return;
+        if (!this.referencePlane) return;
         this.referencePlane.updatePosition(position);
         if (normal && this.setDirectionByNormal) {
             let LocalToWorldMatrix = SuperMap3D.Transforms.eastNorthUpToFixedFrame(position);
@@ -134,7 +134,7 @@ class ClipPlane {
     // 开始裁剪
     startClip(position, normal) {
         if (!SuperMap3D.defined(position)) return;
-        if(this.planeSurface) this.clear();
+        if (this.planeSurface) this.clear();
         let LocalToWorldMatrix = SuperMap3D.Transforms.eastNorthUpToFixedFrame(position);
         if (normal && this.setDirectionByNormal) {
             let mat = getMatrixByNormal(LocalToWorldMatrix, normal); //法线为上方向的局部坐标系
@@ -153,22 +153,18 @@ class ClipPlane {
         }
     }
 
-
-
-
-
     // 添加模型编辑器
     addModelEditor(model) {
         this.modelEditor = new SuperMap3D.ModelEditor({
             model: model,
             scene: this.viewer.scene,
-            scale:3,
+            scale: 3,
             axesShow: {
                 translation: true,
                 rotation: true,
                 scale: false
             },
-            lineWidthScale:5
+            lineWidthScale: 5
         });
         this.modelEditor.activate();
         this.modelEditor.changedEvt.addEventListener(param => {
@@ -204,10 +200,10 @@ class ClipPlane {
    */
     setModelEditorShow(val) {
         if (!this.modelEditor) return;
-        if (!val){
+        if (!val) {
             this.modelEditor.deactivate();
             // this.modelEditor = null;
-        }else {
+        } else {
             let editEntity = this.s3mInstanceColc.getInstance(this.modelUrl, "clip-model");
             // if (!this.modelEditor) this.addModelEditor(this.referencePlane);
             this.modelEditor.setEditObject(editEntity);
@@ -220,7 +216,7 @@ class ClipPlane {
     */
     setClipPlaneScale(val) {
         this.clipPlaneScale = val;
-        if (this.LocalToWorldMatrix){
+        if (this.LocalToWorldMatrix) {
             this.setPlanePositions(this.LocalToWorldMatrix);
         }
     }
@@ -268,4 +264,4 @@ function getMatrixByNormal(matrix, normal) {
     }
 }
 
-export default ClipPlane
+export default ClipPlane;

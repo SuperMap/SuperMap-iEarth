@@ -99,7 +99,7 @@ class SightlineAnalysis {
             name: "sightPoint_move",
         });
     }
-    
+
     /**
     * 清除移动鼠标显示实时分析结果
     */
@@ -168,9 +168,9 @@ class SightlineAnalysis {
         this.barrierPointsVisible = val
     }
 
-     /**
-    * 销毁
-    */
+    /**
+   * 销毁
+   */
     clear() {
         this.sightline.removeAllTargetPoint();
         this.viewPosition = null;
@@ -214,6 +214,4 @@ const CartesiantoDegrees = (Cartesians) => {
     return positions
 };
 
-
-
-export default SightlineAnalysis
+export default SightlineAnalysis;

@@ -1,2 +1,3 @@
-import SmAnalyseSkyline from "./index.vue"
+import SmAnalyseSkyline from "./skyline.vue";
+
 export default SmAnalyseSkyline;

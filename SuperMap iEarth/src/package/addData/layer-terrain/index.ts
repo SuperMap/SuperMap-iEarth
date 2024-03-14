@@ -1,3 +1,3 @@
-import SmLayerTerrain from './index.vue';
+import SmLayerTerrain from './layerTerrain.vue';
 
 export default SmLayerTerrain;

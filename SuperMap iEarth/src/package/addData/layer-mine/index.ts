@@ -1,3 +1,3 @@
-import SmPortalService from './index.vue';
+import SmPortalService from './layerMine.vue';
 
 export default SmPortalService;

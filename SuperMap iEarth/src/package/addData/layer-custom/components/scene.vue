@@ -1,23 +1,23 @@
 <template>
   <div class="row-item">
-    <span>{{$t('global.address')}}</span>
+    <span>{{ $t("address") }}</span>
     <n-tooltip placement="top-end" trigger="hover">
-        <template #trigger>
-          <n-input
-            class="add-input-border"
-            v-model:value="sceneUrl"
-            type="text"
-            style="width: 2.4rem"
-            :title="sceneUrl"
-            @input="handleChange"
-          />
-        </template>
-        {{urlTip}}
-      </n-tooltip>
+      <template #trigger>
+        <n-input
+          class="add-input-border"
+          v-model:value="sceneUrl"
+          type="text"
+          style="width: 2.4rem"
+          :title="sceneUrl"
+          @input="handleChange"
+        />
+      </template>
+      {{ urlTip }}
+    </n-tooltip>
   </div>
 
   <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
-    <n-checkbox v-model:checked="token"> {{$t('global.addToken')}} </n-checkbox>
+    <n-checkbox v-model:checked="token"> {{ $t("addToken") }} </n-checkbox>
     <n-input
       style="margin-top: 0.1rem; width: 2.4rem"
       v-if="token"
@@ -27,61 +27,54 @@
     />
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.95rem;">
+  <div class="btn-row-item" style="margin-left: 0.95rem">
     <n-button
       type="info"
       color="#3499E5"
       text-color="#fff"
       class="ans-btn"
       @click="openScene"
-      >{{$t('global.sure')}}</n-button
+      >{{ $t("sure") }}</n-button
     >
-    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{$t('global.clear')}}</n-button>
+    <n-button
+      class="btn-secondary"
+      @click="clear"
+      color="rgba(255, 255, 255, 0.65)"
+      ghost
+      >{{ $t("clear") }}</n-button
+    >
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useMessage } from "naive-ui"
+import { useMessage } from "naive-ui";
 import layerManagement from "@/tools/layerManagement";
 
+const message = useMessage();
+
+let urlTip =
+  "http://<server>:<port>/realspace/services/<component>/rest/realspace";
 let sceneUrl = ref("");
-let urlTip = "http://<server>:<port>/realspace/services/<component>/rest/realspace";
 let sceneToken = ref("");
 let token = ref(false);
-const message = useMessage();
 
 // 校验URL
 function handleChange() {
   // 检查地址是否正确 - 使用正则严格校验
   if (sceneUrl.value.indexOf("rest/realspace") != -1) {
-    // message.success(langGlobal.urlCheckedsuccess);
+    message.success($t("urlCheckedsuccess"));
   }
 
   //处理realspace带有/
-  if (sceneUrl.value.slice(-14) === "rest/realspace") {
-    let url = sceneUrl.value.split("rest/realspace")[0] + "rest/realspace";
-    let scenesUrl = url + "/scenes.json";
-
-    // // 有跨域，之后看看
-    // let sceneListPromise = window.axios.get(scenesUrl, {
-    //     //需要cookie验证
-    //     withCredentials: true
-    // });
-
-    // sceneListPromise.then((results:any) => {
-    // });
-  }
+  // if (sceneUrl.value.slice(-14) === "rest/realspace") {
+  //   let url = sceneUrl.value.split("rest/realspace")[0] + "rest/realspace";
+  // }
 }
-function clear(){
-  sceneUrl.value = '';
-  sceneToken.value = '';
-  token.value = false;
-};
-let promiseArray: any[] = [];
+
+// 打开场景服务
 function openScene() {
   if (sceneUrl.value == null || sceneUrl.value == "") {
-    // message.warning(langGlobal.urlIsNull);
     return;
   }
 
@@ -96,10 +89,16 @@ function openScene() {
     );
   }
 
-  let promiseResult =  layerManagement.openScene(sceneUrl.value, "REALSPACE");
+  let promiseResult = layerManagement.openScene(sceneUrl.value, "REALSPACE");
   SuperMap3D.when(promiseResult, function (layers: any) {
-    message.success('打开场景成功');
+    message.success($t("openSceneSuccess"));
   });
 }
 
+// 清除
+function clear() {
+  sceneUrl.value = "";
+  sceneToken.value = "";
+  token.value = false;
+}
 </script>

@@ -1,3 +1,3 @@
-import SmClipPlane from './index.vue';
+import SmClipPlane from './clipPlane.vue';
 
 export default SmClipPlane;

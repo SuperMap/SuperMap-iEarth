@@ -1,7 +1,12 @@
 <template>
   <div class="btn-list">
-    <div class="btn" :class="item.isSelect ? 'select-btn' : ''" v-for="(item, index) in comList" :key="index"
-      @click="changeItem(item)">
+    <div
+      class="btn"
+      v-for="(item, index) in comList"
+      :class="item.isSelect ? 'select-btn' : ''"
+      :key="index"
+      @click="changeItem(item)"
+    >
       {{ item.name }}
     </div>
   </div>
@@ -22,12 +27,12 @@ import rotate from "./components/rotate.vue";
 // 使用vue3 setUp实现动态组件
 let comList = reactive([
   {
-    name: GlobalLang.importFlyRoute,
+    name: $t("importFlyRoute"),
     com: markRaw(importRoute),
     isSelect: true,
   },
   {
-    name: GlobalLang.createFlyRoute,
+    name: $t("createFlyRoute"),
     com: markRaw(createRoute),
     isSelect: false,
   },
