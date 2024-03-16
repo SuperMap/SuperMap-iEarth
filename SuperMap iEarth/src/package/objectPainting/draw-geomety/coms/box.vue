@@ -35,7 +35,7 @@
         :max="200"
       />
       <n-input-number
-        v-model:value="state.boxLength"
+        v-model:value="state.boxWidth"
         class="slider-input-number"
         :update-value-on-input="false"
         :bordered="false"
@@ -59,7 +59,7 @@
         :max="100"
       />
       <n-input-number
-        v-model:value="state.boxLength"
+        v-model:value="state.boxHeight"
         class="slider-input-number"
         :update-value-on-input="false"
         :bordered="false"
@@ -72,7 +72,7 @@
     </div>
   </div>
 
-  <div class="row-item">
+  <div class="row-item" v-show="state.displayMode != 'Outline'">
     <span>{{ $t("fillColor") }}</span>
     <div class="color-pick-box row-content">
       <n-color-picker

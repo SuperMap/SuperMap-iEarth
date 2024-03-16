@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, ref, nextTick } from "vue";
+import { h, ref, nextTick, onMounted } from "vue";
 import { TreeOption, NButton, NDropdown, NInput, useMessage } from "naive-ui";
 import { usePanelStore } from "@/store";
 import { useLayerStore } from "@/store/index";
@@ -27,6 +27,14 @@ let layerTreeData = layerStore.layerTreeData;
 let layerTreeAlias = layerStore.layerTreeAlias;
 
 let currentTerrainProvider: any; // 保存当前地形图层，方便控制其显隐
+
+onMounted(() => {
+  // layerStore.refreshLayerTree();
+  layerStore.updateLayer({ type: "s3m" });
+  layerStore.updateLayer({ type: "imagery" });
+  layerStore.updateLayer({ type: "mvt" });
+  layerStore.updateLayer({ type: "terrain" });
+});
 
 // 给树添加icon
 function renderSuffix({ option }: { option: TreeOption | any }) {
@@ -264,7 +272,7 @@ function setDropdownAction(option: any, key: number) {
     });
   } else if (key === 1) {
     if (option.type === "s3m") {
-      let s3mLayer = viewer.scene.layers.find(option.label);
+      let s3mLayer = viewer.scene.layers.find(option.aliasKey);
       viewer.flyTo(s3mLayer, { duration: 0 });
     } else if (option.type === "mvt") {
       let index = String(option.key).split("-")[1];
@@ -312,11 +320,12 @@ function setDropdownAction(option: any, key: number) {
   } else if (key === 5) {
     // 删除图层之后 再显隐会有问题，不通过id
     let type = option.type;
-    let layerName = option.label;
+    let layerName = option.aliasKey;
     let layerIndex = option.key.split("-")[1];
     if (type === "s3m") {
       viewer.scene.layers.remove(layerName);
       layerStore.removeLayer(option);
+      delete layerTreeAlias.s3mLayer[option.aliasKey];
     }
     if (type === "imagery") {
       let delImagelayer = viewer.imageryLayers._layers[layerIndex];
@@ -326,6 +335,7 @@ function setDropdownAction(option: any, key: number) {
       }
       viewer.imageryLayers.remove(delImagelayer);
       layerStore.removeLayer(option);
+      delete layerTreeAlias.imgLayer[option.aliasKey];
 
       // 针对wmts服务在图层列表的删除
       let delLayerImageryProvider = delImagelayer._imageryProvider;
@@ -354,10 +364,12 @@ function setDropdownAction(option: any, key: number) {
       let mvtLayerName = layerStore.MVTLayerNameList[layerIndex];
       viewer.scene.removeVectorTilesMap(mvtLayerName);
       layerStore.removeLayer(option);
+      delete layerTreeAlias.mvtLayer[option.aliasKey];
     }
     if (type === "terrain") {
       viewer.terrainProvider = new SuperMap3D.EllipsoidTerrainProvider();
       layerStore.removeLayer(option);
+      delete layerTreeAlias.terrainLayer[option.aliasKey];
     }
   } else if (key === 10) {
     panelStore.setRightToolBarList({ id: 10 });

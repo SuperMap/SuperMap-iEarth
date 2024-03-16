@@ -109,10 +109,10 @@ function openScene(response?: any) {
       openTerrain(content);
 
       // 将SelectedOptions传入
-      if (content.layers.SelectedOptions) {
-        layerStore.SelectedOptions = content.layers.SelectedOptions;
-        layerStore.updateSelectedOption(content.layers.SelectedOptions);
-      }
+      // if (content.layers.SelectedOptions) {
+      //   layerStore.SelectedOptions = content.layers.SelectedOptions;
+      //   layerStore.updateSelectedOption(content.layers.SelectedOptions);
+      // }
       // 将layerQueryOptions传入
       if (content.layers.layerQueryOptions) {
         layerStore.layerQueryOptions = content.layers.layerQueryOptions;

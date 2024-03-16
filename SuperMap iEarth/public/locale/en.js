@@ -176,7 +176,7 @@ const local_en = {
     gamma: 'Gamma',
     showUnderground: 'Show underground',
     surfaceTransparency: 'Surface transparency',
-    displayCoordinate: 'Display coordinate',
+    displayCoordinateTip: 'Click anywhere with the mouse to return the result',
     coordinateQuery: 'Coordinate query',
     coordinateTip: 'Longitude、Latitude、Elevation',
 
@@ -473,7 +473,7 @@ const local_en = {
     ShadowStartTip: 'Play a day long animation of sunlight and shadows',
     ShadowStartTip2: 'Play a year long animation of sunshine and shadows',
     ShadowStopTip: 'Stop Animation',
-    DaylightingRate: 'DaylightingRate',
+    DaylightingRate: 'Shadow rate',
     analyseResult: 'AnalyseResult',
 
     // 剖面分析

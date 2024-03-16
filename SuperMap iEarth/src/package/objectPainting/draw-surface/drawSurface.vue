@@ -123,9 +123,7 @@
   </div>
 
   <div class="row-item" v-if="state.selectedId === 2">
-    <span :style="state.currentLanguage == 'en' ? 'width:30%' : ''">{{
-      $t("stripRepetition")
-    }}</span>
+    <span>{{ $t("stripRepetition") }}</span>
     <n-input-number
       v-model:value="state.stripeRepeat"
       style="width: 1.96rem"
@@ -202,7 +200,6 @@ type stateType = {
   isEditZ: boolean; // 是否只编辑Z轴
   optionMode: any; //绘制模式选项
   surfaces: any; //绘制面类型选项
-  currentLanguage: string;
 };
 
 // 初始化变量
@@ -221,7 +218,6 @@ let state = reactive<stateType>({
   stripeOrientation: "horizontal",
   isEdit: false,
   isEditZ: false,
-  currentLanguage: window.navigator.language,
   optionMode: [
     {
       label: () => $t("spaceMode"),

@@ -176,7 +176,7 @@ const local_ja = {
     gamma: 'ガンマ',
     showUnderground: '地下を使用',
     surfaceTransparency: '地表透明度',
-    displayCoordinate: '座標の表示',
+    displayCoordinateTip: 'マウスで任意の場所をクリックして結果に戻る',
     coordinateQuery: '座標クエリ',
     coordinateTip: '経度、緯度、標高',
 
@@ -473,7 +473,7 @@ const local_ja = {
     ShadowStartTip: '一日内の太陽とシェードの映像を再生します。',
     ShadowStartTip2: '一年内の太陽とシェードの映像を再生します',
     ShadowStopTip: '映像を停止',
-    DaylightingRate: '採光率',
+    DaylightingRate: 'いんえいりつ',
     analyseResult: '解析結果',
 
     // 断面解析

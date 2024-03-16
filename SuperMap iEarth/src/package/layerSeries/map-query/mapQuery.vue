@@ -122,7 +122,7 @@
               <n-tooltip placement="top-end" trigger="hover">
                 <template #trigger>
                   <i
-                    class="iconfont iconSize iconchaxun"
+                    class="iconfont iconSize iconzhidingshujuchaxun"
                     @click="openMydata"
                   ></i>
                 </template>
@@ -171,7 +171,7 @@
               <n-tooltip placement="top-end" trigger="hover">
                 <template #trigger>
                   <i
-                    class="iconfont iconSize iconzhidingshujuchaxun"
+                    class="iconfont iconSize iconshuaxin"
                     @click="queryAll"
                   ></i>
                 </template>
@@ -278,7 +278,7 @@
       <n-modal
         v-model:show="state.mediaFieldPanleShow"
         preset="dialog"
-        :title="$t('mediaField')"
+        :title="$t('bindMediaField')"
         :mask-closable="false"
       >
         <n-card
@@ -1680,6 +1680,11 @@ watch(
     height: auto;
   }
 }
+
+// 媒体字段图标 删不了
+// .n-dialog.n-dialog--icon-left .n-dialog__icon {
+//   display: none !important;
+// }
 
 #queryTable {
   position: fixed;

@@ -1,29 +1,22 @@
-import i18n from '@/locale/index'
-import { defineStore } from 'pinia'
-import { StorageEnum } from '@/enums/storageEnum'
-import { LangEnum } from '@/enums/styleEnum'
-import { LangStateType } from './langStore.d'
-import { setLocalStorage, getLocalStorage } from '@/utils'
+import i18n from '@/locale/index';
+import { defineStore } from 'pinia';
+import { getLanguage } from '@/tools/getLanguage';
 
-const { SM_LANG_STORE } = StorageEnum;
-const storageLang: LangStateType = getLocalStorage(SM_LANG_STORE);
-const lang = LangEnum.ZH;
+let lang = getLanguage();
 export const useLangStoreCreate = defineStore({
   id: 'useLangStoreState',
-  state: (): LangStateType =>
-    storageLang || {
-      lang,
-    },
+  state: () =>({
+    lang:lang
+  }),
   getters: {
-    getLang(): LangEnum {
-      return this.lang
+    getLang(): string{
+      return this.lang;
     }
   },
   actions: {
-    changeLang(lang: LangEnum): void {
-      this.lang = lang
-      i18n.global.locale = lang
-      setLocalStorage(SM_LANG_STORE, this.$state);
+    changeLang(lang:string): void {
+      this.lang = lang;
+      i18n.global.locale = lang;
     }
   }
 })

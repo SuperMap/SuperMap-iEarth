@@ -176,7 +176,7 @@ const local_zh = {
         gamma: '伽马',
         showUnderground: '开启地下',
         surfaceTransparency: '地表透明度',
-        displayCoordinate: '显示坐标',
+        displayCoordinateTip: '鼠标点击任意处，返回结果',
         coordinateQuery: '坐标查询',
         coordinateTip: '经度、纬度、高程',
 
@@ -473,7 +473,7 @@ const local_zh = {
         ShadowStartTip: '播放一天时间段内阳光和阴影动画',
         ShadowStartTip2: '播放一年的阳光和阴影动画',
         ShadowStopTip: '停止动画',
-        DaylightingRate: '采光率',
+        DaylightingRate: '阴影率',
         analyseResult: '分析结果',
 
         // 剖面分析
@@ -586,7 +586,7 @@ const local_zh = {
         dataFiltering: '过滤数据中...',
         recently: '不久前',
         chooseField: '选择字段',
-        filterFiledTip: '属性表显示字段筛选',
+        filterFiledTip: '字段筛选',
 
         // 倾斜模型单体化
         featrueID: "要素ID",

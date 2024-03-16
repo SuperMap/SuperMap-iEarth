@@ -190,7 +190,7 @@
       <n-input
         class="coordinateQueryBox"
         disabled
-        :placeholder="$t('displayCoordinate')"
+        :placeholder="$t('displayCoordinateTip')"
         v-model:value="coordinate"
         autosize
         style="width: 1.96rem"

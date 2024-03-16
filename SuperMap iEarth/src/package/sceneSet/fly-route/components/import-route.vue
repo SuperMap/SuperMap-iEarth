@@ -276,8 +276,8 @@ watch(
 <style lang="scss" scoped>
 .row-content .checkbox-lable {
   width: auto;
-  height: 24px;
-  line-height: 24px;
+  height: 0.24rem;
+  line-height: 0.24rem;
   margin-right: 0.1rem;
   margin-left: 0.16rem;
 }

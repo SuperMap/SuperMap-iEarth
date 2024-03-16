@@ -3,7 +3,7 @@ import App from './App.vue';
 
 import axios from 'axios';
 import naive from 'naive-ui';
-import i18n from '@/locale';
+import i18n from '@/locale'; // 自动获取语言并创建i18n
 import store from './store';
 
 // 根据屏幕大小，设置font-size
@@ -12,9 +12,6 @@ import "@/assets/icons/iconfont.css";
 
 // 导入iportal处理程序
 import { initPortal } from "@/tools/iportal/portalTools";
-
-// 导入语言设置
-import setBrowserLang from '@/tools/browserLang';
 
 // 检测页面变化，实时改变根字体大小
 import { setFontImmediately } from '@/utils';
@@ -42,5 +39,3 @@ if (location.href.indexOf('/apps') != -1) {
 if (localStorage.getItem("iEarthConsole") === 'yes') {
     window.iEarthConsole = true;
 }
-
-setBrowserLang();

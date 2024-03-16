@@ -9,13 +9,6 @@ const layerServiceData = {
             name: "BeijingCBD", // vue-i18n中国际化的名称,设置后可跟随浏览器语言环境1变化而变化：./locale/zh.js-BeijingCBD
             chooseType: false // 面板中图片是否选中（默认false即可）
         },
-        // {
-        //     type: "REALSPACE",
-        //     thumbnail: "./images/addData/CBD.jpg",
-        //     proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
-        //     name: "originCBD",
-        //     chooseType: false
-        // },
         {
             type: "REALSPACE",
             thumbnail: "./images/addData/Sophia.jpg",
@@ -67,6 +60,13 @@ const layerServiceData = {
             name: "transformerStation",
             chooseType: false
         },
+        // {
+        //     type: "REALSPACE",
+        //     thumbnail: "./images/addData/CBD.jpg",
+        //     proxiedUrl: 'https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace',
+        //     name: "originCBD",
+        //     chooseType: false
+        // },
     ],
     // 在线底图服务 - 影像
     onlineBaseLayerList: [
@@ -140,25 +140,22 @@ const layerServiceData = {
         /** 配置地形类型的示例 */
         {
             proxiedUrl: 'https://maptiles.supermapol.com/iserver/services/3D-local3DCache-GlobalTIN30M/rest/realspace/datas/Global_TIN_30M', // 地形服务链接
-            name: '超图在线地形', // 地形名称
             thumbnail: './images/terrainLayers/SuperMapOnline.png', // 缩略图相对地址
-            title: "SuperMapOnlineTerrain", // vue-i18n中国际化的名称
+            name: "SuperMapOnlineTerrain", // vue-i18n中国际化的名称
             type: 'supermapOnlineTerrain', // 地形服务类型
             chooseType: false, // 面板中图片是否选中（默认false即可）
         },
         {
             proxiedUrl: '',
-            name: '天地图地形',
             thumbnail: './images/terrainLayers/tianditu_terrain.png',
-            title: "tiandituTerrain",
+            name: "tiandituTerrain",
             type: 'tianDiTuTerrain',
             chooseType: false
         },
         {
             proxiedUrl: "https://www.supermapol.com/realspace/services/3D-stk_terrain/rest/realspace/datas/info/data/path",
-            name: 'STK地形',
             thumbnail: './images/terrainLayers/STK_terrain.png',
-            title: "stkTerrain",
+            name: "stkTerrain",
             type: 'STKTerrain',
             chooseType: false
         }

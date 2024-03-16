@@ -172,20 +172,7 @@ let state = reactive<stateType>({
       value: 2,
     },
   ],
-  optionAddWay: [
-    {
-      label: () => $t("singleAdd"),
-      value: "single",
-    },
-    {
-      label: () => $t("lineAdd"),
-      value: "line",
-    },
-    {
-      label: () => $t("AreaAdd"),
-      value: "face",
-    },
-  ],
+  optionAddWay: [],
   symbolOptionsList: symbolOptions[0],
   multiSelection: false,
   delType: 1,
@@ -204,6 +191,37 @@ let state = reactive<stateType>({
 
 let addSymbol, handlerPolyline, isAddSingle, isAddLIneFace, handlerPolygon;
 
+let treeOperation = [
+  {
+    label: () => $t("singleAdd"),
+    value: "single",
+  },
+  {
+    label: () => $t("lineAdd"),
+    value: "line",
+  },
+  {
+    label: () => $t("AreaAdd"),
+    value: "face",
+  },
+];
+
+let otherOperation = [
+  {
+    label: () => $t("singleAdd"),
+    value: "single",
+  },
+  {
+    label: () => $t("lineAdd"),
+    value: "line",
+  },
+];
+
+// let isCloseAreaAdd: boolean = false;
+// isCloseAreaAdd = computed<boolean>(() => {
+//   return state.selectedTypeId == 0 ? false : true;
+// }).value;
+
 function init() {
   if (!viewer) return;
   addSymbol = new AddSymbol(viewer, {});
@@ -211,6 +229,7 @@ function init() {
 
 onMounted(() => {
   init();
+  state.optionAddWay = treeOperation;
   state.symbolOptionsList.data[0].isSelect = true;
 });
 
@@ -421,12 +440,17 @@ watch(
     switch (val) {
       case 0:
         state.symbolOptionsList = symbolOptions[0];
+        state.optionAddWay = treeOperation;
         break;
       case 1:
         state.symbolOptionsList = symbolOptions[1];
+        state.optionAddWay = otherOperation;
+        state.addType = "single";
         break;
       case 2:
         state.symbolOptionsList = symbolOptions[2];
+        state.optionAddWay = otherOperation;
+        state.addType = "single";
         break;
       default:
         break;

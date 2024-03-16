@@ -183,7 +183,14 @@
       style="margin-right: 0.1rem"
       >{{ $t("add") }}</n-button
     >
-    <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button>
+    <n-button
+      class="btn-secondary"
+      @click="clear"
+      color="rgba(255, 255, 255, 0.65)"
+      ghost
+      >{{ $t("clear") }}</n-button
+    >
+    <!-- <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button> -->
   </div>
 </template>
 

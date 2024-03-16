@@ -5,7 +5,8 @@ import { LangEnum } from '@/enums/styleEnum'
 
 // 返回naive-ui locale语言
 export const useLocaleHook = () => {
-    const langStore = useLangStoreCreate()
+    const langStore = useLangStoreCreate();
+
     return computed(() => (
         langStore.lang == LangEnum.ZH ? { locale: zhCN, dateLocale: dateZhCN } : (
             langStore.lang == LangEnum.JA ? { locale: jaJP, dateLocale: dateJaJP } : (

@@ -17,7 +17,7 @@ function checkURL(url: string) {
 }
 
 // 打开realSpace场景
-function openScene(url: string, type: any, sceneName?: string) {
+function openScene(url: string, sceneName: string, type: any, ) {
   if (checkURL(url)) {
     // 专门对CBD和变电站场景做设置
     if (sceneName === 'BeijingCBD') {
@@ -26,13 +26,16 @@ function openScene(url: string, type: any, sceneName?: string) {
     if (sceneName === 'transformerStation') {
       addBDZ(url);
     } else {
-      let promiseArray = [
-        window.viewer.scene.open(url, undefined, { autoSetView: true }),
-      ];
-      SuperMap3D.when.all(promiseArray, function (layers: any) {
+      let promise = window.viewer.scene.open(url, undefined, { autoSetView: true });
+      SuperMap3D.when.all(promise, function (layers: any) {
+        layers.forEach((layer:any) => {
+          layer.bindName = sceneName; // 专门给S3M图层添加一个bindName属性，方便识别该图层属于那个场景
+        });
+        if(window.iEarthConsole) {console.log('scene-layers:',layers);}
+
         layerStore.updateLayer({ type: "s3m" });
       });
-      return promiseArray[0];
+      return promise;
     }
   }
 }
@@ -50,6 +53,7 @@ function addMvtLayer(LayerURL: string, name: string, type: any) {
   SuperMap3D.when(mvtMap.readyPromise, function (data: any) {
     layerStore.MVTLayerNameList.push(name); // 存入MVT图层名称，以便删除
     let bounds = mvtMap.rectangle;
+    mvtMap.bindName = name;
     window.viewer.scene.camera.flyTo({
       destination: new SuperMap3D.Cartesian3.fromRadians(
         (bounds.east + bounds.west) * 0.5,
@@ -71,15 +75,12 @@ function addMvtLayer(LayerURL: string, name: string, type: any) {
 // 添加白膜
 function addBaiMo(url: string, sceneName: string, type: any) {
   let name: string = sceneName;
-  if (sceneName.indexOf('global') != -1) {
-    let attr = sceneName.split('.')[1];
-    name = $t(attr);
-  }
   window.viewer.scene
     .addS3MTilesLayerByScp(url, {
       name: name,
     })
     .then((layer: any) => {
+      layer.bindName = sceneName;
       if (layer.name === '重庆白模' || layer.name === 'Chongqing') {
         window.viewer.scene.camera.flyTo({
           destination: new SuperMap3D.Cartesian3(-1598174.3966915242, 5337632.74785581, 3107040.200761407),

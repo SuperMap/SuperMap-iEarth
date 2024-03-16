@@ -176,7 +176,7 @@ const local_ru = {
     gamma: 'Гамма',
     showUnderground: 'Показать под землей',
     surfaceTransparency: 'Прозрачность поверхности',
-    displayCoordinate: 'Отображение координат',
+    displayCoordinate: 'Нажмите мышью на любое место, чтобы вернуть результат',
     coordinateQuery: 'Запрос координат',
     coordinateTip: 'Долгота широта высота',
 
@@ -473,7 +473,7 @@ const local_ru = {
     ShadowStartTip: 'Воспроизвести анимацию солнечного света и теней за день',
     ShadowStartTip2: 'Воспроизвести анимацию солнечного света и теней за год',
     ShadowStopTip: 'Остановить анимацию',
-    DaylightingRate: 'Коэффициент дневного освещения',
+    DaylightingRate: 'Темность',
     analyseResult: 'Результат анализа',
 
     // 剖面分析

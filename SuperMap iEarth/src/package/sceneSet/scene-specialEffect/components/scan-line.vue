@@ -107,18 +107,14 @@
   </div> -->
 
   <div class="row-item" v-show="state.scanMode === 0">
-    <span :style="state.currentLanguage == 'en' ? 'width:30%' : ''">{{
-      $t("customScanDirection")
-    }}</span>
+    <span>{{ $t("customScanDirection") }}</span>
     <div class="check-box" style="width: 1.96rem">
       <n-checkbox v-model:checked="state.customDirection"></n-checkbox>
     </div>
   </div>
 
   <div class="row-item" v-show="state.scanMode === 1">
-    <span :style="state.currentLanguage == 'en' ? 'width:30%' : ''">{{
-      $t("customScanCenter")
-    }}</span>
+    <span>{{ $t("customScanCenter") }}</span>
     <div class="check-box" style="width: 1.96rem">
       <n-checkbox v-model:checked="state.customCenter"></n-checkbox>
     </div>
@@ -162,7 +158,6 @@ type stateType = {
   customDirection: boolean; // 自定义扫描方向
   customCenter: boolean; // 自定义扫描中心
   addTextures: any; // 纹理选项
-  currentLanguage: string;
 };
 
 // 初始化变量
@@ -180,36 +175,30 @@ let state = reactive<stateType>({
   addTextures: [
     {
       name: $t("lineTexture1"),
-      nameEN: "Linear texture 1",
       type: "line",
       url: "./images/particleSystem/line-1.jpg",
     },
     {
       name: $t("lineTexture2"),
-      nameEN: "Linear texture 2",
       type: "line",
       url: "./images/particleSystem/line-2.jpg",
     },
     {
       name: $t("ringTexture1"),
-      nameEN: "Ring texture 1",
       type: "ring",
       url: "./images/particleSystem/ring-1.jpg",
     },
     {
       name: $t("ringTexture2"),
-      nameEN: "Ring texture 2",
       type: "ring",
       url: "./images/particleSystem/ring-2.jpg",
     },
     {
       name: $t("loopedhexagonTexture"),
-      nameEN: "Looped hexagon texture",
       type: "ring",
       url: "./images/particleSystem/ring-3.jpg",
     },
   ],
-  currentLanguage: window.navigator.language,
 });
 
 let defaultLineTextrues = [
@@ -239,7 +228,7 @@ function init() {
 
 onMounted(() => {
   init();
-  setTexturesByProps("zh" === "zh");
+  setTexturesByProps();
 });
 
 onBeforeUnmount(() => {
@@ -251,12 +240,12 @@ onBeforeUnmount(() => {
 });
 
 // 设置纹理
-function setTexturesByProps(isZH: boolean) {
+function setTexturesByProps() {
   defaultLineTextrues = defaultLineTextrues.slice(0, 1);
   defaultCircleTextrues = defaultCircleTextrues.slice(0, 1);
   state.addTextures.forEach((el: any) => {
     let obj: any = {
-      label: isZH ? el.name : el.nameEN,
+      label: el.name,
       url: el.url,
     };
     if (el.type === "line") {
@@ -403,7 +392,7 @@ watch(
   () => state.addTextures,
   (val) => {
     if (typeof val === "object") {
-      setTexturesByProps("zh" === "zh");
+      setTexturesByProps();
     }
   }
 );

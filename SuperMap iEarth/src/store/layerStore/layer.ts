@@ -95,6 +95,7 @@ export const useLayerStore = defineStore({
 						this.layerTreeData[0].children.push({
 							label: label,
 							aliasKey:S3Mlayer.name,
+							bindName:S3Mlayer.bindName,
 							key: "1-" + String(index),
 							type: "s3m",
 							children: undefined,
@@ -114,6 +115,7 @@ export const useLayerStore = defineStore({
 							this.layerTreeData[1].children.push({
 								label: label,
 								aliasKey:imageryLayerName,
+								bindName:imageryLayer.bindName || '',
 								key: "2-" + String(index),
 								type: "imagery",
 								children: undefined,
@@ -130,6 +132,7 @@ export const useLayerStore = defineStore({
 						this.layerTreeData[2].children.push({
 							label: label,
 							aliasKey: MVTlayer.name,
+							bindName:MVTlayer.bindName,
 							key: '3-' + String(index),
 							type: 'mvt',
 							children: undefined,
@@ -141,11 +144,14 @@ export const useLayerStore = defineStore({
 				case "terrain":
 					this.layerTreeData[3].children = [];
 					// 地形只加一个
-					if (viewer.terrainProvider.name) {
-						let label = this.checkLayerAlias(option.label,'terrain');
+					// if (viewer.terrainProvider.name) {
+					let terrainLayerName = this.getTerrainLayerName();
+					if (terrainLayerName != 'invisible') {
+						let label = this.checkLayerAlias(terrainLayerName,'terrain');
 						this.layerTreeData[3].children.push({
 							label: label,
 							aliasKey: option.label,
+							bindName: viewer.terrainProvider.bindName || '',
 							key: "4-0",
 							type: "terrain",
 							children: undefined,
@@ -160,7 +166,7 @@ export const useLayerStore = defineStore({
 
 			// 专门处理地形
 			let terrainLayerName = viewer.terrainProvider.name
-			if (!terrainLayerName || ['超图在线地形', '天地图地形', 'STK地形'].indexOf(terrainLayerName) === -1) {
+			if (!terrainLayerName || ['SuperMapOnlineTerrain', 'tiandituTerrain', 'stkTerrain'].indexOf(terrainLayerName) === -1) {
 				this.layerServiceData.onlineTerrainLayerList.forEach((item: any) => {
 					item.chooseType = false;
 				});
@@ -198,6 +204,7 @@ export const useLayerStore = defineStore({
 				this.layerTreeData[0].children.push({
 					label: label,
 					aliasKey:S3Mlayer.name,
+					bindName:S3Mlayer.bindName,
 					key: "1-" + String(index),
 					type: "s3m",
 					children: undefined,
@@ -234,6 +241,7 @@ export const useLayerStore = defineStore({
 				this.layerTreeData[1].children.push({
 					label: label,
 					aliasKey:imageryLayerName,
+					bindName:imageryLayer.bindName || '',
 					key: "2-" + String(index),
 					type: "imagery",
 					children: undefined,
@@ -247,6 +255,7 @@ export const useLayerStore = defineStore({
 				this.layerTreeData[2].children.push({
 					label: label,
 					aliasKey: MVTlayer.name,
+					bindName:MVTlayer.bindName,
 					key: '3-' + String(index),
 					type: 'mvt',
 					children: undefined,
@@ -261,6 +270,7 @@ export const useLayerStore = defineStore({
 				this.layerTreeData[3].children.push({
 					label: label,
 					aliasKey: terrainLayerName,
+					bindName: viewer.terrainProvider.bindName || '',
 					key: "4-0",
 					type: "terrain",
 					children: undefined,
@@ -273,44 +283,50 @@ export const useLayerStore = defineStore({
 		removeLayer(option: any) {
 			switch (option.type) {
 				case "s3m":
-					this.layerTreeData[0].children.map((S3Mlayer: any, index: string) => {
-						if (S3Mlayer.key == option.key) {
+					this.layerTreeData[0].children.map((s3mLayerOption: any, index: string) => {
+						if (s3mLayerOption.key == option.key) {
 							this.layerTreeData[0].children.splice(index, 1);
-							this.removePublicService(option.label);
+							this.removePublicService(option.bindName);
 						}
 					})
 					this.updateLayer({ type: "s3m" });
 					break;
 				case "imagery":
-					this.layerTreeData[1].children.map((S3Mlayer: any, index: string) => {
-						if (S3Mlayer.key == option.key) {
-							let item = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.title === option.label);
+					this.layerTreeData[1].children.map((imgLayerOption: any, index: string) => {
+						if (imgLayerOption.key == option.key) {
+							let item = this.layerServiceData.onlineBaseLayerList.find((item: any) => $t(item.name) === option.aliasKey);
 							if (item) {
 								item.chooseType = false;
-								let key = item.name;
-								let delIndex = this.SelectedOptions.baseMap.indexOf(key);
+								let delIndex = this.SelectedOptions.baseMap.indexOf(item.name);
 								if (delIndex != -1) this.SelectedOptions.baseMap.splice(delIndex, 1);
 							}
 							this.layerTreeData[1].children.splice(index, 1);
+
+							// 有些场景下存在影像或者地形的，比如珠峰地形影像需做单独处理
+							if(option.bindName != '') this.removePublicService(option.bindName);
 						}
 					})
 					this.updateLayer({ type: "imagery" });
 					break;
 				case "mvt":
-					this.layerTreeData[2].children.map((S3Mlayer: any, index: string) => {
-						if (S3Mlayer.key == option.key) {
+					this.layerTreeData[2].children.map((mvtLayer: any, index: string) => {
+						if (mvtLayer.key == option.key) {
 							this.layerTreeData[2].children.splice(index, 1);
-							this.removePublicService(option.label);
+							this.removePublicService(option.bindName);
 						}
 					})
 					this.updateLayer({ type: "mvt" });
 					break;
 				case "terrain":
 					this.layerTreeData[3].children = [];
-					let item = this.layerServiceData.onlineTerrainLayerList.find((item: any) => item.title === option.label);
-					if (item) item.chooseType = false;
-					let index = this.SelectedOptions.onlineTerrain.indexOf(option.label);
-					this.SelectedOptions.onlineTerrain.splice(index, 1);
+					let item = this.layerServiceData.onlineTerrainLayerList.find((item: any) => $t(item.name) === option.aliasKey);
+					if (item) {
+						item.chooseType = false;
+						let index = this.SelectedOptions.onlineTerrain.indexOf(item.name);
+						this.SelectedOptions.onlineTerrain.splice(index, 1);
+					}
+					// 有些场景下存在影像或者地形的，比如珠峰地形影像需做单独处理
+					if(option.bindName != '') this.removePublicService(option.bindName);
 					this.updateLayer({ type: "terrain" });
 					break;
 				default:
@@ -334,35 +350,18 @@ export const useLayerStore = defineStore({
 		},
 
 		// 专门用来处理公共服务场景项目的删除选中
-		removePublicService(layerName: string) {
-			let item: any;
-			switch (layerName) {
-				case "Config":
-					item = this.layerServiceData.publicServiceList[1];
-					break;
-				case "BIMbuilding":
-					item = this.layerServiceData.publicServiceList[3];
-					break;
-				case "POINTCLOUD23":
-					item = this.layerServiceData.publicServiceList[4];
-					break;
-				case "JingJinMVT":
-					item = this.layerServiceData.publicServiceList[5];
-					break;
-				case "重庆白模":
-					item = this.layerServiceData.publicServiceList[6];
-					break;
-				case "横滨白模":
-					item = this.layerServiceData.publicServiceList[7];
-					break;
-				default:
-					break;
-			}
-			if (item) {
-				item.chooseType = false;
-				let delIndex = this.SelectedOptions.publicService.indexOf(item.name);
-				if (delIndex != -1) this.SelectedOptions.publicService.splice(delIndex, 1);
-			}
+		removePublicService(layerBindName: string) {
+
+			// 恢复面板上的未选中状态
+			let publicServiceList = this.layerServiceData.publicServiceList;
+			let itemIndex = publicServiceList.findIndex(
+				(item) => item.name == layerBindName
+			);
+			if(itemIndex != -1) publicServiceList[itemIndex].chooseType = false;
+
+			// 移除SelectedOptions中的对应服务
+			let delIndex = this.SelectedOptions.publicService.indexOf(layerBindName);
+			if (delIndex != -1) this.SelectedOptions.publicService.splice(delIndex, 1);
 		},
 
 		// 显隐图层
@@ -426,7 +425,7 @@ export const useLayerStore = defineStore({
 				default:
 					break;
 			}
-		 return alias_result ? alias_result : name;
+		 return alias_result != undefined ? alias_result : name;
 		},
 
 		// 传入影像图层，获取并返回他在项目中的名称

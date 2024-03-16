@@ -35,11 +35,14 @@ let state = reactive({
 let imageryProvider: any = null;
 
 function addBaseLayer(item: any) {
-  if (item.chooseType) {
+  let index = layerStore.SelectedOptions.baseMap.indexOf(item.name);
+  if (index != -1) {
     message.warning($t("repeatAddTip"));
     return;
   }
+
   layerStore.SelectedOptions.baseMap.push(item.name); // 存入已选择的在线底图选项
+
   let type = item.type;
   let layerUrl = item.url;
   switch (type) {

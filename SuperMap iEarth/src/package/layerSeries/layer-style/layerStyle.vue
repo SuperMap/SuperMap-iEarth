@@ -195,7 +195,7 @@ let state = reactive<StateType>({
   selectedIndex: 0, //默认选择图层index
   foreColor: "rgba(255, 255, 255, 1)", //前景色
   lineColor: "rgba(56, 56, 56, 1)", //线颜色
-  selectedColor: "rgba(179,179,255, 1)", //选中色
+  selectedColor: "rgba(166,252,252,1)", //选中色
   selectColorMode: 0, //选中色模式
   bottomAltitude: 0, //底部高程
   LODScale: 1, //LOD
@@ -218,6 +218,11 @@ function init() {
   if (!window.viewer) return;
   updateLayers();
   state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
+
+  if (layers[state.selectedIndex]) {
+    layers[state.selectedIndex].selectedColor =
+      SuperMap3D.Color.fromCssColorString(state.selectedColor);
+  }
 
   // _fileType:8 => 点云
   if (layers[state.selectedIndex]._fileType === 8) {
@@ -280,10 +285,10 @@ function getAttributes() {
     selectLayer.style3D.lineColor.toCssColorString(),
     "rgba(56, 56, 56, 1)"
   );
-  state.selectedColor = SuperMap3D.defaultValue(
-    selectLayer.selectedColor.toCssColorString(),
-    "rgba(179,179,255, 1)"
-  );
+  // state.selectedColor = SuperMap3D.defaultValue( // selectedColor不从图层中获取，而是直接设置
+  //   selectLayer.selectedColor.toCssColorString(),
+  //   "rgb(166,252,252)"
+  // );
   state.selectColorMode = SuperMap3D.defaultValue(
     selectLayer.selectColorType,
     0
@@ -369,7 +374,7 @@ function switchCase(option: any) {
 function reset() {
   state.foreColor = "rgba(255, 255, 255, 1)"; //前景色
   state.lineColor = "rgba(56, 56, 56, 1)"; //线颜色
-  state.selectedColor = "rgba(179,179,255, 1)"; //选中色
+  state.selectedColor = "rgba(166,252,252,1)"; //选中色
   state.selectColorMode = 0; //选中色模式
   state.bottomAltitude = 0; //底部高程
   state.layerTrans = 1; //图层透明度

@@ -72,7 +72,7 @@
     </div>
   </div>
 
-  <div class="row-item">
+  <div class="row-item" v-show="state.displayMode != 'Outline'">
     <span>{{ $t("fillColor") }}</span>
     <div class="color-pick-box">
       <n-color-picker

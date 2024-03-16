@@ -41,7 +41,7 @@ function addPublicService(item: any) {
   let type = item.type;
   switch (type) {
     case "REALSPACE":
-      layerManagement.openScene(item.proxiedUrl, "REALSPACE", item.name);
+      layerManagement.openScene(item.proxiedUrl, item.name, "REALSPACE");
       item.chooseType = true;
       break;
     case "MVT":

@@ -110,7 +110,7 @@
   <div class="bableShadow" ref="bableShadowDom" v-show="state.shadowRadioShow">
     <div class="row-item" style="margin-top: 0.12rem">
       <span class="shadow-anaylse-pop-titie">{{ $t("analyseResult") }}</span>
-      <span @click="state.shadowRadioShow = false" style="margin-right: 14px"
+      <span @click="state.shadowRadioShow = false" style="margin-right: 0.14rem"
         >X</span
       >
     </div>

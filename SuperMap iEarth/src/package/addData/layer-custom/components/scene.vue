@@ -89,7 +89,11 @@ function openScene() {
     );
   }
 
-  let promiseResult = layerManagement.openScene(sceneUrl.value, "REALSPACE");
+  let promiseResult = layerManagement.openScene(
+    sceneUrl.value,
+    "",
+    "REALSPACE"
+  );
   SuperMap3D.when(promiseResult, function (layers: any) {
     message.success($t("openSceneSuccess"));
   });

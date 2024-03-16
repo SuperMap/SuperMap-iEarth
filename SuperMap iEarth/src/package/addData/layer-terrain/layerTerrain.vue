@@ -10,7 +10,7 @@
       <div class="img-box">
         <img :src="item.thumbnail" class="img" alt="" />
       </div>
-      <div class="img-box-text">{{ $t(item.title) }}</div>
+      <div class="img-box-text">{{ $t(item.name) }}</div>
     </div>
   </div>
 </template>
@@ -19,7 +19,9 @@
 import { reactive } from "vue";
 import { useMessage } from "naive-ui";
 import { useLayerStore } from "@/store/layerStore/layer";
+import { usePanelStore } from "@/store";
 
+const panelStore = usePanelStore();
 const layerStore = useLayerStore();
 const message = useMessage();
 const onlineTerrainLayerList =
@@ -31,11 +33,14 @@ let state = reactive({
 
 // 添加地形
 function addTerrainLayer(item: any) {
-  if (item.chooseType) {
+  let index = layerStore.SelectedOptions.onlineTerrain.indexOf(item.name);
+  if (index != -1) {
     message.warning($t("repeatAddTip"));
     return;
   }
-  layerStore.SelectedOptions.onlineTerrain.push(item.name); // 存入已选择的地形服务选项
+
+  layerStore.SelectedOptions.onlineTerrain = [item.name]; // 存入已选择的地形服务选项
+
   let type = item.type;
   let terrainUrl = item.proxiedUrl;
   switch (type) {
@@ -59,6 +64,8 @@ function addTerrainLayer(item: any) {
       break;
   }
   viewer.terrainProvider.name = item.name; //保存在线地图名称
+
+  // 地形面板中只能有一个被选中
   layerStore.layerServiceData.onlineTerrainLayerList.map((item) => {
     if (item.proxiedUrl == terrainUrl) {
       item.chooseType = true;
@@ -67,7 +74,9 @@ function addTerrainLayer(item: any) {
     }
   });
 
-  layerStore.updateLayer({ type: "terrain", label: $t(item.title) });
+  layerStore.updateLayer({ type: "terrain", label: $t(item.name) });
+
+  panelStore.closeRightToolPanel(1); // 1为关闭左侧面板
 }
 </script>
 
