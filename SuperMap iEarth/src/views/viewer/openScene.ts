@@ -109,10 +109,10 @@ function openScene(response?: any) {
       openTerrain(content);
 
       // 将SelectedOptions传入
-      // if (content.layers.SelectedOptions) {
-      //   layerStore.SelectedOptions = content.layers.SelectedOptions;
-      //   layerStore.updateSelectedOption(content.layers.SelectedOptions);
-      // }
+      if (content.layers.SelectedOptions) {
+        layerStore.SelectedOptions = content.layers.SelectedOptions;
+        layerStore.updateSelectedOption(content.layers.SelectedOptions);
+      }
       // 将layerQueryOptions传入
       if (content.layers.layerQueryOptions) {
         layerStore.layerQueryOptions = content.layers.layerQueryOptions;
@@ -239,7 +239,11 @@ function openS3M(content: any) {
       let url = content.layers.s3mLayer[t].url;
       let name = content.layers.s3mLayer[t].name;
       setTrustedServers(url);
-      viewer.scene.addS3MTilesLayerByScp(url, { name: name });
+      let bindName = content.layers.s3mLayer[t].bindName || '';
+      let promise = viewer.scene.addS3MTilesLayerByScp(url, { name: name });
+      SuperMap3D.when(promise, function (layer: any) {
+        layer.bindName = bindName;
+      });
       layerStore.updateLayer({ type: "s3m" });
     }
   }
@@ -298,7 +302,9 @@ function openImagery(content: any) {
           default:
             break;
         }
-        viewer.imageryLayers.addImageryProvider(imageryProvider);
+        let imagerlayer = viewer.imageryLayers.addImageryProvider(imageryProvider);
+        let bindName = imageryLayer[i].bindName || '';
+        imagerlayer.bindName = bindName;
         layerStore.updateLayer({ type: "imagery" });
       }
     }
@@ -348,6 +354,8 @@ function openTerrain(content: any) {
         });
         break;
     }
+    let bindName = content.layers.terrainLayer[0].bindName || '';
+    viewer.terrainProvider.bindName = bindName;
   }
 }
 

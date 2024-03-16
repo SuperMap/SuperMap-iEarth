@@ -64,6 +64,7 @@ function addTerrainLayer(item: any) {
       break;
   }
   viewer.terrainProvider.name = item.name; //保存在线地图名称
+  viewer.terrainProvider.bindName = item.name; //保存在线地图名称
 
   // 地形面板中只能有一个被选中
   layerStore.layerServiceData.onlineTerrainLayerList.map((item) => {

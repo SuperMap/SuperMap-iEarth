@@ -282,6 +282,9 @@ function saveS3M(s3mLayerlength: number) {
       layerUrl = getScpUrl(layerUrl);
       s3mTypeAndUrl["url"] = layerUrl;
       s3mTypeAndUrl["name"] = layer.name;
+      if (layer.bindName) {
+        s3mTypeAndUrl["bindName"] = layer.bindName;
+      }
       s3mlayerUrlList.push(s3mTypeAndUrl);
     }
   }
@@ -318,6 +321,9 @@ function saveImagery(imageryLayer: any) {
       imageryTypeAndUrl["type"] = "GRIDIMAGERY";
     }
 
+    if (imageryLayer[j].bindName) {
+      imageryTypeAndUrl["bindName"] = imageryLayer[j].bindName;
+    }
     imageryLayerUrlList.push(imageryTypeAndUrl);
   }
   return imageryLayerUrlList;
@@ -362,6 +368,9 @@ function saveTerrain() {
       terrainTypeAndUrl["type"] = "supermapOnlineTerrain";
     }
     terrainTypeAndUrl["url"] = terrainLayer;
+    if (viewer.terrainProvider.bindName) {
+      terrainTypeAndUrl["bindName"] = viewer.terrainProvider.bindName;
+    }
     terrainLayerUrl.push(terrainTypeAndUrl);
   }
   return terrainLayerUrl;
