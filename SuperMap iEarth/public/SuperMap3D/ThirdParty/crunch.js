@@ -345,7 +345,7 @@ if (typeof WebAssembly !== 'undefined') {
 	var wasmBinaryFile = "crunch.wasm";
 	if (!isDataURI(wasmBinaryFile)) {
 		//wasmBinaryFile = locateFile(wasmBinaryFile);
-		wasmBinaryFile = self.CESIUM_BASE_URL + 'ThirdParty/crunch.wasm';
+		wasmBinaryFile = self.BASE_URL + 'ThirdParty/crunch.wasm';
 	}
 	function getBinary() {
 		try {
