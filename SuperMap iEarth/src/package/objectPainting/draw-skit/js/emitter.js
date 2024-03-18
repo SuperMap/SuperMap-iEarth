@@ -93,7 +93,7 @@ class Emitter {
         return (1 - Math.sqrt(r1)) * A + Math.sqrt(r1) * (1 - r2) * B + Math.sqrt(r1) * r2 * C;
     }
 
-    getOneRandomPosition () {
+    getOneRandomPosition() {
         if (!SuperMap3D.defaultValue(this._geometry)) {
             return;
         }

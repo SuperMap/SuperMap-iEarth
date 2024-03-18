@@ -24,7 +24,7 @@ export default class EventManager extends EventDispatcher {
      * 创建事件管理工具
      * @param viewer
      */
-    constructor (viewer) {
+    constructor(viewer) {
         super()
         this.viewer = viewer
 
@@ -68,7 +68,7 @@ export default class EventManager extends EventDispatcher {
         // 鼠标移动事件
         this.handler.setInputAction((e) => {
             // 左键按下移动事件
-            if(this.press) {
+            if (this.press) {
                 this.dispatchEvent({
                     type: EventConstant.LEFT_DOWN_MOUSE_MOVE,
                     message: e
@@ -118,7 +118,7 @@ export default class EventManager extends EventDispatcher {
      * 添加相机位置监听方法
      * @param fn{Function} 监听方法
      */
-    addCameraMoveListener (fn) {
+    addCameraMoveListener(fn) {
         this.viewer.camera.changed.addEventListener(fn)
     }
 
@@ -126,7 +126,7 @@ export default class EventManager extends EventDispatcher {
      * 移除相机位置监听
      * @param fn{Function} 监听方法
      */
-    removeCameraMoveListener (fn) {
+    removeCameraMoveListener(fn) {
         this.viewer.camera.changed.removeEventListener(fn)
     }
 }

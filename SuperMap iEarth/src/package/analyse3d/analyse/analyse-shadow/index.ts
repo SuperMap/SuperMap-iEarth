@@ -1,3 +1,3 @@
-import SmAnalyseShadow from './index.vue';
+import SmAnalyseShadow from './shadow.vue';
 
 export default SmAnalyseShadow;

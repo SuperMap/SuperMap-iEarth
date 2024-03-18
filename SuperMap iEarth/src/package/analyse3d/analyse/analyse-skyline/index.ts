@@ -1,2 +1,3 @@
-import SceneSet from "./index.vue"
-export default SceneSet;
+import SmAnalyseSkyline from "./skyline.vue";
+
+export default SmAnalyseSkyline;

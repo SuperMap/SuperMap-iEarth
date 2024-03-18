@@ -1,13 +1,13 @@
-function EventDispatcher () {}
+function EventDispatcher() { }
 
 Object.assign(EventDispatcher.prototype, {
 
     /**
-	 * 添加监听器
-	 * @param type{string} 监听器类型
-	 * @param listener{function} 方法
-	 * @param mutexStatus{boolean} 互斥开关
-	 */
+     * 添加监听器
+     * @param type{string} 监听器类型
+     * @param listener{function} 方法
+     * @param mutexStatus{boolean} 互斥开关
+     */
     addEventListener: function (type, listener, mutexStatus = false) {
         if (this._listeners === undefined) this._listeners = {}
         this._mutex = this._mutex || {}
@@ -56,9 +56,9 @@ Object.assign(EventDispatcher.prototype, {
     },
 
     /**
-	 * 派发事件
-	 * @param event{{type: string, message?: *}}
-	 */
+     * 派发事件
+     * @param event{{type: string, message?: *}}
+     */
     dispatchEvent: function (event) {
         if (this._listeners === undefined) return
 
@@ -70,10 +70,9 @@ Object.assign(EventDispatcher.prototype, {
 
             // Make a copy, in case listeners are removed while iterating.
             var array = listenerArray.slice(0)
-            if (this._mutex[event.type]){
+            if (this._mutex[event.type]) {
                 const find = array.find(item => item === this._mutex[event.type])
                 find.call(this, event)
-                // console.log(' 事件互斥已启动')
                 return
             }
             for (var i = 0, l = array.length; i < l; i++) {
@@ -82,7 +81,7 @@ Object.assign(EventDispatcher.prototype, {
         }
     },
 
-    removeAllListener () {
+    removeAllListener() {
         this._mutex = {}
         for (const key in this._listeners) {
             this._listeners[key] = []
@@ -91,4 +90,4 @@ Object.assign(EventDispatcher.prototype, {
 
 })
 
-export { EventDispatcher }
+export { EventDispatcher };

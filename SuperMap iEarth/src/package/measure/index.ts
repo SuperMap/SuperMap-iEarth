@@ -1,2 +1,2 @@
-import Measure from "./index.vue"
+import Measure from "./measure.vue"
 export default Measure;

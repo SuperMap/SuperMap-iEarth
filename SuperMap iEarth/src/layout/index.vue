@@ -12,5 +12,4 @@ import LayoutMain from "@/layout/layoutMain/index";
 import LayoutHeader from "@/layout/layoutHeader/index";
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

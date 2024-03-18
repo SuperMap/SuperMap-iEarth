@@ -1,2 +1,2 @@
-import Viewer from "./index.vue"
+import Viewer from "./viewer.vue"
 export default Viewer;

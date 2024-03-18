@@ -1,80 +1,108 @@
 <template>
   <div class="too-panel">
     <div class="left-panel" v-if="panelStore.leftTooPanel">
+      <!-- 左侧面板header -->
       <div class="panle-header">
-        <span class="panle-title" v-if="panelStore.panelList.leftToolBarList[0].isSelected">{{$t('global.t_layerList')}}</span>
-        <span class="panle-title" v-if="panelStore.panelList.leftToolBarList[1].isSelected">{{$t('global.t_addData')}}</span>
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.leftToolBarList[0].isSelected"
+          >{{ $t("t_layerList") }}</span
+        >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.leftToolBarList[1].isSelected"
+          >{{ $t("t_addData") }}</span
+        >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(1)">
-          <i class="iconfont iconguanbi"></i>
+          <i class="iconfont iconguanbi" style="font-size: 0.14rem"></i>
         </div>
       </div>
-      <div class="panle-container" :style="{overflowY: panelStore.panelList.leftToolBarList[0].isSelected? 'scroll':'hidden'}">
-        <LayerList
+
+      <!-- 左侧面板content -->
+      <div
+        class="panle-container"
+        :style="{
+          overflowY: panelStore.panelList.leftToolBarList[0].isSelected
+            ? 'scroll'
+            : 'hidden',
+        }"
+      >
+        <LayerTree
           v-if="panelStore.panelList.leftToolBarList[0].isSelected"
-        ></LayerList>
+        ></LayerTree>
         <AddLayerData
           v-if="panelStore.panelList.leftToolBarList[1].isSelected"
         ></AddLayerData>
       </div>
+
+      <!-- 左侧面板footer -->
       <div class="panle-footer"></div>
     </div>
+
     <div class="right-panel" v-if="panelStore.rightTooPanel">
-      <div class="panle-header">
+      <!-- 右侧面板header -->
+      <div class="panle-header panle-header-right">
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
-          >{{ $t('global.t_analyse3d') }}</span
+          >{{ $t("t_analyse3d") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[1].isSelected"
-          >{{ $t('global.t_measure') }}</span
+          >{{ $t("t_measure") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[2].isSelected"
-          >{{ $t('global.t_sceneProperties') }}</span
+          >{{ $t("t_sceneProperties") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[3].isSelected"
-          >{{ $t('global.t_objectPainting') }}</span
+          >{{ $t("t_objectPainting") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[4].isSelected"
-          >{{ $t('global.layerOpration') }}</span
+          >{{ $t("layerOpration") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[5].isSelected"
-          >{{ $t('global.layerAttribute') }}</span
+          >{{ $t("layerAttribute") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[6].isSelected"
-          >{{ $t('global.layerStyle') }}</span
+          >{{ $t("layerStyle") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[7].isSelected"
-          >{{ $t('global.layerQuery') }}</span
+          >{{ $t("layerQuery") }}</span
         >
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[8].isSelected"
-          >{{ $t('global.mapQuery') }}</span
+          >{{ $t("mapQuery") }}</span
+        >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[9].isSelected"
+          >{{ $t("qxSingle") }}</span
         >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(2)">
-          <i class="iconfont iconguanbi"></i>
+          <i class="iconfont iconguanbi" style="font-size: 0.14rem"></i>
         </div>
       </div>
-      <div class="panle-container">
-        <!-- <component :is="comName"></component>s -->
+
+      <!-- 右侧面板content -->
+      <div class="panle-container panle-container-right">
         <Analyse3D
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
         ></Analyse3D>
@@ -87,7 +115,7 @@
         <ObjectPainting
           v-if="panelStore.panelList.rightToolBarList[3].isSelected"
         ></ObjectPainting>
-        
+
         <LayerOpration
           v-if="panelStore.panelList.rightToolBarList[4].isSelected"
         ></LayerOpration>
@@ -103,15 +131,20 @@
         <MapQuery
           v-if="panelStore.panelList.rightToolBarList[8].isSelected"
         ></MapQuery>
+        <QxSingle
+          v-if="panelStore.panelList.rightToolBarList[9].isSelected"
+        ></QxSingle>
       </div>
-      <div class="panle-footer"></div>
+
+      <!-- 右侧面板footer -->
+      <div class="panle-footer panle-footer-right"></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 // 图层列表
-import LayerList from "@/package/layerList/index";
+import LayerTree from "@/package/layerTree/index";
 // 添加服务
 import AddLayerData from "@/package/addData/index";
 // 三维分析
@@ -123,13 +156,13 @@ import SceneSet from "@/package/sceneSet/index";
 // 对象绘制
 import ObjectPainting from "@/package/objectPainting/index";
 
-
 // 图层系列操作
-import LayerOpration from "@/package/layerSeries/layerOpration/index";
-import LayerAttribute from "@/package/layerSeries/layerAttribute/index";
-import LayerStyle from "@/package/layerSeries/layerStyle/index";
-import LayerQuery from "@/package/layerSeries/layerQuery/index";
-import MapQuery from "@/package/layerSeries/mapQuery/index";
+import LayerOpration from "@/package/layerSeries/layer-opration/index";
+import LayerAttribute from "@/package/layerSeries/layer-attribute/index";
+import LayerStyle from "@/package/layerSeries/layer-style/index";
+import LayerQuery from "@/package/layerSeries/layer-query/index";
+import MapQuery from "@/package/layerSeries/map-query/index";
+import QxSingle from "@/package/layerSeries/qx-single/index";
 
 import { usePanelStore } from "@/store/index";
 
@@ -142,55 +175,75 @@ function panelCloseHandle(leftOrRght: any) {
 </script>
 
 <style lang="scss" scoped>
+.too-panel {
+  z-index: 100;
+}
+
 .left-panel {
-  width: 3.38rem;
   @include setPanelTitle();
   position: fixed;
-  z-index: 2;
-  top: 0.6rem;
-  left: 0.6rem;
+  top: 0.75rem;
+  left: 0.55rem;
+  width: 3.37rem;
 }
+
 .right-panel {
-  width: 3.38rem;
   @include setPanelTitle();
   position: fixed;
-  z-index: 2;
-  top: 0.6rem;
-  right: 0.6rem;
+  top: 0.7rem;
+  right: 0.45rem;
+  width: 3.38rem;
 }
+
 .zst1 {
+  @include setBackground(0.45rem, 0.11rem, "@/assets/panelbg/zst1.png");
   position: absolute;
   top: 0rem;
   left: 1.4rem;
-  @include setBackground(0.44rem, 0.11rem, "@/assets/panelbg/zst1.png");
 }
+
 .zst2 {
+  @include setBackground(1.32rem, 0.08rem, "@/assets/panelbg/zst2.png");
   position: absolute;
   top: 0.26rem;
-  @include setBackground(1.32rem, 0.08rem, "@/assets/panelbg/zst2.png");
 }
+
 .panle-header {
-  width: 3.38rem;
+  width: 3.84rem;
   height: 0.43rem;
+  padding: 0 0.12rem;
   background: url("@/assets/panelbg/toubu.png") no-repeat;
   background-size: 100% 100%;
-  padding: 0 0.12rem;
   box-sizing: border-box;
 }
+
 .panle-container {
-  // padding: 2px 0px;
-  width: 3.38rem;
+  @include setsSrollbar();
+  width: 3.84rem;
   height: auto;
+  max-height: 6.6rem;
   background: url("@/assets/panelbg/zhongjian.png");
   background-size: 100% 100%;
-  max-height: 6.6rem;
-  // overflow-y: scroll;
-  @include setsSrollbar();
+  box-sizing: border-box;
 }
+
 .panle-footer {
-  width: 3.38rem;
+  width: 3.84rem;
   height: 0.24rem;
   background: url("@/assets/panelbg/weibu.png") no-repeat;
   background-size: 100% 100%;
+  box-sizing: border-box;
+}
+
+.panle-header-right {
+  width: 3.36rem;
+}
+
+.panle-container-right {
+  width: 3.36rem;
+}
+
+.panle-footer-right {
+  width: 3.36rem;
 }
 </style>

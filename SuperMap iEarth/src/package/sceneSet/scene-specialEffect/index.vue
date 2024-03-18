@@ -27,17 +27,17 @@ import rainSnow from "./components/rain-sonw.vue";
 // 使用vue3 setUp实现动态组件
 let comList = reactive([
   {
-    name: GlobalLang.floodLight,
+    name: $t("floodLight"),
     com: markRaw(floodLight),
     isSelect: true,
   },
   {
-    name: GlobalLang.scanLine,
+    name: $t("scanLine"),
     com: markRaw(scanLine),
     isSelect: false,
   },
   {
-    name: GlobalLang.rainSnow,
+    name: $t("rainSnow"),
     com: markRaw(rainSnow),
     isSelect: false,
   },
@@ -63,26 +63,14 @@ function changeItem(item: any) {
 
 <style lang="scss" scoped>
 .btn-list {
-  // font-size: 0.14rem;
-  display: flex;
+  width: 2.7rem;
   margin-left: 0.1rem;
   margin-bottom: 0.2rem;
-  cursor: pointer;
   justify-content: space-evenly;
 
   .btn {
-    width:fit-content;
+    width: fit-content;
     padding: 0 0.08rem;
-    height: 0.26rem;
-    line-height: 0.26rem;
-    text-align: center;
-    // margin-left: 0.48rem;
-  }
-
-  .select-btn {
-    border-radius: 0.02rem;
-    color: #3499e5;
-    background: rgba(255, 255, 255, 0.15);
   }
 }
 </style>

@@ -1,3 +1,3 @@
-import SmSceneLight from './index.vue';
+import SmSceneLight from './light.vue';
 
 export default SmSceneLight;

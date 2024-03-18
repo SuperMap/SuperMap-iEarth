@@ -1,14 +1,12 @@
 //DrawHandler封装
-// import tool from './tool'
 /**
  * 初始化-package
  * DrawMode：类型：主要是封装常用的绘制线和面两种
  * clampMode：模式：空间，贴地
  */
 
-
-const initHandler = function (DrawMode:string, clampMode?:number) {
-    let handler:any, clampmode:number = 0;
+const initHandler = function (DrawMode: string, clampMode?: number) {
+    let handler: any, clampmode: number = 0;
     // if (SuperMap3D.defined(clampMode)) clampmode = clampMode;
     switch (DrawMode) {
         case "Polyline":
@@ -39,7 +37,7 @@ const initHandler = function (DrawMode:string, clampMode?:number) {
 
     handler.handlerDrawing = function () {
         return new Promise((resolve, reject) => {
-            let clearActFn = handler.activeEvt.addEventListener((isActive:any) => {
+            let clearActFn = handler.activeEvt.addEventListener((isActive: any) => {
                 if (isActive == true) {
                     window.viewer.enableCursorStyle = false;
                     window.viewer._element.style.cursor = '';
@@ -50,7 +48,7 @@ const initHandler = function (DrawMode:string, clampMode?:number) {
                 }
             });
 
-            let clearMovFn = handler.movingEvt.addEventListener((windowPosition:any) => {
+            let clearMovFn = handler.movingEvt.addEventListener((windowPosition: any) => {
                 if (handler.polyline && handler.isDrawing) {
                     // let p = [...handler.polyline.positions];
                     // if (DrawMode == "Polygon") p.push(p[0]);
@@ -59,7 +57,7 @@ const initHandler = function (DrawMode:string, clampMode?:number) {
                 }
             });
 
-            let clearDrawFn = handler.drawEvt.addEventListener((result:any) => {
+            let clearDrawFn = handler.drawEvt.addEventListener((result: any) => {
                 if (!result.object.positions) {
                     handler.deactivate();
                     handler.activate();
@@ -103,4 +101,4 @@ const initHandler = function (DrawMode:string, clampMode?:number) {
     return handler
 };
 
-export default initHandler
+export default initHandler;

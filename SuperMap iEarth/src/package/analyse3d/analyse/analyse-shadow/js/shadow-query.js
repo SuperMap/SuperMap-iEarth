@@ -62,7 +62,6 @@ class ShadowQuery {
         }
     }
 
-
     /**
      * 开始执行分析
      * @param {Array} _positions 添加点的笛卡尔坐标
@@ -111,8 +110,6 @@ class ShadowQuery {
         this.s3mInstanceCollection.removeCollection(this.modelUrl);
     };
 
-
-
     //过滤体显示
     setFilterBodyShow(arr) {
         this.filterInterval = arr;
@@ -123,12 +120,9 @@ class ShadowQuery {
             let model = this.s3mInstanceCollection.getInstance(this.modelUrl, 'shadow_body_box-' + i);
             if (Ratio < arr[0] || Ratio > arr[1])
                 if (model) model.visible = false
-            else if (model) model.visible = true
+                else if (model) model.visible = true
         }
     }
-
-
-
 
     /**
    * 销毁
@@ -168,8 +162,6 @@ const CartesiantoDegrees = (Cartesians) => {
     }
     return positions
 };
-
-
 
 //初始化体显示颜色(根据采光率0-100设置对应颜色值)
 function initBoxColor() {
@@ -216,4 +208,4 @@ function gradientColors(start, end, steps, gamma) {
     }
 };
 
-export default ShadowQuery
+export default ShadowQuery;

@@ -1,3 +1,3 @@
-import SmTerrainOperation from './index.vue';
+import SmTerrainOperation from './operation.vue';
 
 export default SmTerrainOperation;

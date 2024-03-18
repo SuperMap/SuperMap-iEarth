@@ -8,20 +8,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ispeco/authentication-sdk": "^1.0.28",
+    "@ispeco/authentication-sdk": "^2.0.34",
     "axios": "^0.27.2",
     "color": "^4.2.3",
     "crypto-js": "^4.1.1",
+    "echarts": "^5.4.2",
     "fast-glob": "^3.2.12",
     "html2canvas": "^1.4.1",
     "pinia": "^2.0.22",
     "pinia-plugin-persist": "^1.0.0",
+    "proj4": "^2.9.0",
     "screenfull": "^6.0.1",
     "vue": "^3.2.37",
     "vue-i18n": "9.1.9",
     "vue-json-pretty": "^2.2.3",
     "vue-router": "^4.1.5",
-    "echarts": "^5.4.2"
+    "vuedraggable": "4.1.0"
   },
   "devDependencies": {
     "@vicons/ionicons5": "~0.11.0",

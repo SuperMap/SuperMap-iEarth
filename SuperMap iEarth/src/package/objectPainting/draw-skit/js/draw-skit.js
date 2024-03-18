@@ -1,4 +1,4 @@
-import PolygonEmitter from './emitter'   //粒子随机发射功能，用于区域添加返回坐标
+import PolygonEmitter from './emitter';   //粒子随机发射功能，用于区域添加返回坐标
 
 //添加符号类
 class AddSymbol {
@@ -21,6 +21,13 @@ class AddSymbol {
         this.emitter = new PolygonEmitter(); //区域粒子随机发射器，用于区域添加
         this.color = SuperMap3D.Color.fromCssColorString("#ffffff");
         this.selectedSymbol = null;
+        this.treeManage = {
+            pointList: [],
+            polylineItems: {},
+            polygonItems: {}
+        };
+        this.polylineIndex = 1;
+        this.polygonIndex = 1;
         this.allModelUrls = [];
     }
 
@@ -48,7 +55,7 @@ class AddSymbol {
             axesShow: {
                 translation: true,
                 rotation: true,
-                scale: true
+                scale: false
             }
         });
         this.modelEditor.activate();
@@ -65,14 +72,29 @@ class AddSymbol {
     addByPoint(modelUrl, position, id) {
         if (!SuperMap3D.defined(modelUrl) || !SuperMap3D.defined(position)) return;
         if (!this.allModelUrls.includes(modelUrl)) this.allModelUrls.push(modelUrl); //保存所有添加的路径
-        let id2 = 'symbol-' + new Date().getTime();
-        this.s3mInstanceColc.add(modelUrl, {
-            id: id || id2,
+        let s3mID = '';
+        if (!id) {
+            s3mID = 'point-' + new Date().getTime() + '-addSymbol';
+        } else {
+            s3mID = id;
+        }
+
+        let option = {
+            url: modelUrl,
+            id: s3mID
+        }
+
+        this.s3mInstanceColc.add(option.url, {
+            id: option.id,
             position: position,
             color: this.color
         });
-        let instance = this.s3mInstanceColc.getInstance(modelUrl, id2);
-        return instance;
+
+        if (!id) {
+            this.treeManage.pointList.push(option);
+        }
+
+        return option;
     }
 
 
@@ -104,10 +126,15 @@ class AddSymbol {
         }
         viewer.scene.clampToHeightMostDetailed(positions)
             .then((Cartesians) => {
+                let polylineOptionList = []
+                let key = `polylineItem_${this.polylineIndex}`;
                 for (let i = 0, j = Cartesians.length; i <= j; i++) {
-                    let id = 'symbol-' + new Date().getTime() + i;
-                    this.addByPoint(modelUrl, Cartesians[i], id);
+                    let id = key + '-' + new Date().getTime() + i + '-addSymbol';
+                    let instanceOption = this.addByPoint(modelUrl, Cartesians[i], id);
+                    polylineOptionList.push(instanceOption);
                 }
+                this.treeManage.polylineItems[key] = polylineOptionList;
+                this.polylineIndex++;
             });
         //精度计算count插值
         function getCount(distance, space) {
@@ -126,11 +153,24 @@ class AddSymbol {
     addByFace(modelUrl, positions, count) {
         if (!SuperMap3D.defined(modelUrl) || !SuperMap3D.defined(positions) || positions.length < 3) return;
         this.emitter.initPolygonEmitter(positions);
+        let polygonOptionList = []
+        let key = `polygonItem_${this.polygonIndex}`;
         for (let i = 0; i < count; i++) {
             let p = this.emitter.getOneRandomPosition();
-            let id = 'symbol-' + new Date().getTime() + i;
-            this.addByPoint(modelUrl, p, id);
+            let id = key + '-' + new Date().getTime() + i + '-addSymbol';
+
+            let url;
+            if (modelUrl.length == 1) {
+                url = modelUrl[0];
+            } else {
+                url = modelUrl[Math.floor((Math.random() * modelUrl.length))];
+            }
+
+            let instanceOption = this.addByPoint(url, p, id);
+            polygonOptionList.push(instanceOption);
         }
+        this.treeManage.polygonItems[key] = polygonOptionList;
+        this.polygonIndex++;
     }
 
     // 设置符号颜色
@@ -146,7 +186,7 @@ class AddSymbol {
 
     // 设置模型可编辑
     setModelEditor(symbol) {
-        if (symbol && symbol.id && typeof (symbol.id) === 'string' && symbol.id.indexOf("symbol-") != -1) {
+        if (symbol && symbol.id && typeof (symbol.id) === 'string' && symbol.id.indexOf("addSymbol") != -1) {
             if (this.selectedSymbol && this.selectedSymbol.id === symbol.id) return;
             this.selectedSymbol = symbol;
             this.addModelEditor(symbol.primitive);
@@ -156,16 +196,98 @@ class AddSymbol {
         }
     }
 
+    // 关闭模型编辑框
+    delModelEditor() {
+        this.selectedSymbol = null;
+        if (this.modelEditor) this.modelEditor.deactivate();
+    }
+
+    // // 设置选中的实体项目高亮 - 还未完成
+    // setItemsHighlight(symbol){
+    //     let instanceID = symbol.id;
+    //     let key = instanceID.split('-')[0];
+    //     if(key.includes('polyline')){
+    //         this.treeManage.polylineItems[key].forEach((item) => {
+    //             if(item && item.url && item.id){
+    //                 let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+    //                 instance.updateColor(new SuperMap3D.Color(255, 1, 1, 1),item.id)
+    //                 // instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+    //             }
+    //         })
+    //     }else if(key.includes('polygon')){
+
+    //     }
+    // }
 
     // 清除
-    clear(modelUrl) {
-        if (modelUrl) {
-            if (this.selectedSymbol) this.s3mInstanceColc.removeInstance(modelUrl, this.selectedSymbol.id);
-            else this.s3mInstanceColc.removeCollection(modelUrl);
+    clear(instanceID, delType) {
+        if (!delType) return;
+        if (delType == 2) {
+            let key = instanceID.split('-')[0];
+            if (key.includes('polyline')) {
+                this.treeManage.polylineItems[key].forEach((item) => {
+                    if (item && item.url && item.id) {
+                        // this.s3mInstanceColc.removeInstance(item.url, item.id);
+                        let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+                        instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+                    }
+                })
+            } else if (key.includes('polygon')) {
+                this.treeManage.polygonItems[key].forEach((item) => {
+                    if (item && item.url && item.id) {
+                        // this.s3mInstanceColc.removeInstance(item.url, item.id);
+                        let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+                        instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+                    }
+                })
+            } else {
+                let itemList = this.treeManage.pointList.filter((element) => {
+                    if (element && element.id) return element.id == instanceID
+                })
+                let item = itemList[0];
+                if (item && item.url && item.id) {
+                    // this.s3mInstanceColc.removeInstance(item.url, item.id);
+                    let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+                    instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+                }
+            }
         } else {
-            this.allModelUrls.forEach((url) => this.s3mInstanceColc.removeCollection(url));
-            this.allModelUrls.length = 0;
+            let key = instanceID.split('-')[0];
+            if (key.includes('polyline')) {
+                let itemList = this.treeManage.polylineItems[key].filter((element) => {
+                    if (element && element.id) return element.id == instanceID
+                })
+                let item = itemList[0];
+                if (item && item.url && item.id) {
+                    // this.s3mInstanceColc.removeInstance(item.url, item.id);
+                    let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+                    instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+                }
+            } else if (key.includes('polygon')) {
+                let itemList = this.treeManage.polygonItems[key].filter((element) => {
+                    if (element && element.id) return element.id == instanceID
+                })
+                let item = itemList[0];
+                if (item && item.url && item.id) {
+                    // this.s3mInstanceColc.removeInstance(item.url, item.id);
+                    let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+                    instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+                }
+            } else {
+                let itemList = this.treeManage.pointList.filter((element) => {
+                    if (element && element.id) return element.id == instanceID
+                })
+                let item = itemList[0];
+                if (item && item.url && item.id) {
+                    // this.s3mInstanceColc.removeInstance(item.url, item.id);
+                    let instance = this.s3mInstanceColc.getInstance(item.url, item.id);
+                    instance.updateScale(new SuperMap3D.Cartesian3(0, 0, 0), item.id);
+                }
+            }
+
         }
+
+
         this.selectedSymbol = null;
         if (this.modelEditor) this.modelEditor.deactivate();
     }
@@ -174,11 +296,20 @@ class AddSymbol {
     * 销毁
     */
     destroy() {
-        this.clear();
+        // this.clear();
+        this.treeManage = {
+            pointList: [],
+            polylineItems: {},
+            polygonItems: {}
+        };
+        this.selectedSymbol = null;
+        if (this.modelEditor) this.modelEditor.deactivate();
+        this.allModelUrls.forEach((url) => this.s3mInstanceColc.removeCollection(url));
+        this.allModelUrls.length = 0;
         if (this.modelEditor) this.modelEditor.destroy();
         this.s3mInstanceColc = null;
         this.selectedSymbol = null;
     }
 }
 
-export default AddSymbol
+export default AddSymbol;

@@ -1,49 +1,50 @@
 <template>
-<div class="loading-bg">
-  <div id='loadingbar' class="spinner" >
-    <div class="spinner-container container1">
+  <div class="loading-bg">
+    <div id="loadingbar" class="spinner">
+      <div class="spinner-container container1">
         <div class="circle1"></div>
         <div class="circle2"></div>
         <div class="circle3"></div>
         <div class="circle4"></div>
+      </div>
+      <div class="spinner-container container2">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+      </div>
+      <div class="spinner-container container3">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+      </div>
     </div>
-    <div class="spinner-container container2">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
-    </div>
-    <div class="spinner-container container3">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
   </div>
-</div>
-</div>
 </template>
-<script  lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
-.loading-bg{
+.loading-bg {
   width: 100%;
   height: 100%;
   background: #000;
 }
-  .spinner {
+.spinner {
   margin: auto;
   width: 60px;
   height: 60px;
-  position: absolute ;
+  position: absolute;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  z-index:1000;
+  z-index: 1000;
 }
 
-.container1 > div, .container2 > div, .container3 > div {
+.container1 > div,
+.container2 > div,
+.container3 > div {
   width: 16px;
   height: 16px;
   /*background-color: #67cf22;*/
@@ -72,10 +73,22 @@
   transform: rotateZ(90deg);
 }
 
-.circle1 { top: 0; left: 0; }
-.circle2 { top: 0; right: 0; }
-.circle3 { right: 0; bottom: 0; }
-.circle4 { left: 0; bottom: 0; }
+.circle1 {
+  top: 0;
+  left: 0;
+}
+.circle2 {
+  top: 0;
+  right: 0;
+}
+.circle3 {
+  right: 0;
+  bottom: 0;
+}
+.circle4 {
+  left: 0;
+  bottom: 0;
+}
 
 .container2 .circle1 {
   -webkit-animation-delay: -1.1s;
@@ -83,8 +96,8 @@
 }
 
 .container3 .circle1 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
 }
 
 .container1 .circle2 {
@@ -132,19 +145,27 @@
   animation-delay: -0.1s;
 }
 
-
 @-webkit-keyframes bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0.0) }
-  40% { -webkit-transform: scale(1.0) }
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% {
-      transform: scale(0.0);
-      -webkit-transform: scale(0.0);
-  } 40% {
-        transform: scale(1.0);
-        -webkit-transform: scale(1.0);
-    }
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
 }
 </style>

@@ -1,7 +1,12 @@
 <template>
   <div class="btn-list">
-    <div class="btn" :class="item.isSelect ? 'select-btn' : ''" v-for="(item, index) in comList" :key="index"
-      @click="changeItem(item)">
+    <div
+      class="btn"
+      v-for="(item, index) in comList"
+      :class="item.isSelect ? 'select-btn' : ''"
+      :key="index"
+      @click="changeItem(item)"
+    >
       {{ item.name }}
     </div>
   </div>
@@ -9,22 +14,25 @@
   <KeepAlive>
     <component :is="currentItem.com"></component>
   </KeepAlive>
+
+  <rotate></rotate>
 </template>
 
 <script lang="ts" setup>
 import { reactive, markRaw } from "vue";
 import createRoute from "./components/create-route.vue";
 import importRoute from "./components/import-route.vue";
+import rotate from "./components/rotate.vue";
 
 // 使用vue3 setUp实现动态组件
 let comList = reactive([
   {
-    name: GlobalLang.importFlyRoute,
+    name: $t("importFlyRoute"),
     com: markRaw(importRoute),
     isSelect: true,
   },
   {
-    name: GlobalLang.createFlyRoute,
+    name: $t("createFlyRoute"),
     com: markRaw(createRoute),
     isSelect: false,
   },
@@ -51,26 +59,14 @@ function changeItem(item: any) {
 
 <style lang="scss" scoped>
 .btn-list {
-  // font-size: 0.14rem;
-  display: flex;
   margin-left: 0.1rem;
+  width: 2.7rem;
   margin-bottom: 0.15rem;
-  cursor: pointer;
   justify-content: space-evenly;
 
   .btn {
     width: fit-content;
     padding: 0 0.1rem;
-    height: 0.26rem;
-    line-height: 0.26rem;
-    text-align: center;
-
-  }
-
-  .select-btn {
-    border-radius: 0.02rem;
-    color: #3499e5;
-    background: rgba(255, 255, 255, 0.15);
   }
 }
 </style>

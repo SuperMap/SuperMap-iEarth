@@ -1,3 +1,3 @@
-import SmDrawSurface from './index.vue';
+import SmDrawSurface from './drawSurface.vue';
 
 export default SmDrawSurface;

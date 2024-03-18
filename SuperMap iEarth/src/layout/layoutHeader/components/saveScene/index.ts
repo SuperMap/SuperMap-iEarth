@@ -1,3 +1,3 @@
-import SaveScene from './index.vue';
+import SaveScene from './saveScene.vue';
 
 export default SaveScene;

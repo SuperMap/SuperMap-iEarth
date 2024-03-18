@@ -1,3 +1,3 @@
-import SmTerrainIsoline from './index.vue';
+import SmTerrainIsoline from './isoline.vue';
 
 export default SmTerrainIsoline;

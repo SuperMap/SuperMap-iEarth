@@ -36,7 +36,7 @@ class ProfileAnalysis {
         }
         this.myChart.setOption({
             title: {
-                text: GlobalLang.Section,
+                text: $t('Section'),
                 textStyle: {
                     fontSize: 15
                 }
@@ -49,10 +49,11 @@ class ProfileAnalysis {
             },
             tooltip: {},
             xAxis: {
-                show: false
+                show: true
             },
             yAxis: {
-                show: false
+                type: 'value',
+                show: true
             },
             series: [
                 {
@@ -106,20 +107,20 @@ class ProfileAnalysis {
         // this.clampedCartesians = positions;
         // this.LatAndLons = CartesiantoDegreesObjs(positions);
         // this.setOptions();
-      
+
         return new Promise((resolve, reject) => {
             this.viewer.scene
-            .clampToHeightMostDetailed(positions)
-            .then((clampedCartesians) => {
+                .clampToHeightMostDetailed(positions)
+                .then((clampedCartesians) => {
                     this.clampedCartesians = clampedCartesians;
                     this.LatAndLons = CartesiantoDegreesObjs(clampedCartesians);
                     this.setOptions();
 
                     // return Promise.resolve(true);
                     resolve(true);
-            },(err)=>{
-                console.log("剖面:",err)
-            });
+                }, (err) => {
+                    console.log(err);
+                });
         })
     };
 
@@ -180,17 +181,16 @@ class ProfileAnalysis {
 
     // 设置echarts
     setOptions() {
-        console.log("this.LatAndLons：",this.LatAndLons);
         this.myChart.clear();
         let option = {
             title: {
-                text: GlobalLang.Section,
+                text: $t('Section'),
                 textStyle: {
                     fontSize: 15,
                     color: '#CAE6FF'
                 },
                 top: '3%',
-                left:'3%', 
+                left: '3%',
             },
             // 定位
             grid: {
@@ -201,7 +201,7 @@ class ProfileAnalysis {
                 containLabel: true
             },
             axisLabel: {// 设置坐标轴字的颜色
-               color: 'color: rgba(255, 255, 255, 0.85);'
+                color: 'color: rgba(255, 255, 255, 0.85);'
             },
             backgroundColor: "#000817",
             tooltip: {
@@ -231,18 +231,18 @@ class ProfileAnalysis {
             toolbox: {
                 show: true,
                 feature: {
-                //   restore: {
-                //     title:'刷新'
-                //   },
-                  saveAsImage: {
-                    title:"下载"
-                  }
+                    //   restore: {
+                    //     title:'刷新'
+                    //   },
+                    saveAsImage: {
+                        title: "下载"
+                    }
                 },
                 right: "3%",
                 iconStyle: {
                     borderColor: "#fff",  // 图标默认颜色
-                  },
-              },
+                },
+            },
             xAxis: {
                 data: this.LatAndLons.map((item, index) => {
                     return index;
@@ -250,6 +250,7 @@ class ProfileAnalysis {
                 show: true,
             },
             yAxis: {
+                type: 'value',
                 min: function (value) {
                     return value.min < 20 ? 0 : Math.floor(value.min);
                 },
@@ -264,6 +265,7 @@ class ProfileAnalysis {
                 splitLine: {
                     show: true,
                 },
+                show: true,
             },
             dataZoom: [
                 {
@@ -281,7 +283,7 @@ class ProfileAnalysis {
                     return item.height;
                 }),
                 areaStyle: {
-                opacity: 0
+                    opacity: 0
                 },
                 lineStyle: {
                     color: '#3499E5'
@@ -358,4 +360,4 @@ function CartesiantoDegreesObjs(Cartesians) {
 }
 
 
-export default ProfileAnalysis
+export default ProfileAnalysis;

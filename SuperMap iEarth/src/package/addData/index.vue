@@ -1,8 +1,8 @@
 <template>
-  <div class="add-data-box" style="overflow-y:hidden">
-    <n-tabs type="line" animated justify-content="left" >
+  <div class="add-data-box" style="overflow-y: hidden">
+    <n-tabs type="line" animated justify-content="left">
       <!-- 公共服务 -->
-      <n-tab-pane name="publicService" :tab="$t('global.publicService')">
+      <n-tab-pane name="publicService" :tab="$t('publicService')">
         <SmLayerService></SmLayerService>
       </n-tab-pane>
       <!-- 我的服务 -->
@@ -10,19 +10,23 @@
         <sm-layer-service></sm-layer-service>
       </n-tab-pane> -->
       <!-- 自定义服务 -->
-      <n-tab-pane name="customService" :tab="$t('global.customService')">
+      <n-tab-pane name="customService" :tab="$t('customService')">
         <SmLayerCustom></SmLayerCustom>
       </n-tab-pane>
       <!-- 在线底图 -->
-      <n-tab-pane name="onlineBaseMap" :tab="$t('global.onlineBaseMap')">
+      <n-tab-pane name="onlineBaseMap" :tab="$t('onlineBaseMap')">
         <SmLayerBase></SmLayerBase>
       </n-tab-pane>
       <!-- 在线地形 -->
-      <n-tab-pane name="onlineTerrain" :tab="$t('global.onlineTerrain')">
+      <n-tab-pane name="onlineTerrain" :tab="$t('onlineTerrain')">
         <SmLayerTerrain></SmLayerTerrain>
       </n-tab-pane>
       <!-- 我的服务 -->
-      <n-tab-pane name="portalService" :tab="$t('global.portalService')" v-if="IportalStore.isLogin">
+      <n-tab-pane
+        name="portalService"
+        :tab="$t('portalService')"
+        v-if="IportalStore.isLogin"
+      >
         <SmPortalService></SmPortalService>
       </n-tab-pane>
     </n-tabs>
@@ -38,7 +42,6 @@ import SmLayerTerrain from "./layer-terrain/index";
 import SmPortalService from "./layer-mine/index";
 
 const IportalStore = IportalStoreCreate();
-
 </script>
 
 <style lang="scss" scoped>
@@ -47,13 +50,23 @@ const IportalStore = IportalStoreCreate();
   height: 100%;
   padding: 0 0.01rem 0 0.12rem;
   box-sizing: border-box;
-  overflow-y: scroll;
-  @include setsSrollbar();
-  // :deep(.n-tabs-tab__label) {
-  //   color: rgba(255, 255, 255, 0.65);
-  // };
 }
-:deep(.n-tabs-tab-wrapper){
-  margin-right:0.16rem;
+
+:deep(.n-tabs-tab-wrapper) {
+  margin-right: 0.16rem;
+}
+
+:deep(.n-tabs-nav) {
+  padding: 0 0.12rem;
+}
+
+:deep(.n-tab-pane) {
+  box-sizing: border-box;
+  padding-left: 0.12rem;
+  padding-right: 0.12rem;
+}
+
+.use-scroll {
+  padding-right: 0px;
 }
 </style>

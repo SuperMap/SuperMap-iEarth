@@ -1,47 +1,15 @@
 //语言
-import { createI18n } from 'vue-i18n' //引入vue-i18n组件
-import { getLang } from '@/utils'
-import { LangEnum } from '@/enums/styleEnum'
-import zh from './zh/index'
-import en from './en/index'
-import ja from './ja/index'
+import { createI18n } from 'vue-i18n';
+import { getLanguage } from '@/tools/getLanguage';
 
-// 获取当前浏览器语言环境
-var currentLanguage;
-var cookieLanguage = getLang();
-if (cookieLanguage !== undefined) currentLanguage = cookieLanguage;
+// 获取index.html通过<script>标签引入的语言资源文件
+const lang_data = window.lang_data;
 
-
-// 语言数组
-export const langList = [
-  {
-    label: '中文',
-    key: LangEnum.ZH
-  },
-  {
-    label: 'English',
-    key: LangEnum.EN
-  },
-  {
-    label: 'Japanese',
-    key: LangEnum.JA
-  }
-]
-
-// 全局语言对象
-export const langGlobal = {
-  "zh":zh,
-  "en":en,
-  "ja":ja,
-}
+const lang = getLanguage();
 
 const i18n = createI18n({
-  locale: currentLanguage,
-  messages: {
-    [LangEnum.ZH]: zh,
-    [LangEnum.EN]: en,
-    [LangEnum.JA]: ja
-  }
+  locale: lang,
+  messages: lang_data
 })
 
-export default i18n
+export default i18n;

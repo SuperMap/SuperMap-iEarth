@@ -1,0 +1,141 @@
+{
+  "material": {
+    "id": "DA82AFCB-129A-4E66-995A-9F519894F58D",
+    "cullMode": "none",
+    "alphaMode": "opaque",
+    "alphaCutoff": 0.009999999776482582,
+    "vertexShaderName": "",
+    "fragmentShaderName": "",
+    "pbrMetallicRoughness": {
+      "emissiveFactor": { "x": 0.0, "y": 0.0, "z": 0.0 },
+      "emissiveTextureIndex": -1,
+      "emissiveTextureCoordIndex": -1,
+      "emissiveTextureMotion": {
+        "OffsetSpeedU": 0.0,
+        "OffsetSpeedV": 0.0,
+        "OffsetPeriod": 0.0,
+        "TilingSpeedU": 1.0,
+        "TilingSpeedV": 1.0,
+        "TilingPeriod": 0.0
+      },
+      "normalTextureIndex": -1,
+      "normalTextureCoordIndex": 0,
+      "normalTextureScale": 0.1,
+      "occlusionTextureIndex": -1,
+      "occlusionTextureCoordIndex": -1,
+      "occlusionTextureStrength": 1.0,
+      "baseColor": { "x": 1.0, "y": 1.0, "z": 1.0, "w": 1.0 },
+      "baseColorTextureIndex": -1,
+      "baseColorTextureCoordIndex": 0,
+      "baseColorTextureMotion": {
+        "OffsetSpeedU": 0.0,
+        "OffsetSpeedV": 0.0,
+        "OffsetPeriod": 0.0,
+        "TilingSpeedU": 1.0,
+        "TilingSpeedV": 1.0,
+        "TilingPeriod": 0.0
+      },
+      "metallicRoughnessTextureIndex": -1,
+      "metallicRoughnessTextureCoordIndex": 0,
+      "metallicFactor": 0.1,
+      "roughnessFactor": 1.0,
+      "rainEffect": {
+        "rippleTextureIndex": 3,
+        "rippleTextureCoordIndex": 0,
+        "rippleTextureScale": 1.0,
+        "animationSpeed": 0.01,
+        "wetnessFactor": 0.72,
+        "ripple_scale": 7.0,
+        "wind_intensity": 0,
+        "rain": 200,
+        "cameraDepth": 0.8
+      }
+    },
+    "textureunitstates": [
+      {
+        "textureunitstate": {
+          "id": "M_Brick_Clay_Old_BaseTexMap",
+          "url": "M_Brick_Clay_Old_BaseTexMap.png",
+          "addressmode": { "u": 0, "v": 0, "w": 0 },
+          "filteringoption": 0,
+          "filtermin": 2,
+          "filtermax": 2,
+          "texmodmatrix": [
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0
+          ]
+        }
+      },
+      {
+        "textureunitstate": {
+          "id": "M_Brick_Clay_Old_MetallicRoughMap",
+          "url": "M_Brick_Clay_Old_MetallicRoughMap.png",
+          "addressmode": { "u": 0, "v": 0, "w": 0 },
+          "filteringoption": 0,
+          "filtermin": 2,
+          "filtermax": 2,
+          "texmodmatrix": [
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0
+          ]
+        }
+      },
+      {
+        "textureunitstate": {
+          "id": "M_Brick_Clay_Old_NormalMap",
+          "url": "M_Brick_Clay_Old_NormalMap.png",
+          "addressmode": { "u": 0, "v": 0, "w": 0 },
+          "filteringoption": 0,
+          "filtermin": 2,
+          "filtermax": 2,
+          "texmodmatrix": [
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0
+          ]
+        }
+      },
+      {
+        "textureunitstate": {
+          "id": "M_Brick_Clay_Old_Ripple",
+          "url": "Ripple_Sheet.png",
+          "addressmode": { "u": 0, "v": 0, "w": 0 },
+          "filteringoption": 0,
+          "filtermin": 2,
+          "filtermax": 2,
+          "texmodmatrix": [
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0
+          ]
+        }
+      },
+      {
+        "textureunitstate": {
+          "id": "Snow_masks",
+          "url": "Snow_masks.png",
+          "addressmode": { "u": 0, "v": 0, "w": 0 },
+          "filteringoption": 0,
+          "filtermin": 2,
+          "filtermax": 2,
+          "texmodmatrix": [
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0
+          ]
+        }
+      },
+      {
+        "textureunitstate": {
+          "id": "Snow_normal",
+          "url": "Snow_normal.png",
+          "addressmode": { "u": 0, "v": 0, "w": 0 },
+          "filteringoption": 0,
+          "filtermin": 2,
+          "filtermax": 2,
+          "texmodmatrix": [
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0
+          ]
+        }
+      }
+    ]
+  }
+}

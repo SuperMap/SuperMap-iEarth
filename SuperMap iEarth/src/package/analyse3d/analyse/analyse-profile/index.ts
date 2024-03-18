@@ -1,3 +1,3 @@
-import SmAnalyseProfile from './index.vue';
+import SmAnalyseProfile from './profile.vue';
 
 export default SmAnalyseProfile;

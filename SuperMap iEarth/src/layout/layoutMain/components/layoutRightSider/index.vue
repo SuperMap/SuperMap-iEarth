@@ -1,53 +1,72 @@
 <template>
   <div class="right-tool-bar">
-    <!-- 搜索 -->
-    <!-- <div class="too-bar one-tool-bar">
-      <span class="icon-container">
-        <i class="iconfont icon-zhinan"></i>
-      </span>
-    </div> -->
     <!-- 指南 -->
     <div class="too-bar two-tool-bar">
       <span class="icon-container" @click="reduceCompass">
-        <i class="iconfont iconzhibeizhen_1" id="compass_dom" :title="$t('global.w_north')"></i>
+        <i
+          class="iconfont iconzhibeizhen_1"
+          id="compass_dom"
+          :title="$t('w_north')"
+        ></i>
       </span>
       <span class="icon-container" @click="reset">
-        <i class="iconfont iconfuwei" :title="$t('global.w_reset')"></i>
+        <i class="iconfont iconfuwei" :title="$t('w_reset')"></i>
       </span>
     </div>
     <!-- 缩放 -->
     <div class="too-bar two-tool-bar">
       <span class="icon-container">
-        <i class="iconfont iconfangda" @click="zoomIn" @mousedown="continueZoomIn" @mouseup="clearTimer" :title="$t('global.w_zoomIn')"></i>
+        <i
+          class="iconfont iconfangda"
+          @click="zoomIn"
+          @mousedown="continueZoomIn"
+          @mouseup="clearTimer"
+          :title="$t('w_zoomIn')"
+        ></i>
       </span>
       <span class="icon-container">
-        <i class="iconfont iconsuoxiao" @click="zoomOut" @mousedown="continueZoomOut" @mouseup="clearTimer" :title="$t('global.w_zoomOut')"></i>
+        <i
+          class="iconfont iconsuoxiao"
+          @click="zoomOut"
+          @mousedown="continueZoomOut"
+          @mouseup="clearTimer"
+          :title="$t('w_zoomOut')"
+        ></i>
       </span>
     </div>
     <!-- 分析等弹窗 -->
     <div class="too-bar four-tool-bar">
-      <span class="icon-container" v-for="iconItem in state.rightToolBarList" :key="iconItem.id"
-        @click="changePanel(iconItem)" :class="iconItem.isSelected ? 'select-too-bar-bg' : ''">
-        <i class="iconfont" :class="iconItem.iconName" :title="$t(iconItem.title)"></i>
+      <span
+        class="icon-container"
+        v-for="iconItem in state.rightToolBarList"
+        :key="iconItem.id"
+        @click="changePanel(iconItem)"
+        :class="iconItem.isSelected ? 'select-too-bar-bg' : ''"
+      >
+        <i
+          class="iconfont"
+          :class="iconItem.iconName"
+          :title="$t(iconItem.title)"
+        ></i>
       </span>
     </div>
     <!--全屏-->
-    <div class="too-bar one-tool-bar" style="margin-bottom: 0.1rem" @click="fullScreen">
+    <div class="too-bar one-tool-bar" @click="fullScreen">
       <span class="icon-container">
-        <i class="iconfont iconzuidahua" :title="$t('global.w_fullScreen')"></i>
+        <i class="iconfont iconzuidahua" :title="$t('w_fullScreen')"></i>
       </span>
     </div>
     <!--首页-->
     <div class="too-bar one-tool-bar" v-show="IportalStore.isLogin">
       <span class="icon-container">
-        <i class="iconfont iconzhuye" :title="$t('global.w_home')" @click="goHome"></i>
+        <i class="iconfont iconzhuye" :title="$t('w_home')" @click="goHome"></i>
       </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, watch } from "vue";
+import { onMounted, reactive } from "vue";
 import { usePanelStore } from "@/store";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
@@ -62,8 +81,8 @@ onMounted(() => {
 });
 
 let state = reactive({
-  rightToolBarList:panelStore.panelList.rightToolBarList.slice(0,4)
-})
+  rightToolBarList: panelStore.panelList.rightToolBarList.slice(0, 4),
+});
 
 // 初始化
 function init() {
@@ -83,6 +102,15 @@ function init() {
 function changePanel(iconItem: any) {
   panelStore.setRightToolBarList(iconItem);
 }
+
+// 清除定时器
+function clearTimer() {
+  if (timer) {
+    clearInterval(timer);
+    timer = null;
+  }
+}
+
 // 放大
 function zoomIn() {
   let position = viewer.camera.position;
@@ -94,13 +122,6 @@ function zoomIn() {
 // 长按持续放大
 function continueZoomIn() {
   timer = setInterval(() => zoomIn(), 50);
-}
-// 清除定时器
-function clearTimer() {
-  if (timer) {
-    clearInterval(timer);
-    timer = null;
-  }
 }
 
 //缩小
@@ -144,10 +165,9 @@ function listener() {
 
 //指北针
 function reduceCompass() {
-  var scene = viewer.scene;
-  var camera = scene.camera;
-
-  var sscc = scene.screenSpaceCameraController;
+  let scene = viewer.scene;
+  let camera = scene.camera;
+  let sscc = scene.screenSpaceCameraController;
 
   if (scene.mode == SuperMap3D.SceneMode.MORPHING || !sscc.enableInputs) {
     return true;
@@ -176,82 +196,74 @@ function reduceCompass() {
     }
   }
 
-  var center = scene.pickPosition(scratchWindowPosition);
-
+  let center = scene.pickPosition(scratchWindowPosition);
   if (!SuperMap3D.defined(center)) {
-    // Globe is barely visible, so reset to home view.
     reset();
     return;
   }
 
-  var cameraPosition = scene.globe.ellipsoid.cartographicToCartesian(
+  let cameraPosition = scene.globe.ellipsoid.cartographicToCartesian(
     camera.positionCartographic,
     new SuperMap3D.Cartesian3()
   );
 
-  var surfaceNormal = scene.globe.ellipsoid.geodeticSurfaceNormal(center);
-
-  var focusBoundingSphere = new SuperMap3D.BoundingSphere(center, 0);
+  let surfaceNormal = scene.globe.ellipsoid.geodeticSurfaceNormal(center);
+  let focusBoundingSphere = new SuperMap3D.BoundingSphere(center, 0);
 
   camera.flyToBoundingSphere(focusBoundingSphere, {
     offset: new SuperMap3D.HeadingPitchRange(
       0,
-      // do not use camera.pitch since the pitch at the center/target is required
       SuperMap3D.Math.PI_OVER_TWO -
-      SuperMap3D.Cartesian3.angleBetween(surfaceNormal, camera.directionWC),
-      // distanceToBoundingSphere returns wrong values when in 2D or Columbus view so do not use
-      // camera.distanceToBoundingSphere(focusBoundingSphere)
-      // instead calculate distance manually
+        SuperMap3D.Cartesian3.angleBetween(surfaceNormal, camera.directionWC),
       SuperMap3D.Cartesian3.distance(cameraPosition, center)
     ),
     duration: 1.5,
   });
 }
 
+// 回到主页
 function goHome() {
   let homeUrl = getRootUrl();
-  window.open(homeUrl); 
+  window.open(homeUrl);
 }
-
 </script>
 
 <style lang="scss" scoped>
 // 工具栏位置
 .right-tool-bar {
   position: fixed;
-  top: 0.6rem;
+  top: 0.8rem;
   right: 0.1rem;
-  z-index: 2;
 
   .one-tool-bar {
-    @include setBackground(0.32rem,
-      0.34rem,
+    @include setBackground(
+      0.32rem,
+      0.32rem,
       "@/assets/images/right-tool-one-bar.png"
     );
-    background-size: 100% 100%;
   }
 
   .two-tool-bar {
     box-sizing: border-box;
-    padding-top:0.04rem;
+    padding-top: 0.04rem;
     margin-bottom: 0.1rem;
-    @include setBackground(0.32rem,
+    @include setBackground(
+      0.32rem,
       0.72rem,
       "@/assets/images/right-tool-two-bar.png"
     );
-    background-size: 100% 100%;
   }
 
   .four-tool-bar {
     box-sizing: border-box;
-    padding-top:0.08rem;
+    padding-top: 0.08rem;
     margin-top: 0.4rem;
     margin-bottom: 0.1rem;
-    @include setBackground(0.32rem,
+    @include setBackground(
+      0.32rem,
       1.48rem,
       "@/assets/images/right-tool-four-bar.png"
     );
-    background-size: 100% 98%;
   }
 
   .icon-container {
@@ -263,7 +275,8 @@ function goHome() {
   }
 
   .select-too-bar-bg {
-    @include setBackground(0.32rem,
+    @include setBackground(
+      0.32rem,
       0.32rem,
       "@/assets/images/item-checked-bg.png"
     );

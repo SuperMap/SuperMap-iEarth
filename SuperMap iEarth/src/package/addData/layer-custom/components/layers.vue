@@ -1,118 +1,175 @@
 <template>
   <n-space justify="end">
-    <n-select class="add-input-border" v-model:value="state.layerType" :options="state.typeOptions"
-      style="width: 2.4rem; margin-bottom: 0.1rem" />
+    <n-select
+      v-model:value="state.layerType"
+      :options="state.typeOptions"
+      style="width: 2.4rem; margin-bottom: 0.1rem"
+    />
   </n-space>
 
   <div class="row-item" style="margin-bottom: 0.1rem">
-    <span>{{ $t('global.address') }}</span>
-
-      <n-tooltip placement="top-end" trigger="hover">
-        <template #trigger>
-          <n-input class="add-input-border" style="width: 2.4rem" v-model:value="state.layerUrl" type="text"
-      :placeholder="$t('global.layerUrl')" @input="handleChange" />
-        </template>
-        {{state.urlTip}}
-      </n-tooltip>
+    <span>{{ $t("address") }}</span>
+    <n-tooltip placement="top-end" trigger="hover">
+      <template #trigger>
+        <n-input
+          class="add-input-border"
+          style="width: 2.4rem"
+          v-model:value="state.layerUrl"
+          type="text"
+          :placeholder="$t('layerUrl')"
+          @input="handleChange"
+        />
+      </template>
+      {{ state.urlTip }}
+    </n-tooltip>
   </div>
 
-  <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType != 'WMTS'">
-    <span>{{ $t('global.name') }}</span>
-    <n-input class="add-input-border" style="width: 2.4rem" v-model:value="state.layerName" type="text"
-      :placeholder="$t('global.layerName')" :title="state.layerName" :disabled="true" />
+  <div
+    class="row-item"
+    style="margin-bottom: 0.1rem"
+    v-show="state.layerType != 'WMTS'"
+  >
+    <span>{{ $t("name") }}</span>
+    <n-input
+      class="add-input-border"
+      style="width: 2.4rem"
+      v-model:value="state.layerName"
+      type="text"
+      :placeholder="$t('layerName')"
+      :title="state.layerName"
+      :disabled="true"
+    />
   </div>
 
-  <div style="margin-left: 0.62rem; margin-bottom: 0.1rem" v-show="state.layerType != 'WMTS'">
-    <n-checkbox v-model:checked="state.token"> {{ $t('global.addToken') }} </n-checkbox>
-    <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.token" v-model:value="state.layerToken" type="text"
-      placeholder="token..." />
+  <div
+    style="margin-left: 0.95rem; margin-bottom: 0.1rem"
+    v-show="state.layerType != 'WMTS'"
+  >
+    <n-checkbox v-model:checked="state.token" :label="$t('addToken')" />
+    <n-input
+      style="margin-top: 0.1rem; width: 2.4rem"
+      v-if="state.token"
+      v-model:value="state.layerToken"
+      type="text"
+      placeholder="token..."
+    />
   </div>
 
-  <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0">
-    <span>{{ $t('global.selectableLayers') }}</span>
-    <n-select class="add-input-border" v-model:value="state.wmtsLayer" :options="state.wmtsLayerOptions"
-      style="width: 2.4rem; margin-bottom: 0.1rem" />
+  <div
+    class="row-item"
+    style="margin-bottom: 0.1rem"
+    v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0"
+  >
+    <span>{{ $t("selectableLayers") }}</span>
+    <n-select
+      class="add-input-border"
+      v-model:value="state.wmtsLayer"
+      :options="state.wmtsLayerOptions"
+      style="width: 2.4rem"
+    />
   </div>
 
-  <!-- <div class="row-item" style="margin-bottom: 0.1rem" v-show="state.layerType === 'WMTS' && state.wmtsLayer != ''">
-    <span>标识符</span>
-    <n-select class="add-input-border" v-model:value="state.tileMatrixSetID" :options="state.tileMatrixSetIDOptions"
-      style="width: 2.4rem; margin-bottom: 0.1rem" />
-  </div> -->
-
-  <div class="btn-row-item1">
-    <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="openLayer">{{ $t('global.sure')
-    }}</n-button>
-    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t('global.clear')
-    }}</n-button>
+  <div class="btn-row-item" style="margin-left: 0.95rem">
+    <n-button
+      type="info"
+      color="#3499E5"
+      text-color="#fff"
+      class="ans-btn"
+      @click="openLayer"
+      >{{ $t("sure") }}</n-button
+    >
+    <n-button
+      class="btn-secondary"
+      @click="clear"
+      color="rgba(255, 255, 255, 0.65)"
+      ghost
+      >{{ $t("clear") }}</n-button
+    >
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive ,watch} from "vue";
-import { useMessage } from "naive-ui"
+import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { useMessage } from "naive-ui";
+import { useLayerStore } from "@/store/layerStore/layer";
 import layerManagement from "@/tools/layerManagement";
-import { useLayerStore } from "@/store/layerStore";
+import proj4 from "proj4";
 
-// import x2js from 'xml-js' 
 const layerStore = useLayerStore();
 const message = useMessage();
 const widget = viewer.cesiumWidget;
 
+onMounted(() => {
+  viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
+  window.viewer.shadows = false; // 关闭阴影
+});
+
+onBeforeUnmount(() => {});
+
+// 南京EPSG::4549自定义投影坐标系
+proj4.defs([
+  [
+    "EPSG:4549",
+    "+proj=tmerc +lat_0=0 +lon_0=120 +k=1 +x_0=500000 +y_0=0 +ellps=GRS80 +units=m +no_defs",
+  ],
+]);
+
 let state = reactive({
-  layerType: 'S3M',
+  layerType: "S3M",
   token: false,
-  layerToken: '',
-  layerUrl: '',
-  layerName: '',
-  wmtsLayer: '',
+  layerToken: "",
+  layerUrl: "",
+  layerName: "",
+  wmtsLayer: "",
   wmtsLayerOptions: [],
-  tileMatrixSetID: '',
+  tileMatrixSetID: "",
   tileMatrixSetIDOptions: [],
   typeOptions: [
     {
-      label: GlobalLang.s3mLayer,
+      label: $t("s3mLayer"),
       value: "S3M",
     },
     {
-      label: GlobalLang.imgLayer,
+      label: $t("imgLayer"),
       value: "Imagery",
     },
     {
-      label: GlobalLang.terrainLayer,
+      label: $t("terrainLayer"),
       value: "Terrain",
     },
     {
-      label: GlobalLang.wmtsLayer,
+      label: $t("wmtsLayer"),
       value: "WMTS",
     },
   ],
-  rectangleObj: null,
-  scaleDenominatorsObj: null,
-  addWmtsFlag:true,
-  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`
-})
+  rectangleObj: [],
+  scaleDenominatorsObj: [],
+  epsg: -1,
+  addWmtsFlag: true,
+  urlTip: `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`,
+});
 
 function clear() {
-  state.layerUrl = '';
-  state.layerName = '';
+  state.layerUrl = "";
+  state.layerName = "";
   state.token = false;
-  state.layerToken = '';
+  state.layerToken = "";
 
   // 获取必要参数
   state.wmtsLayerOptions = [];
   state.tileMatrixSetIDOptions = [];
-  state.rectangleObj = null;
-  state.scaleDenominatorsObj = null;
+  state.rectangleObj = [];
+  state.scaleDenominatorsObj = [];
+  state.epsg = -1;
 
-  state.tileMatrixSetID = '';
-  state.wmtsLayer = '';
-};
+  state.tileMatrixSetID = "";
+  state.wmtsLayer = "";
+}
 
 // 打开自定义图层
 function openLayer() {
   if (state.layerUrl === null || state.layerUrl === "") {
-    // message.warning(langGlobal.urlIsNull);
+    message.warning($t("urlIsNull"));
     return;
   }
   if (state.token) {
@@ -120,8 +177,6 @@ function openLayer() {
       state.layerToken
     );
   }
-
-  // setTrustedServers(state.layerUrl)
 
   switch (state.layerType) {
     case "S3M":
@@ -137,7 +192,7 @@ function openLayer() {
       addWMTS(state.layerUrl);
       break;
     default:
-      console.log("hello world");
+      break;
   }
 }
 
@@ -147,23 +202,24 @@ function handleChange() {
   switch (state.layerType) {
     case "S3M":
       if (state.layerUrl.indexOf("/rest/realspace/datas/") != -1) {
-        // message.success(langGlobal.urlCheckedsuccess);
-        state.layerName = layerManagement.getLayerNameFromUrl(state.layerUrl, "S3M");
+        state.layerName = layerManagement.getLayerNameFromUrl(
+          state.layerUrl,
+          "S3M"
+        );
       }
       break;
     case "Imagery":
-      if (
-        state.layerUrl.indexOf("/rest/realspace/datas/") != -1 &&
-        state.layerUrl.indexOf("/rest/maps/") != 0
-      ) {
-        // message.success(langGlobal.urlCheckedsuccess);
-        state.layerName = layerManagement.getLayerNameFromUrl(state.layerUrl, "Imagery");
-      }
+      state.layerName = layerManagement.getLayerNameFromUrl(
+        state.layerUrl,
+        "Imagery"
+      );
       break;
     case "Terrain":
       if (state.layerUrl.indexOf("/rest/realspace/datas/") != -1) {
-        // message.success(langGlobal.urlCheckedsuccess);
-        state.layerName = layerManagement.getLayerNameFromUrl(state.layerUrl, "Terrain");
+        state.layerName = layerManagement.getLayerNameFromUrl(
+          state.layerUrl,
+          "Terrain"
+        );
       }
       break;
     case "WMTS":
@@ -191,7 +247,6 @@ function addS3M(s3mLayerUrl: string) {
       name: state.layerName,
     };
   } else {
-    // message.warning(langGlobal.urlIsNull);
     return;
   }
   promiseArray.push(viewer.scene.addS3MTilesLayerByScp(s3mLayerUrl, options));
@@ -211,16 +266,11 @@ function addImage(imageryUrl: string) {
 
 // 添加地形
 function addTerrain(terrainURL: string) {
-  // viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
-  //   url: terrainURL,
-  //   isSct: true, //地形服务源自SuperMap iServer，本地发布时需设置isSct为true
-  // });
-
   let isSctFlag = false;
   if (terrainURL.indexOf("8090") != -1) isSctFlag = true;
   viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
     url: terrainURL,
-    isSct: isSctFlag,
+    isSct: isSctFlag, // 地形服务源自SuperMap iServer，本地发布时需设置isSct为true
   });
   layerStore.updateLayer({ type: "terrain" });
 
@@ -238,7 +288,6 @@ function addTerrain(terrainURL: string) {
     viewer.scene.camera.flyTo({
       destination: destination,
     });
-
   });
 }
 
@@ -248,7 +297,7 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
     promiseArray,
     function (layers: any) {
       // for (let i = 0; i < layers.length; i++) {
-      //   layers[i]._visibleDistanceMax = 16000;
+      //   layers[i]._visibleDistanceMax = 16000; // 设置图层最大可见距离
       // }
       if (isSCP) {
         viewer.flyTo(layers[0]);
@@ -257,200 +306,297 @@ function promiseWhen(promiseArray: any[], isSCP?: boolean) {
     },
     function (e: any) {
       if (widget._showRenderLoopErrors) {
-        let title =  GlobalLang.addScpFailed;
+        let title = $t("addScpFailed");
         widget.showErrorPanel(title, undefined, e);
       }
     }
   );
 }
 
-
 // 添加wmts服务
 function addWMTS(wmtsLayerUrl: string) {
-  if(!state.addWmtsFlag) return ;
+  if (!state.addWmtsFlag) return;
 
-  let rectangle:any,scaleDenominatorsList;
-  if(state.rectangleObj && state.wmtsLayer && state.scaleDenominatorsObj){
+  viewer.shadows = false; // 关闭阴影，防止报错
+  viewer.scene.colorCorrection.show = false; // 颜色开关也关闭，保险起见
+
+  let rectangle: any, scaleDenominatorsList: any;
+  if (state.rectangleObj && state.wmtsLayer) {
     rectangle = state.rectangleObj[state.wmtsLayer];
     scaleDenominatorsList = state.scaleDenominatorsObj[state.wmtsLayer];
-  }else{
+  } else {
     return;
   }
-  let item:any = state.wmtsLayerOptions.find((item:any)=>item.value === state.wmtsLayer)
+  let item: any = state.wmtsLayerOptions.find(
+    (item: any) => item.value === state.wmtsLayer
+  );
   let layerName = item.label;
-  let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
-    url: wmtsLayerUrl,
-    style: "default",
-    format: 'image/png',
-    layer: layerName,
+  let items = layerStore.wmtsLayerOption.filter((item: any) => {
+    return item.wmtsLayerUrl == wmtsLayerUrl && item.layerName == layerName;
+  });
+  if (items.length > 0) {
+    // 该wmts服务已存在，不在重复添加
+    message.warning($t("repeatAddWMTSTip"));
+    return;
+  }
+
+  let wmtsRectangle = computedRectangle(rectangle);
+  viewer.shadows = false; // 关闭阴影，防止报错
+  let wmtsLayer: any = undefined;
+  if (state.epsg == 3857) {
+    wmtsLayer = viewer.imageryLayers.addImageryProvider(
+      new SuperMap3D.WebMapTileServiceImageryProvider({
+        url: wmtsLayerUrl,
+        style: "default",
+        format: "image/png",
+        layer: layerName,
+        tileMatrixSetID: state.tileMatrixSetID,
+        tilingScheme: new SuperMap3D.WebMercatorTilingScheme({
+          rectangleSouthwestInMeters: new SuperMap3D.Cartesian2(
+            rectangle[0],
+            rectangle[1]
+          ),
+          rectangleNortheastInMeters: new SuperMap3D.Cartesian2(
+            rectangle[2],
+            rectangle[3]
+          ),
+          scaleDenominators: scaleDenominatorsList,
+          // customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+          // orgin: new SuperMap3D.Cartesian3(10836627.447863173, 4071175.9917132845, 0.0),
+        }),
+      })
+    );
+  } else {
+    wmtsLayer = viewer.imageryLayers.addImageryProvider(
+      new SuperMap3D.WebMapTileServiceImageryProvider({
+        url: wmtsLayerUrl,
+        style: "default",
+        format: "image/png",
+        layer: layerName,
+        tileMatrixSetID: state.tileMatrixSetID,
+        // tilingScheme: computedTilingScheme(wmtsRectangle,scaleDenominatorsList),
+        tilingScheme: new SuperMap3D.GeographicTilingScheme({
+          // ellipsoid: SuperMap3D.Ellipsoid.WGS84,
+          // numberOfLevelZeroTilesX: 2,
+          // numberOfLevelZeroTilesY: 1,
+          rectangle: wmtsRectangle,
+          scaleDenominators: scaleDenominatorsList,
+          customDPI: new SuperMap3D.Cartesian2(
+            90.7142857142857,
+            90.7142857142857
+          ),
+        }),
+        // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
+      })
+    );
+  }
+
+  if (state.rectangleObj && state.wmtsLayer != "") {
+    let rectangle: any = state.rectangleObj[state.wmtsLayer];
+    if (rectangle.length < 4) return;
+    let isGlobalBound = false;
+    rectangle.forEach((num) => {
+      if (Math.abs(num) > 178) {
+        // 也即是bounds为180附近，这种一般为全球地图，就不在求Bounds了
+        viewer.flyTo(wmtsLayer);
+        isGlobalBound = true;
+        return;
+      }
+    });
+    if (!isGlobalBound) {
+      let lng = (rectangle[0] + rectangle[2]) / 2;
+      let lat = (rectangle[1] + rectangle[3]) / 2;
+      viewer.scene.camera.flyTo({
+        destination: new SuperMap3D.Cartesian3.fromDegrees(lng, lat, 5000),
+        duration: 1,
+        orientation: {
+          heading: 0,
+          roll: 0,
+        },
+      });
+      let wmtsImageLayerPosition = {
+        lng: lng,
+        lat: lat,
+        height: 5000,
+      };
+      wmtsLayer.wmtsImageLayerPosition = wmtsImageLayerPosition;
+    }
+  } else {
+    viewer.flyTo(wmtsLayer);
+  }
+
+  let wmtsLayerObj = {
+    wmtsLayerUrl: wmtsLayerUrl,
+    layerName: layerName,
     tileMatrixSetID: state.tileMatrixSetID,
-    tilingScheme: new SuperMap3D.GeographicTilingScheme({
-      rectangle: SuperMap3D.Rectangle.fromDegrees(rectangle[0], rectangle[1], rectangle[2], rectangle[3]),
-      //ellipsoid: SuperMap3D.Ellipsoid.WGS84,
-      //numberOfLevelZeroTilesX: 1,
-      //numberOfLevelZeroTilesY: 1,
-      scaleDenominators: scaleDenominatorsList,
-      customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
-    }),
-  }));
+    wmtsImageLayerPosition: wmtsLayer.wmtsImageLayerPosition,
+    wmtsESPG: state.epsg,
+    rectangle: wmtsRectangle,
+    scaleDenominatorsList: scaleDenominatorsList,
+  };
+  let list = layerStore.wmtsLayerOption.filter((item: any) => {
+    return (
+      item.wmtsLayerUrl == wmtsLayerObj.wmtsLayerUrl &&
+      item.layerName == wmtsLayerObj.layerName
+    );
+  });
+  if (list.length == 0) {
+    layerStore.wmtsLayerOption.push(wmtsLayerObj);
+  }
 
-  // wmtsLayer.alpha = 0.5;
-  viewer.flyTo(wmtsLayer);
-
+  layerStore.updateLayer({ type: "imagery" });
 }
 
-// let shadedRelief1 = new SuperMap3D.WebMapTileServiceImageryProvider({
-//     url: "http://172.16.15.203:8090/iserver/services/map-China400/wmts100",
-//     layer: 'China400',
-//     style: 'default',
-//     format: 'image/jpg',
-//     tileMatrixSetID: 'Custom_China400',
-//     // tilingScheme: new SuperMap3D.GeographicTilingScheme({
-//     //     ellipsoid: SuperMap3D.Ellipsoid.WGS84, //所用坐标系
-//     //     numberOfLevelZeroTilesX: 2,
-//     //     numberOfLevelZeroTilesY: 1,
-//     //     rectangle: new SuperMap3D.Rectangle.fromDegrees(-180, -90, 180, 90)
-//     // }),
-//     // tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
-//     // maximumLevel: 19,
-//     // credit : new SuperMap3D.Credit('U. S. Geological Survey')
-// });
-// viewer.imageryLayers.addImageryProvider(shadedRelief1);
+// 计算bound范围
+function computedRectangle(rectangle: any) {
+  if (state.epsg == 4549) {
+    let LowerCorner = proj4("EPSG:4549", "EPSG:4326", [
+      rectangle[0],
+      rectangle[1],
+    ]);
+    let UpperCorner = proj4("EPSG:4549", "EPSG:4326", [
+      rectangle[2],
+      rectangle[3],
+    ]);
+    return SuperMap3D.Rectangle.fromDegrees(
+      LowerCorner[0],
+      LowerCorner[1],
+      UpperCorner[0],
+      UpperCorner[1]
+    );
+  } else if (rectangle[0] == 0) {
+    return undefined;
+  } else if (Math.abs(rectangle[0]) > 0 && Math.abs(rectangle[0]) <= 180) {
+    return SuperMap3D.Rectangle.fromDegrees(
+      rectangle[0],
+      rectangle[1],
+      rectangle[2],
+      rectangle[3]
+    );
+  } else {
+    return undefined;
+  }
+}
 
 let xmlDoc: any;
 // 获取xml信息
 function getXmlInfo(xmlUrl?: string) {
-  window.axios
-    .get(xmlUrl)
-    .then((res: any) => {
-      let str = res.data;
-      //创建文档对象
-      xmlDoc = new DOMParser().parseFromString(str, "text/xml");
-
-      // 获取必要参数
-      state.wmtsLayerOptions = getXMLNode(xmlDoc, 'Layer');
-      state.tileMatrixSetIDOptions = getXMLNode(xmlDoc, 'TileMatrixSet');
-      state.rectangleObj = getRectangleObj(xmlDoc);
-      state.scaleDenominatorsObj = getScaleDenominatorsObj(xmlDoc);
-    });
+  window.axios.get(xmlUrl).then((res: any) => {
+    let str = res.data;
+    //创建文档对象
+    xmlDoc = new DOMParser().parseFromString(str, "text/xml");
+    // 获取必要参数
+    state.wmtsLayerOptions = getXMLNode(xmlDoc, "Layer");
+    state.tileMatrixSetIDOptions = getXMLNode(xmlDoc, "TileMatrixSet");
+    state.rectangleObj = getRectangleObj(xmlDoc);
+    state.scaleDenominatorsObj = getScaleDenominatorsObj(xmlDoc);
+    state.epsg = getEPSG(xmlDoc);
+  });
 }
 
 // 指定标签返回xml数据
 function getXMLNode(xmlDoc: any, Lable: string) {
-
-  let finds = xmlDoc.querySelectorAll(Lable);   //获取find节点
+  let finds = xmlDoc.querySelectorAll(Lable); //获取find节点
   let list: any = [];
-
   switch (Lable) {
     case "Layer":
-      for (let i = 0; i < finds.length; i++) {     //循环节点
+      for (let i = 0; i < finds.length; i++) {
+        //循环节点
         let finder = finds[i];
         let nods = finder.childNodes;
         let label_title = nods[1];
         let labelContent = label_title.textContent;
-        let TileMatrixSetIDList:any = [];
-        for(let j=0;j<nods.length;j++){
+        let TileMatrixSetIDList: any = [];
+        for (let j = 0; j < nods.length; j++) {
           let nodChild = nods[j];
-          if(nodChild.tagName === 'TileMatrixSetLink'){
+          if (nodChild.tagName === "TileMatrixSetLink") {
             let TileMatrixSetID = nodChild.childNodes[1].textContent;
             TileMatrixSetIDList.push(TileMatrixSetID);
           }
         }
         list.push({
           label: labelContent,
-          value: TileMatrixSetIDList[0]
+          value: TileMatrixSetIDList[0],
         });
       }
       break;
     case "TileMatrixSet":
-      for (let i = 0; i < finds.length; i++) {     //循环节点
+      for (let i = 0; i < finds.length; i++) {
+        //循环节点
         let finder = finds[i];
         if (finder.childNodes.length === 1) {
           let textContent = finder.textContent;
-          let layerIndex = state.wmtsLayerOptions.findIndex((item:any)=>item.value === textContent);
-          if(layerIndex != -1){
+          let layerIndex = state.wmtsLayerOptions.findIndex(
+            (item: any) => item.value === textContent
+          );
+          if (layerIndex != -1) {
             list.push({
               label: textContent,
-              value: textContent
+              value: textContent,
             });
           }
         }
       }
       break;
   }
-
-
   return list;
 }
 
-function getRectangleObj(xmlDoc: any):any {
-  let finds = xmlDoc.querySelectorAll('Layer');   //获取find节点
-  let RectangleObj:any = {}
-  for (let i = 0; i < finds.length; i++) {     //循环节点
+// 从xml中获取bound范围信息
+function getRectangleObj(xmlDoc: any): any {
+  let finds = xmlDoc.querySelectorAll("Layer"); //获取find节点
+  let RectangleObj: any = {};
+  for (let i = 0; i < finds.length; i++) {
+    //循环节点
     let list: any = [];
 
     let finder = finds[i];
     let nods = finder.childNodes;
-    let LowerCornerlnglat,UpperCornerlnglat,tag_BoundingBox;
+    let LowerCornerlnglat, UpperCornerlnglat, tag_BoundingBox;
 
-    tag_BoundingBox = nods[5]; 
+    tag_BoundingBox = nods[5];
     let LowerCorner = tag_BoundingBox.childNodes[1].textContent;
     let UpperCorner = tag_BoundingBox.childNodes[3].textContent;
-    LowerCornerlnglat = LowerCorner.split(' ');
-    UpperCornerlnglat = UpperCorner.split(' ');
-    if(Math.abs(LowerCornerlnglat[0]) > 180){ // 确保为经纬度坐标
-      LowerCornerlnglat = [];
-      UpperCornerlnglat = [];
-      tag_BoundingBox = nods[7]; 
-      let LowerCorner = tag_BoundingBox.childNodes[1].textContent;
-      let UpperCorner = tag_BoundingBox.childNodes[3].textContent;
-      LowerCornerlnglat = LowerCorner.split(' ');
-      UpperCornerlnglat = UpperCorner.split(' ');
-    }
+    LowerCornerlnglat = LowerCorner.split(" ");
+    UpperCornerlnglat = UpperCorner.split(" ");
     list.push(Number(LowerCornerlnglat[0]), Number(LowerCornerlnglat[1]));
     list.push(Number(UpperCornerlnglat[0]), Number(UpperCornerlnglat[1]));
-    
-    let key:any = state.wmtsLayerOptions[i];
-    if(key.value){
+
+    let key: any = state.wmtsLayerOptions[i];
+    if (key.value) {
       RectangleObj[key.value] = list;
     }
-
   }
   return RectangleObj;
 }
 
-function getScaleDenominatorsObj(xmlDoc: any):any {
-  let finds = xmlDoc.querySelectorAll('TileMatrixSet');   //获取find节点
-  
-  let scaleDenominatorsObj:any = [];
+// 从xml中获取比例尺信息
+function getScaleDenominatorsObj(xmlDoc: any): any {
+  let finds = xmlDoc.querySelectorAll("TileMatrixSet"); //获取find节点
+  let scaleDenominatorsObj: any = [];
   let k = 0;
-  for (let i = 0; i < finds.length; i++) {     //循环节点
+  for (let i = 0; i < finds.length; i++) {
+    //循环节点
     let finder = finds[i];
     if (finder.childNodes.length > 1) {
       let NodeList = finder.childNodes;
-      // let TileMatrixList = NodeList.filter((node:any)=>{
-      //   node.nodeName === 'TileMatrix';
-      // })
       let key = NodeList[1].textContent;
       let list: any = [];
       let TileMatrixList: any[] = [];
       for (let j = 0; j < NodeList.length; j++) {
         let node = NodeList[j];
-        if (node.nodeName === 'TileMatrix') {
-          TileMatrixList.push(node)
+        if (node.nodeName === "TileMatrix") {
+          TileMatrixList.push(node);
         }
       }
       TileMatrixList.forEach((TileMatrixNode: any) => {
         let ScaleDenominator = TileMatrixNode.childNodes[3].textContent;
         list.push(Number(ScaleDenominator));
       });
-      // let key:any = state.wmtsLayerOptions[k];
-      // if(key && key.label){
-      //   scaleDenominatorsObj[key.label] = list;
-      //   k++;
-      // }
-      let layerIndex = state.wmtsLayerOptions.findIndex((item:any)=>item.value === key);
-      if(layerIndex != -1){
+      let layerIndex = state.wmtsLayerOptions.findIndex(
+        (item: any) => item.value === key
+      );
+      if (layerIndex != -1) {
         scaleDenominatorsObj[key] = list;
       }
     }
@@ -458,59 +604,74 @@ function getScaleDenominatorsObj(xmlDoc: any):any {
   return scaleDenominatorsObj;
 }
 
-watch(()=>state.wmtsLayer,(val)=>{
-  // if(state.tileMatrixSetID === '') return;
-
-
-  let layerIndex = state.wmtsLayerOptions.findIndex((item:any)=>item.value === val);
-  // let tileMatrixSetIDIndex = state.tileMatrixSetIDOptions.findIndex((item:any)=>item.value === state.tileMatrixSetID);
-
-  // 当图层切换时，自动适配相关参数
-  let tileMatrixSetID:any = state.tileMatrixSetIDOptions[layerIndex];
-  state.tileMatrixSetID = tileMatrixSetID.value;
-
-  // if(layerIndex != tileMatrixSetIDIndex){
-  //   message.warning('当前所选图层，与wmts服务标识符不匹配，请重新选择');
-  //   state.addWmtsFlag = false;
-  // }else{
-  //   message.success('图层与标识符匹配，可添加');
-  //   state.addWmtsFlag = true;
-  // }
-})
-
-// watch(()=>state.tileMatrixSetID,(val)=>{
-//   if(state.wmtsLayer === '') return;
-
-//   let tileMatrixSetIDIndex = state.tileMatrixSetIDOptions.findIndex((item:any)=>item.value === val);
-//   let layerIndex = state.wmtsLayerOptions.findIndex((item:any)=>item.value === state.wmtsLayer);
-
-//   if(layerIndex != tileMatrixSetIDIndex){
-//     message.warning('当前所选图层，与wmts服务标识符不匹配，请重新选择');
-//     state.addWmtsFlag = false;
-//   }else{
-//     message.success('图层与标识符匹配，可添加');
-//     state.addWmtsFlag = true;
-//   }
-// })
-
-watch(()=>state.layerType,(val:string)=>{
-  switch (val) {
-    case "S3M":
-      state.urlTip = `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`;
-      break;
-    case "Imagery":
-    state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
-      break;
-    case "Terrain":
-    state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
-      break;
-    case "WMTS":
-    state.urlTip = `http://<server>:<port>/iserver/services/{dataSourceName}/{dataSetName}`;
-      break;
-    default:
-      console.log("hello world");
+// 获取当前wmts的坐标系EPSG
+function getEPSG(xmlDoc: any): any {
+  let finds = xmlDoc.querySelectorAll("Layer"); //获取find节点
+  if (finds.length == 0) return;
+  let firstElement = finds[0];
+  let epsgValue = -1;
+  if (
+    firstElement.childNodes[5] &&
+    firstElement.childNodes[5].localName.indexOf("Bounding") != -1
+  ) {
+    let BoundingBox = firstElement.childNodes[5];
+    let crs = BoundingBox.attributes.crs;
+    let crsValue = crs.nodeValue;
+    if (crsValue.indexOf("::") == -1) {
+      epsgValue = -1;
+    } else {
+      epsgValue = crsValue.split("::")[1];
+      if (Number(epsgValue) > 10) return Number(epsgValue);
+    }
   }
-})
-</script>
 
-<style lang="scss" scoped></style>
+  if (
+    firstElement.childNodes[7] &&
+    firstElement.childNodes[7].localName.indexOf("Bounding") != -1
+  ) {
+    let BoundingBox = firstElement.childNodes[7];
+    let crs = BoundingBox.attributes.crs;
+    let crsValue = crs.nodeValue;
+    if (crsValue.indexOf("::") == -1) {
+      epsgValue = -1;
+    } else {
+      epsgValue = crsValue.split("::")[1];
+    }
+  }
+  return Number(epsgValue);
+}
+
+watch(
+  () => state.wmtsLayer,
+  (val) => {
+    // 当图层切换时，自动适配相关参数
+    let layerIndex = state.wmtsLayerOptions.findIndex(
+      (item: any) => item.value === val
+    );
+    let tileMatrixSetID: any = state.tileMatrixSetIDOptions[layerIndex];
+    state.tileMatrixSetID = tileMatrixSetID.value;
+  }
+);
+
+watch(
+  () => state.layerType,
+  (val: string) => {
+    switch (val) {
+      case "S3M":
+        state.urlTip = `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`;
+        break;
+      case "Imagery":
+        state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
+        break;
+      case "Terrain":
+        state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
+        break;
+      case "WMTS":
+        state.urlTip = `http://<server>:<port>/iserver/services/{serviceName}`;
+        break;
+      default:
+        break;
+    }
+  }
+);
+</script>
