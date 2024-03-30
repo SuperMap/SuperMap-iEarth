@@ -14,6 +14,12 @@
             <message-content></message-content>
             <I18n></I18n>
             <layout></layout>
+            <license-watermark
+              v-show="watermark.show"
+              :content="watermark.content"
+              :font-size="watermark.fontSize"
+              fullscreen
+            />
           </n-message-provider>
         </n-notification-provider>
       </n-dialog-provider>
@@ -22,6 +28,7 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive } from "vue";
 import { I18n } from "@/components/I18n";
 import { MessageContent } from "@/components/Plugins/MessageContent";
 import { DialogContent } from "@/components/Plugins/DialogContent";
@@ -29,9 +36,78 @@ import { LoadingContent } from "@/components/Plugins/LoadingContent";
 import { loadAsyncComponent } from "@/utils/index";
 import { darkTheme } from "naive-ui";
 import { useLocaleHook } from "@/tools/localHook";
+import { licenseEnum } from "@/enums/licenseEnum";
+import { getRootUrl } from "@/tools/iportal/portalTools";
 const layout = loadAsyncComponent(() => import("@/layout/index.vue"));
 
 const locale = useLocaleHook(); // 设置naiveUI组件国际化
+
+// 水印
+const LicenseWatermark = loadAsyncComponent(
+  () => import("@/components/LicenseWatermark/index.vue")
+);
+const watermark = reactive({
+  show: false,
+  content: "",
+  fontSize: 14,
+});
+
+// 验证许可
+const checkLicenseInfo = () => {
+  let url = getRootUrl() + "manager/licenseInfo.json";
+  if (window.iEarthConsole) {
+    console.log("licenseUrl:", url);
+  }
+  return window.axios
+    .get(url)
+    .then(function (licenseInfo: any) {
+      if (window.iEarthConsole) {
+        console.log("licenseInfo:", licenseInfo);
+      }
+
+      let designerInfo = licenseInfo?.entryInfos.find((info: any) => {
+        return info.licenseID === 21034 || info.licenseID === 65400; //65400 iportal 试用许可
+      });
+      if (designerInfo) {
+        // 判断许可过期
+        let timeOut = new Date().getTime() - designerInfo.expireDate.time;
+        if (timeOut > 0) {
+          return licenseEnum.TIMEOUT;
+        }
+        // 判断许可类型 0 为试用许可  watermarkMode:  0：试用；1：正式；2：开发；3：教育；4：个人；5：员工
+        if (designerInfo.watermarkMode === 0) {
+          watermark.content = "SuperMap Trial Use";
+          watermark.fontSize = 20;
+          watermark.show = true;
+          return licenseEnum.TRIAL;
+        }
+        if (designerInfo.watermarkMode === 1) {
+          watermark.show = false;
+          return licenseEnum.FORMAL;
+        }
+        if (designerInfo.watermarkMode === 3) {
+          document.title = document.title + ` 「${$t("education")}」`;
+          watermark.show = false;
+          return licenseEnum.EDUCATION;
+        }
+        if (designerInfo.userTrademark !== "") {
+          watermark.content = designerInfo.userTrademark;
+          watermark.show = true;
+        }
+        return designerInfo.watermarkMode;
+      }
+      return licenseEnum.NULL;
+    })
+    .catch((e) => {
+      return licenseEnum.NULL;
+    });
+};
+
+if (location.href.indexOf("/apps") != -1) {
+  checkLicenseInfo().then((license: licenseEnum) => {
+    console.log("license:", license);
+  });
+}
 
 // 重写主题样式
 const overridesTheme = {

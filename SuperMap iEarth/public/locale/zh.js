@@ -658,23 +658,24 @@ const local_zh = {
         wireframeColor: "线框颜色",
         chooseThenOffset: "点击选中模型，再偏移",
         fillColor: "填充颜色",
-        tree_darg_tip:'请在同级目录下拖拽',
-        rename:'重命名',
-        bindMediaField:'绑定媒体字段', // 媒体字段（地图查询）- start
-        mediaField:'媒体字段',
-        picture:'图片',
-        video:'视频',
-        field:'字段',
-        title:'标题',
-        inputTitle:'请输入标题',
-        customMediaLink:'自定义媒体链接',
-        featureID:'要素ID',
-        link:'链接',
-        inputOnlineImgLink:"请输入在线图片地址",
-        inputOnlineVideoLink_iportal:"请输入视频地址（仅限iportal）",  // 媒体字段（地图查询）- end
-        qxLayerDataUrl:'请输入该图层的数据服务URL',
-        qxLayerDataSource:'请输入该图层对应的数据源',
-        qxLayerDataset:'请输入该图层对应的数据集',
+        tree_darg_tip: '请在同级目录下拖拽',
+        rename: '重命名',
+        bindMediaField: '绑定媒体字段', // 媒体字段（地图查询）- start
+        mediaField: '媒体字段',
+        picture: '图片',
+        video: '视频',
+        field: '字段',
+        title: '标题',
+        inputTitle: '请输入标题',
+        customMediaLink: '自定义媒体链接',
+        featureID: '要素ID',
+        link: '链接',
+        inputOnlineImgLink: "请输入在线图片地址",
+        inputOnlineVideoLink_iportal: "请输入视频地址（仅限iportal）",  // 媒体字段（地图查询）- end
+        qxLayerDataUrl: '请输入该图层的数据服务URL',
+        qxLayerDataSource: '请输入该图层对应的数据源',
+        qxLayerDataset: '请输入该图层对应的数据集',
+        education: "教育版"
 }
 
 window.local_zh = local_zh;

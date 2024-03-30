@@ -658,23 +658,24 @@ const local_ja = {
     wireframeColor: "ワイヤフレームカラー",
     chooseThenOffset: "選択したモデルをクリックしてオフセットします",
     fillColor: "じゅうてんカラー",
-    tree_darg_tip:'兄弟ディレクトリの下でドラッグしてください',
-    rename:'名前を変更',
-    bindMediaField:'メディアフィールドをバインドする', // 媒体字段（地图查询）- start
-    mediaField:'メディア分野',
-    picture:'写真',
-    video:'ビデオ',
-    field:'分野',
-    title:'タイトル',
-    inputTitle:'タイトルを入力してください',
-    customMediaLink:'カスタムメディアリンク',
-    featureID:'機能ID',
-    link:'リンク',
-    inputOnlineImgLink:"オンライン画像アドレスを入力してください",
-    inputOnlineVideoLink_iportal:"動画のアドレスを入力してください(のみ iportal)",  // 媒体字段（地图查询）- end
-    qxLayerDataUrl:'このレイヤーのデータ サービス URL を入力してください',
-    qxLayerDataSource:'このレイヤーに対応するデータ ソースを入力してください',
-    qxLayerDataset:'このレイヤーに対応するデータセットを入力してください',
+    tree_darg_tip: '兄弟ディレクトリの下でドラッグしてください',
+    rename: '名前を変更',
+    bindMediaField: 'メディアフィールドをバインドする', // 媒体字段（地图查询）- start
+    mediaField: 'メディア分野',
+    picture: '写真',
+    video: 'ビデオ',
+    field: '分野',
+    title: 'タイトル',
+    inputTitle: 'タイトルを入力してください',
+    customMediaLink: 'カスタムメディアリンク',
+    featureID: '機能ID',
+    link: 'リンク',
+    inputOnlineImgLink: "オンライン画像アドレスを入力してください",
+    inputOnlineVideoLink_iportal: "動画のアドレスを入力してください(のみ iportal)",  // 媒体字段（地图查询）- end
+    qxLayerDataUrl: 'このレイヤーのデータ サービス URL を入力してください',
+    qxLayerDataSource: 'このレイヤーに対応するデータ ソースを入力してください',
+    qxLayerDataset: 'このレイヤーに対応するデータセットを入力してください',
+    education: "教育版"
 }
 
 window.local_ja = local_ja;
