@@ -658,23 +658,24 @@ const local_en = {
     wireframeColor: "Wireframe Color",
     chooseThenOffset: "Click to select the model, then offset it",
     fillColor: "Fill Color",
-    tree_darg_tip:'Please drag and drop in the same level directory',
-    rename:'Rename',
-    bindMediaField:'Bind media fields', // 媒体字段（地图查询）- start
-    mediaField:'Media fields',
-    picture:'Picture',
-    video:'Video',
-    field:'Field',
-    title:'Title',
-    inputTitle:'Please enter a title',
-    customMediaLink:'Custom media links',
-    featureID:'Feature ID',
-    link:'Link',
-    inputOnlineImgLink:"Please enter the online image address",
-    inputOnlineVideoLink_iportal:"Please enter the video address (iportal only)",  // 媒体字段（地图查询）- end
-    qxLayerDataUrl:'Please enter the data service URL for this layer',
-    qxLayerDataSource:'Please enter the data source corresponding to this layer',
-    qxLayerDataset:'Please enter the data set corresponding to this layer',
+    tree_darg_tip: 'Please drag and drop in the same level directory',
+    rename: 'Rename',
+    bindMediaField: 'Bind media fields', // 媒体字段（地图查询）- start
+    mediaField: 'Media fields',
+    picture: 'Picture',
+    video: 'Video',
+    field: 'Field',
+    title: 'Title',
+    inputTitle: 'Please enter a title',
+    customMediaLink: 'Custom media links',
+    featureID: 'Feature ID',
+    link: 'Link',
+    inputOnlineImgLink: "Please enter the online image address",
+    inputOnlineVideoLink_iportal: "Please enter the video address (iportal only)",  // 媒体字段（地图查询）- end
+    qxLayerDataUrl: 'Please enter the data service URL for this layer',
+    qxLayerDataSource: 'Please enter the data source corresponding to this layer',
+    qxLayerDataset: 'Please enter the data set corresponding to this layer',
+    education: "SuperMap Education"
 }
 
 window.local_en = local_en;

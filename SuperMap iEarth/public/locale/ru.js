@@ -587,7 +587,7 @@ const local_ru = {
     recently: 'Недавние',
     chooseField: 'Выбор поля',
     filterFiledTip: 'Фильтрация полей атрибутов',
-    
+
     // 倾斜模型单体化
     featrueID: "Элементы ID",
     singleTip_waring: 'Введите соответствующий наклонному фотографическому слою: служба данных, источник данных, набор данных',
@@ -658,23 +658,24 @@ const local_ru = {
     wireframeColor: "Цвет рамки",
     chooseThenOffset: "Нажмите на выбранную модель, а затем переместите",
     fillColor: "Цвет заполнения",
-    tree_darg_tip:'Перетащите в каталог того же уровня',
-    rename:'Переименовать',
-    bindMediaField:'Привязка медиа-полей', // 媒体字段（地图查询）- start
-    mediaField:'медиа-поля',
-    picture:'картина',
-    video:'видео',
-    field:'Поле',
-    title:'заголовок',
-    inputTitle:'Пожалуйста, введите название',
-    customMediaLink:'Пользовательские медиа-ссылки',
-    featureID:'элементы',
-    link:'Связь',
-    inputOnlineImgLink:"Пожалуйста, введите адрес онлайн-изображения",
-    inputOnlineVideoLink_iportal:"Пожалуйста, введите адрес видео（только iportal）",  // 媒体字段（地图查询）- end
-    qxLayerDataUrl:'Введите URL-адрес службы данных для этого слоя.',
-    qxLayerDataSource:'Пожалуйста, введите источник данных, соответствующий этому слою',
-    qxLayerDataset:'Пожалуйста, введите набор данных, соответствующий этому слою',
+    tree_darg_tip: 'Перетащите в каталог того же уровня',
+    rename: 'Переименовать',
+    bindMediaField: 'Привязка медиа-полей', // 媒体字段（地图查询）- start
+    mediaField: 'медиа-поля',
+    picture: 'картина',
+    video: 'видео',
+    field: 'Поле',
+    title: 'заголовок',
+    inputTitle: 'Пожалуйста, введите название',
+    customMediaLink: 'Пользовательские медиа-ссылки',
+    featureID: 'элементы',
+    link: 'Связь',
+    inputOnlineImgLink: "Пожалуйста, введите адрес онлайн-изображения",
+    inputOnlineVideoLink_iportal: "Пожалуйста, введите адрес видео（только iportal）",  // 媒体字段（地图查询）- end
+    qxLayerDataUrl: 'Введите URL-адрес службы данных для этого слоя.',
+    qxLayerDataSource: 'Пожалуйста, введите источник данных, соответствующий этому слою',
+    qxLayerDataset: 'Пожалуйста, введите набор данных, соответствующий этому слою',
+    education: "обучать"
 }
 
 window.local_ru = local_ru;
