@@ -97,21 +97,21 @@ const layerServiceData = {
             thumbnail: './images/baseMap/grad.png',
             type: 'GRIDIMAGERY',
             chooseType: false,
-        },
-        {
-            url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
-            name: "japanStand",
-            thumbnail: './images/baseMap/standard_jp.png',
-            type: 'UrlTemplateImageryProvider',
-            chooseType: false,
-        },
-        {
-            url: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
-            name: "japanPale",
-            thumbnail: './images/baseMap/tinge_jp.png',
-            type: 'UrlTemplateImageryProvider',
-            chooseType: false,
-        },
+        }
+        // {
+        //     url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+        //     name: "japanStand",
+        //     thumbnail: './images/baseMap/standard_jp.png',
+        //     type: 'UrlTemplateImageryProvider',
+        //     chooseType: false,
+        // },
+        // {
+        //     url: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
+        //     name: "japanPale",
+        //     thumbnail: './images/baseMap/tinge_jp.png',
+        //     type: 'UrlTemplateImageryProvider',
+        //     chooseType: false,
+        // },
         // {
         //     url: 'https://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png',
         //     name: "japanBlank",

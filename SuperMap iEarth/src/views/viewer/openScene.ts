@@ -21,8 +21,8 @@ let state = reactive({
   sceneID: '',
   updateTime: undefined,
   isNewVersion: true,
-  key: layerStore.configToken.BingMapKey, // 必应地图key
-  TiandituToken: layerStore.configToken.TiandituToken, // 天地图token
+  // key: layerStore.configToken.BingMapKey, // 必应地图key
+  // TiandituToken: layerStore.configToken.TiandituToken, // 天地图token
 })
 
 // 打开已保存的场景
@@ -270,14 +270,14 @@ function openImagery(content: any) {
           case "BingMapsImageryProvider":
             imageryProvider = new SuperMap3D.BingMapsImageryProvider({
               url: content.layers.imageryLayer[i].url,
-              key: state.key
+              key: layerStore.configToken.BingMapKey
               // key: "Aq0D7MCY5ErORA9vrwFtfE9aancUq5J6uNjw0GieF0ostaIrVuJZ8ScXxNHHvEwS",
             });
             break;
           case "TiandituImageryProvider":
             imageryProvider = new SuperMap3D.TiandituImageryProvider({
               url: content.layers.imageryLayer[i].url,
-              token: state.TiandituToken
+              token: layerStore.configToken.TiandituToken
               // token: content.layers.imageryLayer[i].token
             });
             break;
@@ -345,7 +345,7 @@ function openTerrain(content: any) {
         break;
       case "tianDiTuTerrain":
         viewer.terrainProvider = new SuperMap3D.TiandituTerrainProvider({
-          token: state.TiandituToken
+          token: layerStore.configToken.TiandituToken
         });
         break;
       case "supermapOnlineTerrain":

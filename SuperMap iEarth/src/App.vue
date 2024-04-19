@@ -368,6 +368,13 @@ const overridesTheme = {
   line-height: 0.34rem;
 }
 
+/* 图层列表选项 内容 避免过长 */
+.n-tree .n-tree-node-content .n-tree-node-content__text div{
+  width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis; // 文字过长后使用省略号
+}
+
 // echarts图表样式
 #echartsProfile > div {
   left: 0.1rem;
