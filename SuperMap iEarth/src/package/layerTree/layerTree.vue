@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { h, ref, nextTick, onMounted } from "vue";
-import { TreeOption, NButton, NDropdown, NInput, useMessage } from "naive-ui";
+import { TreeOption, NButton, NDropdown, NInput, useMessage, NEllipsis } from "naive-ui";
 import { usePanelStore } from "@/store";
 import { useLayerStore } from "@/store/index";
 
@@ -443,6 +443,7 @@ const nodelabel = ({ option }: { option: TreeOption }) => {
           autofocus: true,
           ref: inputRef,
           size: "small",
+          title: option.label,
           value: option.label,
           onUpdateValue: (v) => {
             option.label = v;
@@ -471,7 +472,14 @@ const nodelabel = ({ option }: { option: TreeOption }) => {
             option.isedit = false;
           },
         })
-      : option.label
+        : h(NEllipsis,{
+            bordered: false,
+            text: true,
+            title: option.label,
+            focusable: false, // 取消focus效果
+          },
+          { default: () => option.label }
+        )
   );
 };
 

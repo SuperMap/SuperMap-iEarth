@@ -233,6 +233,12 @@ function setDataForGpuProFile(result: any) {
 
 //分析
 function analysis() {
+  // 解决缺陷【8035】GPU剖面分析下报错崩溃问题
+  profile.clear();
+  if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  profile_GPU.destroy();
+  profile_GPU = new SuperMap3D.Profile(scene);
+
   let interValID = setInterval(() => {
     if (!handlerPolyline.positions) return;
 
@@ -264,7 +270,12 @@ function analysis() {
           state.show = false;
         }
       });
-      if (state.infoShowMode === "canvas") getCanvasImage();
+      if (state.infoShowMode === "canvas") {
+        // getCanvasImage();
+        setTimeout(()=>{ // 通过定时器延迟执行获取，还是不对，接口问题？
+          getCanvasImage();
+        },1000)
+      }
       handlerPolyline.polylineTransparent.show = false;
     },
     (err) => {

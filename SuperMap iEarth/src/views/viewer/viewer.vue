@@ -23,7 +23,7 @@ window.EarthGlobal = {};
 let viewer: any;
 
 onMounted(() => {
-  getCreateOrEditScene();
+  // getCreateOrEditScene();
   initViewer();
 });
 
@@ -34,6 +34,10 @@ onBeforeUnmount(() => {
 // 获取token和key相关配置
 getConfig().then((res) => {
   if (window.iEarthConsole) console.log("当前configToken配置:", res);
+  getCreateOrEditScene();
+},(err) => {
+  console.log(err);
+  getCreateOrEditScene(); // 确保无论如何都能打开场景
 });
 
 // 获取当前环境：创建 || 编辑  or 非iportal环境（普通环境）
