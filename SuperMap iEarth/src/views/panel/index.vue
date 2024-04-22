@@ -94,6 +94,11 @@
           v-if="panelStore.panelList.rightToolBarList[9].isSelected"
           >{{ $t("qxSingle") }}</span
         >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[10].isSelected"
+          >{{ $t("qxCover") }}</span
+        >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(2)">
@@ -134,6 +139,9 @@
         <QxSingle
           v-if="panelStore.panelList.rightToolBarList[9].isSelected"
         ></QxSingle>
+        <QxCover
+          v-if="panelStore.panelList.rightToolBarList[10].isSelected"
+        ></QxCover>
       </div>
 
       <!-- 右侧面板footer -->
@@ -163,6 +171,7 @@ import LayerStyle from "@/package/layerSeries/layer-style/index";
 import LayerQuery from "@/package/layerSeries/layer-query/index";
 import MapQuery from "@/package/layerSeries/map-query/index";
 import QxSingle from "@/package/layerSeries/qx-single/index";
+import QxCover from "@/package/layerSeries/qx-cover/index";
 
 import { usePanelStore } from "@/store/index";
 

@@ -167,6 +167,11 @@ function setOptionsByType(type: string) {
         icon: () => h("i", { class: "iconfont icondituchaxun" }, ""),
       },
       {
+        label: $t("qxCover"),
+        key: 72,
+        icon: () => h("i", { class: "iconfont iconditudiejiaqingxie" }, ""),
+      },
+      {
         label: $t("rename"),
         key: 0,
         icon: () => h("i", { class: "iconfont iconzhongmingming" }, ""),
@@ -264,7 +269,8 @@ function setLayerShow(option: any) {
 // 下拉列表操作
 function setDropdownAction(option: any, key: number) {
   // key为1：定位，key为2：删除图层
-  layerStore.s3mLayerSelectIndex = option.key.split("-")[1];
+  layerStore.s3mLayerSelectIndex = option.key.split("-")[1]; // 获取当前所选s3m图层索引
+  layerStore.imgLayerSelectIndex = option.key.split("-")[1]; // 获取当前所选影像图层索引
   if (key === 0) {
     option.isedit = true;
     nextTick(() => {
@@ -377,6 +383,8 @@ function setDropdownAction(option: any, key: number) {
     panelStore.setRightToolBarList({ id: 11 });
   } else if (key === 12) {
     panelStore.setRightToolBarList({ id: 12 });
+  }else if (key === 72) {
+    panelStore.setRightToolBarList({ id: 13 });
   }
 }
 

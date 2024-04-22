@@ -47,6 +47,7 @@ export const useLayerStore = defineStore({
 		skyBoxShow: false, // 是否显示天空盒
 		layerChangeCount: 0, // 图层一旦改变，改值++，通常用于监听图层变化
 		s3mLayerSelectIndex: 0, // 当前选择的s3m图层索引
+		imgLayerSelectIndex: 0, // 当前选择的影像图层索引
 		layerQueryOptions: [], // s3m图层属性查询
 		mapQueryOptions: [], // 地图查询保存
 		mediaFeildOptions: { // 地图查询-媒体字段保存

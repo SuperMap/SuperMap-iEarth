@@ -93,6 +93,13 @@ export const usePanelStore = defineStore({
                     isSelected: false,
                     panelName: "qxSingle"
                 },
+                {
+                    id: 13,
+                    iconName: "iconhuizhi",
+                    title: "qxCover",
+                    isSelected: false,
+                    panelName: "qxCover"
+                },
             ]
         },
         rightTooPanel: false,
