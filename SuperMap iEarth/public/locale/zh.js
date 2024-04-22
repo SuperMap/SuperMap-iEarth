@@ -675,7 +675,9 @@ const local_zh = {
         qxLayerDataUrl: '请输入该图层的数据服务URL',
         qxLayerDataSource: '请输入该图层对应的数据源',
         qxLayerDataset: '请输入该图层对应的数据集',
-        education: "教育版"
+        education: "教育版",
+        urlChecedFail:"Url校验失败，请输入正确地址",
+        appointSceneName:'指定场景名称',
 }
 
 window.local_zh = local_zh;

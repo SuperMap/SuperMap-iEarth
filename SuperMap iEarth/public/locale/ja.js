@@ -675,7 +675,9 @@ const local_ja = {
     qxLayerDataUrl: 'このレイヤーのデータ サービス URL を入力してください',
     qxLayerDataSource: 'このレイヤーに対応するデータ ソースを入力してください',
     qxLayerDataset: 'このレイヤーに対応するデータセットを入力してください',
-    education: "教育版"
+    education: "教育版",
+    urlChecedFail:"Urlチェックに失敗しました。正しいアドレスを入力してください",
+    appointSceneName:'シーン名の指定',
 }
 
 window.local_ja = local_ja;

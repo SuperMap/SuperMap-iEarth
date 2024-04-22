@@ -675,7 +675,9 @@ const local_ru = {
     qxLayerDataUrl: 'Введите URL-адрес службы данных для этого слоя.',
     qxLayerDataSource: 'Пожалуйста, введите источник данных, соответствующий этому слою',
     qxLayerDataset: 'Пожалуйста, введите набор данных, соответствующий этому слою',
-    education: "обучать"
+    education: "обучать",
+    urlChecedFail:"Ошибка проверки Url, введите правильный адрес",
+    appointSceneName:'Укажите имя сцены',
 }
 
 window.local_ru = local_ru;
