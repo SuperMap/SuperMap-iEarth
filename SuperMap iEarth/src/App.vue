@@ -65,9 +65,12 @@ const checkLicenseInfo = () => {
         console.log("licenseInfo:", licenseInfo);
       }
 
-      let designerInfo = licenseInfo?.entryInfos.find((info: any) => {
+      let designerInfo = licenseInfo.data?.entryInfos.find((info: any) => {
         return info.licenseID === 21034 || info.licenseID === 65400; //65400 iportal 试用许可
       });
+      if (window.iEarthConsole) {
+        console.log("designerInfo:", designerInfo);
+      }
       if (designerInfo) {
         // 判断许可过期
         let timeOut = new Date().getTime() - designerInfo.expireDate.time;
