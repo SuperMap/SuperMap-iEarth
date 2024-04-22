@@ -3,106 +3,92 @@
     <span>{{ $t("address") }}</span>
     <n-tooltip placement="top-end" trigger="hover">
       <template #trigger>
-        <n-input
-          class="add-input-border"
-          v-model:value="sceneUrl"
-          type="text"
-          style="width: 2.4rem"
-          :title="sceneUrl"
-          @input="handleChange"
-        />
+        <n-input class="add-input-border" v-model:value="state.sceneUrl" type="text" style="width: 2.4rem"
+          :title="state.sceneUrl" @change="handleChange"/>
       </template>
-      {{ urlTip }}
+      {{ state.urlTip }}
     </n-tooltip>
   </div>
 
   <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
-    <n-checkbox v-model:checked="token"> {{ $t("addToken") }} </n-checkbox>
-    <n-input
-      style="margin-top: 0.1rem; width: 2.4rem"
-      v-if="token"
-      v-model:value="sceneToken"
-      type="text"
-      placeholder="token..."
-    />
+    <n-checkbox v-model:checked="state.useSenceName">{{ $t("appointSceneName") }}</n-checkbox>
+  </div>
+
+  <div class="row-item" v-if="state.useSenceName">
+    <span>{{ $t("name") }}</span>
+    <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
+  </div>
+
+  <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
+    <n-checkbox v-model:checked="state.token"> {{ $t("addToken") }} </n-checkbox>
+    <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.token" v-model:value="state.sceneToken" type="text"
+      placeholder="token..." />
   </div>
 
   <div class="btn-row-item" style="margin-left: 0.95rem">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      class="ans-btn"
-      @click="openScene"
-      >{{ $t("sure") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+    <n-button type="info" class="ans-btn" color="#3499E5" text-color="#fff" :focusable="false" @click="openScene">{{
+      $t("sure") }}</n-button>
+    <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { reactive } from "vue";
 import { useMessage } from "naive-ui";
-import layerManagement from "@/tools/layerManagement";
 
 const message = useMessage();
 
-let urlTip =
-  "http://<server>:<port>/realspace/services/<component>/rest/realspace";
-let sceneUrl = ref("");
-let sceneToken = ref("");
-let token = ref(false);
+const state = reactive({
+  urlTip: "http://<server>:<port>/realspace/services/<component>/rest/realspace",
+  sceneUrl: '',
+  sceneName: '',
+  sceneToken: '',
+  token: false,
+  useSenceName:false
+})
 
-// 校验URL
-function handleChange() {
-  // 检查地址是否正确 - 使用正则严格校验
-  if (sceneUrl.value.indexOf("rest/realspace") != -1) {
-    message.success($t("urlCheckedsuccess"));
+//检查场景服务地址是否合规
+let reg = /rest\/realspace$/g;
+function handleChange(){
+  state.sceneUrl = state.sceneUrl.trim();
+  if (!reg.test(state.sceneUrl)) {
+    message.warning($t("urlChecedFail"));
   }
-
-  //处理realspace带有/
-  // if (sceneUrl.value.slice(-14) === "rest/realspace") {
-  //   let url = sceneUrl.value.split("rest/realspace")[0] + "rest/realspace";
-  // }
 }
 
 // 打开场景服务
 function openScene() {
-  if (sceneUrl.value == null || sceneUrl.value == "") {
+  if (state.sceneUrl == null || state.sceneUrl == "") {
     return;
   }
 
   //去引号
-  if (sceneUrl.value.charAt(0) == '"' || sceneUrl.value.charAt(0) == "'") {
+  if (state.sceneUrl.charAt(0) == '"' || state.sceneUrl.charAt(0) == "'") {
     let reg = /^['|"](.*)['|"]$/;
-    sceneUrl.value = sceneUrl.value.replace(reg, "$1");
+    state.sceneUrl = state.sceneUrl.replace(reg, "$1");
   }
-  if (token.value) {
+  if (state.token) {
     SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-      sceneToken.value
+      state.sceneToken
     );
   }
 
-  let promiseResult = layerManagement.openScene(
-    sceneUrl.value,
-    "",
-    "REALSPACE"
-  );
-  SuperMap3D.when(promiseResult, function (layers: any) {
+  let sceneName = state.sceneName == '' ? undefined : state.sceneName;
+  const promise = window.viewer.scene.open(state.sceneUrl, sceneName, { autoSetView: true });
+  SuperMap3D.when(promise, function (layers: any) {
+    layers.forEach((layer: any) => {
+      layer.selectedColor = SuperMap3D.Color.fromCssColorString("rgba(166,252,252,1)"); // 通过自定义添加的s3m图层，也设置选中色
+    });
+    if (window.iEarthConsole) { console.log('scene-layers:', layers); }
     message.success($t("openSceneSuccess"));
   });
 }
 
 // 清除
 function clear() {
-  sceneUrl.value = "";
-  sceneToken.value = "";
-  token.value = false;
+  state.sceneUrl = "";
+  state.sceneToken = "";
+  state.token = false;
 }
 </script>
+

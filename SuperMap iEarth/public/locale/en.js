@@ -675,7 +675,9 @@ const local_en = {
     qxLayerDataUrl: 'Please enter the data service URL for this layer',
     qxLayerDataSource: 'Please enter the data source corresponding to this layer',
     qxLayerDataset: 'Please enter the data set corresponding to this layer',
-    education: "SuperMap Education"
+    education: "SuperMap Education",
+    urlChecedFail:"Url verification failed, please enter the correct address",
+    appointSceneName:'Specify scene name',
 }
 
 window.local_en = local_en;

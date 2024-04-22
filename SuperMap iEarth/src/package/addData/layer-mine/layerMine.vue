@@ -12,6 +12,15 @@
       />
     </div>
 
+    <div style="">
+        <n-checkbox v-model:checked="state.useSenceName">{{ $t("appointSceneName") }}</n-checkbox>
+    </div>
+
+    <div class="row-item-mine" v-if="state.useSenceName">
+      <span>{{ $t("name") }}</span>
+      <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
+    </div>
+
     <div class="btn-row-item opration">
       <n-button
         type="info"
@@ -59,6 +68,8 @@ type stateType = {
   columns: any;
   tableData: any;
   checkedRowKeys: any;
+  useSenceName:boolean,
+  sceneName:string;
 };
 
 let state = reactive<stateType>({
@@ -98,6 +109,8 @@ let state = reactive<stateType>({
   ],
   tableData: [],
   checkedRowKeys: ["1"],
+  useSenceName:false,
+  sceneName: '',
 });
 
 // 初始化并获取数据
@@ -176,7 +189,9 @@ function addService() {
       let promiseArray: any = [];
       setTrustedServers(url);
 
-      let promise = viewer.scene.open(url);
+      // let promise = viewer.scene.open(url);
+      let sceneName = state.sceneName == '' ? undefined : state.sceneName;
+      const promise = viewer.scene.open(url, sceneName, { autoSetView: true });
       promiseArray.push(promise);
       promiseWhen(promiseArray, true);
     });
@@ -374,5 +389,18 @@ function dateDiff(timestamp) {
 .opration {
   margin-top: 0.1rem;
   margin-left: 56%;
+}
+
+.row-item-mine{
+
+  span {
+    font-size: 0.14rem;
+  }
+
+  display: flex;
+  justify-content: space-between;
+  width: 3.4rem;
+  margin-top: 0.1rem;
+  margin-right: 0.1rem;
 }
 </style>
