@@ -137,10 +137,10 @@ let state = reactive({
       label: $t("terrainLayer"),
       value: "Terrain",
     },
-    {
-      label: $t("wmtsLayer"),
-      value: "WMTS",
-    },
+    // {
+    // label: $t("wmtsLayer"),
+    // value: "WMTS",
+    // },
   ],
   rectangleObj: [],
   scaleDenominatorsObj: [],
