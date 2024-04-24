@@ -140,6 +140,15 @@ type StateType = {
   scenePosition: any;
 };
 
+// viewer.camera.setView({ // 先定位，开始渲染定位区域的倾斜
+//   destination: new SuperMap3D.Cartesian3(-2627223.829626321, 3932851.0803870987, 4265288.945477366),
+//   orientation: {
+//     heading: 4.396130342435847,
+//     pitch: -0.43133441484661317,
+//     roll: 0.000007429907218359233
+//   }
+// });
+
 // 倾斜图层URL:http://www.supermapol.com/realspace/services/3D-dynamicDTH-2/rest/realspace/datas/Config%20-%201/config
 let state = reactive<StateType>({
   // dataServiceUrl: 'http://www.supermapol.com/realspace/services/data-dynamicDTH-2/rest/data/featureResults.rjson?returnContent=true',
