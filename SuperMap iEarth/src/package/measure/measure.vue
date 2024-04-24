@@ -33,7 +33,7 @@
     </div>
 
     <div>
-      <div class="btn-row-item">
+      <div class="btn-row-item" v-show="state.measureMode == 'Space'">
         <n-checkbox
           @update:checked="openPickPoint"
           v-model:checked="state.pickPointEnabled"
@@ -524,6 +524,8 @@ function update_mode(val: string) {
     handlerArea.clampMode = SuperMap3D.ClampMode.Space;
     handlerDis.clampMode = SuperMap3D.ClampMode.Space;
   } else {
+    state.pickPointEnabled = false; // 目前只要是贴地，就关闭顶点捕捉，等包修好后再说
+    viewer.scene.pickPointEnabled = false;
     state.clampMode = SuperMap3D.ClampMode.Ground;
     handlerArea.clampMode = SuperMap3D.ClampMode.Ground;
     handlerDis.clampMode = SuperMap3D.ClampMode.Ground;
