@@ -681,6 +681,8 @@ const local_ru = {
     education: "обучать",
     urlChecedFail:"Ошибка проверки Url, введите правильный адрес",
     appointSceneName:'Укажите имя сцены',
+    s3mNameRepeatTip:'Имя слоя дублируется, измените имя текущего слоя.',
+    sceneNameRepeatTip:'Эта сцена уже существует, пожалуйста, не добавляйте ее снова'
 }
 
 window.local_ru = local_ru;

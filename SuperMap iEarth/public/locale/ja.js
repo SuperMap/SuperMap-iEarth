@@ -681,6 +681,8 @@ const local_ja = {
     education: "教育版",
     urlChecedFail:"Urlチェックに失敗しました。正しいアドレスを入力してください",
     appointSceneName:'シーン名の指定',
+    s3mNameRepeatTip:'レイヤー名が重複しています。現在のレイヤー名を変更してください',
+    sceneNameRepeatTip:'このシーンはすでに存在します。再度追加しないでください'
 }
 
 window.local_ja = local_ja;

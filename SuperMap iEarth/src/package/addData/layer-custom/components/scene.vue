@@ -66,7 +66,7 @@ function checkSeneName(sceneUrl:string){
       let sceneName = data[0].name;
       let isExist = GlobalStore.addSceneList.includes(sceneName);
       if(isExist){
-        message.warning('该场景已存在，请勿重复添加');
+        message.warning($t("sceneNameRepeatTip"));
       }else{
         GlobalStore.addSceneList.push(sceneName);
       }

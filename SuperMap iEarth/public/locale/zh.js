@@ -681,6 +681,8 @@ const local_zh = {
         education: "教育版",
         urlChecedFail:"Url校验失败，请输入正确地址",
         appointSceneName:'指定场景名称',
+        s3mNameRepeatTip:'图层名重复，请修改当前图层名称',
+        sceneNameRepeatTip:'该场景已存在，请勿重复添加'
 }
 
 window.local_zh = local_zh;

@@ -182,7 +182,7 @@ function openLayer() {
     case "S3M":
       let isExist = checkS3MLayeExist(state.layerName);
       if (isExist) {
-        message.warning('图层名重复，请修改当前图层名称');
+        message.warning($t("s3mNameRepeatTip"));
       }else{
         addS3M(state.layerUrl);
       }
@@ -213,7 +213,7 @@ function handleChange() {
         );
         let isExist = checkS3MLayeExist(state.layerName);
         if(isExist){
-          message.warning('图层名重复，请修改当前图层名称');
+          message.warning($t("s3mNameRepeatTip"));
         }
       }
       break;
