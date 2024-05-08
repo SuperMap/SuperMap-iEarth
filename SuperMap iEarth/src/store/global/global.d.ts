@@ -6,6 +6,7 @@ export interface GlobalStateType {
   isEditMode:boolean,
   layerTreeCheckedKeys: any,
   currentLanguage: string,
-  storageSceneCurrentTime: any
-  isNormalMode: boolean
+  storageSceneCurrentTime: any,
+  isNormalMode: boolean,
+  addSceneList:string[]
 }

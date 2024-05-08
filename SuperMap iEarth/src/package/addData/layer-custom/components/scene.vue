@@ -35,8 +35,10 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { useMessage } from "naive-ui";
+import { GlobalStoreCreate } from "@/store/global/global";
 
 const message = useMessage();
+const GlobalStore = GlobalStoreCreate();
 
 const state = reactive({
   urlTip: "http://<server>:<port>/realspace/services/<component>/rest/realspace",
@@ -56,6 +58,22 @@ function handleChange(){
   }
 }
 
+function checkSeneName(sceneUrl:string){
+  let url = sceneUrl+'/scenes.json';
+  window.axios.get(url).then((res: any) => {
+    let data = res.data;
+    if(data.length > 0){
+      let sceneName = data[0].name;
+      let isExist = GlobalStore.addSceneList.includes(sceneName);
+      if(isExist){
+        message.warning($t("sceneNameRepeatTip"));
+      }else{
+        GlobalStore.addSceneList.push(sceneName);
+      }
+    }
+  })
+}
+
 // 打开场景服务
 function openScene() {
   if (state.sceneUrl == null || state.sceneUrl == "") {
@@ -71,6 +89,11 @@ function openScene() {
     SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
       state.sceneToken
     );
+  }
+
+  // 不指定场景名称的情况下，检测当前场景是否已经添加过
+  if(state.sceneName == ''){ 
+    checkSeneName(state.sceneUrl);
   }
 
   let sceneName = state.sceneName == '' ? undefined : state.sceneName;

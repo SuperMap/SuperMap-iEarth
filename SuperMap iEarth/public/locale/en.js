@@ -678,6 +678,8 @@ const local_en = {
     education: "SuperMap Education",
     urlChecedFail:"Url verification failed, please enter the correct address",
     appointSceneName:'Specify scene name',
+    s3mNameRepeatTip:'The layer name is duplicated, please modify the current layer name',
+    sceneNameRepeatTip:'This scene already exists, please do not add it again'
 }
 
 window.local_en = local_en;
