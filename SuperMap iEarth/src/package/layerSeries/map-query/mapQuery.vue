@@ -34,17 +34,12 @@
         color="#3499E5"
         text-color="#fff"
         :loading="state.isloading_table"
+        :focusable="false"
         @click="startQuery"
         style="margin-right: 0.1rem"
         >{{ $t("attributeList") }}</n-button
       >
-      <n-button
-        class="btn-secondary"
-        @click="clear"
-        color="rgba(255, 255, 255, 0.65)"
-        ghost
-        >{{ $t("clear") }}</n-button
-      >
+      <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
     </div>
 
     <!-- 表格 - 操作面板 -->
@@ -103,6 +98,7 @@
             </n-popover>
             <n-button
               :loading="state.isloading"
+              :focusable="false"
               @click="search"
               :disabled="state.selectFiled === 'chooseFeild'"
               >{{ $t("filter") }}</n-button
@@ -257,17 +253,14 @@
               color="#3499E5"
               text-color="#fff"
               :loading="state.isloading_mydata"
+              :focusable="false"
               @click="addShp_mydata"
               style="margin-right: 0.1rem"
               >{{ $t("sure") }}</n-button
             >
-            <n-button
-              class="btn-secondary"
-              @click="cancle_mydata"
-              color="rgba(255, 255, 255, 0.65)"
-              ghost
-              >{{ $t("cancle") }}</n-button
-            >
+            <n-button :focusable="false" @click="cancle_mydata">{{
+              $t("cancle")
+            }}</n-button>
           </div>
         </n-card>
       </n-modal>
@@ -362,19 +355,16 @@
           <div class="btn-row-item" style="margin-left: 0.8rem">
             <n-button
               type="info"
+              class="ans-btn"
               color="#3499E5"
               text-color="#fff"
-              class="ans-btn"
+              :focusable="false"
               @click="saveMediaField"
               >{{ $t("sure") }}</n-button
             >
-            <n-button
-              class="btn-secondary"
-              @click="clearMediaField"
-              color="rgba(255, 255, 255, 0.65)"
-              ghost
-              >{{ $t("clear") }}</n-button
-            >
+            <n-button :focusable="false" @click="clearMediaField">{{
+              $t("clear")
+            }}</n-button>
           </div>
         </n-card>
       </n-modal>
@@ -621,16 +611,14 @@ onBeforeUnmount(() => {
 // 设置气泡位置
 function setBablePosition() {
   if (state.scenePosition) {
-    var canvasHeight = viewer.scene.canvas.height;
-    var windowPosition = new SuperMap3D.Cartesian2();
-    SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(
+    let WindowCoordinates = SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(
       viewer.scene,
-      state.scenePosition,
-      windowPosition
+      state.scenePosition
     );
-    bableQuery.value.style.bottom = canvasHeight - windowPosition.y - 10 + "px";
-    bableQuery.value.style.left = windowPosition.x + "px";
-    bableQuery.value.style.visibility = "visible";
+    bableQuery.value.style.top =
+      WindowCoordinates.y - bableQuery.value.offsetHeight + 450 + "px";
+    bableQuery.value.style.left =
+      WindowCoordinates.x - bableQuery.value.offsetWidth / 2 + 150 + "px";
   }
 }
 
@@ -789,6 +777,7 @@ function clickQuery() {
         let features = serviceResult.result?.features?.features;
         if (features.length == 0) {
           message.success($t("noData"));
+          state.shadowRadioShow = false;
           return;
         }
         state.shadowRadioShow = true;
