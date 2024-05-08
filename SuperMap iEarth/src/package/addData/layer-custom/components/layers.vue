@@ -37,7 +37,7 @@
       type="text"
       :placeholder="$t('layerName')"
       :title="state.layerName"
-      :disabled="true"
+      :disabled="state.layerType != 'S3M'"
     />
   </div>
 
@@ -180,7 +180,12 @@ function openLayer() {
 
   switch (state.layerType) {
     case "S3M":
-      addS3M(state.layerUrl);
+      let isExist = checkS3MLayeExist(state.layerName);
+      if (isExist) {
+        message.warning('图层名重复，请修改当前图层名称');
+      }else{
+        addS3M(state.layerUrl);
+      }
       break;
     case "Imagery":
       addImage(state.layerUrl);
@@ -206,6 +211,10 @@ function handleChange() {
           state.layerUrl,
           "S3M"
         );
+        let isExist = checkS3MLayeExist(state.layerName);
+        if(isExist){
+          message.warning('图层名重复，请修改当前图层名称');
+        }
       }
       break;
     case "Imagery":
@@ -236,6 +245,15 @@ function handleChange() {
   if (state.layerUrl === "") {
     state.layerName = "";
   }
+}
+
+function checkS3MLayeExist(s3mLayerName:string){
+  let layerQueue = viewer.scene.layers.layerQueue;
+  let findIndex = layerQueue.findIndex((layer:any) => {
+    return layer.name == s3mLayerName;
+  })
+
+  return findIndex >= 0 ? true : false;
 }
 
 // 添加s3m

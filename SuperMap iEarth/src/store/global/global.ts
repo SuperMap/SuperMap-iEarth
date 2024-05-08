@@ -16,6 +16,7 @@ export const GlobalStoreCreate = defineStore({
     currentLanguage: '', // 当前语言
     storageSceneCurrentTime: '', // 时间,这里先做一下保存,后面要改
     isNormalMode: false,
+    addSceneList:[],
   }),
   actions: {}
 });
