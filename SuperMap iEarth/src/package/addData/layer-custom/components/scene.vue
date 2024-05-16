@@ -104,6 +104,16 @@ function openScene() {
     });
     if (window.iEarthConsole) { console.log('scene-layers:', layers); }
     message.success($t("openSceneSuccess"));
+
+    // 等打开场景相机定位过去后绑到场景中去
+    setTimeout(() => {
+      if(layers && layers.length > 0){
+        console.log('layer-fly:',layers);
+        layers.forEach((layer:any)=>{
+          layer.positionCartographic_for_colubus = SuperMap3D.clone(viewer.camera.positionCartographic) || undefined;
+        })
+      }
+    }, 3000); 
   });
 }
 
