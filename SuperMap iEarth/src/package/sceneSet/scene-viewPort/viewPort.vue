@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, watch, reactive, ref } from "vue";
+import { onBeforeUnmount, onMounted, watch, reactive, ref } from "vue";
 import sceneRoller from "./components/scene-roller.vue";
 
 type stateType = {
@@ -71,22 +71,34 @@ let state = reactive<stateType>({
   options_viewMode: [
     {
       label: "3D",
-      value: 0,
+      value: 3,
     },
     {
       label: "2.5D",
       value: 1,
     },
     // 有问题 先注释
-    // {
+    // { 
     //   label: "2D",
     //   value: 2
-    // }
+    // },
+
   ],
   selectedType: "NONE",
-  viewMode: 0, // 视图模式
+  viewMode: 3, // 视图模式
   rollerShutterShow: false, // 开启卷帘
 });
+
+onMounted(() => {
+  let SceneMode = viewer.scene.mode
+  if (SceneMode === SuperMap3D.SceneMode.COLUMBUS_VIEW) {
+      state.viewMode = 1;
+    } else if (SceneMode === SuperMap3D.SceneMode.SCENE2D) {
+      state.viewMode = 2;
+    } else {
+      state.viewMode = 3;
+    }
+})
 
 onBeforeUnmount(() => {
   state.rollerShutterShow = false;
@@ -111,12 +123,12 @@ watch(
 watch(
   () => state.viewMode,
   (val) => {
-    if (val === 2) {
-      viewer.scene.mode = SuperMap3D.SceneMode.SCENE2D;
-    } else if (val === 0) {
-      viewer.scene.mode = SuperMap3D.SceneMode.SCENE3D;
-    } else {
+    if (val === 1) {
       viewer.scene.mode = SuperMap3D.SceneMode.COLUMBUS_VIEW;
+    } else if (val === 2) {
+      viewer.scene.mode = SuperMap3D.SceneMode.SCENE2D;
+    } else {
+      viewer.scene.mode = SuperMap3D.SceneMode.SCENE3D;
     }
   }
 );
