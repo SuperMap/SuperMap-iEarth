@@ -279,7 +279,33 @@ function setDropdownAction(option: any, key: number) {
   } else if (key === 1) {
     if (option.type === "s3m") {
       let s3mLayer = viewer.scene.layers.find(option.aliasKey);
-      viewer.flyTo(s3mLayer, { duration: 0 });
+      if (viewer.scene.mode == SuperMap3D.SceneMode.SCENE3D) {
+        if (s3mLayer.lon && s3mLayer.lat) { // 一些特殊的坐标系，比如ISVJ-7839中的4508+平面场景，直接flyTo不行，这里参考IServer里面的预览，使用此种方式来定位
+          viewer.scene.camera.setView({
+            destination: new SuperMap3D.Cartesian3.fromDegrees(s3mLayer.lon, s3mLayer.lat, 500)
+          });
+        } else {
+          viewer.flyTo(s3mLayer, { duration: 0 });
+        }
+      } else if (viewer.scene.mode == SuperMap3D.SceneMode.COLUMBUS_VIEW) { // 哥伦布视图下可能存在问题，比如ISVJ-7839中，用场景打开，定位就不对了
+        if (s3mLayer.positionCartographic_for_colubus) { // 以场景形式打开时，会给图层绑定一个打开后的相机视图定位
+          let positionCartographic = s3mLayer.positionCartographic_for_colubus;
+          let longitude = Number(SuperMap3D.Math.toDegrees(positionCartographic.longitude));
+          let latitude = Number(SuperMap3D.Math.toDegrees(positionCartographic.latitude));
+          let height = Number(positionCartographic.height);
+          viewer.scene.camera.setView({
+            destination: new SuperMap3D.Cartesian3.fromDegrees(longitude, latitude, height),
+          });
+        } else if (s3mLayer.lon && s3mLayer.lat) { 
+          viewer.scene.camera.setView({
+            destination: new SuperMap3D.Cartesian3.fromDegrees(s3mLayer.lon, s3mLayer.lat, 500)
+          });
+        } else {
+          viewer.flyTo(s3mLayer, { duration: 0 });
+        }
+      } else {
+        viewer.flyTo(s3mLayer, { duration: 0 });
+      }
     } else if (option.type === "mvt") {
       let index = String(option.key).split("-")[1];
       let mvtLayer = viewer.scene._vectorTileMaps._layerQueue[Number(index)];
