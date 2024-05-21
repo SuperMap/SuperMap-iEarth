@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40252589",
+      "name": "查询",
+      "font_class": "chaxun",
+      "unicode": "e8e6",
+      "unicode_decimal": 59622
+    },
+    {
+      "icon_id": "40216611",
+      "name": "帮助",
+      "font_class": "bangzhu",
+      "unicode": "e8e5",
+      "unicode_decimal": 59621
+    },
+    {
       "icon_id": "40001124",
       "name": "地图叠加倾斜",
       "font_class": "ditudiejiaqingxie",
@@ -518,8 +532,8 @@
     },
     {
       "icon_id": "38464193",
-      "name": "查询",
-      "font_class": "chaxun",
+      "name": "属性查询",
+      "font_class": "shuxingchaxun",
       "unicode": "e89d",
       "unicode_decimal": 59549
     },
@@ -840,8 +854,8 @@
     },
     {
       "icon_id": "36023465",
-      "name": "skin",
-      "font_class": "skin",
+      "name": "主题",
+      "font_class": "zhuti",
       "unicode": "e86e",
       "unicode_decimal": 59502
     },

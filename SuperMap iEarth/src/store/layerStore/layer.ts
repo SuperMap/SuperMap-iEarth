@@ -113,7 +113,7 @@ export const useLayerStore = defineStore({
 						let flag = this.checkImageryRepeat(imageryLayerName);
 						if (!flag) {
 							let label = this.checkLayerAlias(imageryLayerName,'imagery');
-							this.layerTreeData[1].children.push({
+							this.layerTreeData[1].children.unshift({
 								label: label,
 								aliasKey:imageryLayerName,
 								bindName:imageryLayer.bindName || '',
@@ -239,7 +239,7 @@ export const useLayerStore = defineStore({
 				let imageryLayerName = this.getImageryLayerName(imageryLayer);
 				if (imageryLayerName === 'Unnamed') return;
 				let label = this.checkLayerAlias(imageryLayerName,'imagery');
-				this.layerTreeData[1].children.push({
+				this.layerTreeData[1].children.unshift({
 					label: label,
 					aliasKey:imageryLayerName,
 					bindName:imageryLayer.bindName || '',
@@ -270,7 +270,7 @@ export const useLayerStore = defineStore({
 				let label = this.checkLayerAlias(terrainLayerName,'terrain');
 				this.layerTreeData[3].children.push({
 					label: label,
-					aliasKey: terrainLayerName,
+					aliasKey: terrainLayerName || '',
 					bindName: viewer.terrainProvider.bindName || '',
 					key: "4-0",
 					type: "terrain",

@@ -47,7 +47,8 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
           text: true,
           title: $t("isShow"),
           style: "margin-right:0.04rem",
-          onClick: (e) => {
+          focusable: false, // 取消focus效果
+          onClick: () => {
             setLayerShow(option);
           },
         },
@@ -90,8 +91,7 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
                 bordered: false,
                 text: true,
                 title: "",
-                focusable: false, // 不起作用
-                class: "layer-tree-item",
+                focusable: false, // 取消focus效果
                 onClick: (e) => {},
               },
               {
@@ -162,6 +162,26 @@ function setOptionsByType(type: string) {
         icon: () => h("i", { class: "iconfont icondingwei" }, ""),
       },
       {
+        label: $t("raiseOne"),
+        key: 66,
+        icon: () => h("i", { class: "iconfont iconshangyiyiceng" }, ""),
+      },
+      {
+        label: $t("lowerOne"),
+        key: 67,
+        icon: () => h("i", { class: "iconfont iconxiayiyiceng" }, ""),
+      },
+      {
+        label: $t("raiseToTop"),
+        key: 68,
+        icon: () => h("i", { class: "iconfont iconzhiding" }, ""),
+      },
+      {
+        label: $t("lowerToBottom"),
+        key: 69,
+        icon: () => h("i", { class: "iconfont iconzhidi" }, ""),
+      },
+      {
         label: $t("mapQuery"),
         key: 11,
         icon: () => h("i", { class: "iconfont icondituchaxun" }, ""),
@@ -194,6 +214,11 @@ function setOptionsByType(type: string) {
         key: 1,
         icon: () => h("i", { class: "iconfont icondingwei" }, ""),
       },
+      // {
+      //   label: $t("mvtCover"),
+      //   key: 101,
+      //   icon: () => h("i", { class: "iconfont icondingwei" }, ""),
+      // },
       {
         label: $t("rename"),
         key: 0,
@@ -409,8 +434,38 @@ function setDropdownAction(option: any, key: number) {
     panelStore.setRightToolBarList({ id: 11 });
   } else if (key === 12) {
     panelStore.setRightToolBarList({ id: 12 });
-  }else if (key === 72) {
+  } else if (key === 66) {
+    let index = String(option.key).split("-")[1];
+    let imgLayer = viewer.imageryLayers._layers[Number(index)];
+    if (imgLayer) {
+      viewer.imageryLayers.raise(imgLayer);
+      layerStore.updateLayer({ type: "imagery" });
+    }
+  } else if (key === 67) {
+    let index = String(option.key).split("-")[1];
+    let imgLayer = viewer.imageryLayers._layers[Number(index)];
+    if (imgLayer) {
+      viewer.imageryLayers.lower(imgLayer);
+      layerStore.updateLayer({ type: "imagery" });
+    }
+  } else if (key === 68) {
+    let index = String(option.key).split("-")[1];
+    let imgLayer = viewer.imageryLayers._layers[Number(index)];
+    if (imgLayer) {
+      viewer.imageryLayers.raiseToTop(imgLayer);
+      layerStore.updateLayer({ type: "imagery" });
+    }
+  } else if (key === 69) {
+    let index = String(option.key).split("-")[1];
+    let imgLayer = viewer.imageryLayers._layers[Number(index)];
+    if (imgLayer) {
+      viewer.imageryLayers.lowerToBottom(imgLayer);
+      layerStore.updateLayer({ type: "imagery" });
+    }
+  } else if (key === 72) {
     panelStore.setRightToolBarList({ id: 13 });
+  } else if (key === 101) {
+    panelStore.setRightToolBarList({ id: 14 });
   }
 }
 
@@ -431,18 +486,35 @@ function findSiblingsAndIndex(
 
 // 拖拽相关事件
 function handleDrop({ node, dragNode, dropPosition }) {
-  let node_key,
-    dragNode_key = undefined;
+  // node为目标节点，dragNode为当前拖拽节点
+  let target_level,
+    drag_level = undefined;
+  let target_index: number = -1;
+  let drag_index: number = -1;
   if (node && node.key.indexOf("-") != -1) {
-    node_key = node.key.split("-")[0];
+    let node_split_arr = node.key.split("-");
+    if (node_split_arr.length > 1) {
+      target_level = node_split_arr[0];
+      target_index = Number(node_split_arr[1]);
+    }
   }
   if (dragNode && dragNode.key.indexOf("-") != -1) {
-    dragNode_key = dragNode.key.split("-")[0];
+    let dragNode_split_arr = dragNode.key.split("-");
+    if (dragNode_split_arr.length > 1) {
+      drag_level = dragNode_split_arr[0];
+      drag_index = Number(dragNode_split_arr[1]);
+    }
   }
-  if (node_key != dragNode_key) {
-    message.warning($t("tree_darg_tip"));
+
+  if (target_level != "2" && drag_level != "2") {
+    message.warning($t("tree_darg_tip_img"));
     return;
   }
+  if (target_level != drag_level) {
+    message.warning($t("tree_darg_tip_level"));
+    return;
+  }
+
   const [dragNodeSiblings, dragNodeIndex] = findSiblingsAndIndex(
     dragNode,
     layerTreeData
@@ -465,6 +537,9 @@ function handleDrop({ node, dragNode, dropPosition }) {
     nodeSiblings.splice(nodeIndex + 1, 0, dragNode);
   }
   layerTreeData = Array.from(layerTreeData);
+
+  // 拖拽改变图层顺序
+  changeLayerOrderByDrag(drag_index, target_index);
 }
 
 //节点内容渲染函数
@@ -506,7 +581,7 @@ const nodelabel = ({ option }: { option: TreeOption }) => {
             option.isedit = false;
           },
         })
-        : h(NEllipsis,{
+      : h(NEllipsis,{
             bordered: false,
             text: true,
             title: option.label,
@@ -529,6 +604,29 @@ const checkCamera = ({ option }: { option: TreeOption }) => {
     },
   };
 };
+
+// 通过拖拽调整图层顺序
+function changeLayerOrderByDrag(drag_index: number, target_index: number) {
+  // 影像图层列表中index从下往上为：0 1 2 .. n,所以drag - target < 0，drag才是raise，反之则亦然
+  let gap: number = drag_index - target_index;
+  let change_count = Math.abs(gap);
+  let drag_imgLayer = viewer.imageryLayers._layers[drag_index];
+  if (gap > 0) {
+    //上 -> 下：lower
+    for (let i = 0; i < change_count; i++) {
+      viewer.imageryLayers.lower(drag_imgLayer);
+    }
+  } else if (gap < 0) {
+    // 下 -> 上：raise
+    for (let i = 0; i < change_count; i++) {
+      viewer.imageryLayers.raise(drag_imgLayer);
+    }
+  } else {
+    return;
+  }
+
+  layerStore.updateLayer({ type: "imagery" });
+}
 </script>
 
 <style lang="scss" scoped>
