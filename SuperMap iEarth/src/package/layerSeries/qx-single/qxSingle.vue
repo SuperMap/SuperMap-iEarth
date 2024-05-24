@@ -1,15 +1,14 @@
 <template>
   <div class="layerSeries-box">
-    <div class="row-item">
+    <div class="row-item" >
       <span>{{ $t("dataServerUrl") }}</span>
-      <n-input
-        class="add-input-border"
-        @input="handleChange"
-        v-model:value="state.dataServiceUrl"
-        :placeholder="$t('qxLayerDataUrl')"
-        type="text"
-        style="width: 2.1rem"
-      />
+      <n-tooltip placement="top-end" trigger="hover">
+        <template #trigger>
+          <n-input class="add-input-border" style="width: 2.1rem" v-model:value="state.dataServiceUrl" type="text"
+            :placeholder="$t('qxLayerDataUrl')" @change="handleChange" />
+        </template>
+        {{ state.urlTip }}
+      </n-tooltip>
     </div>
 
     <div class="row-item">
@@ -138,6 +137,7 @@ type StateType = {
   featureInfo: any;
   featureID: number;
   scenePosition: any;
+  urlTip:string;
 };
 
 // viewer.camera.setView({ // 先定位，开始渲染定位区域的倾斜
@@ -163,6 +163,7 @@ let state = reactive<StateType>({
   featureInfo: {},
   featureID: -1,
   scenePosition: undefined,
+  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data/featureResults.rjson?returnContent=true`
 });
 
 let bableQuery = ref();

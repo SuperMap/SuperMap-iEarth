@@ -8,16 +8,18 @@
         :options="state.s3mlayers"
       />
     </div>
-    <div class="row-item" style="margin-bottom: 0.1rem">
+
+    <div class="row-item" >
       <span>{{ $t("dataServerUrl") }}</span>
-      <n-input
-        class="add-input-border"
-        style="width: 1.96rem"
-        v-model:value="state.dataUrl"
-        type="text"
-        :placeholder="$t('inputServerUrl')"
-      />
+      <n-tooltip placement="top-end" trigger="hover">
+        <template #trigger>
+          <n-input class="add-input-border" style="width: 1.96rem" v-model:value="state.dataUrl" type="text"
+            :placeholder="$t('inputServerUrl')" />
+        </template>
+        {{ state.urlTip }}
+      </n-tooltip>
     </div>
+
     <div class="row-item" style="margin-bottom: 0.1rem">
       <span>{{ $t("dataSourceName") }}</span>
       <n-input
@@ -89,6 +91,7 @@ type StateType = {
   queryLayerName: string;
   scenePosition: any;
   isSetForLayer: boolean;
+  urlTip:string;
 };
 
 // http://www.supermapol.com/realspace/services/data-cbd/rest/data  -  二维数据
@@ -105,6 +108,7 @@ let state = reactive<StateType>({
   queryLayerName: "",
   scenePosition: null,
   isSetForLayer: false,
+  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data`
 });
 const scene = viewer.scene;
 let bableQuery = ref();
