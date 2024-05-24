@@ -44,22 +44,25 @@
   <div class="row-item no-center" v-if="state.selectedType != 'noRoller'">
     <span>{{ $t("t_layerList") }}</span>
     <div class="comLayerTreeBox" style="width: 1.96rem">
-      <ComLayerTree
-        v-show="state.selectedType !== 'noRoller'"
-        :is-update="true"
-        :draggable="false"
-        style="max-height: 2rem; max-width: 2.6rem"
-        :default-show-types="['S3M', 'IMG', 'MVT', 'GLOBE']"
-        :delete-button-show="false"
-        @getCheckedKeys="getCheckedKeys"
-      />
+      <n-scrollbar style="max-height:3rem" trigger="none">
+        <n-tree 
+          block-line 
+          checkable
+          cascade 
+          :data="treeDataRoller" 
+          :selectable="true" 
+          :default-checked-keys="['1','2']"
+          @update:checked-keys="getCheckedKeys" 
+        />
+      </n-scrollbar>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onBeforeUnmount, watch, reactive, onMounted } from "vue";
-import ComLayerTree from "./com-layer-tree.vue";
+import { useLayerStore } from "@/store/layerStore/layer";
+const layerStore = useLayerStore();
 
 // 初始化变量
 let state = reactive({
@@ -87,14 +90,27 @@ let state = reactive({
   customRoller: 0, //自定义
 });
 
+let treeDataRoller = reactive<any>([
+  {
+    "key": "1",
+    "label": "S3M图层",
+    "children": [],
+  },
+  {
+    "key": "2",
+    "label": "影像图层",
+    "children": []
+  },
+]);
+
 let verticalSliderLeft: any = "verticalSliderLeft",
   verticalSliderRight: any = "verticalSliderRight",
   horizontalSliderTop: any = "horizontalSliderTop",
   horizontalSliderBottom: any = "horizontalSliderBottom";
-let fdom, selectedKeys;
+let fdom;
 let scratchSwipeRegion = new SuperMap3D.BoundingRectangle();
 let layers = viewer.scene.layers.layerQueue;
-// let imgLayers = viewer.imageryLayers._layers;
+let imgLayers = viewer.imageryLayers._layers;
 // let mvtLayers = viewer.scene._vectorTileMaps._layerQueue;
 
 let rollerShutterConfig = {
@@ -107,9 +123,75 @@ let rollerShutterConfig = {
 };
 
 onMounted(() => {
+  getLayerList();
   createSlider();
   state.selectedType = "lrRoller";
 });
+
+function getLayerList(){
+  // S3M图层
+  viewer.scene.layers._layerQueue.forEach((S3Mlayer: any, index: number) => {
+    treeDataRoller[0].children.push({
+      label: S3Mlayer.name,
+      key: `1-${index}`,
+      type: "s3m",
+    });
+  });
+
+  // 影像图层
+  viewer.imageryLayers._layers.forEach((imageryLayer: any, index: number) => {
+    let imageryLayerName = layerStore.getImageryLayerName(imageryLayer);
+    treeDataRoller[1].children.unshift({
+      label: imageryLayerName,
+      key: `2-${index}`,
+      type: "imagery",
+    });
+  })
+}
+
+// 列表项选中
+let selectedOptions:any = undefined;
+function getCheckedKeys(keys, options) {
+  // console.log("keys:",keys);
+  // console.log("options:",options);
+  selectedOptions = options;
+  cancelLayersRoller(false);
+
+  // 这两个setTimeout是用来，让不参与（取消勾选）的图层避免取消卷帘时影像直接停止渲染不恢复卡在中间
+  setTimeout(()=>{
+    treeDataRoller[1].children.forEach(child => {
+      if(!keys.includes(child.key)){
+        let index = child.key.split('-')[1];
+        viewer.imageryLayers._layers[index].swipeEnabled = true;
+      }
+    })
+  },10)
+  setTimeout(()=>{
+    treeDataRoller[1].children.forEach(child => {
+      if(!keys.includes(child.key)){
+        let index = child.key.split('-')[1];
+        viewer.imageryLayers._layers[index].swipeEnabled = false;
+      }
+    })
+  },20)
+
+  options.forEach(option => {
+      if(option.type == 's3m'){ 
+        let s3mlayer = viewer.scene.layers.find(option.label);
+        if(s3mlayer){
+          s3mlayer.swipeEnabled = true;
+          s3mlayer.swipeRegion = scratchSwipeRegion;
+        }
+      }else if(option.type == 'imagery'){
+        let index = option.key.split('-')[1];
+        let curImageLayer = viewer.imageryLayers._layers[index];
+        if(curImageLayer){
+          curImageLayer.swipeEnabled = true;
+          curImageLayer.swipeRegion = scratchSwipeRegion;
+        }
+      }
+  });
+}
 
 // 销毁
 onBeforeUnmount(() => {
@@ -156,55 +238,33 @@ function enableSlider(index) {
   if (index & 8) horizontalSliderBottom.style.display = "block";
 }
 
-// viewer.imageryLayers._layers.forEach((imageLayer:any,index:number)=>{
-//     setLayerSwipeEnabled('IMG',index,true);
-//   })
 
 //设置各类图层的卷帘(暂时只支持s3m)
 function setLayersRoller() {
-  // 只让S3M支持卷帘
-  // viewer.scene.layers._layerQueue.forEach((S3Mlayer: any, index: string) => {
-  //   setLayerSwipeEnabled("S3M", index, true);
-  // })
 
-  if (selectedKeys) {
-    selectedKeys.forEach((key) => {
-      let arr = key.split("--");
-      if (arr[1] === "Root" && arr[0] !== "GLOBE") {
-        return;
+  if (selectedOptions) {
+    // cancelLayersRoller(false);
+    selectedOptions.forEach(option => {
+      if (option.type == 's3m') {
+        let s3mlayer = viewer.scene.layers.find(option.label);
+        if (s3mlayer) {
+          s3mlayer.swipeEnabled = true;
+          s3mlayer.swipeRegion = scratchSwipeRegion;
+        }
+      } else if (option.type == 'imagery') {
+        let index = option.key.split('-')[1];
+        let curImageLayer = viewer.imageryLayers._layers[index];
+        if (curImageLayer) {
+          curImageLayer.swipeEnabled = true;
+          curImageLayer.swipeRegion = scratchSwipeRegion;
+        }
       }
-      let index = arr[2];
-      index = Number(index);
-      setLayerSwipeEnabled(arr[0], index, true);
     });
   } else {
     cancelLayersRoller(true);
   }
 }
 
-//设置图层视口显隐 - 只保证S3M图层，其余图层暂时不支持
-function setLayerSwipeEnabled(layerType, index, checked) {
-  switch (layerType) {
-    case "S3M":
-      layers[index].swipeEnabled = checked;
-      layers[index].swipeRegion = scratchSwipeRegion;
-      break;
-    // case "IMG":
-    //   imgLayers[index].swipeEnabled = checked;
-    //   imgLayers[index].swipeRegion = scratchSwipeRegion;
-    //   break;
-    // case "MVT":
-    //   mvtLayers[index].swipeEnabled = checked;
-    //   mvtLayers[index].swipeRegion = scratchSwipeRegion;
-    //   break;
-    case "GLOBE":
-      viewer.scene.globe.swipeEnabled = checked;
-      viewer.scene.globe.swipeRegion = scratchSwipeRegion;
-      break;
-    default:
-      null;
-  }
-}
 
 // 取消所有图层的卷帘
 function cancelLayersRoller(checked) {
@@ -215,48 +275,14 @@ function cancelLayersRoller(checked) {
     layers[i].swipeEnabled = checked;
     layers[i].swipeRegion = scratchSwipeRegion;
   }
-  // for (let i = 1; i < imgLayers.length; i++) {
-  //   imgLayers[i].swipeEnabled = checked;
-  //   imgLayers[i].swipeRegion = scratchSwipeRegion;
-  // }
-  // for (let i = 0; i < mvtLayers.length; i++) {
-  //   mvtLayers[i].swipeEnabled = checked;
-  //   mvtLayers[i].swipeRegion = scratchSwipeRegion;
-  // }
+  for (let i = 1; i < imgLayers.length; i++) {
+    imgLayers[i].swipeEnabled = checked;
+    imgLayers[i].swipeRegion = scratchSwipeRegion;
+  }
   viewer.scene.globe.swipeEnabled = checked;
   viewer.scene.globe.swipeRegion = scratchSwipeRegion;
 }
 
-// 勾选图层节点
-function getCheckedKeys(params, data) {
-  selectedKeys = params;
-  data.forEach((obj) => {
-    if (!obj.children) {
-      fn(obj);
-      return;
-    }
-    let arr = obj.children;
-    if (!(arr instanceof Array) || arr.length === 0) return;
-    arr.forEach((layerObj) => {
-      fn(layerObj);
-    });
-  });
-  function fn(layerObj) {
-    let keys = layerObj.key.split("--");
-    let index = keys[2];
-    index = Number(index);
-    if (index === -1) return;
-    let checked = params.includes(layerObj.key);
-    setLayerSwipeEnabled(keys[0], index, checked);
-  }
-}
-
-// function getAllLayers(s3m, imgs, mvts) {
-//   layers = SuperMap3D.defaultValue(s3m, []);
-//   // layers = viewer.scene.layers.layerQueue;
-//   imgLayers = SuperMap3D.defaultValue(imgs, []);
-//   mvtLayers = SuperMap3D.defaultValue(mvts, []);
-// }
 
 /**
  * 设置卷帘的分割方向及分割条的位置。
