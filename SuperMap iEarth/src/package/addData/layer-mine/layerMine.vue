@@ -1,48 +1,41 @@
 <template>
   <div class="layer-terrain-container">
-    <div id="portalServiceTable">
+    <div class="portalServiceTable">
       <n-data-table
         size="small"
         :columns="state.columns"
         :data="state.portalServiceList"
-        :pagination="pagination"
         flex-height
         class="flex-1-hidden"
         v-model:checked-row-keys="state.checkedRowKeys"
       />
     </div>
-
-    <div style="">
-        <n-checkbox v-model:checked="state.useSenceName">{{ $t("appointSceneName") }}</n-checkbox>
-    </div>
-
-    <div class="row-item-mine" v-if="state.useSenceName">
-      <span>{{ $t("name") }}</span>
-      <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
-    </div>
+    
+    <n-scrollbar x-scrollable>
+      <n-pagination 
+        v-model:page="state.currentPage" 
+        :page-count="state.pageCount" 
+        style="margin-top: 0.1rem;"
+      />
+    </n-scrollbar>
 
     <div class="btn-row-item opration">
       <n-button
         type="info"
+        class="ans-btn"
         color="#3499E5"
         text-color="#fff"
-        class="ans-btn"
+        :focusable="false"
         @click="addService"
         >{{ $t("sure") }}</n-button
       >
-      <n-button
-        class="btn-secondary"
-        @click="cancle"
-        color="rgba(255, 255, 255, 0.65)"
-        ghost
-        >{{ $t("cancle") }}</n-button
-      >
+      <n-button :focusable="false" @click="refreshData">{{ $t("refresh") }}</n-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive } from "vue";
+import { watch, onMounted, reactive } from "vue";
 import { useMessage } from "naive-ui";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { useLayerStore } from "@/store/layerStore/layer";
@@ -58,8 +51,15 @@ const message = useMessage();
 
 let widget: any = viewer.cesiumWidget;
 
+// let testHeader = 'http://172.16.168.74:8190/iportal/'; 
+// http://172.16.168.74:8190/iportal/web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ&currentPage=1
+// 用户名/密码：admin supermap.12 by 易桂全
+
+let baseUrl = getRootUrl() + 'web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ&currentPage';
+
 onMounted(() => {
-  init();
+  let searchUrl = `${baseUrl}=1`;
+  getIportalServiceData(searchUrl);
   message.success($t("getData"));
 });
 
@@ -68,8 +68,8 @@ type stateType = {
   columns: any;
   tableData: any;
   checkedRowKeys: any;
-  useSenceName:boolean,
-  sceneName:string;
+  currentPage:number
+  pageCount:number
 };
 
 let state = reactive<stateType>({
@@ -109,74 +109,116 @@ let state = reactive<stateType>({
   ],
   tableData: [],
   checkedRowKeys: ["1"],
-  useSenceName:false,
-  sceneName: '',
+  currentPage:1,
+  pageCount:1
 });
 
-// 初始化并获取数据
-function init() {
-  //查询出portal中的服务列表（只查询出服务项）
-  let searchUrl =
-    getRootUrl() +
-    "gateway/catalog/resource/search.json?searchType=MY_RES&resourceType=SERVICE";
+async function getIportalServiceData(searchUrl:string){
+  if(!searchUrl) return;
 
-  if (window.iEarthConsole) console.log("searchUrl-mine:", searchUrl);
+  if (window.iEarthConsole){
+      console.log("iportal-myservice-searchUrl:",searchUrl);
+  }
 
-  window.axios
-    //需要withCredentials验证否？
-    .get(searchUrl, { withCredentials: IportalStore.isPortal })
-    .then(function (response: any) {
-      let data = response.data.content;
-      if (window.iEarthConsole) console.log("response-mine:", response);
-      data.forEach((item: any) => {
-        let sceneID = item.resourceId;
+  let data = await window.axios.get(searchUrl).then((response)=>{
+    return response.data;
+  })
 
-        let highestpermissionurl =
-          getRootUrl() +
-          "web/permissions/highestpermission.json?resourceIds=" +
-          encodeURIComponent("[" + sceneID + "]") +
-          "&resourceType=SERVICE";
+  if (window.iEarthConsole){
+      console.log("iportal-myservice-data:",data);
+  }
 
-        let arrays = ["READ", "READWRITE", "DELETE"];
-        //判断是否有权限
-        let noPermission = false;
-        window.axios
-          .get(highestpermissionurl, {
-            withCredentials: IportalStore.isPortal,
-          })
-          .then(function (responseHigh: any) {
-            if (arrays.indexOf(responseHigh.data[sceneID]) < 0) {
-              noPermission = true;
-            }
-            let scenePostUrl =
-              getRootUrl() + "web/services/" + item.resourceId + ".json";
-            window.axios
-              .get(scenePostUrl, { withCredentials: IportalStore.isPortal })
-              .then(function (responseScene) {
-                let sceneUrl =
-                  responseScene.data.proxiedUrl || responseScene.data.linkPage;
-                let disabled =
-                  noPermission || item.resourceSubType != "REALSPACE"; //是否禁用选择
-                state.portalServiceList.push({
-                  key: item.name,
-                  name: item.name,
-                  resourceSubType: item.resourceSubType,
-                  updateTime: dateDiff(item.updateTime),
-                  url: sceneUrl,
-                  disabled: disabled,
-                });
-                if (window.iEarthConsole)
-                  console.log(
-                    " state.portalServiceList：",
-                    state.portalServiceList
-                  );
-              });
-          });
+  state.pageCount = Number(data.totalPage);
+
+  if (data.content && data.content.length > 0) {
+    state.portalServiceList.length = 0; // 清空当前列表
+    data.content.forEach((item: any, index:number) => {
+      let sceneUrl = item.proxiedUrl || item.linkPage;
+      let disabled = item.type != "REALSPACE"; // 当前仅支持场景
+      state.portalServiceList.push({
+        key: `my-service-${index}`,
+        name: item.resTitle || '',
+        resourceSubType: item.type,
+        updateTime: dateDiff(item.updateTime),
+        url: sceneUrl,
+        disabled: disabled,
       });
-    });
+    })
+  }
 }
 
+// 因为@on-update:page = "fun"没起作用，这里用watch监听实现
+watch(
+  () => state.currentPage,
+  (val) => {
+    let searchUrl = `${baseUrl}=${val}`;
+    getIportalServiceData(searchUrl);
+  }
+);
+
+// // 初始化并获取数据
+// function init_Origin() {
+//   //查询出portal中的服务列表（只查询出服务项）
+//   let searchUrl =
+//     getRootUrl() +
+//     "gateway/catalog/resource/search.json?searchType=MY_RES&resourceType=SERVICE";
+
+//   if (window.iEarthConsole) console.log("searchUrl-mine:", searchUrl);
+
+//   window.axios
+//     //需要withCredentials验证否？
+//     .get(searchUrl, { withCredentials: IportalStore.isPortal })
+//     .then(function (response: any) {
+//       let data = response.data.content;
+//       if (window.iEarthConsole) console.log("response-mine:", response);
+//       data.forEach((item: any) => {
+//         let sceneID = item.resourceId;
+
+//         let highestpermissionurl =
+//           getRootUrl() +
+//           "web/permissions/highestpermission.json?resourceIds=" +
+//           encodeURIComponent("[" + sceneID + "]") +
+//           "&resourceType=SERVICE";
+
+//         let arrays = ["READ", "READWRITE", "DELETE"];
+//         //判断是否有权限
+//         let noPermission = false;
+//         window.axios
+//           .get(highestpermissionurl, {
+//             withCredentials: IportalStore.isPortal,
+//           })
+//           .then(function (responseHigh: any) {
+//             if (arrays.indexOf(responseHigh.data[sceneID]) < 0) {
+//               noPermission = true;
+//             }
+//             let scenePostUrl =
+//               getRootUrl() + "web/services/" + item.resourceId + ".json";
+//             window.axios
+//               .get(scenePostUrl, { withCredentials: IportalStore.isPortal })
+//               .then(function (responseScene) {
+//                 let sceneUrl =
+//                   responseScene.data.proxiedUrl || responseScene.data.linkPage;
+//                 let disabled =
+//                   noPermission || item.resourceSubType != "REALSPACE"; //是否禁用选择
+//                 state.portalServiceList.push({
+//                   key: item.name,
+//                   name: item.name,
+//                   resourceSubType: item.resourceSubType,
+//                   updateTime: dateDiff(item.updateTime),
+//                   url: sceneUrl,
+//                   disabled: disabled,
+//                 });
+//                 if (window.iEarthConsole){
+//                   console.log(" state.portalServiceList：",state.portalServiceList);
+//                 }
+//               });
+//           });
+//       });
+//     });
+// }
+
 // 打开保存的服务
+
 function addService() {
   let selecteditems = state.portalServiceList.filter((item: any) => {
     return item.key === state.checkedRowKeys[0];
@@ -189,11 +231,9 @@ function addService() {
       let promiseArray: any = [];
       setTrustedServers(url);
 
-      // let promise = viewer.scene.open(url);
-      let sceneName = state.sceneName == '' ? undefined : state.sceneName;
-      const promise = viewer.scene.open(url, sceneName, { autoSetView: true });
+      let promise = viewer.scene.open(url);
       promiseArray.push(promise);
-      promiseWhen(promiseArray, true);
+      promiseWhen(promiseArray);
     });
   }
 }
@@ -218,18 +258,18 @@ function setTrustedServers(url: string) {
   }
 }
 
-function promiseWhen(promiseArray, isSCP) {
+function promiseWhen(promiseArray) {
   SuperMap3D.when.all(
     promiseArray,
     function (layers) {
-      for (let i = 0; i < layers.length; i++) {
-        layers[i].visibleDistanceMax = 10000; //最大可见高度
-      }
+      // for (let i = 0; i < layers.length; i++) {
+      //   layers[i].visibleDistanceMax = 10000; //最大可见高度
+      // }
       setTimeout(() => {
-        //更新图层
-        layerStore.refreshLayerTree();
+        layerStore.refreshLayerTree(); //更新图层
       }, 500);
-      if (isSCP && layers[0]) {
+
+      if (layers && layers[0]) {
         viewer.flyTo(layers[0]);
       }
     },
@@ -242,25 +282,13 @@ function promiseWhen(promiseArray, isSCP) {
   );
 }
 
-// 取消
-function cancle() {
-  state.checkedRowKeys = ["1"];
+// 更新数据
+function refreshData() {
+  let searchUrl = `${baseUrl}=1`;
+  state.currentPage = 1;
+  getIportalServiceData(searchUrl);
 }
 
-// 表格相关
-const pagination = reactive({
-  page: 1,
-  pageSize: 10,
-  showSizePicker: true,
-  pageSizes: [10, 15, 20, 25, 30],
-  onChange: (page: number) => {
-    pagination.page = page;
-  },
-  onUpdatePageSize: (pageSize: number) => {
-    pagination.pageSize = pageSize;
-    pagination.page = 1;
-  },
-});
 
 /** 时间倒序，多少小时之前
  * @param timestamp 时间毫秒数
@@ -335,50 +363,16 @@ function dateDiff(timestamp) {
   display: flex;
   flex-wrap: wrap;
 
-  .ItemBox {
-    width: 30%;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 0.07rem;
-    margin-right: 0.12rem;
-    box-sizing: border-box;
-    cursor: pointer;
-
-    .img-box {
-      width: 100%;
-      height: 0.84rem;
-      border-radius: 0.05rem;
-      overflow: hidden;
-      margin-bottom: 0.04rem;
-
-      .img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .ItemBox:nth-child(3n) {
-    margin-right: 0;
-  }
-
-  .isSelect {
-    color: #3499e5;
-
-    .img-box {
-      border: 0.02rem solid #3499e5;
-    }
-  }
 }
 
-#portalServiceTable {
-  margin-right: 0.1rem;
-  height: 2.3rem;
-  z-index: 999999;
-  background-color: rgb(29, 29, 17);
-  opacity: 0.5;
-
+.portalServiceTable {
   display: flex;
   flex-direction: column;
+  margin-right: 0.1rem;
+  height: 2.3rem;
+  background-color: rgb(29, 29, 17);
+  opacity: 0.5;
+  z-index: 999999;
 }
 
 .flex-1-hidden {
@@ -388,19 +382,6 @@ function dateDiff(timestamp) {
 
 .opration {
   margin-top: 0.1rem;
-  margin-left: 56%;
-}
-
-.row-item-mine{
-
-  span {
-    font-size: 0.14rem;
-  }
-
-  display: flex;
-  justify-content: space-between;
-  width: 3.4rem;
-  margin-top: 0.1rem;
-  margin-right: 0.1rem;
+  margin-left: 60%;
 }
 </style>

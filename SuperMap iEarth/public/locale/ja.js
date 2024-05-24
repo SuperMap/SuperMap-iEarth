@@ -692,7 +692,8 @@ const local_ja = {
     customImgSupport:"カスタム追加イメージは現在、SuperMapImageryProviderタイプサービスのみをサポートしています",
     customTinSupport:"カスタム地形追加現在SuperMapTerrainProviderタイプサービスのみサポート",
     s3mNameRepeatTip:'レイヤー名が重複しています。現在のレイヤー名を変更してください',
-    sceneNameRepeatTip:'このシーンはすでに存在します。再度追加しないでください'
+    sceneNameRepeatTip:'このシーンはすでに存在します。再度追加しないでください',
+    refresh:'リフレッシュ',
 }
 
 window.local_ja = local_ja;

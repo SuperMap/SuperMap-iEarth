@@ -378,6 +378,14 @@ const overridesTheme = {
   text-overflow: ellipsis; // 文字过长后使用省略号
 }
 
+// 我的服务里面的表格内容文字大小
+.n-data-table .n-data-table-th {
+  font-size: 0.14rem;
+}
+.n-data-table .n-data-table-td {
+  font-size: 0.12rem;
+}
+
 // echarts图表样式
 #echartsProfile > div {
   left: 0.1rem;

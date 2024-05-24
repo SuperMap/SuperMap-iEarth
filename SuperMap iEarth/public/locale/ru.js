@@ -692,7 +692,8 @@ const local_ru = {
     customImgSupport:"В настоящее время поддерживаются только службы типов SuperMapImageryProvider",
     customTinSupport:"В настоящее время поддерживаются только сервисы типа SuperMapTerrainProvider",
     s3mNameRepeatTip:'Имя слоя дублируется, измените имя текущего слоя.',
-    sceneNameRepeatTip:'Эта сцена уже существует, пожалуйста, не добавляйте ее снова'
+    sceneNameRepeatTip:'Эта сцена уже существует, пожалуйста, не добавляйте ее снова',
+    refresh:'Обновить',
 }
 
 window.local_ru = local_ru;

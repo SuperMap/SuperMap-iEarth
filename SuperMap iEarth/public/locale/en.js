@@ -692,7 +692,8 @@ const local_en = {
     customImgSupport:"Custom addition of images currently only supports SuperMapImageryProvider type services",
     customTinSupport:"Custom terrain addition currently only supports SuperMapTerrainProvider type services",
     s3mNameRepeatTip:'The layer name is duplicated, please modify the current layer name',
-    sceneNameRepeatTip:'This scene already exists, please do not add it again'
+    sceneNameRepeatTip:'This scene already exists, please do not add it again',
+    refresh:"refresh",
 }
 
 window.local_en = local_en;
