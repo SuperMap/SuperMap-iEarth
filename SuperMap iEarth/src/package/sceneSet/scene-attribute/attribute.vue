@@ -336,10 +336,10 @@ watch(
     viewer.scene.undergroundMode = val;
     if (val) {
       viewer.scene.screenSpaceCameraController.minimumZoomDistance = -1000; //设置相机最小缩放距离,距离地表-1000米
-      viewer.scene.terrainProvider.isCreateSkirt = false; // 关闭裙边
+      viewer.scene.globe.showSkirts = false; // 关闭裙边
     } else {
       viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
-      viewer.scene.terrainProvider.isCreateSkirt = true; // 开启裙边
+      viewer.scene.globe.showSkirts = true; // 开启裙边
       viewer.scene.globe.globeAlpha = 1;
       state.surfaceTransparency = 1;
     }
