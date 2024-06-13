@@ -148,7 +148,7 @@
       </div>
     </div>
 
-    <div class="row-item">
+    <div class="row-item" v-show="sceneMode == 3">
       <span>{{ $t("showUnderground") }}</span>
       <div style="width: 1.96rem; margin-right: 0.1rem">
         <n-switch v-model:value="state.showUnderground" size="small" />
@@ -224,6 +224,7 @@ state.shadow = viewer.shadows;
 // 云层
 let cloudBoxUrl = "./images/sceneProperties/clouds/clouds1.png";
 let cloudBox = new SuperMap3D.CloudBox({ url: cloudBoxUrl });
+let sceneMode = viewer.scene.mode;
 
 // 初始化
 function init() {
