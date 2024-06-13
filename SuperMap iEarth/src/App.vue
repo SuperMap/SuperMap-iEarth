@@ -362,9 +362,32 @@ const overridesTheme = {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
-.n-tree .n-tree-node-wrapper {
-  padding: 0.03rem 0rem;
+// 媒体查询-解决图层列表浏览器缩小后不显示的问题
+@media screen and (max-width:1300px) {
+  .n-tree .n-tree-node-wrapper {
+    padding: 0rem;
+  }
+  .n-tree .n-tree-node-content .n-tree-node-content__text{
+    max-width:58%
+  }
 }
+@media screen and (min-width:1320px) {
+  .n-tree .n-tree-node-wrapper {
+    padding: 0.03rem 0rem;
+  }
+  .n-tree .n-tree-node-content .n-tree-node-content__text{
+    max-width:100%
+  }
+}
+@media screen and (max-width:700px) {
+  .n-tree .n-tree-node-content .n-tree-node-content__text div{
+    width:0.8rem !important;
+  }
+  .n-tree .n-tree-node-switcher{
+    width: 0px;
+  }
+}
+
 
 .n-dropdown-menu .n-dropdown-option .n-dropdown-option-body {
   height: 0.34rem;

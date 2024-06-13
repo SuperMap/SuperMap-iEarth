@@ -5,6 +5,8 @@
       draggable
       block-line
       default-expand-all="true"
+      virtual-scroll
+      style="max-height: 5rem;"
       :data="layerTreeData"
       :render-suffix="renderSuffix"
       :node-props="checkCamera"
