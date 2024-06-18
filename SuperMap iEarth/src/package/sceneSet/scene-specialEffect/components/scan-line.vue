@@ -127,6 +127,7 @@
       text-color="#fff"
       @click="addScans"
       style="margin-right: 0.1rem"
+      :disabled="isPlane"
       >{{ $t("add") }}</n-button
     >
     <n-button
@@ -141,10 +142,11 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useNotification } from "naive-ui";
+import { useNotification,useMessage } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
 
 const notification = useNotification();
+const message = useMessage();
 
 type stateType = {
   scanMode: number; // 扫描模式
@@ -227,6 +229,9 @@ function init() {
 }
 
 onMounted(() => {
+  if(viewer.scene.mode == 1){
+    message.warning($t('scanNotSupportPlane'));
+  }
   init();
   setTexturesByProps();
 });
@@ -238,6 +243,8 @@ onBeforeUnmount(() => {
     viewer.scene.scanEffect.remove(i);
   }
 });
+
+let isPlane = viewer.scene.mode == 1 ? true : false;
 
 // 设置纹理
 function setTexturesByProps() {
@@ -279,13 +286,15 @@ function addCircleScans(e) {
   viewer.enableCursorStyle = true;
   document.body.classList.remove("measureCur");
   let centerPosition = viewer.scene.pickPosition(e.message.position);
-  if (state.scanShow) {
-    viewer.scene.scanEffect.add(centerPosition);
-    return;
+  if (centerPosition) {
+    if (state.scanShow) {
+      viewer.scene.scanEffect.add(centerPosition);
+      return;
+    }
+    viewer.scene.scanEffect.centerPostion = centerPosition;
+    state.scanShow = true;
+    viewer.eventManager.removeEventListener("CLICK", addCircleScans);
   }
-  viewer.scene.scanEffect.centerPostion = centerPosition;
-  state.scanShow = true;
-  viewer.eventManager.removeEventListener("CLICK", addCircleScans);
 }
 
 // 扫描
