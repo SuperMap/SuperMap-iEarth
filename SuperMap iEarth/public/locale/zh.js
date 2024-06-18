@@ -681,6 +681,7 @@ const local_zh = {
         s3mNameRepeatTip:'图层名重复，请修改当前图层名称',
         sceneNameRepeatTip:'该场景已存在，请勿重复添加',
         refresh:"刷新",
+        scanNotSupportPlane:'扫描线暂不支持平面场景'
 }
 
 window.local_zh = local_zh;

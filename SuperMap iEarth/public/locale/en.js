@@ -681,6 +681,7 @@ const local_en = {
     s3mNameRepeatTip:'The layer name is duplicated, please modify the current layer name',
     sceneNameRepeatTip:'This scene already exists, please do not add it again',
     refresh:"refresh",
+    scanNotSupportPlane:'Scanlines currently do not support flat scenes'
 }
 
 window.local_en = local_en;
