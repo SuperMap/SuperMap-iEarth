@@ -85,13 +85,13 @@ const layerServiceData = {
             type: 'BingMap',
             chooseType: false,
         },
-        {
-            url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
-            name: "TIANDITU",
-            thumbnail: './images/baseMap/tianditu.png',
-            type: 'TIANDITU',
-            chooseType: false,
-        },
+        // {
+        //     url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
+        //     name: "TIANDITU",
+        //     thumbnail: './images/baseMap/tianditu.png',
+        //     type: 'TIANDITU',
+        //     chooseType: false,
+        // },
         {
             name: "GRIDIMAGERY",
             thumbnail: './images/baseMap/grad.png',
@@ -145,13 +145,13 @@ const layerServiceData = {
             type: 'supermapOnlineTerrain', // 地形服务类型
             chooseType: false, // 面板中图片是否选中（默认false即可）
         },
-        {
-            proxiedUrl: '',
-            thumbnail: './images/terrainLayers/tianditu_terrain.png',
-            name: "tiandituTerrain",
-            type: 'tianDiTuTerrain',
-            chooseType: false
-        },
+        // {
+        //     proxiedUrl: '',
+        //     thumbnail: './images/terrainLayers/tianditu_terrain.png',
+        //     name: "tiandituTerrain",
+        //     type: 'tianDiTuTerrain',
+        //     chooseType: false
+        // },
         {
             proxiedUrl: "https://www.supermapol.com/realspace/services/3D-stk_terrain/rest/realspace/datas/info/data/path",
             thumbnail: './images/terrainLayers/STK_terrain.png',
