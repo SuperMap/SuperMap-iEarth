@@ -6,6 +6,118 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40252589",
+      "name": "查询",
+      "font_class": "chaxun",
+      "unicode": "e8e6",
+      "unicode_decimal": 59622
+    },
+    {
+      "icon_id": "40216611",
+      "name": "帮助",
+      "font_class": "bangzhu",
+      "unicode": "e8e5",
+      "unicode_decimal": 59621
+    },
+    {
+      "icon_id": "40001124",
+      "name": "地图叠加倾斜",
+      "font_class": "ditudiejiaqingxie",
+      "unicode": "e8a4",
+      "unicode_decimal": 59556
+    },
+    {
+      "icon_id": "39965842",
+      "name": "填挖方分析",
+      "font_class": "tianwafangfenxi",
+      "unicode": "e8e4",
+      "unicode_decimal": 59620
+    },
+    {
+      "icon_id": "39965809",
+      "name": "日照分析",
+      "font_class": "rizhaofenxi",
+      "unicode": "e8e3",
+      "unicode_decimal": 59619
+    },
+    {
+      "icon_id": "39944241",
+      "name": "模型库",
+      "font_class": "moxingku1",
+      "unicode": "e8e2",
+      "unicode_decimal": 59618
+    },
+    {
+      "icon_id": "39944279",
+      "name": "素材库",
+      "font_class": "sucaiku",
+      "unicode": "e8e1",
+      "unicode_decimal": 59617
+    },
+    {
+      "icon_id": "39867196",
+      "name": "打开",
+      "font_class": "dakai",
+      "unicode": "e8e0",
+      "unicode_decimal": 59616
+    },
+    {
+      "icon_id": "39865762",
+      "name": "文件列表",
+      "font_class": "wenjianliebiao",
+      "unicode": "e8df",
+      "unicode_decimal": 59615
+    },
+    {
+      "icon_id": "39642570",
+      "name": "面",
+      "font_class": "mian",
+      "unicode": "e8dc",
+      "unicode_decimal": 59612
+    },
+    {
+      "icon_id": "39642568",
+      "name": "点",
+      "font_class": "dian",
+      "unicode": "e8dd",
+      "unicode_decimal": 59613
+    },
+    {
+      "icon_id": "39642569",
+      "name": "线",
+      "font_class": "xian",
+      "unicode": "e8de",
+      "unicode_decimal": 59614
+    },
+    {
+      "icon_id": "39635383",
+      "name": "点选",
+      "font_class": "dianxuan",
+      "unicode": "e891",
+      "unicode_decimal": 59537
+    },
+    {
+      "icon_id": "39635191",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e8db",
+      "unicode_decimal": 59611
+    },
+    {
+      "icon_id": "39632360",
+      "name": "新建数据",
+      "font_class": "xinjianshuju",
+      "unicode": "e899",
+      "unicode_decimal": 59545
+    },
+    {
+      "icon_id": "39632359",
+      "name": "新建方案",
+      "font_class": "xinjianfangan",
+      "unicode": "e8da",
+      "unicode_decimal": 59610
+    },
+    {
       "icon_id": "39537874",
       "name": "添加媒体字段",
       "font_class": "tianjiameitiziduan",
@@ -405,13 +517,6 @@
       "unicode_decimal": 59555
     },
     {
-      "icon_id": "38501417",
-      "name": "模型库",
-      "font_class": "moxingku",
-      "unicode": "e8a4",
-      "unicode_decimal": 59556
-    },
-    {
       "icon_id": "38465488",
       "name": "书钉",
       "font_class": "shuding",
@@ -427,8 +532,8 @@
     },
     {
       "icon_id": "38464193",
-      "name": "查询",
-      "font_class": "chaxun",
+      "name": "属性查询",
+      "font_class": "shuxingchaxun",
       "unicode": "e89d",
       "unicode_decimal": 59549
     },
@@ -503,13 +608,6 @@
       "unicode_decimal": 59544
     },
     {
-      "icon_id": "38262924",
-      "name": "视图切换",
-      "font_class": "shituqiehuan",
-      "unicode": "e899",
-      "unicode_decimal": 59545
-    },
-    {
       "icon_id": "38262925",
       "name": "透视图",
       "font_class": "toushitu",
@@ -522,13 +620,6 @@
       "font_class": "tianqitiaojie",
       "unicode": "e89b",
       "unicode_decimal": 59547
-    },
-    {
-      "icon_id": "37097694",
-      "name": "点选",
-      "font_class": "dianxuan",
-      "unicode": "e891",
-      "unicode_decimal": 59537
     },
     {
       "icon_id": "37088950",
@@ -763,17 +854,10 @@
     },
     {
       "icon_id": "36023465",
-      "name": "skin",
-      "font_class": "skin",
+      "name": "主题",
+      "font_class": "zhuti",
       "unicode": "e86e",
       "unicode_decimal": 59502
-    },
-    {
-      "icon_id": "36023517",
-      "name": "user",
-      "font_class": "user",
-      "unicode": "e86f",
-      "unicode_decimal": 59503
     },
     {
       "icon_id": "35253719",
@@ -1085,8 +1169,8 @@
     },
     {
       "icon_id": "35253505",
-      "name": "新建方案",
-      "font_class": "xinjianfangan",
+      "name": "添加方案",
+      "font_class": "tianjiafangan",
       "unicode": "e84d",
       "unicode_decimal": 59469
     },
