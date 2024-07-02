@@ -71,6 +71,14 @@ const checkLicenseInfo = () => {
       if (window.iEarthConsole) {
         console.log("designerInfo:", designerInfo);
       }
+
+      let comName = licenseInfo.data?.shortCompanyName;
+      let orTitle = document.title;
+      let is_comName = comName && comName !== '';
+      if(is_comName){
+        document.title = orTitle + ` ${comName}`;
+      }
+
       if (designerInfo) {
         // 判断许可过期
         let timeOut = new Date().getTime() - designerInfo.expireDate.time;
@@ -89,7 +97,7 @@ const checkLicenseInfo = () => {
           return licenseEnum.FORMAL;
         }
         if (designerInfo.watermarkMode === 3) {
-          document.title = document.title + ` 「${$t("education")}」`;
+          document.title = orTitle + ` 「${$t("education")}」` +  (is_comName ? ` ${comName}` : '' );
           watermark.show = false;
           return licenseEnum.EDUCATION;
         }
