@@ -53,6 +53,7 @@
       text-color="#fff"
       @click="drawRegion"
       style="margin-right: 0.1rem"
+      :title="$t('Draw')"
       >{{ $t("Draw") }}</n-button
     >
     <n-button
@@ -61,6 +62,7 @@
       text-color="#fff"
       @click="executeImage"
       style="margin-right: 0.1rem"
+      :title="$t('Plot')"
       >{{ $t("Plot") }}</n-button
     >
     <n-button
@@ -68,6 +70,7 @@
       @click="clear"
       color="rgba(255, 255, 255, 0.65)"
       ghost
+      :title="$t('clear')"
       >{{ $t("clear") }}</n-button
     >
   </div>

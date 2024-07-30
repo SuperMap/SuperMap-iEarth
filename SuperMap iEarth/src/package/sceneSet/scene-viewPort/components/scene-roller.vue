@@ -93,12 +93,12 @@ let state = reactive({
 let treeDataRoller = reactive<any>([
   {
     "key": "1",
-    "label": "S3M图层",
+    "label": $t("s3mLayer"),
     "children": [],
   },
   {
     "key": "2",
-    "label": "影像图层",
+    "label": $t("imgLayer"),
     "children": []
   },
 ]);

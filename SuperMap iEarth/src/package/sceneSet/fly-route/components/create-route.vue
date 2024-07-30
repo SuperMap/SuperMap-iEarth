@@ -48,11 +48,11 @@
       <span></span>
       <div class="row-content" style="display: flex">
         <n-checkbox v-model:checked="state.showRoute" /><span
-          class="checkbox-lable"
+          class="checkbox-lable" :title="$t('displayRoute')"
           >{{ $t("displayRoute") }}</span
         >
         <n-checkbox v-model:checked="state.showStop" /><span
-          class="checkbox-lable"
+          class="checkbox-lable" :title="$t('displayStation')"
           >{{ $t("displayStation") }}</span
         >
       </div>
@@ -110,6 +110,7 @@
         color="#3499E5"
         text-color="#fff"
         @click="downLoad"
+        :title="$t('downLoad')"
         style="margin-right: 0.1rem; margin-left: 0.03rem"
         >{{ $t("downLoad") }}</n-button
       >
@@ -589,5 +590,16 @@ watch(
   line-height: 24px;
   margin-right: 0.1rem;
   margin-left: 0.16rem;
+}
+
+.checkbox-lable {
+  width: 1.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.n-button .n-button__content{
+  overflow: hidden;
 }
 </style>

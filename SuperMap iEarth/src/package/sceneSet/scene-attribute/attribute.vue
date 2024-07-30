@@ -2,51 +2,57 @@
   <n-scrollbar style="max-height: 3.6rem">
     <n-grid :y-gap="8" :cols="3" style="padding-top: 0.1rem">
       <n-gi>
-        <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" />
+        <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" :title="$t('earth')"/>
       </n-gi>
       <n-gi>
         <n-checkbox
           v-model:checked="state.shadow"
           :label="$t('ligShadowAnalysisth')"
+          :title="$t('ligShadowAnalysisth')"
         />
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.sunShow" :label="$t('sun')" />
+        <n-checkbox v-model:checked="state.sunShow" :label="$t('sun')" :title="$t('sun')" />
       </n-gi>
       <n-gi>
         <n-checkbox
           v-model:checked="state.depthInspection"
           :label="$t('depthInspection')"
+          :title="$t('depthInspection')"
         />
       </n-gi>
       <n-gi>
         <n-checkbox
           v-model:checked="state.atomsphereRender"
           :label="$t('atomsphereRender')"
+          :title="$t('atomsphereRender')"
         />
       </n-gi>
       <n-gi>
         <n-checkbox
           v-model:checked="state.fogEffect"
           :label="$t('fogEffect')"
+          :title="$t('fogEffect')"
         />
       </n-gi>
       <n-gi>
         <n-checkbox
           v-model:checked="state.cloudLayer"
           :label="$t('cloudLayer')"
+          :title="$t('cloudLayer')"
         />
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.skyBoxShow" :label="$t('skyBox')" />
+        <n-checkbox v-model:checked="state.skyBoxShow" :label="$t('skyBox')" :title="$t('skyBox')" />
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.timeAxis" :label="$t('timeAxis')" />
+        <n-checkbox v-model:checked="state.timeAxis" :label="$t('timeAxis')" :title="$t('timeAxis')"/>
       </n-gi>
       <n-gi>
         <n-checkbox
           v-model:checked="state.displayFrame"
           :label="$t('displayFrame')"
+          :title="$t('displayFrame')"
         />
       </n-gi>
     </n-grid>

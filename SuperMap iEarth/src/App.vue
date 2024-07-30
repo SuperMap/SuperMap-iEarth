@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive,computed } from "vue";
 import { I18n } from "@/components/I18n";
 import { MessageContent } from "@/components/Plugins/MessageContent";
 import { DialogContent } from "@/components/Plugins/DialogContent";
@@ -38,9 +38,18 @@ import { darkTheme } from "naive-ui";
 import { useLocaleHook } from "@/tools/localHook";
 import { licenseEnum } from "@/enums/licenseEnum";
 import { getRootUrl } from "@/tools/iportal/portalTools";
+import { useLangStoreCreate } from '@/store/langStore/langStore'
+
 const layout = loadAsyncComponent(() => import("@/layout/index.vue"));
 
 const locale = useLocaleHook(); // 设置naiveUI组件国际化
+
+// 基于App语言设置样式
+const langStore = useLangStoreCreate();
+const langApp = langStore.getLang;
+const btnWidth = computed(() => {
+    return langApp == 'zh' ? '0.6rem' : '0.9rem'
+});
 
 // 水印
 const LicenseWatermark = loadAsyncComponent(
@@ -223,10 +232,15 @@ const overridesTheme = {
   display: flex;
 }
 
+// 全局作用：所有超限的button内容都隐藏掉
+.n-button .n-button__content{
+  overflow: hidden;
+}
+
 // operate按钮文字大小
 .btn-row-item .n-button {
   height: 0.32rem;
-  width: 0.6rem;
+  width: v-bind(btnWidth); // 通过App当前语言环境设置底部btn宽度，解决英文环境下的显示问题
   padding: 0.06rem 0.1rem;
 }
 
@@ -433,4 +447,12 @@ const overridesTheme = {
 //   // color: yellow;
 //   // color:rgba(255, 255, 255, 0.85);
 // }
+
+// 场景属性中英文环境下checkBox的文字省略
+.n-grid .n-checkbox .n-checkbox__label{
+  width: 0.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+}
 </style>

@@ -69,7 +69,7 @@
   </div>
 
   <div class="row-item">
-    <span>{{ $t("HighlightObstacles") }}</span>
+    <span style="overflow: hidden;" :title="$t('HighlightObstacles')">{{ $t("HighlightObstacles") }}</span>
     <div class="check-color-pick">
       <n-checkbox v-model:checked="state.highlightBarrier"></n-checkbox>
       <div class="color-pick-box" style="margin-left: 0.1rem">
@@ -108,6 +108,7 @@
       text-color="#fff"
       @click="analysis"
       style="margin-right: 0.1rem"
+      :title="$t('analysis')"
       >{{ $t("analysis") }}</n-button
     >
     <n-button
@@ -117,6 +118,7 @@
       text-color="#fff"
       @click="setLimitBody"
       style="margin-right: 0.1rem"
+      :title="$t('limitingBody')"
       >{{ $t("limitingBody") }}</n-button
     >
     <n-button
@@ -124,6 +126,7 @@
       @click="clear"
       color="rgba(255, 255, 255, 0.65)"
       ghost
+      :title="$t('clear')"
       >{{ $t("clear") }}</n-button
     >
   </div>

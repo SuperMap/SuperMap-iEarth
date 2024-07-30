@@ -63,6 +63,7 @@
         text-color="#fff"
         class="ans-btn"
         @click="StartMeasure"
+        :title="$t('measureAction')"
         >{{ $t("measureAction") }}</n-button
       >
       <n-button

@@ -323,11 +323,13 @@ watch(
 
 .stktip {
   color: rgba(255, 255, 255, 0.45);
-  margin-top: -20px;
-
   span {
     font-family: "Microsoft JhengHe", sans-serif; // Microsoft Yahei
     font-size: 0.14rem;
   }
+
+  margin-top: 0.04rem;
+  margin-bottom: -0.03rem;
+  margin-left: 1.15rem;
 }
 </style>

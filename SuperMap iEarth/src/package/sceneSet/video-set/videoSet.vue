@@ -150,6 +150,7 @@
       text-color="#fff"
       @click="startProjection"
       style="margin-right: 0.1rem"
+      :title="$t('videoSet')"
       >{{ $t("videoSet") }}</n-button
     >
     <n-button
@@ -158,6 +159,7 @@
       text-color="#fff"
       @click="clipProjectImg"
       style="margin-right: 0.1rem"
+      :title="$t('clip')"
       >{{ $t("clip") }}</n-button
     >
     <n-button
@@ -165,6 +167,7 @@
       @click="clear"
       color="rgba(255, 255, 255, 0.65)"
       ghost
+      :title="$t('clear')"
       >{{ $t("clear") }}</n-button
     >
   </div>
