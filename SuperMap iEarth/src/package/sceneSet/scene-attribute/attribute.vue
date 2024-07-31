@@ -433,4 +433,12 @@ watch(
 .coordinateQueryBox {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
+
+// 通过深度选择器来进行绑定：checkbox文本超限时设为省略
+.n-grid :deep(.n-checkbox) .n-checkbox__label{
+  width: 0.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+}
 </style>

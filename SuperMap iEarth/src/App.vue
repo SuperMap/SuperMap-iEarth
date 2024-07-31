@@ -447,12 +447,4 @@ const overridesTheme = {
 //   // color: yellow;
 //   // color:rgba(255, 255, 255, 0.85);
 // }
-
-// 场景属性中英文环境下checkBox的文字省略
-.n-grid .n-checkbox .n-checkbox__label{
-  width: 0.7rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space:nowrap;
-}
 </style>
