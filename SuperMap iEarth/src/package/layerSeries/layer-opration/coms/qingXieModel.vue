@@ -11,36 +11,11 @@
     </n-radio-group>
   </div>
 
-  <div class="btn-row-item" v-if="state.isQxModel">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="start"
-      style="margin-right: 0.1rem"
-    >
+  <div class="btn-row-item">
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="start" style="margin-right: 0.1rem">
       {{ state.actionName }}
     </n-button>
-    <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button>
-  </div>
-
-  <div class="btn-row-item" v-else>
-    <n-tooltip>
-      <template #trigger>
-        <n-button
-          type="info"
-          disabled
-          color="#3499E5"
-          text-color="#fff"
-          @click="start"
-          style="margin-right: 0.1rem"
-        >
-          {{ state.actionName }}
-        </n-button>
-      </template>
-      {{ $t("qxModelTip") }}
-    </n-tooltip>
-    <n-button class="btn-secondary" disabled @click="clear">{{
+    <n-button class="btn-secondary" @click="clear">{{
       $t("clear")
     }}</n-button>
   </div>
@@ -78,12 +53,13 @@ function init() {
   state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
   state.actionName = $t("excavate");
 
-  // 判断当前图层是否为倾斜摄影模型 - 目前以RealityMesh来做判断
-  if (layers[state.selectedIndex]._dataType === "RealityMesh") {
-    state.isQxModel = true;
-  } else {
-    state.isQxModel = false;
-  }
+  // 所有S3M图层均支持开挖和压平，不局限于倾斜图层
+  // // 判断当前图层是否为倾斜摄影模型 - 目前以RealityMesh来做判断；不太可靠：http://www.supermapol.com/realspace/services/3D-srsb/rest/realspace
+  // if (layers[state.selectedIndex]._dataType === "RealityMesh") {
+  //   state.isQxModel = true;
+  // } else {
+  //   state.isQxModel = false;
+  // }
 }
 
 onMounted(() => {
