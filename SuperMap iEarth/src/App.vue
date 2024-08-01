@@ -447,4 +447,9 @@ const overridesTheme = {
 //   // color: yellow;
 //   // color:rgba(255, 255, 255, 0.85);
 // }
+
+// 我的服务中将不可用服务与可用服务区分开
+.myService-disabled-item td{
+  color: rgba(255,255,255,0.25) !important;
+}
 </style>

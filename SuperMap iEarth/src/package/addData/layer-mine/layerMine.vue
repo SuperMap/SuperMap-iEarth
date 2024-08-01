@@ -5,6 +5,7 @@
         size="small"
         :columns="state.columns"
         :data="state.portalServiceList"
+        :row-class-name="rowClassName"
         flex-height
         class="flex-1-hidden"
         v-model:checked-row-keys="state.checkedRowKeys"
@@ -125,6 +126,14 @@ let state = reactive<stateType>({
   useSenceName:false,
   sceneName: '',
 });
+
+// 给非场景类型的服务项添加新class
+let rowClassName = function (row: any) {
+  if (row.disabled) {
+    return 'myService-disabled-item'
+  }
+  return ''
+}
 
 async function getIportalServiceData(searchUrl:string){
   if(!searchUrl) return;
