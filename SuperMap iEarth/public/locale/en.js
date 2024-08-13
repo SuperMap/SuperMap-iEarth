@@ -698,6 +698,7 @@ const local_en = {
     foldPanel:'Fold Panel',
     closePanel:'Close Panel',
     expandPanel:'Expand Panel',
+    qxCoverTip:'Tip: This feature does not support the 3857 coordinate system. Please ensure that the oblique photography model and image layer are in the same area',
 }
 
 window.local_en = local_en;

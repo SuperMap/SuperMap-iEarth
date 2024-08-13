@@ -698,6 +698,7 @@ const local_ja = {
     foldPanel:'パネルを折り畳む',
     closePanel:'パネルを閉じる',
     expandPanel:'パネルを展開',
+    qxCoverTip:'ヒント：この機能は3857座標系をサポートしていません。傾斜撮影モデルと画像レイヤーが同じ領域にあることを確認してください',
 }
 
 window.local_ja = local_ja;

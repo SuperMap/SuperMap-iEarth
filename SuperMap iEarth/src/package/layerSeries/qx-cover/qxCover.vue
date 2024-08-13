@@ -35,15 +35,20 @@
     </div>
 
     <div class="btn-row-item" style="margin-left: 0.93rem">
-      <n-button
-        type="info"
-        class="ans-btn"
-        color="#3499E5"
-        text-color="#fff"
-        :focusable="false"
-        @click="startCover"
-        >{{ $t("cover") }}</n-button
-      >
+      <n-tooltip trigger="hover">
+        <template #trigger>
+          <n-button
+            type="info"
+            class="ans-btn"
+            color="#3499E5"
+            text-color="#fff"
+            :focusable="false"
+            @click="startCover"
+            >{{ $t("cover") }}</n-button
+          >
+        </template>
+        {{ $t("qxCoverTip") }}
+      </n-tooltip>
       <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
     </div>
   </div>

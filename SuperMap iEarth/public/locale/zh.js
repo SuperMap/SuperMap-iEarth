@@ -698,6 +698,7 @@ const local_zh = {
         foldPanel:'折叠面板',
         closePanel:'关闭面板',
         expandPanel:'展开面板',
+        qxCoverTip:'提示：此功能不支持3857坐标系，请确保倾斜摄影模型和影像图层在同一区域',
 }
 
 window.local_zh = local_zh;
