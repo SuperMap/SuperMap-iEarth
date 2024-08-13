@@ -110,6 +110,7 @@ export const usePanelStore = defineStore({
         // isViewer:false, // Cesium.Viewer这个东西初始化完成的标志
         myDataPanleShow: false,// 我的数据面板
         queryData: [],// 通过我的数据查询到的要素记录
+        isFold:false, // 面板是否处于折叠状态
     }),
     getters: {
     },
@@ -134,6 +135,7 @@ export const usePanelStore = defineStore({
 
             // 确保所有面板能全部刷新
             setTimeout(() => {
+                this.isFold = false; // 取消面板的折叠状态
                 this.rightTooPanel = true;
                 this.panelList.rightToolBarList.map((item: any) => {
                     if (item.id == iconItem.id) {

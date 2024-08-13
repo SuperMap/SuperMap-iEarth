@@ -694,7 +694,10 @@ const local_ja = {
     s3mNameRepeatTip:'レイヤー名が重複しています。現在のレイヤー名を変更してください',
     sceneNameRepeatTip:'このシーンはすでに存在します。再度追加しないでください',
     refresh:'リフレッシュ',
-    scanNotSupportPlane:'スキャンラインは平面シーンをサポートしていません'
+    scanNotSupportPlane:'スキャンラインは平面シーンをサポートしていません',
+    foldPanel:'パネルを折り畳む',
+    closePanel:'パネルを閉じる',
+    expandPanel:'パネルを展開',
 }
 
 window.local_ja = local_ja;

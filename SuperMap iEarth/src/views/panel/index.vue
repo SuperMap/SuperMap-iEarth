@@ -43,7 +43,7 @@
 
     <div class="right-panel" v-if="panelStore.rightTooPanel">
       <!-- 右侧面板header -->
-      <div class="panle-header panle-header-right">
+      <div class="panle-header panle-header-right" v-show="!isFold">
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
@@ -101,13 +101,23 @@
         >
         <span class="zst1"></span>
         <span class="zst2"></span>
-        <div class="panel-close" @click="panelCloseHandle(2)">
-          <i class="iconfont iconguanbi" style="font-size: 0.14rem"></i>
+        <div class="panel-close">
+          <i class="iconfont iconsuoxiao" style="font-size: 0.14rem; margin-right: 0.2rem;" @click="isFold = true" :title="$t('foldPanel')"></i>
+          <i class="iconfont iconguanbi" style="font-size: 0.14rem" @click="panelCloseHandle(2)" :title="$t('closePanel')"></i>
+        </div>
+      </div>
+
+      <!-- 右侧面板header-折叠 -->
+      <div class="panel-header-fold">
+        <div class="one-tool-bar" v-show="isFold" @click="isFold = false" :title="$t('expandPanel')">
+          <span class="icon-container">
+            <i class="iconfont iconfanhui" style="font-size: 0.14rem" ></i>
+          </span>
         </div>
       </div>
 
       <!-- 右侧面板content -->
-      <div class="panle-container panle-container-right">
+      <div class="panle-container panle-container-right" v-show="!isFold">
         <Analyse3D
           v-if="panelStore.panelList.rightToolBarList[0].isSelected"
         ></Analyse3D>
@@ -145,7 +155,7 @@
       </div>
 
       <!-- 右侧面板footer -->
-      <div class="panle-footer panle-footer-right"></div>
+      <div class="panle-footer panle-footer-right" v-show="!isFold"></div>
     </div>
   </div>
 </template>
@@ -173,9 +183,11 @@ import MapQuery from "@/package/layerSeries/map-query/index";
 import QxSingle from "@/package/layerSeries/qx-single/index";
 import QxCover from "@/package/layerSeries/qx-cover/index";
 
+import { storeToRefs } from 'pinia'
 import { usePanelStore } from "@/store/index";
 
 const panelStore = usePanelStore();
+const { isFold } = storeToRefs(panelStore);
 
 // 关闭弹窗
 function panelCloseHandle(leftOrRght: any) {
@@ -254,5 +266,27 @@ function panelCloseHandle(leftOrRght: any) {
 
 .panle-footer-right {
   width: 3.36rem;
+}
+
+// 展开面板图标定位和背景
+.panel-header-fold {
+  position: relative;
+  left: 3rem;
+  top: 0.1rem;
+
+  .one-tool-bar {
+    @include setBackground(0.32rem,
+      0.32rem,
+      "@/assets/images/right-tool-one-bar.png"
+    );
+
+    .icon-container {
+      display: block;
+      width: 100%;
+      height: 0.32rem;
+      @include flexLayout(center);
+      @include setIconstyle();
+    }
+  }
 }
 </style>

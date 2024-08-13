@@ -694,7 +694,10 @@ const local_ru = {
     s3mNameRepeatTip:'Имя слоя дублируется, измените имя текущего слоя.',
     sceneNameRepeatTip:'Эта сцена уже существует, пожалуйста, не добавляйте ее снова',
     refresh:'Обновить',
-    scanNotSupportPlane:'Линия сканирования пока не поддерживает плоские сцены'
+    scanNotSupportPlane:'Линия сканирования пока не поддерживает плоские сцены',
+    foldPanel:'Складная панель',
+    closePanel:'Закрыть панель',
+    expandPanel:'Развернуть панель',
 }
 
 window.local_ru = local_ru;
