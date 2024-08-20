@@ -5,7 +5,7 @@
 
       <!-- 头部 Open -->
       <div class="head-content header-center">
-        <img src="@/assets/images/earth.png" />
+        <img :src="imgurl" />
         <span class="head-title">{{ $t("earth3D") }}</span>
         <i class="iconfont iconxiala" @click="headerFold"></i>
       </div>
@@ -45,6 +45,7 @@ import SaveScene from "./components/saveScene";
 
 const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
+const imgurl = ref('./logo.png');
 
 // 保存弹窗
 function save() {
