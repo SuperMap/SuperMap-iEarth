@@ -85,13 +85,13 @@ const layerServiceData = {
             type: 'BingMap',
             chooseType: false,
         },
-        // {
-        //     url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
-        //     name: "TIANDITU",
-        //     thumbnail: './images/baseMap/tianditu.png',
-        //     type: 'TIANDITU',
-        //     chooseType: false,
-        // },
+        {
+            url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
+            name: "TIANDITU",
+            thumbnail: './images/baseMap/tianditu.png',
+            type: 'TIANDITU',
+            chooseType: false,
+        },
         {
             name: "GRIDIMAGERY",
             thumbnail: './images/baseMap/grad.png',
