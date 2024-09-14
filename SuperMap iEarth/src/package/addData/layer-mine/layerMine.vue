@@ -360,7 +360,7 @@ function dateDiff(timestamp) {
       let date = new Date(timestamp);
       return (
         date.getFullYear() +
-        $t("yeear") +
+        $t("year") +
         zero(date.getMonth() + 1) +
         $t("month") +
         zero(date.getDate()) +
