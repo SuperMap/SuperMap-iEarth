@@ -255,6 +255,7 @@ function startSlope() {
 
 // 更新
 function slopeUpdate(p: any) {
+  if(slopePosition) slopePosition = p; // 编辑区域后，更新当前区域坐标数组
   slope.CoverageArea = p;
   viewer.scene.globe.SlopeSetting = {
     slopeSetting: slope,

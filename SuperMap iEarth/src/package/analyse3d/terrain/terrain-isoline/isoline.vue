@@ -186,6 +186,7 @@ function isoLineAnalysis() {
 // 更新
 function isolineUpdate(p: any) {
   if (!p || p.length == 0) return;
+  isolinePosition = p; // 编辑区域后，更新当前区域坐标数组
   hyp.CoverageArea = p;
   viewer.scene.globe.HypsometricSetting = {
     hypsometricSetting: hyp,
