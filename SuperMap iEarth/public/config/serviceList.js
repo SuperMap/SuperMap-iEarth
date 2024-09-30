@@ -97,7 +97,15 @@ const layerServiceData = {
             thumbnail: './images/baseMap/grad.png',
             type: 'GRIDIMAGERY',
             chooseType: false,
-        }
+        },
+        {
+            url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+            name: "OSM",
+            thumbnail: './images/baseMap/OSM.png',
+            type: 'OSM',
+            subdomains: ["a", "b", "c", "d"],
+            chooseType: false,
+        },
         // {
         //     url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
         //     name: "japanStand",
@@ -126,14 +134,7 @@ const layerServiceData = {
         //     type: 'UrlTemplateImageryProvider',
         //     chooseType: false,
         // },
-        // {
-        //     url: 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
-        //     name: "OSM",
-        //     thumbnail: './images/baseMap/OSM.png',
-        //     type: 'OSM',
-        //     subdomains: ["a", "b", "c", "d"],
-        //     chooseType: false,
-        // },
+
     ],
     // 在线地形服务 - 地形
     onlineTerrainLayerList: [

@@ -21,11 +21,17 @@ import { reactive } from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
 import { usePanelStore } from "@/store";
 import { useMessage } from "naive-ui";
+import i18n from "@/locale/index";
 
 const layerStore = useLayerStore();
 const panelStore = usePanelStore();
 const message = useMessage();
-const onlineBaseLayerList = layerStore.layerServiceData.onlineBaseLayerList;
+let onlineBaseLayerList = layerStore.layerServiceData.onlineBaseLayerList;
+
+// 中文环境下，隐藏OSM底图
+if(i18n.global.locale === 'zh'){
+  onlineBaseLayerList = onlineBaseLayerList.filter(item => item.type !== "OSM");
+}
 
 let state = reactive({
   BingMapKey: layerStore.configToken.BingMapKey, // 必应地图token,
