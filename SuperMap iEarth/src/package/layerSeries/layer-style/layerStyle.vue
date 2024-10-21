@@ -1,6 +1,6 @@
 <template>
   <div class="layerSeries-box">
-    <div class="row-item" v-show="state.isBaiMo">
+    <div class="row-item">
       <span>{{ $t("fillStyle") }}</span>
       <n-select
         class="add-input-border"
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="row-item" v-show="state.isBaiMo && state.fillStyle != 0">
+    <div class="row-item" v-show="state.fillStyle != 0">
       <span>{{ $t("lineColor") }}</span>
       <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
         <n-color-picker
