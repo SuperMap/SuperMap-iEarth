@@ -782,7 +782,7 @@ function clickQuery() {
         }
         state.shadowRadioShow = true;
         state.currentFeature = features[0];
-        addFeature(features[0]);
+        addFeature(features[0], false);
         getModelInfo(features[0]);
         let mediaURL: any;
         if (state.currentFeature.properties) {
@@ -1026,7 +1026,7 @@ function handleCheck(rowKeys: any) {
 
 // 通过GeoJsonDataSource.load直接添加feature
 let geoJsonDataSourceList: any = [];
-function addFeature(feature: any) {
+function addFeature(feature: any, isZoomTo:boolean=true) {
   if (geoJsonDataSourceList.length > 0 && !state.isMydate) {
     let lastGeoJsonDataSource = geoJsonDataSourceList.pop();
     viewer.dataSources.remove(lastGeoJsonDataSource);
@@ -1047,7 +1047,7 @@ function addFeature(feature: any) {
       geoJsonDataSourceList.push(dataSource);
       viewer.dataSources.add(dataSource);
       let entities = dataSource.entities.values;
-      viewer.zoomTo(entities[0]);
+      if(isZoomTo) viewer.zoomTo(entities[0]);
       for (let i = 0; i < entities.length; i++) {
         let entity = entities[i];
         if (!entity.polygon) {
