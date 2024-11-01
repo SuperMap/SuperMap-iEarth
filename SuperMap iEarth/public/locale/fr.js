@@ -595,7 +595,11 @@ const local_fr = {
   "foldPanel": "Réduire le panneau",
   "closePanel": "Fermer le panneau",
   "expandPanel": "Agrandir le panneau",
-  "qxCoverTip": "Conseil : cette fonction ne prend pas en charge le système de coordonnées 3857. Assurez-vous que le modèle de caméra basculante et la couche d'image se trouvent dans la même zone !"
+  "qxCoverTip": "Conseil : cette fonction ne prend pas en charge le système de coordonnées 3857. Assurez-vous que le modèle de caméra basculante et la couche d'image se trouvent dans la même zone !",
+  "setAsBaseMap":'Faire la carte de base par défaut',
+  "noSupportBaseMap":'Le calque actuel ne prend pas en charge le réglage comme carte de base par défaut',
+  "baseMapSetSuccess":'Définir avec succès comme carte de base',
+  "queryField": "Champs de requête",
 }
 
 window.local_fr = local_fr;

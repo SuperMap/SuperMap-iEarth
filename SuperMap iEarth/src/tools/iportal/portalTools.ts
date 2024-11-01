@@ -3,6 +3,10 @@ import { IportalStoreCreate } from "@/store/iportalManage/index";
 
 // https://cdtest.supermapol.com/apps/earth/v2/index.html // 测试环境下的IEarth在线地址
 function getRootUrl() {
+
+  // 模拟本机portal开发
+  if(window.simulateIPortalMode) return "http://localhost:8190/iportal/";
+  
   const path = "/apps";
   let url = "";
   if (window.location.host.includes('supermapol')) {
@@ -21,8 +25,7 @@ function getRootUrl() {
       url = `${location.protocol}//${location.host}/`;
     }
   }
-  //模拟本机portal开发
-  // url = "http://localhost:8190/iportal/"
+
   return url;
 }
 

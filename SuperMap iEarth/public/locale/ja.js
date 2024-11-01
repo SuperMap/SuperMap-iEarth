@@ -580,7 +580,7 @@ const local_ja = {
     resouceName: 'リソース名',
     resouceType: 'リソースタイプ',
     createTime: '作成時間',
-    mapQueryTip: 'データサービスURLと対応データセットを入力してください',
+    mapQueryTip: 'データサービスURLを入力して対応するデータソースとデータセットを取得してください',
     clickQueryClose: 'ポイント選択機能がオフになっています',
     clickQueryCloseTip: '要素情報を取得するにはマウスクリック、ポイント選択を閉じるには右クリック',
     dataFiltering: 'データのフィルタ...',
@@ -699,6 +699,10 @@ const local_ja = {
     closePanel:'パネルを閉じる',
     expandPanel:'パネルを展開',
     qxCoverTip:'ヒント：この機能は3857座標系をサポートしていません。傾斜撮影モデルと画像レイヤーが同じ領域にあることを確認してください',
+    setAsBaseMap:'デフォルトのアンダーレイに設定',
+    noSupportBaseMap:'現在のレイヤーはデフォルトのアンダーレイに設定することをサポートしていません',
+    baseMapSetSuccess:'アンダーレイへの設定に成功しました',
+    queryField: "クエリーフィールド",
 }
 
 window.local_ja = local_ja;

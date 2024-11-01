@@ -38,6 +38,7 @@ function openExistScene() {
     .get(url, { withCredentials: true })
     .then(function (response) {
       if (window.iEarthConsole) console.log("已保存的场景返回信息:", response);
+      if (response && response.data) IportalStore.SceneName = response.data.name; // 获取iPortal保存的场景名称
       // state.updateTime = response.data.updateTime;
       if (response.status === 200) {
         let highestpermissionurl =
@@ -72,6 +73,10 @@ function openExistScene() {
 
 // 打开场景
 function openScene(response?: any) {
+  // response = {}; // [已保存的场景返回信息]
+
+  if (!response) return;
+  if (response && response.data) IportalStore.SceneName = response.data.name; // 获取iPortal保存的场景名称（二次确认:本地测试环境）
   let content = JSON.parse(response.data.content);
   if (window.iEarthConsole) console.log("已保存的场景返回内容:", content)
   if (content.layers.sceneAttrState) { // 新版的layers才有sceneAttrState属性
@@ -139,6 +144,18 @@ function openScene(response?: any) {
       if (content.layers.wmtsLayerOption) {
         layerStore.wmtsLayerOption = content.layers.wmtsLayerOption;
         layerStore.setWmts(content.layers.wmtsLayerOption)
+      }
+      // 将baseMapOption传入 
+      if (content.layers.baseMapOption) {
+        layerStore.baseMapOption = content.layers.baseMapOption;
+
+        // 删除默认底图
+        const layerResult = viewer.imageryLayers._layers.filter((imgLayer) => {
+          if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
+            return imgLayer._imageryProvider.url == "./images/earth-skin2.jpg";
+          }
+        })
+        if (layerResult.length === 1) viewer.imageryLayers.remove(layerResult[0]);
       }
     }
 
@@ -253,6 +270,7 @@ function openS3M(content: any) {
 function openImagery(content: any) {
   let imageryLayer = content.layers.imageryLayer;
   let imageryProvider;
+  let targetBaseLayer;
   if (imageryLayer && imageryLayer.length > 0) {
     for (let i = 0; i < imageryLayer.length; i++) {
       let url = content.layers.imageryLayer[i].url;
@@ -265,35 +283,36 @@ function openImagery(content: any) {
       }
       let flag = checkImageryRepeat(url);
       if (!flag && imageryLayer[i].type) {
-        let imageryType = content.layers.imageryLayer[i].type;
+        const imageryType = content.layers.imageryLayer[i].type;
+        const imageryUrl = content.layers.imageryLayer[i].url;
         switch (imageryType) {
           case "BingMapsImageryProvider":
             imageryProvider = new SuperMap3D.BingMapsImageryProvider({
-              url: content.layers.imageryLayer[i].url,
+              url: imageryUrl,
               key: layerStore.configToken.BingMapKey
               // key: "Aq0D7MCY5ErORA9vrwFtfE9aancUq5J6uNjw0GieF0ostaIrVuJZ8ScXxNHHvEwS",
             });
             break;
           case "TiandituImageryProvider":
             imageryProvider = new SuperMap3D.TiandituImageryProvider({
-              url: content.layers.imageryLayer[i].url,
+              url: imageryUrl,
               token: layerStore.configToken.TiandituToken
               // token: content.layers.imageryLayer[i].token
             });
             break;
           case "SingleTileImageryProvider":
             imageryProvider = new SuperMap3D.SingleTileImageryProvider({
-              url: content.layers.imageryLayer[i].url
+              url: imageryUrl
             });
             break;
           case "UrlTemplateImageryProvider":
             imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
-              url: content.layers.imageryLayer[i].url
+              url: imageryUrl
             });
             break;
           case "SuperMapImageryProvider":
             imageryProvider = new SuperMap3D.SuperMapImageryProvider({
-              url: content.layers.imageryLayer[i].url
+              url: imageryUrl
             });
             break;
           case "GRIDIMAGERY":
@@ -305,8 +324,19 @@ function openImagery(content: any) {
         let imagerlayer = viewer.imageryLayers.addImageryProvider(imageryProvider);
         let bindName = imageryLayer[i].bindName || '';
         imagerlayer.bindName = bindName;
-        layerStore.updateLayer({ type: "imagery" });
+        
+        // 获取设置的底图
+        if (content.layers.baseMapOption) { // imageryType主要是用于经纬底图
+          if(imageryUrl == content.layers.baseMapOption.url || imageryType == content.layers.baseMapOption.url) {
+            targetBaseLayer = imagerlayer;
+          }
+        }
+        // layerStore.updateLayer({ type: "imagery" });
       }
+
+      // 将设置的默认底图移动至顶层
+      if(targetBaseLayer) viewer.imageryLayers.raiseToTop(targetBaseLayer);
+      layerStore.updateLayer({ type: "imagery" });
     }
   }
 }
@@ -392,5 +422,6 @@ function checkImageryRepeat(url: string) {
 }
 
 export default {
-  openExistScene
+  openExistScene,
+  openScene
 }

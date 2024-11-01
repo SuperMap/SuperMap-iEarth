@@ -39,3 +39,9 @@ if (location.href.indexOf('/apps') != -1) {
 if (localStorage.getItem("iEarthConsole") === 'yes') {
     window.iEarthConsole = true;
 }
+// 模拟iPortal模式
+// localStorage.setItem("simulateIPortalMode", 'yes')
+// localStorage.removeItem('simulateIPortalMode');
+if (localStorage.getItem("simulateIPortalMode") === 'yes') {
+    window.simulateIPortalMode = true;
+}

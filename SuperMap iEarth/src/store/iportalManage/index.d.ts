@@ -20,6 +20,7 @@ interface IportalStoreStateType {
     userInfo: userInfoType,
     isCreateScene: boolean, // 是否为创建场景 || 编辑场景
     saveInfo: any,
+    SceneName: String
 }
 
 export {

@@ -250,7 +250,9 @@ function checkLayers() {
 
   layers["wmtsLayerOption"] = layerStore.wmtsLayerOption; // wmts服务
 
-  layers["layerTreeAlias"] = layerStore.layerTreeAlias; // wmts服务
+  layers["layerTreeAlias"] = layerStore.layerTreeAlias; // 图层列表别名
+
+  layers["baseMapOption"] = layerStore.baseMapOption; // 默认底图选项
 
   return layers;
 }
@@ -431,14 +433,16 @@ function createAndSaveScene() {
   };
 
   if (window.iEarthConsole) console.log("对接online-saveData:", saveData);
-  if (window.iEarthConsole)
-    console.log("对接online-IportalStore.userInfo:", IportalStore.userInfo);
+  if (window.iEarthConsole) console.log("对接online-IportalStore.userInfo:", IportalStore.userInfo);
 
-  let iportaluserName = IportalStore.userInfo.userName;
-  if (iportaluserName === "GUEST") {
-    message.error($t("saveErrorNeedOnline"));
-    return;
+  if (!window.simulateIPortalMode) {
+    let iportaluserName = IportalStore.userInfo.userName;
+    if (iportaluserName === "GUEST") {
+      message.error($t("saveErrorNeedOnline"));
+      return;
+    }
   }
+
 
   // 保存场景
   let url = getRootUrl() + "web/scenes.json";

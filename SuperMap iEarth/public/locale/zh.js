@@ -580,7 +580,7 @@ const local_zh = {
         resouceName: '资源名称',
         resouceType: '资源类型',
         createTime: '创建时间',
-        mapQueryTip: '请输入数据服务URL和对应数据集',
+        mapQueryTip: '请输入数据服务URL获取对应数据源和数据集',
         clickQueryClose: '点选功能已关闭',
         clickQueryCloseTip: '鼠标点击获取要素信息，右键可关闭点选',
         dataFiltering: '过滤数据中...',
@@ -699,6 +699,10 @@ const local_zh = {
         closePanel:'关闭面板',
         expandPanel:'展开面板',
         qxCoverTip:'提示：此功能不支持3857坐标系，请确保倾斜摄影模型和影像图层在同一区域',
+        setAsBaseMap:'设为默认底图',
+        noSupportBaseMap:'当前图层不支持设置为默认底图',
+        baseMapSetSuccess:'成功设置为底图',
+        queryField: "查询字段",
 }
 
 window.local_zh = local_zh;

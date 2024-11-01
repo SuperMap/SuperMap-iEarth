@@ -21,7 +21,8 @@ declare interface Window {
   lang_data:any,
   $t:any,
   layerServiceData:any,
-  configToken:any
+  configToken:any,
+  simulateIPortalMode:any,
 }
 
 //全局声明Cesium和viewer
@@ -37,3 +38,4 @@ declare var lang_data : Window.lang_data
 declare var $t : Window.$t
 declare var layerServiceData : window.layerServiceData
 declare var configToken : window.configToken
+declare var simulateIPortalMode : window.simulateIPortalMode

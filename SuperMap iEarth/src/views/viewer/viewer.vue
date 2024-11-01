@@ -48,6 +48,7 @@ function getCreateOrEditScene() {
   if (url.indexOf("/apps") === -1) {
     if (window.iEarthConsole) console.log("当前环境：普通环境");
     GlobalStore.isNormalMode = true;
+    if(window.simulateIPortalMode) openScene.openScene();
     return;
   } else if (url.indexOf("/iportal") != -1) {
     if (window.iEarthConsole) console.log("当前环境：iPortal环境");
@@ -157,6 +158,18 @@ function initViewer() {
   // 设置皮肤，影像图层的效果
   earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
   earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
+
+  // 如果设置了底图，则删除默认底图
+  setTimeout(() => {
+    if (layerStore.baseMapOption) {
+      const layerResult = viewer.imageryLayers._layers.filter((imgLayer) => {
+        if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
+          return imgLayer._imageryProvider.url == "./images/earth-skin2.jpg";
+        }
+      })
+      if (layerResult.length === 1) viewer.imageryLayers.remove(layerResult[0]);
+    }
+  }, 3000)
 
   // 设置场景
   setTimeout(() => {

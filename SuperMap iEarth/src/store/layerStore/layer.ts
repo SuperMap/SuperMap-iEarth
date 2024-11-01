@@ -82,7 +82,8 @@ export const useLayerStore = defineStore({
 		},
 		layerStyleOptions: {}, // 图层风格保存
 		isDisplayBubble: false, // 是否显示弹窗
-		wmtsLayerOption: [] // Wmts图层保存
+		wmtsLayerOption: [], // Wmts图层保存
+		baseMapOption:undefined, // 默认底图图层
 	}),
 	getters: {},
 	actions: {

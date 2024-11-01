@@ -595,7 +595,11 @@ const local_es = {
   "foldPanel": "Contraer panel",
   "closePanel": "Cerrar panel",
   "expandPanel": "Expandir Panel",
-  "qxCoverTip": "Consejo: Esta función no es compatible con el sistema de coordenadas 3857. Asegúrese de que el modelo de cámara basculante y la capa de imagen se encuentran en la misma zona."
+  "qxCoverTip": "Consejo: Esta función no es compatible con el sistema de coordenadas 3857. Asegúrese de que el modelo de cámara basculante y la capa de imagen se encuentran en la misma zona.",
+  "setAsBaseMap":'Establecer como base predeterminada',
+  "noSupportBaseMap":'La capa actual no admite la configuración como base predeterminada',
+  "baseMapSetSuccess":'Se estableció con éxito como base',
+  "queryField": "Campo de consulta",
 }
 
 window.local_es = local_es;

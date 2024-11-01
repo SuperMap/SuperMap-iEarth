@@ -580,7 +580,7 @@ const local_en = {
     resouceName: 'ResouceName',
     resouceType: 'ResouceType',
     createTime: 'CreateTime',
-    mapQueryTip: 'Please enter the data service URL and corresponding dataset',
+    mapQueryTip: 'Please enter the data service URL to obtain the corresponding data source and dataset',
     clickQueryClose: 'The click function has been turned off',
     clickQueryCloseTip: 'Click with the mouse to obtain element information, right-click to close the selection',
     dataFiltering: 'Filtering data...',
@@ -699,6 +699,10 @@ const local_en = {
     closePanel:'Close Panel',
     expandPanel:'Expand Panel',
     qxCoverTip:'Tip: This feature does not support the 3857 coordinate system. Please ensure that the oblique photography model and image layer are in the same area',
+    setAsBaseMap:'Set as default base map',
+    noSupportBaseMap:'The current layer does not support setting as default base image',
+    baseMapSetSuccess:'Successfully set as base image',
+    queryField: "Query Fields",
 }
 
 window.local_en = local_en;

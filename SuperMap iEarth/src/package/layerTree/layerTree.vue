@@ -194,6 +194,11 @@ function setOptionsByType(type: string) {
         icon: () => h("i", { class: "iconfont iconditudiejiaqingxie" }, ""),
       },
       {
+        label: $t("setAsBaseMap"),
+        key: 64,
+        icon: () => h("i", { class: "iconfont iconshezhi" }, ""),
+      },
+      {
         label: $t("rename"),
         key: 0,
         icon: () => h("i", { class: "iconfont iconzhongmingming" }, ""),
@@ -304,6 +309,7 @@ function setDropdownAction(option: any, key: number) {
       inputRef.value.focus();
     });
   } else if (key === 1) {
+    // console.log('option-locate:',option);
     if (option.type === "s3m") {
       let s3mLayer = viewer.scene.layers.find(option.aliasKey);
       if (viewer.scene.mode == SuperMap3D.SceneMode.SCENE3D) {
@@ -388,10 +394,10 @@ function setDropdownAction(option: any, key: number) {
     }
     if (type === "imagery") {
       let delImagelayer = viewer.imageryLayers._layers[layerIndex];
-      if (delImagelayer._imageryProvider.url == "./images/earth-skin2.jpg") {
-        message.warning($t("delUnsupported"));
-        return;
-      }
+      // if (delImagelayer._imageryProvider.url == "./images/earth-skin2.jpg") {
+      //   message.warning($t("delUnsupported"));
+      //   return;
+      // }
       viewer.imageryLayers.remove(delImagelayer);
       layerStore.removeLayer(option);
       delete layerTreeAlias.imgLayer[option.aliasKey];
@@ -468,6 +474,59 @@ function setDropdownAction(option: any, key: number) {
     panelStore.setRightToolBarList({ id: 13 });
   } else if (key === 101) {
     panelStore.setRightToolBarList({ id: 14 });
+  }else if (key === 64) {
+    // 将目标图层设置默认底图
+    const layerIndex = option.key.split("-")[1];
+    const targetImagelayer = viewer.imageryLayers._layers[layerIndex];
+    if(!targetImagelayer) return;
+    if(!targetImagelayer._imageryProvider) return;
+
+    // 默认的地球球皮不支持设置为默认底图
+    if(targetImagelayer._imageryProvider.url == "./images/earth-skin2.jpg") {
+      message.warning($t('noSupportBaseMap'));
+      return;
+    }
+
+    let imgLayerUrl = '';
+    if(targetImagelayer._imageryProvider instanceof SuperMap3D.SingleTileImageryProvider){
+      imgLayerUrl = targetImagelayer._imageryProvider.url;
+    }else if(targetImagelayer._imageryProvider instanceof SuperMap3D.TileCoordinatesImageryProvider){
+      imgLayerUrl = "GRIDIMAGERY";
+    }else if(targetImagelayer._imageryProvider instanceof SuperMap3D.BingMapsImageryProvider){
+      imgLayerUrl = "BingMap";
+    }else if(targetImagelayer._imageryProvider instanceof SuperMap3D.TiandituImageryProvider){
+      imgLayerUrl = "TIANDITU";
+    }else if(targetImagelayer._imageryProvider instanceof SuperMap3D.SuperMapImageryProvider){
+      const provider = targetImagelayer._imageryProvider;
+      imgLayerUrl = provider._url ? provider._url : provider._resource._url;
+    }else{
+      message.warning($t('noSupportBaseMap'));
+      return;
+    }
+
+    layerStore.baseMapOption = {
+      name:option.label,
+      url:imgLayerUrl
+    }
+
+    message.success(`${option.label}-${$t('baseMapSetSuccess')}`);
+    // console.log('layerStore.baseMapOption:',layerStore.baseMapOption);
+
+    // 删除默认底图:图层和option
+    const layerResult = viewer.imageryLayers._layers.filter((imgLayer) => {
+      if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
+        return imgLayer._imageryProvider.url == "./images/earth-skin2.jpg";
+      }
+    })
+    if(layerResult.length === 1) viewer.imageryLayers.remove(layerResult[0]);
+    const optionResult = layerTreeData[1].children.filter((option) => {
+      return option.aliasKey == $t('defaultImage');
+    })
+    if(optionResult.length === 1) {
+      layerStore.removeLayer(option);
+      delete layerTreeAlias.imgLayer[option.aliasKey];
+    }
+
   }
 }
 
@@ -598,12 +657,12 @@ const nodelabel = ({ option }: { option: TreeOption }) => {
 const checkCamera = ({ option }: { option: TreeOption }) => {
   return {
     onClick() {},
-    ondblclick() {
-      option.isedit = true;
-      nextTick(() => {
-        inputRef.value.focus();
-      });
-    },
+    // ondblclick() { // 取消双击开启编辑图层名称，改用右键
+    //   option.isedit = true;
+    //   nextTick(() => {
+    //     inputRef.value.focus();
+    //   });
+    // },
   };
 };
 

@@ -50,23 +50,29 @@
         ></i>
       </span>
     </div>
-    <!--全屏-->
-    <div class="too-bar one-tool-bar" @click="fullScreen">
+
+    <!-- iportal：首页和保存场景 -->
+    <div class="too-bar two-tool-bar" v-show="showIPortalToolBar">
       <span class="icon-container">
-        <i class="iconfont iconzuidahua" :title="$t('w_fullScreen')"></i>
+        <i
+          class="iconfont iconzhuye"
+          @click="goHome"
+          :title="$t('w_home')"
+        ></i>
       </span>
-    </div>
-    <!--首页-->
-    <div class="too-bar one-tool-bar" v-show="IportalStore.isLogin">
       <span class="icon-container">
-        <i class="iconfont iconzhuye" :title="$t('w_home')" @click="goHome"></i>
+        <i
+          class="iconfont iconbaocun"
+          @click="saveScene"
+          :title="$t('save')"
+        ></i>
       </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, computed } from "vue";
 import { usePanelStore } from "@/store";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
@@ -78,6 +84,10 @@ let scratchWindowPosition: any, timer: any;
 
 onMounted(() => {
   init();
+});
+
+const showIPortalToolBar = computed(() => {
+  return window.simulateIPortalMode ? true : IportalStore.isLogin;
 });
 
 let state = reactive({
@@ -145,12 +155,25 @@ function reset() {
 }
 
 // 全屏
-function fullScreen() {
-  if (SuperMap3D.Fullscreen.fullscreen) {
-    SuperMap3D.Fullscreen.exitFullscreen();
-  } else {
-    SuperMap3D.Fullscreen.requestFullscreen(document.body);
-  }
+function saveScene() {
+  panelStore.showSavePanel = true;
+  panelStore.isEditMode = true;
+
+  outputSceneToFile();
+}
+
+// 缩略图
+function outputSceneToFile() {
+  let promise = viewer.scene.outputSceneToFile();
+  SuperMap3D.when(promise, function (buffer) {
+    let canvas: any = document.getElementById("sceneCanvas");
+    let ctx = canvas.getContext("2d");
+    let img = new Image();
+    img.src = buffer;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, 298, 150);
+    };
+  });
 }
 
 //监听指北针转动

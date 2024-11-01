@@ -10,6 +10,7 @@
             style="width: 2.2rem"
             v-model:value="state.dataUrl"
             type="text"
+            @change="handleDataUrlChange"
             :placeholder="$t('inputServerUrl')"
           />
         </template>
@@ -17,14 +18,30 @@
       </n-tooltip>
     </div>
 
-    <div class="row-item" style="margin-bottom: 0.1rem">
+    <div class="row-item" v-show="state.dataSourceOptions.length > 0">
+      <span>{{ $t("dataSourceName") }}</span>
+      <n-select
+        style="width: 2.2rem"
+        v-model:value="state.dataSourceName"
+        :options="state.dataSourceOptions"
+      />
+    </div>
+
+    <div class="row-item" v-show="state.dataSetOptions.length > 0">
       <span>{{ $t("datasetName") }}</span>
-      <n-input
-        class="add-input-border"
+      <n-select
         style="width: 2.2rem"
         v-model:value="state.datasetName"
-        type="text"
-        :placeholder="$t('inputSourceName')"
+        :options="state.dataSetOptions"
+      />
+    </div>
+
+    <div class="row-item" v-show="state.fieldOptions.length > 0">
+      <span>{{ $t("queryField") }}</span>
+      <n-select
+        style="width: 2.2rem"
+        v-model:value="state.queryField"
+        :options="state.fieldOptions"
       />
     </div>
 
@@ -47,7 +64,7 @@
       <!-- 表头 -->
       <div class="tableHeader">
         <div class="item tableInfo">
-          {{ state.datasetName }}{{ $t("listTotal_s") }}&nbsp;{{
+          {{ datasetNamesQuery }}{{ $t("listTotal_s") }}&nbsp;{{
             tableCount
           }}&nbsp;{{ $t("listTotal_e") }}
         </div>
@@ -479,25 +496,18 @@ type StateType = {
   currentFeature: any;
   isCustomMediaUrl: boolean;
   currentFeatureID: string;
+  dataSourceName:string;
+  dataSourceOptions:any;
+  dataSetOptions:any;
+  queryField:string;
+  fieldOptions:any;
 };
 
 // 初始化变量
 let state = reactive<StateType>({
   selectedIndex: 0, //默认选择图层index
-  // dataUrl: 'https://iserver.supermap.io/iserver/services/data-world/rest/data',
-  // datasetName: "World:Countries"（1889条要素）/ "World:Capitals"(192条要素)
-  // dataUrl: 'http://172.16.15.203:8090/iserver/services/data-China400/rest/data',
-  // datasetName: "China:China",
-  // dataUrl: "http://172.16.15.203:8090/iserver/services/data-80wtuban/rest/data",
-  // datasetName: "DLTB80w:DLTB_1", // 80多万
-  // dataUrl: "http://127.0.0.1:8090/iserver/services/data-mapqueryProjection/rest/data",
-  // datasetName: "0830:NewDataset",
-  // dataUrl: "http://localhost:8090/iserver/services/data-mediaField/rest/data",
-  // datasetName: "1009:NewDataset",
   dataUrl: "",
   datasetName: "",
-  // dataUrl: "https://iserver.supermap.io/iserver/services/data-world/rest/data",
-  // datasetName: "World:Countries", // 这个数据集点选啥的都能用
 
   // 表格 点选
   columns: [],
@@ -584,14 +594,23 @@ let state = reactive<StateType>({
   currentFeature: null,
   isCustomMediaUrl: false,
   currentFeatureID: "",
+  dataSourceOptions:[],
+  dataSetOptions:[],
+  dataSourceName:'',
+  queryField:'SmID',
+  fieldOptions:[],
 });
 
 let handler;
 let targerMapLayer;
 let bableQuery = ref();
+let datasetNamesQuery = computed(() => { // 请求参数需要数据源和数据集以固定形式共同构造
+  return `${state.dataSourceName}:${state.datasetName}`;
+});
+
 
 function init() {
-  state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
+  state.selectedIndex = Number(layerStore.imgLayerSelectIndex);
   targerMapLayer = layerStore.layerTreeData[1].children[state.selectedIndex];
   // 获取图层绑定的数据源信息
   setQueryInfo();
@@ -624,7 +643,7 @@ function setBablePosition() {
 
 // 获取数据-第一页
 function startQuery() {
-  if (state.dataUrl == "" || state.datasetName == "") {
+  if (state.dataUrl == "" || state.dataSourceName == "" || state.datasetName == "") {
     message.error($t("mapQueryTip"));
     return;
   }
@@ -651,7 +670,7 @@ function startQuery() {
     let obj = {
       label: targerMapLayer.label,
       dataUrl: state.dataUrl,
-      datasetName: state.datasetName,
+      datasetName: datasetNamesQuery.value,
     };
     layerStore.mapQueryOptions.push(obj);
   }
@@ -665,15 +684,19 @@ function queryAll() {
     message.success($t("refreshData"));
   }
 
+  // 刷新数据时，关闭过滤
+  state.selectFiled = "chooseFeild";
+  state.isFilter = false;
+
   // 指定SQL查询服务参数
   let sqlParam = new L.supermap.GetFeaturesBySQLParameters({
     queryParameter: {
       // name: "Countries@World", // 非必选项
-      attributeFilter: "SMID > 0",
+      attributeFilter: `${state.queryField} > 0`,
     },
     fromIndex: 0,
     toIndex: 10, // 设置为10，加快查询速度
-    datasetNames: [state.datasetName],
+    datasetNames: [datasetNamesQuery.value],
   });
   // 创建SQL查询实例
   new L.supermap.FeatureService(state.dataUrl).getFeaturesBySQL(
@@ -762,7 +785,7 @@ function clickQuery() {
       geometry = point;
     }
     let geometryParam = new L.supermap.GetFeaturesByGeometryParameters({
-      datasetNames: [state.datasetName],
+      datasetNames: [datasetNamesQuery.value],
       geometry: geometry,
       spatialQueryMode: "INTERSECT",
     });
@@ -886,7 +909,13 @@ function setQueryInfo() {
     );
     if (targetItem.length > 0) {
       state.dataUrl = targetItem[0].dataUrl;
-      state.datasetName = targetItem[0].datasetName;
+      handleDataUrlChange(); // 获取数据服务中数据源选项
+      const datasetNameInfo = targetItem[0].datasetName;
+      if(datasetNameInfo.includes(':')){
+        const datasetNameInfoList = datasetNameInfo.split(':');
+        state.dataSourceName = datasetNameInfoList[0];
+        state.datasetName = datasetNameInfoList[1];
+      }
     }
   }
 }
@@ -913,7 +942,12 @@ function clear(isClearInfo = true) {
   }
   if (isClearInfo) {
     state.dataUrl = "";
+    state.dataSourceName = "";
     state.datasetName = "";
+    state.queryField = "SMID";
+    state.dataSourceOptions = [];
+    state.dataSetOptions = [];
+    state.fieldOptions = [];
   }
   state.columns = [];
   state.tableData = [];
@@ -1006,7 +1040,7 @@ function handleCheck(rowKeys: any) {
   // 数据集ID查询服务参数
   let idsParam = new L.supermap.GetFeaturesByIDsParameters({
     IDs: rowKeys,
-    datasetNames: [state.datasetName],
+    datasetNames: [datasetNamesQuery.value],
   });
   // 创建指定ID查询实例
   new L.supermap.FeatureService(state.dataUrl).getFeaturesByIDs(
@@ -1160,7 +1194,7 @@ function search() {
     },
     fromIndex: 0,
     toIndex: 10,
-    datasetNames: [state.datasetName],
+    datasetNames: [datasetNamesQuery.value],
   });
   // 创建SQL查询实例
   new L.supermap.FeatureService(state.dataUrl).getFeaturesBySQL(
@@ -1192,7 +1226,7 @@ function getDataByPage(pageNum) {
       (state.page - 1) * 10
     },10`;
   } else {
-    sqlString = `SMID > 0 limit ${(pageNum - 1) * 10},10`; // 'SMID > ${start} and SMID <= ${end}'
+    sqlString = `${state.queryField} > 0 limit ${(pageNum - 1) * 10},10`; // 'SMID > ${start} and SMID <= ${end}'
   }
 
   if (window.iEarthConsole) {
@@ -1205,7 +1239,7 @@ function getDataByPage(pageNum) {
     },
     fromIndex: 0,
     toIndex: 10,
-    datasetNames: [state.datasetName],
+    datasetNames: [datasetNamesQuery.value],
   });
   // 创建SQL查询实例
   new L.supermap.FeatureService(state.dataUrl).getFeaturesBySQL(
@@ -1343,7 +1377,7 @@ function addShp_mydata() {
             geometry_mydata = polygon;
           }
           let geometryParam = new L.supermap.GetFeaturesByGeometryParameters({
-            datasetNames: [state.datasetName],
+            datasetNames: [datasetNamesQuery.value],
             geometry: geometry_mydata,
             spatialQueryMode: "INTERSECT",
           });
@@ -1456,6 +1490,72 @@ function dateDiff(timestamp) {
   return $t("secondsAgo");
 }
 
+// 处理数据服务输入，获取数据源选项
+function handleDataUrlChange() {
+  if (!state.dataUrl || state.dataUrl == '') return;
+  state.showQueryTable = false; // 当数据服务出现更改时，关闭表格显示
+  state.dataSourceName = "";
+  state.datasetName = "";
+  state.queryField = "SMID";
+  state.dataSourceOptions = [];
+  state.dataSetOptions = [];
+  state.fieldOptions = [];
+  computedDataSourceOptions(state.dataUrl);
+}
+
+// 基于数据服务URL计算数据源选项
+async function computedDataSourceOptions(dataUrl){
+  //  http://localhost:8090/iserver/services/data-WorkSpace/rest/data/datasources.json
+  const dataSourceUrl = dataUrl + '/datasources.json';
+  const result = await window.axios.get(dataSourceUrl);
+  if(!result || result.status != 200) return;
+  const data = result.data;
+  if(!data.datasourceNames || data.datasourceNames.length==0) return;
+
+  data.datasourceNames.forEach(name => {
+    const option = {
+      label: name,
+      value: name,
+    }
+    state.dataSourceOptions.push(option);
+  });
+}
+
+// 基于数据源服务URL计算数据集选项
+async function computedDataSetOptions(dataSourceName) {
+  // http://localhost:8090/iserver/services/data-WorkSpace/rest/data/datasources/NewDatasource/datasets.json
+  const dataSetUrl = state.dataUrl + '/datasources/' + dataSourceName + '/datasets.json';
+  const result = await window.axios.get(dataSetUrl);
+  if(!result || result.status != 200) return;
+  const data = result.data;
+  if(!data.datasetNames || data.datasetNames.length==0) return;
+
+  data.datasetNames.forEach(name => {
+    const option = {
+      label: name,
+      value: name,
+    }
+    state.dataSetOptions.push(option);
+  });
+}
+
+// 基于数据集服务URL计算字段选项
+async function computedDataSetFieldOptions(dataSetName) {
+  // http://localhost:8090/iserver/services/data-WorkSpace/rest/data/datasources/NewDatasource/datasets/Country_R_1/fields.json
+  const dataSetFieldUrl = state.dataUrl + '/datasources/' + state.dataSourceName + '/datasets/' + dataSetName + '/fields.json';
+  const result = await window.axios.get(dataSetFieldUrl);
+  if(!result || result.status != 200) return;
+  const data = result.data;
+  if(!data.fieldNames || data.fieldNames.length==0) return;
+
+  data.fieldNames.forEach(name => {
+    const option = {
+      label: name,
+      value: name,
+    }
+    state.fieldOptions.push(option);
+  });
+}
 watch(
   () => state.checkedRowKeys,
   (val) => {
@@ -1529,6 +1629,22 @@ watch(
     } else {
       state.mediaUrl = "";
     }
+  }
+);
+
+watch(
+  () => state.dataSourceName,
+  (val) => {
+    if(!val || val == '') return;
+    computedDataSetOptions(val);
+  }
+);
+
+watch(
+  () => state.datasetName,
+  (val) => {
+    if(!val || val == '') return;
+    computedDataSetFieldOptions(val);
   }
 );
 </script>

@@ -6,18 +6,18 @@
       <!-- 头部 Open -->
       <div class="head-content header-center">
         <img :src="imgurl" />
-        <span class="head-title">{{ $t("earth3D") }}</span>
+        <span class="head-title" :title="appName">{{ appName }}</span>
         <i class="iconfont iconxiala" @click="headerFold"></i>
       </div>
 
       <!-- 保存+用户 -->
       <div class="head-content header-right">
-        <i
+        <!-- <i
           class="iconfont iconbaocun"
           @click="save"
           v-show="IportalStore.isLogin"
         ></i>
-        <n-divider vertical />
+        <n-divider vertical /> -->
         <User></User>
       </div>
     </div>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { usePanelStore } from "@/store/index";
 import { User } from "./components/user/index";
@@ -46,6 +46,14 @@ import SaveScene from "./components/saveScene";
 const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
 const imgurl = ref('./logo.png');
+
+const appName:any = computed(() => {
+  if(IportalStore.SceneName && IportalStore.SceneName.length > 0){
+    return IportalStore.SceneName;
+  }else{
+    return $t("earth3D");
+  }
+});
 
 // 保存弹窗
 function save() {
@@ -95,6 +103,10 @@ function headerOpen() {
   .head-title {
     font-size: 0.28rem;
     color: rgba(255, 255, 255, 0.85);
+    max-width: 4rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .head-content {
