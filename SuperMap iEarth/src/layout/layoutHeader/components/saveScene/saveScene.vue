@@ -287,6 +287,9 @@ function saveS3M(s3mLayerlength: number) {
       if (layer.bindName) {
         s3mTypeAndUrl["bindName"] = layer.bindName;
       }
+      if(layer._urlArguments && layer._urlArguments.token){ // 保持S3M图层token
+        s3mTypeAndUrl["token"] = layer._urlArguments.token;
+      }
       s3mlayerUrlList.push(s3mTypeAndUrl);
     }
   }
