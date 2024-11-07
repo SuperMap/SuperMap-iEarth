@@ -442,8 +442,8 @@ export const useLayerStore = defineStore({
 			// 项目底图
 			let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
 			if (targetItem) {
-				if (targetItem.type_ja) {
-					return $t(targetItem.type_ja);
+				if (targetItem.name) {
+					return $t(targetItem.name);
 				} else {
 					return $t(targetItem.type);
 				}
