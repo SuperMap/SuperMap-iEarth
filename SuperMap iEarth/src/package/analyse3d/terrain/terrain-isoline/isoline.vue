@@ -5,6 +5,8 @@
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.fillMaxHeight"
+      :min="0"
+      :max="10000"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -17,6 +19,8 @@
       style="width: 1.96rem"
       v-model:value="state.fillMinHeight"
       :show-button="false"
+      :min="0"
+      :max="10000"
     >
       <template #suffix>{{ $t("meter") }}</template>
     </n-input-number>
@@ -29,7 +33,7 @@
       v-model:value="state.equivalentIsoline"
       :bordered="false"
       :min="1"
-      :max="10000"
+      :max="1000"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -94,6 +98,7 @@
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import initHandler from "@/tools/drawHandler";
 import tool from "@/tools/tool";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 type stateType = {
   fillMaxHeight: number; //最大可见高程
@@ -295,6 +300,11 @@ function clear() {
 watch(
   () => state.fillMaxHeight,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.fillMaxHeight = val = 9000;
+    };
     hyp.MaxVisibleValue = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
@@ -302,6 +312,11 @@ watch(
 watch(
   () => state.fillMinHeight,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.fillMinHeight = val = 0;
+    };
     hyp.MinVisibleValue = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
@@ -309,6 +324,11 @@ watch(
 watch(
   () => state.equivalentIsoline,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.equivalentIsoline = val = 100;
+    };
     hyp.LineInterval = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }

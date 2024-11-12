@@ -14,7 +14,7 @@
       <n-tooltip placement="top-end" trigger="hover">
         <template #trigger>
           <n-input class="add-input-border" style="width: 1.96rem" v-model:value="state.dataUrl" type="text"
-            :placeholder="$t('inputServerUrl')" />
+            :placeholder="$t('inputServerUrl')" @input="handleUrlChange"/>
         </template>
         {{ state.urlTip }}
       </n-tooltip>
@@ -28,6 +28,7 @@
         v-model:value="state.dataSourceName"
         type="text"
         :placeholder="$t('inputSourceName')"
+        @input="handleNameChange"
       />
     </div>
     <div class="btn-row-item" style="margin-left: 1.05rem; margin-top: 0.12rem">
@@ -37,6 +38,7 @@
         text-color="#fff"
         class="ans-btn"
         @click="startQuery"
+        :disabled="!state.isCheckPass"
         >{{ $t("query") }}</n-button
       >
       <n-button
@@ -77,8 +79,9 @@
 import { ref, reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
 import { useMessage } from "naive-ui";
-const message = useMessage();
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
+const message = useMessage();
 const layerStore = useLayerStore();
 
 type StateType = {
@@ -92,6 +95,9 @@ type StateType = {
   scenePosition: any;
   isSetForLayer: boolean;
   urlTip:string;
+  isCheckPass:boolean;
+  isURLPass:boolean;
+  isNamePass:boolean;
 };
 
 // http://www.supermapol.com/realspace/services/data-cbd/rest/data  -  二维数据
@@ -108,11 +114,35 @@ let state = reactive<StateType>({
   queryLayerName: "",
   scenePosition: null,
   isSetForLayer: false,
-  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data`
+  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data`,
+  isCheckPass:false,
+  isURLPass:false,
+  isNamePass:false,
 });
 const scene = viewer.scene;
 let bableQuery = ref();
 let layers, handler;
+
+//检查输入是否合规：URL、Name、Token
+function handleUrlChange() {
+  state.dataUrl = state.dataUrl.trim();
+  const checkeResult = inputRuleCheck(state.dataUrl, RuleCheckTypeEnum.URL);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isURLPass = checkeResult.isPass;
+  computedCheckPass();
+}
+function handleNameChange() {
+  state.dataSourceName = state.dataSourceName.trim();
+  const checkeResult = inputRuleCheck(state.dataSourceName, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isNamePass = checkeResult.isPass;
+  computedCheckPass();
+
+}
+function computedCheckPass(){
+  state.isCheckPass = state.isURLPass && state.isNamePass;
+}
+
 
 function init() {
   if (!window.viewer) return;
@@ -271,6 +301,9 @@ function setQueryInfo() {
 
 // 清除
 function clear(flag = true) {
+  state.isCheckPass = false;
+  state.isURLPass = false;
+  state.isNamePass = false;
   state.shadowRadioShow = false;
   if (handler) {
     handler.destroy();

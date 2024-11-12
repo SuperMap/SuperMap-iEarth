@@ -703,6 +703,18 @@ const local_ja = {
     noSupportBaseMap:'現在のレイヤーはデフォルトのアンダーレイに設定することをサポートしていません',
     baseMapSetSuccess:'アンダーレイへの設定に成功しました',
     queryField: "クエリーフィールド",
+
+    // input输入校验提示
+    INVALID_INPUT: "入力内容が不正です",
+    INVALID_URL: "入力されたURLにアクセスできません",
+    INVALID_FORMAT: "入力されたURLフォーマットが正しくありません",
+    OUT_OF_RANGE: "範囲外",
+    NO_LINE_BREAKS_OR_CARRIAGE_RETURNS: "改行文字と改行文字の入力は許可されていません",
+    FIELD_REQUIRED: "このフィールドは空にすることはできません",
+    NUMERIC_ONLY: "このフィールドには数字しか入力できません",
+    TEXT_ONLY: "このフィールドにはテキストのみ入力できます",
+    EXCEED_MAX_VALUE_ALLOWED: "最大値を超えてはならない",
+    BELOW_MIN_VALUE_ALLOWED: "最小値より小さくすることはできません",
 }
 
 window.local_ja = local_ja;

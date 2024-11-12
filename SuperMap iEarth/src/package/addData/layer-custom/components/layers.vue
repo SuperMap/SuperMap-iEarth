@@ -17,7 +17,8 @@
           v-model:value="state.layerUrl"
           type="text"
           :placeholder="$t('layerUrl')"
-          @input="handleChange"
+          @input="handleUrlChange"
+          @change="handleChange"
         />
       </template>
       {{ state.urlTip }}
@@ -35,6 +36,7 @@
       style="width: 2.4rem"
       v-model:value="state.layerName"
       type="text"
+      @input="handleNameChange"
       :placeholder="$t('layerName')"
       :title="state.layerName"
       :disabled="state.layerType != 'S3M'"
@@ -45,13 +47,14 @@
     style="margin-left: 0.95rem; margin-bottom: 0.1rem"
     v-show="state.layerType != 'WMTS'"
   >
-    <n-checkbox v-model:checked="state.token" :label="$t('addToken')" />
+    <n-checkbox v-model:checked="state.useToken" :label="$t('addToken')" />
     <n-input
+      v-if="state.useToken"
       style="margin-top: 0.1rem; width: 2.4rem"
-      v-if="state.token"
       v-model:value="state.layerToken"
       type="text"
       placeholder="token..."
+      @input="handleTokenChange"
     />
   </div>
 
@@ -76,6 +79,7 @@
       text-color="#fff"
       class="ans-btn"
       @click="openLayer"
+      :disabled="!state.isCheckPass"
       >{{ $t("sure") }}</n-button
     >
     <n-button
@@ -94,6 +98,7 @@ import { useMessage } from "naive-ui";
 import { useLayerStore } from "@/store/layerStore/layer";
 import layerManagement from "@/tools/layerManagement";
 import proj4 from "proj4";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const layerStore = useLayerStore();
 const message = useMessage();
@@ -116,7 +121,7 @@ proj4.defs([
 
 let state = reactive({
   layerType: "S3M",
-  token: false,
+  useToken: false,
   layerToken: "",
   layerUrl: "",
   layerName: "",
@@ -147,13 +152,54 @@ let state = reactive({
   epsg: -1,
   addWmtsFlag: true,
   urlTip: `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`,
+  isCheckPass:false,
+  isURLPass:false,
+  isNamePass:false,
+  isTokenPass:false,
 });
+
+//检查输入是否合规：URL、Name、Token
+function handleUrlChange() {
+  state.layerUrl = state.layerUrl.trim();
+  const checkeResult = inputRuleCheck(state.layerUrl, RuleCheckTypeEnum.URL);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isURLPass = checkeResult.isPass;
+  computedCheckPass();
+}
+function handleNameChange() {
+  state.layerName = state.layerName.trim();
+  const checkeResult = inputRuleCheck(state.layerName, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isNamePass = checkeResult.isPass;
+  computedCheckPass();
+
+}
+function handleTokenChange() {
+  state.layerToken = state.layerToken.trim();
+  const checkeResult = inputRuleCheck(state.layerToken, RuleCheckTypeEnum.Token);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isTokenPass = checkeResult.isPass;
+  computedCheckPass();
+}
+
+// 基于url、name和token在几种情况下，计算校验值是否正确
+function computedCheckPass(){
+  if(state.useToken){
+    state.isCheckPass = state.isURLPass && state.isNamePass && state.isTokenPass;
+  }else{
+    state.isCheckPass = state.isURLPass && state.isNamePass; 
+  }
+}
 
 function clear() {
   state.layerUrl = "";
   state.layerName = "";
-  state.token = false;
   state.layerToken = "";
+  state.useToken = false;
+  state.isURLPass = false;
+  state.isNamePass = false;
+  state.isTokenPass = false;
+  state.isCheckPass = false;
 
   // 获取必要参数
   state.wmtsLayerOptions = [];
@@ -172,7 +218,7 @@ function openLayer() {
     message.warning($t("urlIsNull"));
     return;
   }
-  if (state.token) {
+  if (state.useToken) {
     SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
       state.layerToken
     );
@@ -245,6 +291,8 @@ function handleChange() {
   if (state.layerUrl === "") {
     state.layerName = "";
   }
+
+  handleNameChange();
 }
 
 function checkS3MLayeExist(s3mLayerName:string){
@@ -674,6 +722,14 @@ watch(
 watch(
   () => state.layerType,
   (val: string) => {
+    state.layerUrl = '';
+    state.layerName = '';
+    state.layerToken = '';
+    state.useToken = false;
+    state.isURLPass = false;
+    state.isNamePass = false;
+    state.isTokenPass = false;
+    state.isCheckPass = false;
     switch (val) {
       case "S3M":
         state.urlTip = `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`;
@@ -690,6 +746,12 @@ watch(
       default:
         break;
     }
+  }
+);
+watch(
+  () => state.useToken,
+  () => {
+    computedCheckPass();
   }
 );
 </script>

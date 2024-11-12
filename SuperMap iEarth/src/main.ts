@@ -32,6 +32,9 @@ if (location.href.indexOf('/apps') != -1) {
     initPortal();
 }
 
+// 切换语言-cooike
+// document.cookie = "language=en;"
+
 // 检查iEarthConsole状态,以便打印输出信息
 // localStorage.setItem("iEarthConsole", 'yes')
 // localStorage.getItem("iEarthConsole");

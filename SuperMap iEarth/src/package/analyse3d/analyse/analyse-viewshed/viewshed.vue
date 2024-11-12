@@ -188,6 +188,7 @@ import { useMessage, useNotification } from "naive-ui";
 import axios from "axios";
 import tool from "@/tools/tool";
 import initHandler from "@/tools/drawHandler";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const message = useMessage();
 const notification = useNotification();
@@ -641,21 +642,23 @@ watch(
 watch(
   () => state.verticalFov,
   (val: any) => {
-    if (parseFloat(val) > 0) {
-      viewshed3D.verticalFov = parseFloat(val);
-    } else {
-      state.verticalFov = 1;
-    }
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.verticalFov = val = 1;
+    };
+    viewshed3D.verticalFov = parseFloat(val);
   }
 );
 watch(
   () => state.horizontalFov,
   (val: any) => {
-    if (parseFloat(val) > 0) {
-      viewshed3D.horizontalFov = parseFloat(val);
-    } else {
-      state.horizontalFov = 1;
-    }
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.horizontalFov = val = 1;
+    };
+    viewshed3D.horizontalFov = parseFloat(val);
   }
 );
 watch(

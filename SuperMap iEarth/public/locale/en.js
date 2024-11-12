@@ -703,6 +703,18 @@ const local_en = {
     noSupportBaseMap:'The current layer does not support setting as default base image',
     baseMapSetSuccess:'Successfully set as base image',
     queryField: "Query Fields",
+
+    // input输入校验提示
+    INVALID_INPUT: "The input content is illegal",
+    INVALID_URL: "The URL entered cannot be accessed",
+    INVALID_FORMAT: "The URL format entered is incorrect",
+    OUT_OF_RANGE: "Out of range",
+    NO_LINE_BREAKS_OR_CARRIAGE_RETURNS: "Line breaks and carriage returns are not allowed",
+    FIELD_REQUIRED: "This field cannot be empty",
+    NUMERIC_ONLY: "This field can only input numbers",
+    TEXT_ONLY: "This field can only input text",
+    EXCEED_MAX_VALUE_ALLOWED: "Cannot exceed the maximum value",
+    BELOW_MIN_VALUE_ALLOWED: "Cannot be less than the minimum value",
 }
 
 window.local_en = local_en;

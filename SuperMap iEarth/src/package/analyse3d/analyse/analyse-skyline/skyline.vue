@@ -14,6 +14,8 @@
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.skylineRadius"
+      :min="-1"
+      :max="1000000"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -141,6 +143,7 @@ import echarts from "@/tools/echarts";
 import tool from "@/tools/tool";
 import initHandler from "@/tools/drawHandler";
 import SkylineAnalysis from "./js/skyline";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 type stateType = {
   skylineRadius: number; //分析半径
@@ -379,6 +382,11 @@ function clear() {
 watch(
   () => state.skylineRadius,
   (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.skylineRadius = val = 10000;
+    };
     skylineAnalysis.skyline.radius = val;
   }
 );

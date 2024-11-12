@@ -10,6 +10,7 @@
             style="width: 2.2rem"
             v-model:value="state.dataUrl"
             type="text"
+            @input="handleUrlChange"
             @change="handleDataUrlChange"
             :placeholder="$t('inputServerUrl')"
           />
@@ -24,6 +25,7 @@
         style="width: 2.2rem"
         v-model:value="state.dataSourceName"
         :options="state.dataSourceOptions"
+        @update:value="handleUrlChange"
       />
     </div>
 
@@ -33,6 +35,7 @@
         style="width: 2.2rem"
         v-model:value="state.datasetName"
         :options="state.dataSetOptions"
+        @update:value="handleUrlChange"
       />
     </div>
 
@@ -42,6 +45,7 @@
         style="width: 2.2rem"
         v-model:value="state.queryField"
         :options="state.fieldOptions"
+        @update:value="handleUrlChange"
       />
     </div>
 
@@ -53,6 +57,7 @@
         :loading="state.isloading_table"
         :focusable="false"
         @click="startQuery"
+        :disabled="!state.isCheckPass"
         style="margin-right: 0.1rem"
         >{{ $t("attributeList") }}</n-button
       >
@@ -448,6 +453,7 @@ import { useMessage } from "naive-ui";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { IportalStoreCreate } from "@/store/index";
 import ColumnSetting from "./coms/column-setting.vue";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const message = useMessage();
 
@@ -501,6 +507,8 @@ type StateType = {
   dataSetOptions:any;
   queryField:string;
   fieldOptions:any;
+  isCheckPass:boolean;
+  isURLPass:boolean;
 };
 
 // 初始化变量
@@ -599,6 +607,8 @@ let state = reactive<StateType>({
   dataSourceName:'',
   queryField:'SmID',
   fieldOptions:[],
+  isURLPass:false,
+  isCheckPass:false
 });
 
 let handler;
@@ -608,6 +618,22 @@ let datasetNamesQuery = computed(() => { // 请求参数需要数据源和数据
   return `${state.dataSourceName}:${state.datasetName}`;
 });
 
+//检查输入是否合规：URL
+function handleUrlChange() {
+  state.dataUrl = state.dataUrl.trim();
+  const checkeResult = inputRuleCheck(state.dataUrl, RuleCheckTypeEnum.URL);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isURLPass = checkeResult.isPass;
+  computedCheckPass();
+}
+
+function computedCheckPass(){
+  if(state.dataSourceName == '' || state.datasetName == '' || state.queryField == ''){
+    state.isCheckPass = false;
+  }else{
+    state.isCheckPass = state.isURLPass;
+  }
+}
 
 function init() {
   state.selectedIndex = Number(layerStore.imgLayerSelectIndex);
@@ -928,6 +954,8 @@ function openMediaField() {
 
 // 清除
 function clear(isClearInfo = true) {
+  state.isURLPass = false;
+  state.isCheckPass = false;
   // 删除添加的geojson数据源
   for (let i = 0; i < geoJsonDataSourceList.length; i++) {
     let geoJsonDataSource = geoJsonDataSourceList[i];

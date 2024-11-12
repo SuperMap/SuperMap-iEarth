@@ -703,6 +703,18 @@ const local_zh = {
         noSupportBaseMap:'当前图层不支持设置为默认底图',
         baseMapSetSuccess:'成功设置为底图',
         queryField: "查询字段",
+
+        // input输入校验提示
+        INVALID_INPUT: "输入内容不合法",
+        INVALID_URL: "输入的URL无法访问",
+        INVALID_FORMAT: "输入的URL格式不正确",
+        OUT_OF_RANGE: "不在范围内",
+        NO_LINE_BREAKS_OR_CARRIAGE_RETURNS: "不允许输入换行符和回车符",
+        FIELD_REQUIRED: "该字段不能为空",
+        NUMERIC_ONLY: "该字段仅能输入数字",
+        TEXT_ONLY: "该字段仅能输入文字",
+        EXCEED_MAX_VALUE_ALLOWED: "不能超过最大值",
+        BELOW_MIN_VALUE_ALLOWED: "不能小于最小值",
 }
 
 window.local_zh = local_zh;

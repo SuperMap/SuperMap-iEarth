@@ -68,6 +68,7 @@ import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
 import initHandler from "@/tools/drawHandler";
 import tool from "@/tools/tool";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const layerStore = useLayerStore();
 
@@ -217,6 +218,11 @@ function clear() {
 watch(
   () => state.minHeight,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.minHeight = val = -10;
+    };
     hypFlood.MinVisibleValue = parseInt(val);
     if (!floodPosition) return (state.currentHeight = parseInt(val));
     viewer.scene.globe.HypsometricSetting = {
@@ -229,6 +235,11 @@ watch(
 watch(
   () => state.maxHeight,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.maxHeight = val = 300;
+    };
     hypFlood.MaxVisibleValue = parseInt(val);
     if (!floodPosition) return;
     viewer.scene.globe.HypsometricSetting = {

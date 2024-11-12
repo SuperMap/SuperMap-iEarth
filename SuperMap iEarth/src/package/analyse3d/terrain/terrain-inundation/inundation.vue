@@ -32,6 +32,7 @@
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.currentHeight"
+      disabled
       :bordered="false"
       :show-button="false"
     >
@@ -110,6 +111,7 @@
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
 import tool from "@/tools/tool";
 import initHandler from "@/tools/drawHandler";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 type stateType = {
   maxHeight: number; //最大可见高程
@@ -316,6 +318,11 @@ watch(
 watch(
   () => state.minHeight,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.minHeight = val = 1000;
+    };
     hypFlood.MinVisibleValue = parseInt(val);
     if (!floodPosition) return (state.currentHeight = parseInt(val));
     viewer.scene.globe.HypsometricSetting = {
@@ -328,6 +335,11 @@ watch(
 watch(
   () => state.maxHeight,
   (val: any) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.maxHeight = val = 9000;
+    };
     hypFlood.MaxVisibleValue = parseInt(val);
     if (!floodPosition) return;
     viewer.scene.globe.HypsometricSetting = {

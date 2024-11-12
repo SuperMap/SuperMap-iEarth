@@ -85,6 +85,7 @@
       v-model:value="state.space"
       style="width: 1.96rem"
       :min="0.1"
+      :max="1000"
     ></n-input-number>
   </div>
 
@@ -94,6 +95,7 @@
       v-model:value="state.density"
       style="width: 1.96rem"
       :min="1"
+      :max="3000"
     ></n-input-number>
   </div>
 
@@ -122,6 +124,7 @@ import { useNotification, useMessage } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
 import AddSymbol from "./js/draw-skit";
 import symbolOptions from "./js/skit-config";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const notification = useNotification();
 const message = useMessage();
@@ -466,6 +469,27 @@ watch(
       }
       state.currentModelUrlArray = [];
     }
+  }
+);
+
+watch(
+  () => state.space,
+  (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.space = val = 10;
+    };
+  }
+);
+watch(
+  () => state.density,
+  (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.density = val = 100;
+    };
   }
 );
 </script>
