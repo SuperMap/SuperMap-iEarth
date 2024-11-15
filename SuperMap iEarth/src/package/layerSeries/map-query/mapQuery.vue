@@ -945,6 +945,9 @@ function clear(isClearInfo = true) {
   if (isClearInfo) {
     state.dataUrl = "";
     state.datasetName = "";
+    state.isCheckPass = false;
+    state.isDataUrlPass = false;
+    state.isDataSetPass = false;
   }
   state.columns = [];
   state.tableData = [];

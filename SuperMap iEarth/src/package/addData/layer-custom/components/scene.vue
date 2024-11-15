@@ -156,11 +156,12 @@ function clear() {
   state.sceneUrl = "";
   state.sceneToken = "";
   state.sceneName = "";
+  state.isCheckPass = false;
+  state.isNamePass = false;
+  state.isURLPass = false;
+  state.isTokenPass = false;
   state.useToken = false;
   state.useSenceName = false;
-  state.isNamePass = false;
-  state.isTokenPass = false;
-  state.isCheckPass = false;
 }
 
 watch(
