@@ -114,6 +114,7 @@
             <n-input
               v-model:value="fromData.scenePortalDescription"
               :placeholder="$t('placeHolder')"
+              @input="handleDescribeChange"
               clearable
             />
           </n-form-item>
@@ -201,9 +202,12 @@ function handleLabelChange() {
 function handleDescribeChange() {
   fromData.scenePortalDescription = fromData.scenePortalDescription.trim();
   const checkeResult = inputRuleCheck(fromData.scenePortalDescription, RuleCheckTypeEnum.Text);
-  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  if (!checkeResult.isPass) {
+    if(checkeResult.message == $t('FIELD_REQUIRED')) return;
+    message.warning(checkeResult.message);
+  }
   state.isDescribePass = checkeResult.isPass;
-  computedCheckPass();
+  // computedCheckPass();
 }
 
 // 基于url、name和token在几种情况下，计算校验值是否正确
