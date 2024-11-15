@@ -10,6 +10,7 @@
             style="width: 2.2rem"
             v-model:value="state.dataUrl"
             type="text"
+            @input="handleDataUrlChange"
             :placeholder="$t('inputServerUrl')"
           />
         </template>
@@ -24,6 +25,7 @@
         style="width: 2.2rem"
         v-model:value="state.datasetName"
         type="text"
+        @input="handleDataSetChange"
         :placeholder="$t('inputSourceName')"
       />
     </div>
@@ -37,6 +39,7 @@
         :focusable="false"
         @click="startQuery"
         style="margin-right: 0.1rem"
+        :disabled="!state.isCheckPass"
         >{{ $t("attributeList") }}</n-button
       >
       <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
@@ -431,6 +434,7 @@ import { useMessage } from "naive-ui";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { IportalStoreCreate } from "@/store/index";
 import ColumnSetting from "./coms/column-setting.vue";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const message = useMessage();
 
@@ -479,6 +483,9 @@ type StateType = {
   currentFeature: any;
   isCustomMediaUrl: boolean;
   currentFeatureID: string;
+  isCheckPass:boolean;
+  isDataUrlPass:boolean;
+  isDataSetPass:boolean;
 };
 
 // 初始化变量
@@ -584,11 +591,35 @@ let state = reactive<StateType>({
   currentFeature: null,
   isCustomMediaUrl: false,
   currentFeatureID: "",
+  isCheckPass:false,
+  isDataUrlPass:false,
+  isDataSetPass:false,
 });
 
 let handler;
 let targerMapLayer;
 let bableQuery = ref();
+
+
+//检查输入是否合规：URL、Name、Token
+function handleDataUrlChange() {
+  state.dataUrl = state.dataUrl.trim();
+  const checkeResult = inputRuleCheck(state.dataUrl, RuleCheckTypeEnum.URL);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isDataUrlPass = checkeResult.isPass;
+  computedCheckPass();
+}
+function handleDataSetChange() {
+  state.datasetName = state.datasetName.trim();
+  const checkeResult = inputRuleCheck(state.datasetName, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isDataSetPass = checkeResult.isPass;
+  computedCheckPass();
+
+}
+function computedCheckPass(){
+  state.isCheckPass = state.isDataUrlPass && state.isDataSetPass;
+}
 
 function init() {
   state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
@@ -1134,6 +1165,9 @@ function clearMediaField() {
   state.mediaTitle = "";
   state.mediaUrl = "";
   state.selectMediaFeild = "SMID";
+  state.isCheckPass = false;
+  state.isDataUrlPass = false;
+  state.isDataSetPass = false;
 }
 
 // 表格列

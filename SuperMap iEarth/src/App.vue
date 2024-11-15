@@ -10,7 +10,7 @@
         <dialog-content></dialog-content>
         <loading-content></loading-content>
         <n-notification-provider>
-          <n-message-provider>
+          <n-message-provider :max="3">
             <message-content></message-content>
             <I18n></I18n>
             <layout></layout>

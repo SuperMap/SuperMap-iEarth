@@ -19,6 +19,8 @@
         style="width: 1.96rem"
         :update-value-on-input="false"
         v-model:value="state.digDepth"
+        :min="1"
+        :max="10000"
         :show-button="false"
       >
         <template #suffix>{{ $t("meter") }}</template>
@@ -37,6 +39,8 @@
       <n-input-number
         style="width: 1.96rem"
         v-model:value="state.upHeight"
+        :min="1"
+        :max="10000"
         :update-value-on-input="false"
         :show-button="false"
       >
@@ -108,6 +112,7 @@ import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import tool from "@/tools/tool";
 import initHandler from "@/tools/drawHandler";
 import setEditHandler from "@/tools/editHandler";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 type stateType = {
   digDepth: number; // 开挖深度
@@ -298,12 +303,22 @@ watch(
 watch(
   () => state.digDepth,
   () => {
+    const checkeResult = inputRuleCheck(state.digDepth, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.digDepth = 500;
+    };
     if (digPisitions) digUpdate(digPisitions);
   }
 );
 watch(
   () => state.upHeight,
   () => {
+    const checkeResult = inputRuleCheck(state.upHeight, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.upHeight = 500;
+    };
     if (digPisitions) digUpdate(digPisitions);
   }
 );

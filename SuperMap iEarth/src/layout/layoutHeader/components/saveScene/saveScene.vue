@@ -28,6 +28,7 @@
           >
             <n-input
               v-model:value="fromData.storageSceneCurrentTime"
+              disabled
               clearable
             />
           </n-form-item>
@@ -54,6 +55,7 @@
             <n-input
               v-model:value="fromData.scenePortalName"
               :placeholder="$t('placeHolder')"
+              @input="handleNameChange"
               clearable
             />
           </n-form-item>
@@ -79,11 +81,12 @@
             <n-input
               v-model:value="fromData.scenePortalTages"
               :placeholder="$t('placeHolder')"
+              @input="handleLabelChange"
               clearable
             />
           </n-form-item>
 
-          <n-form-item
+          <!-- <n-form-item
             label-width="0.8rem"
             :label="$t('authorName')"
             path="scenePortalUser"
@@ -97,7 +100,7 @@
               :placeholder="$t('placeHolder')"
               clearable
             />
-          </n-form-item>
+          </n-form-item> -->
 
           <n-form-item
             label-width="0.8rem"
@@ -123,6 +126,7 @@
                 :loading="state.isloading"
                 text-color="#fff"
                 attr-type="button"
+                :disabled="!state.isCheckPass"
                 @click="onSaveUserClk"
               >
                 {{ $t("save") }}
@@ -146,6 +150,7 @@ import { usePanelStore } from "@/store/panelStore/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useLayerStore } from "@/store/layerStore/layer";
 import i18n from "@/locale/index";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const IportalStore = IportalStoreCreate();
 const panelStore = usePanelStore();
@@ -162,6 +167,10 @@ let state = reactive({
   sceneID: "",
   loadingShow: false, // 模态框
   isloading: false,
+  isCheckPass:false,
+  isNamePass:false,
+  isLabelPass:false,
+  isDescribePass:false,
 });
 
 // 表格数据
@@ -172,6 +181,35 @@ let fromData = reactive({
   scenePortalUser: "",
   scenePortalDescription: "",
 });
+
+
+//检查输入是否合规：URL、Name、Token
+function handleNameChange() {
+  fromData.scenePortalName = fromData.scenePortalName.trim();
+  const checkeResult = inputRuleCheck(fromData.scenePortalName, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isNamePass = checkeResult.isPass;
+  computedCheckPass();
+}
+function handleLabelChange() {
+  fromData.scenePortalTages = fromData.scenePortalTages.trim();
+  const checkeResult = inputRuleCheck(fromData.scenePortalTages, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isLabelPass = checkeResult.isPass;
+  computedCheckPass();
+}
+function handleDescribeChange() {
+  fromData.scenePortalDescription = fromData.scenePortalDescription.trim();
+  const checkeResult = inputRuleCheck(fromData.scenePortalDescription, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isDescribePass = checkeResult.isPass;
+  computedCheckPass();
+}
+
+// 基于url、name和token在几种情况下，计算校验值是否正确
+function computedCheckPass(){
+  state.isCheckPass = state.isNamePass && state.isLabelPass;
+}
 
 // 关闭保存面板
 function close() {

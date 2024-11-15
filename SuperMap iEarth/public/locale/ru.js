@@ -694,7 +694,19 @@ const local_ru = {
     s3mNameRepeatTip:'Имя слоя дублируется, измените имя текущего слоя.',
     sceneNameRepeatTip:'Эта сцена уже существует, пожалуйста, не добавляйте ее снова',
     refresh:'Обновить',
-    scanNotSupportPlane:'Линия сканирования пока не поддерживает плоские сцены'
+    scanNotSupportPlane:'Линия сканирования пока не поддерживает плоские сцены',
+
+    // input输入校验提示
+    INVALID_INPUT: "Введите контент незаконно.",
+    INVALID_URL: "Введённый URL недоступен",
+    INVALID_FORMAT: "Неверный формат URL",
+    OUT_OF_RANGE: "Нет.",
+    NO_LINE_BREAKS_OR_CARRIAGE_RETURNS: "Не допускается ввод символов переноса строк и возврата",
+    FIELD_REQUIRED: "Это поле не может быть пустым",
+    NUMERIC_ONLY: "Это поле может вводить только цифры.",
+    TEXT_ONLY: "Это поле может вводить только текст.",
+    EXCEED_MAX_VALUE_ALLOWED: "Не превышать максимума",
+    BELOW_MIN_VALUE_ALLOWED: "Не может быть меньше минимального",
 }
 
 window.local_ru = local_ru;

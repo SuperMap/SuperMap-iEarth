@@ -58,6 +58,8 @@
       <span>{{ $t("bottomHeight") }}</span>
       <n-input-number
         style="width: 1.96rem"
+        :min="1"
+        :max="200"
         v-model:value="state.bottomHeight"
         :update-value-on-input="false"
         :show-button="false"
@@ -70,6 +72,8 @@
       <span>{{ $t("stretchingHeight") }}</span>
       <n-input-number
         style="width: 1.96rem"
+        :min="1"
+        :max="200"
         v-model:value="state.extrudeHeight"
         :update-value-on-input="false"
         :show-button="false"
@@ -82,6 +86,8 @@
       <span>{{ $t("space") }}</span>
       <n-input-number
         style="width: 1.96rem"
+        :min="1"
+        :max="200"
         v-model:value="state.spacing"
         :update-value-on-input="false"
         :show-button="false"
@@ -187,6 +193,7 @@ import {
 import initHandler from "@/tools/drawHandler";
 import ShadowQuery from "./js/shadow-query";
 import tool from "@/tools/tool";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 type stateType = {
   timeArray: number[]; //开始结束时间
@@ -502,6 +509,11 @@ watch(
 watch(
   () => state.spacing,
   (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.spacing = val = 10;
+    };
     shadow.spacing = val;
     shadow.updateOptionsParams({ spacing: val });
     if (state.shadowQueryRegion.length >= 3) {
@@ -512,6 +524,11 @@ watch(
 watch(
   () => state.bottomHeight,
   (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.bottomHeight = val = 1;
+    };
     shadow.bottomHeight = val;
     shadow.updateOptionsParams({ bottomHeight: val });
     if (state.shadowQueryRegion.length >= 3) {
@@ -522,6 +539,11 @@ watch(
 watch(
   () => state.extrudeHeight,
   (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) { 
+      window["$message"].warning(checkeResult.message); 
+      state.extrudeHeight = val = 30;
+    };
     shadow.extrudeHeight = val;
     shadow.updateOptionsParams({ extrudeHeight: val });
     if (state.shadowQueryRegion.length >= 3) {

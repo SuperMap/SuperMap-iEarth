@@ -5,7 +5,7 @@
       <n-tooltip placement="top-end" trigger="hover">
         <template #trigger>
           <n-input class="add-input-border" style="width: 2.1rem" v-model:value="state.dataServiceUrl" type="text"
-            :placeholder="$t('qxLayerDataUrl')" @change="handleChange" />
+            :placeholder="$t('qxLayerDataUrl')"  @change="handleDataUrlChange" />
         </template>
         {{ state.urlTip }}
       </n-tooltip>
@@ -15,7 +15,7 @@
       <span>{{ $t("dataSourceName") }}</span>
       <n-input
         class="add-input-border"
-        @input="handleChange"
+        @input="handleDataSourceNameChange"
         v-model:value="state.dataSourceName"
         :placeholder="$t('qxLayerDataSource')"
         type="text"
@@ -27,7 +27,7 @@
       <span>{{ $t("datasetName") }}</span>
       <n-input
         class="add-input-border"
-        @input="handleChange"
+        @input="handleDataSetChange"
         v-model:value="state.dataSetName"
         :placeholder="$t('qxLayerDataset')"
         type="text"
@@ -83,6 +83,7 @@
         text-color="#fff"
         class="ans-btn"
         @click="singleQuery"
+        :disabled="!state.isCheckPass"
         >{{ $t("query") }}</n-button
       >
       <n-button
@@ -123,6 +124,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import { useMessage } from "naive-ui";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 let scene = viewer.scene;
 const message = useMessage();
@@ -138,6 +140,10 @@ type StateType = {
   featureID: number;
   scenePosition: any;
   urlTip:string;
+  isCheckPass:boolean;
+  isDataURLPass:boolean;
+  isDataSourceNamePass:boolean;
+  isDataSetPass:boolean;
 };
 
 // viewer.camera.setView({ // 先定位，开始渲染定位区域的倾斜
@@ -163,11 +169,46 @@ let state = reactive<StateType>({
   featureInfo: {},
   featureID: -1,
   scenePosition: undefined,
-  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data/featureResults.rjson?returnContent=true`
+  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data/featureResults.rjson?returnContent=true`,
+  isCheckPass:false,
+  isDataURLPass:false,
+  isDataSourceNamePass:false,
+  isDataSetPass:false,
 });
 
 let bableQuery = ref();
 let handler = new SuperMap3D.ScreenSpaceEventHandler(scene.canvas);
+
+
+//检查输入是否合规：URL、dataSource、dataSet
+function handleDataUrlChange() {
+  state.dataServiceUrl = state.dataServiceUrl.trim();
+  const checkeResult = inputRuleCheck(state.dataServiceUrl, RuleCheckTypeEnum.URL);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isDataURLPass = checkeResult.isPass;
+  computedCheckPass();
+}
+function handleDataSourceNameChange() {
+  state.dataSourceName = state.dataSourceName.trim();
+  const checkeResult = inputRuleCheck(state.dataSourceName, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isDataSourceNamePass = checkeResult.isPass;
+  computedCheckPass();
+
+}
+function handleDataSetChange() {
+  state.dataSetName = state.dataSetName.trim();
+  const checkeResult = inputRuleCheck(state.dataSetName, RuleCheckTypeEnum.Token);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isDataSetPass = checkeResult.isPass;
+  computedCheckPass();
+}
+
+// 基于url、dataSource和dataSet在几种情况下，计算校验值是否正确
+function computedCheckPass(){
+  state.isCheckPass = state.isDataURLPass && state.isDataSourceNamePass && state.isDataSetPass;
+}
+
 
 onMounted(() => {});
 
@@ -300,18 +341,16 @@ function singleQuery() {
   scene.postRender.addEventListener(setBablePosition);
 }
 
-// 校验URL
-function handleChange() {
-  state.dataServiceUrl = state.dataServiceUrl.trim();
-  state.dataSourceName = state.dataSourceName.trim();
-  state.dataSetName = state.dataSetName.trim();
-}
 
 // 清除
 function clear() {
   state.dataServiceUrl = "";
   state.dataSourceName = "";
   state.dataSetName = "";
+  state.isCheckPass = false;
+  state.isDataURLPass = false;
+  state.isDataSourceNamePass = false;
+  state.isDataSetPass = false;
   scene.postRender.removeEventListener(setBablePosition);
   viewer.entities.removeById("identify-area");
   state.qxModelQuery = false;
