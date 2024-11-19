@@ -76,7 +76,7 @@
         style="width: 1.96rem"
         v-model:value="state.horizontalFov"
         :min="1"
-        :max="360"
+        :max="179"
         :show-button="false"
       >
         <template #suffix>°</template>
@@ -89,7 +89,7 @@
         style="width: 1.96rem"
         v-model:value="state.verticalFov"
         :min="1"
-        :max="360"
+        :max="180"
         :show-button="false"
       >
         <template #suffix>°</template>

@@ -59,7 +59,7 @@
       <n-input-number
         style="width: 1.96rem"
         :min="1"
-        :max="200"
+        :max="1000"
         v-model:value="state.bottomHeight"
         :update-value-on-input="false"
         :show-button="false"
@@ -73,7 +73,7 @@
       <n-input-number
         style="width: 1.96rem"
         :min="1"
-        :max="200"
+        :max="1000"
         v-model:value="state.extrudeHeight"
         :update-value-on-input="false"
         :show-button="false"

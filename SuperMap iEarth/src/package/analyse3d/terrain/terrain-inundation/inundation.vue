@@ -20,7 +20,7 @@
       style="width: 1.96rem"
       :bordered="false"
       :min="1"
-      :max="10000"
+      :max="state.maxHeight-1"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>

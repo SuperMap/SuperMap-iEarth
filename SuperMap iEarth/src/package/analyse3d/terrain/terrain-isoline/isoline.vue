@@ -20,7 +20,7 @@
       v-model:value="state.fillMinHeight"
       :show-button="false"
       :min="0"
-      :max="10000"
+      :max="state.fillMaxHeight-1"
     >
       <template #suffix>{{ $t("meter") }}</template>
     </n-input-number>

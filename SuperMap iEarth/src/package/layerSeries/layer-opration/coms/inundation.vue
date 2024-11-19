@@ -19,8 +19,8 @@
       v-model:value="state.minHeight"
       style="width: 1.96rem"
       :bordered="false"
-      :min="-20"
-      :max="10000"
+      :min="-100"
+      :max="state.maxHeight-1"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -83,7 +83,7 @@ type stateType = {
 // 设置默认值数据
 let state = reactive<stateType>({
   maxHeight: 300, //最大可见高程
-  minHeight: -10, //最小可见高程
+  minHeight: 1, //最小可见高程
   currentHeight: 0, //当前高程
   floodSpeed: 20, //速度
   selectedIndex: 0, //默认选择图层index
@@ -221,7 +221,7 @@ watch(
     const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
     if (!checkeResult.isPass) { 
       window["$message"].warning(checkeResult.message); 
-      state.minHeight = val = 1000;
+      state.minHeight = val = 1;
     };
     hypFlood.MinVisibleValue = parseInt(val);
     if (!floodPosition) return (state.currentHeight = parseInt(val));
@@ -238,7 +238,7 @@ watch(
     const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
     if (!checkeResult.isPass) { 
       window["$message"].warning(checkeResult.message); 
-      state.maxHeight = val = 9000;
+      state.maxHeight = val = 300;
     };
     hypFlood.MaxVisibleValue = parseInt(val);
     if (!floodPosition) return;
