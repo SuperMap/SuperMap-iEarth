@@ -176,7 +176,7 @@ function handleNameChange() {
 }
 function handleTokenChange() {
   state.layerToken = state.layerToken.trim();
-  const checkeResult = inputRuleCheck(state.layerToken, RuleCheckTypeEnum.Token);
+  const checkeResult = inputRuleCheck(state.layerToken, RuleCheckTypeEnum.Text);
   if (!checkeResult.isPass) message.warning(checkeResult.message);
   state.isTokenPass = checkeResult.isPass;
   computedCheckPass();

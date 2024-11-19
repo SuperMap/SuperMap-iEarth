@@ -198,7 +198,7 @@ function handleDataSourceNameChange() {
 }
 function handleDataSetChange() {
   state.dataSetName = state.dataSetName.trim();
-  const checkeResult = inputRuleCheck(state.dataSetName, RuleCheckTypeEnum.Token);
+  const checkeResult = inputRuleCheck(state.dataSetName, RuleCheckTypeEnum.Text);
   if (!checkeResult.isPass) message.warning(checkeResult.message);
   state.isDataSetPass = checkeResult.isPass;
   computedCheckPass();

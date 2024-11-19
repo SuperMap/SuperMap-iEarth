@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ispeco/authentication-sdk": "^2.0.34",
-    "@ispeco/validators": "^1.2.20",
+    "@ispeco/validators": "^1.4.22",
     "axios": "^0.27.2",
     "color": "^4.2.3",
     "crypto-js": "^4.1.1",
