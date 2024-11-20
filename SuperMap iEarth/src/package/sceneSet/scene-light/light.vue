@@ -141,12 +141,13 @@
     </div>
   </div>
 
-  <div class="row-item">
+  <!-- TODO：解决添加灯光后，勾选显示坐标场景卡死问题 -->
+  <!-- <div class="row-item">
     <span>{{ $t("displayLightcorrdinate") }}</span>
     <div class="check-box">
       <n-checkbox v-model:checked="state.visiblePositions"></n-checkbox>
     </div>
-  </div>
+  </div> -->
 
   <div
     class="bableLight"

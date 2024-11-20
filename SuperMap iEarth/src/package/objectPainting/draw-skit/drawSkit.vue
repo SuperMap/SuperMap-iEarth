@@ -84,7 +84,7 @@
     <n-input-number
       v-model:value="state.space"
       style="width: 1.96rem"
-      :min="0.1"
+      :min="1"
       :max="1000"
     ></n-input-number>
   </div>

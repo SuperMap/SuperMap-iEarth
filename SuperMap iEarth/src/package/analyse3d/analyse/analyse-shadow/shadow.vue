@@ -96,12 +96,13 @@
       </n-input-number>
     </div>
 
-    <div class="row-item">
+    <!-- TODO:解决阴影分析-体显示场景崩溃，invalid array length -->
+    <!-- <div class="row-item">
       <span>{{ $t("bodyDisplay") }}</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.shadowBodyShow"></n-checkbox>
       </div>
-    </div>
+    </div> -->
 
     <!-- 开启阴影 -->
     <div class="row-item">

@@ -1123,9 +1123,9 @@ function addFeature(feature: any, isZoomTo:boolean=true) {
       }
       // viewer.zoomTo(entities[0]);
     })
-    .otherwise(function (error) {
-      window.alert(error);
-    });
+    // .otherwise(function (error) {
+    //   window.alert(error);
+    // });
 }
 
 // 将feature投影坐标系转为经纬度形式
