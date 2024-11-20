@@ -449,17 +449,19 @@ function addBDZ(url: string) {
     }
 
     // 针对单个图层的处理：
-    let layer1 = scene.layers.find("PI_UV");
-    //色相，默认是0，值域-1-1        
-    layer1.hue = 0;
-    //亮度，默认0
-    layer1.brightness = 1.0;
-    // 对比度，默认1
-    layer1.contrast = 1.0;
-    // 饱和度，默认1
-    layer1.saturation = 1.3;
-    // gamma
-    layer1.gamma = 1;
+    let layer1 = scene.layers.find("PI_UV_PBR");
+    if (layer1 && layer1 instanceof SuperMap3D.S3MTilesLayer) {
+      //色相，默认是0，值域-1-1        
+      layer1.hue = 0;
+      //亮度，默认0
+      layer1.brightness = 1.0;
+      // 对比度，默认1
+      layer1.contrast = 1.0;
+      // 饱和度，默认1
+      layer1.saturation = 1.3;
+      // gamma
+      layer1.gamma = 1;
+    }
   })
 
   function loadShadow(shadowChecked) {
