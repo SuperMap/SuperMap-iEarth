@@ -7,7 +7,6 @@
         v-model:value="state.measureMode"
         :options="state.options"
         @update:value="update_mode"
-        v-model:show="show2"
       >
       </n-select>
     </div>
@@ -44,7 +43,7 @@
       </div>
     </div>
 
-    <div v-show="state.currentItemIndex === 2">
+    <!-- <div v-show="state.currentItemIndex === 2">
       <div class="btn-row-item">
         <n-checkbox
           @update:checked="update_showDVH"
@@ -54,7 +53,7 @@
           {{ $t("contour") }}
         </n-checkbox>
       </div>
-    </div>
+    </div> -->
 
     <div class="btn-row-item">
       <n-button
@@ -212,7 +211,6 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let show2 = ref(false);
 let layers, handlerDis, handlerArea, handlerHeight, lineHeight, setHypFlag;
 
 // 等高线初始化
@@ -397,13 +395,15 @@ function StartMeasure() {
 // 初始化设置图层等高线
 function setHypsometricSetting() {
   if (!layers) return;
-  for (let i = 0; i < layers.length; i++) {
-    layers[i].hypsometricSetting = {
-      hypsometricSetting: isoline,
-      analysisMode:
-        SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-    };
-  }
+  // TODO: 换11.2.1的包之后，量算等高线一旦执行这里就会崩溃，切换成之前主版本40707就没问题，但11.2.1的范例也执行了这里但没问题
+  // 初步定位应该是之前设置的值或状态导致，但目前无法定位,后续排除
+  // for (let i = 0; i < layers.length; i++) {
+  //   layers[i].hypsometricSetting = {
+  //     hypsometricSetting: isoline,
+  //     analysisMode:
+  //       SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+  //   };
+  // }
   setHypFlag = true;
 }
 

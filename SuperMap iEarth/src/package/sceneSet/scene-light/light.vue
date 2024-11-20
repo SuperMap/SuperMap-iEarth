@@ -141,12 +141,12 @@
     </div>
   </div>
 
-  <div class="row-item">
+  <!-- <div class="row-item">
     <span>{{ $t("displayLightcorrdinate") }}</span>
     <div class="check-box">
       <n-checkbox v-model:checked="state.visiblePositions"></n-checkbox>
     </div>
-  </div>
+  </div> -->
 
   <div
     class="bableLight"

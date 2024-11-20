@@ -90,12 +90,12 @@
       </n-input-number>
     </div>
 
-    <div class="row-item">
+    <!-- <div class="row-item">
       <span>{{ $t("bodyDisplay") }}</span>
       <div class="check-box">
         <n-checkbox v-model:checked="state.shadowBodyShow"></n-checkbox>
       </div>
-    </div>
+    </div> -->
 
     <!-- 开启阴影 -->
     <div class="row-item">
