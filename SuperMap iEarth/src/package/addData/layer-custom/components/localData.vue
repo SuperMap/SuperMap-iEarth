@@ -8,6 +8,7 @@
           style="width: 1.8rem"
           :placeholder="$t('localFilePath')"
           v-model:value="state.fileSrc"
+          disabled
         />
         <n-button type="tertiary" @click="chooseFile" style="width: 0.6rem">{{
           $t("chooseFile")

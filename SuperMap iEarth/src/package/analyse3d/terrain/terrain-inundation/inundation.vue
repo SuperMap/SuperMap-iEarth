@@ -57,7 +57,7 @@
         :bordered="false"
         :show-button="false"
         :min="0"
-        :max="100"
+        :max="1"
         placeholder=""
         size="small"
       />
@@ -83,6 +83,8 @@
         placeholder=""
         size="small"
         style="width: 31%"
+        :min="1"
+        :max="2000"
       />
       <span style="width: 0.4rem">{{ $t("meterSecond") }}</span>
     </div>

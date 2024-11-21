@@ -65,7 +65,11 @@
           :show-button="false"
           placeholder=""
           size="small"
+          :min="1"
+          :max="100"
         />
+        <!-- :validator="(x)=>{if(x == null){x=state.addheight = 4;} return true}" -->
+        <!-- @change="(x)=>{if(x == null || x == undefined) {state.clipWidth = 50}}" -->
         <span class="slider-unit">{{ $t("meter") }}</span>
       </div>
     </div>

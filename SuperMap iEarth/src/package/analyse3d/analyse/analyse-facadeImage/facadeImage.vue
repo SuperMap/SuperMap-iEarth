@@ -18,6 +18,8 @@
         :show-button="false"
         placeholder=""
         size="small"
+        :min="1"
+        :max="1000"
       />
       <span class="slider-unit">{{ $t("meter") }}</span>
     </div>
@@ -41,6 +43,8 @@
         :show-button="false"
         placeholder=""
         size="small"
+        :min="1"
+        :max="1000"
       />
       <span class="slider-unit">{{ $t("meter") }}</span>
     </div>

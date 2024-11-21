@@ -26,7 +26,7 @@
 
     <div class="row-item-mine" v-if="state.useSenceName">
       <span>{{ $t("name") }}</span>
-      <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
+      <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem" @input="handleNameChange"/>
     </div>
 
     <div class="btn-row-item opration">
@@ -37,6 +37,7 @@
         text-color="#fff"
         :focusable="false"
         @click="addService"
+        :disabled="!state.isCheckPass"
         >{{ $t("sure") }}</n-button
       >
       <n-button :focusable="false" @click="refreshData">{{ $t("refresh") }}</n-button>
@@ -45,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, onMounted, reactive } from "vue";
+import { watch, onMounted, reactive} from "vue";
 import { useMessage } from "naive-ui";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { useLayerStore } from "@/store/layerStore/layer";
@@ -54,6 +55,7 @@ import {
   isIportalProxyServiceUrl,
   getHostName,
 } from "@/tools/iportal/portalTools";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const IportalStore = IportalStoreCreate();
 const layerStore = useLayerStore();
@@ -81,6 +83,8 @@ type stateType = {
   currentPage:number;
   pageCount:number;
   useSenceName:boolean;
+  isNamePass:boolean;
+  isCheckPass:boolean;
   sceneName:string;
 };
 
@@ -124,8 +128,26 @@ let state = reactive<stateType>({
   currentPage:1,
   pageCount:1,
   useSenceName:false,
+  isNamePass:false,
+  isCheckPass:true,
   sceneName: '',
 });
+
+function handleNameChange() {
+  state.sceneName = state.sceneName.trim();
+  const checkeResult = inputRuleCheck(state.sceneName, RuleCheckTypeEnum.Text);
+  if (!checkeResult.isPass) message.warning(checkeResult.message);
+  state.isNamePass = checkeResult.isPass;
+  computedCheckPass();
+}
+
+function computedCheckPass(){
+  if(state.useSenceName){
+    state.isCheckPass = state.isNamePass;
+  }else{
+    state.isCheckPass = true;
+  }
+}
 
 // 给非场景类型的服务项添加新class
 let rowClassName = function (row: any) {
@@ -175,6 +197,13 @@ watch(
   (val) => {
     let searchUrl = `${baseUrl}=${val}`;
     getIportalServiceData(searchUrl);
+  }
+);
+
+watch(
+  () => state.useSenceName,
+  (val) => {
+    computedCheckPass();
   }
 );
 

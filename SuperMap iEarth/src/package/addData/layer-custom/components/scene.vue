@@ -69,7 +69,6 @@ function handleNameChange() {
   if (!checkeResult.isPass) message.warning(checkeResult.message);
   state.isNamePass = checkeResult.isPass;
   computedCheckPass();
-
 }
 function handleTokenChange() {
   const checkeResult = inputRuleCheck(state.sceneToken, RuleCheckTypeEnum.Text);

@@ -8,6 +8,7 @@
           class="add-input-border"
           :placeholder="$t('localVideoPath')"
           v-model:value="state.fileText"
+          disabled
         />
         <n-button type="tertiary" @click="chooseFile" style="width: 0.6rem">{{
           $t("chooseFile")

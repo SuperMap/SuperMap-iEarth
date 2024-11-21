@@ -15,6 +15,8 @@
         :update-value-on-input="false"
         :bordered="false"
         :show-button="false"
+        :min="0"
+        :max="90"
         placeholder=""
         size="small"
       />
@@ -40,6 +42,8 @@
         :show-button="false"
         placeholder=""
         size="small"
+        :min="0"
+        :max="90"
       />
       <span>{{ $t("meter") }}</span>
     </div>
@@ -48,7 +52,12 @@
   <div class="row-item">
     <span>{{ $t("stretchingHeight") }}</span>
     <div class="slider-box">
-      <n-slider v-model:value="state.extrude" style="width: 1.6rem" />
+      <n-slider 
+        v-model:value="state.extrude"  
+        style="width: 1.6rem" 
+        :min="0"
+        :max="300"
+      />
       <n-input-number
         v-model:value="state.extrude"
         class="slider-input-number"
@@ -56,6 +65,8 @@
         :bordered="false"
         :show-button="false"
         placeholder=""
+        :min="0"
+        :max="300"
         size="small"
       />
       <span> {{ $t("meter") }}</span>

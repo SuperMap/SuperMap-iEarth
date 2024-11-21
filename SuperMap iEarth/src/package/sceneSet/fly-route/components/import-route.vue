@@ -9,6 +9,7 @@
           style="width: 2rem"
           :placeholder="$t('localFilePathFly')"
           v-model:value="state.fileSrc"
+          disabled
         />
         <n-button type="tertiary" @click="chooseFile">{{
           $t("import")
