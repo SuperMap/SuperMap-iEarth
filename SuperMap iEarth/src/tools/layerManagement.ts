@@ -164,8 +164,19 @@ function getLayerNameFromUrl(url: any, type: string): any {
       }
     case "Terrain":
       {
-        let terrainLayerName = url.split('/rest/realspace/datas/')[1];
-        return terrainLayerName;
+        if(url.includes('3D-stk_terrain')){
+          return $t('stkTerrain');
+        } else if (url.includes('info/data/path')) { // STK地形
+          return url.split('/services/')[1].split('/rest/')[0];
+        } else if (url.includes('/realspace/datas/')) { // 普通的TIN地形
+          return url.split('/realspace/datas/')[1];
+        } else if (url.indexOf('supermapol.com') != -1) { // 之前遗留的
+          return url.split('realspace/services/')[1].split('/rest/realspace')[0];
+        } else if (url.indexOf('iserver/services') != -1) { // 之前遗留的
+          return url.split('iserver/services/')[1].split('/rest/realspace')[0];
+        } else {
+          return 'invisible';  // return '未命名地形';
+        }
       }
     default:
       return '';

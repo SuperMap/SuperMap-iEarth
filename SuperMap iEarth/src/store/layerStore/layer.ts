@@ -496,12 +496,15 @@ export const useLayerStore = defineStore({
 				if (baseUrl.indexOf('3D-stk_terrain') != -1) {
 					return $t('stkTerrain');
 				} else {
-					if (baseUrl.indexOf('supermapol.com') != -1) {
+					if (baseUrl.includes('info/data/path')) { // STK地形
+						return baseUrl.split('/services/')[1].split('/rest/')[0];
+					} else if (baseUrl.includes('/realspace/datas/')) { // 普通的TIN地形
+						return baseUrl.split('/realspace/datas/')[1];
+					} else if (baseUrl.indexOf('supermapol.com') != -1) { // 之前遗留的
 						return baseUrl.split('realspace/services/')[1].split('/rest/realspace')[0];
-					} else if (baseUrl.indexOf('iserver/services') != -1) {
+					} else if (baseUrl.indexOf('iserver/services') != -1) { // 之前遗留的
 						return baseUrl.split('iserver/services/')[1].split('/rest/realspace')[0];
-					}
-					else {
+					} else {
 						// return '未命名地形';
 						return 'invisible';
 					}
