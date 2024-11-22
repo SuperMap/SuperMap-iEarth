@@ -284,11 +284,11 @@ function addImage(imageryUrl: string) {
 
 // 添加地形
 function addTerrain(terrainURL: string) {
-  let isSctFlag = false;
-  if (terrainURL.indexOf("8090") != -1) isSctFlag = true;
+  let isSctFlag = true;
+  if (terrainURL.includes('info/data/path')) isSctFlag = false; // STK地形，需要设置isSct为false
   viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
     url: terrainURL,
-    isSct: isSctFlag, // 地形服务源自SuperMap iServer，本地发布时需设置isSct为true
+    isSct: isSctFlag, // 是否为iServer发布的TIN地形服务,如果是STK地形设置为false
   });
   layerStore.updateLayer({ type: "terrain" });
 
@@ -296,16 +296,18 @@ function addTerrain(terrainURL: string) {
   let terrainProvider = viewer.terrainProvider;
   terrainProvider.readyPromise.then(() => {
     const bounds = terrainProvider._bounds;
-    const destination = new SuperMap3D.Rectangle.fromDegrees(
-      bounds.west,
-      bounds.south,
-      bounds.east,
-      bounds.north
-    );
+    if(bounds){
+      const destination = new SuperMap3D.Rectangle.fromDegrees(
+        bounds.west,
+        bounds.south,
+        bounds.east,
+        bounds.north
+      );
 
-    viewer.scene.camera.flyTo({
-      destination: destination,
-    });
+      viewer.scene.camera.flyTo({
+        destination: destination,
+      });
+    }
   });
 }
 
