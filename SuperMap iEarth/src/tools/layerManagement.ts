@@ -164,8 +164,19 @@ function getLayerNameFromUrl(url: any, type: string): any {
       }
     case "Terrain":
       {
-        let terrainLayerName = url.split('/rest/realspace/datas/')[1];
-        return terrainLayerName;
+        if(url.includes('3D-stk_terrain')){
+          return $t('stkTerrain');
+        } else if (url.includes('info/data/path')) { // STK地形
+          return url.split('/services/')[1].split('/rest/')[0];
+        } else if (url.includes('/realspace/datas/')) { // 普通的TIN地形
+          return url.split('/realspace/datas/')[1];
+        } else if (url.indexOf('supermapol.com') != -1) { // 之前遗留的
+          return url.split('realspace/services/')[1].split('/rest/realspace')[0];
+        } else if (url.indexOf('iserver/services') != -1) { // 之前遗留的
+          return url.split('iserver/services/')[1].split('/rest/realspace')[0];
+        } else {
+          return 'invisible';  // return '未命名地形';
+        }
       }
     default:
       return '';
@@ -449,17 +460,19 @@ function addBDZ(url: string) {
     }
 
     // 针对单个图层的处理：
-    let layer1 = scene.layers.find("PI_UV");
-    //色相，默认是0，值域-1-1        
-    layer1.hue = 0;
-    //亮度，默认0
-    layer1.brightness = 1.0;
-    // 对比度，默认1
-    layer1.contrast = 1.0;
-    // 饱和度，默认1
-    layer1.saturation = 1.3;
-    // gamma
-    layer1.gamma = 1;
+    let layer1 = scene.layers.find("PI_UV_PBR");
+    if (layer1 && layer1 instanceof SuperMap3D.S3MTilesLayer) {
+      //色相，默认是0，值域-1-1        
+      layer1.hue = 0;
+      //亮度，默认0
+      layer1.brightness = 1.0;
+      // 对比度，默认1
+      layer1.contrast = 1.0;
+      // 饱和度，默认1
+      layer1.saturation = 1.3;
+      // gamma
+      layer1.gamma = 1;
+    }
   })
 
   function loadShadow(shadowChecked) {
