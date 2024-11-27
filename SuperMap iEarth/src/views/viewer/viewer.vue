@@ -10,6 +10,7 @@ import { useLayerStore } from "@/store/layerStore/layer";
 import EventManager from "@/tools/ScreenEventManage/EventManager.js";
 import layerManagement from "@/tools/layerManagement";
 import openScene from "./openScene";
+import AIFunction from "@/lib/AIFunction";
 
 // 导入配置
 import getConfig from "@/tools/getConfig";
@@ -91,6 +92,10 @@ function initViewer() {
     shadowQuality: 0,
     creditContainer: document.createElement("div"), //去掉底部logo
   });
+
+  // iEarth打通AI,监听iFrame元素的postMessage事件
+  const aiFunction = new AIFunction(viewer);
+  aiFunction.startListenIFramePostMessage();
 
   // 获取iportal中保存的场景模式：平面 or 三维
   getIPortalSceneInfo().then((res) => {
