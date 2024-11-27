@@ -40,7 +40,7 @@ export const inputRuleCheck = (value: String|Number, type: RuleCheckTypeEnum, op
         case RuleCheckTypeEnum.URL: 
             return handleUrl(value); // break;
         case RuleCheckTypeEnum.Text:
-            return handleText(value);
+            return handleText(value, option);
         case RuleCheckTypeEnum.Number:
             return handleNumber(value);
         case RuleCheckTypeEnum.Token:
@@ -62,10 +62,10 @@ function handleUrl(url, option?: any){
 }
 
 // 校验文字
-function handleText(str, option?: any){
+function handleText(str, option?:any){
     if(isNull(str)) return {isPass:false, message:ErrorCode.FIELD_REQUIRED};
     if(isCRLF(str)) return {isPass:false, message:ErrorCode.NO_LINE_BREAKS_OR_CARRIAGE_RETURNS};
-    const response = isText(str);
+    const response = isText(str, option);
     if(response && response.error) return {isPass:false, message:ErrorCode[response.error]};
     return {isPass:true, message:'checked'};
 }
@@ -112,8 +112,17 @@ function isCRLF(value){
 
 // 判断是否为文字
 const rule_text = { rules: [{ type: 'text', required: true, len: 1000 }]};
-function isText(value){
-    const response = validate(value, rule_text);
+function isText(value, option?:any){
+    let rule_text_new:any = undefined;
+    if(option && option.type=='iPortalName'){ // iportal资源长度255
+        rule_text_new = { rules: [{ type: 'text', required: true, len: 255 }]};
+    }else if(option && option.type=='iPortalLabel'){ // iportal标签长度254
+        rule_text_new = { rules: [{ type: 'text', required: true, len: 254 }]};
+    }else{
+        rule_text_new = rule_text;
+    }
+
+    const response = validate(value, rule_text_new);
     return response ? response : false; // 返回null时表示通过校验
 }
 

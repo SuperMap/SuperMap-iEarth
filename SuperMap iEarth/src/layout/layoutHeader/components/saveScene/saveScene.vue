@@ -187,14 +187,14 @@ let fromData = reactive({
 //检查输入是否合规：URL、Name、Token
 function handleNameChange() {
   fromData.scenePortalName = fromData.scenePortalName.trim();
-  const checkeResult = inputRuleCheck(fromData.scenePortalName, RuleCheckTypeEnum.Text);
+  const checkeResult = inputRuleCheck(fromData.scenePortalName, RuleCheckTypeEnum.Text,{type:"iPortalName",len:255});
   if (!checkeResult.isPass) message.warning(checkeResult.message);
   state.isNamePass = checkeResult.isPass;
   computedCheckPass();
 }
 function handleLabelChange() {
   fromData.scenePortalTages = fromData.scenePortalTages.trim();
-  const checkeResult = inputRuleCheck(fromData.scenePortalTages, RuleCheckTypeEnum.Text);
+  const checkeResult = inputRuleCheck(fromData.scenePortalTages, RuleCheckTypeEnum.Text,{type:"iPortalLabel",len:254});
   if (!checkeResult.isPass) message.warning(checkeResult.message);
   state.isLabelPass = checkeResult.isPass;
   computedCheckPass();
