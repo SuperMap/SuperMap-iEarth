@@ -70,7 +70,9 @@
       class="radio-group"
     >
       <n-radio
+        class="text-ellipsis-box"
         v-for="item in state.delOption"
+        :title="item.label"
         :key="item.value"
         :value="item.value"
       >

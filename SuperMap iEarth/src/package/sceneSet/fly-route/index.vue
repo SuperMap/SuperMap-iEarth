@@ -1,8 +1,10 @@
 <template>
   <div class="btn-list">
     <div
-      class="btn"
+      class="btn text-ellipsis-box"
       v-for="(item, index) in comList"
+      style="width: 1.5rem;"
+      :title="item.name"
       :class="item.isSelect ? 'select-btn' : ''"
       :key="index"
       @click="changeItem(item)"

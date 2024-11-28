@@ -50,6 +50,9 @@ import SmAnalyseFacadeImage from "./analyse-facadeImage/index";
   :deep(.n-tabs-nav) {
     padding: 0 0.12rem;
   }
+  :deep(.n-tabs-tab-wrapper) {
+    margin-right: 0.05rem;
+  }
 
   :deep(.n-tab-pane) {
     box-sizing: border-box;

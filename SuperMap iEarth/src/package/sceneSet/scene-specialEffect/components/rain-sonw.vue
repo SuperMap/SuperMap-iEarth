@@ -52,7 +52,7 @@
         placeholder=""
         size="small"
       />
-      <span style="width: 42px">{{ $t("meterSecond") }}</span>
+      <div class="text-ellipsis-box" style="width: 0.5rem;" :title="$t('meterSecond')">{{ $t("meterSecond") }}</div>
     </div>
   </div>
 
@@ -109,7 +109,7 @@
         placeholder=""
         size="small"
       />
-      <span style="width: 42px">{{ $t("meterSecond") }}</span>
+      <div class="text-ellipsis-box" style="width: 0.5rem;" :title="$t('meterSecond')">{{ $t("meterSecond") }}</div>
     </div>
   </div>
 

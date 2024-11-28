@@ -38,8 +38,8 @@
         :max="100"
       />
       <div class="row-slider-num" style="width: 0.6rem">
-        <span>{{ state.floodSpeed }}</span
-        ><span>{{ $t("meterSecond") }}</span>
+        <span>{{ state.floodSpeed }}</span>
+        <div class="text-ellipsis-box" style="width: 0.5rem;" :title="$t('meterSecond')">{{ $t("meterSecond") }}</div>
       </div>
     </div>
   </div>

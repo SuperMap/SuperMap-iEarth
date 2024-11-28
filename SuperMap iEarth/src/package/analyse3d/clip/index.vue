@@ -34,5 +34,9 @@ import SmClipPolygon from "./clip-polygon/index";
   height: 100%;
   box-sizing: border-box;
   padding: 0 0.12rem;
+
+  :deep(.n-tabs-tab-wrapper) {
+    margin-right: 0.05rem;
+  }
 }
 </style>

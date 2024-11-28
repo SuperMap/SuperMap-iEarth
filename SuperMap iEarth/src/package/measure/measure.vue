@@ -38,7 +38,7 @@
           v-model:checked="state.pickPointEnabled"
           style="margin-bottom: 0.1rem"
         >
-          {{ $t("pickPoint") }}
+          <div class="text-ellipsis-box" style="width: 1.5rem;" :title="$t('pickPoint')"> {{ $t("pickPoint") }}</div>
         </n-checkbox>
       </div>
     </div>

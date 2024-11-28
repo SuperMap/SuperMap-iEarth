@@ -83,7 +83,7 @@
         size="small"
         style="width: 31%"
       />
-      <span style="width: 0.4rem">{{ $t("meterSecond") }}</span>
+      <div class="text-ellipsis-box" style="width: 0.5rem;" :title="$t('meterSecond')">{{ $t("meterSecond") }}</div>
     </div>
   </div>
 

@@ -452,4 +452,11 @@ const overridesTheme = {
 .myService-disabled-item td{
   color: rgba(255,255,255,0.25) !important;
 }
+
+// 文字省略：DOM需要自己根据情况设置style-width
+.text-ellipsis-box {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>
