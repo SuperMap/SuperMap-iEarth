@@ -255,6 +255,8 @@ function init() {
     let point = res.object;
     let position = point.position;
     // let color = SuperMap3D.Color.fromRandom({ alpha: 1.0 });
+    let posDeg = SuperMap3D.Cartographic.fromCartesian(position);
+    let ellipseHeight = posDeg.height;
     let geometryColor = SuperMap3D.Color.fromCssColorString(
       state.geometryColor
     );
@@ -268,8 +270,8 @@ function init() {
       ellipse: {
         semiMinorAxis: state.semiMinorAxis,
         semiMajorAxis: state.semiMajorAxis,
-        height: 0,
-        extrudedHeight: state.extrudedHeight,
+        height: Number(ellipseHeight),
+        extrudedHeight: Number(ellipseHeight) + state.extrudedHeight,
         material: geometryColor,
         granularity: SuperMap3D.Math.RADIANS_PER_DEGREE,
         rotation: 0,
@@ -336,14 +338,15 @@ watch(
     }
   }
 );
-watch(
-  () => state.extrudedHeight,
-  (val) => {
-    if (targetEntity) {
-      targetEntity.ellipse["extrudedHeight"] = val;
-    }
-  }
-);
+// 圆柱体的这个附加高度接口有点怪，看文档写的什么挤出面啥的，实时修改有问题，这里注释掉
+// watch(
+//   () => state.extrudedHeight,
+//   (val) => {
+//     if (targetEntity) {
+//       targetEntity.ellipse["extrudedHeight"] = val;
+//     }
+//   }
+// );
 watch(
   () => state.rotation,
   (val) => {
