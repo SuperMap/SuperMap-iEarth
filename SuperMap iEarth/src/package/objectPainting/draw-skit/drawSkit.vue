@@ -444,19 +444,27 @@ watch(
       case 0:
         state.symbolOptionsList = symbolOptions[0];
         state.optionAddWay = treeOperation;
+        state.currentModelUrl = "./Resource/skitStore/newTree/001_Platanus.s3mb";
         break;
       case 1:
         state.symbolOptionsList = symbolOptions[1];
         state.optionAddWay = otherOperation;
         state.addType = "single";
+        state.currentModelUrl = "./Resource/skitStore/Chair.s3m";
         break;
       case 2:
         state.symbolOptionsList = symbolOptions[2];
         state.optionAddWay = otherOperation;
         state.addType = "single";
+        state.currentModelUrl = "./Resource/skitStore/StreetLight.s3m";
         break;
       default:
         break;
+    }
+
+    if(state.symbolOptionsList && state.symbolOptionsList.data){
+      state.symbolOptionsList.data.forEach(item => item.isSelect = false);
+      state.symbolOptionsList.data[0].isSelect = true;
     }
   }
 );

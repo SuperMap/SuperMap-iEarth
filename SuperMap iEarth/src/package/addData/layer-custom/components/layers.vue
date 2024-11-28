@@ -105,8 +105,8 @@ const message = useMessage();
 const widget = viewer.cesiumWidget;
 
 onMounted(() => {
-  viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
-  window.viewer.shadows = false; // 关闭阴影
+  // viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
+  // window.viewer.shadows = false; // 关闭阴影
 });
 
 onBeforeUnmount(() => {});

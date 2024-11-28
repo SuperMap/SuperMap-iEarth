@@ -705,7 +705,7 @@ const local_zh = {
         FIELD_REQUIRED: "该字段不能为空",
         NUMERIC_ONLY: "该字段仅能输入数字",
         TEXT_ONLY: "该字段仅能输入文字",
-        EXCEED_MAX_VALUE_ALLOWED: "不能超过最大值",
+        EXCEED_MAX_VALUE_ALLOWED: "长度不能超过最大值",
         BELOW_MIN_VALUE_ALLOWED: "不能小于最小值",
 }
 

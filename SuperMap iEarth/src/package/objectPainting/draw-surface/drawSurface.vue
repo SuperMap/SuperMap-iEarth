@@ -69,6 +69,8 @@
       v-model:value="state.gridWidth"
       style="width: 1.96rem"
       :show-button="false"
+      :min="1"
+      :max="100"
     ></n-input-number>
   </div>
 
@@ -78,6 +80,8 @@
       v-model:value="state.gridCount"
       style="width: 1.96rem"
       :show-button="false"
+      :min="1"
+      :max="100"
     ></n-input-number>
   </div>
 
@@ -87,7 +91,8 @@
       v-model:value="state.gridCellAlpha"
       style="width: 1.96rem"
       :step="0.1"
-      :show-button="false"
+      :min="0"
+      :max="1"
     ></n-input-number>
   </div>
 
@@ -128,6 +133,8 @@
       v-model:value="state.stripeRepeat"
       style="width: 1.96rem"
       :show-button="false"
+      :min="1"
+      :max="200"
     ></n-input-number>
   </div>
 
@@ -137,6 +144,8 @@
       v-model:value="state.stripeOffset"
       style="width: 1.96rem"
       :show-button="false"
+      :min="0"
+      :max="1000"
     ></n-input-number>
   </div>
 
@@ -180,6 +189,7 @@ import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import { useNotification } from "naive-ui";
 import initHandler from "@/tools/drawHandler";
 import setEditHandler from "@/tools/editHandler";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const notification = useNotification();
 
@@ -474,27 +484,46 @@ watch(
 watch(
   () => state.gridWidth,
   (val) => {
-    if (selected_gon)
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) {
+      window["$message"].warning(checkeResult.message);
+      state.gridWidth = val = 1;
+    };
+    if (selected_gon) {
       selected_gon.polygon.material.lineThickness = new SuperMap3D.Cartesian2(
         Number(val),
         Number(val)
       );
+    }
   }
 );
 watch(
   () => state.gridCount,
   (val) => {
-    if (selected_gon)
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) {
+      window["$message"].warning(checkeResult.message);
+      state.gridCount = val = 8;
+    };
+    if (selected_gon) {
       selected_gon.polygon.material.lineCount = new SuperMap3D.Cartesian2(
         Number(val),
         Number(val)
       );
+    }
   }
 );
 watch(
   () => state.gridCellAlpha,
   (val) => {
-    if (selected_gon) selected_gon.polygon.material.cellAlpha = Number(val);
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) {
+      window["$message"].warning(checkeResult.message);
+      state.gridCellAlpha = val = 0.1;
+    };
+    if (selected_gon) {
+      selected_gon.polygon.material.cellAlpha = Number(val);
+    }
   }
 );
 watch(
@@ -514,12 +543,22 @@ watch(
 watch(
   () => state.stripeRepeat,
   (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) {
+      window["$message"].warning(checkeResult.message);
+      state.stripeRepeat = val = 12;
+    };
     if (selected_gon) selected_gon.polygon.material.repeat = Number(val);
   }
 );
 watch(
   () => state.stripeOffset,
   (val) => {
+    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
+    if (!checkeResult.isPass) {
+      window["$message"].warning(checkeResult.message);
+      state.stripeOffset = val = 0;
+    };
     if (selected_gon) selected_gon.polygon.material.offset = Number(val);
   }
 );

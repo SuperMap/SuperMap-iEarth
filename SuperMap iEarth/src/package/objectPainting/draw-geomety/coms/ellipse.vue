@@ -103,7 +103,7 @@
       <n-slider
         style="width: 1.5rem"
         v-model:value="state.rotation"
-        :step="0"
+        :step="1"
         :min="0"
         :max="90"
       />

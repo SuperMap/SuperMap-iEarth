@@ -41,7 +41,7 @@ import SmDrawGeomety from "./draw-geomety/index";
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  // padding: 0 0.05rem;
+  padding: 0 0.1rem;
 }
 
 :deep(.n-tabs-tab-wrapper) {

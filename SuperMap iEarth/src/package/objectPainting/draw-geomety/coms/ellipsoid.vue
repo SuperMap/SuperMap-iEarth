@@ -200,13 +200,14 @@ function init() {
   handlerPoint_ellipsoid.drawEvt.addEventListener(function (res) {
     let point = res.object;
     let position = point.position;
-    let posDeg = SuperMap3D.Cartographic.fromCartesian(position);
-    posDeg.height = 20;
-    position = SuperMap3D.Cartesian3.fromRadians(
-      posDeg.longitude,
-      posDeg.latitude,
-      posDeg.height
-    );
+    // 注释掉：不设置默认高度，不然会贴地
+    // let posDeg = SuperMap3D.Cartographic.fromCartesian(position);
+    // posDeg.height = 20;
+    // position = SuperMap3D.Cartesian3.fromRadians(
+    //   posDeg.longitude,
+    //   posDeg.latitude,
+    //   posDeg.height
+    // );
     let geometryColor = SuperMap3D.Color.fromCssColorString(
       state.geometryColor
     );

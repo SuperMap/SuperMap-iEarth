@@ -21,6 +21,7 @@ import { h, ref, nextTick, onMounted } from "vue";
 import { TreeOption, NButton, NDropdown, NInput, useMessage, NEllipsis } from "naive-ui";
 import { usePanelStore } from "@/store";
 import { useLayerStore } from "@/store/index";
+import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const panelStore = usePanelStore();
 const layerStore = useLayerStore();
@@ -543,6 +544,11 @@ const nodelabel = ({ option }: { option: TreeOption }) => {
           title: option.label,
           value: option.label,
           onUpdateValue: (v) => {
+            const checkeResult = inputRuleCheck(v, RuleCheckTypeEnum.Text);
+            if (!checkeResult.isPass) {
+              message.warning(checkeResult.message);
+              return;
+            }
             option.label = v;
             let aliasKey: any = option.aliasKey;
             switch (option.type) {
@@ -584,12 +590,12 @@ const nodelabel = ({ option }: { option: TreeOption }) => {
 const checkCamera = ({ option }: { option: TreeOption }) => {
   return {
     onClick() {},
-    ondblclick() {
-      option.isedit = true;
-      nextTick(() => {
-        inputRef.value.focus();
-      });
-    },
+    // ondblclick() {
+    //   option.isedit = true;
+    //   nextTick(() => {
+    //     inputRef.value.focus();
+    //   });
+    // },
   };
 };
 

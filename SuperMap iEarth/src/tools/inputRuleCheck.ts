@@ -30,7 +30,7 @@ const ErrorCode = {
     FIELD_REQUIRED: $t ? $t('FIELD_REQUIRED') :"该字段不能为空",
     NUMERIC_ONLY: $t ? $t('NUMERIC_ONLY') :"该字段仅能输入数字",
     TEXT_ONLY: $t ? $t('NUMERIC_ONLY') :"该字段仅能输入文字", // 非标准
-    EXCEED_MAX_VALUE_ALLOWED: $t ? $t('EXCEED_MAX_VALUE_ALLOWED') :"不能超过最大值",
+    EXCEED_MAX_VALUE_ALLOWED: $t ? $t('EXCEED_MAX_VALUE_ALLOWED') :"长度不能超过最大值",
     BELOW_MIN_VALUE_ALLOWED: $t ? $t('BELOW_MIN_VALUE_ALLOWED') :"不能小于最小值",
 }
 
@@ -66,7 +66,13 @@ function handleText(str, option?:any){
     if(isNull(str)) return {isPass:false, message:ErrorCode.FIELD_REQUIRED};
     if(isCRLF(str)) return {isPass:false, message:ErrorCode.NO_LINE_BREAKS_OR_CARRIAGE_RETURNS};
     const response = isText(str, option);
-    if(response && response.error) return {isPass:false, message:ErrorCode[response.error]};
+    if(response && response.error) {
+        let msg = ErrorCode[response.error];
+        if(response.error == 'EXCEED_MAX_VALUE_ALLOWED') {
+            msg = msg+`:${response.rule.len}`;
+        }
+        return {isPass:false, message: msg}
+    };
     return {isPass:true, message:'checked'};
 }
 

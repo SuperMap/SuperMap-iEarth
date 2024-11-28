@@ -17,7 +17,7 @@
     </div>
     <input
       type="file"
-      accept="*.mp4"
+      accept=".mp4"
       id="vedioFile"
       style="display: none"
       ref="vedioFile_dom"

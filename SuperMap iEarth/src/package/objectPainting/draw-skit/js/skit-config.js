@@ -74,7 +74,7 @@ export default
                 nameEN: 'Chair',
                 thumbnail: "./Resource/skitStore/bench.png",
                 path: "./Resource/skitStore/Chair.s3m",
-                isSelect: false,
+                isSelect: true,
             },
             {
                 id: 1,
@@ -140,7 +140,7 @@ export default
                 nameEN: 'StreetLight',
                 thumbnail: "./Resource/skitStore/lamp-post.png",
                 path: "./Resource/skitStore/StreetLight.s3m",
-                isSelect: false,
+                isSelect: true,
             },
             {
                 id: 2,
