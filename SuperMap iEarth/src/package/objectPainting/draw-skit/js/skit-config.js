@@ -76,14 +76,14 @@ export default
                 path: "./Resource/skitStore/Chair.s3m",
                 isSelect: true,
             },
-            {
-                id: 1,
-                name: "垃圾箱",
-                nameEN: 'Dustbin',
-                thumbnail: "./Resource/skitStore/Dustbin.png",
-                path: "./Resource/skitStore/Dustbin.s3m",
-                isSelect: false,
-            },
+            // {
+            //     id: 1,
+            //     name: "垃圾箱",
+            //     nameEN: 'Dustbin',
+            //     thumbnail: "./Resource/skitStore/Dustbin.png",
+            //     path: "./Resource/skitStore/Dustbin.s3m",
+            //     isSelect: false,
+            // },
             // {
             //     id: 2,
             //     name: "垃圾箱2",
