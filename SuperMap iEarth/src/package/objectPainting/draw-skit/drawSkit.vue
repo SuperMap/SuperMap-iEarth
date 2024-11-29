@@ -166,14 +166,14 @@ let state = reactive<stateType>({
       label: () => $t("tree"),
       value: 0,
     },
-    {
-      label: () => $t("facilities"),
-      value: 1,
-    },
-    {
-      label: () => $t("traffic"),
-      value: 2,
-    },
+    // {
+    //   label: () => $t("facilities"),
+    //   value: 1,
+    // },
+    // {
+    //   label: () => $t("traffic"),
+    //   value: 2,
+    // },
   ],
   optionAddWay: [],
   symbolOptionsList: symbolOptions[0],
