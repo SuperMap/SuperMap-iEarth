@@ -113,13 +113,14 @@
       :title="$t('analysis')"
       >{{ $t("analysis") }}</n-button
     >
+    <!-- 这里由于限高体字数太多显示不全，专门给他设置了padding-right: 0.05rem; -->
     <n-button
       type="info"
       class="limitingBody"
       color="#3499E5"
       text-color="#fff"
       @click="setLimitBody"
-      style="margin-right: 0.1rem"
+      style="margin-right: 0.1rem;padding-right: 0.05rem;"
       :title="$t('limitingBody')"
       >{{ $t("limitingBody") }}</n-button
     >

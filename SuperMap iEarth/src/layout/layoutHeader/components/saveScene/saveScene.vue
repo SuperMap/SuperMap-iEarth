@@ -661,6 +661,12 @@ watch(
       fromData.scenePortalDescription =
         IportalStore.saveInfo.scenePortalDescription;
     }
+    
+    // 如果是场景编辑模式，校验当前输入是否合法
+    if(window.location.href.includes('id=')) {
+      handleNameChange();
+      handleLabelChange();
+    }
   }
 );
 </script>

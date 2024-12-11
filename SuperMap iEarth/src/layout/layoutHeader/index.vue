@@ -12,12 +12,12 @@
 
       <!-- 保存+用户 -->
       <div class="head-content header-right">
-        <!-- <i
+        <i
           class="iconfont iconbaocun"
           @click="save"
           v-show="IportalStore.isLogin"
         ></i>
-        <n-divider vertical /> -->
+        <n-divider vertical />
         <User></User>
       </div>
     </div>
