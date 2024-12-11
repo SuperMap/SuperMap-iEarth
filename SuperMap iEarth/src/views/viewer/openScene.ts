@@ -233,13 +233,15 @@ function CartesiantoDegrees(Cartesians) {
 
 // 打开s3m图层
 function openS3M(content: any) {
-  let s3mlayer = content.layers.s3mLayer;
-  if (s3mlayer && s3mlayer.length > 0) {
-    for (let t = 0; t < s3mlayer.length; t++) {
-      let url = content.layers.s3mLayer[t].url;
-      let name = content.layers.s3mLayer[t].name;
+  let s3mlayerOptionList = content.layers.s3mLayer;
+  if (s3mlayerOptionList && s3mlayerOptionList.length > 0) {
+    for (let t = 0; t < s3mlayerOptionList.length; t++) {
+      let s3mlayerOption = s3mlayerOptionList[t];
+      let url = s3mlayerOption.url;
+      let name = s3mlayerOption.name;
       setTrustedServers(url);
-      let bindName = content.layers.s3mLayer[t].bindName || '';
+      let bindName = s3mlayerOption.bindName || '';
+      if(s3mlayerOption.token) url = url + '?token=' + s3mlayerOption.token; // 加上token
       let promise = viewer.scene.addS3MTilesLayerByScp(url, { name: name });
       SuperMap3D.when(promise, function (layer: any) {
         layer.bindName = bindName;
