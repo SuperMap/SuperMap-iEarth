@@ -113,6 +113,9 @@ export namespace Viewer {
 *     sceneMode : SuperMap3D.SceneMode.COLUMBUS_VIEW,
 *     terrainProvider : SuperMap3D.createWorldTerrain(),
 *     baseLayerPicker : false,
+*     imageryProvider : new SuperMap3D.OpenStreetMapImageryProvider({
+*         url : 'https://a.tile.openstreetmap.org/'
+*     }),
 *     skyBox : new SuperMap3D.SkyBox({
 *         sources : {
 *           positiveX : 'stars/TychoSkymapII.t3_08192x04096_80_px.jpg',
@@ -718,7 +721,7 @@ type Scene = {
    * //子域用法
    * var config = {
    *      subdomainConfig: {
-   *         urlScheme: "",
+   *         urlScheme: "http://{s}.supermap.com:8090/iserver/services/3D-BIM/rest/realspace",
    *         subdomains: ['t1', 't2']
    *     },
    *     name: "BIM"
@@ -871,7 +874,7 @@ type Scene = {
      * var promise = scene.open('http://localhost:8090/iserver/services/3D-BIM3/rest/realspace');
      * promise.then(function(layers){});
      *      //子域和不自动定位用法
-     *    var promise = scene.open('',undefined,{
+     *    var promise = scene.open('http://{s}.supermap.com:8090/iserver/services/3D-BIM3/rest/realspace',undefined,{
      *       subdomains: ['t1', 't2']，//子域
      *      autoSetView : false      //不自动定位
      *   });
@@ -6681,7 +6684,7 @@ export class GoogleEarthEnterpriseTerrainData {
 /**
 * Provides tiled terrain using the Google Earth Enterprise REST API.
 * @example
-* const geeMetadata = new GoogleEarthEnterpriseMetadata('');
+* const geeMetadata = new GoogleEarthEnterpriseMetadata('http://www.earthenterprise.org/3d');
 * const gee = new SuperMap.GoogleEarthEnterpriseTerrainProvider({
 *     metadata : geeMetadata
 * });
@@ -7401,6 +7404,7 @@ export class HermiteSpline {
 }
 /**
  * Constants for WebGL index datatypes.  These corresponds to the
+ * <code>type</code> parameter of {@link http://www.khronos.org/opengles/sdk/docs/man/xhtml/glDrawElements.xml|drawElements}.
  */
 export enum IndexDatatype {
   /**
@@ -7504,6 +7508,7 @@ export namespace IntersectionTests {
   /**
    * Computes the intersection of a ray and a triangle as a parametric distance along the input ray. The result is negative when the triangle is behind the ray.
    *
+   * Implements {@link https://cadxfem.org/inf/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf|
    * Fast Minimum Storage Ray/Triangle Intersection} by Tomas Moller and Ben Trumbore.
    * @param ray - The ray.
    * @param p0 - The first vertex of the triangle.
@@ -7517,6 +7522,7 @@ export namespace IntersectionTests {
   /**
    * Computes the intersection of a ray and a triangle as a Cartesian3 coordinate.
    *
+   * Implements {@link https://cadxfem.org/inf/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf|
    * Fast Minimum Storage Ray/Triangle Intersection} by Tomas Moller and Ben Trumbore.
    * @param ray - The ray.
    * @param p0 - The first vertex of the triangle.
@@ -7752,7 +7758,7 @@ export class JulianDate {
    */
   fromDate(date: Date, result?: JulianDate): JulianDate;
   /**
-   * Creates a new instance from a from an date.
+   * Creates a new instance from a from an {@link http://en.wikipedia.org/wiki/ISO_8601|ISO 8601} date.
    * This method is superior to <code>Date.parse</code> because it will handle all valid formats defined by the ISO 8601
    * specification, including leap seconds and sub-millisecond times, which discarded by most JavaScript implementations.
    * @param iso8601String - An ISO 8601 date.
@@ -8615,7 +8621,7 @@ export namespace Math {
   /**
    * Computes a fast approximation of Atan2(x, y) for arbitrary input scalars.
    *
-   * Range reduction math based on nvidia's cg reference implementation
+   * Range reduction math based on nvidia's cg reference implementation: http://developer.download.nvidia.com/cg/atan2.html
    * @param x - An input number that isn't zero if y is zero.
    * @param y - An input number that isn't zero if x is zero.
    * @returns An approximation of atan2(x, y)
@@ -9122,7 +9128,7 @@ export class Matrix3 implements ArrayLike<number> {
    */
   fromQuaternion(quaternion: Quaternion, result?: Matrix3): Matrix3;
   /**
-   * Computes a 3x3 rotation matrix from the provided headingPitchRoll.
+   * Computes a 3x3 rotation matrix from the provided headingPitchRoll. (see http://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles )
    * @param headingPitchRoll - the headingPitchRoll to use.
    * @param [result] - The object in which the result will be stored, if undefined a new instance will be created.
    * @returns The 3x3 rotation matrix from this headingPitchRoll.
@@ -10569,15 +10575,15 @@ export class Occluder {
 }
 
 /**
-* Provides geocoding via a server.
+* Provides geocoding via a {@link https://opencagedata.com/|OpenCage} server.
 * @example
 * // Configure a Viewer to use the OpenCage Geocoder
 * const viewer = new SuperMap.Viewer('Container', {
-*   geocoder: new SuperMap.OpenCageGeocoderService('', '<API key>')
+*   geocoder: new SuperMap.OpenCageGeocoderService('https://api.opencagedata.com/geocode/v1/', '<API key>')
 * });
 * @param url - The endpoint to the OpenCage server.
 * @param apiKey - The OpenCage API Key.
-* @param [params] - An object with the following properties:
+* @param [params] - An object with the following properties (See https://opencagedata.com/api#forward-opt):
 * @param [params.abbrv] - When set to 1 we attempt to abbreviate and shorten the formatted string we return.
 * @param [options.add_request] - When set to 1 the various request parameters are added to the response for ease of debugging.
 * @param [options.bounds] - Provides the geocoder with a hint to the region that the query resides in.
@@ -10657,6 +10663,7 @@ export class OrientedBoundingBox {
   /**
    * Computes an instance of an OrientedBoundingBox of the given positions.
    * This is an implementation of Stefan Gottschalk's Collision Queries using Oriented Bounding Boxes solution (PHD thesis).
+   * Reference: http://gamma.cs.unc.edu/users/gottschalk/main.pdf
    * @example
    * // Compute an object oriented bounding box enclosing two points.
    * const box = SuperMap.OrientedBoundingBox.fromPoints([new SuperMap.Cartesian3(2, 0, 0), new SuperMap.Cartesian3(-2, 0, 0)]);
@@ -11428,7 +11435,7 @@ export class PinBuilder {
    */
   fromUrl(url: Resource | string, color: Color, size: number): HTMLCanvasElement | Promise<HTMLCanvasElement>;
   /**
-   * Creates a pin with the specified icon identifier, color, and size.
+   * Creates a pin with the specified {@link https://www.mapbox.com/maki/|maki} icon identifier, color, and size.
    * @param id - The id of the maki icon to be stamped onto the pin.
    * @param color - The color of the pin.
    * @param size - The size of the pin, in pixels.
@@ -13624,7 +13631,7 @@ export namespace Resource {
 * }
 *
 * const resource = new Resource({
-*    url: '',
+*    url: 'http://server.com/path/to/resource.json',
 *    proxy: new DefaultProxy('/proxy/'),
 *    headers: {
 *      'X-My-Header': 'valueOfHeader'
@@ -13847,8 +13854,8 @@ export class Resource {
   }): Promise<Blob> | undefined;
   /**
    * Asynchronously loads the given image resource.  Returns a promise that will resolve to
-   * an if <code>preferImageBitmap</code> is true and the browser supports <code>createImageBitmap</code> or otherwise an
-   *  once loaded, or reject if the image failed to load.
+   * an {@link https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap|ImageBitmap} if <code>preferImageBitmap</code> is true and the browser supports <code>createImageBitmap</code> or otherwise an
+   * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement|Image} once loaded, or reject if the image failed to load.
    * @example
    * // load a single image asynchronously
    * resource.fetchImage().then(function(image) {
@@ -13913,7 +13920,7 @@ export class Resource {
    * @example
    * // load text from a URL, setting a custom header
    * const resource = new Resource({
-   *   url: '',
+   *   url: 'http://someUrl.com/someJson.txt',
    *   headers: {
    *     'X-Custom-Header' : 'some value'
    *   }
@@ -13995,7 +14002,7 @@ export class Resource {
    * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
    * @example
    * // load XML from a URL, setting a custom header
-   * SuperMap.loadXML('', {
+   * SuperMap.loadXML('http://someUrl.com/someXML.xml', {
    *   'X-Custom-Header' : 'some value'
    * }).then(function(document) {
    *     // Do something with the document
@@ -15561,7 +15568,7 @@ export class TimeInterval {
    */
   readonly isEmpty: boolean;
   /**
-   * Creates a new instance from a interval.
+   * Creates a new instance from a {@link http://en.wikipedia.org/wiki/ISO_8601|ISO 8601} interval.
    * @param options - Object with the following properties:
    * @param options.iso8601 - An ISO 8601 interval.
    * @param [options.isStartIncluded = true] - <code>true</code> if <code>options.start</code> is included in the interval, <code>false</code> otherwise.
@@ -15815,7 +15822,7 @@ export class TimeIntervalCollection {
     dataCallback?: (...params: any[]) => any;
   }, result?: TimeIntervalCollection): TimeIntervalCollection;
   /**
-   * Creates a new instance from an time interval (start/end/duration).
+   * Creates a new instance from an {@link http://en.wikipedia.org/wiki/ISO_8601|ISO 8601} time interval (start/end/duration).
    * @param options - Object with the following properties:
    * @param options.iso8601 - An ISO 8601 interval.
    * @param [options.isStartIncluded = true] - <code>true</code> if start time is included in the interval, <code>false</code> otherwise.
@@ -15835,7 +15842,7 @@ export class TimeIntervalCollection {
     dataCallback?: (...params: any[]) => any;
   }, result?: TimeIntervalCollection): TimeIntervalCollection;
   /**
-   * Creates a new instance from a date array.
+   * Creates a new instance from a {@link http://en.wikipedia.org/wiki/ISO_8601|ISO 8601} date array.
    * @param options - Object with the following properties:
    * @param options.iso8601Dates - An array of ISO 8601 dates.
    * @param [options.isStartIncluded = true] - <code>true</code> if start time is included in the interval, <code>false</code> otherwise.
@@ -15855,7 +15862,7 @@ export class TimeIntervalCollection {
     dataCallback?: (...params: any[]) => any;
   }, result?: TimeIntervalCollection): TimeIntervalCollection;
   /**
-   * Creates a new instance from a duration array.
+   * Creates a new instance from a {@link http://en.wikipedia.org/wiki/ISO_8601|ISO 8601} duration array.
    * @param options - Object with the following properties:
    * @param options.epoch - An date that the durations are relative to.
    * @param options.iso8601Durations - An array of ISO 8601 durations.
@@ -16238,10 +16245,10 @@ export namespace TrustedServers {
    * TrustedServers.add('my.server.com', 81);
    *
    * // Check if server is trusted
-   * if (TrustedServers.contains('')) {
+   * if (TrustedServers.contains('https://my.server.com:81/path/to/file.png')) {
    *     // my.server.com:81 is trusted
    * }
-   * if (TrustedServers.contains('')) {
+   * if (TrustedServers.contains('https://my.server.com/path/to/file.png')) {
    *     // my.server.com isn't trusted
    * }
    * @param url - The url to be tested against the trusted list
@@ -16969,7 +16976,8 @@ export function formatError(object: any): string;
 /**
  * Given a relative Uri and a base Uri, returns the absolute Uri of the relative Uri.
  * @example
- * const absoluteUri = SuperMap.getAbsoluteUri('awesome.png', '');
+ * //absolute Uri will be "https://test.com/awesome.png";
+ * const absoluteUri = SuperMap.getAbsoluteUri('awesome.png', 'https://test.com');
  * @param relative - The relative Uri.
  * @param [base] - The base Uri.
  * @returns The absolute Uri of the given relative Uri.
@@ -20919,12 +20927,12 @@ export namespace BingMapsImageryProvider {
    * Initialization options for the BingMapsImageryProvider constructor
    * @property url - The url of the Bing Maps server hosting the imagery.
    * @property key - The Bing Maps key for your application, which can be
-   *        created at .
+   *        created at {@link https://www.bingmapsportal.com/}.
    * @property [tileProtocol] - The protocol to use when loading tiles, e.g. 'http' or 'https'.
    *        By default, tiles are loaded using the same protocol as the page.
    * @property [mapStyle = BingMapsStyle.AERIAL] - The type of Bing Maps imagery to load.
    * @property [culture = ''] - The culture to use when requesting Bing Maps imagery. Not
-   *        all cultures are supported.
+   *        all cultures are supported. See {@link http://msdn.microsoft.com/en-us/library/hh441729.aspx}
    *        for information on the supported cultures.
    * @property [ellipsoid] - The ellipsoid.  If not specified, the WGS84 ellipsoid is used.
    * @property [tileDiscardPolicy] - The policy that determines if a tile
@@ -20947,8 +20955,8 @@ export namespace BingMapsImageryProvider {
 * Provides tiled imagery using the Bing Maps Imagery REST API.
 * @example
 * const bing = new SuperMap3D.BingMapsImageryProvider({
-*     url : '',
-*     key : '',
+*     url : 'https://dev.virtualearth.net',
+*     key : 'get-yours-at-https://www.bingmapsportal.com/',
 *     mapStyle : SuperMap3D.BingMapsStyle.AERIAL
 * });
 * @param options - Object describing initialization options
@@ -21019,6 +21027,7 @@ export class BingMapsImageryProvider {
   readonly mapStyle: BingMapsStyle;
   /**
    * The culture to use when requesting Bing Maps imagery. Not
+   * all cultures are supported. See {@link http://msdn.microsoft.com/en-us/library/hh441729.aspx}
    * for information on the supported cultures.
    */
   readonly culture: string;
@@ -22450,6 +22459,7 @@ export class ClippingPlaneCollection {
  * An expression for a style applied to a {@link Cesium3DTileset}.
  * <p>
  * Evaluates a conditions expression defined using the
+ * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
  * </p>
  * <p>
  * Implements the {@link StyleExpression} interface.
@@ -22475,6 +22485,7 @@ export class ConditionsExpression {
   /**
    * Evaluates the result of an expression, optionally using the provided feature's properties. If the result of
    * the expression in the
+   * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}
    * is of type <code>Boolean</code>, <code>Number</code>, or <code>String</code>, the corresponding JavaScript
    * primitive type will be returned. If the result is a <code>RegExp</code>, a Javascript <code>RegExp</code>
    * object will be returned. If the result is a <code>Cartesian2</code>, <code>Cartesian3</code>, or <code>Cartesian4</code>,
@@ -22725,6 +22736,7 @@ export class DiscardEmptyTileImagePolicy {
  * An expression for a style applied to a {@link Cesium3DTileset}.
  * <p>
  * Evaluates an expression defined using the
+ * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
  * </p>
  * <p>
  * Implements the {@link StyleExpression} interface.
@@ -22747,6 +22759,7 @@ export class Expression {
   /**
    * Evaluates the result of an expression, optionally using the provided feature's properties. If the result of
    * the expression in the
+   * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}
    * is of type <code>Boolean</code>, <code>Number</code>, or <code>String</code>, the corresponding JavaScript
    * primitive type will be returned. If the result is a <code>RegExp</code>, a Javascript <code>RegExp</code>
    * object will be returned. If the result is a <code>Cartesian2</code>, <code>Cartesian3</code>, or <code>Cartesian4</code>,
@@ -27312,6 +27325,7 @@ export class PrimitiveCollection {
 * </code>
 * </p>
 * <p>
+* The <code>webgl</code> property corresponds to the {@link http://www.khronos.org/registry/webgl/specs/latest/#5.2|WebGLContextAttributes}
 * object used to create the WebGL context.
 * </p>
 * <p>
@@ -27320,6 +27334,7 @@ export class PrimitiveCollection {
 * <code>webgl.alpha</code> to true.
 * </p>
 * <p>
+* The other <code>webgl</code> properties match the WebGL defaults for {@link http://www.khronos.org/registry/webgl/specs/latest/#5.2|WebGLContextAttributes}.
 * </p>
 * <p>
 * <code>allowTextureFilterAnisotropic</code> defaults to true, which enables anisotropic texture filtering when the
@@ -28465,7 +28480,7 @@ export class SingleTileImageryProvider {
 
 /**
 * An atmosphere drawn around the limb of the provided ellipsoid. Based on
-* Display of The Earth Taking Into Account Atmospheric Scattering.
+* {@link http://nishitalab.org/user/nis/cdrom/sig93_nis.pdf|Display of The Earth Taking Into Account Atmospheric Scattering}.
 * <p>
 * This is only supported in 3D. Atmosphere is faded out when morphing to 2D or Columbus view.
 * </p>
@@ -29076,7 +29091,7 @@ export namespace WebMapTileServiceImageryProvider {
 * @example
 * // Example 1. USGS shaded relief tiles (KVP)
 * const shadedRelief1 = new SuperMap3D.WebMapTileServiceImageryProvider({
-*     url : '',
+*     url : 'http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS',
 *     layer : 'USGSShadedReliefOnly',
 *     style : 'default',
 *     format : 'image/jpeg',
@@ -29089,7 +29104,7 @@ export namespace WebMapTileServiceImageryProvider {
 * @example
 * // Example 2. USGS shaded relief tiles (RESTful)
 * const shadedRelief2 = new SuperMap3D.WebMapTileServiceImageryProvider({
-*     url : '',
+*     url : 'http://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS/tile/1.0.0/USGSShadedReliefOnly/{Style}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpg',
 *     layer : 'USGSShadedReliefOnly',
 *     style : 'default',
 *     format : 'image/jpeg',
@@ -29109,7 +29124,7 @@ export namespace WebMapTileServiceImageryProvider {
 *     }
 * });
 * const weather = new SuperMap3D.WebMapTileServiceImageryProvider({
-*     url : '',
+*     url : 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/AMSR2_Snow_Water_Equivalent/default/{Time}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png',
 *     layer : 'AMSR2_Snow_Water_Equivalent',
 *     style : 'default',
 *     tileMatrixSetID : '2km',

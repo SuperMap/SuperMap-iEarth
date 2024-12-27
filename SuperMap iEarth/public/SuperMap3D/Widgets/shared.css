@@ -1,1 +1,116 @@
-.supermap3d-svgPath-svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}.supermap3d-button{display:inline-block;position:relative;background:#303336;border:1px solid #444;color:#edffff;fill:#edffff;border-radius:4px;padding:5px 12px;margin:2px 3px;cursor:pointer;overflow:hidden;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.supermap3d-button:focus{color:#fff;fill:#fff;border-color:#ea4;outline:0}.supermap3d-button:hover{color:#fff;fill:#fff;background:#48b;border-color:#aef;box-shadow:0 0 8px #fff}.supermap3d-button:active{color:#000;fill:#000;background:#adf;border-color:#fff;box-shadow:0 0 8px #fff}.supermap3d-button-disabled,.supermap3d-button-disabled:active,.supermap3d-button-disabled:focus,.supermap3d-button-disabled:hover,.supermap3d-button:disabled{background:#303336;border-color:#444;color:#646464;fill:#646464;box-shadow:none;cursor:default}.supermap3d-button option{background-color:#000;color:#eee}.supermap3d-button option:disabled{color:#777}.supermap3d-button input,.supermap3d-button label{cursor:pointer}.supermap3d-button input{vertical-align:sub}.supermap3d-toolbar-button{box-sizing:border-box;width:32px;height:32px;border-radius:14%;padding:0;vertical-align:middle;z-index:0}.supermap3d-performanceDisplay-select-Container{position:absolute;top:120px;right:10px;width:25%;height:30px;line-height:30px;text-align:center;padding:0 10px;display:flex;justify-content:space-between;background-color:rgba(255,255,255,.9);border-bottom:1px solid #fff;opacity:.9;z-index:99999}.supermap3d-performanceDisplay-select-Container .item{display:flex}.supermap3d-performanceDisplay-select-Container .item input{margin-left:4px;margin-top:0}.supermap3d-performanceDisplay-outward-Container{position:absolute;top:150px;right:10px;width:25%;height:auto;max-height:69%;padding:0 10px;overflow:hidden;overflow-x:auto;overflow-y:auto;font-size:10px;background-color:rgba(255,255,255,.9);opacity:.9;z-index:99999999}.supermap3d-performanceDisplay-Container{display:flex;flex-direction:column}.supermap3d-performanceMonitor-Container{border-bottom:1px solid #fff}#supermap3d-performanceMonitor-performanceInfo{height:400px;border-bottom:none}.supermap3d-performanceMonitor-Container table{text-align:center;width:100%;padding:10px}.supermap3d-performanceMonitor-Container .header{font-weight:700}.supermap3d-performanceDisplay-defaultContainer{position:absolute;bottom:30px;right:10px;text-align:right}.supermap3d-performanceDisplay{background-color:rgba(40,40,40,.7);padding:7px;border-radius:5px;border:1px solid #444;font:bold 12px sans-serif}.supermap3d-performanceDisplay-fps{color:#e52}.supermap3d-performanceDisplay-throttled{color:#a42}.supermap3d-performanceDisplay-ms{color:#de3}
+.supermap3d-svgPath-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.supermap3d-button {
+    display: inline-block;
+    position: relative;
+    background: #303336;
+    border: 1px solid #444;
+    color: #edffff; /* For text buttons */
+    fill: #edffff; /* For SVG buttons */
+    border-radius: 4px;
+    padding: 5px 12px;
+    margin: 2px 3px;
+    cursor: pointer;
+    overflow: hidden;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.supermap3d-button:focus {
+    color: #fff; /* For text buttons */
+    fill: #fff; /* For SVG buttons */
+    border-color: #ea4;
+    outline: none;
+}
+
+.supermap3d-button:hover {
+    color: #fff; /* For text buttons */
+    fill: #fff; /* For SVG buttons */
+    background: #48b;
+    border-color: #aef;
+    box-shadow: 0 0 8px #fff;
+}
+
+.supermap3d-button:active {
+    color: #000; /* For text buttons */
+    fill: #000; /* For SVG buttons */
+    background: #adf;
+    border-color: #fff;
+    box-shadow: 0 0 8px #fff;
+}
+
+.supermap3d-button:disabled,
+.supermap3d-button-disabled,
+.supermap3d-button-disabled:focus,
+.supermap3d-button-disabled:hover,
+.supermap3d-button-disabled:active {
+    background: #303336;
+    border-color: #444;
+    color: #646464; /* For text buttons */
+    fill: #646464; /* For SVG buttons */
+    box-shadow: none;
+    cursor: default;
+}
+
+.supermap3d-button option {
+    background-color: #000;
+    color: #eee;
+}
+
+.supermap3d-button option:disabled {
+    color: #777;
+}
+
+.supermap3d-button input, .supermap3d-button label {
+    cursor: pointer;
+}
+
+.supermap3d-button input {
+    vertical-align: sub;
+}
+
+.supermap3d-toolbar-button {
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    border-radius: 14%;
+    padding: 0;
+    vertical-align: middle;
+    z-index: 0; /* Workaround for rounded raster image corners in Chrome */
+}
+
+.supermap3d-performanceDisplay-defaultContainer {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    text-align: right;
+}
+
+.supermap3d-performanceDisplay {
+    background-color: rgba(40, 40, 40, 0.7);
+    padding: 7px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    font: bold 12px sans-serif;
+}
+
+.supermap3d-performanceDisplay-fps {
+    color: #e52;
+}
+
+.supermap3d-performanceDisplay-throttled {
+    color: #a42;
+}
+
+.supermap3d-performanceDisplay-ms {
+    color: #de3;
+}
