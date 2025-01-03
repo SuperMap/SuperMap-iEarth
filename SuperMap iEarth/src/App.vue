@@ -50,6 +50,7 @@ const watermark = reactive({
   show: false,
   content: "",
   fontSize: 14,
+  isOEM: false
 });
 
 // 验证许可
@@ -79,7 +80,8 @@ const checkLicenseInfo = () => {
         }
         // 判断许可类型 0 为试用许可  watermarkMode:  0：试用；1：正式；2：开发；3：教育；4：个人；5：员工
         if (designerInfo.watermarkMode === 0) {
-          watermark.content = "SuperMap Trial Use";
+          let content = watermark.isOEM ? "Cyclone Trial Use" : "SuperMap Trial Use"
+          watermark.content = content;
           watermark.fontSize = 20;
           watermark.show = true;
           return licenseEnum.TRIAL;
@@ -107,9 +109,23 @@ const checkLicenseInfo = () => {
 };
 
 if (location.href.indexOf("/apps") != -1) {
-  checkLicenseInfo().then((license: licenseEnum) => {
-    console.log("license:", license);
-  });
+  try {
+    let OEMSiteConfigUrl = location.href.split('/apps/')[0] + '/resources/web-ui/config/SiteConfig.json';
+    // console.log("OEMSiteConfigUrl:", OEMSiteConfigUrl);
+    window.axios.get(OEMSiteConfigUrl).then(data => {
+      const siteConfig = data.data;
+      // console.log('webui-siteConfig-data：', siteConfig);
+      watermark.isOEM = siteConfig.isOEM == true ? true : false;
+      checkLicenseInfo().then((license: licenseEnum) => {
+        console.log("license:", license);
+      });
+    })
+  } catch (error) {
+    // console.log("err:", error);
+    checkLicenseInfo().then((license: licenseEnum) => {
+      console.log("license:", license);
+    });
+  }
 }
 
 // 重写主题样式
