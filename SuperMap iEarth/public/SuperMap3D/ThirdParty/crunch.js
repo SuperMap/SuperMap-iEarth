@@ -345,7 +345,7 @@ if (typeof WebAssembly !== 'undefined') {
 	var wasmBinaryFile = "crunch.wasm";
 	if (!isDataURI(wasmBinaryFile)) {
 		//wasmBinaryFile = locateFile(wasmBinaryFile);
-		wasmBinaryFile = self.BASE_URL + 'ThirdParty/crunch.wasm';
+		wasmBinaryFile = self.SUPERMAP3D_BASE_URL + 'ThirdParty/crunch.wasm';
 	}
 	function getBinary() {
 		try {
@@ -377,6 +377,9 @@ if (typeof WebAssembly !== 'undefined') {
 		})
 	}
 	function createWasm() {
+		if(!wasmBinary){
+			return {};
+		}
 		var info = {"env": asmLibraryArg, "wasi_unstable": asmLibraryArg};
 
 		function receiveInstance(instance, module) {
@@ -642,5 +645,12 @@ if (typeof WebAssembly !== 'undefined') {
 		}
 	}
 	noExitRuntime = true;
-	run();
+	//run();
+	Module["init"] = function(wasm) {
+		wasmBinary = wasm;
+		Module["asm"] = createWasm();
+		run();
+	};
 }
+
+export default Module;

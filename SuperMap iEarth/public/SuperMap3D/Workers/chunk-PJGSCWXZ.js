@@ -1,0 +1,2 @@
+import{a as e}from"./chunk-NUC3LT2W.js";function t(r){this.name="DeveloperError",this.message=r;var o;try{throw new Error}catch(n){o=n.stack}this.stack=o}e(Object.create)&&(t.prototype=Object.create(Error.prototype),t.prototype.constructor=t);t.prototype.toString=function(){var r=this.name+": "+this.message;return e(this.stack)&&(r+=`
+`+this.stack.toString()),r};t.throwInstantiationError=function(){throw new t("This function defines an interface and should not be called directly.")};var s=t;export{s as a};
