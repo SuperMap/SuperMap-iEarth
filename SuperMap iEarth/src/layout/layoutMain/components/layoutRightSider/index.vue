@@ -52,7 +52,7 @@
     </div>
 
     <!-- iportal：首页和保存场景 -->
-    <div class="too-bar two-tool-bar" v-show="showIPortalToolBar">
+    <div class="too-bar two-tool-bar" v-if="showIPortalToolBar">
       <span class="icon-container">
         <i
           class="iconfont iconzhuye"
@@ -60,14 +60,20 @@
           :title="$t('w_home')"
         ></i>
       </span>
-      <span class="icon-container">
-        <i
-          class="iconfont iconbaocun"
-          @click="saveScene"
-          :title="$t('save')"
-        ></i>
+      <span class="icon-container" @click="saveScene">
+        <i class="iconfont iconbaocun" title="将场景保存至iPortal中"></i>
       </span>
     </div>
+
+    <!-- 本地保存 -->
+    <div class="too-bar two-tool-bar" v-else>
+      <openLocalSence></openLocalSence>
+      <span class="icon-container" @click="saveScene">
+        <i class="iconfont iconbaocun" title="将场景保存为本地JSON文件"></i>
+      </span>
+    </div>
+
+    <saveLocalScene></saveLocalScene>
   </div>
 </template>
 
@@ -76,6 +82,8 @@ import { onMounted, reactive, computed } from "vue";
 import { usePanelStore } from "@/store";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
+import openLocalSence from './coms/openLocalSence.vue';
+import saveLocalScene from './coms/saveLocalScene.vue';
 
 const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
@@ -87,7 +95,8 @@ onMounted(() => {
 });
 
 const showIPortalToolBar = computed(() => {
-  return window.simulateIPortalMode ? true : IportalStore.isLogin;
+  // return window.simulateIPortalMode ? true : IportalStore.isLogin;
+  return IportalStore.isLogin;
 });
 
 let state = reactive({
@@ -151,28 +160,6 @@ function continueZoomOut() {
 function reset() {
   viewer.camera.flyTo({
     destination: SuperMap3D.Cartesian3.fromDegrees(104, 30, 25682725),
-  });
-}
-
-// 全屏
-function saveScene() {
-  panelStore.showSavePanel = true;
-  panelStore.isEditMode = true;
-
-  outputSceneToFile();
-}
-
-// 缩略图
-function outputSceneToFile() {
-  let promise = viewer.scene.outputSceneToFile();
-  SuperMap3D.when(promise, function (buffer) {
-    let canvas: any = document.getElementById("sceneCanvas");
-    let ctx = canvas.getContext("2d");
-    let img = new Image();
-    img.src = buffer;
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, 298, 150);
-    };
   });
 }
 
@@ -249,6 +236,26 @@ function goHome() {
   let homeUrl = getRootUrl();
   window.open(homeUrl);
 }
+
+// 场景保存弹窗
+function saveScene(){
+  panelStore.showSavePanel = true;
+  outputSceneToFile();
+}
+
+// 缩略图
+function outputSceneToFile() {
+  let promise = viewer.scene.outputSceneToFile();
+  SuperMap3D.when(promise, function (buffer) {
+    let canvas: any = document.getElementById("sceneCanvas");
+    let ctx = canvas.getContext("2d");
+    let img = new Image();
+    img.src = buffer;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, 298, 150);
+    };
+  });
+}
 </script>
 
 <style lang="scss" scoped>
@@ -259,6 +266,7 @@ function goHome() {
   right: 0.1rem;
 
   .one-tool-bar {
+    margin-bottom: 0.1rem;
     @include setBackground(
       0.32rem,
       0.32rem,

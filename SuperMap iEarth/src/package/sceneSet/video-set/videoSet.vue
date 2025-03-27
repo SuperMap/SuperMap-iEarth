@@ -190,13 +190,10 @@
 <script lang="ts" setup>
 // 引入依赖
 import { watch, ref, reactive, onBeforeUnmount, onMounted } from "vue";
-import { useMessage } from "naive-ui";
 import tool from "@/tools/tool";
-import initHandler from "@/tools/drawHandler";
-import { useLayerStore } from "@/store/layerStore/layer";
+import DrawHandler from "@/lib/DrawHandler";
 
-const message = useMessage();
-const layerStore = useLayerStore();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   horizontal: number;
@@ -238,7 +235,6 @@ let modelUrl = "./Resource/model/projector.s3m";
 let currentSelectedSymbol: any = null;
 let isActive = false;
 let isClip = false;
-let handlerPolygon: any;
 let currntVideoDom;
 let layers, scene, currentProject, s3mInstanceColc;
 
@@ -306,18 +302,16 @@ function creatVideo_dom(src, index) {
 // 视频投放
 function startProjection() {
   if (state.fileText === "") {
-    message.warning($t("localVideoPath"));
+    window["$message"].warning($t("localVideoPath"));
     return;
   }
 
   if (currentProject) {
-    message.warning($t("deleteVideo"));
+    window["$message"].warning($t("deleteVideo"));
     return;
   }
 
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+  tool.setMouseCursor("measureCur");
   let viewPosition = viewer.scene.camera.position;
   currntVideoDom.play();
   currentProject = new SuperMap3D.ProjectionImage(scene);
@@ -325,7 +319,7 @@ function startProjection() {
   currentProject.distance = Number(state.distance);
   currentProject.horizontalFov = Number(state.horizontal);
   currentProject.verticalFov = Number(state.vertical);
-  currentProject.viewPosition = tool.CartesiantoDegrees(viewPosition);
+  currentProject.viewPosition = window.iEarthTool.Cartesian3ToDegreeArray(viewPosition);
   currentProject.visibleDistanceMax = state.visibleDistanceMax;
   currentProject.build();
   isActive = true;
@@ -337,8 +331,7 @@ function startProjection() {
 function click_set_target(e) {
   if (isClip) return;
   if (isActive) {
-    viewer.enableCursorStyle = true;
-    document.body.classList.remove("measureCur");
+    tool.setMouseCursor("normal");
     let Cartesian3 = SuperMap3D.Cartesian3.fromDegrees(
       currentProject.viewPosition[0],
       currentProject.viewPosition[1],
@@ -360,7 +353,7 @@ function move_set_target(e) {
   if (targetPosition)
     distance = SuperMap3D.Cartesian3.distance(viewPosition, targetPosition);
   if (distance > 0 && distance < 1000)
-    currentProject.setDistDirByPoint(tool.CartesiantoDegrees(targetPosition));
+    currentProject.setDistDirByPoint(window.iEarthTool.Cartesian3ToDegreeArray(targetPosition));
 }
 
 // 添加模型
@@ -390,31 +383,20 @@ function addModel(position: any, position2?: any) {
 }
 
 // 裁剪
-function clipProjectImg() {
+async function clipProjectImg() {
   isClip = true;
-
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
+  const positions = await drawHandler.startPolygon();
+  isClip = false;
+  let positionList: any = [];
+  for (let i = 0; i < positions.length; i++) {
+    let position: any[] = window.iEarthTool.Cartesian3ToDegreeArray(positions[i]);
+    positionList.push(position[0]);
+    positionList.push(position[1]);
+    positionList.push(position[2]);
   }
-  handlerPolygon.handlerDrawing().then(
-    (res: any) => {
-      isClip = false;
-      let positionList: any = [];
-      for (let i = 0; i < res.positions.length; i++) {
-        let position: any[] = tool.CartesiantoDegrees(res.positions[i]);
-        positionList.push(position[0]);
-        positionList.push(position[1]);
-        positionList.push(position[2]);
-      }
 
-      updateClipImg(positionList);
-      handlerPolygon.polylineTransparent.show = false;
-    },
-    (err: any) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+  updateClipImg(positionList);
+
 }
 
 function updateClipImg(position) {
@@ -428,7 +410,7 @@ function updateClipImg(position) {
 // 清除
 function clear() {
   viewer.eventManager.removeEventListener("MOUSE_MOVE", move_set_target);
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
 
   if (currentSelectedSymbol) {
     modelIdProjectPairs.delete(currentSelectedSymbol.id);
@@ -443,29 +425,10 @@ function clear() {
     viewer.eventManager.removeEventListener("CLICK", click_set_target);
 
   currentProject = null;
-  viewer.enableCursorStyle = true;
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
 }
 
 // 监听
-//viewer 初始化完成的监听
-watch(
-  () => layerStore.layerChangeCount,
-  (val) => {
-    if (val) {
-      init();
-    }
-  }
-);
-//监听图层加载完成
-watch(
-  () => layerStore.layerChangeCount,
-  (val) => {
-    for (let i = 0; i < layers.length; i++) {
-      layers[i].selectEnabled = false;
-    }
-  }
-);
 watch(
   () => state.fileText,
   (val) => {

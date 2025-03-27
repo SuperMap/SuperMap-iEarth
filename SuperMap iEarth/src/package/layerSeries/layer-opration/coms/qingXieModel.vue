@@ -23,14 +23,11 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useLayerStore } from "@/store/layerStore/layer";
-import initHandler from "@/tools/drawHandler";
-import tool from "@/tools/tool";
+import DrawHandler from "@/lib/DrawHandler";
 
-const layerStore = useLayerStore();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type StateType = {
-  s3mlayers: any; //当前存在的可选择s3m图层
   selectedIndex: number; //默认选择图层index
   operationType: number; //操作类型
   actionName: string; // 当前操作名称
@@ -39,23 +36,22 @@ type StateType = {
 
 // 初始化变量
 let state = reactive<StateType>({
-  s3mlayers: [], //当前存在的可选择s3m图层
   selectedIndex: 0, //默认选择图层index
   operationType: 0, //操作类型
   actionName: "",
   isQxModel: false,
 });
-let layers, handlerPolygon;
+let currentS3MLayer:any = undefined;
 
 function init() {
   if (!window.viewer) return;
-  updateLayers();
-  state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
+  const selectS3MName = window.iEarthBindData.CurrentS3MLayerName;
+  currentS3MLayer = viewer.scene.layers.find(selectS3MName);
   state.actionName = $t("excavate");
 
   // 所有S3M图层均支持开挖和压平，不局限于倾斜图层
   // // 判断当前图层是否为倾斜摄影模型 - 目前以RealityMesh来做判断；不太可靠：http://www.supermapol.com/realspace/services/3D-srsb/rest/realspace
-  // if (layers[state.selectedIndex]._dataType === "RealityMesh") {
+  // if (currentS3MLayer._dataType === "RealityMesh") {
   //   state.isQxModel = true;
   // } else {
   //   state.isQxModel = false;
@@ -66,31 +62,12 @@ onMounted(() => {
   init();
 });
 
-onBeforeUnmount(() => {
-  layers = null;
-});
-
-function updateLayers() {
-  layers = viewer.scene.layers.layerQueue;
-  if (!layers || layers.length < 1) {
-    state.s3mlayers = [{ label: () => $t("noLayer"), value: 0 }];
-    return;
-  }
-  state.s3mlayers.length = 0;
-  layers.forEach((layer, index) => {
-    let name = layer._name;
-    state.s3mlayers.push({
-      label: name,
-      value: index,
-    });
-  });
-  if (state.selectedIndex > layers.length - 1) state.selectedIndex = 0;
-}
+onBeforeUnmount(() => {});
 
 // 倾斜摄影模型开挖压平
 //开挖
 function excavationUpdate(excavation_position) {
-  layers[state.selectedIndex].addExcavationRegion({
+  currentS3MLayer.addExcavationRegion({
     position: excavation_position,
     name: "excavation_" + Math.random(),
   });
@@ -98,51 +75,35 @@ function excavationUpdate(excavation_position) {
 
 //更新地形修改
 function flattenUpdate(positions) {
-  layers[state.selectedIndex].addFlattenRegion({
+  currentS3MLayer.addFlattenRegion({
     position: positions,
     name: "flatten" + Math.random(),
   });
 }
 
 // 开始
-function start() {
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
+async function start() {
+  const positions_c3 = await drawHandler.startPolygon();
+  let position = window.iEarthTool.Cartesian3ToDegreeArray(positions_c3);
+  if (state.operationType < 1) {
+    excavationUpdate(position);
+  } else {
+    flattenUpdate(position);
   }
-  handlerPolygon.handlerDrawing().then(
-    (res) => {
-      let position = tool.CartesiantoDegrees(res.object.positions);
-      if (state.operationType < 1) {
-        excavationUpdate(position);
-      } else {
-        flattenUpdate(position);
-      }
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
 }
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
-  if (!layers[state.selectedIndex]) return;
+  drawHandler.destroy();
+  if (!currentS3MLayer) return;
   if (state.operationType < 1) {
-    layers[state.selectedIndex].removeAllExcavationRegion();
+    currentS3MLayer.removeAllExcavationRegion();
   } else {
-    layers[state.selectedIndex].removeAllFlattenRegion();
+    currentS3MLayer.removeAllFlattenRegion();
   }
 }
 
 // 监听
-watch(
-  () => layerStore.layerChangeCount,
-  () => {
-    updateLayers();
-  }
-);
 watch(
   () => state.operationType,
   (val) => {
@@ -151,13 +112,6 @@ watch(
     } else {
       state.actionName = $t("flatten2");
     }
-  }
-);
-watch(
-  () => layerStore.s3mLayerSelectIndex,
-  (val) => {
-    // reset();
-    state.selectedIndex = Number(val);
   }
 );
 </script>

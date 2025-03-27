@@ -68,7 +68,8 @@ class flylinexml {
             headingfree: "False",
             tiltfree: "False",
             flycircle: "False",
-            alongline: route.isAlongLine || "False"
+            alongline: route.isAlongLine || "False",
+            sceneMode: route.sceneMode || SuperMap3D.SceneMode.SCENE3D,
         }
         for (const key in attrs) {
             routeNode.setAttribute(key, attrs[key])
@@ -155,7 +156,8 @@ class flylinexml {
             stopPlayMode:stop.stopPlayMode|| "StopPause",
             autoPlay: "False",
             pauseTime:stop.waitTime || 0,
-            angularSpeed: 1
+            angularSpeed: 1,
+            sceneMode: stop.sceneMode,
         }
         for (const key in nodesObj) {
             let node = rootXmlDoc.createElement(key)

@@ -18,9 +18,7 @@
 
 <script setup lang="ts">
 import { usePanelStore } from "@/store";
-import { useLayerStore } from "@/store/layerStore/layer";
 const panelStore = usePanelStore();
-const layerStore = useLayerStore();
 
 // 切换面板
 function changePanel(iconItem: any) {
@@ -29,12 +27,6 @@ function changePanel(iconItem: any) {
   setTimeout(() => {
     setLeftPanelStyle(iconItem.id);
   });
-
-  if (iconItem.id === 1) {
-    if (layerStore.layerTreeData[1].children.length === 0) {
-      layerStore.refreshLayerTree();
-    }
-  }
 }
 
 // 左侧面板宽度样式切换
@@ -46,13 +38,13 @@ function setLeftPanelStyle(id: number) {
 
   if (id === 1) {
     if (dom_header.length > 0) {
-      dom_header[0].style.width = "2.64rem";
+      dom_header[0].style.width = "2.8rem";
     }
     if (dom_container.length > 0) {
-      dom_container[0].style.width = "2.64rem";
+      dom_container[0].style.width = "2.8rem";
     }
     if (dom_footer.length > 0) {
-      dom_footer[0].style.width = "2.64rem";
+      dom_footer[0].style.width = "2.8rem";
     }
     if (zst1.length > 0) {
       zst1[0].style.left = "1.1rem";

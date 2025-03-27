@@ -1,27 +1,20 @@
 <template>
   <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >{{ $t("add") }}</n-button
-    >
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{ $t("add") }}
+    </n-button>
     <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onBeforeUnmount } from "vue";
-import { useLayerStore } from "@/store/index";
+import DrawHandler from "@/lib/DrawHandler";
 
-const layerStore = useLayerStore();
 const scene = viewer.scene;
 
 function init() {
-  if (window.EarthGlobal && window.EarthGlobal["fireWork"]) {
-    setIntervalList = window.EarthGlobal["fireWork"];
+  if (window.iEarthBindData['Particle'] && window.iEarthBindData['Particle']["fireWork"]) {
+    setIntervalList = window.iEarthBindData['Particle']["fireWork"];
   }
 }
 
@@ -33,10 +26,10 @@ onBeforeUnmount(() => {
   clear(false);
 });
 
+const drawHandler = new DrawHandler(viewer, { openMouseTip: false });
+
 let modelMatrix = new SuperMap3D.Matrix4();
-let clickHandle,
-  setIntervalList: any[] = [],
-  particleSystemList: any[] = [];
+let setIntervalList: any[] = [], particleSystemList: any[] = [];
 
 let sparkOneUrl = "./Resource/particle/babylon/sparkGravityOne.json";
 let sparkTwoUrl = "./Resource/particle/babylon/sparkGravityTwo.json";
@@ -105,21 +98,15 @@ function addSpark(centerPosition) {
 }
 
 // 添加粒子
-function add() {
-  window.viewer.enableCursorStyle = false;
-  window.viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
-  clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
-  clickHandle.setInputAction(function (click) {
-    let centerPosition = viewer.scene.pickPosition(click.position);
-    layerStore.particleOptions["fireWork"] = {
-      fireWorkPosition: centerPosition,
-    };
-    addSpark(centerPosition);
-    clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK); //移除事件
-    window.viewer.enableCursorStyle = true;
-    document.body.classList.remove("measureCur");
-  }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
+async function add() {
+  drawHandler.clear();
+  const position = await drawHandler.startPoint();
+  if (!position || !(position instanceof SuperMap3D.Cartesian3)) return;
+  const centerPosition = position;
+  window.iEarthBindData['ParticleOptions']["fireWork"] = {
+    fireWorkPosition: centerPosition,
+  };
+  addSpark(centerPosition);
 }
 
 function clear(flag = true) {
@@ -142,7 +129,7 @@ function clear(flag = true) {
     setIntervalList = [];
   }
 
-  if (flag) layerStore.particleOptions["fireWork"] = null;
+  if (flag) window.iEarthBindData['ParticleOptions']["fireWork"] = null;
 }
 </script>
 

@@ -17,8 +17,7 @@
           v-model:value="state.layerUrl"
           type="text"
           :placeholder="$t('layerUrl')"
-          @input="handleUrlChange"
-          @change="handleChange"
+          @input="handleChange"
         />
       </template>
       {{ state.urlTip }}
@@ -36,10 +35,8 @@
       style="width: 2.4rem"
       v-model:value="state.layerName"
       type="text"
-      @input="handleNameChange"
       :placeholder="$t('layerName')"
       :title="state.layerName"
-      :disabled="state.layerType != 'S3M'"
     />
   </div>
 
@@ -47,14 +44,13 @@
     style="margin-left: 0.95rem; margin-bottom: 0.1rem"
     v-show="state.layerType != 'WMTS'"
   >
-    <n-checkbox v-model:checked="state.useToken" :label="$t('addToken')" />
+    <n-checkbox v-model:checked="state.token" :label="$t('addToken')" />
     <n-input
-      v-if="state.useToken"
       style="margin-top: 0.1rem; width: 2.4rem"
+      v-if="state.token"
       v-model:value="state.layerToken"
       type="text"
       placeholder="token..."
-      @input="handleTokenChange"
     />
   </div>
 
@@ -79,7 +75,6 @@
       text-color="#fff"
       class="ans-btn"
       @click="openLayer"
-      :disabled="!state.isCheckPass"
       >{{ $t("sure") }}</n-button
     >
     <n-button
@@ -93,23 +88,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
-import { useMessage } from "naive-ui";
+import { reactive, watch} from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
 import layerManagement from "@/tools/layerManagement";
 import proj4 from "proj4";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
 
 const layerStore = useLayerStore();
-const message = useMessage();
-const widget = viewer.cesiumWidget;
-
-onMounted(() => {
-  viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
-  window.viewer.shadows = false; // 关闭阴影
-});
-
-onBeforeUnmount(() => {});
 
 // 南京EPSG::4549自定义投影坐标系
 proj4.defs([
@@ -121,7 +105,7 @@ proj4.defs([
 
 let state = reactive({
   layerType: "S3M",
-  useToken: false,
+  token: false,
   layerToken: "",
   layerUrl: "",
   layerName: "",
@@ -139,8 +123,16 @@ let state = reactive({
       value: "Imagery",
     },
     {
+      label: $t("mvtLayer"),
+      value: "MVT",
+    },
+    {
       label: $t("terrainLayer"),
       value: "Terrain",
+    },
+    {
+      label: 'ArcGIS服务',
+      value: "Arcgis",
     },
     // {
     //   label: $t("wmtsLayer"),
@@ -152,54 +144,13 @@ let state = reactive({
   epsg: -1,
   addWmtsFlag: true,
   urlTip: `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`,
-  isCheckPass:false,
-  isURLPass:false,
-  isNamePass:false,
-  isTokenPass:false,
 });
-
-//检查输入是否合规：URL、Name、Token
-function handleUrlChange() {
-  state.layerUrl = state.layerUrl.trim();
-  const checkeResult = inputRuleCheck(state.layerUrl, RuleCheckTypeEnum.URL);
-  if (!checkeResult.isPass) message.warning(checkeResult.message);
-  state.isURLPass = checkeResult.isPass;
-  computedCheckPass();
-}
-function handleNameChange() {
-  state.layerName = state.layerName.trim();
-  const checkeResult = inputRuleCheck(state.layerName, RuleCheckTypeEnum.Text);
-  if (!checkeResult.isPass) message.warning(checkeResult.message);
-  state.isNamePass = checkeResult.isPass;
-  computedCheckPass();
-
-}
-function handleTokenChange() {
-  state.layerToken = state.layerToken.trim();
-  const checkeResult = inputRuleCheck(state.layerToken, RuleCheckTypeEnum.Token);
-  if (!checkeResult.isPass) message.warning(checkeResult.message);
-  state.isTokenPass = checkeResult.isPass;
-  computedCheckPass();
-}
-
-// 基于url、name和token在几种情况下，计算校验值是否正确
-function computedCheckPass(){
-  if(state.useToken){
-    state.isCheckPass = state.isURLPass && state.isNamePass && state.isTokenPass;
-  }else{
-    state.isCheckPass = state.isURLPass && state.isNamePass; 
-  }
-}
 
 function clear() {
   state.layerUrl = "";
   state.layerName = "";
+  state.token = false;
   state.layerToken = "";
-  state.useToken = false;
-  state.isURLPass = false;
-  state.isNamePass = false;
-  state.isTokenPass = false;
-  state.isCheckPass = false;
 
   // 获取必要参数
   state.wmtsLayerOptions = [];
@@ -215,10 +166,10 @@ function clear() {
 // 打开自定义图层
 function openLayer() {
   if (state.layerUrl === null || state.layerUrl === "") {
-    message.warning($t("urlIsNull"));
+    window["$message"].warning($t("urlIsNull"));
     return;
   }
-  if (state.useToken) {
+  if (state.token) {
     SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
       state.layerToken
     );
@@ -226,21 +177,22 @@ function openLayer() {
 
   switch (state.layerType) {
     case "S3M":
-      let isExist = checkS3MLayeExist(state.layerName);
-      if (isExist) {
-        message.warning($t("s3mNameRepeatTip"));
-      }else{
-        addS3M(state.layerUrl);
-      }
+      addS3M(state.layerUrl);
       break;
     case "Imagery":
       addImage(state.layerUrl);
+      break;
+    case "MVT":
+      addMVT(state.layerUrl);
       break;
     case "Terrain":
       addTerrain(state.layerUrl);
       break;
     case "WMTS":
       addWMTS(state.layerUrl);
+      break;
+    case "Arcgis":
+      addArcgis(state.layerUrl);
       break;
     default:
       break;
@@ -249,85 +201,64 @@ function openLayer() {
 
 // 针对S3M、影像、地形，通过输入的url，自动获取图层名
 function handleChange() {
+  state.layerUrl = state.layerUrl.replaceAll("'", "").replaceAll('"', "");
+
   //检测地址正确性 - 之后会换成正则表达式做严格校验
   switch (state.layerType) {
-    case "S3M":
-      if (state.layerUrl.indexOf("/rest/realspace/datas/") != -1) {
-        state.layerName = layerManagement.getLayerNameFromUrl(
-          state.layerUrl,
-          "S3M"
-        );
-        let isExist = checkS3MLayeExist(state.layerName);
-        if(isExist){
-          message.warning($t("s3mNameRepeatTip"));
-        }
-      }
-      break;
-    case "Imagery":
-      state.layerName = layerManagement.getLayerNameFromUrl(
-        state.layerUrl,
-        "Imagery"
-      );
-      break;
-    case "Terrain":
-      if (state.layerUrl.indexOf("/rest/realspace/datas/") != -1) {
-        state.layerName = layerManagement.getLayerNameFromUrl(
-          state.layerUrl,
-          "Terrain"
-        );
-      }
-      break;
     case "WMTS":
       getXmlInfo(state.layerUrl);
       break;
   }
-
-  // 对layerurl做特殊处理
-  if (state.layerUrl.charAt(0) == '"' || state.layerUrl.charAt(0) == "'") {
-    let reg = /^['|"](.*)['|"]$/;
-    state.layerUrl = state.layerUrl.replace(reg, "$1");
-  }
-
-  if (state.layerUrl === "") {
-    state.layerName = "";
-  }
-
-  handleNameChange();
-}
-
-function checkS3MLayeExist(s3mLayerName:string){
-  let layerQueue = viewer.scene.layers.layerQueue;
-  let findIndex = layerQueue.findIndex((layer:any) => {
-    return layer.name == s3mLayerName;
-  })
-
-  return findIndex >= 0 ? true : false;
 }
 
 // 添加s3m
-let promiseArray: any[] = [];
 function addS3M(s3mLayerUrl: string) {
-  let options: { name: string };
-  if (state.layerName) {
-    options = {
-      name: state.layerName,
-    };
-  } else {
-    return;
-  }
-  promiseArray.push(viewer.scene.addS3MTilesLayerByScp(s3mLayerUrl, options));
-  promiseWhen(promiseArray, true);
+  const s3mPromise = viewer.scene.addS3MTilesLayerByScp(s3mLayerUrl);
+  SuperMap3D.when(s3mPromise, function (s3mLayer) {
+    if (s3mLayer && (s3mLayer instanceof SuperMap3D.S3MTilesLayer)) {
+      if(state.layerName && state.layerName.length>0) s3mLayer.customName = state.layerName;
+      viewer.flyTo(s3mLayer);
+      s3mLayer.residentRootTile = (window.customConfig && window.customConfig.s3mLayer_residentRootTile) ? true : false;
+      // s3mLayer.selectColorType = SuperMap3D.SelectColorType.SILHOUETTE_EDGE; // 通过自定义服务打开的S3M图层设置选中效果
+      s3mLayer.selectedColor = new SuperMap3D.Color(
+        128 / 255 * 1.5,
+        198 / 255 * 1.5,
+        226 / 255 * 1.5,
+        1
+      );
+      s3mLayer.ignoreNormal = window.customConfig.ignoreNormal;
+      s3mLayer.ignoreVertexColor = window.customConfig.ignoreVertexColor;
+      s3mLayer.minTransparentAlpha = window.customConfig.minTransparentAlpha || 0.1; // 默认值为0.1
+
+      if (window.iEarthCustomFunc && window.iEarthCustomFunc.afterSceneOpen) {
+        window.iEarthCustomFunc.afterSceneOpen(s3mLayer);
+      }
+    }
+  })
 }
 
 // 添加影像图层 - 目前只支持超图我们自己的影像
 function addImage(imageryUrl: string) {
-  let layer = viewer.imageryLayers.addImageryProvider(
+  const window_maximumLevel = window.customConfig && window.customConfig.superMapImageryProvider_maximumLevel;
+  let imageLayer = viewer.imageryLayers.addImageryProvider(
     new SuperMap3D.SuperMapImageryProvider({
       url: imageryUrl,
+      maximumLevel: window_maximumLevel ? window_maximumLevel : undefined
     })
   );
-  layerStore.updateLayer({ type: "imagery" });
-  viewer.flyTo(layer);
+  if (imageLayer) {
+    if(state.layerName && state.layerName.length>0) imageLayer.customName = state.layerName;
+    viewer.flyTo(imageLayer);
+    if (window.iEarthCustomFunc && window.iEarthCustomFunc.afterImageLayerAdd) {
+      window.iEarthCustomFunc.afterImageLayerAdd(imageLayer);
+    }
+  }
+}
+
+// 添加MVT
+function addMVT(mvtUrl) {
+  const mvtName = state.layerName != '' ? state.layerName : `MVT-${new Date().getTime()}`;
+  layerManagement.addMvtLayer(mvtUrl, mvtName);
 }
 
 // 添加地形
@@ -338,7 +269,7 @@ function addTerrain(terrainURL: string) {
     url: terrainURL,
     isSct: isSctFlag, // 是否为iServer发布的TIN地形服务,如果是STK地形设置为false
   });
-  layerStore.updateLayer({ type: "terrain" });
+  if(state.layerName && state.layerName.length>0) viewer.terrainProvider.customName = state.layerName;
 
   //飞行定位到地形范围
   let terrainProvider = viewer.terrainProvider;
@@ -359,27 +290,24 @@ function addTerrain(terrainURL: string) {
   });
 }
 
-// addS3MTilesLayerByScp之后，进行后处理
-function promiseWhen(promiseArray: any[], isSCP?: boolean) {
-  SuperMap3D.when.all(
-    promiseArray,
-    function (layers: any) {
-      // for (let i = 0; i < layers.length; i++) {
-      //   layers[i]._visibleDistanceMax = 16000; // 设置图层最大可见距离
-      // }
-      if (isSCP) {
-        viewer.flyTo(layers[0]);
-        layerStore.updateLayer({ type: "s3m" });
-      }
-    },
-    function (e: any) {
-      if (widget._showRenderLoopErrors) {
-        let title = $t("addScpFailed");
-        widget.showErrorPanel(title, undefined, e);
-      }
+// 添加Arcgis Rest Map服务
+function addArcgis(argisUrl: string) {
+  if (!argisUrl || argisUrl == '') return;
+
+  const imageryProvider = new SuperMap3D.CGCS2000MapServerImageryProvider({
+    url: argisUrl
+  });
+  const imageLayer = viewer.imageryLayers.addImageryProvider(imageryProvider);
+  if(imageLayer){
+    if(state.layerName && state.layerName.length>0) imageLayer.customName = state.layerName;
+    viewer.flyTo(imageLayer);
+    if(window.iEarthCustomFunc && window.iEarthCustomFunc.afterImageLayerAdd){
+      window.iEarthCustomFunc.afterImageLayerAdd(imageLayer);
     }
-  );
+  }
 }
+
+// <=================wmts start================>
 
 // 添加wmts服务
 function addWMTS(wmtsLayerUrl: string) {
@@ -404,7 +332,7 @@ function addWMTS(wmtsLayerUrl: string) {
   });
   if (items.length > 0) {
     // 该wmts服务已存在，不在重复添加
-    message.warning($t("repeatAddWMTSTip"));
+    window["$message"].warning($t("repeatAddWMTSTip"));
     return;
   }
 
@@ -511,8 +439,6 @@ function addWMTS(wmtsLayerUrl: string) {
   if (list.length == 0) {
     layerStore.wmtsLayerOption.push(wmtsLayerObj);
   }
-
-  layerStore.updateLayer({ type: "imagery" });
 }
 
 // 计算bound范围
@@ -720,24 +646,21 @@ watch(
     state.tileMatrixSetID = tileMatrixSetID.value;
   }
 );
+// <=================wmts end================>
 
 watch(
   () => state.layerType,
   (val: string) => {
-    state.layerUrl = '';
-    state.layerName = '';
-    state.layerToken = '';
-    state.useToken = false;
-    state.isURLPass = false;
-    state.isNamePass = false;
-    state.isTokenPass = false;
-    state.isCheckPass = false;
+    clear();
     switch (val) {
       case "S3M":
         state.urlTip = `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`;
         break;
       case "Imagery":
         state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
+        break;
+      case "MVT":
+        state.urlTip = `http://<server>:<port>/iserver/services/<component>/restjsr/v1/vectortile/maps/<layerName>`;
         break;
       case "Terrain":
         state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
@@ -748,12 +671,6 @@ watch(
       default:
         break;
     }
-  }
-);
-watch(
-  () => state.useToken,
-  () => {
-    computedCheckPass();
   }
 );
 </script>

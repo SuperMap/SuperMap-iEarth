@@ -97,7 +97,12 @@
         <span
           class="panle-title"
           v-if="panelStore.panelList.rightToolBarList[10].isSelected"
-          >{{ $t("qxCover") }}</span
+          >{{ $t("mapCover") }}</span
+        >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[11].isSelected"
+          >{{ $t("mvtStyle") }}</span
         >
         <span class="zst1"></span>
         <span class="zst2"></span>
@@ -152,6 +157,9 @@
         <QxCover
           v-if="panelStore.panelList.rightToolBarList[10].isSelected"
         ></QxCover>
+        <MvtStyle
+          v-if="panelStore.panelList.rightToolBarList[11].isSelected"
+        ></MvtStyle>
       </div>
 
       <!-- 右侧面板footer -->
@@ -182,6 +190,7 @@ import LayerQuery from "@/package/layerSeries/layer-query/index";
 import MapQuery from "@/package/layerSeries/map-query/index";
 import QxSingle from "@/package/layerSeries/qx-single/index";
 import QxCover from "@/package/layerSeries/qx-cover/index";
+import MvtStyle from "@/package/layerSeries/mvt-style/index";
 
 import { storeToRefs } from 'pinia'
 import { usePanelStore } from "@/store/index";

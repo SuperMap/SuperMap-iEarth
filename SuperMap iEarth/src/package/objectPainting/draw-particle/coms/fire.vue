@@ -196,9 +196,8 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useLayerStore } from "@/store/index";
+import DrawHandler from "@/lib/DrawHandler";
 
-const layerStore = useLayerStore();
 const scene = viewer.scene;
 
 // 初始化变量
@@ -214,9 +213,10 @@ let state = reactive({
   gravity: -8.0,
 });
 
-let particle, clickHandle;
+let particle;
 let fireUrl: string = "./Resource/particle/Fire.json";
 let modelMatrix = new SuperMap3D.Matrix4();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 onMounted(() => {
   init();
@@ -227,12 +227,12 @@ onBeforeUnmount(() => {
 });
 
 function init() {
-  if (window.EarthGlobal && window.EarthGlobal["fire"]) {
-    particle = window.EarthGlobal["fire"];
+  if (window.iEarthBindData['Particle'] && window.iEarthBindData['Particle']["fire"]) {
+    particle = window.iEarthBindData['Particle']["fire"];
   }
 
-  if (layerStore.particleOptions.fire) {
-    let option = layerStore.particleOptions.fire["particleAttr"];
+  if (window.iEarthBindData['ParticleOptions']['fire']) {
+    let option = window.iEarthBindData['ParticleOptions']['fire']["particleAttr"];
     if (option) switchCase(option);
   }
 }
@@ -279,35 +279,29 @@ function loadParticleFile(url: string, option?: any) {
 }
 
 // 立体火焰 环形火 爆炸火 喷泉
-function add() {
+async function add() {
   clear();
-  window.viewer.enableCursorStyle = false;
-  window.viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
-  clickHandle = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
-  clickHandle.setInputAction(function (click) {
-    let centerPosition = viewer.scene.pickPosition(click.position);
-    SuperMap3D.Transforms.eastNorthUpToFixedFrame(
-      centerPosition,
-      undefined,
-      modelMatrix
-    );
-    loadParticleFile(fireUrl);
-    layerStore.particleOptions["fire"] = {
-      particleUrl: fireUrl,
-      particlePosition: centerPosition,
-      particleAttr: {},
-    };
-    clickHandle.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK); //移除事件
-    window.viewer.enableCursorStyle = true;
-    document.body.classList.remove("measureCur");
-  }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
+  drawHandler.clear();
+  const position = await drawHandler.startPoint();
+  if (!position || !(position instanceof SuperMap3D.Cartesian3)) return;
+  const centerPosition = position;
+  SuperMap3D.Transforms.eastNorthUpToFixedFrame(
+    centerPosition,
+    undefined,
+    modelMatrix
+  );
+  loadParticleFile(fireUrl);
+  window.iEarthBindData['ParticleOptions']["fire"] = {
+    particleUrl: fireUrl,
+    particlePosition: centerPosition,
+    particleAttr: {},
+  };
 }
 
 function clear(flag = true) {
   if (!SuperMap3D.defaultValue(particle)) return;
   scene.primitives.remove(particle);
-  if (flag) layerStore.particleOptions["fire"] = null;
+  if (flag) window.iEarthBindData['ParticleOptions']["fire"] = null;
 }
 
 // 设置参数
@@ -349,7 +343,7 @@ watch(
   (val) => {
     if (!particle) return;
     particle["emitRate"] = Number(val);
-    layerStore.particleOptions["fire"]["particleAttr"]["emitRate"] =
+    window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["emitRate"] =
       Number(val);
   }
 );
@@ -360,9 +354,9 @@ watch(
     if (val.length > 1) {
       particle["minLifeTime"] = Number(val[0]);
       particle["maxLifeTime"] = Number(val[1]);
-      layerStore.particleOptions["fire"]["particleAttr"]["minLifeTime"] =
+      window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["minLifeTime"] =
         Number(val[0]);
-      layerStore.particleOptions["fire"]["particleAttr"]["maxLifeTime"] =
+      window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["maxLifeTime"] =
         Number(val[1]);
     }
   }
@@ -374,9 +368,9 @@ watch(
     if (val.length > 1) {
       particle["minEmitPower"] = Number(val[0]);
       particle["maxEmitPower"] = Number(val[1]);
-      layerStore.particleOptions["fire"]["particleAttr"]["minEmitPower"] =
+      window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["minEmitPower"] =
         Number(val[0]);
-      layerStore.particleOptions["fire"]["particleAttr"]["maxEmitPower"] =
+      window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["maxEmitPower"] =
         Number(val[1]);
     }
   }
@@ -388,10 +382,10 @@ watch(
     if (val.length > 1) {
       particle["minSize"] = Number(val[0]);
       particle["maxSize"] = Number(val[1]);
-      layerStore.particleOptions["fire"]["particleAttr"]["minSize"] = Number(
+      window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["minSize"] = Number(
         val[0]
       );
-      layerStore.particleOptions["fire"]["particleAttr"]["maxSize"] = Number(
+      window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["maxSize"] = Number(
         val[1]
       );
     }
@@ -402,7 +396,7 @@ watch(
   (val) => {
     if (!particle) return;
     particle.gravity = new SuperMap3D.Cartesian3(0, 0, Number(val));
-    layerStore.particleOptions["fire"]["particleAttr"]["gravity"] = Number(val);
+    window.iEarthBindData['ParticleOptions']["fire"]["particleAttr"]["gravity"] = Number(val);
   }
 );
 </script>

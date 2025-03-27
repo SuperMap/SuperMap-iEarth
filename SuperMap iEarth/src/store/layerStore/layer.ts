@@ -1,89 +1,43 @@
 import { defineStore } from 'pinia';
 const layerServiceData = window.layerServiceData;
+import { LayerEnum } from "@/enums/layerEnum";
 
 export const useLayerStore = defineStore({
 	id: 'useLayerManageStore',
 	state: (): any => ({
-		configToken: {
-			TiandituToken: '', // 天地图token
-			BingMapKey: '' // 必应地图key
-		},
 		// 添加数据所用到的三类在线服务
 		layerServiceData: layerServiceData,
 		layerTreeData: [
 			{
 				key: "1",
 				label: $t('s3mLayer'),
+				type:'s3mRoot',
 				children: []
 			},
 			{
 				key: "2",
 				label: $t('imgLayer'),
+				type:'imgRoot',
 				children: []
 			},
 			{
 				key: "3",
 				label: $t('mvtLayer'),
+				type:'mvtRoot',
 				children: []
 			},
 			{
 				key: "4",
 				label: $t('terrainLayer'),
+				type:'tinRoot',
 				children: []
 			},
 		],
-		layerTreeAlias:{
-			s3mLayer:{},
-			imgLayer:{},
-			mvtLayer:{},
-			terrainLayer:{}
-		},
-		MVTLayerNameList: [], // 用来存储添加到场景中MVT图层的名称，在删除MVT图层时会用到
-		SelectedOptions: { // 用来存储已添加到场景中的服务（名称）
-			publicService: [],
-			baseMap: [],
-			onlineTerrain: [],
-		},
-		skyBoxShow: false, // 是否显示天空盒
-		layerChangeCount: 0, // 图层一旦改变，改值++，通常用于监听图层变化
-		s3mLayerSelectIndex: 0, // 当前选择的s3m图层索引
-		imgLayerSelectIndex: 0, // 当前选择的影像图层索引
-		layerQueryOptions: [], // s3m图层属性查询
-		mapQueryOptions: [], // 地图查询保存
 		mediaFeildOptions: { // 地图查询-媒体字段保存
 			"img": {},
 			"video": {}
 		},
-		// 图层属性
-		sceneAttrState: {
-			earthShow: true, //地球显隐
-			shadow: false, //场景阴影
-			sunShow: false, //太阳
-			depthInspection: true,//深度检测
-			atomsphereRender: true, //大气渲染
-			fogEffect: false, //雾化效果
-			cloudLayer: false,//云层
-			skyBoxShow: false,//天空盒
-			timeAxis: false,//时间轴
-			displayFrame: false,//显示帧率
-
-			showUnderground: false,// 显示地下
-			surfaceTransparency: 1,//地表透明度
-
-			brightness: 1,// 亮度
-			contrast: 1,// 对比度
-			hue: 0,// 色调
-			saturation: 1,// 饱和度
-		},
-		particleOptions: { //粒子特效保存
-			fire: null,
-			water: null,
-			fireWork: null,
-		},
-		layerStyleOptions: {}, // 图层风格保存
-		isDisplayBubble: false, // 是否显示弹窗
 		wmtsLayerOption: [], // Wmts图层保存
-		baseMapOption:undefined, // 默认底图图层
 	}),
 	getters: {},
 	actions: {
@@ -91,347 +45,271 @@ export const useLayerStore = defineStore({
 		updateLayer(option: any) {
 			switch (option.type) {
 				case "s3m":
-					this.layerTreeData[0].children = [];
-					viewer.scene.layers._layerQueue.forEach((S3Mlayer: any, index: string) => {
-						let label = this.checkLayerAlias(S3Mlayer.name,'s3m');
-						this.layerTreeData[0].children.push({
-							label: label,
-							aliasKey:S3Mlayer.name,
-							bindName:S3Mlayer.bindName,
-							key: "1-" + String(index),
-							type: "s3m",
-							children: undefined,
-							isShow: true
-						});
-						S3Mlayer.visible = true;
-					});
+					this.updateS3M();
 					break;
 				case "imagery":
-					this.layerTreeData[1].children = [];
-					viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
-						let imageryLayerName = this.getImageryLayerName(imageryLayer);
-						if (imageryLayerName === 'Unnamed') return;
-						let flag = this.checkImageryRepeat(imageryLayerName);
-						if (!flag) {
-							let label = this.checkLayerAlias(imageryLayerName,'imagery');
-							this.layerTreeData[1].children.unshift({
-								label: label,
-								aliasKey:imageryLayerName,
-								bindName:imageryLayer.bindName || '',
-								key: "2-" + String(index),
-								type: "imagery",
-								children: undefined,
-								isShow: true
-							});
-							imageryLayer.show = true;
-						}
-					})
+					this.updateIMG();
 					break;
 				case "mvt":
-					this.layerTreeData[2].children = [];
-					viewer.scene._vectorTileMaps._layerQueue.forEach((MVTlayer: any, index: string) => {
-						let label = this.checkLayerAlias(MVTlayer.name,'mvt');
-						this.layerTreeData[2].children.push({
-							label: label,
-							aliasKey: MVTlayer.name,
-							bindName:MVTlayer.bindName,
-							key: '3-' + String(index),
-							type: 'mvt',
-							children: undefined,
-							isShow: true
-						});
-						MVTlayer.show = true;
-					});
+					this.updateMVT();
 					break;
 				case "terrain":
-					this.layerTreeData[3].children = [];
-					// 地形只加一个
-					// if (viewer.terrainProvider.name) {
-					let terrainLayerName = this.getTerrainLayerName();
-					if (terrainLayerName != 'invisible') {
-						let label = this.checkLayerAlias(terrainLayerName,'terrain');
-						this.layerTreeData[3].children.push({
-							label: label,
-							aliasKey: option.label,
-							bindName: viewer.terrainProvider.bindName || '',
-							key: "4-0",
-							type: "terrain",
-							children: undefined,
-							isShow: true
-						});
-					}
+					this.updateTIN();
 					break;
 				default:
 					break;
 			}
-			this.layerChangeCount++;
-
-			// 专门处理地形
-			let terrainLayerName = viewer.terrainProvider.name
-			if (!terrainLayerName || ['SuperMapOnlineTerrain', 'tiandituTerrain', 'stkTerrain'].indexOf(terrainLayerName) === -1) {
-				this.layerServiceData.onlineTerrainLayerList.forEach((item: any) => {
-					item.chooseType = false;
-				});
-			}
 		},
 
-		// 刷新图层
-		refreshLayerTree() {
-			this.layerTreeData = [
-				{
-					key: "1",
-					label: $t('s3mLayer'),
-					children: []
-				},
-				{
-					key: "2",
-					label: $t('imgLayer'),
-					children: []
-				},
-				{
-					key: "3",
-					label: $t('mvtLayer'),
-					children: []
-				},
-				{
-					key: "4",
-					label: $t('terrainLayer'),
-					children: []
-				},
-			];
+		// 对S3M图层列表进行扁平化处理:方便遍历_layerQueue时做处理
+		flattenS3MCollections(s3mOptionList){
+			let s3mOptionList_flatten:any = [];
+			// 校验当前s3m图层同时扁平化数组
+			s3mOptionList.forEach((collection,index_c)=>{
+				collection.parent = this.layerTreeData[0];
+				if(collection.type == LayerEnum.Collection){
+					collection.children.forEach((group,index_g)=>{
+						group.parent = collection;
+						if(group.type == LayerEnum.Group){
+							group.children.forEach((child,index)=>{
+								if(child.type == LayerEnum.S3M){
+									let layerName = child.id;
+									let layer = viewer.scene.layers.find(layerName);
+									if(layer){
+										child.parent = group; // 绑定父节点
+										child.layer = layer;
+										child.isShow = layer.visible || layer._visible;
+										s3mOptionList_flatten.push(child);
+									}else{
+										// 当网络较慢时，图层未加载完成，此时打开图层树组件，再遍历时会出现删除option的情况，隐藏这里不做剔除，只做打印
+										// group.splice(index,1); // 该item绑定的layer场景中已经找不到了，需要剔除
+										console.log('该图层场景中未能找到:',child);
+									}
+								}
+							})
+						}else if(group.type == LayerEnum.S3M){
+							let child = group;
+							let layer = viewer.scene.layers.find(child.id);
+							if(layer){
+								child.parent = collection; // 绑定父节点
+								child.layer = layer;
+								child.isShow = layer.visible || layer._visible;
+								s3mOptionList_flatten.push(child);
+							}else{
+								// s3mOptionList.splice(index_g,1); 
+								console.log('该图层场景中未能找到:',child);
+							}
+						}
+					})
+				}else if(collection.type == LayerEnum.Group){
+					let group = collection;
+					group.children.forEach((child,index)=>{
+						if(child.type == LayerEnum.S3M){
+							let layer = viewer.scene.layers.find(child.id);
+							if(layer){
+								child.parent = group; // 绑定父节点
+								child.layer = layer;
+								child.isShow = layer.visible || layer._visible;
+								s3mOptionList_flatten.push(child);
+							}else{
+								// group.splice(index,1); 
+								console.log('该图层场景中未能找到:',child);
+							}
+						}
+					})
+				}else if(collection.type == LayerEnum.S3M){
+					let child = collection;
+					let layer = viewer.scene.layers.find(child.id);
+					if(layer){
+						child.layer = layer;
+						child.isShow = layer.visible || layer._visible;
+						s3mOptionList_flatten.push(child);
+					}else{
+						// s3mOptionList.splice(index_c,1); 
+						console.log('该图层场景中未能找到:',child);
+					}
+				}
+			})
 
-			// 刷新S3M图层
-			viewer.scene.layers._layerQueue.forEach((S3Mlayer: any, index: string) => {
-				let label = this.checkLayerAlias(S3Mlayer.name,'s3m');
-				this.layerTreeData[0].children.push({
-					label: label,
-					aliasKey:S3Mlayer.name,
-					bindName:S3Mlayer.bindName,
-					key: "1-" + String(index),
-					type: "s3m",
-					children: undefined,
-					isShow: true
-				});
-			});
+			return s3mOptionList_flatten
+		},
 
-			// 专门处理阴影
-			if (this.sceneAttrState.shadow === true) {
+		updateS3M(){
+			let s3mOptionList = this.layerTreeData[0].children;
 
-				window.viewer.shadows = true;
-				// UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
-				window.viewer.pcss = true;
-				window.viewer.shadowQuality = 0;
-				//设置阴影的出现距离
-				window.viewer.scene.shadowMap.maximumDistance = 2000;
-				//设置阴影的浓度，值越高，阴影越淡
-				window.viewer.shadowMap.darkness = 0.4
-				//默认值是0.1，值越小越清晰
-				window.viewer.shadowMap.penumbraRatio = 0.1
+			// 扁平化集合
+			let s3mOptionList_flatten:any = this.flattenS3MCollections(s3mOptionList);
+			// console.log("s3mOptionList_flatten:",s3mOptionList_flatten);
+			
+			for(let i=0; i<viewer.scene.layers._layerQueue.length; i++){
+				let S3Mlayer = viewer.scene.layers._layerQueue[i];
 
-				let layers = window.viewer.scene.layers.layerQueue;
-				for (var i = 0; i < layers.length; i++) {
-					// 设置图层的阴影模式
-					layers[i].shadowType = 2;
+				// 只对不存在于图层列表中的图层做处理
+				let target = s3mOptionList_flatten.find(item => item.id == S3Mlayer.name);
+				if(!target) {
+					if(!S3Mlayer.customName) S3Mlayer.customName = S3Mlayer.name;
+					let obj = {
+						label: S3Mlayer.customName,
+						id: S3Mlayer.name,
+						key: "1-" + String(i),
+						type: "s3m",
+						children: undefined,
+						isShow: S3Mlayer.visible || S3Mlayer._visible, // 图层列表的显隐图标与图层相绑定
+						layer:S3Mlayer,
+					};
+					s3mOptionList.push(obj);
 				}
 			}
 
-			// 刷新影像图层
+			// 重新计算索引key值,避免拖拽时出现问题
+			s3mOptionList.forEach((collection,index_c)=>{
+				collection.key = `1-${index_c}`;
+				if(collection.children && collection.children.length>0){
+					collection.children.forEach((group,index_g) => {
+						group.key = `${collection.key}-${index_g}`;
+						if(group.children && group.children.length>0){
+							group.children.forEach((child,index) => {
+								child.key = `${group.key}-${index}`;
+							})
+						}
+					});
+				}
+			})
+
+			// console.log("s3mOptionList:",s3mOptionList);
+
+			window.layerTreeData = this.layerTreeData;
+		},
+
+		updateIMG() {
+			this.layerTreeData[1].children = [];
 			viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
 				let imageryLayerName = this.getImageryLayerName(imageryLayer);
-				if (imageryLayerName === 'Unnamed') return;
-				let label = this.checkLayerAlias(imageryLayerName,'imagery');
+				if (!imageryLayerName) return;
+				if(!imageryLayer.customName) imageryLayer.customName = imageryLayerName;
 				this.layerTreeData[1].children.unshift({
-					label: label,
-					aliasKey:imageryLayerName,
-					bindName:imageryLayer.bindName || '',
+					label: imageryLayer.customName,
+					id: imageryLayerName,
 					key: "2-" + String(index),
 					type: "imagery",
 					children: undefined,
-					isShow: true
+					isShow: imageryLayer.show || imageryLayer._show,
+					layer: imageryLayer
 				});
 			})
+		},
 
-			// 刷新mvt图层
-			viewer.scene._vectorTileMaps._layerQueue.forEach((MVTlayer: any, index: string) => {
-				let label = this.checkLayerAlias(MVTlayer.name,'mvt');
-				this.layerTreeData[2].children.push({
-					label: label,
-					aliasKey: MVTlayer.name,
-					bindName:MVTlayer.bindName,
-					key: '3-' + String(index),
-					type: 'mvt',
-					children: undefined,
-					isShow: true
-				})
-			});
+		updateMVT(){
+			this.layerTreeData[2].children = [];
 
-			// 刷新地形图层
-			let terrainLayerName = this.getTerrainLayerName();
-			if (terrainLayerName != 'invisible') {
-				let label = this.checkLayerAlias(terrainLayerName,'terrain');
-				this.layerTreeData[3].children.push({
-					label: label,
-					aliasKey: terrainLayerName || '',
-					bindName: viewer.terrainProvider.bindName || '',
-					key: "4-0",
-					type: "terrain",
-					children: undefined,
-					isShow: true
+			// 基于mvtMap计算图层列表
+			// viewer.scene._vectorTileMaps._layerQueue.forEach((MVTlayer: any, index: string) => {
+			// 	if(!MVTlayer.customName) MVTlayer.customName = MVTlayer.name;
+			// 	this.layerTreeData[2].children.push({
+			// 		label: MVTlayer.customName,
+			// 		id: MVTlayer.name,
+			// 		key: '3-' + String(index),
+			// 		type: 'mvt',
+			// 		children: undefined,
+			// 		isShow: MVTlayer.show || MVTlayer._show,
+			// 		layer:MVTlayer
+			// 	});
+			// });
+
+			// 基于mapboxStyle子图层计算图层列表
+			const mvtMapFirst = viewer.scene._vectorTileMaps._layerQueue[0];
+			if(mvtMapFirst){ // MVT底层styleLayer共用,所以只需要第一个MVT图层即可获取所有的子图层
+				mvtMapFirst.mapboxStyle.layers.forEach((styleLayer: any, index: string) => {
+					if(styleLayer.source){
+						if(!styleLayer.customName) styleLayer.customName = styleLayer.id;
+						this.layerTreeData[2].children.push({
+							label: styleLayer.customName,
+							id: styleLayer.id,
+							key: '3-' + String(index),
+							type: 'mvt',
+							children: undefined,
+							isShow: mvtMapFirst.getLayoutProperty(styleLayer.id, 'visibility') === "visible" ? true : false,
+							layer: styleLayer,
+							source: styleLayer.source,
+						});
+					}
 				});
 			}
+
 		},
 
-		// 删除图层
-		removeLayer(option: any) {
-			switch (option.type) {
-				case "s3m":
-					this.layerTreeData[0].children.map((s3mLayerOption: any, index: string) => {
-						if (s3mLayerOption.key == option.key) {
-							this.layerTreeData[0].children.splice(index, 1);
-							this.removePublicService(option.bindName);
-						}
-					})
-					this.updateLayer({ type: "s3m" });
-					break;
-				case "imagery":
-					this.layerTreeData[1].children.map((imgLayerOption: any, index: string) => {
-						if (imgLayerOption.key == option.key) {
-							let item = this.layerServiceData.onlineBaseLayerList.find((item: any) => $t(item.name) === option.aliasKey);
-							if (item) {
-								item.chooseType = false;
-								let delIndex = this.SelectedOptions.baseMap.indexOf(item.name);
-								if (delIndex != -1) this.SelectedOptions.baseMap.splice(delIndex, 1);
-							}
-							this.layerTreeData[1].children.splice(index, 1);
-
-							// 有些场景下存在影像或者地形的，比如珠峰地形影像需做单独处理
-							if(option.bindName != '') this.removePublicService(option.bindName);
-						}
-					})
-					this.updateLayer({ type: "imagery" });
-					break;
-				case "mvt":
-					this.layerTreeData[2].children.map((mvtLayer: any, index: string) => {
-						if (mvtLayer.key == option.key) {
-							this.layerTreeData[2].children.splice(index, 1);
-							this.removePublicService(option.bindName);
-						}
-					})
-					this.updateLayer({ type: "mvt" });
-					break;
-				case "terrain":
-					this.layerTreeData[3].children = [];
-					let item = this.layerServiceData.onlineTerrainLayerList.find((item: any) => $t(item.name) === option.aliasKey);
-					if (item) {
-						item.chooseType = false;
-						let index = this.SelectedOptions.onlineTerrain.indexOf(item.name);
-						this.SelectedOptions.onlineTerrain.splice(index, 1);
-					}
-					// 有些场景下存在影像或者地形的，比如珠峰地形影像需做单独处理
-					if(option.bindName != '') this.removePublicService(option.bindName);
-					this.updateLayer({ type: "terrain" });
-					break;
-				default:
-					break;
-			}
-
-			// this.updateLayer({ type: "refresh" });
+		updateTIN(){
+			this.layerTreeData[3].children = [];
+			let terrainLayerName = this.getTerrainLayerName();
+			if (!terrainLayerName) return;
+			if(!viewer.terrainProvider.customName) viewer.terrainProvider.customName = terrainLayerName;
+			this.layerTreeData[3].children.push({
+				label: viewer.terrainProvider.customName,
+				id: terrainLayerName,
+				key: "4-0",
+				type: "terrain",
+				children: undefined,
+				isShow: (viewer.terrainProvider._baseUrl || viewer.terrainProvider._urls) ? true : false,
+				layer: viewer.terrainProvider
+			});
 		},
 
-		// 专门用来删除store上wmts服务的
-		removeWmtsLayer(option) {
-			if (option.url && option.name) {
-				let items = this.wmtsLayerOption.filter((item: any) => {
-					return (item.wmtsLayerUrl == option.url && item.layerName == option.name);
-				})
-				if (window.iEarthConsole) console.log("wmts-del:", items);
-				if (items.length == 0) return;
-				let delIndex = this.wmtsLayerOption.indexOf(items[0]);
-				this.wmtsLayerOption.splice(delIndex, 1);
-			}
-		},
 
-		// 专门用来处理公共服务场景项目的删除选中
-		removePublicService(layerBindName: string) {
-
-			// 恢复面板上的未选中状态
-			let publicServiceList = this.layerServiceData.publicServiceList;
-			let itemIndex = publicServiceList.findIndex(
-				(item) => item.name == layerBindName
-			);
-			if(itemIndex != -1) publicServiceList[itemIndex].chooseType = false;
-
-			// 移除SelectedOptions中的对应服务
-			let delIndex = this.SelectedOptions.publicService.indexOf(layerBindName);
-			if (delIndex != -1) this.SelectedOptions.publicService.splice(delIndex, 1);
-		},
-
-		// 显隐图层
-		isShowLayer(option: any) {
-			switch (option.type) {
-				case "s3m":
-					this.layerTreeData[0].children.map((S3Mlayer: any, index: string) => {
-						if (S3Mlayer.key == option.key) {
-							S3Mlayer.isShow = !S3Mlayer.isShow;
-						}
-					})
-					break;
-				case "imagery":
-					this.layerTreeData[1].children.map((imagerlayer: any, index: string) => {
-						if (imagerlayer.key == option.key) {
-							imagerlayer.isShow = !imagerlayer.isShow;
-						}
-					})
-					break;
-				case "mvt":
-					this.layerTreeData[2].children.map((mvtlayer: any, index: string) => {
-						if (mvtlayer.key == option.key) {
-							mvtlayer.isShow = !mvtlayer.isShow;
-						}
-					})
-					break;
-				case "terrain":
-					this.layerTreeData[3].children.map((terrainlayer: any, index: string) => {
-						if (terrainlayer.key == option.key) {
-							terrainlayer.isShow = !terrainlayer.isShow;
-						}
-					})
-					break;
-				default:
-					break;
-			}
-		},
-
-		// 检查影像图层是否重复添加
-		checkImageryRepeat(name: string) {
-			let item = this.layerTreeData[1].children.find((item: any) => item.label === name);
-			return item ? true : false;
-		},
-
-		// 检查图层是否设置了别名
-		checkLayerAlias(name:string, type:string){
-			let alias_result = undefined;
-			switch (type) {
-				case "s3m":
-					alias_result = this.layerTreeAlias.s3mLayer[name];
-					break;
-				case "imagery":
-					alias_result = this.layerTreeAlias.imgLayer[name];
-					break;
-				case "mvt":
-					alias_result = this.layerTreeAlias.mvtLayer[name];
-					break;
-				case "terrain":
-					alias_result = this.layerTreeAlias.terrainLayer[name];
-					break;
-				default:
-					break;
-			}
-		 return alias_result != undefined ? alias_result : name;
-		},
 
 		// 传入影像图层，获取并返回他在项目中的名称
 		getImageryLayerName(imageryLayer: any) {
+			// if(imageryLayer.name && (typeof imageryLayer.name === 'string') && imageryLayer.name.length>0) return imageryLayer.name;
+			let imageryProvider = imageryLayer.imageryProvider || imageryLayer._imageryProvider;
+			if (!imageryProvider) return;
+
+			// 基于imageryProvider类型计算影像图层名称
+			if (imageryProvider instanceof SuperMap3D.SuperMapImageryProvider) {
+				let imgLayerUrl = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl;
+				if(imgLayerUrl.includes('/rest/')){
+					let prefix = imgLayerUrl.split('/rest/')[0];
+					return prefix.split('/').pop();
+				}else if(imgLayerUrl.includes('/services/')){
+					let suffix = imgLayerUrl.split('/services/')[1];
+					return suffix.split('/')[0];
+				}else{
+					return imgLayerUrl;
+				}
+			} else if (imageryProvider instanceof SuperMap3D.CGCS2000MapServerImageryProvider) {
+				let imgLayerUrl = imageryProvider._baseUrl || imageryProvider.url;
+				if(imgLayerUrl.includes('/MapServer')){
+					let prefix = imgLayerUrl.split('/MapServer')[0];
+					if (prefix.includes('/')) {
+						return prefix.split('/').pop();
+					}
+				}else{
+					return imgLayerUrl;
+				}
+			} else if (imageryProvider instanceof SuperMap3D.BingMapsImageryProvider) {
+				return $t('BingMap');
+			} else if (imageryProvider instanceof SuperMap3D.TiandituImageryProvider) {
+				return $t('TIANDITU');
+			} else if (imageryProvider instanceof SuperMap3D.UrlTemplateImageryProvider) {
+				let imgLayerUrl = imageryProvider.url || imageryProvider._url || imageryProvider.tablename;
+				return imgLayerUrl; // TODO:精细化处理
+			} else if (imageryProvider instanceof SuperMap3D.SingleTileImageryProvider) {
+				let imgLayerUrl = imageryProvider.url || imageryProvider._url;
+				if(imgLayerUrl.includes('earth-skin2.jpg')){
+					return $t('defaultImage');
+				}else if(imgLayerUrl.includes('baseImage.jpg')){
+					return $t('LocalImage');
+				}else{
+					if(imgLayerUrl.includes('/')){
+						return imgLayerUrl.split('/').pop();
+					}else{
+						return imgLayerUrl;
+					}
+				}
+			} else if (imageryProvider instanceof SuperMap3D.TileCoordinatesImageryProvider) {
+				return $t('lnglatMap')
+			}
+
+			if(window.iEarthConsole) console.log('未能通过imageryProvider类型计算出影像图层名称,使用之前的代码计算');
+
 			let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
 
 			if (!imageUrl) return $t('lnglatMap');
@@ -482,17 +360,48 @@ export const useLayerStore = defineStore({
 					}
 					return tableName;
 				} else {
-					return 'Unnamed';
+					return;
 				}
 			} else {
-				return 'Unnamed';
+				return;
 			}
 		},
 
 		// 获取地形图层名称
 		getTerrainLayerName(): any {
-			if (window.viewer.terrainProvider._baseUrl) {
-				let baseUrl = window.viewer.terrainProvider._baseUrl
+			let terrainProvider = window.viewer.terrainProvider;
+
+			// 基于terrainProvider类型计算地形图层名称
+			if(terrainProvider instanceof SuperMap3D.SuperMapTerrainProvider){
+				let terrainUrl = terrainProvider.baseUrl || terrainProvider._baseUrl;
+				if(terrainUrl){
+					if(terrainUrl.includes("3D-stk_terrain")){
+						return $t("STKTerrain");
+					}else if(terrainUrl.includes('/datas/')){
+						return terrainUrl.split('/datas/').pop();
+					}else if(terrainUrl.includes('/rest/')){
+						let prefix = terrainUrl.split('/rest/')[0];
+						return prefix.split('/').pop();
+					}else if(terrainUrl.includes('/services/')){
+						let suffix = terrainUrl.split('/services/')[1];
+						return suffix.split('/')[0];
+					}else{
+						return terrainUrl;
+					}
+				}
+			}else if(terrainProvider instanceof SuperMap3D.SCTTerrainProvider){
+				if(terrainProvider._urls && terrainProvider._urls.length>0){
+					const url = terrainProvider._urls[0];
+					if(url && url.includes("3D-local3DCache-GlobalTIN30M")) {
+						return $t("SuperMapOnlineTerrain");
+					}
+				}
+			}
+
+			if(window.iEarthConsole) console.log('未能通过terrainProvider类型计算出地形图层名称,使用之前的代码计算');
+
+			if (terrainProvider._baseUrl) {
+				let baseUrl = terrainProvider._baseUrl
 				if (baseUrl.indexOf('3D-stk_terrain') != -1) {
 					return $t('stkTerrain');
 				} else {
@@ -505,367 +414,24 @@ export const useLayerStore = defineStore({
 					} else if (baseUrl.indexOf('iserver/services') != -1) { // 之前遗留的
 						return baseUrl.split('iserver/services/')[1].split('/rest/realspace')[0];
 					} else {
-						// return '未命名地形';
-						return 'invisible';
+						return;
 					}
 				}
-			} else if (window.viewer.terrainProvider._urls) {
-				let url0 = window.viewer.terrainProvider._urls[0]
-				if (url0.indexOf('supermapol.com') != -1) {
+			} else if (terrainProvider._urls) {
+				let url = terrainProvider._urls[0]
+				if (url.indexOf('supermapol.com') != -1) {
 					return $t('superMapTerrain');
 				} else {
-					return $t('tiandituTerrain');; // viewer.terrainProvider._urls[0].indexOf('tianditu') 看情况在加
+					return $t('tiandituTerrain');
 				}
 			} else {
-				// return '标准椭球'
-				// return '无地形';
-				return 'invisible';
+				return;
 			}
 		},
 
-		// 更新已勾选选项
-		updateSelectedOption(selectedOption: any) {
-			// console.log("selectedOption:", selectedOption);
-			this.SelectedOptions = selectedOption;
-			let publicServiceList = this.layerServiceData.publicServiceList;
-			let onlineBaseLayerList = this.layerServiceData.onlineBaseLayerList;
-			let onlineTerrainLayerList = this.layerServiceData.onlineTerrainLayerList;
-
-			// this.layerServiceData.publicService.map()
-			for (let i = 0; i < publicServiceList.length; i++) {
-				let item = publicServiceList[i];
-				if (selectedOption.publicService.indexOf(item.name) != -1) {
-					publicServiceList[i].chooseType = true;
-				}
-			}
-
-			for (let i = 0; i < onlineBaseLayerList.length; i++) {
-				let item = onlineBaseLayerList[i];
-				if (selectedOption.baseMap.indexOf(item.name) != -1) {
-					onlineBaseLayerList[i].chooseType = true;
-				}
-			}
-
-			for (let i = 0; i < onlineTerrainLayerList.length; i++) {
-				let item = onlineTerrainLayerList[i];
-				if (selectedOption.onlineTerrain.indexOf(item.name) != -1) {
-					onlineTerrainLayerList[i].chooseType = true;
-				}
-			}
-		},
-
-		// 设置当前场景属性
-		setSceneAttr(sceneAttrState: any) {
-			for (let key in sceneAttrState) {
-				this.sceneAttrSwitch(key, sceneAttrState[key]);
-			}
-		},
-
-		sceneAttrSwitch(key: string, value: boolean | number) {
-			switch (key) {
-				case "atomsphereRender":
-					window.viewer.scene.skyAtmosphere.show = value;
-					break;
-				case "depthInspection":
-					window.viewer.scene.globe.depthTestAgainstTerrain = value;
-					break;
-				case "displayFrame":
-					window.viewer.scene.debugShowFramesPerSecond = value;
-					break;
-				case "earthShow":
-					window.viewer.scene.globe.show = value;
-					break;
-				case "fogEffect":
-					window.viewer.scene.fog.enabled = value;
-					break;
-				case "shadow":
-					if (value) {
-						window.viewer.shadows = true;
-						// UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
-						window.viewer.pcss = true;
-						window.viewer.shadowQuality = 0;
-						//设置阴影的出现距离
-						window.viewer.scene.shadowMap.maximumDistance = 2000;
-						//设置阴影的浓度，值越高，阴影越淡
-						window.viewer.shadowMap.darkness = 0.4
-						//默认值是0.1，值越小越清晰
-						window.viewer.shadowMap.penumbraRatio = 0.1
-					} else {
-						window.viewer.shadows = false;
-					}
-					break;
-				case "sunShow":
-					window.viewer.scene.globe.enableLighting = value;
-					break;
-				case "timeAxis":
-					let timeline = document.getElementsByClassName(
-						"supermap3d-viewer-timelineContainer"
-					)[0] as HTMLElement;
-					if (value) {
-						timeline.style.visibility = "visible";
-						timeline.style['z-index'] = 99999999999;
-					} else {
-						timeline.style.visibility = "hidden";
-					}
-					break;
-				case "brightness":
-					window.viewer.scene.colorCorrection.show = true; // 场景颜色开关打开
-					window.viewer.scene.colorCorrection.brightness = value;
-					break;
-				case "contrast":
-					window.viewer.scene.colorCorrection.show = true;
-					window.viewer.scene.colorCorrection.contrast = value;
-					break;
-				case "hue":
-					window.viewer.scene.colorCorrection.show = true;
-					window.viewer.scene.colorCorrection.hue = value;
-					break;
-				case "saturation":
-					window.viewer.scene.colorCorrection.show = true;
-					window.viewer.scene.colorCorrection.saturation = value;
-					break;
-				case "surfaceTransparency":
-					window.viewer.scene.globe.globeAlpha = value;
-					break;
-			};
-		},
-
-		// 设置场景特效 - 粒子系统
-		setParticle(particleOptions) {
-			if (particleOptions['fire'] != null) {
-				let fireOption = particleOptions['fire'];
-				this.addParticleFile(fireOption, 'fire');
-			}
-			if (particleOptions['water'] != null) {
-				let waterOption = particleOptions['water'];
-				this.addParticleFile(waterOption, 'water');
-			}
-			if (particleOptions['fireWork'] != null) {
-				let fireWorkOption = particleOptions['fireWork'];
-				this.addFireWork(fireWorkOption);
-			}
-		},
-		// 添加场景中已保存的粒子
-		addParticleFile(options: any, type: string) {
-			let modelMatrix_fire = new SuperMap3D.Matrix4();
-			SuperMap3D.Transforms.eastNorthUpToFixedFrame(options.particlePosition, undefined, modelMatrix_fire);
-			this.loadParticleFile(options.particleUrl, modelMatrix_fire, type, options.particleAttr);
-		},
-		// 加载粒子文件
-		loadParticleFile(url: string, modelMatrix: any, type: string, option?: any) {
-			let particle: any = {};
-			let scene = window.viewer.scene;
-			SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
-				particle = particleSystem;
-				particle.modelMatrix = modelMatrix;
-				// 设置参数
-				if (option) {
-					for (let key in option) {
-						switch (key) {
-							case "emitRate":
-								particle['emitRate'] = Number(option[key]);
-								break;
-							case "minLifeTime":
-								particle['minLifeTime'] = Number(option[key]);
-								break;
-							case "maxLifeTime":
-								particle['maxLifeTime'] = Number(option[key]);
-								break;
-							case "minEmitPower":
-								particle['minEmitPower'] = Number(option[key]);
-								break;
-							case "maxEmitPower":
-								particle['maxEmitPower'] = Number(option[key]);
-								break;
-							case "minSize":
-								particle['minSize'] = Number(option[key]);
-								break;
-							case "maxSize":
-								particle['maxSize'] = Number(option[key]);
-								break;
-							case "minScaleX":
-								particle['minScaleX'] = Number(option[key]);
-								break;
-							case "minScaleY":
-								particle['minScaleY'] = Number(option[key]);
-								break;
-							case "maxScaleX":
-								particle['maxScaleX'] = Number(option[key]);
-								break;
-							case "maxScaleY":
-								particle['maxScaleY'] = Number(option[key]);
-								break;
-							case "gravity":
-								particle.gravity = new SuperMap3D.Cartesian3(0, 0, Number(option[key]));
-								break;
-							case "emitType":
-								switch (option[key]) {
-									case "Cone":
-										particle.createConeEmitter(1.0, 1.05);
-										break;
-									case "Sphere":
-										particle.createSphereEmitter(1.0);
-										break;
-									case "Box":
-										let direction1 = new SuperMap3D.Cartesian3(-1, 1, 1);
-										let direction2 = new SuperMap3D.Cartesian3(1, 1, -1);
-										let minBox = new SuperMap3D.Cartesian3(-10, 0, -10);
-										let maxBox = new SuperMap3D.Cartesian3(10, 0, 10);
-										particle.createBoxEmitter(direction1, direction2, minBox, maxBox);
-										break;
-								}
-								break;
-							default:
-								break;
-						}
-					}
-				}
-
-				window.EarthGlobal[type] = particle;
-			});
-		},
-
-		// 添加烟花
-		addFireWork(fireWorkOption) {
-			let modelMatrix = new SuperMap3D.Matrix4();
-			let clickHandle, setIntervalList: any[] = [], particleSystemList: any[] = [];
-			let scene = window.viewer.scene;
-			scene.skyAtmosphere = new SuperMap3D.SkyAtmosphere();
-			scene.globe.show = false
-			scene.skyAtmosphere.show = false; //关闭大气
-
-			let sparkOneUrl = './Resource/particle/babylon/sparkGravityOne.json';
-			let sparkTwoUrl = './Resource/particle/babylon/sparkGravityTwo.json';
-			let sparkThreeUrl = './Resource/particle/babylon/sparkGravityThree.json';
-			let sparkFourUrl = './Resource/particle/babylon/sparkGravityFour.json';
-
-			let numberOfSparks = 8;
-			let xMin = -2100.0;
-			let xMax = 300.0;
-			let yMin = 0.0;
-			let yMax = 2000.0;
-			let zMin = 150.0;
-			let zMax = 550.0;
-			// 创建烟花
-			let sparkInterval = (xMax - xMin) / numberOfSparks;
-
-			function createSpark() {
-				for (let i = 0; i < numberOfSparks; ++i) {
-					let x = SuperMap3D.Math.randomBetween(xMin + i * sparkInterval, xMin + (i + 1) * sparkInterval);
-					let y = SuperMap3D.Math.randomBetween(yMin, yMax);
-					let z = SuperMap3D.Math.randomBetween(zMin, zMax);
-					let offset = new SuperMap3D.Cartesian3(x, y, z);
-					let url = '';
-					if (i % 4 === 0)
-						url = sparkOneUrl;
-					if (i % 4 === 1)
-						url = sparkTwoUrl;
-					if (i % 4 === 2)
-						url = sparkThreeUrl;
-					if (i % 4 === 3)
-						url = sparkFourUrl;
-					SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
-						settingParticleSys(particleSystem, offset, i);
-					});
-				}
-			}
-
-			// 设置当前粒子系统
-			function settingParticleSys(particleSystem, offset, index) {
-
-				// 添加多个
-				particleSystem.modelMatrix = modelMatrix;
-				particleSystem.worldOffset.x = offset.x;
-				particleSystem.worldOffset.y = offset.y;
-				particleSystem.worldOffset.z = offset.z;
-				let setIntervalFlag = setInterval(() => {
-					particleSystem.start();
-				}, 2000 + index * 50);
-				scene.primitives.add(particleSystem);
-				setIntervalList.push(setIntervalFlag);
-
-				window.EarthGlobal["fireWork"] = setIntervalList;
-			}
-
-			function addSpark(centerPosition) {
-				SuperMap3D.Transforms.eastNorthUpToFixedFrame(centerPosition, undefined, modelMatrix);
-				createSpark();
-			}
-
-			addSpark(fireWorkOption.fireWorkPosition);
-		},
-
-		removeParticle() {
-			if (window.EarthGlobal["fire"]) {
-				window.viewer.scene.primitives.remove(window.EarthGlobal["fire"]);
-			}
-			if (window.EarthGlobal["water"]) {
-				window.viewer.scene.primitives.remove(window.EarthGlobal["fire"]);
-			}
-		},
-
-		// 设置保存的图层属性
-		setLayerStyle(layerStyleOptions) {
-			if (window.iEarthConsole) console.log("layerStyleOptions:", layerStyleOptions);
-			let keys = Object.keys(layerStyleOptions);
-			for (let i = 0; i < keys.length; i++) {
-				let layerName = keys[i];
-				let layerStyleOption = layerStyleOptions[layerName];
-				let currentLayer = window.viewer.scene.layers.find(layerName);
-				if (!currentLayer) return;
-				for (let key in layerStyleOption) {
-					let lineColor = layerStyleOption["lineColor"];
-					this.layerStyleSwitch(currentLayer, key, layerStyleOption[key], lineColor);
-				}
-			}
-		},
-
-		// 设置图层风格
-		layerStyleSwitch(currentLayer: any, key: string, value: string | number, lineColor: string) {
-			switch (key) {
-				case "foreColor":
-					currentLayer.style3D.fillForeColor = SuperMap3D.Color.fromCssColorString(value);
-					break;
-				case "lineColor":
-					currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(value);
-					break;
-				case "selectedColor":
-					currentLayer.selectedColor = SuperMap3D.Color.fromCssColorString(value);
-					break;
-				case "layerTrans":
-					currentLayer.style3D.fillForeColor.alpha = Number(value);
-					break;
-				case "selectColorMode":
-					currentLayer.selectColorType = value;
-					break;
-				case "bottomAltitude":
-					currentLayer.style3D.bottomAltitude = Number(value);
-					currentLayer.refresh();
-					break;
-				case "fillStyle":
-					if (currentLayer) {
-						switch (value) {
-							case 0:
-								currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.Fill;
-								break;
-							case 1:
-								currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.WireFrame;
-								currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(lineColor);
-								break;
-							case 2:
-								currentLayer.style3D.fillStyle = SuperMap3D.FillStyle.Fill_And_WireFrame;
-								currentLayer.style3D.lineColor = SuperMap3D.Color.fromCssColorString(lineColor);
-								break;
-							default:
-								break;
-						}
-						currentLayer.refresh();
-					}
-					break;
-				default:
-					break;
-			}
-		},
+		/**
+		 * 从这里往下都是待移除代码
+		 */
 
 		// 设置wmts服务
 		setWmts(wmtsLayerOptionList: any) {
@@ -900,11 +466,5 @@ export const useLayerStore = defineStore({
 				}
 			})
 		},
-
-		// 设置图层列表的别名
-		setLayerTreeAlias(LayerAliasOptions:any){
-			this.layerTreeAlias = LayerAliasOptions;
-		},
-
 	}
 })

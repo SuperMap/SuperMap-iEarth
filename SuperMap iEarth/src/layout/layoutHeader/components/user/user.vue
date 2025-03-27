@@ -1,5 +1,5 @@
 <template>
-  <div class="userinfoBox" v-show="!GlobalStore.isNormalMode">
+  <div class="userinfoBox" v-show="isEnviPortal">
     <i class="iconfont iconuser"></i>
     <div @click="toUserInfoPage" v-if="IportalStore.isLogin">
       <span class="userbox"> {{ UserName }} </span>
@@ -22,14 +22,10 @@
 <script lang="ts" setup>
 import Authenticate from "@ispeco/authentication-sdk"; // 超图iportal第三方库
 import { computed } from "vue";
-import { useMessage } from "naive-ui";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
-import { GlobalStoreCreate } from "@/store/global/global";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 
 const IportalStore = IportalStoreCreate();
-const GlobalStore = GlobalStoreCreate();
-const message = useMessage();
 
 // 登录页面
 function showLoginBox() {
@@ -47,16 +43,14 @@ function showLoginBox() {
         IportalStore.isLogin = true;
         IportalStore.userInfo.userName = data.user.name;
         IportalStore.userInfo.nickName = data.user.nickname;
-        message.success("登录成功");
+        window["$message"].success("登录成功");
       }
     },
     onFailed: function (err) {
       console.log("err------>", err);
-      // message.error(err.data.message);
     },
     onCanceled: function (err) {
       console.log("err------>", err);
-      // message.error(err.data.message);
     },
   });
   authInstance.create();
@@ -79,6 +73,10 @@ let UserName = computed(() => {
       return userName;
     }
   }
+});
+
+const isEnviPortal = computed(() => {
+  return window.iEarthBindData.EnvironmentMode != 'Normal';
 });
 </script>
 <style lang="scss" scoped>

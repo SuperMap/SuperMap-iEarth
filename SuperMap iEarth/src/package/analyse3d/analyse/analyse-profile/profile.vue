@@ -141,11 +141,11 @@
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
 import echarts from "@/tools/echarts";
-import initHandler from "@/tools/drawHandler";
-import tool from "@/tools/tool";
+import DrawHandler from "@/lib/DrawHandler";
 import profileAnalysis from "./js/profile"; // 剖面分析封装类
 
 const scene = viewer.scene;
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   startDegreesArray: number[]; // 起点坐标数组
@@ -179,7 +179,7 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let handlerPolyline, ctx, canvas;
+let ctx, canvas;
 let profile_GPU = new SuperMap3D.Profile(scene);
 let profile = new profileAnalysis(viewer, {
   echarts: echarts,
@@ -200,18 +200,16 @@ onBeforeUnmount(() => {
   clear();
   profile.destroy();
   profile_GPU.destroy();
-  handlerPolyline = null;
   state.profileInfoShow = false;
 });
 
 // 为剖面分析设置数据
-function setDataForGpuProFile(result: any) {
-  let line = result.object;
-  if (line.positions.length < 2) {
+function setDataForGpuProFile(positions: any) {
+  if (positions.length < 2) {
     return;
   }
-  let startPoint = line.positions[0];
-  let endPoint = line.positions[1];
+  let startPoint = positions[0];
+  let endPoint = positions[1];
 
   let scartographic = SuperMap3D.Cartographic.fromCartesian(startPoint);
   let slongitude = SuperMap3D.Math.toDegrees(scartographic.longitude);
@@ -232,57 +230,31 @@ function setDataForGpuProFile(result: any) {
 }
 
 //分析
-function analysis() {
+async function analysis() {
   // 解决缺陷【8035】GPU剖面分析下报错崩溃问题
   profile.clear();
   if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
   profile_GPU.destroy();
   profile_GPU = new SuperMap3D.Profile(scene);
 
-  let interValID = setInterval(() => {
-    if (!handlerPolyline.positions) return;
+  drawHandler.startPolyline().then(positions=>{
+    setDataForGpuProFile(positions);
 
-    let positions = handlerPolyline.positions;
-    if (positions.length === 1) {
-      let result = tool.CartesiantoDegrees(positions[0]);
-      state.startDegreesArray = result.map((num: any) =>
-        Number(num.toFixed(2))
-      );
-    } else if (positions.length >= 2) {
-      let resultS = tool.CartesiantoDegrees(positions[0]);
-      let resultE = tool.CartesiantoDegrees(positions[positions.length - 1]);
-      state.startDegreesArray = resultS.map((num: any) =>
-        Number(num.toFixed(2))
-      );
+    profile.startProfile(positions).then((res) => {});
+
+    if (positions.length >= 2) {
+      let resultS = window.iEarthTool.Cartesian3ToDegreeArray(positions[0]);
+      let resultE = window.iEarthTool.Cartesian3ToDegreeArray(positions[positions.length - 1]);
+      state.startDegreesArray = resultS.map((num: any) => Number(num.toFixed(2)));
       state.endDegreesArray = resultE.map((num: any) => Number(num.toFixed(2)));
     }
-  }, 100);
-
-  if (!handlerPolyline) handlerPolyline = initHandler("Polyline");
-  handlerPolyline.handlerDrawing().then(
-    (res) => {
-      setDataForGpuProFile(res);
-
-      clearInterval(interValID);
-      state.show = true;
-      profile.startProfile(res.object.positions).then((res) => {
-        if (res) {
-          state.show = false;
-        }
-      });
-      if (state.infoShowMode === "canvas") {
-        // getCanvasImage();
-        setTimeout(()=>{ // 通过定时器延迟执行获取，还是不对，接口问题？
-          getCanvasImage();
-        },1000)
-      }
-      handlerPolyline.polylineTransparent.show = false;
-    },
-    (err) => {
-      console.log(err);
+    
+    if (state.infoShowMode === "canvas") {
+      setTimeout(()=>{ 
+        getCanvasImage();
+      },1000)
     }
-  );
-  handlerPolyline.activate();
+  });
 }
 
 // GPU剖面分析
@@ -311,10 +283,11 @@ function getCanvasImage() {
 
 // 清除
 function clear() {
-  profile.clear();
   if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  profile.clear();
   profile_GPU.destroy();
-  if (handlerPolyline) handlerPolyline.clearHandler();
+  drawHandler.destroy();
 
   profile_GPU = new SuperMap3D.Profile(scene);
   state.gpuProfileState = false;

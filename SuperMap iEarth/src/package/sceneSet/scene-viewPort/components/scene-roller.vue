@@ -111,7 +111,6 @@ let fdom;
 let scratchSwipeRegion = new SuperMap3D.BoundingRectangle();
 let layers = viewer.scene.layers.layerQueue;
 let imgLayers = viewer.imageryLayers._layers;
-// let mvtLayers = viewer.scene._vectorTileMaps._layerQueue;
 
 let rollerShutterConfig = {
   bottom: 0.66,

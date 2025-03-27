@@ -3,7 +3,7 @@
     <span>{{ $t("chooseLayer") }}</span>
     <n-select
       style="width: 1.96rem"
-      v-model:value="state.selectedIndex"
+      v-model:value="state.selectS3MName"
       :options="state.s3mlayers"
     />
   </div>
@@ -94,15 +94,12 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useLayerStore } from "@/store/layerStore/layer";
-import { useMessage } from "naive-ui";
+import layerManagement from "@/tools/layerManagement";
 
-const layerStore = useLayerStore();
-const message = useMessage();
 
 type StateType = {
   s3mlayers: any; //当前存在的可选择s3m图层
-  selectedIndex: number; //默认选择图层index
+  selectS3MName: string; //默认选择图层index
   offsetX: number; //沿X轴偏移
   offsetY: number; //沿Y轴偏移
   offsetZ: number; //沿Z轴偏移
@@ -114,7 +111,7 @@ type StateType = {
 // 初始化变量
 let state = reactive<StateType>({
   s3mlayers: [], //当前存在的可选择s3m图层
-  selectedIndex: 0, //默认选择图层index
+  selectS3MName: window.iEarthBindData.CurrentS3MLayerName, //默认选择图层index
   offsetX: 0, //沿X轴偏移
   offsetY: 0, //沿Y轴偏移
   offsetZ: 0, //沿Z轴偏移
@@ -122,50 +119,32 @@ let state = reactive<StateType>({
   polygonOffsetUnit: 0, //偏移单位
   offsetMode: 0,
 });
-let layers;
+
+let currentS3MLayer:any = undefined;
 
 function init() {
-  if (!window.viewer) return;
-  updateLayers();
-  state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
+  state.s3mlayers = layerManagement.getS3MLayerList();
+  currentS3MLayer = viewer.scene.layers.find(state.selectS3MName);
+  if(currentS3MLayer) currentS3MLayer.selectEnabled = true;
   selectedoffsetChange(true);
-  layers[state.selectedIndex].selectEnabled = true;
 }
 
 onMounted(() => {
   init();
-  message.success($t("chooseThenOffset"));
+  window["$message"].success($t("chooseThenOffset"));
 });
 
 onBeforeUnmount(() => {
   reset();
-  layers = null;
 });
 
-function updateLayers() {
-  layers = viewer.scene.layers.layerQueue;
-  if (!layers || layers.length < 1) {
-    state.s3mlayers = [{ label: () => $t("noLayer"), value: 0 }];
-    return;
-  }
-  state.s3mlayers.length = 0;
-  layers.forEach((layer, index) => {
-    let name = layer._name;
-    state.s3mlayers.push({
-      label: name,
-      value: index,
-    });
-  });
-  if (state.selectedIndex > layers.length - 1) state.selectedIndex = 0;
-  layers[state.selectedIndex].selectEnabled = true;
-}
 
 // 设置偏移
 function setObjsOffset() {
-  let ids = layers[state.selectedIndex].getSelection();
-  layers[state.selectedIndex].removeAllObjsOffset(); // 移除所有图元的偏移
+  let ids = currentS3MLayer.getSelection();
+  currentS3MLayer.removeAllObjsOffset(); // 移除所有图元的偏移
   if (ids.length > 0) {
-    layers[state.selectedIndex].setObjsOffset(ids);
+    currentS3MLayer.setObjsOffset(ids);
   }
 }
 
@@ -174,22 +153,22 @@ function reset() {
   state.offsetX = 0;
   state.offsetY = 0;
   state.offsetZ = 0;
-  layers[state.selectedIndex].selectedTranslate = new SuperMap3D.Cartesian3(
+  currentS3MLayer.selectedTranslate = new SuperMap3D.Cartesian3(
     0,
     0,
     0
   );
-  layers[state.selectedIndex].selectEnabled = true;
+  currentS3MLayer.selectEnabled = true;
 }
 
 // 设置选中模型偏移
 function selectedoffsetChange(isSelected: boolean) {
-  if (!layers[state.selectedIndex]) return;
+  if (!currentS3MLayer) return;
   if (isSelected) {
     let xOffset = Number(state.offsetX);
     let yOffset = Number(state.offsetY);
     let zOffset = Number(state.offsetZ);
-    layers[state.selectedIndex].selectedTranslate = new SuperMap3D.Cartesian3(
+    currentS3MLayer.selectedTranslate = new SuperMap3D.Cartesian3(
       xOffset,
       yOffset,
       zOffset
@@ -197,30 +176,24 @@ function selectedoffsetChange(isSelected: boolean) {
     viewer.eventManager.addEventListener("CLICK", setObjsOffset, true);
   } else {
     viewer.eventManager.removeEventListener("CLICK", setObjsOffset);
-    layers[state.selectedIndex].selectedTranslate = new SuperMap3D.Cartesian3(
+    currentS3MLayer.selectedTranslate = new SuperMap3D.Cartesian3(
       0,
       0,
       0
     );
-    layers[state.selectedIndex].removeAllObjsOffset();
-    layers[state.selectedIndex].releaseSelection(); // 释放选择集
+    currentS3MLayer.removeAllObjsOffset();
+    currentS3MLayer.releaseSelection(); // 释放选择集
   }
 }
 
 // 监听
-watch(
-  () => layerStore.layerChangeCount,
-  () => {
-    updateLayers();
-  }
-);
 watch(
   () => state.offsetX,
   () => {
     let xOffset = Number(state.offsetX);
     let yOffset = Number(state.offsetY);
     let zOffset = Number(state.offsetZ);
-    layers[state.selectedIndex].selectedTranslate = new SuperMap3D.Cartesian3(
+    currentS3MLayer.selectedTranslate = new SuperMap3D.Cartesian3(
       xOffset,
       yOffset,
       zOffset
@@ -233,7 +206,7 @@ watch(
     let xOffset = Number(state.offsetX);
     let yOffset = Number(state.offsetY);
     let zOffset = Number(state.offsetZ);
-    layers[state.selectedIndex].selectedTranslate = new SuperMap3D.Cartesian3(
+    currentS3MLayer.selectedTranslate = new SuperMap3D.Cartesian3(
       xOffset,
       yOffset,
       zOffset
@@ -246,7 +219,7 @@ watch(
     let xOffset = Number(state.offsetX);
     let yOffset = Number(state.offsetY);
     let zOffset = Number(state.offsetZ);
-    layers[state.selectedIndex].selectedTranslate = new SuperMap3D.Cartesian3(
+    currentS3MLayer.selectedTranslate = new SuperMap3D.Cartesian3(
       xOffset,
       yOffset,
       zOffset
@@ -256,21 +229,30 @@ watch(
 watch(
   () => state.polygonOffsetFactor,
   (val) => {
-    if (layers[state.selectedIndex])
-      layers[state.selectedIndex].setPolygonoffset(
+    if (currentS3MLayer){      
+      currentS3MLayer.setPolygonoffset(
         Number(val),
         Number(state.polygonOffsetUnit)
       );
+    }
   }
 );
 watch(
   () => state.polygonOffsetUnit,
   (val) => {
-    if (layers[state.selectedIndex])
-      layers[state.selectedIndex].setPolygonoffset(
+    if (currentS3MLayer){
+      currentS3MLayer.setPolygonoffset(
         Number(state.polygonOffsetFactor),
         Number(val)
       );
+    }
+  }
+);
+watch(
+  () => state.selectS3MName,
+  (val) => {
+    currentS3MLayer = scene.layers.find(val);
+    if(currentS3MLayer) currentS3MLayer.selectEnabled = true;
   }
 );
 </script>

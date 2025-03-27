@@ -44,7 +44,7 @@
         </div>
     </div> -->
 
-    <div class="row-item" style="margin-bottom: 0px">
+    <!-- <div class="row-item" style="margin-bottom: 0px">
       <span></span>
       <div class="row-content" style="display: flex">
         <n-checkbox v-model:checked="state.showRoute" /><span
@@ -56,7 +56,7 @@
           >{{ $t("displayStation") }}</span
         >
       </div>
-    </div>
+    </div> -->
 
     <div class="row-item">
       <span>{{ $t("flySpeed") }}</span>
@@ -127,12 +127,7 @@
 
 <script lang="ts" setup>
 import { watch, reactive, onMounted, onBeforeUnmount } from "vue";
-import { useNotification, useMessage } from "naive-ui";
-import tool from "@/tools/tool";
 import createFlyLine_xml from "./fly-line-xml.js";
-
-const notification = useNotification();
-const message = useMessage();
 
 type stateType = {
   routeType: string; //自定义还得指定路线类型
@@ -377,8 +372,21 @@ function flyStop() {
 // 添加站点
 function addStop() {
   flyManager.stop();
-  let point = viewer.camera.position;
-  let position = tool.CartesiantoDegrees(point);
+
+  let position:any = undefined;
+  const camera = viewer.camera;
+  if(viewer.scene.mode == SuperMap3D.SceneMode.COLUMBUS_VIEW){
+    // const positionCartographic = camera.positionCartographic;
+    // position = [positionCartographic.longitude,positionCartographic.latitude,positionCartographic.height];
+    position = [camera.position.x, camera.position.y, camera.positionCartographic.height]
+  }else if(viewer.scene.mode == SuperMap3D.SceneMode.SCENE3D){
+    let point = camera.position;
+    position = window.iEarthTool.Cartesian3ToDegreeArray(point);
+  }else{
+    let point = camera.position;
+    position = window.iEarthTool.Cartesian3ToDegreeArray(point);
+  }
+
   let stop = {
     stopName: state.setStopName,
     index: state.addCurrentStopIndex,
@@ -388,14 +396,14 @@ function addStop() {
     speed: state.setStopSpeed,
     stopPlayMode: state.stopPlayMode,
     surroundDuration: state.surroundDuration,
-    waitTime: state.waitTime,
+    waitTime: state.waitTime
   };
   state.routeStops.push(stop);
   if (state.isSaveAutoFlag) saveStop(); // 一旦添加站点，立即保存
   let routeLen = state.routeStops.length;
   if (routeLen > 0)
     state.addCurrentStopIndex = state.routeStops[routeLen - 1].index + 1; // 保证新增的站点index始终比前一位大1
-  message.success(`${$t("addStopSuccess")}: ${state.setStopName}`);
+    window["$message"].success(`${$t("addStopSuccess")}: ${state.setStopName}`);
 
   if (state.routeStops.length > 0) {
     let len = state.routeStops.length;
@@ -448,7 +456,7 @@ function restStops() {
 function saveStop() {
   if (state.routeStops.length < 2) {
     if (state.customRouteNames.length == 0) {
-      notification.create({
+      window["$notification"].create({
         content: () => $t("atLeastTwoStop"),
         duration: 3500,
       });
@@ -463,6 +471,7 @@ function saveStop() {
     speed: state.routeSpeed,
     isAlongLine: "False",
     routeStops: state.routeStops,
+    sceneMode: viewer.scene.mode,
   };
   let xml = createXml.createXMLflyLine(route);
   flyLineXmls[0] = xml;
@@ -567,18 +576,40 @@ watch(
   (val) => {
     let stop = state.routeStops.find((stop) => stop.index === val);
     if (!stop) return;
-    viewer.camera.setView({
-      destination: SuperMap3D.Cartesian3.fromDegrees(
+
+    // 支持从选中的站点开始飞行
+    if(flyManager) flyManager.currentStopIndex = Number(val); 
+    flyStop(); // 停止当前飞行，从头开始
+
+    if (viewer.scene.mode == SuperMap3D.SceneMode.COLUMBUS_VIEW) { // 平面场景
+      let cartesian3 = SuperMap3D.Transforms.convertTo3DCartesian(new SuperMap3D.Cartesian3( 
+        stop.point[2], 
         stop.point[0],
-        stop.point[1],
-        stop.point[2]
-      ),
-      orientation: {
-        heading: stop.heading,
-        pitch: stop.tilt,
-        roll: 0,
-      },
-    });
+        stop.point[1]
+      ));
+      viewer.scene.camera.setView({
+        convert: viewer.scene.mode !== SuperMap3D.SceneMode.SCENE3D,
+        destination: cartesian3,
+        orientation: {
+          heading: stop.heading,
+          pitch: stop.tilt,
+          roll: stop.roll,
+        }
+      })
+    } else { // 球面场景
+      viewer.camera.setView({
+        destination: SuperMap3D.Cartesian3.fromDegrees(
+          stop.point[0],
+          stop.point[1],
+          stop.point[2]
+        ),
+        orientation: {
+          heading: stop.heading,
+          pitch: stop.tilt,
+          roll: stop.roll,
+        },
+      });
+    }
   }
 );
 </script>

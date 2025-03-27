@@ -11,9 +11,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { getRootUrl } from "@/tools/iportal/portalTools";
-import { useMessage } from "naive-ui";
-
-const message = useMessage();
 
 let columns = ref([
   {
@@ -100,7 +97,7 @@ function formatTime(timestamp: any) {
 // 打开场景
 function handleCheck(rowKeys: any) {
   if (rowKeys.length > 2) {
-    message.warning("请选择一个场景打开");
+    window["$message"].warning("请选择一个场景打开");
     return;
   }
   let url = rowKeys;

@@ -70,11 +70,11 @@ let state = reactive<stateType>({
   ],
   options_viewMode: [
     {
-      label: "3D",
+      label: $t("globeScene"),
       value: 3,
     },
     {
-      label: "2.5D",
+      label: $t("planeScene"),
       value: 1,
     },
     // 有问题 先注释

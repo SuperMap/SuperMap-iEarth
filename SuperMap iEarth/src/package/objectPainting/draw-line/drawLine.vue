@@ -138,11 +138,10 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useNotification } from "naive-ui";
-import initHandler from "@/tools/drawHandler";
+import DrawHandler from "@/lib/DrawHandler";
 import setEditHandler from "@/tools/editHandler";
 
-const notification = useNotification();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   selectedType: string; // 当前选择的绘制模式
@@ -240,7 +239,7 @@ let state = reactive<stateType>({
 
 let line_ids: any[] = [];
 let selected_line: any = undefined;
-let handlerPolyline, removeEdit, clampToGround, classificationType;
+let removeEdit, clampToGround, classificationType;
 
 onMounted(() => {});
 
@@ -250,7 +249,7 @@ onBeforeUnmount(() => {
 
 // 分析
 function add() {
-  notification.create({
+  window["$notification"].create({
     content: () => $t("editLineTip"),
     duration: 3500,
   });
@@ -258,21 +257,10 @@ function add() {
 }
 
 // 添加线
-function add_line() {
-  if (!handlerPolyline) {
-    handlerPolyline = initHandler("Polyline");
-  }
-  handlerPolyline.handlerDrawing().then(
-    (res) => {
-      creat_entity_line(res.object.positions);
-      handlerPolyline.polylineTransparent.show = false;
-      if (state.isEdit) setEdit();
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolyline.activate();
+async function add_line() {
+  const positions = await drawHandler.startPolyline();
+  creat_entity_line(positions);
+  if (state.isEdit) setEdit();
 }
 
 // 根据索引创建不同类型的线实体 - entity
@@ -387,7 +375,7 @@ function changleIconItem(item: any) {
 
 // 清除
 function clear() {
-  if (handlerPolyline) handlerPolyline.clearHandler();
+  drawHandler.destroy();
   if (selected_line) {
     viewer.entities.removeById(selected_line.id);
     selected_line = undefined;
@@ -479,7 +467,7 @@ watch(
   () => state.isEdit,
   (val) => {
     if (val) {
-      notification.create({
+      window["$notification"].create({
         content: () => $t("editLineTip"),
         duration: 3500,
       });

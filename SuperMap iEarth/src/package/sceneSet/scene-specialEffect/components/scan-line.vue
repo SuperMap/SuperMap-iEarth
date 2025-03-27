@@ -142,11 +142,10 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useNotification,useMessage } from "naive-ui";
-import initHandler from "@/tools/drawHandler";
+import DrawHandler from "@/lib/DrawHandler";
+import tool from "@/tools/tool";
 
-const notification = useNotification();
-const message = useMessage();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   scanMode: number; // 扫描模式
@@ -178,27 +177,27 @@ let state = reactive<stateType>({
     {
       name: $t("lineTexture1"),
       type: "line",
-      url: "./images/particleSystem/line-1.jpg",
+      url: "./images/scanTexture/line-1.jpg",
     },
     {
       name: $t("lineTexture2"),
       type: "line",
-      url: "./images/particleSystem/line-2.jpg",
+      url: "./images/scanTexture/line-2.jpg",
     },
     {
       name: $t("ringTexture1"),
       type: "ring",
-      url: "./images/particleSystem/ring-1.jpg",
+      url: "./images/scanTexture/ring-1.jpg",
     },
     {
       name: $t("ringTexture2"),
       type: "ring",
-      url: "./images/particleSystem/ring-2.jpg",
+      url: "./images/scanTexture/ring-2.jpg",
     },
     {
       name: $t("loopedhexagonTexture"),
       type: "ring",
-      url: "./images/particleSystem/ring-3.jpg",
+      url: "./images/scanTexture/ring-3.jpg",
     },
   ],
 });
@@ -209,7 +208,6 @@ let defaultLineTextrues = [
 let defaultCircleTextrues = [
   { label: () => $t("noneScanTexture"), value: 0, url: "" },
 ];
-let handlerPolyline;
 
 // 初始化
 function init() {
@@ -230,7 +228,7 @@ function init() {
 
 onMounted(() => {
   if(viewer.scene.mode == 1){
-    message.warning($t('scanNotSupportPlane'));
+    window["$message"].warning($t('scanNotSupportPlane'));
   }
   init();
   setTexturesByProps();
@@ -283,8 +281,7 @@ function addLineScans(positions) {
 
 // 添加环状扫描
 function addCircleScans(e) {
-  viewer.enableCursorStyle = true;
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
   let centerPosition = viewer.scene.pickPosition(e.message.position);
   if (centerPosition) {
     if (state.scanShow) {
@@ -301,33 +298,20 @@ function addCircleScans(e) {
 function addScans() {
   if (state.scanMode < 1) {
     drawPolyline();
-    notification.create({
+    window["$notification"].create({
       content: () => $t("addScanLineTip"),
       duration: 3500,
     });
     return;
   }
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+  tool.setMouseCursor("measureCur");
   viewer.eventManager.addEventListener("CLICK", addCircleScans, true);
 }
 
 // 画线
-function drawPolyline() {
-  if (!handlerPolyline) {
-    handlerPolyline = initHandler("Polyline");
-  }
-  handlerPolyline.handlerDrawing().then(
-    (res) => {
-      addLineScans(res.object.positions);
-      handlerPolyline.polylineTransparent.show = false;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolyline.activate();
+async function drawPolyline() {
+  const positions = await drawHandler.startPolyline();
+  addLineScans(positions);
 }
 
 // 清除
@@ -339,7 +323,7 @@ function clear() {
   viewer.scene.scanEffect.remove(index);
 
   viewer.eventManager.removeEventListener("CLICK", addCircleScans);
-  if (handlerPolyline) handlerPolyline.clearHandler();
+  drawHandler.destroy();
 }
 
 // 监听

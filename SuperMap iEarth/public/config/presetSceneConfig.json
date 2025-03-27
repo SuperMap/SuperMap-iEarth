@@ -1,0 +1,238 @@
+{
+	"name": "原版CBD",
+	"tags": [
+		"预设场景"
+	],
+	"userName": "",
+	"description": "",
+	"content": {
+		"sceneInfo": {
+			"SceneMode": 3,
+			"MouseOption": {
+				"zoomFactor": 12
+			},
+			"Camera": {
+				"position": {
+					"x": -2183767.8190867,
+					"y": 4388188.151144909,
+					"z": 4068994.4237822248
+				},
+				"heading": 0.05424499862642396,
+				"pitch": -0.3649937322480856,
+				"roll": 1.4775898726782088e-8
+			},
+			"SaveTime": "2025/3/27-10:22:25",
+			"SceneClockTime": "2025-03-27T02:21:53.4170000000012806Z",
+			"LayerOptions": {
+				"s3mLayers": [
+					{
+						"type": "S3MTilesLayer",
+						"name": "Ground@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Ground%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Bridge@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Bridge%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Building@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Tree@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Tree%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Ground2@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Ground2%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Xiaopin@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Xiaopin%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Lake@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Lake%40CBD/config",
+						"residentRootTile": false
+					}
+				],
+				"imgLayers": [],
+				"mvtLayers": [],
+				"tinLayer": {}
+			},
+			"LayerStyles": {
+				"s3mLayerStyles": []
+			},
+			"SceneAdjust": {
+				"GlobalAttr": {
+					"earthShow": true,
+					"depthInspection": true,
+					"atomsphereRender": true,
+					"timeAxis": false,
+					"displayFrame": false,
+					"hdrEnabled": false
+				},
+				"VisualEffect": {
+					"bloomEffect": {
+						"isOpen": false,
+						"threshold": 0,
+						"bloomIntensity": 1.34
+					},
+					"underGround": {
+						"isOpen": false,
+						"globeAlpha": 1
+					},
+					"sceneColor": {
+						"isOpen": false,
+						"brightness": 1,
+						"contrast": 1,
+						"hue": 0,
+						"saturation": 1
+					},
+					"shadow": {
+						"isOpen": false,
+						"darkness": 0.2,
+						"penumbraRatio": 0.1,
+						"maximumDistance": 1000
+					},
+					"lightSource": {
+						"sunLight": {
+							"isOpen": true,
+							"sunLightColor": {
+								"red": 1.9117092835581464,
+								"green": 1.8873230637286036,
+								"blue": 1.8873230637286036,
+								"alpha": 1
+							}
+						},
+						"customLights": [],
+						"lightModelSize": 5
+					},
+					"msaaLevel": {
+						"isOpen": true,
+						"msaaLevel": 4
+					},
+					"sceneDepth": {
+						"isOpen": false,
+						"fStop": 2.8,
+						"focalDistance": 50,
+						"focalRange": 20,
+						"blurRadius": 10
+					}
+				},
+				"SceneFeature": {
+					"cloudLayer": {
+						"isOpen": false
+					},
+					"skyBox": {
+						"isOpen": false,
+						"WSpeed": 0,
+						"horizontalRotationAngle": 0
+					}
+				},
+				"SpecialBuff": {
+					"envMap": {
+						"isOpen": false,
+						"envMapIntensity": 1
+					}
+				}
+			},
+			"ParticleSystem": {}
+		},
+		"layerTreeData": {
+			"s3mTreeData": []
+		},
+		"bindiEarthData": {
+			"layerQueryOptions": [],
+			"mapQueryOptions": [],
+			"mediaFeildOptions": {
+				"img": {},
+				"video": {}
+			},
+			"wmtsLayerOption": [],
+			"mediaResourceOptions": {}
+		}
+	}
+}

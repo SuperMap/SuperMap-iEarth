@@ -46,6 +46,7 @@
 <script lang="ts" setup>
 import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import ClipPlane from "./js/clip-plane.js";
+import tool from "@/tools/tool";
 
 type stateType = {
   zoom: number; // 缩放
@@ -100,9 +101,8 @@ onBeforeUnmount(() => {
 
 // 分析
 function clipPlaneStart() {
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+  tool.setMouseCursor("measureCur");
+
   viewer.eventManager.addEventListener("CLICK", left_click, true);
   viewer.eventManager.addEventListener("MOUSE_MOVE", mouse_move);
 }
@@ -118,7 +118,7 @@ function left_click(e: any) {
 
   viewer.eventManager.removeEventListener("CLICK", left_click);
   viewer.eventManager.removeEventListener("MOUSE_MOVE", mouse_move);
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
 }
 
 //沿法线方向裁剪时实时显示参考平面
@@ -147,7 +147,7 @@ function clear() {
   state.normal = null;
   viewer.eventManager.removeEventListener("CLICK", left_click);
   viewer.eventManager.removeEventListener("MOUSE_MOVE", mouse_move);
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
 }
 
 // 监听

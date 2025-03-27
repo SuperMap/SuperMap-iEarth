@@ -10,7 +10,7 @@
         <dialog-content></dialog-content>
         <loading-content></loading-content>
         <n-notification-provider>
-          <n-message-provider :max="3">
+          <n-message-provider>
             <message-content></message-content>
             <I18n></I18n>
             <layout></layout>
@@ -64,9 +64,7 @@ const watermark = reactive({
 // 验证许可
 const checkLicenseInfo = () => {
   let url = getRootUrl() + "manager/licenseInfo.json";
-  if (window.iEarthConsole) {
-    console.log("licenseUrl:", url);
-  }
+
   return window.axios
     .get(url)
     .then(function (licenseInfo: any) {
@@ -77,9 +75,6 @@ const checkLicenseInfo = () => {
       let designerInfo = licenseInfo.data?.entryInfos.find((info: any) => {
         return info.licenseID === 21034 || info.licenseID === 65400; //65400 iportal 试用许可
       });
-      if (window.iEarthConsole) {
-        console.log("designerInfo:", designerInfo);
-      }
 
       let comName = licenseInfo.data?.shortCompanyName;
       let orTitle = document.title;
@@ -165,6 +160,14 @@ const overridesTheme = {
   font-display: fallback;
 }
 
+// 使用通配符，避免界面上的文字被选中
+* {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -o-user-select:none;
+  user-select:none;
+}
+
 // 头部标题字体
 .head-title {
   font-family: "OptimizationTitle";
@@ -188,11 +191,11 @@ const overridesTheme = {
 }
 
 .drawCur {
-  cursor: url(../public/images/cur/draw.cur), auto;
+  cursor: url(../public/Resource/cur/draw.cur), auto;
 }
 
 .measureCur {
-  cursor: url(../public/images/cur/measure.cur), auto;
+  cursor: url(../public/Resource/cur/measure.cur), auto;
 }
 
 // n-input等居中
@@ -207,6 +210,12 @@ const overridesTheme = {
   .n-input__input-el {
     line-height: 0.32rem;
   }
+}
+
+// 批量设置显隐ID用到的textarea
+.n-input--textarea{
+  height: auto;
+  // max-height: 2rem;
 }
 
 // cesium帧率面板位置
@@ -451,5 +460,22 @@ const overridesTheme = {
 // 我的服务中将不可用服务与可用服务区分开
 .myService-disabled-item td{
   color: rgba(255,255,255,0.25) !important;
+}
+
+// 由于新加的底部信息条，将时间轴往上调
+.supermap3d-viewer-timelineContainer{
+  bottom: 25px;
+}
+
+// 性能控制面板样式优化
+.supermap3d-performanceDisplay-select-Container,
+.supermap3d-performanceDisplay-outward-Container {
+  right: 50px;
+  color: black;
+}
+
+// 弹窗关闭按钮不显示边框
+.bable-hander .n-button .n-button__border {
+  border: none;
 }
 </style>

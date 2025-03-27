@@ -125,8 +125,9 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import initHandler from "@/tools/drawHandler";
-import tool from "@/tools/tool";
+import DrawHandler from "@/lib/DrawHandler";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   analysisArea: string; //分析区域
@@ -193,7 +194,7 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let editHandler, slopePosition, handlerPolygon; //保存当前分析区域
+let editHandler, slopePosition; //保存当前分析区域
 let slope = new SuperMap3D.SlopeSetting(); //分析对象
 let colorTable = new SuperMap3D.ColorTable(); //颜色
 let wide =
@@ -237,20 +238,13 @@ function startSlope() {
     };
     return;
   }
-  if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
-  handlerPolygon.handlerDrawing().then(
-    (res: any) => {
-      let positions = tool.CartesiantoDegrees(res.object.positions);
+
+  drawHandler.startPolygon().then(positions_ => {
+    let positions = window.iEarthTool.Cartesian3ToDegreeArray(positions_);
       slopeUpdate(positions);
       slopePosition = positions;
-      handlerPolygon.polylineTransparent.show = false;
-      if (state.isEdit) setEditHandler(handlerPolygon.polygon, slopeUpdate);
-    },
-    (err: any) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+      if (state.isEdit) setEditHandler(drawHandler.handlePolygon.polygon, slopeUpdate);
+  });
 }
 
 // 更新
@@ -266,12 +260,12 @@ function slopeUpdate(p: any) {
 
 // 启动编辑
 function setEditHandler(entity: any, callback?: any) {
-  handlerPolygon.polygon.show = true;
+  drawHandler.handlePolygon.polygon.show = true;
   if (!editHandler) {
     editHandler = new SuperMap3D.EditHandler(viewer, entity);
     editHandler.activate();
     editHandler.changedEvt.addEventListener(() => {
-      let editPositions = tool.CartesiantoDegrees(editHandler._positions);
+      let editPositions = window.iEarthTool.Cartesian3ToDegreeArray(editHandler._positions);
       callback(editPositions);
     });
   } else {
@@ -282,7 +276,7 @@ function setEditHandler(entity: any, callback?: any) {
 // 清除
 function clear() {
   state.isStartSlope = false;
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  if (drawHandler) drawHandler.destroy();
   if (editHandler) editHandler.clear();
   viewer.scene.globe.SlopeSetting = {
     analysisMode: SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_NONE,
@@ -378,8 +372,9 @@ watch(
   () => state.isEdit,
   (val) => {
     if (val) {
-      if (handlerPolygon && handlerPolygon.polygon)
-        setEditHandler(handlerPolygon.polygon, slopeUpdate);
+      if (drawHandler.handlePolygon.polygon){
+        setEditHandler(drawHandler.handlePolygon.polygon, slopeUpdate);
+      }
     } else if (editHandler) editHandler.clear();
   }
 );

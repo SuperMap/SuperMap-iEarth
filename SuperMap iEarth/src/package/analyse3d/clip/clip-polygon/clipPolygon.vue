@@ -38,8 +38,9 @@
 
 <script lang="ts" setup>
 import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
-import initHandler from "@/tools/drawHandler";
-import tool from "@/tools/tool";
+import DrawHandler from "@/lib/DrawHandler";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   clipMode: any; // 内部还是外部
@@ -61,7 +62,7 @@ let state = reactive<stateType>({
   ],
 });
 
-let handlerPolygon: any, polygonPosition: any;
+let polygonPosition: any;
 let layers = viewer.scene.layers.layerQueue;
 
 function init() {
@@ -74,30 +75,19 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clear();
-  if (handlerPolygon) handlerPolygon.destroy();
 });
 
 // 分析
-function clipPolygon() {
+async function clipPolygon() {
   for (let layer of layers) {
     layer.selectEnabled = false;
     // 设置被裁剪对象的颜色
     layer.clipLineColor = new SuperMap3D.Color(1, 1, 1, 0);
   }
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
-  }
 
-  handlerPolygon.handlerDrawing().then(
-    (res: any) => {
-      let positions = tool.CartesiantoDegrees(res.object.positions);
-      clipPolygonUpdate(positions);
-    },
-    (err: any) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+  const positions_c3 = await drawHandler.startPolygon();
+  let positions = window.iEarthTool.Cartesian3ToDegreeArray(positions_c3);
+  clipPolygonUpdate(positions);
 }
 
 // 更新
@@ -110,7 +100,7 @@ function clipPolygonUpdate(p: any) {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
   if (!layers) return;
   for (let layer of layers) {
     layer.clearModifyRegions();

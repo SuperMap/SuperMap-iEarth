@@ -158,6 +158,7 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import tool from "@/tools/tool";
 
 const scene = viewer.scene;
 
@@ -201,9 +202,8 @@ onBeforeUnmount(() => {
 
 // 分析
 function startCross(e: any) {
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+  tool.setMouseCursor("measureCur");
+
   e.preventDefault();
   if (!viewer) {
     return;
@@ -278,7 +278,7 @@ function start() {
       SuperMap3D.ScreenSpaceEventType.LEFT_CLICK
     );
     hpr = null;
-    document.body.classList.remove("measureCur");
+    tool.setMouseCursor("normal");
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 

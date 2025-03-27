@@ -600,18 +600,6 @@ const local_es = {
   "noSupportBaseMap":'La capa actual no admite la configuración como base predeterminada',
   "baseMapSetSuccess":'Se estableció con éxito como base',
   "queryField": "Campo de consulta",
-
-  // input输入校验提示
-  "INVALID_INPUT": "El contenido de entrada no es legal",
-  "INVALID_URL": "No se puede acceder a la dirección web introducida",
-  "INVALID_FORMAT": "El formato de URL introducido no es correcto xib",
-  "OUT_OF_RANGE": "Fuera del alcance",
-  "NO_LINE_BREAKS_OR_CARRIAGE_RETURNS": "No se permiten saltos de línea y devoluciones de llamada",
-  "FIELD_REQUIRED": "El campo no puede estar vacío",
-  "NUMERIC_ONLY": "Este campo solo puede introducir números",
-  "TEXT_ONLY": "Este campo solo puede introducir texto",
-  "EXCEED_MAX_VALUE_ALLOWED": "No se puede superar el valor máximo",
-  "BELOW_MIN_VALUE_ALLOWED": "No puede ser inferior al mínimo",
 }
 
 window.local_es = local_es;

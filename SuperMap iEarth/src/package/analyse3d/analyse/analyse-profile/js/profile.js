@@ -104,10 +104,6 @@ class ProfileAnalysis {
             }
         }
 
-        // this.clampedCartesians = positions;
-        // this.LatAndLons = CartesiantoDegreesObjs(positions);
-        // this.setOptions();
-
         return new Promise((resolve, reject) => {
             this.viewer.scene
                 .clampToHeightMostDetailed(positions)

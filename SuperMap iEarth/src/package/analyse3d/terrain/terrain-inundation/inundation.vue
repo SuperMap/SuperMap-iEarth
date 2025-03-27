@@ -32,7 +32,6 @@
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.currentHeight"
-      disabled
       :bordered="false"
       :show-button="false"
     >
@@ -110,8 +109,9 @@
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
 import tool from "@/tools/tool";
-import initHandler from "@/tools/drawHandler";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import DrawHandler from "@/lib/DrawHandler";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   maxHeight: number; //最大可见高程
@@ -136,7 +136,7 @@ let state = reactive<stateType>({
 
 // 初始化变量
 const windowGlobal: any = window;
-let handlerPolygon, interval, floodPosition;
+let interval, floodPosition;
 let hypFlood = new SuperMap3D.HypsometricSetting();
 let floodColorTable = new SuperMap3D.ColorTable();
 
@@ -162,21 +162,11 @@ onBeforeUnmount(() => {
 });
 
 // 开始淹没分析
-function floodBegin() {
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
-  }
-  handlerPolygon.handlerDrawing().then(
-    (res) => {
-      let positions = tool.CartesiantoDegrees(res.object.positions);
-      floodUpdate(positions);
-      floodPosition = positions;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+async function floodBegin() {
+  const positions_c3 = await drawHandler.startPolygon();
+  let positions = window.iEarthTool.Cartesian3ToDegreeArray(positions_c3);
+  floodUpdate(positions);
+  floodPosition = positions;
 }
 
 // 更新
@@ -296,7 +286,7 @@ function colorBandsChange(val: string) {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
   viewer.scene.globe.HypsometricSetting = undefined;
   clearInterval(interval);
   floodPosition = null;
@@ -318,11 +308,6 @@ watch(
 watch(
   () => state.minHeight,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.minHeight = val = 1000;
-    };
     hypFlood.MinVisibleValue = parseInt(val);
     if (!floodPosition) return (state.currentHeight = parseInt(val));
     viewer.scene.globe.HypsometricSetting = {
@@ -335,11 +320,6 @@ watch(
 watch(
   () => state.maxHeight,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.maxHeight = val = 9000;
-    };
     hypFlood.MaxVisibleValue = parseInt(val);
     if (!floodPosition) return;
     viewer.scene.globe.HypsometricSetting = {

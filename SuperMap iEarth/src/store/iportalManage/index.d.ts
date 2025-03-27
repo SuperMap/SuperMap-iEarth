@@ -18,7 +18,6 @@ interface IportalStoreStateType {
     isLogin: boolean, // 是否登录
     isSuperAdmin: boolean, // 是否为超级管理员
     userInfo: userInfoType,
-    isCreateScene: boolean, // 是否为创建场景 || 编辑场景
     saveInfo: any,
     SceneName: String
 }

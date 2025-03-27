@@ -58,8 +58,6 @@
       <span>{{ $t("bottomHeight") }}</span>
       <n-input-number
         style="width: 1.96rem"
-        :min="1"
-        :max="200"
         v-model:value="state.bottomHeight"
         :update-value-on-input="false"
         :show-button="false"
@@ -72,8 +70,6 @@
       <span>{{ $t("stretchingHeight") }}</span>
       <n-input-number
         style="width: 1.96rem"
-        :min="1"
-        :max="200"
         v-model:value="state.extrudeHeight"
         :update-value-on-input="false"
         :show-button="false"
@@ -86,8 +82,6 @@
       <span>{{ $t("space") }}</span>
       <n-input-number
         style="width: 1.96rem"
-        :min="1"
-        :max="200"
         v-model:value="state.spacing"
         :update-value-on-input="false"
         :show-button="false"
@@ -112,56 +106,6 @@
       </div>
     </div>
   </n-scrollbar>
-
-  <!-- 阴影率弹窗 -->
-  <div class="bableShadow" ref="bableShadowDom" v-show="state.shadowRadioShow">
-    <div class="row-item" style="margin-top: 0.12rem">
-      <span class="shadow-anaylse-pop-titie">{{ $t("analyseResult") }}</span>
-      <span @click="state.shadowRadioShow = false" style="margin-right: 0.14rem"
-        >X</span
-      >
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem; margin-right: 0.12rem">
-      <span>{{ $t("DaylightingRate") }}</span>
-      <n-input
-        style="width: 1.5rem"
-        v-model:value="state.shadowRadio.radio"
-        :show-button="false"
-        disabled
-      >
-      </n-input>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem; margin-right: 0.12rem">
-      <span>{{ $t("longitude") }}</span>
-      <n-input-number
-        style="width: 1.5rem"
-        v-model:value="longitude"
-        :show-button="false"
-        disabled
-      >
-      </n-input-number>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem; margin-right: 0.12rem">
-      <span>{{ $t("latitude") }}</span>
-      <n-input-number
-        style="width: 1.5rem"
-        v-model:value="latitude"
-        :show-button="false"
-        disabled
-      >
-      </n-input-number>
-    </div>
-    <div class="row-item" style="margin-left: 0.12rem; margin-right: 0.12rem">
-      <span>{{ $t("elevation") }}</span>
-      <n-input-number
-        style="width: 1.5rem"
-        v-model:value="altitude"
-        :show-button="false"
-        disabled
-      >
-      </n-input-number>
-    </div>
-  </div>
 
   <div class="btn-row-item">
     <n-button
@@ -189,12 +133,14 @@ import {
   onMounted,
   onBeforeUnmount,
   watch,
-  computed,
 } from "vue";
-import initHandler from "@/tools/drawHandler";
 import ShadowQuery from "./js/shadow-query";
-import tool from "@/tools/tool";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import DrawHandler from "@/lib/DrawHandler";
+import CustomBubble from "@/lib/CustomBubble";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
+const customBubble = new CustomBubble(viewer);
+customBubble.start();
 
 type stateType = {
   timeArray: number[]; //开始结束时间
@@ -210,7 +156,6 @@ type stateType = {
   showStartDateBtn: boolean;
   filterInterval: number[];
   shadowRadio: any;
-  shadowRadioShow: boolean;
   initBubble: boolean;
   shadowQueryRegion: any;
   currentTime: any;
@@ -245,21 +190,16 @@ let state = reactive<stateType>({
   showStartDateBtn: true,
   filterInterval: [0, 100],
   shadowRadio: {},
-  shadowRadioShow: false,
   initBubble: false,
   shadowQueryRegion: [],
   currentTime: undefined,
 });
 
-// let currentTime = ref<any>(Date.now()); // 直接获取时间戳
-// let currentTime = computed(() => state.currentDate.getTime());
-
 state.currentTime = state.currentDate.getTime();
 
 // 初始化变量
-let bableShadowDom = ref();
 let timeArray = [...state.timeArray];
-let timerTime, currentSelectedEntity, timerDate, handlerPolygon;
+let timerTime, timerDate;
 let shadow = new ShadowQuery(viewer, {
   modelUrl: "./Resource/model/box.s3m",
 });
@@ -275,20 +215,12 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  viewer.clock.onTick.removeEventListener(updatePopup);
   clear();
   shadow.destroy();
+  customBubble.destroy();
 });
 
-let longitude = computed(() => {
-  return Number(state.shadowRadio.longitude).toFixed(4);
-});
-let latitude = computed(() => {
-  return Number(state.shadowRadio.latitude).toFixed(4);
-});
-let altitude = computed(() => {
-  return Number(state.shadowRadio.height).toFixed(2);
-});
+
 
 // 时间轴改变
 function timeChanging(arr: number[]) {
@@ -375,19 +307,11 @@ function clearTimer() {
 }
 
 // 分析
-function analysis() {
+async function analysis() {
   if (!state.shadowShow) state.shadowShow = true;
-  if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
-  handlerPolygon.handlerDrawing().then(
-    (res) => {
-      state.shadowQueryRegion = res.object.positions;
-      shadowQueryStart(state.shadowQueryRegion, timeArray[0], timeArray[1]);
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+  const positions = await drawHandler.startPolygon();
+  state.shadowQueryRegion = positions;
+  shadowQueryStart(positions, timeArray[0], timeArray[1]);
 }
 
 // 开始阴影分析
@@ -395,77 +319,55 @@ function shadowQueryStart(regionPositionList, startTime, endTime) {
   let sTime = SuperMap3D.JulianDate.fromDate(getCurrentTime(startTime));
   let eTime = SuperMap3D.JulianDate.fromDate(getCurrentTime(endTime));
   shadow.setshadowQuery(regionPositionList, sTime, eTime);
-  handlerPolygon.polylineTransparent.show = false;
   viewer.eventManager.addEventListener("CLICK", LEFT_CLICK, true);
 }
 
-// 更新弹窗位置
-function updatePopup() {
-  if (currentSelectedEntity) {
-    let position = currentSelectedEntity.primitive._position;
-    updatePopupPosition(position);
-  }
-}
-
-// 更新弹窗位置
-function updatePopupPosition(position) {
-  var WindowCoordinates = SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(
-    viewer.scene,
-    position
-  );
-  bableShadowDom.value.style.top =
-    WindowCoordinates.y - bableShadowDom.value.offsetHeight - 10 + "px";
-  bableShadowDom.value.style.left =
-    WindowCoordinates.x - bableShadowDom.value.offsetWidth / 2 + 140 + "px";
-}
 
 // 鼠标左键事件 点击获取阴影率
 function LEFT_CLICK(e) {
-  // bubble.addEvent(); //设置气泡监听事件
   if (state.shadowBodyShow) {
     let box = viewer.scene.pick(e.message.position);
     if (box && box.id) {
-      currentSelectedEntity = box;
       let index = box.id.split("-")[1];
       let point = shadow.shadowPoints[index];
       if (!point) {
-        state.shadowRadioShow = false;
+        customBubble.hidden();
         return;
       }
       let radio = point.shadowRatio * 100;
       if (radio < state.filterInterval[0] || radio > state.filterInterval[1]) {
-        state.shadowRadioShow = false;
+        customBubble.hidden();
       }
-      state.shadowRadioShow = true;
-      let position = tool.CartesiantoDegrees(point.position);
-      state.shadowRadio = {
-        radio: (point.shadowRatio * 100).toFixed(0) + "%",
-        longitude: position[0].toFixed(8),
-        latitude: position[1].toFixed(8),
-        height: position[2].toFixed(8),
-      };
-      bableShadowDom.value.style.top = e.message.position.y - 220 + "px";
-      bableShadowDom.value.style.left = e.message.position.x + "px";
-      viewer.clock.onTick.addEventListener(updatePopup);
+
+      let position = window.iEarthTool.Cartesian3ToDegreeArray(point.position);
+      const rowsContent = [
+        ["阴影率"],
+        ["经度"],
+        ["纬度"],
+        ["高程"],
+      ];
+      rowsContent[0].push((point.shadowRatio * 100).toFixed(0) + "%");
+      rowsContent[1].push(position[0].toFixed(4))
+      rowsContent[2].push(position[1].toFixed(4))
+      rowsContent[3].push(position[2].toFixed(4))
+      customBubble.open({
+        title: `分析结果`,
+        content: [
+          {
+            type: 'table', data: {
+              headers: ['字段', '值'],
+              rows: rowsContent
+            }
+          }
+        ]
+      });
+
       return;
     } else {
-      viewer.clock.onTick.removeEventListener(updatePopup);
+      customBubble.hidden();
     }
   } else {
-    let position1 = viewer.scene.pickPosition(e.message.position);
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(position1);
-    let shadowRadio = shadow.shadowQuery.getShadowRadio(cartographic);
-    if (shadowRadio !== -1) {
-      let longitude = SuperMap3D.Math.toDegrees(cartographic.longitude);
-      let latitude = SuperMap3D.Math.toDegrees(cartographic.latitude);
-      state.shadowRadio = {
-        radio: (shadowRadio * 100).toFixed(0) + "%",
-        longitude: longitude.toFixed(8),
-        latitude: latitude.toFixed(8),
-        height: cartographic.height.toFixed(8),
-      };
-      return;
-    }
+    customBubble.hidden();
   }
 }
 
@@ -479,13 +381,11 @@ function timeChanged(val) {
 
 // 清除
 function clear() {
-  viewer.clock.onTick.removeEventListener(updatePopup);
-  state.shadowRadio = { radio: 0, longitude: 0, latitude: 0, height: 0 };
   viewer.eventManager.removeEventListener("CLICK", LEFT_CLICK); //移除鼠标点击事件监听
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
   shadow.clear();
+  customBubble.hidden();
   state.shadowQueryRegion.length = 0;
-  state.shadowRadioShow = false;
 }
 
 // 监听
@@ -510,11 +410,6 @@ watch(
 watch(
   () => state.spacing,
   (val) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.spacing = val = 10;
-    };
     shadow.spacing = val;
     shadow.updateOptionsParams({ spacing: val });
     if (state.shadowQueryRegion.length >= 3) {
@@ -525,11 +420,6 @@ watch(
 watch(
   () => state.bottomHeight,
   (val) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.bottomHeight = val = 1;
-    };
     shadow.bottomHeight = val;
     shadow.updateOptionsParams({ bottomHeight: val });
     if (state.shadowQueryRegion.length >= 3) {
@@ -540,11 +430,6 @@ watch(
 watch(
   () => state.extrudeHeight,
   (val) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.extrudeHeight = val = 30;
-    };
     shadow.extrudeHeight = val;
     shadow.updateOptionsParams({ extrudeHeight: val });
     if (state.shadowQueryRegion.length >= 3) {
@@ -619,27 +504,6 @@ watch(
   border-radius: 0;
 }
 
-.bableShadow {
-  cursor: default;
-  position: fixed;
-  top: 2rem;
-  left: 5rem;
-  background-color: #383838;
-  opacity: 0.8;
-  z-index: 200000;
-  height: 2.2rem;
-  width: 2.28rem;
-
-  .shadow-anaylse-pop-titie {
-    margin-left: 0.12rem;
-    font-size: 12px;
-    line-height: 20px;
-  }
-
-  span {
-    font-size: 12px;
-  }
-}
 
 .icondown {
   display: block;

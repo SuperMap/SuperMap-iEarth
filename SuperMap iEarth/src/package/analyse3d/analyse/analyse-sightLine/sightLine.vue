@@ -103,9 +103,8 @@ let altitude = computed(() => {
 
 // 分析
 function analysis() {
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+  tool.setMouseCursor("measureCur");
+
   //鼠标左键事件监听
   viewer.eventManager.addEventListener("CLICK", LEFT_CLICK, true);
   viewer.eventManager.addEventListener("MOUSE_MOVE", MOUSE_MOVE, true);
@@ -122,7 +121,7 @@ function LEFT_CLICK(e: any) {
   let position = viewer.scene.pickPosition(e.message.position);
   //   获取第一个点坐标
   if (state.viewPointlnglatFlag) {
-    let result = tool.CartesiantoDegrees(position);
+    let result = window.iEarthTool.Cartesian3ToDegreeArray(position);
     // state.degreesArray = result.map((num: any) => Number(num.toFixed(3)));
     state.degreesArray = result;
     state.viewPointlnglatFlag = false;
@@ -139,7 +138,7 @@ function MOUSE_MOVE(e: any) {
 
 // 鼠标右键确认分析距离和方向，不再执行鼠标移动事件中对可视域的操作
 function RIGHT_CLICK() {
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
   sight.removeMoveTargetPoint();
   removeEvent();
   if (state.highlightBarrier) sight.setBarrierHighLight();
@@ -159,7 +158,7 @@ function clear() {
   state.viewPointlnglatFlag = true;
   state.degreesArray = [0, 0, 0];
   sight.clear();
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
   removeEvent();
 }
 

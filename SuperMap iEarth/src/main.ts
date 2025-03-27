@@ -32,19 +32,14 @@ if (location.href.indexOf('/apps') != -1) {
     initPortal();
 }
 
-// 切换语言-cooike
+// 通过cookie设置iEarth语言模式
 // document.cookie = "language=en;"
 
 // 检查iEarthConsole状态,以便打印输出信息
 // localStorage.setItem("iEarthConsole", 'yes')
 // localStorage.getItem("iEarthConsole");
 // localStorage.removeItem('iEarthConsole');
+window.iEarthConsole = false;
 if (localStorage.getItem("iEarthConsole") === 'yes') {
     window.iEarthConsole = true;
-}
-// 模拟iPortal模式
-// localStorage.setItem("simulateIPortalMode", 'yes')
-// localStorage.removeItem('simulateIPortalMode');
-if (localStorage.getItem("simulateIPortalMode") === 'yes') {
-    window.simulateIPortalMode = true;
 }

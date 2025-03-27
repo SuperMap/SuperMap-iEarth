@@ -78,25 +78,26 @@
 
 <script setup lang="ts">
 import { reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import DrawHandler from "@/lib/DrawHandler";
 
 type stateType = {
   maxHeight: number; // 最大高度
   maxDistence: number; // 最远距离
 };
 
-let state = reactive<stateType>({
+const state = reactive<stateType>({
   maxHeight: 100,
   maxDistence: 500,
 });
 
 // 初始化变量
 const scene = viewer.scene;
-let facade = new SuperMap3D.Facade(scene);
-let handlerLine = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Line);
+const facade = new SuperMap3D.Facade(scene);
+// 绘制类
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 // 组件初始化
 function init() {
-  if (!viewer) return;
   facade.build();
 }
 
@@ -108,28 +109,12 @@ onBeforeUnmount(() => {
   clear();
 });
 
-handlerLine.activeEvt.addEventListener((isActive: any) => {
-  if (isActive == true) {
-    window.viewer.enableCursorStyle = false;
-    window.viewer._element.style.cursor = "";
-    document.body.classList.add("drawCur");
-  } else {
-    window.viewer.enableCursorStyle = true;
-    document.body.classList.remove("drawCur");
-  }
-});
-
-handlerLine.drawEvt.addEventListener(function (result: any) {
-  result.object.show = false;
-  let startPoint = result.object.positions[0];
-  let endPoint = result.object.positions[1];
-  facade.startPoint = startPoint;
-  facade.endPoint = endPoint;
-});
-
 // 绘制立方图范围
-function drawRegion() {
-  handlerLine.activate();
+async function drawRegion() {
+  const positions = await drawHandler.startPolyline();
+  if(!positions || !(positions instanceof Array)) return;
+  facade.startPoint = positions[0];
+  facade.endPoint = positions[1];
 }
 
 // 执行出图，并下载
@@ -168,7 +153,7 @@ function download(base64data: any) {
 // 清除
 function clear() {
   facade.clear();
-  handlerLine.clear();
+  drawHandler.destroy();
 }
 
 watch(

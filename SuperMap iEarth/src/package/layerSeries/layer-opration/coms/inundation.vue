@@ -65,19 +65,15 @@
 
 <script lang="ts" setup>
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
-import { useLayerStore } from "@/store/layerStore/layer";
-import initHandler from "@/tools/drawHandler";
-import tool from "@/tools/tool";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import DrawHandler from "@/lib/DrawHandler";
 
-const layerStore = useLayerStore();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   maxHeight: number; //最大可见高程
   minHeight: number; //最小可见高程
   currentHeight: number; //当前高程
   floodSpeed: number; //速度
-  selectedIndex: number; //默认选择图层index
 };
 
 // 设置默认值数据
@@ -86,16 +82,19 @@ let state = reactive<stateType>({
   minHeight: -10, //最小可见高程
   currentHeight: 0, //当前高程
   floodSpeed: 20, //速度
-  selectedIndex: 0, //默认选择图层index
 });
 
 // 初始化变量
 const windowGlobal: any = window;
-let handlerPolygon, interval, floodPosition, layers;
+let interval, floodPosition;
 let hypFlood = new SuperMap3D.HypsometricSetting();
 let floodColorTable = new SuperMap3D.ColorTable();
+let currentS3MLayer:any = undefined;
 
 function init() {
+  const selectS3MName = window.iEarthBindData.CurrentS3MLayerName;
+  currentS3MLayer = viewer.scene.layers.find(selectS3MName);
+  if(!currentS3MLayer) return;
   colorTableInit(floodColorTable);
   hypFlood.DisplayMode = SuperMap3D.HypsometricSettingEnum.DisplayMode.FACE;
   hypFlood._lineColor = new SuperMap3D.Color(1.0, 0.0, 0.0, 1.0);
@@ -121,21 +120,11 @@ onBeforeUnmount(() => {
 });
 
 // 开始淹没分析
-function floodBegin() {
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
-  }
-  handlerPolygon.handlerDrawing().then(
-    (res) => {
-      let positions = tool.CartesiantoDegrees(res.object.positions);
-      floodUpdate(positions);
-      floodPosition = positions;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+async function floodBegin() {
+  const positions_c3 = await drawHandler.startPolygon();
+  let positions = window.iEarthTool.Cartesian3ToDegreeArray(positions_c3);
+  floodUpdate(positions);
+  floodPosition = positions;
 }
 
 // 更新
@@ -143,8 +132,6 @@ function floodUpdate(positions: any) {
   let currentH = Math.floor(state.minHeight);
   hypFlood.CoverageArea = positions;
   interval = setInterval("flood()", 100);
-  layers = viewer.scene.layers.layerQueue;
-  state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
   windowGlobal.flood = () => {
     if (currentH <= state.maxHeight) {
       state.currentHeight = Math.floor(currentH);
@@ -157,8 +144,7 @@ function floodUpdate(positions: any) {
     hypFlood.MaxVisibleValue = currentH;
 
     // 指定图层
-    // viewer.scene.layers._layerQueue.forEach - 全部图层
-    layers[state.selectedIndex].hypsometricSetting = {
+    currentS3MLayer.hypsometricSetting = {
       hypsometricSetting: hypFlood,
       analysisMode:
         SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_REGION,
@@ -196,7 +182,7 @@ function colorTableInit(colorTable: any) {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
   viewer.scene.globe.HypsometricSetting = undefined;
   clearInterval(interval);
   floodPosition = null;
@@ -205,24 +191,16 @@ function clear() {
   state.currentHeight = 0;
 
   // 指定图层
-  if (layers) {
-    layers[state.selectedIndex].hypsometricSetting = {
+  currentS3MLayer.hypsometricSetting = {
       hypsometricSetting: hypFlood,
-      analysisMode:
-        SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-    };
-  }
+      analysisMode: SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+  };
 }
 
 //监听
 watch(
   () => state.minHeight,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.minHeight = val = -10;
-    };
     hypFlood.MinVisibleValue = parseInt(val);
     if (!floodPosition) return (state.currentHeight = parseInt(val));
     viewer.scene.globe.HypsometricSetting = {
@@ -235,11 +213,6 @@ watch(
 watch(
   () => state.maxHeight,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.maxHeight = val = 300;
-    };
     hypFlood.MaxVisibleValue = parseInt(val);
     if (!floodPosition) return;
     viewer.scene.globe.HypsometricSetting = {
@@ -247,13 +220,6 @@ watch(
       analysisMode:
         SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_REGION,
     };
-  }
-);
-watch(
-  () => layerStore.s3mLayerSelectIndex,
-  (val) => {
-    state.selectedIndex = Number(val);
-    // reset();
   }
 );
 </script>

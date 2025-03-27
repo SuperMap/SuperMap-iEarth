@@ -66,6 +66,7 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import tool from "@/tools/tool";
 
 type stateType = {
   speedRatio: 1; // 旋转速度
@@ -113,10 +114,6 @@ const scene = viewer.scene;
 let windowPosition = new SuperMap3D.Cartesian2();
 let scratchTiltFrame = new SuperMap3D.Matrix4();
 let scratchOldTransform = new SuperMap3D.Matrix4();
-let handlerPoint = new SuperMap3D.DrawHandler(
-  viewer,
-  SuperMap3D.DrawMode.Point
-);
 let listener;
 
 function init() {
@@ -131,7 +128,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearFlyCircle();
-  handlerPoint.clear();
 });
 
 // 功能切换
@@ -169,38 +165,28 @@ function changleIconItem(item: any) {
 
 // 绑定监听事件
 function addCenter() {
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+  tool.setMouseCursor("measureCur");
   viewer.eventManager.addEventListener("CLICK", left_click, true);
-  handlerPoint.activate();
 }
-
-// 注册绘制球体事件
-// handlerPoint.drawEvt.addEventListener(function (res) {
-//   state.position = res.object.position;
-// });
 
 // 添加点
 function left_click(e: any) {
   state.position = e.message.position;
+  tool.setMouseCursor("normal");
 }
 
 // 开始旋转
 function startFlyCircle() {
   let center = viewer.scene.pickPosition(state.position);
   if (SuperMap3D.defined(center)) viewer.scene.camera.flyCircle(center); // 相机绕中心点旋转
-  document.body.classList.remove("measureCur");
   viewer.eventManager.removeEventListener("CLICK", left_click);
-  handlerPoint.deactivate();
 }
 
 // 清除绕点旋转
 function clearFlyCircle() {
   viewer.scene.camera.stopFlyCircle();
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
   viewer.eventManager.removeEventListener("CLICK", left_click);
-  handlerPoint.clear();
 }
 
 // 复位-指北旋转

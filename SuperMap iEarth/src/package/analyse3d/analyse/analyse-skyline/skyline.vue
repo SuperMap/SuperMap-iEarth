@@ -14,8 +14,6 @@
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.skylineRadius"
-      :min="-1"
-      :max="1000000"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -141,10 +139,10 @@
 import { reactive, onBeforeUnmount, watch, onMounted } from "vue";
 import axios from "axios";
 import echarts from "@/tools/echarts";
-import tool from "@/tools/tool";
-import initHandler from "@/tools/drawHandler";
 import SkylineAnalysis from "./js/skyline";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import DrawHandler from "@/lib/DrawHandler";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   skylineRadius: number; //分析半径
@@ -196,12 +194,11 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let handlerPolygon, myChart, echarts_dom;
+let myChart, echarts_dom;
 let skylineAnalysis = new SkylineAnalysis(viewer, { axios: axios });
 
 function init() {
   if (!viewer) return;
-  viewer.scene.globe.depthTestAgainstTerrain = true; //开启深度检测
 }
 
 onMounted(() => {
@@ -215,7 +212,6 @@ onBeforeUnmount(() => {
   if (myChart) myChart.dispose();
   skylineAnalysis.destroy();
   state.getSkyline2d = false;
-  viewer.scene.globe.depthTestAgainstTerrain = false; //关闭深度检测
 });
 
 //分析
@@ -233,28 +229,21 @@ function analysis() {
 
 // 设置限高体
 let posArr: any[] = [];
-function setLimitBody() {
+async function setLimitBody() {
   skylineAnalysis.skyline.removeLimitbody("limitBody");
-  if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
-  handlerPolygon.handlerDrawing().then(
-    (res) => {
-      let positions: any[] = tool.CartesiantoDegreesObjs(res.object.positions);
-      //再次遍历转化为接口所需的数组格式
-      for (let i = 0, len = positions.length; i < len; i++) {
-        posArr.push(positions[i].longitude);
-        posArr.push(positions[i].latitude);
-      }
-      //添加限高体对象
-      skylineAnalysis.skyline.addLimitbody({
-        position: posArr,
-        name: "limitBody",
-      });
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+
+  const positions_c3 = await drawHandler.startPolygon();
+  let positions: any[] = window.iEarthTool.Cartesian3ToDegreeObjs(positions_c3);
+  //再次遍历转化为接口所需的数组格式
+  for (let i = 0, len = positions.length; i < len; i++) {
+    posArr.push(positions[i].longitude);
+    posArr.push(positions[i].latitude);
+  }
+  //添加限高体对象
+  skylineAnalysis.skyline.addLimitbody({
+    position: posArr,
+    name: "limitBody",
+  });
 }
 
 // 创建天际线二维echarts容器
@@ -371,7 +360,7 @@ function updatePosition() {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
   skylineAnalysis.clear();
   if (myChart) myChart.clear();
   initMyChart();
@@ -383,11 +372,6 @@ function clear() {
 watch(
   () => state.skylineRadius,
   (val) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.skylineRadius = val = 10000;
-    };
     skylineAnalysis.skyline.radius = val;
   }
 );

@@ -10,7 +10,6 @@
             style="width: 2.2rem"
             v-model:value="state.dataUrl"
             type="text"
-            @input="handleUrlChange"
             @change="handleDataUrlChange"
             :placeholder="$t('inputServerUrl')"
           />
@@ -25,7 +24,6 @@
         style="width: 2.2rem"
         v-model:value="state.dataSourceName"
         :options="state.dataSourceOptions"
-        @update:value="handleUrlChange"
       />
     </div>
 
@@ -35,7 +33,6 @@
         style="width: 2.2rem"
         v-model:value="state.datasetName"
         :options="state.dataSetOptions"
-        @update:value="handleUrlChange"
       />
     </div>
 
@@ -45,7 +42,6 @@
         style="width: 2.2rem"
         v-model:value="state.queryField"
         :options="state.fieldOptions"
-        @update:value="handleUrlChange"
       />
     </div>
 
@@ -57,7 +53,6 @@
         :loading="state.isloading_table"
         :focusable="false"
         @click="startQuery"
-        :disabled="!state.isCheckPass"
         style="margin-right: 0.1rem"
         >{{ $t("attributeList") }}</n-button
       >
@@ -392,50 +387,6 @@
       </n-modal>
     </div>
 
-    <!-- 弹窗 -->
-    <div class="bableShadow" ref="bableQuery" v-show="state.shadowRadioShow">
-      <div class="row-item" style="margin-top: 0.12rem">
-        <span class="shadow-anaylse-pop-titie">{{ $t("clickQuery") }}</span>
-        <span @click="closebable" style="margin-right: 0.14rem">X</span>
-      </div>
-      <div class="bable-container">
-        <n-scrollbar style="max-height: 3.8rem">
-          <div
-            class="row-item"
-            style="margin-left: 0.12rem; margin-right: 0.12rem"
-            v-for="item in state.modelInfo"
-          >
-            <span>{{ item.lable }}</span>
-            <n-input
-              placeholder="null"
-              style="width: 1.8rem"
-              v-model:value="item.value"
-              :show-button="false"
-              disabled
-            >
-            </n-input>
-          </div>
-          <div style="margin-bottom: 0.1rem">
-            <span style="margin-left: 0.12rem">{{ state.mediaTitle }}</span>
-            <div class="mediaContainer">
-              <img
-                class="bableMedia"
-                :src="state.mediaUrl"
-                alt=""
-                v-if="state.mediaType === 'img'"
-              />
-              <video
-                class="bableMedia"
-                id="videoDom"
-                controls
-                src=""
-                v-else
-              ></video>
-            </div>
-          </div>
-        </n-scrollbar>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -449,19 +400,19 @@ import {
   computed,
 } from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
-import { useMessage } from "naive-ui";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { IportalStoreCreate } from "@/store/index";
 import ColumnSetting from "./coms/column-setting.vue";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import CustomBubble from "@/lib/CustomBubble";
+import tool from "@/tools/tool";
 
-const message = useMessage();
+const customBubble = new CustomBubble(viewer);
+customBubble.start();
 
 const IportalStore = IportalStoreCreate();
 const layerStore = useLayerStore();
 
 type StateType = {
-  selectedIndex: number; //默认选择图层index
   dataUrl: string;
   datasetName: string;
   columns: any;
@@ -507,13 +458,10 @@ type StateType = {
   dataSetOptions:any;
   queryField:string;
   fieldOptions:any;
-  isCheckPass:boolean;
-  isURLPass:boolean;
 };
 
 // 初始化变量
 let state = reactive<StateType>({
-  selectedIndex: 0, //默认选择图层index
   dataUrl: "",
   datasetName: "",
 
@@ -607,37 +555,21 @@ let state = reactive<StateType>({
   dataSourceName:'',
   queryField:'SmID',
   fieldOptions:[],
-  isURLPass:false,
-  isCheckPass:false
 });
 
 let handler;
-let targerMapLayer;
-let bableQuery = ref();
+let currentIMGLayer:any = undefined;
 let datasetNamesQuery = computed(() => { // 请求参数需要数据源和数据集以固定形式共同构造
   return `${state.dataSourceName}:${state.datasetName}`;
 });
 
-//检查输入是否合规：URL
-function handleUrlChange() {
-  state.dataUrl = state.dataUrl.trim();
-  const checkeResult = inputRuleCheck(state.dataUrl, RuleCheckTypeEnum.URL);
-  if (!checkeResult.isPass) message.warning(checkeResult.message);
-  state.isURLPass = checkeResult.isPass;
-  computedCheckPass();
-}
-
-function computedCheckPass(){
-  if(state.dataSourceName == '' || state.datasetName == '' || state.queryField == ''){
-    state.isCheckPass = false;
-  }else{
-    state.isCheckPass = state.isURLPass;
-  }
-}
 
 function init() {
-  state.selectedIndex = Number(layerStore.imgLayerSelectIndex);
-  targerMapLayer = layerStore.layerTreeData[1].children[state.selectedIndex];
+  viewer.imageryLayers._layers.forEach(imageLayer => {
+    if(imageLayer.customName == window.iEarthBindData.CurrentIMGLayerName){
+      currentIMGLayer = imageLayer;
+    }
+  });
   // 获取图层绑定的数据源信息
   setQueryInfo();
 
@@ -651,26 +583,14 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clear(true);
+  customBubble.destroy();
 });
 
-// 设置气泡位置
-function setBablePosition() {
-  if (state.scenePosition) {
-    let WindowCoordinates = SuperMap3D.SceneTransforms.wgs84ToWindowCoordinates(
-      viewer.scene,
-      state.scenePosition
-    );
-    bableQuery.value.style.top =
-      WindowCoordinates.y - bableQuery.value.offsetHeight + 450 + "px";
-    bableQuery.value.style.left =
-      WindowCoordinates.x - bableQuery.value.offsetWidth / 2 + 150 + "px";
-  }
-}
 
 // 获取数据-第一页
 function startQuery() {
   if (state.dataUrl == "" || state.dataSourceName == "" || state.datasetName == "") {
-    message.error($t("mapQueryTip"));
+    window["$message"].error($t("mapQueryTip"));
     return;
   }
 
@@ -688,26 +608,28 @@ function startQuery() {
   // 查询数据
   queryAll();
 
-  let item = layerStore.mapQueryOptions.filter(
-    (item) => item.label == targerMapLayer.label
-  );
-  if (item.length === 0) {
-    // 保存数据源信息
-    let obj = {
-      label: targerMapLayer.label,
+  // 保存地图查询数据源相关信息
+  const targetItem = window.iEarthBindData.mapQueryOptions.find((item)=> {
+    return item.name == currentIMGLayer.customName;
+  });
+  if(targetItem){
+    targetItem.dataUrl = state.dataUrl;
+    targetItem.datasetName = datasetNamesQuery.value;
+  }else{
+    window.iEarthBindData.mapQueryOptions.push({
+      name: currentIMGLayer.customName,
       dataUrl: state.dataUrl,
       datasetName: datasetNamesQuery.value,
-    };
-    layerStore.mapQueryOptions.push(obj);
+    });
   }
 }
 
 // 刷新表格
 function queryAll() {
   if (state.itemCount === 0) {
-    message.success($t("queryWait"));
+    window["$message"].success($t("queryWait"));
   } else {
-    message.success($t("refreshData"));
+    window["$message"].success($t("refreshData"));
   }
 
   // 刷新数据时，关闭过滤
@@ -768,33 +690,26 @@ function clickQuery() {
       handler.destroy();
       handler = null;
     }
-    message.success($t("clickQueryClose"));
+    window["$message"].success($t("clickQueryClose"));
     state.isClickQuery = false;
 
     // 恢复鼠标样式
-    window.viewer.enableCursorStyle = true;
-    document.body.classList.remove("drawCur");
-    state.shadowRadioShow = false;
-    viewer.scene.postRender.removeEventListener(setBablePosition);
+    tool.setMouseCursor("normal");
+
     return;
   }
-  message.success($t("clickQueryCloseTip"));
+  window["$message"].success($t("clickQueryCloseTip"));
   state.isClickQuery = true;
 
   // 修改鼠标样式
-  window.viewer.enableCursorStyle = false;
-  window.viewer._element.style.cursor = "";
-  document.body.classList.add("drawCur");
-
-  // 每一帧都去计算气泡的正确位置
-  viewer.scene.postRender.addEventListener(setBablePosition);
+  tool.setMouseCursor("drawCur");
 
   handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   handler.setInputAction(function (event) {
     viewer.entities.removeAll();
 
     let position = viewer.scene.pickPosition(event.position);
-    let position2 = CartesiantoDegrees(position);
+    let position2 = window.iEarthTool.Cartesian3ToDegreeArray(position);
     state.scenePosition = position; // 气泡位置
 
     let point = L.marker([position2[1], position2[0]]); // SuperMap3D和leaflet这里对调了
@@ -825,14 +740,15 @@ function clickQuery() {
         if (!serviceResult.result.features) return;
         let features = serviceResult.result?.features?.features;
         if (features.length == 0) {
-          message.success($t("noData"));
-          state.shadowRadioShow = false;
+          window["$message"].success($t("noData"));
+          customBubble.hidden();
           return;
         }
-        state.shadowRadioShow = true;
-        state.currentFeature = features[0];
-        addFeature(features[0], false);
-        getModelInfo(features[0]);
+
+        let feature = features[0];
+        state.currentFeature = feature;
+        addFeature(feature, false);
+        let rowsContent = getModelInfo(feature);
         let mediaURL: any;
         if (state.currentFeature.properties) {
           state.currentFeatureID = state.currentFeature.id;
@@ -844,27 +760,44 @@ function clickQuery() {
         } else {
           state.mediaUrl = mediaURL;
         }
-        if (window.iEarthConsole) {
-          console.log("媒体链接-mediaUrl:", state.mediaUrl);
+        if (window.iEarthConsole) console.log("媒体链接-mediaUrl:", state.mediaUrl);
+
+        // // 自定义媒体连接地址
+        // if (state.mediaType == "video") {
+        //   let videoDom: any = document.getElementById("videoDom");
+        //   videoDom.src = state.mediaUrl;
+        //   videoDom.load();
+        //   // videoDom.play();
+        // }
+
+        const content:any = [
+          {
+            type: 'table', data: {
+              headers: ['字段', '值'],
+              rows: rowsContent ?? [[1,2]]
+            }
+          }
+        ]; 
+        if(state.mediaType == "video"){
+          content.push({ type: 'image', data: state.mediaUrl });
+        }else{
+          content.push({ type: 'video', data: state.mediaUrl });
         }
-        // 自定义媒体连接地址
-        if (state.mediaType == "video") {
-          let videoDom: any = document.getElementById("videoDom");
-          videoDom.src = state.mediaUrl;
-          videoDom.load();
-          // videoDom.play();
-        }
+        customBubble.open({
+          title: '混合内容演示',
+          content: content
+        });
       }
     );
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
   handler.setInputAction(() => {
     clickQuery();
-    // queryAll();
     state.showQueryTable = true;
-    if (state.mediaType == "video") {
-      let videoDom: any = document.getElementById("videoDom");
-      if (videoDom) videoDom.pause();
-    }
+    customBubble.hidden();
+    // if (state.mediaType == "video") {
+    //   let videoDom: any = document.getElementById("videoDom");
+    //   if (videoDom) videoDom.pause();
+    // }
   }, SuperMap3D.ScreenSpaceEventType.RIGHT_CLICK);
 }
 
@@ -882,66 +815,38 @@ function getCustomMediaUrl(feature: any) {
   return customMediaUrl;
 }
 
-//笛卡尔转经纬度
-function CartesiantoDegrees(Cartesians) {
-  let array = [].concat(Cartesians);
-  let positions: any = [];
-  for (let i = 0, len = array.length; i < len; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(array[i]);
-    let longitude = Number(SuperMap3D.Math.toDegrees(cartographic.longitude));
-    let latitude = Number(SuperMap3D.Math.toDegrees(cartographic.latitude));
-    let h = Number(cartographic.height);
-    if (
-      positions.indexOf(longitude) == -1 &&
-      positions.indexOf(latitude) == -1
-    ) {
-      positions.push(longitude);
-      positions.push(latitude);
-      positions.push(h);
-    }
-  }
-  return positions;
-}
-
 // 点击拾取实体，获取属性信息
 function getModelInfo(feature: any) {
-  if (window.iEarthConsole) {
-    console.log("click-feature:", feature);
-  }
+  if (window.iEarthConsole) console.log("click-feature:", feature);
   if (feature) {
     let properties = feature.properties;
-    state.shadowRadioShow = true;
-    let list: any = [];
+    let rowsContent: any = [];
     for (let key in properties) {
       let value = String(properties[key]);
-      list.push({
-        lable: key,
-        value: value,
-      });
+      let array = [key, value];
+      rowsContent.push(array);
     }
-    state.modelInfo = list;
+
+    return rowsContent;
   } else {
-    state.shadowRadioShow = false;
-    message.success($t("noData"));
+    customBubble.hidden();
+    window["$message"].success($t("noData"));
   }
 }
 
 // 获取已绑定的图层查询信息
 function setQueryInfo() {
-  if (layerStore.mapQueryOptions.length > 0) {
-    let targetLayerLable = targerMapLayer.label;
-    let targetItem = layerStore.mapQueryOptions.filter(
-      (item) => item.label == targetLayerLable
-    );
-    if (targetItem.length > 0) {
-      state.dataUrl = targetItem[0].dataUrl;
-      handleDataUrlChange(); // 获取数据服务中数据源选项
-      const datasetNameInfo = targetItem[0].datasetName;
-      if(datasetNameInfo.includes(':')){
-        const datasetNameInfoList = datasetNameInfo.split(':');
-        state.dataSourceName = datasetNameInfoList[0];
-        state.datasetName = datasetNameInfoList[1];
-      }
+  const targetItem = window.iEarthBindData.mapQueryOptions.find((item)=> {
+    return item.name == currentIMGLayer.customName;
+  });
+  if (targetItem) {
+    state.dataUrl = targetItem.dataUrl;
+    handleDataUrlChange(); // 获取数据服务中数据源选项
+    const datasetNameInfo = targetItem.datasetName;
+    if (datasetNameInfo.includes(':')) {
+      const datasetNameInfoList = datasetNameInfo.split(':');
+      state.dataSourceName = datasetNameInfoList[0];
+      state.datasetName = datasetNameInfoList[1];
     }
   }
 }
@@ -954,8 +859,7 @@ function openMediaField() {
 
 // 清除
 function clear(isClearInfo = true) {
-  state.isURLPass = false;
-  state.isCheckPass = false;
+  customBubble.hidden();
   // 删除添加的geojson数据源
   for (let i = 0; i < geoJsonDataSourceList.length; i++) {
     let geoJsonDataSource = geoJsonDataSourceList[i];
@@ -997,18 +901,9 @@ function clear(isClearInfo = true) {
   viewer.entities.removeAll();
 
   // 恢复鼠标样式
-  window.viewer.enableCursorStyle = true;
-  document.body.classList.remove("drawCur");
+  tool.setMouseCursor("normal");
 }
 
-// 关闭弹窗
-function closebable() {
-  state.shadowRadioShow = false;
-  if (state.mediaType == "video") {
-    let videoDom: any = document.getElementById("videoDom");
-    if (videoDom) videoDom.pause();
-  }
-}
 
 // 清除实体
 function clearEntity() {
@@ -1188,7 +1083,7 @@ function saveMediaField() {
     }
   }
   state.isCustomMediaUrl = false;
-  message.success($t("bingMediaFieldSuccessTip"));
+  window["$message"].success($t("bingMediaFieldSuccessTip"));
 }
 
 // 清除媒体字段
@@ -1209,7 +1104,7 @@ const columns: any = ref([
 
 // sql模糊查找
 function search() {
-  message.success($t("dataFiltering"));
+  window["$message"].success($t("dataFiltering"));
   state.isloading = true;
   state.page = 1;
   let sqlString = `${state.selectFiled} like '%${state.sqlString}%'`;
@@ -1303,7 +1198,7 @@ let tableCount = computed(() => {
 function openMydata() {
   init_mydata();
   state.myDataPanleShow = true;
-  message.success($t("getData"));
+  window["$message"].success($t("getData"));
   state.isMydate = true;
 }
 
@@ -1330,12 +1225,13 @@ function init_mydata() {
       data.forEach((item) => {
         let disabled = item.type != "SHP"; //是否禁用选择
         let name = item.fileName.split(".")[0];
+        let createTime = tool.dateDiff(item.createTime);
         state.portalServiceList_mydata.push({
           key: item.id,
           fileName: name,
           id: item.id,
           type: item.type,
-          createTime: dateDiff(item.createTime),
+          createTime: createTime,
           disabled: disabled,
         });
       });
@@ -1450,73 +1346,6 @@ const pagination_mydata = reactive({
     pagination_mydata.page = 1;
   },
 });
-
-/** 时间倒序，多少小时之前
- * @param timestamp 时间毫秒数
- */
-function dateDiff(timestamp) {
-  // 补全为13位
-  let arrTimestamp: any = (timestamp + "").split("");
-  for (let start = 0; start < 13; start++) {
-    if (!arrTimestamp[start]) {
-      arrTimestamp[start] = "0";
-    }
-  }
-  timestamp = arrTimestamp.join("") * 1;
-  let minute = 1000 * 60;
-  let hour = minute * 60;
-  let day = hour * 24;
-  // let halfamonth = day * 15;
-  let month = day * 30;
-  let now = new Date().getTime();
-  let diffValue = now - timestamp;
-
-  // 如果本地时间反而小于变量时间
-  if (diffValue < 0) {
-    return $t("recently");
-  }
-  // 计算差异时间的量级
-  let monthC: any = diffValue / month;
-  let weekC: any = diffValue / (7 * day);
-  let dayC: any = diffValue / day;
-  let hourC: any = diffValue / hour;
-  let minC: any = diffValue / minute;
-
-  // 数值补0方法
-  let zero = function (value) {
-    if (value < 10) {
-      return "0" + value;
-    }
-    return value;
-  };
-
-  // 使用
-  if (monthC > 4) {
-    // 超过1年，直接显示年月日
-    return (function () {
-      let date = new Date(timestamp);
-      return (
-        date.getFullYear() +
-        $t("yeear") +
-        zero(date.getMonth() + 1) +
-        $t("month") +
-        zero(date.getDate()) +
-        $t("day")
-      );
-    })();
-  } else if (monthC >= 1) {
-    return parseInt(monthC) + $t("monthsAgo");
-  } else if (weekC >= 1) {
-    return parseInt(weekC) + $t("weeksAgo");
-  } else if (dayC >= 1) {
-    return parseInt(dayC) + $t("daysAgo");
-  } else if (hourC >= 1) {
-    return parseInt(hourC) + $t("hoursAgo");
-  } else if (minC >= 1) {
-    return parseInt(minC) + $t("minutesAgo");
-  }
-  return $t("secondsAgo");
-}
 
 // 处理数据服务输入，获取数据源选项
 function handleDataUrlChange() {

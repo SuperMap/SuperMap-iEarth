@@ -1,193 +1,99 @@
 <template>
-  <n-scrollbar style="max-height: 3.6rem">
+  <n-scrollbar style="max-height: 5rem;">
     <n-grid :y-gap="8" :cols="3" style="padding-top: 0.1rem">
       <n-gi>
-        <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" :title="$t('earth')"/>
+        <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" />
       </n-gi>
       <n-gi>
-        <n-checkbox
-          v-model:checked="state.shadow"
-          :label="$t('ligShadowAnalysisth')"
-          :title="$t('ligShadowAnalysisth')"
-        />
+        <n-checkbox v-model:checked="state.depthInspection" :label="$t('depthInspection')" />
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.sunShow" :label="$t('sun')" :title="$t('sun')" />
+        <n-checkbox v-model:checked="state.atomsphereRender" :label="$t('atomsphereRender')" />
       </n-gi>
       <n-gi>
-        <n-checkbox
-          v-model:checked="state.depthInspection"
-          :label="$t('depthInspection')"
-          :title="$t('depthInspection')"
-        />
+        <n-checkbox v-model:checked="state.cloudLayer" :label="$t('cloudLayer')" />
       </n-gi>
       <n-gi>
-        <n-checkbox
-          v-model:checked="state.atomsphereRender"
-          :label="$t('atomsphereRender')"
-          :title="$t('atomsphereRender')"
-        />
+        <n-checkbox v-model:checked="state.fogEffect" :label="$t('fogEffect')" />
+      </n-gi>
+      <!-- <n-gi>
+        <n-checkbox v-model:checked="state.displayFrame" :label="$t('displayFrame')" />
+      </n-gi> -->
+      <n-gi>
+        <n-checkbox v-model:checked="state.timeAxis" :label="$t('timeAxis')" />
       </n-gi>
       <n-gi>
-        <n-checkbox
-          v-model:checked="state.fogEffect"
-          :label="$t('fogEffect')"
-          :title="$t('fogEffect')"
-        />
+        <n-checkbox v-model:checked="state.hdrEnabled" label="HDR" />
       </n-gi>
       <n-gi>
-        <n-checkbox
-          v-model:checked="state.cloudLayer"
-          :label="$t('cloudLayer')"
-          :title="$t('cloudLayer')"
-        />
-      </n-gi>
-      <n-gi>
-        <n-checkbox v-model:checked="state.skyBoxShow" :label="$t('skyBox')" :title="$t('skyBox')" />
-      </n-gi>
-      <n-gi>
-        <n-checkbox v-model:checked="state.timeAxis" :label="$t('timeAxis')" :title="$t('timeAxis')"/>
-      </n-gi>
-      <n-gi>
-        <n-checkbox
-          v-model:checked="state.displayFrame"
-          :label="$t('displayFrame')"
-          :title="$t('displayFrame')"
-        />
+        <n-checkbox v-model:checked="state.useDBQuery" :label="$t('layerQuery')" />
       </n-gi>
     </n-grid>
 
     <n-divider />
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("brightness") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.brightness"
-          :step="0.1"
-          :min="0"
-          :max="5"
-        />
-        <n-input-number
-          v-model:value="state.brightness"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="5"
-          placeholder=""
-          size="small"
-        />
-      </div>
-    </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("contrastRatio") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.contrast"
-          :step="0.1"
-          :min="0"
-          :max="5"
-        />
-        <n-input-number
-          v-model:value="state.contrast"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="5"
-          placeholder=""
-          size="small"
-        />
-      </div>
-    </div>
-
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("colorTone") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.hue"
-          :step="0.1"
-          :min="-1"
-          :max="1"
-        />
-        <n-input-number
-          v-model:value="state.hue"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="-1"
-          :max="1"
-          placeholder=""
-          size="small"
-        />
-      </div>
-    </div>
-
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("saturation") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.saturation"
-          :step="0.1"
-          :min="0"
-          :max="5"
-        />
-        <n-input-number
-          v-model:value="state.saturation"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="5"
-          placeholder=""
-          size="small"
-        />
-      </div>
-    </div>
-
-    <div class="row-item" v-show="sceneMode == 3">
-      <span>{{ $t("showUnderground") }}</span>
-      <div style="width: 1.96rem; margin-right: 0.1rem">
-        <n-switch v-model:value="state.showUnderground" size="small" />
-      </div>
-    </div>
-
-    <div
-      class="row-item"
-      v-show="state.showUnderground"
-      style="margin-right: 0.1rem"
-    >
-      <span>{{ $t("surfaceTransparency") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.surfaceTransparency"
-          :step="0.1"
-          :min="0"
-          :max="1"
-        />
-        <n-input-number
-          v-model:value="state.surfaceTransparency"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="1"
-          placeholder=""
-          size="small"
-        />
-      </div>
-    </div>
+    <n-collapse :trigger-areas="triggerAreas" display-directive="show">
+      <n-collapse-item :title="$t('skyBox')" name="skybox">
+        <SkyBox v-if="state.skyBoxShow"></SkyBox>
+        <template #header-extra>
+          <n-switch v-model:value="state.skyBoxShow" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('envMap')" name="envMap">
+        <EnvMap v-if="state.envMapEnabled"></EnvMap>
+        <template #header-extra>
+          <n-switch v-model:value="state.envMapEnabled" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('shadow')" name="shadow">
+        <Shadow v-if="state.shadow"></Shadow>
+        <template #header-extra>
+          <n-switch v-model:value="state.shadow" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('sunLight')" name="sunLight">
+        <LightSource v-if="state.sunShow"></LightSource>
+        <template #header-extra>
+          <n-switch v-model:value="state.sunShow" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('colorAdjust') " name="sceneColor">
+        <SceneColor v-if="state.sceneColor"></SceneColor>
+        <template #header-extra>
+          <n-switch v-model:value="state.sceneColor" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('showUnderground') " name="underground">
+        <UnderGound v-if="state.showUnderground"></UnderGound>
+        <template #header-extra>
+          <n-switch v-model:value="state.showUnderground" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('floodLight')" name="bloomEffect">
+        <BloomEffect v-if="state.bloomEffect"></BloomEffect>
+        <template #header-extra>
+          <n-switch v-model:value="state.bloomEffect" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('msaaLevel')" name="msaaLevel">
+        <MsaaLevel v-if="state.isMsaaLevel"></MsaaLevel>
+        <template #header-extra>
+          <n-switch v-model:value="state.isMsaaLevel" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('depthSet')" name="sceneDepth">
+        <SceneDepth v-if="state.isDepthSet"></SceneDepth>
+        <template #header-extra>
+          <n-switch v-model:value="state.isDepthSet" size="small" />
+        </template>
+      </n-collapse-item>
+      <n-collapse-item :title="$t('mouseMode')" name="mouseMode">
+        <MouseMode v-if="state.isMouseMode"></MouseMode>
+        <template #header-extra>
+          <n-switch v-model:value="state.isMouseMode" size="small" />
+        </template>
+      </n-collapse-item>
+    </n-collapse>
 
     <n-divider />
 
@@ -202,243 +108,153 @@
         style="width: 1.96rem"
       />
     </div>
-
-    <div class="row-item queryTips">
-      <span></span>
-      <span class="row-content">{{ $t("coordinateTip") }}</span>
-    </div>
   </n-scrollbar>
+
+  <!-- DB属性查询 -->
+  <DBQuery v-if="state.useDBQuery"></DBQuery>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted, onBeforeUnmount } from "vue";
-import tool from "@/tools/tool";
-import { useLayerStore } from "@/store/layerStore/layer";
-import layerManagement from "@/tools/layerManagement";
+import { watch, reactive, computed, ref, onMounted } from "vue";
+import LightSource from "./coms/lightSource.vue";
+import SceneColor from "./coms/sceneColor.vue";
+import UnderGound from "./coms/underGound.vue";
+import SkyBox from "./coms/skyBox.vue";
+import Shadow from "./coms/shadow.vue";
+import BloomEffect from "./coms/bloomEffect.vue";
+import EnvMap from "./coms/envMap.vue";
+import MsaaLevel from "./coms/msaaLevel.vue";
+import SceneDepth from "./coms/sceneDepth.vue";
+import MouseMode from "./coms/mouseMode.vue";
+import DBQuery from "./coms/DBQuery.vue";
 
-const layerStore = useLayerStore();
-
-// 设置state
-let state = layerStore.sceneAttrState;
-
-// 初始化变量
+const viewer = window.viewer;
+const scene = viewer.scene;
+const triggerAreas = computed(()=>['arrow','main']);
 let coordinate = ref("");
-let handlerSearch: any;
-viewer.scene.colorCorrection.show = true; // 场景颜色开关打开
-state.shadow = viewer.shadows;
+let handlerSearch = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
 
 // 云层
-let cloudBoxUrl = "./images/sceneProperties/clouds/clouds1.png";
-let cloudBox = new SuperMap3D.CloudBox({ url: cloudBoxUrl });
-let sceneMode = viewer.scene.mode;
+const cloudBoxUrl = "./images/cloudLayer/clouds1.png";
+const cloudBox = new SuperMap3D.CloudBox({ url: cloudBoxUrl });
 
-// 初始化
-function init() {
-  if (!window.viewer) return;
+// 时间条和天空盒
+const timeline = document.getElementsByClassName("supermap3d-viewer-timelineContainer")[0] as HTMLElement;
+const skyBox = viewer.scene.skyBox;
 
-  //开启坐标查询
-  queryCoordinate();
+// 设置state
+const state = reactive({
+  earthShow: viewer.scene.globe.show, //地球显隐
+  depthInspection: viewer.scene.globe.depthTestAgainstTerrain ? true : false,//深度检测
+  atomsphereRender: viewer.scene.skyAtmosphere.show, //大气渲染
+  fogEffect: viewer.scene.fog.enabled, //雾化效果
+  timeAxis: (timeline && timeline.style.visibility === "visible") ? true : false,//时间轴
+  displayFrame: viewer.scene.debugShowFramesPerSecond,//显示帧率
+  cloudLayer: viewer.scene.cloudBox ? true : false, // 云层
+  hdrEnabled: viewer.scene.hdrEnabled, // HDR
+  useDBQuery: false,
 
-  if (state.shadow) {
-    setShadow();
-  } else {
-    viewer.shadows = false;
-  }
-}
-
-onMounted(() => {
-  init();
+  // 子组件
+  bloomEffect: viewer.scene.bloomEffect.show, // 后处理
+  showUnderground: viewer.scene.undergroundMode ? true : false,// 显示地下
+  sceneColor: viewer.scene.colorCorrection.show, // 场景颜色
+  sunShow: viewer.scene.sun.show, // 太阳光
+  shadow: viewer.shadows ? true : false, //场景阴影
+  envMapEnabled: viewer.scene.specularEnvironmentMaps == undefined ? false : true, // 环境光贴图
+  skyBoxShow: (skyBox.imageUrl && skyBox.imageUrl.includes('jpg')) ? true : false,//天空盒
+  isMsaaLevel: viewer.scene._msaaSamples <= 1.1 ? false : true, // 反走样
+  isDepthSet: viewer.scene.depthOfFieldEffect.show, // 设置景深
+  isMouseMode: viewer.scene.screenSpaceCameraController.customMouseMode ? true : false, // 该属性为自定义绑定，并无此API
 });
 
-onBeforeUnmount(() => {
-  clear();
+onMounted(() => {
+  queryCoordinate();
 });
 
 // 场景中拾取查询坐标
 function queryCoordinate() {
-  handlerSearch = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
   handlerSearch.setInputAction(function (click) {
     let position = viewer.scene.pickPosition(click.position);
-    let result = tool.CartesiantoDegrees(position);
+    let result = window.iEarthTool.Cartesian3ToDegreeArray(position);
     coordinate.value = `${Number(result[0]).toFixed(4)},${Number(
       result[1]
     ).toFixed(4)},${Number(result[2]).toFixed(2)}`;
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-// 设置阴影相关参数
-function setShadow() {
-  let layers = viewer.scene.layers.layerQueue;
-  for (var i = 0; i < layers.length; i++) {
-    // 设置图层的阴影模式
-    layers[i].shadowType = 2;
-  }
+// 监听单个属性
+watch(() => state.earthShow, (val) => { 
+  viewer.scene.globe.show = val;
+});
+watch(() => state.depthInspection,(val) => {
+  viewer.scene.globe.depthTestAgainstTerrain = val;
+});
+watch(() => state.atomsphereRender, (val) => {
+  viewer.scene.skyAtmosphere.show = val;
+});
+watch(() => state.fogEffect,(val) => {
+  viewer.scene.fog.enabled = val;
+}); 
+watch(() => state.timeAxis,(val) => {
+    if(!timeline) return;
+    timeline.style.visibility = val ? "visible" : "hidden";
+});
+watch(() => state.displayFrame,(val) => {
+  viewer.scene.debugShowFramesPerSecond = val;
+});
+watch(() => state.cloudLayer, (val) => {
+  viewer.scene.cloudBox = val ? cloudBox : null;
+});
+watch(() => state.hdrEnabled,(val) => {
+  viewer.scene.hdrEnabled = val;
+});
 
-  viewer.shadows = true;
-  // UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
-  viewer.pcss = true;
-  viewer.shadowQuality = 0;
-  //设置阴影的出现距离
-  viewer.scene.shadowMap.maximumDistance = 2000;
-  //设置阴影的浓度，值越高，阴影越淡
-  viewer.shadowMap.darkness = 0.7;
-  //默认值是0.1，值越小越清晰
-  viewer.shadowMap.penumbraRatio = 0.1;
-}
 
-// 清除
-function clear() {
-  handlerSearch.removeInputAction(SuperMap3D.ScreenSpaceEventType.LEFT_CLICK); //移除事件
 
-  if (handlerSearch) {
-    if (!handlerSearch.isDestroyed()) handlerSearch.destroy();
+// 监听子组件：解决第一次switch没有效果，因为通过json导入的场景，子组件并没有挂载
+watch(() => state.bloomEffect,(val) => { // 监听泛光
+  viewer.scene.bloomEffect.show = val;
+});
+watch(() => state.showUnderground,(val) => { 
+  viewer.scene.undergroundMode = val;
+  if(!val) {
+    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
+    viewer.scene.globe.showSkirts = true; // 开启裙边
+    viewer.scene.globe.globeAlpha = 1;
   }
-  coordinate.value = "";
-}
-
-// 监听
-watch(
-  () => state.earthShow,
-  (val) => {
-    viewer.scene.globe.show = val;
+});
+watch(() => state.sceneColor,(val) => {  // 颜色矫正
+  viewer.scene.colorCorrection.show = val;
+});
+watch(() => state.sunShow,(val) => { 
+  viewer.scene.sun.show = val;
+});
+watch(() => state.shadow,(val) => { 
+  viewer.shadows = val;
+});
+watch(() => state.envMapEnabled,(val) => { // 环境光贴图
+  if(!val) viewer.scene.specularEnvironmentMaps = undefined;
+});
+watch(() => state.skyBoxShow,(val) => { 
+  if(!val) {
+    scene.skyAtmosphere.show = true;
+    scene.skyBox.show = false;
   }
-);
-watch(
-  () => state.shadow,
-  (val) => {
-    if (val) {
-      setShadow();
-    } else {
-      viewer.shadows = false;
-    }
-  }
-);
-watch(
-  () => state.sunShow,
-  (val) => {
-    viewer.scene.globe.enableLighting = val;
-  }
-);
-watch(
-  () => state.depthInspection,
-  (val) => {
-    viewer.scene.globe.depthTestAgainstTerrain = val;
-  }
-);
-watch(
-  () => state.atomsphereRender,
-  (val) => {
-    viewer.scene.skyAtmosphere.show = val;
-  }
-);
-watch(
-  () => state.fogEffect,
-  (val) => {
-    viewer.scene.fog.enabled = val; // 不起作用
-  }
-);
-watch(
-  () => state.showUnderground,
-  (val) => {
-    viewer.scene.undergroundMode = val;
-    if (val) {
-      viewer.scene.screenSpaceCameraController.minimumZoomDistance = -1000; //设置相机最小缩放距离,距离地表-1000米
-      viewer.scene.globe.showSkirts = false; // 关闭裙边
-    } else {
-      viewer.scene.screenSpaceCameraController.minimumZoomDistance = 1;
-      viewer.scene.globe.showSkirts = true; // 开启裙边
-      viewer.scene.globe.globeAlpha = 1;
-      state.surfaceTransparency = 1;
-    }
-  }
-);
-watch(
-  () => state.surfaceTransparency,
-  (val) => {
-    viewer.scene.globe.globeAlpha = val;
-  }
-);
-watch(
-  () => state.cloudLayer,
-  (val) => {
-    if (val) {
-      viewer.scene.cloudBox = cloudBox;
-    } else {
-      viewer.scene.cloudBox = null;
-    }
-  }
-);
-watch(
-  () => state.skyBoxShow,
-  (val) => {
-    layerManagement.setSkyBox(val);
-  }
-);
-watch(
-  () => state.timeAxis,
-  (val) => {
-    let timeline = document.getElementsByClassName(
-      "supermap3d-viewer-timelineContainer"
-    )[0] as HTMLElement;
-    if (val) {
-      timeline.style.visibility = "visible";
-      timeline.style["z-index"] = 99999999999;
-    } else {
-      timeline.style.visibility = "hidden";
-    }
-  }
-);
-watch(
-  () => state.displayFrame,
-  (val) => {
-    viewer.scene.debugShowFramesPerSecond = val;
-  }
-);
-watch(
-  () => state.brightness,
-  (val) => {
-    viewer.scene.colorCorrection.brightness = val;
-  }
-);
-watch(
-  () => state.contrast,
-  (val) => {
-    viewer.scene.colorCorrection.contrast = val;
-  }
-);
-watch(
-  () => state.hue,
-  (val) => {
-    viewer.scene.colorCorrection.hue = val;
-  }
-);
-watch(
-  () => state.saturation,
-  (val) => {
-    viewer.scene.colorCorrection.saturation = val;
-  }
-);
+});
+watch(() => state.isMsaaLevel,(val) => { 
+  if(!val) viewer.scene._msaaSamples = 1.1; // 恢复默认值: 直接设置1效果不对，具体看组件
+});
+watch(() => state.isDepthSet,(val) => { // 监听景深
+  viewer.scene.depthOfFieldEffect.show = val;
+});
 </script>
 
 <style lang="scss" scoped>
-.queryTips {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
-}
-
 .n-input.n-input--autosize .n-input__input-el {
   color: rgba(255, 255, 255, 0.82) !important;
 }
 
-.coordinateQueryBox {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-// 通过深度选择器来进行绑定：checkbox文本超限时设为省略
-.n-grid :deep(.n-checkbox) .n-checkbox__label{
-  width: 0.7rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space:nowrap;
+.n-collapse .n-collapse-item{
+  width: 2.9rem;
 }
 </style>

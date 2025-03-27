@@ -3,135 +3,67 @@
   <div class="row-item">
     <span>{{ $t("Xradius") }}</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.xRadii"
-        :step="1"
-        :min="10"
-        :max="100"
-      />
-      <n-input-number
-        v-model:value="state.xRadii"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="10"
-        :max="100"
-        placeholder=""
-        size="small"
-      />
+      <n-slider style="width: 1.5rem" v-model:value="state.xRadii" :step="1" :min="10" :max="100" />
+      <n-input-number v-model:value="state.xRadii" class="slider-input-number" :update-value-on-input="false"
+        :bordered="false" :show-button="false" :min="10" :max="100" placeholder="" size="small" />
     </div>
   </div>
 
   <div class="row-item">
     <span>{{ $t("Yradius") }}</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.yRadii"
-        :step="1"
-        :min="10"
-        :max="200"
-      />
-      <n-input-number
-        v-model:value="state.yRadii"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="10"
-        :max="200"
-        placeholder=""
-        size="small"
-      />
+      <n-slider style="width: 1.5rem" v-model:value="state.yRadii" :step="1" :min="10" :max="200" />
+      <n-input-number v-model:value="state.yRadii" class="slider-input-number" :update-value-on-input="false"
+        :bordered="false" :show-button="false" :min="10" :max="200" placeholder="" size="small" />
     </div>
   </div>
 
   <div class="row-item">
     <span>{{ $t("Zradius") }}</span>
     <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.zRadii"
-        :step="1"
-        :min="10"
-        :max="100"
-      />
-      <n-input-number
-        v-model:value="state.zRadii"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="10"
-        :max="100"
-        placeholder=""
-        size="small"
-      />
+      <n-slider style="width: 1.5rem" v-model:value="state.zRadii" :step="1" :min="10" :max="100" />
+      <n-input-number v-model:value="state.zRadii" class="slider-input-number" :update-value-on-input="false"
+        :bordered="false" :show-button="false" :min="10" :max="100" placeholder="" size="small" />
     </div>
   </div>
 
   <div class="row-item" v-show="state.displayMode != 'Outline'">
     <span>{{ $t("fillColor") }}</span>
     <div class="color-pick-box">
-      <n-color-picker
-        v-model:value="state.geometryColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.geometryColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
   <div class="row-item" v-show="state.displayMode != 'Fill'">
     <span>{{ $t("wireframeColor") }}</span>
     <div class="color-pick-box">
-      <n-color-picker
-        v-model:value="state.wireframeColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+      <n-color-picker v-model:value="state.wireframeColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
   <div class="row-item">
     <span>{{ $t("drawMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.displayMode"
-      :options="state.optionsMode"
-    />
+    <n-select style="width: 1.96rem" v-model:value="state.displayMode" :options="state.optionsMode" />
   </div>
 
   <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >{{ $t("Draw") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{ $t("Draw") }}
+    </n-button>
+    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("clear") }}</n-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import DrawHandler from "@/lib/DrawHandler";
 
 type stateType = {
   xRadii: number; // X半径
@@ -167,14 +99,9 @@ let state = reactive<stateType>({
   wireframeColor: "rgba(0,0,0, 1)",
 });
 
-let ellipsoidEntity;
-let entities = viewer.entities;
 let targetEntity: any = null;
-let handlerPoint_ellipsoid = new SuperMap3D.DrawHandler(
-  viewer,
-  SuperMap3D.DrawMode.Point
-);
 let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
+const drawHandler = new DrawHandler(viewer, { openMouseTip: false });
 
 onMounted(() => {
   init();
@@ -185,73 +112,47 @@ onBeforeUnmount(() => {
 });
 
 function init() {
-  handlerPoint_ellipsoid.activeEvt.addEventListener((isActive: any) => {
-    if (isActive == true) {
-      window.viewer.enableCursorStyle = false;
-      window.viewer._element.style.cursor = "";
-      document.body.classList.add("measureCur");
-    } else {
-      window.viewer.enableCursorStyle = true;
-      document.body.classList.remove("measureCur");
-    }
-  });
-
-  // 注册绘制球体事件
-  handlerPoint_ellipsoid.drawEvt.addEventListener(function (res) {
-    let point = res.object;
-    let position = point.position;
-    let posDeg = SuperMap3D.Cartographic.fromCartesian(position);
-    posDeg.height = 20;
-    position = SuperMap3D.Cartesian3.fromRadians(
-      posDeg.longitude,
-      posDeg.latitude,
-      posDeg.height
-    );
-    let geometryColor = SuperMap3D.Color.fromCssColorString(
-      state.geometryColor
-    );
-    let wireframeColor = SuperMap3D.Color.fromCssColorString(
-      state.wireframeColor
-    );
-    let fillFlag = ["Fill", "Both"].indexOf(state.displayMode) != -1;
-    let outlineFlag = ["Outline", "Both"].indexOf(state.displayMode) != -1;
-    ellipsoidEntity = entities.add({
-      position: position,
-      ellipsoid: {
-        radii: new SuperMap3D.Cartesian3(20.0, 20.0, 20.0),
-        material: geometryColor,
-        fill: fillFlag,
-        outline: outlineFlag,
-        outlineColor: wireframeColor,
-        outlineWidth: 1,
-      },
-    });
-    targetEntity = ellipsoidEntity;
-  });
-
   // 场景中拾取获得选中entity
   handler.setInputAction(function (e) {
     let pickedObject = viewer.scene.pick(e.position);
-    if (
-      SuperMap3D.defined(pickedObject) &&
-      pickedObject.id instanceof SuperMap3D.Entity
-    ) {
+    if (SuperMap3D.defined(pickedObject) && pickedObject.id instanceof SuperMap3D.Entity) {
       targetEntity = pickedObject.id;
+    } else {
+      targetEntity = null;
     }
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
 }
 
-function add() {
-  deactiveAll();
-  handlerPoint_ellipsoid.activate();
+async function add() {
+  drawHandler.clear();
+  let position = await drawHandler.startPoint();
+  if (!position || !(position instanceof SuperMap3D.Cartesian3)) return;
+  let posDeg = SuperMap3D.Cartographic.fromCartesian(position);
+  posDeg.height = 20;
+  position = SuperMap3D.Cartesian3.fromRadians(
+    posDeg.longitude,
+    posDeg.latitude,
+    posDeg.height
+  );
+  let geometryColor = SuperMap3D.Color.fromCssColorString(state.geometryColor);
+  let wireframeColor = SuperMap3D.Color.fromCssColorString(state.wireframeColor);
+  let fillFlag = ["Fill", "Both"].indexOf(state.displayMode) != -1;
+  let outlineFlag = ["Outline", "Both"].indexOf(state.displayMode) != -1;
+  targetEntity = viewer.entities.add({
+    position: position,
+    ellipsoid: {
+      radii: new SuperMap3D.Cartesian3(20.0, 20.0, 20.0),
+      material: geometryColor,
+      fill: fillFlag,
+      outline: outlineFlag,
+      outlineColor: wireframeColor,
+      outlineWidth: 1,
+    },
+  });
 }
 
-function deactiveAll() {
-  handlerPoint_ellipsoid.deactivate();
-}
 function clear() {
-  deactiveAll();
-  if (handlerPoint_ellipsoid) handlerPoint_ellipsoid.clear();
+  drawHandler.destroy();
   viewer.entities.removeAll();
   state.displayMode = "Fill";
 }

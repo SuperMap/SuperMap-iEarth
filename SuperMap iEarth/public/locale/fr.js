@@ -600,18 +600,6 @@ const local_fr = {
   "noSupportBaseMap":'Le calque actuel ne prend pas en charge le réglage comme carte de base par défaut',
   "baseMapSetSuccess":'Définir avec succès comme carte de base',
   "queryField": "Champs de requête",
-
-  // input输入校验提示
-  INVALID_INPUT: "Entrer du contenu n'est pas légal",
-  INVALID_URL: "L'URL saisie n'est pas accessible",
-  INVALID_FORMAT: "Le format de l'URL saisie est incorrect",
-  OUT_OF_RANGE: "Pas dans la portée",
-  NO_LINE_BREAKS_OR_CARRIAGE_RETURNS: "Les sauts de ligne et les retours chariot ne sont pas autorisés",
-  FIELD_REQUIRED: "Le champ ne peut pas être vide",
-  NUMERIC_ONLY: "Ce champ ne peut entrer que des chiffres",
-  TEXT_ONLY: "Ce champ ne peut entrer que du texte",
-  EXCEED_MAX_VALUE_ALLOWED: "Ne peut pas dépasser le maximum",
-  BELOW_MIN_VALUE_ALLOWED: "Ne peut être inférieur au minimum",
 }
 
 window.local_fr = local_fr;

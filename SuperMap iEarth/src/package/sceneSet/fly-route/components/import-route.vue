@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="row-item" style="margin-bottom: 0px">
+  <!-- <div class="row-item" style="margin-bottom: 0px">
     <span></span>
     <div class="row-content" style="display: flex">
       <n-checkbox v-model:checked="state.showRoute" /><span
@@ -36,7 +36,7 @@
         >{{ $t("displayStation") }}</span
       >
     </div>
-  </div>
+  </div> -->
 
   <div class="row-item">
     <span></span>
@@ -68,6 +68,7 @@
         :options="state.currentStopNames"
       />
     </div>
+    <!-- @update:value="handleStopUpdate" -->
   </div>
 </template>
 
@@ -247,14 +248,28 @@ function flyStop() {
   flyManager && flyManager.stop();
 }
 
+// 站点切换
+function handleStopUpdate() {
+  let val = state.selectedStopIndex
+  flyManager && flyManager.stop();
+  let index = Number(val);
+  let stop = currentStops[index];
+  flyManager.viewToStop(stop);
+}
+
 // 监听
 watch(
   () => state.selectedStopIndex,
   (val) => {
-    flyManager && flyManager.stop();
-    let index = Number(val);
-    let stop = currentStops[index];
-    flyManager.viewToStop(stop);
+    // flyManager && flyManager.stop();
+    // let index = Number(val);
+    // let stop = currentStops[index];
+    // flyManager.viewToStop(stop);
+    handleStopUpdate();
+
+    // 支持从选中的站点开始飞行
+    if(flyManager) flyManager.currentStopIndex = Number(val); 
+    flyStop(); // 停止当前飞行，从头开始
   }
 );
 watch(

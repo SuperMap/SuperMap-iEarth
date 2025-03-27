@@ -10,9 +10,6 @@
       <n-tab-pane name="Offset" :tab="$t('offSet')">
         <Offset></Offset>
       </n-tab-pane>
-      <n-tab-pane name="LayerColor" :tab="$t('layerColor')">
-        <LayerColor></LayerColor>
-      </n-tab-pane>
     </n-tabs>
   </div>
 </template>
@@ -21,7 +18,6 @@
 import QingXieModel from "./coms/qingXieModel.vue";
 import Inundation from "./coms/inundation.vue";
 import Offset from "./coms/offset.vue";
-import LayerColor from "./coms/layerColor.vue";
 </script>
 
 <style lang="scss" scoped>

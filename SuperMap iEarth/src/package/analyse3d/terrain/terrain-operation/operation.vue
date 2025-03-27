@@ -19,8 +19,6 @@
         style="width: 1.96rem"
         :update-value-on-input="false"
         v-model:value="state.digDepth"
-        :min="1"
-        :max="10000"
         :show-button="false"
       >
         <template #suffix>{{ $t("meter") }}</template>
@@ -39,8 +37,6 @@
       <n-input-number
         style="width: 1.96rem"
         v-model:value="state.upHeight"
-        :min="1"
-        :max="10000"
         :update-value-on-input="false"
         :show-button="false"
       >
@@ -109,10 +105,10 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import tool from "@/tools/tool";
-import initHandler from "@/tools/drawHandler";
+import DrawHandler from "@/lib/DrawHandler";
 import setEditHandler from "@/tools/editHandler";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   digDepth: number; // 开挖深度
@@ -133,7 +129,7 @@ let state = reactive<stateType>({
   upHeight: 500,
 });
 
-let handlerPolygon, digPisitions, removeEdit;
+let digPisitions, removeEdit;
 let comList = reactive([
   {
     name: $t("terrainExcavate"),
@@ -154,22 +150,15 @@ onBeforeUnmount(() => {
 // 分析
 function Analyze() {
   clear();
-  if (!handlerPolygon) handlerPolygon = initHandler("Polygon");
-  handlerPolygon.handlerDrawing().then(
-    (res: any) => {
-      handlerPolygon.polylineTransparent.show = false;
-      let positions = tool.CartesiantoDegrees(res.object.positions);
-      if (state.operationType === "dig") digUpdate(positions);
-      else modifyUpdate(positions);
+
+  drawHandler.startPolygon().then(positions => {
+      let positions_ = window.iEarthTool.Cartesian3ToDegreeArray(positions);
+      if (state.operationType === "dig") digUpdate(positions_);
+      else modifyUpdate(positions_);
       if (state.isEdit) {
         setEdit();
       }
-    },
-    (err: any) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+  });
 }
 
 //更新
@@ -210,31 +199,26 @@ function modifyUpdate(positions: any) {
 
 // 编辑
 function setEdit() {
-  viewer.selectedEntity = undefined;
-  if (!handlerPolygon) return;
-  if (!handlerPolygon.polygon) return;
-  handlerPolygon.polygon.show = true;
-  removeEdit = viewer.selectedEntityChanged.addEventListener(() => {
-    if (viewer.selectedEntity && viewer.selectedEntity.id) {
-      setEditHandler(viewer.selectedEntity, state.isEditZ, updateEdit);
-    }
-  });
+  if (!drawHandler.handlePolygon) return;
+  if (!drawHandler.handlePolygon.polygon) return;
+  const polygon = drawHandler.handlePolygon.polygon;
+  polygon.show = true;
+  setEditHandler(polygon, state.isEditZ, updateEdit);
 }
 
 // 更新编辑点
 function updateEdit(p: any) {
-  let positions = tool.CartesiantoDegrees(p);
+  let positions = window.iEarthTool.Cartesian3ToDegreeArray(p);
   if (state.operationType === "dig") digUpdate(positions);
   else modifyUpdate(positions);
 }
 
 // 清除编辑handle
 function removeEditHandler() {
-  if (removeEdit) removeEdit();
   if (window.editHandler) window.editHandler.clear();
-  viewer.selectedEntity = undefined;
-  if (handlerPolygon && handlerPolygon.polygon)
-    handlerPolygon.polygon.show = false;
+  if (drawHandler.handlePolygon && drawHandler.handlePolygon.polygon){
+    drawHandler.handlePolygon.polygon.show = false;
+  }
 }
 
 // 点击切换项目
@@ -261,7 +245,7 @@ function changeItem(item: any) {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  if (drawHandler) drawHandler.destroy();
   clearDig();
   clearModify();
   removeEditHandler();
@@ -303,22 +287,12 @@ watch(
 watch(
   () => state.digDepth,
   () => {
-    const checkeResult = inputRuleCheck(state.digDepth, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.digDepth = 500;
-    };
     if (digPisitions) digUpdate(digPisitions);
   }
 );
 watch(
   () => state.upHeight,
   () => {
-    const checkeResult = inputRuleCheck(state.upHeight, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.upHeight = 500;
-    };
     if (digPisitions) digUpdate(digPisitions);
   }
 );

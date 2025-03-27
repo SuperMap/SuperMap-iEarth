@@ -5,8 +5,6 @@
     <n-input-number
       style="width: 1.96rem"
       v-model:value="state.fillMaxHeight"
-      :min="0"
-      :max="10000"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -19,8 +17,6 @@
       style="width: 1.96rem"
       v-model:value="state.fillMinHeight"
       :show-button="false"
-      :min="0"
-      :max="10000"
     >
       <template #suffix>{{ $t("meter") }}</template>
     </n-input-number>
@@ -33,7 +29,7 @@
       v-model:value="state.equivalentIsoline"
       :bordered="false"
       :min="1"
-      :max="1000"
+      :max="10000"
       :show-button="false"
     >
       <template #suffix>{{ $t("meter") }}</template>
@@ -96,9 +92,9 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import initHandler from "@/tools/drawHandler";
-import tool from "@/tools/tool";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import DrawHandler from "@/lib/DrawHandler";
+
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   fillMaxHeight: number; //最大可见高程
@@ -139,7 +135,7 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let handlerPolygon, editHandler, isolinePosition;
+let editHandler, isolinePosition;
 let hyp = new SuperMap3D.HypsometricSetting();
 let colorTable = new SuperMap3D.ColorTable(); //建立颜色表
 
@@ -168,24 +164,14 @@ onBeforeUnmount(() => {
 });
 
 function isoLineAnalysis() {
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
-  }
-
   init();
-  handlerPolygon.handlerDrawing().then(
-    (res: any) => {
-      let positions = tool.CartesiantoDegrees(res.object.positions);
-      isolineUpdate(positions);
-      isolinePosition = positions;
-      if (state.isEdit) setEditHandler(handlerPolygon.polygon, isolineUpdate);
-      if (handlerPolygon) handlerPolygon.polylineTransparent.show = false;
-    },
-    (err: any) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+
+  drawHandler.startPolygon().then(positions => {
+    let positions_ = window.iEarthTool.Cartesian3ToDegreeArray(positions);
+    isolineUpdate(positions_);
+    isolinePosition = positions_;
+    if (state.isEdit) setEditHandler(drawHandler.handlePolygon.polygon, isolineUpdate);
+  });
 }
 
 // 更新
@@ -202,12 +188,12 @@ function isolineUpdate(p: any) {
 
 // 设置编辑handle
 function setEditHandler(entity: any, callback: any) {
-  handlerPolygon.polygon.show = true;
+  drawHandler.handlePolygon.polygon.show = true;
   if (!editHandler) {
     editHandler = new SuperMap3D.EditHandler(viewer, entity);
     editHandler.activate();
     editHandler.changedEvt.addEventListener(() => {
-      let editPositions = tool.CartesiantoDegrees(editHandler._positions);
+      let editPositions = window.iEarthTool.Cartesian3ToDegreeArray(editHandler._positions);
       callback(editPositions);
     });
   } else {
@@ -286,7 +272,7 @@ function rgbaNum(rgba, index) {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  if (drawHandler) drawHandler.destroy();
   if (editHandler) editHandler.clear();
   state.isEdit = false;
   viewer.scene.globe.HypsometricSetting = undefined;
@@ -300,11 +286,6 @@ function clear() {
 watch(
   () => state.fillMaxHeight,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.fillMaxHeight = val = 9000;
-    };
     hyp.MaxVisibleValue = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
@@ -312,11 +293,6 @@ watch(
 watch(
   () => state.fillMinHeight,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.fillMinHeight = val = 0;
-    };
     hyp.MinVisibleValue = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
@@ -324,11 +300,6 @@ watch(
 watch(
   () => state.equivalentIsoline,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.equivalentIsoline = val = 100;
-    };
     hyp.LineInterval = parseFloat(val);
     if (isolinePosition) isolineUpdate(isolinePosition);
   }
@@ -378,13 +349,14 @@ watch(
 watch(
   () => state.isEdit,
   (val) => {
+    if (!drawHandler.handlePolygon) return;
+    if (!drawHandler.handlePolygon.polygon) return;
+    const polygon = drawHandler.handlePolygon.polygon;
     if (val) {
-      if (handlerPolygon && handlerPolygon.polygon)
-        setEditHandler(handlerPolygon.polygon, isolineUpdate);
-    } else if (editHandler) {
-      if (handlerPolygon && handlerPolygon.polygon)
-        handlerPolygon.polygon.show = false;
-      editHandler.clear();
+      setEditHandler(polygon, isolineUpdate);
+    } else{
+      polygon.show = false;
+      if(editHandler) editHandler.clear();
     }
   }
 );

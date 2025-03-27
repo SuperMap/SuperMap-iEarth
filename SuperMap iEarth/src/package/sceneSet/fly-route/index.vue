@@ -1,21 +1,28 @@
 <template>
-  <div class="btn-list">
-    <div
-      class="btn"
-      v-for="(item, index) in comList"
-      :class="item.isSelect ? 'select-btn' : ''"
-      :key="index"
-      @click="changeItem(item)"
-    >
-      {{ item.name }}
+  <n-scrollbar style="max-height: 5rem;">
+    <div class="btn-list">
+      <div
+        class="btn"
+        v-for="(item, index) in comList"
+        :class="item.isSelect ? 'select-btn' : ''"
+        :key="index"
+        @click="changeItem(item)"
+      >
+        {{ item.name }}
+      </div>
     </div>
-  </div>
 
-  <KeepAlive>
-    <component :is="currentItem.com"></component>
-  </KeepAlive>
+    <KeepAlive>
+      <component :is="currentItem.com"></component>
+    </KeepAlive>
+    <!-- <n-divider /> -->
+    <rotate></rotate>
+    <!-- <n-divider />
+    <flyPosition></flyPosition> -->
 
-  <rotate></rotate>
+    <!-- <n-button @click="getLocate">获取</n-button>
+    <n-button @click="setLocate">定位</n-button> -->
+  </n-scrollbar>
 </template>
 
 <script lang="ts" setup>
@@ -23,6 +30,39 @@ import { reactive, markRaw } from "vue";
 import createRoute from "./components/create-route.vue";
 import importRoute from "./components/import-route.vue";
 import rotate from "./components/rotate.vue";
+// import flyPosition from "./components/flyPosition.vue";
+
+function getLocate() {
+  var camera = viewer.scene.camera
+  console.log(`
+                    destination : SuperMap3D.Cartesian3.fromRadians(
+                        ${camera.positionCartographic.longitude},
+                        ${camera.positionCartographic.latitude},
+                        ${camera.positionCartographic.height},
+                    ),
+                    orientation :{
+                        heading:${camera.heading},
+                        pitch:${camera.pitch},
+                        roll:${camera.roll},
+                    }
+                `)
+}
+
+function setLocate() {
+  viewer.scene.camera.setView({
+    convert: viewer.scene.mode !== SuperMap3D.SceneMode.SCENE3D,
+    destination: SuperMap3D.Cartesian3.fromRadians(
+      0.0003140368332739343,
+      0.00003938345003739653,
+      372.0380201973021,
+    ),
+    orientation: {
+      heading: 1.1602918584493285,
+      pitch: -0.33492040386298116,
+      roll: 6.283185307179583,
+    }
+  })
+}
 
 // 使用vue3 setUp实现动态组件
 let comList = reactive([

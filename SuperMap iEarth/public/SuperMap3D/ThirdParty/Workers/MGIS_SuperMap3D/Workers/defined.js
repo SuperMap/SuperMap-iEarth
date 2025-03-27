@@ -1,1 +1,0 @@
-function defined(_0x59c616){return _0x59c616!==undefined&&_0x59c616!==null;}

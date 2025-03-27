@@ -1,11 +1,44 @@
 <template>
   <div class="layer-terrain-container">
+
+    <div>
+        <n-checkbox v-model:checked="state.useFileter">{{ $t("isOpenFileter") }}</n-checkbox>
+    </div>
+
+    <div v-if="state.useFileter">
+      <div class="row-item">
+        <span>{{ $t("resourceSubType") }}</span>
+        <n-select
+          style="width: 1.96rem"
+          v-model:value="state.filter_type"
+          :options="serviceTypeOption"
+        >
+        </n-select>
+      </div>
+      <div class="row-item-mine" >
+        <n-select style="width: 2.2rem" v-model:value="state.filter_field" :options="fieldOption" />
+        <n-input class="add-input-border" v-model:value="state.filter_keywords" type="text" :placeholder="$t('layerMineFileterTip')"/>
+        <div class="btn-row-item" style="margin-left:0px">
+            <n-button
+              type="info"
+              class="ans-btn"
+              color="#3499E5"
+              text-color="#fff"
+              :focusable="false"
+              @click="handleFileter"
+              >{{ $t("filter") }}</n-button
+            >
+        </div>
+      </div>
+    </div>
+
+
     <div class="portalServiceTable">
       <n-data-table
         size="small"
-        :columns="state.columns"
+        :columns="columns"
         :data="state.portalServiceList"
-        :row-class-name="rowClassName"
+        :row-class-name="(row)=> row.disabled ? 'myService-disabled-item' : ''"
         flex-height
         class="flex-1-hidden"
         v-model:checked-row-keys="state.checkedRowKeys"
@@ -20,13 +53,26 @@
       />
     </n-scrollbar>
 
-    <div style="margin-top: 0.1rem;">
+    <!-- 场景名称 -->
+    <div style="margin-top: 0.1rem;" v-if="state.selectItem.resourceSubType == 'REALSPACE'">
         <n-checkbox v-model:checked="state.useSenceName">{{ $t("appointSceneName") }}</n-checkbox>
     </div>
-
     <div class="row-item-mine" v-if="state.useSenceName">
-      <span>{{ $t("name") }}</span>
+      <span>{{ $t("appointSceneName") }}</span>
       <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
+    </div>
+    
+    <!-- 数据服务 数据源:数据集 -->
+    <div v-if="state.selectItem.resourceSubType == 'DATA'">
+      <div class="row-item-mine" v-if="state.dataSourceOptions.length>0">
+        <span>{{ $t("dataSourceName") }}</span>
+        <n-select style="width: 2.4rem" v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+      </div>
+
+      <div class="row-item-mine" v-if="state.dataSetOptions.length>0">
+        <span>{{ $t("datasetName") }}</span>
+        <n-select style="width: 2.4rem" v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+      </div>
     </div>
 
     <div class="btn-row-item opration">
@@ -39,347 +85,563 @@
         @click="addService"
         >{{ $t("sure") }}</n-button
       >
-      <n-button :focusable="false" @click="refreshData">{{ $t("refresh") }}</n-button>
+      <n-button :focusable="false" @click="resetData">{{ $t("reset") }}</n-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { watch, onMounted, reactive } from "vue";
-import { useMessage } from "naive-ui";
+import { ref, watch, onMounted, onBeforeUnmount, reactive } from "vue";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
-import { useLayerStore } from "@/store/layerStore/layer";
 import {
   getRootUrl,
   isIportalProxyServiceUrl,
   getHostName,
 } from "@/tools/iportal/portalTools";
+import tool from "@/tools/tool";
+import CustomBubble from "@/lib/CustomBubble";
+
+const customBubble = new CustomBubble(viewer,{
+  isDesplayPickedEntityInfo:true
+});
+customBubble.start();
 
 const IportalStore = IportalStoreCreate();
-const layerStore = useLayerStore();
-const message = useMessage();
-
-let widget: any = viewer.cesiumWidget;
+let entityCollection = new SuperMap3D.EntityCollection();
 
 // let testHeader = 'http://172.16.168.74:8190/iportal/'; 
 // http://172.16.168.74:8190/iportal/web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ&currentPage=1
 // 用户名/密码：admin supermap.12 by 易桂全
 
-let baseUrl = getRootUrl() + 'web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ&currentPage';
-
 onMounted(() => {
-  let searchUrl = `${baseUrl}=1`;
+  let searchUrl = computedSearchUrl();
   getIportalServiceData(searchUrl);
-  message.success($t("getData"));
+  window["$message"].success($t("getData"));
 });
 
-type stateType = {
-  portalServiceList: any;
-  columns: any;
-  tableData: any;
-  checkedRowKeys: any;
-  currentPage:number;
-  pageCount:number;
-  useSenceName:boolean;
-  sceneName:string;
-};
+onBeforeUnmount(()=>{
+  entityCollection && entityCollection.values.forEach(entity => {
+    viewer.entities.remove(entity);
+  });
+  entityCollection = null;
+  customBubble.destroy();
+})
 
-let state = reactive<stateType>({
+// 表格列
+const columns = ref([
+  {
+    type: "selection",
+    multiple: false,
+    align: "center",
+    disabled: (rowdata) => {
+      return rowdata.disabled ? true : false;
+    },
+  },
+  {
+    key: "name",
+    title: $t("serviceName"),
+    align: "center",
+  },
+  {
+    key: "resourceSubType",
+    title: $t("resourceSubType"),
+    align: "center",
+  },
+  {
+    key: "updateTime",
+    title: $t("updateTime"),
+    align: "center",
+  },
+  {
+    key: "url",
+    title: $t("serviceUrl"),
+    align: "center",
+    ellipsis: {
+      tooltip: true,
+    },
+  },
+])
+
+// 过滤类型选项
+const serviceTypeOption = ref([
+  {
+    label: $t("allTypes"),
+    value: "ALL",
+  },
+  {
+    label: $t("sceneService"),
+    value: "REALSPACE",
+  },
+  {
+    label: $t("mapService"),
+    value: "MAP",
+  },
+  {
+    label: $t("dataService"),
+    value: "DATA",
+  }
+])
+
+// 过滤字段选项
+const fieldOption = ref([
+  {
+    label: $t("serviceName"),
+    value: "RESTITLE",
+  },
+  {
+    label: $t("userName"),
+    value: "USERNAME",
+  },
+  {
+    label: $t("serviceAddress"),
+    value: "LINKPAGE",
+  },
+  {
+    label: $t("proxyAddress"),
+    value: "PROXIEDURL",
+  },
+])
+
+const state = reactive<any>({
   portalServiceList: [],
-  columns: [
-    {
-      type: "selection",
-      multiple: false,
-      align: "center",
-      disabled: (rowdata) => {
-        return rowdata.disabled ? true : false;
-      },
-    },
-    {
-      key: "name",
-      title: $t("serviceName"),
-      align: "center",
-    },
-    {
-      key: "resourceSubType",
-      title: $t("resourceSubType"),
-      align: "center",
-    },
-    {
-      key: "updateTime",
-      title: $t("updateTime"),
-      align: "center",
-    },
-    {
-      key: "url",
-      title: $t("serviceUrl"),
-      align: "center",
-      ellipsis: {
-        tooltip: true,
-      },
-    },
-  ],
-  tableData: [],
   checkedRowKeys: ["1"],
   currentPage:1,
   pageCount:1,
-  useSenceName:false,
+  selectItem:{},
+  useFileter:false,
+  filter_type:'ALL',
+  filter_field:'RESTITLE',
+  filter_keywords:'',
   sceneName: '',
+  dataSourceName:'',
+  dataSourceOptions:[],
+  dataSetName:'',
+  dataSetOptions:[],
 });
 
-// 给非场景类型的服务项添加新class
-let rowClassName = function (row: any) {
-  if (row.disabled) {
-    return 'myService-disabled-item'
-  }
-  return ''
-}
-
-async function getIportalServiceData(searchUrl:string){
+const supportTypes = ["REALSPACE","MAP","DATA"];
+async function getIportalServiceData(searchUrl){
   if(!searchUrl) return;
 
-  if (window.iEarthConsole){
-      console.log("iportal-myservice-searchUrl:",searchUrl);
-  }
-
-  let data = await window.axios.get(searchUrl).then((response)=>{
+  // 获取数据
+  const data = await window.axios.get(searchUrl).then((response)=>{
     return response.data;
   })
+  if (window.iEarthConsole) console.log("我的服务返回数据:",data);
 
-  if (window.iEarthConsole){
-      console.log("iportal-myservice-data:",data);
-  }
-
+  // 页码
   state.pageCount = Number(data.totalPage);
 
+  // 计算服务列表
+  let serviceList: any = [];
   if (data.content && data.content.length > 0) {
-    state.portalServiceList.length = 0; // 清空当前列表
-    data.content.forEach((item: any, index:number) => {
-      let sceneUrl = item.proxiedUrl || item.linkPage;
-      let disabled = item.type != "REALSPACE"; // 当前仅支持场景
-      state.portalServiceList.push({
+    data.content.forEach((item: any, index: number) => {
+      const sceneUrl = item.proxiedUrl || item.linkPage;
+      const isSupport = supportTypes.includes(item.type); // 限定支持的服务类型
+      const updateTime = tool.dateDiff(item.updateTime);
+      serviceList.push({
         key: `my-service-${index}`,
         name: item.resTitle || '',
         resourceSubType: item.type,
-        updateTime: dateDiff(item.updateTime),
+        updateTime: updateTime,
         url: sceneUrl,
-        disabled: disabled,
+        disabled: isSupport ? false : true,
       });
     })
   }
+
+  state.portalServiceList.length = 0; // 清空当前列表
+  state.portalServiceList = serviceList;
 }
 
-// 因为@on-update:page = "fun"没起作用，这里用watch监听实现
-watch(
-  () => state.currentPage,
-  (val) => {
-    let searchUrl = `${baseUrl}=${val}`;
-    getIportalServiceData(searchUrl);
+// 模拟本机iPortal开发
+let baseUrl = getRootUrl() + 'web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
+// let baseUrl = getRootUrl() + 'web/services.json' + `?token=${window.iEarthBindData.iPortalToken}` + '&pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
+function computedSearchUrl(pageNumber?:number){
+  const isUseFileter = state.useFileter;
+  const filter_type = state.filter_type == 'ALL' ? false : state.filter_type;
+  const filter_field = state.filter_field;
+  const keywords = state.filter_keywords == '' ? false : state.filter_keywords;
+
+  let currentSearchUrl = "";
+  if(filter_type && !keywords){ // 只过滤服务类型
+    const sourceTypeQuery = encodeURIComponent(JSON.stringify([filter_type]));
+    currentSearchUrl = `${baseUrl}&types=${sourceTypeQuery}`;
+  }else if(!filter_type && keywords){ // 只过滤关键字
+    const filterFieldsQuery = encodeURIComponent(JSON.stringify([filter_field]));
+    const keywordsQuery = encodeURIComponent(JSON.stringify([keywords]));
+    currentSearchUrl = `${baseUrl}&filterFields=${filterFieldsQuery}&keywords=${keywordsQuery}`;
+  }else if(filter_type && keywords){ // 同时过滤类型和关键字
+    const sourceTypeQuery = encodeURIComponent(JSON.stringify([filter_type]));
+    const filterFieldsQuery = encodeURIComponent(JSON.stringify([filter_field]));
+    const keywordsQuery = encodeURIComponent(JSON.stringify([keywords]));
+    currentSearchUrl = `${baseUrl}&types=${sourceTypeQuery}&filterFields=${filterFieldsQuery}&keywords=${keywordsQuery}`;
+  }else if(!isUseFileter){ // 未开启过滤
+    currentSearchUrl = baseUrl;
   }
-);
 
-// // 初始化并获取数据
-// function init_Origin() {
-//   //查询出portal中的服务列表（只查询出服务项）
-//   let searchUrl =
-//     getRootUrl() +
-//     "gateway/catalog/resource/search.json?searchType=MY_RES&resourceType=SERVICE";
+  let suffix_currentPage = pageNumber===undefined ? `&currentPage=1` :`&currentPage=${pageNumber}`;
+  return currentSearchUrl+suffix_currentPage;
+}
 
-//   if (window.iEarthConsole) console.log("searchUrl-mine:", searchUrl);
+// 处理过滤服务
+function handleFileter(){
+  let searchUrl = computedSearchUrl();
+  getIportalServiceData(searchUrl);
+}
 
-//   window.axios
-//     //需要withCredentials验证否？
-//     .get(searchUrl, { withCredentials: IportalStore.isPortal })
-//     .then(function (response: any) {
-//       let data = response.data.content;
-//       if (window.iEarthConsole) console.log("response-mine:", response);
-//       data.forEach((item: any) => {
-//         let sceneID = item.resourceId;
+// 还原数据
+function resetData() {
+  state.useFileter = false;
+  state.filter_type = "ALL";
+  state.filter_keywords = '';
+  state.selectItem = {};
+  let searchUrl = computedSearchUrl(1);
+  getIportalServiceData(searchUrl);
+}
 
-//         let highestpermissionurl =
-//           getRootUrl() +
-//           "web/permissions/highestpermission.json?resourceIds=" +
-//           encodeURIComponent("[" + sceneID + "]") +
-//           "&resourceType=SERVICE";
-
-//         let arrays = ["READ", "READWRITE", "DELETE"];
-//         //判断是否有权限
-//         let noPermission = false;
-//         window.axios
-//           .get(highestpermissionurl, {
-//             withCredentials: IportalStore.isPortal,
-//           })
-//           .then(function (responseHigh: any) {
-//             if (arrays.indexOf(responseHigh.data[sceneID]) < 0) {
-//               noPermission = true;
-//             }
-//             let scenePostUrl =
-//               getRootUrl() + "web/services/" + item.resourceId + ".json";
-//             window.axios
-//               .get(scenePostUrl, { withCredentials: IportalStore.isPortal })
-//               .then(function (responseScene) {
-//                 let sceneUrl =
-//                   responseScene.data.proxiedUrl || responseScene.data.linkPage;
-//                 let disabled =
-//                   noPermission || item.resourceSubType != "REALSPACE"; //是否禁用选择
-//                 state.portalServiceList.push({
-//                   key: item.name,
-//                   name: item.name,
-//                   resourceSubType: item.resourceSubType,
-//                   updateTime: dateDiff(item.updateTime),
-//                   url: sceneUrl,
-//                   disabled: disabled,
-//                 });
-//                 if (window.iEarthConsole){
-//                   console.log(" state.portalServiceList：",state.portalServiceList);
-//                 }
-//               });
-//           });
-//       });
-//     });
-// }
 
 // 打开保存的服务
-
 function addService() {
-  let selecteditems = state.portalServiceList.filter((item: any) => {
+  const selecteditems = state.portalServiceList.filter((item: any) => {
     return item.key === state.checkedRowKeys[0];
   });
 
-  if (viewer) {
-    selecteditems.forEach((item) => {
-      let url = item.url + "/realspace";
+  if(window.iEarthConsole) console.log("我的服务选择项目:",selecteditems);
 
-      let promiseArray: any = [];
-      setTrustedServers(url);
-
-      // let promise = viewer.scene.open(url);
-      let sceneName = state.sceneName == '' ? undefined : state.sceneName;
-      const promise = viewer.scene.open(url, sceneName, { autoSetView: true });
-      promiseArray.push(promise);
-      promiseWhen(promiseArray);
-    });
-  }
+  selecteditems.forEach((item) => {
+    if (item.resourceSubType == 'REALSPACE') {
+      handleRealSpace(item);
+    } else if (item.resourceSubType == 'MAP') {
+      handleMapService(item);
+    }else if(item.resourceSubType == 'DATA'){
+      handleDataServiceByMVT(item);
+    }
+  });
 }
 
-// 检查请求是否带cookie
-function setTrustedServers(url: string) {
-  if (IportalStore.isPortal) {
-    if (IportalStore.portalConfig) {
-      let serviceProxy = IportalStore.portalConfig.serviceProxy;
-      let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
-      if (withCredentials) {
-        let ip = getHostName(url);
-        if (
-          !SuperMap3D.TrustedServers.contains(
-            "http://" + ip + "/" + serviceProxy.port
-          )
-        ) {
-          SuperMap3D.TrustedServers.add(ip, serviceProxy.port);
+// 处理场景服务类型
+function handleRealSpace(item) {
+  let url = item.url + "/realspace";
+  setTrustedServers(url);
+
+  let sceneName = state.sceneName == '' ? undefined : state.sceneName;
+  const promise = viewer.scene.open(url, sceneName, { autoSetView: true });
+  SuperMap3D.when(promise, function (layers) {
+    if (layers && layers.length > 0) {
+      viewer.flyTo(layers[0]);
+    }
+  })
+
+  // 检查请求是否带cookie
+  function setTrustedServers(url: string) {
+    if (IportalStore.isPortal) {
+      if (IportalStore.portalConfig) {
+        let serviceProxy = IportalStore.portalConfig.serviceProxy;
+        let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
+        if (withCredentials) {
+          let ip = getHostName(url);
+          if (
+            !SuperMap3D.TrustedServers.contains(
+              "http://" + ip + "/" + serviceProxy.port
+            )
+          ) {
+            SuperMap3D.TrustedServers.add(ip, serviceProxy.port);
+          }
         }
       }
     }
   }
 }
 
-function promiseWhen(promiseArray) {
-  SuperMap3D.when.all(
-    promiseArray,
-    function (layers) {
-      // for (let i = 0; i < layers.length; i++) {
-      //   layers[i].visibleDistanceMax = 10000; //最大可见高度
-      // }
-      setTimeout(() => {
-        layerStore.refreshLayerTree(); //更新图层
-      }, 500);
-
-      if (layers && layers[0]) {
-        viewer.flyTo(layers[0]);
-      }
-    },
-    function (e) {
-      if (widget._showRenderLoopErrors) {
-        var title = $t("scpUrlErrorMsg");
-        widget.showErrorPanel(title, undefined, e);
-      }
-    }
-  );
-}
-
-// 更新数据
-function refreshData() {
-  let searchUrl = `${baseUrl}=1`;
-  state.currentPage = 1;
-  getIportalServiceData(searchUrl);
-}
-
-
-/** 时间倒序，多少小时之前
- * @param timestamp 时间毫秒数
- */
-function dateDiff(timestamp) {
-  // 补全为13位
-  let arrTimestamp: any = (timestamp + "").split("");
-  for (let start = 0; start < 13; start++) {
-    if (!arrTimestamp[start]) {
-      arrTimestamp[start] = "0";
-    }
-  }
-  timestamp = arrTimestamp.join("") * 1;
-  let minute = 1000 * 60;
-  let hour = minute * 60;
-  let day = hour * 24;
-  let halfamonth = day * 15;
-  let month = day * 30;
-  let now = new Date().getTime();
-  let diffValue = now - timestamp;
-
-  // 如果本地时间反而小于变量时间
-  if (diffValue < 0) {
-    return "不久前";
-  }
-  // 计算差异时间的量级
-  let monthC: any = diffValue / month;
-  let weekC: any = diffValue / (7 * day);
-  let dayC: any = diffValue / day;
-  let hourC: any = diffValue / hour;
-  let minC: any = diffValue / minute;
-
-  // 数值补0方法
-  let zero = function (value) {
-    if (value < 10) {
-      return "0" + value;
-    }
-    return value;
-  };
-
-  // 使用
-  if (monthC > 4) {
-    // 超过1年，直接显示年月日
-    return (function () {
-      let date = new Date(timestamp);
-      return (
-        date.getFullYear() +
-        $t("year") +
-        zero(date.getMonth() + 1) +
-        $t("month") +
-        zero(date.getDate()) +
-        $t("day")
+// 处理地图服务类型
+function handleMapService(item) {
+  let url = item.url + '/maps.rjson';
+  window.axios.get(url).then(function (response) {
+    if (response && response.data && response.data.length > 0) {
+      let imageUrl = response.data[0].path;
+      const imageLayer = viewer.imageryLayers.addImageryProvider(
+        new SuperMap3D.SuperMapImageryProvider({
+          url: imageUrl,
+        })
       );
-    })();
-  } else if (monthC >= 1) {
-    return parseInt(monthC) + $t("monthsAgo");
-  } else if (weekC >= 1) {
-    return parseInt(weekC) + $t("weeksAgo");
-  } else if (dayC >= 1) {
-    return parseInt(dayC) + $t("daysAgo");
-  } else if (hourC >= 1) {
-    return parseInt(hourC) + $t("hoursAgo");
-  } else if (minC >= 1) {
-    return parseInt(minC) + $t("minutesAgo");
-  }
-  return $t("secondsAgo");
+      viewer.flyTo(imageLayer);
+    }
+  })
 }
+
+// 处理数据服务类型
+function handleDataServiceByEntity(item) {
+  if (state.dataSourceName == "" || state.dataSetName == "") {
+    window["$message"].warning($t("sourceAndSetNameIsNeed"));
+    return;
+  }
+
+  const sourceAndSetName = `${state.dataSourceName}:${state.dataSetName}`;
+  // item.url = "http://172.16.112.34:8090/iserver/services/data-China_4326_Core/rest"; // 这个本地可以访问
+  const featureUrl = item.url + "/data/featureResults.rjson?returnContent=true";
+  const sqlParameter = {
+    toIndex: -1,
+    datasetNames: [sourceAndSetName],
+    getFeatureMode: "SQL",
+    queryParameter: {
+      attributeFilter: "smid>=0"
+    },
+    maxFeatures: 1000000000
+  };
+  const queryData = JSON.stringify(sqlParameter);
+
+  window.axios.post(featureUrl, queryData).then((result) => {
+    console.log("数据服务-result:", result);
+    if (result && result.data && result.data.features) {
+      const features = result.data.features;
+      features.forEach(feature => {
+        if (!feature.geometry) return;
+        const description = computedFeatureDescription(feature);
+        const geometry = feature.geometry;
+        let entity = undefined;
+        if (geometry.type == 'POINT') {
+          entity = addPoint(geometry, description);
+        } else if (geometry.type == 'LINE') {
+          entity = addPolyline(geometry, description);
+        } else if (geometry.type == 'REGION') {
+          entity = addPolygon(geometry, description);
+        }
+
+        if (entity) entityCollection.add(entity);
+      });
+    }
+  })
+
+  // 添加三维点
+  function addPoint(geometry, description) {
+    const center = geometry.center;
+    return viewer.entities.add({
+      description: description,
+      position: SuperMap3D.Cartesian3.fromDegrees(center.x, center.y, 0),
+      billboard: {
+        image: "./images/location.png",
+        width: 30,
+        height: 40,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
+      }
+    });
+  }
+
+  // 添加三维线
+  function addPolyline(geometry, description) {
+    let positionList: any = [];
+    geometry.points.forEach(point => {
+      if (point.x && point.y) {
+        const position = SuperMap3D.Cartesian3.fromDegrees(point.x, point.y, 0);
+        positionList.push(position);
+      }
+    })
+    return viewer.entities.add({
+      description: description,
+      polyline: {
+        positions: positionList,
+        width: 5,
+        material: SuperMap3D.Color.fromCssColorString("rgba(250, 196, 65, 1)"),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
+      },
+    });
+  }
+
+  // 添加三维面
+  function addPolygon(geometry, description) {
+    let positionList: any = [];
+    geometry.points.forEach(point => {
+      if (point.x && point.y) {
+        const position = SuperMap3D.Cartesian3.fromDegrees(point.x, point.y, 0);
+        positionList.push(position);
+      }
+    })
+    return viewer.entities.add({
+      description: description,
+      polygon: {
+        hierarchy: {
+          positions: positionList,
+        },
+        width: 5,
+        material: SuperMap3D.Color.fromCssColorString("rgba(250, 196, 65, 1)").withAlpha(0.5),
+      }
+    });
+  }
+
+  // 将Feature携带的fieldNames和fieldValues转为description存储到Entity,方便CustomBubble拾取时能够直接读取显示
+  function computedFeatureDescription(feature) {
+    if (!feature.fieldNames || !feature.fieldValues) return;
+
+    let description: any = [];
+    for (let i = 0; i < feature.fieldNames.length; i++) {
+      let array = [feature.fieldNames[i], feature.fieldValues[i]];
+      description.push(array);
+    }
+    return JSON.stringify(description);
+  }
+}
+
+// 处理数据服务类型 
+function handleDataServiceByMVT(item) {
+  if (state.dataSourceName == "" || state.dataSetName == "") {
+    window["$message"].warning($t("sourceAndSetNameIsNeed"));
+    return;
+  }
+
+  const sourceAndSetName = `${state.dataSourceName}:${state.dataSetName}`;
+  // item.url = "http://172.16.112.34:8090/iserver/services/data-China_4326_Core/rest"; // 这个本地可以访问
+  const featureUrl = item.url + "/data/featureResults.geojson?returnContent=true"; // geojson表述，返回geojson格式
+  const sqlParameter = {
+    toIndex: -1,
+    datasetNames: [sourceAndSetName],
+    getFeatureMode: "SQL",
+    queryParameter: {
+      attributeFilter: "smid>=0"
+    },
+    maxFeatures: 1000000000
+  };
+  const queryData = JSON.stringify(sqlParameter);
+
+  window.axios.post(featureUrl, queryData).then((result) => {
+    console.log("数据服务-result:", result);
+
+    if (result && result.data && result.data.features) {
+      const data = result.data;
+      const geojson = {
+        "type": "",
+        "features": []
+      }
+      
+      geojson["type"] = data.type;
+      geojson["features"] = data.features;
+      console.log("geojson:", geojson);
+      if (geojson.features.length == 0) return;
+
+      const mvtName = sourceAndSetName;
+      addMvtByGeoJSON(geojson, mvtName);
+    }
+  })
+
+  function addMvtByGeoJSON(geojson, mvtName) {
+    const mvtMap = viewer.scene.addVectorTilesMap({
+      canvasWidth: 1024,
+      name: mvtName,
+      lineAntialiasing: false
+    });
+
+    // 针对点线面生成对应的样式
+    const type = geojson.features[0].geometry.type; // 默认所有的feature类型一致
+    let sourceID: any = undefined;
+    let styleLayer: any = undefined;
+    if (type == 'Point') {
+      sourceID = `Point-${new Date().getTime()}`;
+      styleLayer = {
+        id: sourceID,
+        type: 'symbol',
+        source: sourceID,
+        layout: {
+          'text-field': '{NAME}',
+        },
+        paint: {
+          'text-color': 'black'
+        }
+      }
+    } else if (type == 'LineString') {
+      sourceID = `Polyline-${new Date().getTime()}`;
+      styleLayer = {
+        id: sourceID, //style id
+        type: 'line', //style type
+        source: sourceID, //source name
+        paint: {
+          'line-color': 'red',
+          'line-width': 5,
+        }
+      }
+    } else if (type == 'MultiPolygon') {
+      sourceID = `Polygone-${new Date().getTime()}`;
+      styleLayer = {
+        id: sourceID,
+        type: 'fill',
+        source: sourceID,
+        paint: {
+          'fill-color': [
+            'match',
+            ['get', 'City'], // 属性字段
+            '北京市', '#e1cee1',
+            '天津市', '#ebeabc',
+            // 默认颜色
+            '#d0eacd'
+          ],
+          'fill-opacity': .9
+        }
+      }
+    }
+
+    SuperMap3D.when(mvtMap.readyPromise, function () {
+      if (sourceID && styleLayer) {
+        mvtMap.addSource(sourceID, {
+          type: "geojson",
+          data: geojson
+        })
+
+        mvtMap.addLayer(styleLayer);
+      }
+    });
+  }
+}
+
+
+watch(
+  () => state.currentPage,
+  (val) => {
+    let searchUrl = computedSearchUrl(Number(val));
+    getIportalServiceData(searchUrl);
+  }
+);
+
+
+watch(
+  () => state.checkedRowKeys,
+  (val) => {
+    let selecteditems = state.portalServiceList.filter((item: any) => {
+      return item.key === val[0];
+    });
+    if(selecteditems && selecteditems.length>0){
+      const selecteditem = selecteditems[0];
+      state.selectItem = selecteditem;
+
+      if(state.selectItem.resourceSubType == 'DATA'){
+        state.dataSourceName = "";
+        state.dataSetName = "";
+        state.dataSourceOptions = [];
+        state.dataSetOptions = [];
+
+        let dataUrl = selecteditem.url;
+        if(!dataUrl.endsWith("/data")) dataUrl += "/data";
+        tool.computedDataSourceOptions(dataUrl).then(result=>{
+          if (result && result.length > 0) {
+            state.dataSourceOptions = result;
+          }
+        });
+      }
+    }
+  }
+);
+
+watch(
+  () => state.dataSourceName,
+  (val) => {
+    if (!val || val == '') return;
+    let dataUrl = state.selectItem.url;
+    if(!dataUrl.endsWith("/data")) dataUrl += "/data";
+    tool.computedDataSetOptions(dataUrl, val).then(result => {
+      if (result && result.length > 0) {
+        state.dataSetOptions = result;
+      }
+    });
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -395,7 +657,7 @@ function dateDiff(timestamp) {
   margin-right: 0.1rem;
   height: 2.3rem;
   background-color: rgb(29, 29, 17);
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: 999999;
 }
 

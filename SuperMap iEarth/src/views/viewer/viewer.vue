@@ -1,30 +1,45 @@
 <template>
   <div id="superMapContainer"></div>
+  <!-- 底部信息条 -->
+  <FootInfoBar></FootInfoBar>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onBeforeUnmount } from "vue";
-import { GlobalStoreCreate } from "@/store/global/global";
-import { IportalStoreCreate } from "@/store/iportalManage/index";
+import { loadAsyncComponent } from "@/utils/index";
 import { useLayerStore } from "@/store/layerStore/layer";
 import EventManager from "@/tools/ScreenEventManage/EventManager.js";
-import layerManagement from "@/tools/layerManagement";
-import openScene from "./openScene";
-import AIFunction from "@/lib/AIFunction";
+import openScene from "@/tools/openScene";
+import iEarthTool from "@/lib/iEarthTool";
+// import AIFunction from "@/lib/AIFunction";
 
 // 导入配置
 import getConfig from "@/tools/getConfig";
-import getIPortalSceneInfo from "@/tools/getIPortalSceneInfo";
 
-const IportalStore = IportalStoreCreate();
-const GlobalStore = GlobalStoreCreate();
+// 导入组件:需要异步导入,否则初始化会报错
+const FootInfoBar = loadAsyncComponent(() => import("./foot-info.vue"));
 const layerStore = useLayerStore();
-window.EarthGlobal = {};
+
+window.iEarthTool = iEarthTool; // 常用工具，绑定到window方便调试
+window.iEarthBindData = {
+  tokenConfig: window.tokenConfig, // 必应底图和天地图token
+  Particle:{}, // 粒子系统
+  ParticleOptions:{}, // 粒子选项
+  BaseMapOption:undefined, // 设置默认底图
+  CurrentS3MLayerName:undefined, // 图层列表当前选择的S3M图层名字
+  CurrentIMGLayerName:undefined, // 图层列表当前选择的影像图层名字
+  CurrentMVTStyleLayerSourceName:"", // 图层列表当前选择的MVT样式子图层的source
+  layerQueryOptions:[], // 对S3M图层进行属性查询走数据服务的相关配置包括URL数据源名称等
+  mapQueryOptions:[],// 地图查询相关资源相关保存
+  EnvironmentMode:'Normal', // iEarth当前所处的环境模式：Normal普通环境，iPortal环境
+  mediaResourceOptions:{},
+  // iPortalToken: "qywM11WA_H5Tr8f0WPl0ZmOXsTeri-nxJmRql84AzxvR7-q7zGgM3pvIC0m-HexA5oGXEo_PjFUkQ5tl59co0hXx", // 模拟本机iPortal开发: 支持中心的iPortal，令牌一年
+  // iPortalToken: "NrX_W6hV4gucw1IhnO9XJZ5qrSWEOM3clfMAkaPjUwW6dbVEW4k-vkSNQDOGkt8RZVQVKB4DKC5L99BYywaFoqBX3Rn6iXCw2lSup-ej", // 模拟本机iPortal开发: 我的iPortal，令牌一年
+};
 
 let viewer: any;
 
 onMounted(() => {
-  // getCreateOrEditScene();
   initViewer();
 });
 
@@ -34,56 +49,58 @@ onBeforeUnmount(() => {
 
 // 获取token和key相关配置
 getConfig().then((res) => {
-  if (window.iEarthConsole) console.log("当前configToken配置:", res);
-  getCreateOrEditScene();
+  computedEnvironmentMode();
 },(err) => {
   console.log(err);
-  getCreateOrEditScene(); // 确保无论如何都能打开场景
+  computedEnvironmentMode(); // 确保无论如何都能打开场景
 });
 
-// 获取当前环境：创建 || 编辑  or 非iportal环境（普通环境）
-function getCreateOrEditScene() {
-  let url = window.location.href;
+// 获取当前环境：普通环境、Online、iPortal(创建 || 编辑)
+function computedEnvironmentMode() {
+  const href = window.location.href;
 
-  // 判断当前环境：普通、iportal、online
-  if (url.indexOf("/apps") === -1) {
-    if (window.iEarthConsole) console.log("当前环境：普通环境");
-    GlobalStore.isNormalMode = true;
-    if(window.simulateIPortalMode) openScene.openScene();
-    return;
-  } else if (url.indexOf("/iportal") != -1) {
-    if (window.iEarthConsole) console.log("当前环境：iPortal环境");
-  } else if (window.location.host.includes("supermapol")) {
-    if (window.iEarthConsole) console.log("当前环境：Online环境");
-  }
+  if(href.includes("/apps")){
+    if(href.includes("/iportal")){
+      window.iEarthBindData.EnvironmentMode = "iPortal";
+    }else if(href.includes("supermapol")){
+      window.iEarthBindData.EnvironmentMode = "Online";
+    }else{
+      console.log('未知环境');
+      window.iEarthBindData.EnvironmentMode = "Normal";
+    }
 
-  //判断当前模式：创建模式、编辑模式
-  if (url.indexOf("id=") === -1) {
-    IportalStore.isCreateScene = true;
-    if (window.iEarthConsole) console.log("当前模式：创建模式");
-    GlobalStore.isNormalMode = false;
-  } else {
-    IportalStore.isCreateScene = false;
-    GlobalStore.isEditMode = true;
-    if (window.iEarthConsole) console.log("当前模式：编辑模式");
-    GlobalStore.isNormalMode = false;
-    setTimeout(() => {
-      openScene.openExistScene();
-    }, 500);
+    if(window.iEarthBindData.EnvironmentMode != "Normal"){
+      if(href.includes("id=")){
+        window.iEarthBindData.EnvironmentMode += "-EditScene";
+        setTimeout(() => {
+          openScene.openExistScene();
+        }, 500);
+      }else{
+        window.iEarthBindData.EnvironmentMode += "-CreateScene";
+      }
+    }
+
+  }else{ // 普通环境，比如官网和本地使用
+    window.iEarthBindData.EnvironmentMode = "Normal";
   }
 }
 
 //初始化viewer
 function initViewer() {
   viewer = new SuperMap3D.Viewer("superMapContainer", {
-    // contextOptions: { // 开启Webgl2.0
-    //   //硬件反走样，1-8，默认值为1
-    //   msaaLevel: 8,
-    //   requestWebgl2: true
-    // },
+    contextOptions: { // 开启Webgl2.0
+      //硬件反走样，1-8，默认值为1
+      msaaLevel: window.initViewerConfig.msaaLevel,
+      requestWebgl2: window.initViewerConfig.requestWebgl2,
+      maxDrawingBufferWidth: window.initViewerConfig.maxDrawingBufferWidth,
+      maxDrawingBufferHeight: window.initViewerConfig.maxDrawingBufferHeight,
+    },
+    useSuperMapOIT: window.customConfig.useSuperMapOIT, // 新版OIT
+    orderIndependentTranslucency: window.customConfig.orderIndependentTranslucency, // 老版OIT
+    targetFrameRate: window.customConfig.targetFrameRate, // 锁帧
     timeline: true,
     baseLayerPicker: false,
-    imageryProvider: false, //必须为false - 关闭默认球皮（影像图层）
+    imageryProvider: false, // 关闭默认球皮
     navigation: false, // 罗盘
     animation: false, // 动画小组件
     infoBox: false, // 信息框
@@ -93,111 +110,106 @@ function initViewer() {
     creditContainer: document.createElement("div"), //去掉底部logo
   });
 
-  // iEarth打通AI,监听iFrame元素的postMessage事件
-  const aiFunction = new AIFunction(viewer);
-  aiFunction.startListenIFramePostMessage();
-
-  // 获取iportal中保存的场景模式：平面 or 三维
-  getIPortalSceneInfo().then((res) => {
-    if (window.iEarthConsole) console.log("场景模式:", res);
-    if (Number(res) == 1) {
-      viewer.scene.mode = SuperMap3D.SceneMode.COLUMBUS_VIEW; // 平面场景
-      viewer.camera.flyTo({
-        destination: new SuperMap3D.Cartesian3.fromDegrees(
-          1.6268196911251191,
-          8.156654717721203,
-          30763418.112337016
-        ),
-        duration: 0,
-      });
-    } else {
-      viewer.scene.mode = SuperMap3D.SceneMode.SCENE3D; // 三维场景
-      viewer.camera.flyTo({
-        destination: new SuperMap3D.Cartesian3.fromDegrees(
-          110.60396458865515,
-          34.54408834959379,
-          30644793.325518917
-        ),
-        duration: 0,
-      });
-    }
-  });
-
-  // 隐藏时间线控件
-  let timelineDom: any = document.getElementsByClassName(
-    "supermap3d-viewer-timelineContainer"
-  )[0];
-  timelineDom.style.visibility = "hidden";
+  // // iEarth打通AI,监听iFrame元素的postMessage事件
+  // const aiFunction = new AIFunction(viewer);
+  // aiFunction.startListenIFramePostMessage();
 
   // 其他设置
   window["viewer"] = viewer; //绑定到window
-  GlobalStore.isViewer = true; // viewer初始化完成标志
+  window["scene"] = viewer.scene; //绑定到window
   viewer.eventManager = new EventManager(viewer); //添加屏幕事件管理
   viewer.resolutionScale = window.devicePixelRatio; // 设置渲染分辨率的缩放因子
   viewer.scene.globe.depthTestAgainstTerrain = true; //开启深度检测
   viewer.scene.globe.baseColor = SuperMap3D.Color.BLACK; // 没有影像图层时地球的底色
-  if (viewer.geocoder) {
-    viewer.geocoder.viewModel.geoKey = "fvV2osxwuZWlY0wJb8FEb2i5"; // 官网申请Key
+
+  if(window.iEarthCustomFunc && window.iEarthCustomFunc.afterViewerInit){
+    window.iEarthCustomFunc.afterViewerInit(viewer);
   }
 
-  // 设定项目当前时间 - 强制设置时间后，平面场景会发黑
-  viewer.clock.currentTime = SuperMap3D.JulianDate.fromDate(
-    new Date(2023, 3, 20, 12)
-  );
+  // 隐藏时间线控件
+  let timelineDom: any = document.getElementsByClassName(
+  "supermap3d-viewer-timelineContainer"
+  )[0];
+  timelineDom.style.visibility = "hidden";
 
-  // 设置环境光
-  viewer.scene.lightSource.ambientLightColor = new SuperMap3D.Color(
-    0.65,
-    0.65,
-    0.65,
-    1
-  );
-
-  // 更换球皮
-  let earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
+  // 设置影像球皮
+  const earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
     new SuperMap3D.SingleTileImageryProvider({
       url: "./images/earth-skin2.jpg",
     })
   );
-
-  // 设置皮肤，影像图层的效果
   earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
   earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
-
-  // 如果设置了底图，则删除默认底图
-  setTimeout(() => {
-    if (layerStore.baseMapOption) {
-      const layerResult = viewer.imageryLayers._layers.filter((imgLayer) => {
-        if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
-          return imgLayer._imageryProvider.url == "./images/earth-skin2.jpg";
-        }
-      })
-      if (layerResult.length === 1) viewer.imageryLayers.remove(layerResult[0]);
+  
+  // 监听键盘按键
+  document.addEventListener("keyup", function (event) {
+    let char = String.fromCharCode(event.which);
+    if (char == 'q') { // F2按键字符：相机定位
+      console.log('点击F2按键，定位至配置文件中指定位置');
+      let position = window.customConfig.f2_cameaPosition;
+      window.iEarthTool.openCamera(position);
+    }else if(char == ''){ // Esc按键字符：释放所有图层选择集
+      viewer.scene.layers.layerQueue.forEach(s3mLayer => {
+        if(s3mLayer) s3mLayer.releaseSelection();
+      });
     }
-  }, 3000)
+  });
 
-  // 设置场景
-  setTimeout(() => {
-    // 云层
-    let cloudBoxUrl = "./images/sceneProperties/clouds/clouds1.png";
-    let cloudBox = new SuperMap3D.CloudBox({ url: cloudBoxUrl });
-    if (layerStore.sceneAttrState.cloudLayer) {
-      viewer.scene.cloudBox = cloudBox;
-    } else {
-      viewer.scene.cloudBox = null;
-    }
+  // 帧率控件
+  viewer.scene.debugShowFramesPerSecond = window.customConfig.isDisplayFrameRate ? true : false;
 
-    // 天空盒
-    if (layerStore.sceneAttrState.skyBoxShow) {
-      layerManagement.setSkyBox(true);
-    } else {
-      layerManagement.setSkyBox(false);
-    }
+  // 支持初始化时打开预设场景配置文件
+  window.layerTreeData = layerStore.layerTreeData; // 避免保存场景时报错
+  if (window.customConfig && window.customConfig.useAutoOpenPresetScene) {
+    setTimeout(() => {
+      let href = window.location.href;
+      let jsonUrl = '';
+      if (href.includes('index.html')) {
+        jsonUrl = href.replace('index.html', 'config/presetSceneConfig.json');
+      } else {
+        jsonUrl = href + 'config/presetSceneConfig.json';
+      }
+      window.axios.get(jsonUrl)
+        .then(response => {
+          if(!response) return;
+          let data = response.data;
+          if(!data) return;
+          console.log("预设场景JSONData:", data);
 
-    layerStore.setSceneAttr(layerStore.sceneAttrState);
+          // 计算sceneInfo
+          let sceneInfo: any = undefined;
+          if (data.content) {
+            const content = (typeof data.content === 'string') ? JSON.parse(data.content) : data.content; // iportal中保存的content格式为string
+            sceneInfo = content.sceneInfo;
+          } else {
+            sceneInfo = data;
+          }
+          if (!sceneInfo) return;
 
-    viewer.scene.skyBox.show = true; // 星空背景
-  }, 1000);
+          // 计算layerTreeData
+          let layerTreeData: any = undefined;
+          if (data.content && data.content.layerTreeData) {
+            layerTreeData = data.content.layerTreeData
+          }
+
+          // 计算bindiEarthData
+          let bindiEarthData: any = undefined;
+          if (data.content && data.content.bindiEarthData) {
+            bindiEarthData = data.content.bindiEarthData
+          }
+
+          // 统一处理场景内容绑定数据等操作
+          openScene.handleSceneContent({
+            sceneInfo: sceneInfo,
+            layerTreeData: layerTreeData,
+            bindiEarthData: bindiEarthData
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }, 500)
+  }
 }
 </script>
 

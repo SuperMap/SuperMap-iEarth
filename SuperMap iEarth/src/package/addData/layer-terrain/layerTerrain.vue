@@ -16,30 +16,31 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-import { useMessage } from "naive-ui";
+import { onMounted } from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
 import { usePanelStore } from "@/store";
 
 const panelStore = usePanelStore();
 const layerStore = useLayerStore();
-const message = useMessage();
-const onlineTerrainLayerList =
-  layerStore.layerServiceData.onlineTerrainLayerList;
+const onlineTerrainLayerList = layerStore.layerServiceData.onlineTerrainLayerList;
 
-let state = reactive({
-  terrainToken: layerStore.configToken.TiandituToken, // 天地图token,
-});
+onMounted(()=>{
+  let name = layerStore.getTerrainLayerName();
+  onlineTerrainLayerList.forEach(item => {
+    if (item.name && $t(item.name) == name) {
+      item.chooseType = true;
+    }else{
+      item.chooseType = false;
+    }
+  });
+})
 
 // 添加地形
 function addTerrainLayer(item: any) {
-  let index = layerStore.SelectedOptions.onlineTerrain.indexOf(item.name);
-  if (index != -1) {
-    message.warning($t("repeatAddTip"));
+  if (item.chooseType) {
+    window["$message"].warning($t("repeatAddTip"));
     return;
   }
-
-  layerStore.SelectedOptions.onlineTerrain = [item.name]; // 存入已选择的地形服务选项
 
   let type = item.type;
   let terrainUrl = item.proxiedUrl;
@@ -52,7 +53,7 @@ function addTerrainLayer(item: any) {
       break;
     case "tianDiTuTerrain":
       viewer.terrainProvider = new SuperMap3D.TiandituTerrainProvider({
-        token: state.terrainToken,
+        token: window.tokenConfig.tiandituKey,
       });
       break;
     case "supermapOnlineTerrain":
@@ -63,20 +64,6 @@ function addTerrainLayer(item: any) {
     default:
       break;
   }
-  viewer.terrainProvider.name = item.name; //保存在线地图名称
-  viewer.terrainProvider.bindName = item.name; //保存在线地图名称
-
-  // 地形面板中只能有一个被选中
-  layerStore.layerServiceData.onlineTerrainLayerList.map((item) => {
-    if (item.proxiedUrl == terrainUrl) {
-      item.chooseType = true;
-    } else {
-      item.chooseType = false;
-    }
-  });
-
-  layerStore.updateLayer({ type: "terrain", label: $t(item.name) });
-
   panelStore.closeRightToolPanel(1); // 1为关闭左侧面板
 }
 </script>

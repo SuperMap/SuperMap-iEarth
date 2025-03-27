@@ -4,8 +4,9 @@ import { IportalStoreCreate } from "@/store/iportalManage/index";
 // https://cdtest.supermapol.com/apps/earth/v2/index.html // 测试环境下的IEarth在线地址
 function getRootUrl() {
 
-  // 模拟本机portal开发
-  if(window.simulateIPortalMode) return "http://localhost:8190/iportal/";
+  // 模拟本机iPortal开发
+  // return "http://172.16.112.36:8190/iportal/"; // 支持中心的
+  // return "http://localhost:8190/iportal/"; // 我的
   
   const path = "/apps";
   let url = "";

@@ -177,11 +177,10 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useNotification } from "naive-ui";
-import initHandler from "@/tools/drawHandler";
+import DrawHandler from "@/lib/DrawHandler";
 import setEditHandler from "@/tools/editHandler";
 
-const notification = useNotification();
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   selectedType: string; // 绘制模式
@@ -261,7 +260,7 @@ let state = reactive<stateType>({
   ],
 });
 
-let handlerPolygon, removeEdit;
+let removeEdit;
 let perPositionHeight = true;
 let classificationType = undefined;
 let surface_ids: any = [];
@@ -288,7 +287,7 @@ function changleIconItem(item: any) {
 
 // 绘制面
 function add() {
-  notification.create({
+  window["$notification"].create({
     content: () => $t("editLineTip"),
     duration: 3500,
   });
@@ -296,20 +295,9 @@ function add() {
 }
 
 // 添加面
-function add_face() {
-  if (!handlerPolygon) {
-    handlerPolygon = initHandler("Polygon");
-  }
-  handlerPolygon.handlerDrawing().then(
-    (res) => {
-      creat_entity_gon(res.object.positions);
-      handlerPolygon.polylineTransparent.show = false;
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolygon.activate();
+async function add_face() {
+  const positions = await drawHandler.startPolygon();
+  creat_entity_gon(positions);
 }
 
 // 创建面实体
@@ -401,7 +389,7 @@ function removeEditHandler() {
 
 // 清除
 function clear() {
-  if (handlerPolygon) handlerPolygon.clearHandler();
+  drawHandler.destroy();
   if (selected_gon) {
     viewer.entities.removeById(selected_gon.id);
     selected_gon = undefined;
@@ -441,7 +429,7 @@ watch(
   () => state.isEdit,
   (val) => {
     if (val) {
-      notification.create({
+      window["$notification"].create({
         content: () => $t("editLineTip2"),
         duration: 3500,
       });

@@ -5,7 +5,7 @@ const lang_default = window.lang_default;
 export const getLanguage = () =>{
   // 获取当前浏览器真实语言环境（两位字母简写）
   let lang: string = getBrowserLanguageSub();
-  if (window.iEarthConsole) console.log("Browser-language:", lang);
+  if (window.iEarthConsole) console.log("浏览器语言环境:", lang);
 
   // 检查当前浏览器语言是否在支持的列表中，如果不在则使用默认的语言设置
   let language = lang;
@@ -20,7 +20,7 @@ export const getLanguage = () =>{
       language = 'zh';
     }
   }
-  if (window.iEarthConsole) console.log("Project-language:", language);
+  if (window.iEarthConsole) console.log("项目使用的语言环境:", language);
 
   return language;
 }

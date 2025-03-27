@@ -10,14 +10,8 @@
         <i class="iconfont iconxiala" @click="headerFold"></i>
       </div>
 
-      <!-- 保存+用户 -->
+      <!-- 用户 -->
       <div class="head-content header-right">
-        <i
-          class="iconfont iconbaocun"
-          @click="save"
-          v-show="IportalStore.isLogin"
-        ></i>
-        <n-divider vertical />
         <User></User>
       </div>
     </div>
@@ -30,20 +24,14 @@
         style="font-size: 0.12rem"
       ></i>
     </div>
-
-    <!-- 保存场景弹窗 -->
-    <SaveScene></SaveScene>
   </n-layout-header>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { IportalStoreCreate } from "@/store/iportalManage/index";
-import { usePanelStore } from "@/store/index";
 import { User } from "./components/user/index";
-import SaveScene from "./components/saveScene";
 
-const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
 const imgurl = ref('./logo.png');
 
@@ -54,28 +42,6 @@ const appName:any = computed(() => {
     return $t("earth3D");
   }
 });
-
-// 保存弹窗
-function save() {
-  panelStore.showSavePanel = true;
-  panelStore.isEditMode = true;
-
-  outputSceneToFile();
-}
-
-// 缩略图
-function outputSceneToFile() {
-  let promise = viewer.scene.outputSceneToFile();
-  SuperMap3D.when(promise, function (buffer) {
-    let canvas: any = document.getElementById("sceneCanvas");
-    let ctx = canvas.getContext("2d");
-    let img = new Image();
-    img.src = buffer;
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, 298, 150);
-    };
-  });
-}
 
 let headShow = ref(false);
 // 页头折叠

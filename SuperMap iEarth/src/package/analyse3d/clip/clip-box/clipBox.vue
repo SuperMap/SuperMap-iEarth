@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useNotification } from "naive-ui";
+import tool from "@/tools/tool";
 
 type stateType = {
   clipMode: string; // 裁剪模式
@@ -62,7 +62,6 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-const notification = useNotification();
 let boxEntity: any, editorBox: any;
 let layers = viewer.scene.layers.layerQueue;
 let handlerBox = new SuperMap3D.DrawHandler(viewer, SuperMap3D.DrawMode.Box);
@@ -79,20 +78,18 @@ onBeforeUnmount(() => {
 
 // 分析
 function startBoxClipByEitor() {
+  tool.setMouseCursor("drawCur");
+
   clearBoxClipByEitor();
   if (editorBox) {
     handlerBox.activate();
     return;
   }
 
-  window.viewer.enableCursorStyle = false;
-  window.viewer._element.style.cursor = "";
-  document.body.classList.add("drawCur");
-
   // 设置裁剪线颜色
   setAllLayersClipColor();
 
-  notification.create({
+  window["$notification"].create({
     content: () => $t("boxclipTip"),
     duration: 5500,
   });
@@ -121,8 +118,7 @@ function startBoxClipByEitor() {
     handlerBox.clear();
     handlerBox.deactivate();
 
-    window.viewer.enableCursorStyle = true;
-    document.body.classList.remove("drawCur");
+    tool.setMouseCursor("normal");
   });
   handlerBox.activate();
 }

@@ -2,81 +2,6 @@
 
 const SuperMap3D = window.SuperMap3D;
 
-// 获取两点的角度和弧度
-function getAngleAndRadian(pointA: any, pointB: any) {
-  // 建立以点A为原点，X轴为east,Y轴为north,Z轴朝上的坐标系
-  const transform = SuperMap3D.Transforms.eastNorthUpToFixedFrame(pointA);
-  // 向量AB
-  const positionvector = SuperMap3D.Cartesian3.subtract(pointB, pointA, new SuperMap3D.Cartesian3());
-  // 因transform是将A为原点的eastNorthUp坐标系中的点转换到世界坐标系的矩阵
-  // AB为世界坐标中的向量
-  // 因此将AB向量转换为A原点坐标系中的向量，需乘以transform的逆矩阵。
-  const vector = SuperMap3D.Matrix4.multiplyByPointAsVector(SuperMap3D.Matrix4.inverse(transform, new SuperMap3D.Matrix4()), positionvector, new SuperMap3D.Cartesian3());
-  //归一化
-  const direction = SuperMap3D.Cartesian3.normalize(vector, new SuperMap3D.Cartesian3());
-  // heading
-  const heading1 = Math.atan2(direction.y, direction.x) - SuperMap3D.Math.PI_OVER_TWO;
-
-  let radian = SuperMap3D.Math.TWO_PI - SuperMap3D.Math.zeroToTwoPi(heading1);
-  var angle = radian * (180 / Math.PI);
-  if (angle < 0) {
-    angle = angle + 360;
-  }
-  return { angle, radian };
-}
-
-// 笛卡尔转经纬度
-const CartesiantoDegrees = (Cartesians: any) => {
-  let array = [].concat(Cartesians);
-  let positions: number[] = [];
-  for (let i = 0, len = array.length; i < len; i++) {
-    let cartographic: any = SuperMap3D.Cartographic.fromCartesian(array[i]);
-    let longitude: number = Number(SuperMap3D.Math.toDegrees(cartographic.longitude));
-    let latitude: number = Number(SuperMap3D.Math.toDegrees(cartographic.latitude));
-    let h: number = Number(cartographic.height);
-    if (positions.indexOf(longitude) == -1 && positions.indexOf(latitude) == -1) {
-      positions.push(longitude);
-      positions.push(latitude);
-      positions.push(h);
-    }
-  }
-  return positions
-};
-
-// 笛卡尔转经纬度 (TS)
-const CartesiantoDegreesTestTS = (Cartesians: any): number[] => {
-  let array = [].concat(Cartesians);
-  let positions: number[] = [];
-  for (let i = 0, len = array.length; i < len; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(array[i]);
-    let longitude: number = SuperMap3D.Math.toDegrees(cartographic.longitude);
-    let latitude: number = SuperMap3D.Math.toDegrees(cartographic.latitude);
-    let h: number = cartographic.height;
-    if (positions.indexOf(longitude) == -1 && positions.indexOf(latitude) == -1) {
-      positions.push(longitude);
-      positions.push(latitude);
-      positions.push(h);
-    }
-  }
-  return positions
-};
-
-// 笛卡尔转经纬度(每个点是独立的对象)
-const CartesiantoDegreesObjs = (Cartesians) => {
-  let array = [].concat(Cartesians);
-  let positions: any[] = [];
-  for (let i = 0, len = array.length; i < len; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(array[i]);
-    let obj = {
-      longitude: SuperMap3D.Math.toDegrees(cartographic.longitude),
-      latitude: SuperMap3D.Math.toDegrees(cartographic.latitude),
-      height: cartographic.height
-    };
-    positions.push(obj);
-  }
-  return positions
-}
-
 // 获取渐变色函数
 function gradientColors(start: any, end: any, steps: number, gamma: number) {
   var i, j, ms, me, output: any[] = [], so: any[] = [];
@@ -104,38 +29,243 @@ function gradientColors(start: any, end: any, steps: number, gamma: number) {
   }
 };
 
-function getPitch(pointA: any, pointB: any) {
-  let transfrom = SuperMap3D.Transforms.eastNorthUpToFixedFrame(pointA);
-  const vector = SuperMap3D.Cartesian3.subtract(pointB, pointA, new SuperMap3D.Cartesian3());
-  let direction = SuperMap3D.Matrix4.multiplyByPointAsVector(SuperMap3D.Matrix4.inverse(transfrom, transfrom), vector, vector);
-  SuperMap3D.Cartesian3.normalize(direction, direction);
-  //因为direction已归一化，斜边长度等于1，所以余弦函数等于direction.z
-  let radian = SuperMap3D.Math.PI_OVER_TWO - SuperMap3D.Math.acosClamped(direction.z);
-  var angle = radian * (180 / Math.PI);
-  if (angle < 0) {
-    angle = angle + 360;
+// 设置鼠标样式
+function setMouseCursor(type: string) {
+  const viewer = window.viewer;
+  if (!viewer) return;
+  if (type === 'normal') {
+    viewer.enableCursorStyle = true; // 直接切换成SuperMap3D默认鼠标样式，同时之前修改的鼠标样式无效，一旦设为true，就会恢复viewer._element.style.cursor
+    document.body.classList.remove('measureCur'); // 可先用contains判断是否存在
+    document.body.classList.remove('drawCur');
+  } else if (type === 'drawCur') {
+    viewer.enableCursorStyle = false; // 关闭这个，让鼠标设置可以生效
+    viewer._element.style.cursor = ''; // 改为‘’，避免覆盖我们设置的鼠标样式
+    document.body.classList.add("drawCur"); // 绘制模式常用鼠标
+  } else if (type === 'measureCur') {
+    viewer.enableCursorStyle = false;
+    viewer._element.style.cursor = '';
+    document.body.classList.add("measureCur"); // 添加点模式
+  } else {
+    viewer.enableCursorStyle = true; // 恢复默认
   }
-  return { angle, radian };
 }
 
-// // 设置所有color-pick的初始样式-渐变条纹
-// function setAllColorPickBg(){
-//   document.querySelectorAll('.n-color-picker-trigger__fill div:nth-child(2)').forEach((el:any)=>{
-//     el.style.backgroundImage = "linear-gradient(to right, rgb(255, 191, 112), rgb(52, 153, 229), rgb(1, 212, 219))";
-//   })
-// }
+// 打开文件管理获取选定文件内容
+function openLocalFile(fileType = '.json'){
+  return new Promise((resolve, reject) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.style.display = 'none'; // 创建一个隐藏的input元素
+    input.accept = fileType; // 过滤文件类型
 
-// // 移除指定color-pick的条纹样式
-// function clearColorPickBgByIndex(index:number){
-//   let el:any = document.querySelectorAll('.n-color-picker-trigger__fill div:nth-child(2)')[index];
-//   if(el) el.style.backgroundImage = "none";
-// }
+    document.body.appendChild(input);
+    input.addEventListener('change', function (event:any) {
+      const file = event.target.files[0]; // 获取文件引用
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e:any) {
+        try {
+          const data = JSON.parse(e.target.result);
+          resolve(data);
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      reader.onerror = function (error) {
+        reject(error);
+      };
+
+      reader.readAsText(file);
+    });
+
+    input.click();
+  })
+}
+
+// 检测当前URL服务是否能够被访问
+const checkURLAccess = (url) => {
+  return fetch(url)
+    .then(response => {
+      if (response && response.status == 404) {
+        console.log(`此服务无法访问：${url}`);
+        return false;
+      }else{
+        // console.log(`URL ${url} 可以访问`);
+        return true;
+      }
+    })
+    .catch(error => {
+      console.log(`此服务无法访问：${url}`);
+      return false;
+    });
+}
+
+// rgba => css string
+const rgbaToCssString = (color) => {
+  let rgba = SuperMap3D.clone(color);
+  if (rgba.red && rgba.green && rgba.blue && rgba.alpha) { // 标准rgba
+    if (rgba.alpha > 1) { // 当alpha大于1时，需要各分量除以alpha,才能得到真实值
+      rgba = SuperMap3D.Color.divideByScalar(rgba, rgba.alpha, new SuperMap3D.Color())
+    }
+    const red = floatToByte(rgba.red);
+    const green = floatToByte(rgba.green);
+    const blue = floatToByte(rgba.blue);
+    const alpha = (rgba.alpha > 1 || rgba.alpha < 0) ? 1 : rgba.alpha;
+
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  } else if (rgba.x && rgba.y && rgba.z && rgba.w) { // 水面参数
+    if (rgba.w > 1) { // 当alpha大于1时，需要各分量除以alpha,才能得到真实值
+      rgba = SuperMap3D.Color.divideByScalar(rgba, rgba.w, new SuperMap3D.Color())
+    }
+    const red = floatToByte(rgba.x);
+    const green = floatToByte(rgba.y);
+    const blue = floatToByte(rgba.z);
+    const alpha = (rgba.w > 1 || rgba.w < 0) ? 1 : rgba.w;
+
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  } else {
+    return undefined;
+  }
+
+  function floatToByte(float) {
+    const byte = SuperMap3D.Color.floatToByte(float);
+    if (Number(byte) >= 0 && Number(byte) <= 255) {
+      return byte;
+    } else {
+      return 255;
+    }
+  }
+}
+
+/** 时间倒序，多少小时之前
+ * @param timestamp 时间毫秒数
+ */
+function dateDiff(timestamp) {
+  // 补全为13位
+  let arrTimestamp: any = (timestamp + "").split("");
+  for (let start = 0; start < 13; start++) {
+    if (!arrTimestamp[start]) {
+      arrTimestamp[start] = "0";
+    }
+  }
+  timestamp = arrTimestamp.join("") * 1;
+  let minute = 1000 * 60;
+  let hour = minute * 60;
+  let day = hour * 24;
+  let halfamonth = day * 15;
+  let month = day * 30;
+  let now = new Date().getTime();
+  let diffValue = now - timestamp;
+
+  // 如果本地时间反而小于变量时间
+  if (diffValue < 0) {
+    return "不久前";
+  }
+  // 计算差异时间的量级
+  let monthC: any = diffValue / month;
+  let weekC: any = diffValue / (7 * day);
+  let dayC: any = diffValue / day;
+  let hourC: any = diffValue / hour;
+  let minC: any = diffValue / minute;
+
+  // 数值补0方法
+  let zero = function (value) {
+    if (value < 10) {
+      return "0" + value;
+    }
+    return value;
+  };
+
+  // 使用
+  if (monthC > 4) {
+    // 超过1年，直接显示年月日
+    return (function () {
+      let date = new Date(timestamp);
+      return (
+        date.getFullYear() +
+        $t("year") +
+        zero(date.getMonth() + 1) +
+        $t("month") +
+        zero(date.getDate()) +
+        $t("day")
+      );
+    })();
+  } else if (monthC >= 1) {
+    return parseInt(monthC) + $t("monthsAgo");
+  } else if (weekC >= 1) {
+    return parseInt(weekC) + $t("weeksAgo");
+  } else if (dayC >= 1) {
+    return parseInt(dayC) + $t("daysAgo");
+  } else if (hourC >= 1) {
+    return parseInt(hourC) + $t("hoursAgo");
+  } else if (minC >= 1) {
+    return parseInt(minC) + $t("minutesAgo");
+  }
+  return $t("secondsAgo");
+}
+
+// 获取数据服务中的数据源
+async function computedDataSourceOptions(dataUrl) {
+  if (!dataUrl) return;
+
+  dataUrl = dataUrl.trim().replace(/\/+$/, "");
+  const dataSourceUrl = dataUrl + '/datasources.json';
+  const isAccess = await checkURLAccess(dataSourceUrl);
+  if(!isAccess) return;
+  const result = await window.axios.get(dataSourceUrl);
+  
+  if(!result || !result.data) return;
+  const datasourceNames = result.data.datasourceNames;
+  if(!datasourceNames || datasourceNames.length==0) return;
+
+  const options:any = [];
+  datasourceNames.forEach(sourceName => {
+      const obj = {
+          label: sourceName,
+          value: sourceName,
+      }
+      options.push(obj);
+  });
+
+  return options;
+}
+
+// 获取数据服务中指定数据源下的数据集
+async function computedDataSetOptions(dataUrl, sourceName) {
+  if (!dataUrl || !sourceName) return;
+
+  dataUrl = dataUrl.trim().replace(/\/+$/, "");
+  const dataSetUrl = dataUrl + '/datasources/' + sourceName + '/datasets.json';
+  const isAccess = await checkURLAccess(dataSetUrl);
+  if(!isAccess) return;
+  const result = await window.axios.get(dataSetUrl);
+  
+  if(!result || !result.data) return;
+  const datasetNames = result.data.datasetNames;
+  if(!datasetNames || datasetNames.length==0) return;
+
+  const options:any = [];
+  datasetNames.forEach(datasetName => {
+      const obj = {
+          label: datasetName,
+          value: datasetName,
+      }
+      options.push(obj);
+  });
+
+  return options;
+}
+
 
 export default {
-  getAngleAndRadian,
-  CartesiantoDegrees,
-  CartesiantoDegreesTestTS,
-  CartesiantoDegreesObjs,
   gradientColors,
-  getPitch,
+  setMouseCursor,
+  openLocalFile,
+  checkURLAccess,
+  rgbaToCssString,
+  dateDiff,
+  computedDataSourceOptions,
+  computedDataSetOptions
 }

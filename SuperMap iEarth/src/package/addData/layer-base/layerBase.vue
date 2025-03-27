@@ -17,37 +17,40 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { onMounted } from "vue";
 import { useLayerStore } from "@/store/layerStore/layer";
 import { usePanelStore } from "@/store";
-import { useMessage } from "naive-ui";
 import i18n from "@/locale/index";
 
 const layerStore = useLayerStore();
 const panelStore = usePanelStore();
-const message = useMessage();
 let onlineBaseLayerList = layerStore.layerServiceData.onlineBaseLayerList;
+
+// 渲染组件前，基于当前场景中的影像图层来计算那些item是应该被勾选的
+onMounted(()=>{
+  onlineBaseLayerList.forEach(item=>item.chooseType = false);
+  viewer.imageryLayers._layers.forEach(imageLayer => {
+    let name = layerStore.getImageryLayerName(imageLayer);
+    onlineBaseLayerList.forEach(item => {
+      if(item.name && $t(item.name) == name) {
+        item.chooseType = true;
+      }
+    });
+  });
+})
 
 // 中文环境下，隐藏OSM底图
 if(i18n.global.locale === 'zh'){
   onlineBaseLayerList = onlineBaseLayerList.filter(item => item.type !== "OSM");
 }
 
-let state = reactive({
-  BingMapKey: layerStore.configToken.BingMapKey, // 必应地图token,
-  TiandituToken: layerStore.configToken.TiandituToken, // 天地图token,
-});
-
 let imageryProvider: any = null;
 
 function addBaseLayer(item: any) {
-  let index = layerStore.SelectedOptions.baseMap.indexOf(item.name);
-  if (index != -1) {
-    message.warning($t("repeatAddTip"));
+  if (item.chooseType) {
+    window["$message"].warning($t("repeatAddTip"));
     return;
   }
-
-  layerStore.SelectedOptions.baseMap.push(item.name); // 存入已选择的在线底图选项
 
   let type = item.type;
   let layerUrl = item.url;
@@ -55,46 +58,38 @@ function addBaseLayer(item: any) {
     case "BingMap":
       imageryProvider = new SuperMap3D.BingMapsImageryProvider({
         url: layerUrl,
-        key: state.BingMapKey,
+        key: window.tokenConfig.bingMapsKey,
       });
-      item.chooseType = true;
       break;
     case "TIANDITU":
       imageryProvider = new SuperMap3D.TiandituImageryProvider({
         url: layerUrl,
-        token: state.TiandituToken,
+        token: window.tokenConfig.tiandituKey,
       });
-      item.chooseType = true;
       break;
     case "LocalImage":
       imageryProvider = new SuperMap3D.SingleTileImageryProvider({
         url: layerUrl,
       });
-      item.chooseType = true;
       break;
     case "OSM":
       imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
         url: layerUrl,
         subdomains: item.subdomains,
       });
-      item.chooseType = true;
       break;
     case "GRIDIMAGERY":
       imageryProvider = new SuperMap3D.TileCoordinatesImageryProvider();
-      item.chooseType = true;
       break;
     case "UrlTemplateImageryProvider":
       imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
         url: layerUrl,
       });
-      item.chooseType = true;
       break;
     default:
       break;
   }
   viewer.imageryLayers.addImageryProvider(imageryProvider);
-
-  layerStore.updateLayer({ type: "imagery" });
 
   panelStore.closeRightToolPanel(1); // 1为关闭左侧面板
 }

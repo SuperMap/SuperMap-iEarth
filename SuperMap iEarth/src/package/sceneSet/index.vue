@@ -1,17 +1,9 @@
 <template>
   <div class="scene-set-box">
-    <n-tabs
-      type="line"
-      animated
-      :on-update:value="tabsChange"
-      justify-content="left"
-    >
+    <!-- <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left"> -->
+    <n-tabs type="line" animated justify-content="space-between">
       <!-- 场景属性 -->
-      <n-tab-pane
-        name="publicService"
-        :tab="$t('baseAttribute')"
-        class="use-scroll"
-      >
+      <n-tab-pane name="publicService" :tab="$t('baseAttribute')" class="use-scroll">
         <SmSceneAttribute></SmSceneAttribute>
       </n-tab-pane>
       <!-- 飞行 -->
@@ -46,7 +38,7 @@ import SmSceneViewPort from "./scene-viewPort/index";
 import SmSceneSpecialEffect from "./scene-specialEffect/index";
 import SmVideoSet from "./video-set/index";
 
-function tabsChange() {}
+function tabsChange() { }
 </script>
 
 <style lang="scss" scoped>

@@ -185,6 +185,7 @@ function setRain() {
   if (state.rainShow) {
     for (let i = 0; i < scene.layers.layerQueue.length; i++) {
       let layer = scene.layers.layerQueue[i];
+      layer.removePBRMaterial(); // 先去掉之前绑定的pbr材质
       layer.setPBRMaterialFromJSON("./Resource/pbr/MaterialJson/rain_.json");
       // layer.rainEffect.wetnessFactor = 0.65;
       // 实现雨水渐增的效果
@@ -203,6 +204,10 @@ function setRain() {
     for (let i = 0; i < scene.layers.layerQueue.length; i++) {
       let layer = scene.layers.layerQueue[i];
       layer.removePBRMaterial();
+      if(layer.pbrJsonDataSave) { // 该图层之前设置过PBR材质，关闭雨雪景后需要重新设置
+        let pbrObj = JSON.parse(layer.pbrJsonDataSave);
+        layer.setPBRMaterialFromJSON(pbrObj);
+      }
     }
   }
 }
@@ -217,9 +222,8 @@ function setSnow() {
   if (state.snowShow) {
     for (let i = 0; i < scene.layers.layerQueue.length; i++) {
       let layer = scene.layers.layerQueue[i];
-      layer.setPBRMaterialFromJSON(
-        "./Resource/pbr/MaterialJson/M_Brick_Clay_Old_.json"
-      );
+      layer.removePBRMaterial(); // 先去掉之前绑定的pbr材质
+      layer.setPBRMaterialFromJSON("./Resource/pbr/MaterialJson/M_Brick_Clay_Old_.json");
       let intervalValue = setInterval(() => {
         if (
           layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect !== undefined
@@ -227,12 +231,8 @@ function setSnow() {
           layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect.snow_coverage += 0.0006;
         }
         if (
-          layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect !==
-            undefined &&
-          layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect
-            .snow_coverage -
-            1 >
-            0
+          layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect !==undefined &&
+          layer._PBRMaterialParams.pbrMetallicRoughness.snowEffect.snow_coverage - 1 > 0
         )
           clearInterval(intervalValue);
       }, 30);
@@ -241,6 +241,10 @@ function setSnow() {
     for (let i = 0; i < scene.layers.layerQueue.length; i++) {
       let layer = scene.layers.layerQueue[i];
       layer.removePBRMaterial();
+      if(layer.pbrJsonDataSave) { // 该图层之前设置过PBR材质，关闭雨雪景后需要重新设置
+        let pbrObj = JSON.parse(layer.pbrJsonDataSave);
+        layer.setPBRMaterialFromJSON(pbrObj);
+      }
     }
   }
 }

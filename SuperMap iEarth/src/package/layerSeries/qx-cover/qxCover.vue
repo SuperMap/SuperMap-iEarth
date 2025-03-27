@@ -4,7 +4,7 @@
       <span>{{ $t("selectQxLayer") }}</span>
       <n-select
         style="width: 2.1rem"
-        v-model:value="state.selectedIndex"
+        v-model:value="state.selectS3MName"
         :options="state.s3mlayers"
       />
     </div>
@@ -47,7 +47,7 @@
             >{{ $t("cover") }}</n-button
           >
         </template>
-        {{ $t("qxCoverTip") }}
+        {{ $t("mapCoverTip") }}
       </n-tooltip>
       <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
     </div>
@@ -56,32 +56,34 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import { useLayerStore } from "@/store/layerStore/layer";
+import layerManagement from "@/tools/layerManagement";
 
-const layerStore = useLayerStore();
+const scene = viewer.scene;
 
 type StateType = {
   s3mlayers: any; //当前存在的可选择s3m图层
-  selectedIndex: number; //默认选择图层index
-  transparency: number; //实体透明度
+  selectS3MName: string; 
+  transparency: number; 
 };
 
 let state = reactive<StateType>({
-  s3mlayers: [], //当前存在的可选择s3m图层
-  selectedIndex: 0, //默认选择图层index
+  s3mlayers: [], 
+  selectS3MName: '',
   transparency: 0.7,
 });
 
-let layers;
-let imagerySelectIndex = 0;
+let currentIMGLayer:any = undefined;
+let currentS3MLayer:any = undefined;
 function init() {
-  if (!window.viewer) return;
-  updateLayers();
-  state.selectedIndex = Number(layerStore.s3mLayerSelectIndex);
-  imagerySelectIndex = Number(layerStore.imgLayerSelectIndex);
-  if (layers[state.selectedIndex]) {
-    layers[state.selectedIndex].selectEnabled = true;
-  }
+  state.s3mlayers = layerManagement.getS3MLayerList();
+
+  currentS3MLayer = scene.layers.find(state.selectS3MName);
+  if(currentS3MLayer) currentS3MLayer.selectEnabled = true;
+  viewer.imageryLayers._layers.forEach(imageLayer => {
+    if(imageLayer.customName == window.iEarthBindData.CurrentIMGLayerName){
+      currentIMGLayer = imageLayer;
+    }
+  });
 }
 
 onMounted(() => {
@@ -92,48 +94,31 @@ onBeforeUnmount(() => {
   clear();
 });
 
-// 获取当前s3m图层列表
-function updateLayers() {
-  layers = viewer.scene.layers.layerQueue;
-  if (!layers || layers.length < 1) {
-    state.s3mlayers = [{ label: () => $t("noLayer"), value: 0 }];
-    return;
-  }
-  state.s3mlayers.length = 0;
-  layers.forEach((layer, index) => {
-    let name = layer._name;
-    state.s3mlayers.push({
-      label: name,
-      value: index,
-    });
-  });
-  if (state.selectedIndex > layers.length - 1) state.selectedIndex = 0;
-  if (layers[state.selectedIndex]) {
-    layers[state.selectedIndex].selectEnabled = true;
-  }
-}
 
 function startCover() {
-  let imgLayer = viewer.imageryLayers._layers[imagerySelectIndex];
-  if (!imgLayer) return;
-  imgLayer.alpha = Number(state.transparency);
-  let qxLayer = viewer.scene.layers._layerQueue[state.selectedIndex];
-  if (qxLayer) qxLayer.coverImageryLayer = imgLayer;
+  if (!currentIMGLayer) return;
+  currentIMGLayer.alpha = Number(state.transparency);
+  if (currentS3MLayer) currentS3MLayer.coverImageryLayer = currentIMGLayer;
 }
 
 // 清除
 function clear() {
-  let imgLayer = viewer.imageryLayers._layers[imagerySelectIndex];
-  let qxLayer = viewer.scene.layers._layerQueue[state.selectedIndex];
-  if (imgLayer) imgLayer.alpha = 1;
-  if (qxLayer) qxLayer.coverImageryLayer = undefined;
+  if (currentIMGLayer) currentIMGLayer.alpha = 1;
+  if (currentS3MLayer) currentS3MLayer.coverImageryLayer = undefined;
 }
 
 watch(
   () => state.transparency,
   (val) => {
-    let imgLayer = viewer.imageryLayers._layers[imagerySelectIndex];
-    if (imgLayer) imgLayer.alpha = val;
+    if (currentIMGLayer) currentIMGLayer.alpha = val;
+  }
+);
+
+watch(
+  () => state.selectS3MName,
+  (val) => {
+    currentS3MLayer = scene.layers.find(val);
+    if(currentS3MLayer) currentS3MLayer.selectEnabled = true;
   }
 );
 </script>

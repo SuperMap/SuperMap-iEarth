@@ -43,8 +43,7 @@
       </div>
     </div>
 
-    <!-- TODO：解决量算-测高开启等高线场景崩溃问题 -->
-    <!-- <div v-show="state.currentItemIndex === 2">
+    <div v-show="state.currentItemIndex === 2">
       <div class="btn-row-item">
         <n-checkbox
           @update:checked="update_showDVH"
@@ -54,7 +53,7 @@
           {{ $t("contour") }}
         </n-checkbox>
       </div>
-    </div> -->
+    </div>
 
     <div class="btn-row-item">
       <n-button
@@ -78,7 +77,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import tool from "@/tools/tool";
 
 type stateType = {
   measureMode: string; //测量模式
@@ -263,13 +263,10 @@ function init() {
   //初始化测量距离
   handlerDis.activeEvt.addEventListener((isActive) => {
     if (isActive == true) {
-      viewer.enableCursorStyle = false;
-      viewer._element.style.cursor = "";
-      document.body.classList.add("measureCur");
+      tool.setMouseCursor("measureCur");
       viewer.scene.pickPointEnabled = state.pickPointEnabled;
     } else {
-      viewer.enableCursorStyle = true;
-      document.body.classList.remove("measureCur");
+      tool.setMouseCursor("normal");
       viewer.scene.pickPointEnabled = false;
     }
   });
@@ -289,13 +286,10 @@ function init() {
   //初始化测量面积
   handlerArea.activeEvt.addEventListener((isActive) => {
     if (isActive == true) {
-      viewer.enableCursorStyle = false;
-      viewer._element.style.cursor = "";
-      document.body.classList.add("measureCur");
+      tool.setMouseCursor("measureCur");
       viewer.scene.pickPointEnabled = state.pickPointEnabled;
     } else {
-      viewer.enableCursorStyle = true;
-      document.body.classList.remove("measureCur");
+      tool.setMouseCursor("normal");
       viewer.scene.pickPointEnabled = false;
     }
   });
@@ -339,13 +333,10 @@ function init() {
   // 测量高度监听事件
   handlerHeight.activeEvt.addEventListener((isActive) => {
     if (isActive == true) {
-      viewer.enableCursorStyle = false;
-      viewer._element.style.cursor = "";
-      document.body.classList.add("measureCur");
+      tool.setMouseCursor("measureCur");
       viewer.scene.pickPointEnabled = state.pickPointEnabled;
     } else {
-      viewer.enableCursorStyle = true;
-      document.body.classList.remove("measureCur");
+      tool.setMouseCursor("normal");
       viewer.scene.pickPointEnabled = false;
     }
   });
@@ -396,15 +387,13 @@ function StartMeasure() {
 // 初始化设置图层等高线
 function setHypsometricSetting() {
   if (!layers) return;
-  // TODO: 换11.2.1的包之后，量算等高线一旦执行这里就会崩溃，切换成之前主版本40707就没问题，但11.2.1的范例也执行了这里但没问题
-  // 初步定位应该是之前设置的值或状态导致，但目前无法定位,后续排除
-  // for (let i = 0; i < layers.length; i++) {
-  //   layers[i].hypsometricSetting = {
-  //     hypsometricSetting: isoline,
-  //     analysisMode:
-  //       SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-  //   };
-  // }
+  for (let i = 0; i < layers.length; i++) {
+    layers[i].hypsometricSetting = {
+      hypsometricSetting: isoline,
+      analysisMode:
+        SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
+    };
+  }
   setHypFlag = true;
 }
 

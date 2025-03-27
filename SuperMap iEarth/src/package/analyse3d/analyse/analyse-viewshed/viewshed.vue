@@ -184,15 +184,12 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted, onBeforeUnmount, watch, computed } from "vue";
-import { useMessage, useNotification } from "naive-ui";
 import axios from "axios";
 import tool from "@/tools/tool";
-import initHandler from "@/tools/drawHandler";
-import { RuleCheckTypeEnum, inputRuleCheck } from "@/tools/inputRuleCheck";
+import DrawHandler from "@/lib/DrawHandler";
 
-const message = useMessage();
-const notification = useNotification();
 const scene = viewer.scene;
+const drawHandler = new DrawHandler(viewer,{ openMouseTip:false });
 
 type stateType = {
   viewshedSpatialUrl: string; // 空间分析服务url
@@ -241,7 +238,7 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let startPosition: any, handlerPolyline: any, timers: any, observerEntity: any;
+let startPosition: any, timers: any, observerEntity: any;
 let Carurls = ["./Resource/model/car1.s3m"];
 let viewshed3D = new SuperMap3D.ViewShed3D(scene);
 let s3mInstanceColc = new SuperMap3D.S3MInstanceCollection(scene._context);
@@ -273,7 +270,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clear();
   // viewshed3D.destroy();
-  if (handlerPolyline) handlerPolyline.destroy();
   viewshed3D = undefined;
   s3mInstanceColc = undefined;
 });
@@ -295,14 +291,14 @@ function analysis() {
     if (timers) {
       clear();
       state.viewshedAnimation = true;
-      document.body.classList.add("drawCur");
+      tool.setMouseCursor("drawCur");
     }
     drawPolyline();
     return;
   }
-  viewer.enableCursorStyle = false;
-  viewer._element.style.cursor = "";
-  document.body.classList.add("measureCur");
+
+  tool.setMouseCursor("measureCur");
+
   //鼠标左键事件监听
   viewer.eventManager.addEventListener("CLICK", LEFT_CLICK, true);
 }
@@ -312,7 +308,7 @@ function LEFT_CLICK(e: any) {
   //获取点击位置笛卡尔坐标
   let position = scene.pickPosition(e.message.position);
   startPosition = position; //记录分析观察者笛卡尔坐标
-  let p = tool.CartesiantoDegreesTestTS(position); // 将获取的点的位置转化成经纬度
+  let p = window.iEarthTool.Cartesian3ToDegreeArray(position); // 将获取的点的位置转化成经纬度
   p[2] += state.addheight as number; //添加附加高度
   viewshed3D.viewPosition = p;
   viewshed3D.build();
@@ -325,7 +321,8 @@ function LEFT_CLICK(e: any) {
   viewshed3D.visibleAreaColor = colorUpdate(state.visibleAreaColor);
   viewshed3D.hiddenAreaColor = colorUpdate(state.hiddenAreaColor);
 
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
+
   viewer.eventManager.removeEventListener("CLICK", LEFT_CLICK);
   viewer.eventManager.addEventListener("MOUSE_MOVE", MOUSE_MOVE, true);
   viewer.eventManager.addEventListener("RIGHT_CLICK", RIGHT_CLICK, true);
@@ -356,7 +353,7 @@ function MOUSE_MOVE(e: any) {
   //计算该点与视口位置点坐标的距离
   let distance = SuperMap3D.Cartesian3.distance(startPosition, endPosition);
   if (distance > 0) {
-    let p2 = tool.CartesiantoDegrees(endPosition); // 将获取的点的位置转化成经纬度
+    let p2 = window.iEarthTool.Cartesian3ToDegreeArray(endPosition); // 将获取的点的位置转化成经纬度
     // 通过该点设置可视域分析对象的距离及方向
     viewshed3D.setDistDirByPoint(p2);
   }
@@ -411,7 +408,7 @@ function requestModel(viewShedType: any, color: any) {
         .get(response.data.newResourceLocation + ".json")
         .then(function (response) {
           let data = response.data;
-          if (data.geometry == null) return message.error("get geometry fail");
+          if (data.geometry == null) return window["$message"].error("get geometry fail");
           //将二进制流构建arrayBuffer 添加至S3MInstanceCollection
           let u8 = new Uint8Array(data.geometry.model);
           let ab = u8.buffer;
@@ -449,12 +446,12 @@ function requestModel(viewShedType: any, color: any) {
 
 // 清除
 function clear() {
+  drawHandler.destroy();
   clearViewshed();
   dynamicLayer3D.clearState(Carurls[0], [1]);
   clearInterval(timers);
   timers = null;
   state.viewshedAnimation = false;
-  if (handlerPolyline) handlerPolyline.clearHandler();
   state.observerInformation = [0, 0, 0];
 }
 
@@ -463,7 +460,7 @@ function clearViewshed() {
   s3mInstanceColc.removeCollection("VISIBLEBODY");
   s3mInstanceColc.removeCollection("HIDDENBODY");
   viewer.entities.removeById("viewshedPoint");
-  document.body.classList.remove("measureCur");
+  tool.setMouseCursor("normal");
   viewshed3D.distance = 0.00001;
   viewshed3D.viewPosition = [0, 0, 0];
   state.observerInformation = [0, 0, 0];
@@ -473,21 +470,11 @@ function clearViewshed() {
   动态可视域模块
   */
 //绘制路线
-function drawPolyline() {
-  if (!handlerPolyline) {
-    handlerPolyline = initHandler("Polyline");
-  }
-  handlerPolyline.handlerDrawing().then(
-    (res) => {
-      state.DynamicLine = res.object.positions;
-      if (state.DynamicLine.length < 2) return;
-      setCarState();
-    },
-    (err) => {
-      console.log(err);
-    }
-  );
-  handlerPolyline.activate();
+async function drawPolyline() {
+  const positions = await drawHandler.startPolyline();
+  state.DynamicLine = positions;
+  if (state.DynamicLine.length < 2) return;
+  setCarState();
 }
 
 // 添加动态可视域动画模型
@@ -513,7 +500,7 @@ function setCarState() {
       );
     }
   }
-  positions = tool.CartesiantoDegreesObjs(points2);
+  positions = window.iEarthTool.Cartesian3ToDegreeObjs(points2);
   let CarState = new SuperMap3D.DynamicObjectState({
     id: 1,
     longitude: positions[0].longitude,
@@ -532,11 +519,11 @@ function setCarState() {
     CarState.latitude = positions[index].latitude;
     CarState.altitude = positions[index].height;
     dynamicLayer3D.updateObjectWithModel(Carurls[0], [CarState]);
-    let getAngleAndRadian = tool.getAngleAndRadian(
+    let angleAndRadian = getAngleAndRadian(
       points2[index - 1],
       points2[index]
     );
-    viewshed3D.direction = getAngleAndRadian.angle;
+    viewshed3D.direction = angleAndRadian.angle;
     viewshed3D.viewPosition = [
       CarState.longitude,
       CarState.latitude,
@@ -544,6 +531,29 @@ function setCarState() {
     ];
     index += 1;
   }, 50);
+}
+
+// 获取两点的角度和弧度
+function getAngleAndRadian(pointA: any, pointB: any) {
+  // 建立以点A为原点，X轴为east,Y轴为north,Z轴朝上的坐标系
+  const transform = SuperMap3D.Transforms.eastNorthUpToFixedFrame(pointA);
+  // 向量AB
+  const positionvector = SuperMap3D.Cartesian3.subtract(pointB, pointA, new SuperMap3D.Cartesian3());
+  // 因transform是将A为原点的eastNorthUp坐标系中的点转换到世界坐标系的矩阵
+  // AB为世界坐标中的向量
+  // 因此将AB向量转换为A原点坐标系中的向量，需乘以transform的逆矩阵。
+  const vector = SuperMap3D.Matrix4.multiplyByPointAsVector(SuperMap3D.Matrix4.inverse(transform, new SuperMap3D.Matrix4()), positionvector, new SuperMap3D.Cartesian3());
+  //归一化
+  const direction = SuperMap3D.Cartesian3.normalize(vector, new SuperMap3D.Cartesian3());
+  // heading
+  const heading1 = Math.atan2(direction.y, direction.x) - SuperMap3D.Math.PI_OVER_TWO;
+
+  let radian = SuperMap3D.Math.TWO_PI - SuperMap3D.Math.zeroToTwoPi(heading1);
+  var angle = radian * (180 / Math.PI);
+  if (angle < 0) {
+    angle = angle + 360;
+  }
+  return { angle, radian };
 }
 
 // 通过传入的color，返回SuperMap3D的
@@ -642,23 +652,21 @@ watch(
 watch(
   () => state.verticalFov,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.verticalFov = val = 1;
-    };
-    viewshed3D.verticalFov = parseFloat(val);
+    if (parseFloat(val) > 0) {
+      viewshed3D.verticalFov = parseFloat(val);
+    } else {
+      state.verticalFov = 1;
+    }
   }
 );
 watch(
   () => state.horizontalFov,
   (val: any) => {
-    const checkeResult = inputRuleCheck(val, RuleCheckTypeEnum.Number);
-    if (!checkeResult.isPass) { 
-      window["$message"].warning(checkeResult.message); 
-      state.horizontalFov = val = 1;
-    };
-    viewshed3D.horizontalFov = parseFloat(val);
+    if (parseFloat(val) > 0) {
+      viewshed3D.horizontalFov = parseFloat(val);
+    } else {
+      state.horizontalFov = 1;
+    }
   }
 );
 watch(
@@ -704,7 +712,7 @@ watch(
       state.visibleBody = false;
       state.invisibleBody = false;
       clearViewshed();
-      notification.create({
+      window["$notification"].create({
         content: () => $t("viewshedAnimationTip"),
         duration: 3500,
       });

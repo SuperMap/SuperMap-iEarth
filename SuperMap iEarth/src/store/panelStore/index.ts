@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import { PanelNameEnum } from "@/enums/layerEnum";
 
 export const usePanelStore = defineStore({
     id: 'usePanelStore',
@@ -8,14 +9,14 @@ export const usePanelStore = defineStore({
         panelList: {
             leftToolBarList: [
                 {
-                    id: 1,
+                    id: PanelNameEnum.LayerList,
                     iconName: "icontuceng",
                     title: "t_layerList",
                     isSelected: false,
                     panelName: "LayerList"
                 },
                 {
-                    id: 2,
+                    id: PanelNameEnum.AddData,
                     iconName: "icontianjia",
                     title: "t_addData",
                     isSelected: false,
@@ -24,92 +25,95 @@ export const usePanelStore = defineStore({
             ],
             rightToolBarList: [
                 {
-                    id: 3,
+                    id: PanelNameEnum.Analyse3D,
                     iconName: "iconsanweifenxi",
                     title: "analyseSeries",
                     isSelected: false,
                     panelName: "Analyse3D"
                 },
                 {
-                    id: 4,
+                    id: PanelNameEnum.Measure,
                     iconName: "iconliangsuan",
                     title: "measure",
                     isSelected: false,
                     panelName: "Measure"
                 },
                 {
-                    id: 5,
+                    id: PanelNameEnum.SceneSet,
                     iconName: "iconkapianshi",
                     title: "sceneProperties",
                     isSelected: false,
                     panelName: "SceneSet"
                 },
                 {
-                    id: 6,
+                    id: PanelNameEnum.ObjectPainting,
                     iconName: "iconduixianghuizhi",
                     title: "objectPainting",
                     isSelected: false,
                     panelName: "ObjectPainting"
                 },
                 {
-                    id: 7,
+                    id: PanelNameEnum.LayerOpration,
                     iconName: "iconhuizhi",
                     title: "layerOpration",
                     isSelected: false,
                     panelName: "layerOpration"
                 },
                 {
-                    id: 8,
+                    id: PanelNameEnum.LayerAttribute,
                     iconName: "iconhuizhi",
                     title: "layerAttribute",
                     isSelected: false,
                     panelName: "layerAttr"
                 },
                 {
-                    id: 9,
+                    id: PanelNameEnum.LayerStyle,
                     iconName: "iconhuizhi",
                     title: "layerStyle",
                     isSelected: false,
                     panelName: "layerStyle"
                 },
                 {
-                    id: 10,
+                    id: PanelNameEnum.LayerQuery,
                     iconName: "iconhuizhi",
                     title: "layerQuery",
                     isSelected: false,
                     panelName: "layerQuery"
                 },
                 {
-                    id: 11,
+                    id: PanelNameEnum.ImageMapQuery,
                     iconName: "iconhuizhi",
                     title: "mapQuery",
                     isSelected: false,
                     panelName: "mapQuery"
                 },
                 {
-                    id: 12,
+                    id: PanelNameEnum.QXSingle,
                     iconName: "iconhuizhi",
                     title: "qxSingle",
                     isSelected: false,
                     panelName: "qxSingle"
                 },
                 {
-                    id: 13,
+                    id: PanelNameEnum.ImageMapCover,
                     iconName: "iconhuizhi",
-                    title: "qxCover",
+                    title: "mapCover",
                     isSelected: false,
-                    panelName: "qxCover"
+                    panelName: "mapCover"
+                },
+                {
+                    id: PanelNameEnum.MVTStyle,
+                    iconName: "iconhuizhi",
+                    title: "mvtStyle",
+                    isSelected: false,
+                    panelName: "mvtStyle"
                 },
             ]
         },
         rightTooPanel: false,
         leftTooPanel: false,
-        showSceneModal: false,
         showSavePanel: false, // 保存面板是否显示
-        isEditMode: false, // iportal中用来控制保存面板的与showSavePanel搭配使用，以便适应不同环境
-        // isViewer:false, // Cesium.Viewer这个东西初始化完成的标志
         myDataPanleShow: false,// 我的数据面板
-        queryData: [],// 通过我的数据查询到的要素记录
         isFold:false, // 面板是否处于折叠状态
     }),
     getters: {
@@ -160,9 +164,5 @@ export const usePanelStore = defineStore({
                 })
             }
         },
-        // 设置保存场景弹窗
-        setSceneModal(isShow: Boolean) {
-            this.showSceneModal = isShow;
-        }
     }
 })
