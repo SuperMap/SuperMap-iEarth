@@ -32,8 +32,12 @@ window.iEarthCustomFunc.afterSceneOpen = function(s3mLayers){
   if(!viewer || !s3mLayers) return;
   if(s3mLayers.length > 0){
     if (window.iEarthConsole) console.log('场景打开成功:',s3mLayers);
-  }else if(s3mLayers instanceof SuperMap3D.S3MTilesLayer){
+    s3mLayers.forEach(layer => {
+      layer.maxTransparentAlpha = 1;
+    });
+  }else if(s3mLayers instanceof SuperMap3D.S3MTilesLayer){ // 自定义添加S3M图层
     if (window.iEarthConsole) console.log('自定义S3M图层添加成功:',s3mLayers);
+    s3mLayers.maxTransparentAlpha = 1;
   }
 
   // 也可以对当前场景中所有S3M图层做操作

@@ -29,6 +29,23 @@
         :options="state.dataSourceOptions"
       />
     </div>
+
+    <div class="row-item">
+      <span>{{ $t("isMergeLayer") }}</span>
+      <div class="check-box">
+        <n-checkbox v-model:checked="state.isMerge"></n-checkbox>
+      </div>
+    </div>
+
+    <div class="row-item" v-if="state.dataSetOptions.length>0 && !state.isMerge">
+      <span>{{ $t("datasetName") }}</span>
+      <n-select
+        style="width: 1.96rem"
+        v-model:value="state.dataSetName"
+        :options="state.dataSetOptions"
+      />
+    </div>
+
     <div class="btn-row-item" style="margin-left: 1.05rem; margin-top: 0.12rem">
       <n-button
         type="info"
@@ -63,8 +80,11 @@ type StateType = {
   selectS3MName: string; //默认选择图层index
   dataUrl: string;
   dataSourceName: string;
-  dataSourceOptions:any;
-  urlTip:string;
+  dataSourceOptions: any;
+  dataSetName: string;
+  dataSetOptions: any;
+  urlTip: string;
+  isMerge: boolean;
 };
 
 // http://www.supermapol.com/realspace/services/data-cbd/rest/data  -  二维数据
@@ -77,7 +97,10 @@ const state = reactive<StateType>({
   dataUrl: "",
   dataSourceName: "",
   dataSourceOptions:[],
-  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data`
+  dataSetName: "",
+  dataSetOptions:[],
+  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data`,
+  isMerge:false
 });
 let currentS3MLayer:any = undefined;
 
@@ -113,11 +136,18 @@ function startQuery() {
   }
   window["$message"].success($t("bindInfoOK"));
 
-  currentS3MLayer.setQueryParameter({
+  const queryParameter = state.isMerge ? {
     url: state.dataUrl, // 数据服务：http://www.supermapol.com/realspace/services/data-BIMbuilding/rest/data
     dataSourceName: state.dataSourceName, // BIMBuilding
     isMerge: true,
-  });
+  } : {
+    url: state.dataUrl, // 数据服务：http://172.16.120.103:8090/iserver/services/data-CBDpure/rest/data
+    dataSourceName: state.dataSourceName, // 二维数据
+    dataSetName: state.dataSetName,
+    isMerge: false,
+  }
+
+  currentS3MLayer.setQueryParameter(queryParameter);
 
   // 点击模型获取相关信息
   viewer.pickEvent.addEventListener(getModelInfo);
@@ -127,11 +157,15 @@ function startQuery() {
   if(targetItem){
     targetItem.dataUrl = state.dataUrl;
     targetItem.dataSourceName = state.dataSourceName;
+    targetItem.isMerge = state.isMerge;
+    targetItem.dataSetName = state.isMerge ? undefined : state.dataSetName;
   }else{
     window.iEarthBindData.layerQueryOptions.push({
       name: currentS3MLayer.name,
       dataUrl: state.dataUrl,
       dataSourceName: state.dataSourceName,
+      dataSetName: state.isMerge ? undefined : state.dataSetName,
+      isMerge: state.isMerge
     });
   }
 }
@@ -179,6 +213,8 @@ async function setQueryInfo() {
     state.dataUrl = targetItem.dataUrl;
     state.dataSourceName = targetItem.dataSourceName;
     state.dataSourceOptions = await tool.computedDataSourceOptions(targetItem.dataUrl);
+    state.dataSetName = targetItem.dataSetName;
+    state.isMerge = targetItem.isMerge;
   }
 }
 
@@ -187,6 +223,9 @@ function clear() {
   state.dataUrl = "";
   state.dataSourceName = "";
   state.dataSourceOptions = [];
+  state.dataSetName = "";
+  state.dataSetOptions = [];
+  state.isMerge = false;
   customBubble.hidden();
   viewer.pickEvent.removeEventListener(getModelInfo);
 }
@@ -198,6 +237,21 @@ watch(
     currentS3MLayer = viewer.scene.layers.find(val);
     clear();
     setQueryInfo();
+  }
+);
+
+watch(
+  () => state.dataSourceName,
+  (val) => {
+    if (!val || val == '') return;
+    let dataUrl = state.dataUrl;
+    if(!dataUrl.endsWith("/data")) dataUrl += "/data";
+    tool.computedDataSetOptions(dataUrl, val).then(result => {
+      if (result && result.length > 0) {
+        // state.dataSetName = result[0].value;
+        state.dataSetOptions = result;
+      }
+    });
   }
 );
 </script>

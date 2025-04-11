@@ -33,8 +33,9 @@ window.iEarthBindData = {
   mapQueryOptions:[],// 地图查询相关资源相关保存
   EnvironmentMode:'Normal', // iEarth当前所处的环境模式：Normal普通环境，iPortal环境
   mediaResourceOptions:{},
+  bubbleFields:undefined, // DB属性查询过滤字段 
   // iPortalToken: "qywM11WA_H5Tr8f0WPl0ZmOXsTeri-nxJmRql84AzxvR7-q7zGgM3pvIC0m-HexA5oGXEo_PjFUkQ5tl59co0hXx", // 模拟本机iPortal开发: 支持中心的iPortal，令牌一年
-  // iPortalToken: "NrX_W6hV4gucw1IhnO9XJZ5qrSWEOM3clfMAkaPjUwW6dbVEW4k-vkSNQDOGkt8RZVQVKB4DKC5L99BYywaFoqBX3Rn6iXCw2lSup-ej", // 模拟本机iPortal开发: 我的iPortal，令牌一年
+  // iPortalToken: "JT6D6c6Tz7YtzaloPJANS5ywaHC798uPuElCw4ZbsoTDu9mltSwhU0c19iIYtboGo0Wh5n4lTqmvrFkU-hIRQfYgymiNTQd-fYxzHT2T", // 模拟本机iPortal开发: 我的iPortal，令牌一年
 };
 
 let viewer: any;
@@ -160,7 +161,7 @@ function initViewer() {
 
   // 支持初始化时打开预设场景配置文件
   window.layerTreeData = layerStore.layerTreeData; // 避免保存场景时报错
-  if (window.customConfig && window.customConfig.useAutoOpenPresetScene) {
+  if (window.customConfig && window.customConfig.useAutoOpenPresetScene  && !window.location.href.includes("id=")) {
     setTimeout(() => {
       let href = window.location.href;
       let jsonUrl = '';

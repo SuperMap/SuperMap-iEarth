@@ -376,6 +376,8 @@ function computedBindData(){
 
   bindData["mediaResourceOptions"] = window.iEarthBindData.mediaResourceOptions; // 弹窗媒体资源
 
+  bindData["bubbleFields"] = window.iEarthBindData.bubbleFields; // DB属性查询过滤字段 
+
   return bindData;
 }
 

@@ -307,6 +307,7 @@ class SkitCollection {
   hprAndScaleToModelMatrix(treeData) {
     if (treeData && treeData.children) {
       delete treeData.key;
+      treeData.model = {};
       treeData.children.forEach(group => {
         delete group.key;
         group.children.forEach(item => {
@@ -315,10 +316,10 @@ class SkitCollection {
             delete item.type;
             delete item.key;
             item.children.forEach(element => {
-              computedModelMatrix(element);
+              computedModelMatrix(element, treeData);
             });
           } else {
-            computedModelMatrix(item);
+            computedModelMatrix(item, treeData);
           }
         });
       });
@@ -326,7 +327,7 @@ class SkitCollection {
 
     return treeData;
 
-    function computedModelMatrix(item) {
+    function computedModelMatrix(item, treeData) {
       if (item && item.options && item.options.scale && item.options.hpr) {
         // 缩放矩阵
         const scaleMatrix = SuperMap3D.Matrix3.fromScale(item.options.scale);
@@ -357,6 +358,13 @@ class SkitCollection {
           item.options.position = CartesiantoDegrees(item.options.position);
         }
 
+        // 处理url => modelID
+        const s3mbName = item.url.split("/").pop();
+        const modelID = s3mbName.split(".").shift();
+        treeData.model[modelID] = item.url;
+        item.modelID = modelID;
+        delete item.url;
+
         // 删除scale和hpr
         delete item.options.scale;
         delete item.options.hpr;
@@ -372,17 +380,16 @@ class SkitCollection {
     }
 
     function CartesiantoDegrees(Cartesians) {
-      let positions = [];
-      let cartographic = SuperMap3D.Cartographic.fromCartesian(Cartesians);
-      let longitude = Number(SuperMap3D.Math.toDegrees(cartographic.longitude));
-      let latitude = Number(SuperMap3D.Math.toDegrees(cartographic.latitude));
-      let h = Number(cartographic.height);
-      if (positions.indexOf(longitude) == -1 && positions.indexOf(latitude) == -1) {
-        positions.push(longitude);
-        positions.push(latitude);
-        positions.push(h);
+      const cartographic = SuperMap3D.Cartographic.fromCartesian(Cartesians);
+      const longitude = Number(SuperMap3D.Math.toDegrees(cartographic.longitude));
+      const latitude = Number(SuperMap3D.Math.toDegrees(cartographic.latitude));
+      const height = Number(cartographic.height);
+      const positions = {
+        "x": longitude,
+        "y": latitude,
+        "z": height
       }
-      return positions
+      return positions;
     }
   }
 

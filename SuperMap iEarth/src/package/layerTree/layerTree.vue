@@ -32,6 +32,7 @@ enum OperationEnum {
   LayerAttribute = "attribute",
   LayerStyle = "style",
   LayerQuery = "query",
+  LayerTheme = "thematic",
   ImageRaiseOne = "raiseOne",
   ImageLowerOne = "lowerOne",
   ImageRaiseToTop = "raiseToTop",
@@ -307,6 +308,11 @@ function setOptionsByType(type: string) {
         key: OperationEnum.QXSingle,
         icon: () => h("i", { class: "iconfont iconqingxiedantihua" }, ""),
       },
+      // {
+      //   label: $t("thematicMap"),
+      //   key: OperationEnum.LayerTheme,
+      //   icon: () => h("i", { class: "iconfont iconqingxiedantihua" }, ""),
+      // },
       {
         label: $t("rename"),
         key: OperationEnum.ReName,
@@ -737,6 +743,13 @@ function setDropdownAction(option: any, key: any) {
             roll: 0,
           },
         });
+      }else if(mvtLayer.customPosition){ // Geojson生成MVT时从第一个feature的geometry获取的坐标信息
+        const position = mvtLayer.customPosition;
+        if(position.length>=2 && Math.abs(position[0])<=180){
+          viewer.scene.camera.setView({
+            destination: new SuperMap3D.Cartesian3.fromDegrees(position[0], position[1], 500)
+          });
+        }
       }
     } else if (option.type === LayerEnum.Imagery) {
       let index = String(option.key).split("-")[1];
@@ -773,6 +786,8 @@ function setDropdownAction(option: any, key: any) {
     panelStore.setRightToolBarList({ id: PanelNameEnum.ImageMapQuery });
   } else if (key === OperationEnum.QXSingle) {
     panelStore.setRightToolBarList({ id: PanelNameEnum.QXSingle });
+  } else if (key === OperationEnum.LayerTheme) {
+    panelStore.setRightToolBarList({ id: PanelNameEnum.LayerTheme });
   } else if (key === OperationEnum.ImageRaiseOne) {
     let index = String(option.key).split("-")[1];
     let imgLayer = viewer.imageryLayers._layers[Number(index)];

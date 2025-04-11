@@ -40,12 +40,11 @@
       </div>
     </div>
 
-    <!-- <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("qxDivisionQuery") }}</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.isUseQXDivisionQuery"></n-checkbox>
+    <div class="row-item">
+        <span>{{ $t("queryMode") }}</span>
+        <n-select style="width: 2.1rem" v-model:value="state.queryMode"
+          :options="state.queryModeOption" />
       </div>
-    </div> -->
 
     <div class="btn-row-item" style="margin-left: 0.93rem">
       <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="singleQuery">{{ $t("query") }}
@@ -119,7 +118,8 @@ type StateType = {
   dataSetOptions: any;
   entityColor: string; //设置实体颜色
   transparency: number; //实体透明度
-  isUseQXDivisionQuery: boolean; //是否使用倾斜分层分户查询
+  queryModeOption:any; // 单体化查询模式选项
+  queryMode:string; // 查询模式
 };
 
 // 倾斜图层URL:http://www.supermapol.com/realspace/services/3D-dynamicDTH-2/rest/realspace/datas/Config%20-%201/config
@@ -137,7 +137,21 @@ const state = reactive<StateType>({
   dataSetOptions: [],
   entityColor: "rgb(166,252,252)",
   transparency: 0.6,
-  isUseQXDivisionQuery: false
+  queryModeOption:[    
+    {
+      label: () => $t('queryPoint'),
+      value: "point",
+    },
+    {
+      label: () => $t('queryFloor'),
+      value: "floor",
+    },
+    {
+      label: () => $t('queryDoor'),
+      value: "door",
+    }
+  ],
+  queryMode:'point',
 });
 
 const mediaState = reactive({
@@ -198,33 +212,32 @@ function singleQuery() {
 
   handler.setInputAction(function (e: any) {
     viewer.entities.removeById("identify-area"); // 首先移除之前添加标识实体
-    scene.pickPositionAsync(e.position).then((position) => {
-      if (position && position instanceof SuperMap3D.Cartesian3) {
-        const degree = window.iEarthTool.Cartesian3ToDegreeObjs(position)[0];
+    
+    const position = viewer.scene.pickPosition(e.position); // pickPositionAsync.then 异步接口
+    if (position && position instanceof SuperMap3D.Cartesian3) {
+      const degree = window.iEarthTool.Cartesian3ToDegreeObjs(position)[0];
 
-        const dataSourceName = state.dataSourceName;
-        const dataSetName = state.dataSetName;
-        const datasetNames_query = [`${dataSourceName}:${dataSetName}`];
+      const dataSourceName = state.dataSourceName;
+      const dataSetName = state.dataSetName;
+      const datasetNames_query = [`${dataSourceName}:${dataSetName}`];
 
-        if (state.isUseQXDivisionQuery) {
-          const searchUrl = state.dataServiceUrl;
-          const height = degree.height;
-          const longitude = degree.longitude;
-          const latitude = degree.latitude;
-          const sqlString = `bottom < ${height} and ${height} < (bottom + LSG) and ${longitude} > SmSdriW and ${longitude} < SmSdriE and ${latitude} > SmSdriS and ${latitude} < SmSdriN`;
-          queryByDivision(searchUrl, datasetNames_query, sqlString);
-        } else {
-          const point = {
-            x: degree.longitude,
-            y: degree.latitude,
-          };
-          const searchUrl = state.dataServiceUrl + '/featureResults.rjson?returnContent=true';
-          queryByPoint(searchUrl, datasetNames_query, point);
-        }
+      if (state.queryMode == 'point') {
+        const point = {
+          x: degree.longitude,
+          y: degree.latitude,
+        };
+        const searchUrl = state.dataServiceUrl + '/featureResults.rjson?returnContent=true';
+        queryByPoint(searchUrl, datasetNames_query, point);
+      } else {
+        const searchUrl = state.dataServiceUrl;
+        const height = degree.height;
+        const longitude = degree.longitude;
+        const latitude = degree.latitude;
+        const sqlString = `bottom < ${height} and ${height} < (bottom + LSG) and ${longitude} > SmSdriW and ${longitude} < SmSdriE and ${latitude} > SmSdriS and ${latitude} < SmSdriN`;
+        queryByDivision(searchUrl, datasetNames_query, sqlString);
       }
-    });
+    }
   }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
-
 }
 
 // 通过点击查询用于表示单体化的面要素，添加到场景中高亮显示。

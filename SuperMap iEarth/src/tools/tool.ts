@@ -258,6 +258,76 @@ async function computedDataSetOptions(dataUrl, sourceName) {
   return options;
 }
 
+// 获取地图服务中地图名称
+async function computedMapNameOptions(mapUrl) {
+  if (!mapUrl) return;
+
+  mapUrl = mapUrl.trim().replace(/\/+$/, "");
+  const mapJsonUrl = mapUrl + '/maps.json';
+  const isAccess = await checkURLAccess(mapJsonUrl);
+  if(!isAccess) return;
+  const result = await window.axios.get(mapJsonUrl);
+  
+  if(!result || !result.data) return;
+  const mapData = result.data;
+  if(!mapData || mapData.length==0) return;
+
+  const options:any = [];
+  mapData.forEach((item) => {
+      const obj = {
+          label: item.name,
+          value: item.path || item.name,
+      }
+      options.push(obj);
+  });
+
+  return options;
+}
+
+// 获取场景服务中存在的场景名称
+async function computedSceneNameOptions(sceneUrl) {
+  if (!sceneUrl) return;
+
+  sceneUrl = sceneUrl.trim().replace(/\/+$/, "");
+  const sceneJsonUrl = sceneUrl + '/realspace/scenes.json';
+  const isAccess = await checkURLAccess(sceneJsonUrl);
+  if(!isAccess) return;
+  const result = await window.axios.get(sceneJsonUrl);
+  
+  if(!result || !result.data) return;
+  const sceneData = result.data;
+  if(!sceneData || sceneData.length==0) return;
+
+  const options:any = [];
+  sceneData.forEach((item) => {
+      const obj = {
+          label: item.name,
+          value: item.name,
+      }
+      options.push(obj);
+  });
+
+  return options;
+}
+
+// 获取指定数据源的坐标系
+async function computedDataSourceEpsgCode(dataUrl, dataSourceName) {
+  if (!dataUrl || !dataSourceName) return;
+  dataUrl = dataUrl.trim().replace(/\/+$/, "");
+
+  const sourceJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}.json`;
+  const isAccess = await checkURLAccess(sourceJsonUrl);
+  if(!isAccess) return;
+  const result = await window.axios.get(sourceJsonUrl);
+  
+  if(!result || !result.data) return;
+  const sourceData = result.data;
+
+  if(sourceData && sourceData.datasourceInfo && sourceData.datasourceInfo.prjCoordSys){
+    const prjCoordSys = sourceData.datasourceInfo.prjCoordSys;
+    return String(prjCoordSys.epsgCode);
+  }
+}
 
 export default {
   gradientColors,
@@ -267,5 +337,8 @@ export default {
   rgbaToCssString,
   dateDiff,
   computedDataSourceOptions,
-  computedDataSetOptions
+  computedDataSetOptions,
+  computedMapNameOptions,
+  computedSceneNameOptions,
+  computedDataSourceEpsgCode,
 }

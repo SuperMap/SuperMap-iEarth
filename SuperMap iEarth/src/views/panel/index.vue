@@ -104,6 +104,11 @@
           v-if="panelStore.panelList.rightToolBarList[11].isSelected"
           >{{ $t("mvtStyle") }}</span
         >
+        <span
+          class="panle-title"
+          v-if="panelStore.panelList.rightToolBarList[12].isSelected"
+          >{{ $t("thematicMap") }}</span
+        >
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close">
@@ -160,6 +165,9 @@
         <MvtStyle
           v-if="panelStore.panelList.rightToolBarList[11].isSelected"
         ></MvtStyle>
+        <LayerTheme
+          v-if="panelStore.panelList.rightToolBarList[12].isSelected"
+        ></LayerTheme>
       </div>
 
       <!-- 右侧面板footer -->
@@ -191,6 +199,7 @@ import MapQuery from "@/package/layerSeries/map-query/index";
 import QxSingle from "@/package/layerSeries/qx-single/index";
 import QxCover from "@/package/layerSeries/qx-cover/index";
 import MvtStyle from "@/package/layerSeries/mvt-style/index";
+import LayerTheme from "@/package/layerSeries/layer-theme/index";
 
 import { storeToRefs } from 'pinia'
 import { usePanelStore } from "@/store/index";

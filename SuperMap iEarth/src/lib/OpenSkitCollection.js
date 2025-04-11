@@ -42,7 +42,7 @@ class OpenSkitCollection {
           nodes.key = "1";
           nodes.children.forEach((pointItem, index) => {
             const currentIndex = index + 1; // 从1开始，避免出现0
-            if (pointItem && pointItem.url && pointItem.options) {
+            if (pointItem && pointItem.modelID && pointItem.options) {
               pointItem.key = `1-0-${currentIndex}`;
               pointItem.label = `point-${currentIndex}`;
               pointItem.type = "point";
@@ -61,7 +61,7 @@ class OpenSkitCollection {
             polylineGroup.label = `线集合-${currentIndex}`;
             polylineGroup.type = `polylineGroup`;
             polylineGroup.children.forEach((child, index_child) => {
-              if (child && child.url && child.options) {
+              if (child && child.modelID && child.options) {
                 const keySame = `${currentIndex}-${index_child}`;
                 child.key = `2-${keySame}`;
                 child.label = `line-${keySame}`;
@@ -83,7 +83,7 @@ class OpenSkitCollection {
             polygonGroup.label = `面集合-${currentIndex}`;
             polygonGroup.type = `polygonGroup`;
             polygonGroup.children.forEach((child, index_child) => {
-              if (child && child.url && child.options) {
+              if (child && child.modelID && child.options) {
                 const keySame = `${currentIndex}-${index_child}`;
                 child.key = `3-${keySame}`;
                 child.label = `face-${keySame}`;
@@ -110,10 +110,10 @@ class OpenSkitCollection {
         group.children.forEach(item=>{
           if(item.children && item.children.length>0){
             item.children.forEach(element=>{
-              computedHprAndScale(element);
+              computedHprAndScale(element, treeData);
             })
           }else{
-            computedHprAndScale(item);
+            computedHprAndScale(item, treeData);
           }
         })
       });
@@ -121,7 +121,7 @@ class OpenSkitCollection {
 
     return treeData;
 
-    function computedHprAndScale(item){
+    function computedHprAndScale(item, treeData){
       if(item && item.options && item.options.modelMatrix){
         let modelMatrix =  item.options.modelMatrix;
         if(modelMatrix instanceof Array){ // 矩阵存储为数组形式
@@ -140,10 +140,14 @@ class OpenSkitCollection {
 
         // 经纬度转笛卡尔
         if(viewer.scene.mode ===  SuperMap3D.SceneMode.SCENE3D){
-          let position = item.options.position;
-          item.options.position = SuperMap3D.Cartesian3.fromDegrees(position[0],position[1],position[2]);
+          const position = item.options.position;
+          item.options.position = SuperMap3D.Cartesian3.fromDegrees(position.x, position.y, position.z);
         }
-        
+
+        // 处理modelID => url
+        item.url = treeData.model[item.modelID];
+        delete item.modelID;
+
         delete item.options.modelMatrix;
       }
     }

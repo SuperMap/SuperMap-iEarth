@@ -5,7 +5,9 @@ import { onMounted, onBeforeUnmount } from "vue";
 import CustomBubble from "@/lib/CustomBubble";
 
 const viewer = window.viewer;
-const customBubble = new CustomBubble(viewer);
+const customBubble = new CustomBubble(viewer,{
+    bubbleFields: window.iEarthBindData.bubbleFields
+});
 customBubble.start();
 
 let handler = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);

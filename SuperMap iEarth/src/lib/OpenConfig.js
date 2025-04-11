@@ -417,6 +417,13 @@ class OpenConfig {
         const name = s3mOption.name;
         const isExist = this.viewer.scene.layers.find(name); // 当前S3M不存在时添加
 
+        // 判断token
+        if(s3mOption.token){
+          SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
+            s3mOption.token
+          );
+        }
+
         if (s3mOption.isAccess && !isExist) {
           let promise = undefined;
           if(s3mOption.subdomains && s3mOption.subdomainsUrlScheme){
@@ -556,6 +563,7 @@ class OpenConfig {
       if(imageryProvider){
         let imgLayer = this.viewer.imageryLayers.addImageryProvider(imageryProvider);
         if(imgOption.show === false) imgLayer.show = false; // 只有强制写了false才会隐藏
+        if(imgOption.customName) imgLayer.customName = imgOption.customName;
         if(window.iEarthCustomFunc && window.iEarthCustomFunc.afterImageLayerAdd){
           window.iEarthCustomFunc.afterImageLayerAdd(imgLayer);
         }

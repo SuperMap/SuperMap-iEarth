@@ -155,7 +155,13 @@ class SceneConfig {
         // 加载的优先级模式
         s3mLayerOption["LoadingPriority"] = layer.LoadingPriority;
 
+        // 判断token
+        if(layer._urlArguments && layer._urlArguments.token){
+          s3mLayerOption["token"] = layer._urlArguments.token;
+        }
+
         let layerUrl = baseUri.scheme + "://" + baseUri.authority + baseUri.path;
+        if(baseUri._string) layerUrl = baseUri._string;
         layerUrl = getScpUrl(layerUrl);
         s3mLayerOption["url"] = layerUrl;
         s3mLayerOption["residentRootTile"] = layer.residentRootTile; // 记录该图层是否开启了根节点驻留
@@ -185,6 +191,7 @@ class SceneConfig {
 
       let imgLayerOption = {};
       imgLayerOption["show"] = imageryLayer.show || imageryLayer._show;
+      if(imageryLayer.customName) imgLayerOption["customName"] = imageryLayer.customName; // 保存影像图层在图层列表的自定义名称
       if(imageryProvider instanceof SuperMap3D.SuperMapImageryProvider){
         imgLayerOption["type"] = "SuperMapImageryProvider";
         imgLayerOption["url"] = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl;

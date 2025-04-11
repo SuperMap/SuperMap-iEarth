@@ -188,6 +188,10 @@ function handleSceneContent(config) {
     if (bindiEarthData.mediaResourceOptions) {
       window.iEarthBindData.mediaResourceOptions = bindiEarthData.mediaResourceOptions;
     }
+    // 将DB查询过滤字段传入
+    if (bindiEarthData.bubbleFields) {
+      window.iEarthBindData.bubbleFields = bindiEarthData.bubbleFields;
+    }
   }
 }
 

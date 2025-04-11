@@ -27,7 +27,7 @@
   <div
     class="row-item"
     style="margin-bottom: 0.1rem"
-    v-show="state.layerType != 'WMTS'"
+    v-show="![LayerTypeEnum.WMTS, LayerTypeEnum.MVT].includes(state.layerType)"
   >
     <span>{{ $t("name") }}</span>
     <n-input
@@ -42,7 +42,7 @@
 
   <div
     style="margin-left: 0.95rem; margin-bottom: 0.1rem"
-    v-show="state.layerType != 'WMTS'"
+    v-show="state.layerType != LayerTypeEnum.WMTS"
   >
     <n-checkbox v-model:checked="state.token" :label="$t('addToken')" />
     <n-input
@@ -57,7 +57,7 @@
   <div
     class="row-item"
     style="margin-bottom: 0.1rem"
-    v-show="state.layerType === 'WMTS' && state.wmtsLayerOptions.length > 0"
+    v-show="state.layerType === LayerTypeEnum.WMTS && state.wmtsLayerOptions.length > 0"
   >
     <span>{{ $t("selectableLayers") }}</span>
     <n-select
@@ -103,8 +103,18 @@ proj4.defs([
   ],
 ]);
 
+// 自定义图层类型枚举
+enum LayerTypeEnum {
+  S3M = 'S3M',
+  Image = 'Image',
+  MVT = 'MVT',
+  Terrain = 'Terrain',
+  WMTS = 'WMTS',
+  Arcgis = 'ArcGIS',
+}
+
 let state = reactive({
-  layerType: "S3M",
+  layerType: LayerTypeEnum.S3M,
   token: false,
   layerToken: "",
   layerUrl: "",
@@ -116,27 +126,27 @@ let state = reactive({
   typeOptions: [
     {
       label: $t("s3mLayer"),
-      value: "S3M",
+      value: LayerTypeEnum.S3M,
     },
     {
       label: $t("imgLayer"),
-      value: "Imagery",
+      value: LayerTypeEnum.Image,
     },
     {
       label: $t("mvtLayer"),
-      value: "MVT",
+      value: LayerTypeEnum.MVT,
     },
     {
       label: $t("terrainLayer"),
-      value: "Terrain",
+      value: LayerTypeEnum.Terrain,
     },
     {
       label: 'ArcGIS服务',
-      value: "Arcgis",
+      value: LayerTypeEnum.Arcgis,
     },
     // {
     //   label: $t("wmtsLayer"),
-    //   value: "WMTS",
+    //   value: LayerTypeEnum.WMTS,
     // },
   ],
   rectangleObj: [],
@@ -176,22 +186,22 @@ function openLayer() {
   }
 
   switch (state.layerType) {
-    case "S3M":
+    case LayerTypeEnum.S3M:
       addS3M(state.layerUrl);
       break;
-    case "Imagery":
+    case LayerTypeEnum.Image:
       addImage(state.layerUrl);
       break;
-    case "MVT":
+    case LayerTypeEnum.MVT:
       addMVT(state.layerUrl);
       break;
-    case "Terrain":
+    case LayerTypeEnum.Terrain:
       addTerrain(state.layerUrl);
       break;
-    case "WMTS":
+    case LayerTypeEnum.WMTS:
       addWMTS(state.layerUrl);
       break;
-    case "Arcgis":
+    case LayerTypeEnum.Arcgis:
       addArcgis(state.layerUrl);
       break;
     default:
@@ -201,12 +211,42 @@ function openLayer() {
 
 // 针对S3M、影像、地形，通过输入的url，自动获取图层名
 function handleChange() {
-  state.layerUrl = state.layerUrl.replaceAll("'", "").replaceAll('"', "");
+  state.layerUrl = state.layerUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
 
   //检测地址正确性 - 之后会换成正则表达式做严格校验
-  switch (state.layerType) {
-    case "WMTS":
-      getXmlInfo(state.layerUrl);
+  const layerType = state.layerType
+  const layerName = getNameFromUrl(layerType, state.layerUrl);
+  state.layerName = layerName ? layerName : "";
+
+  if(layerType == LayerTypeEnum.WMTS){
+    getXmlInfo(state.layerUrl);
+  }
+}
+
+// 从URL中获取图层的名称
+function getNameFromUrl(type, url){
+  switch (type) {
+    case LayerTypeEnum.S3M:
+      if(url.endsWith("/config")){
+        const suffix = url.split("/config")[0];
+        return suffix.split("/").pop();
+      }
+      break;
+    case LayerTypeEnum.Image:
+      if(url.includes("/realspace/datas/")){
+        return url.split("/realspace/datas/")[1];
+      }
+      break;
+    case LayerTypeEnum.Terrain:
+      if(url.includes("/realspace/datas/")){
+        return url.split("/realspace/datas/")[1];
+      }
+      break;
+    case LayerTypeEnum.Arcgis:
+      if(url.endsWith("/MapServer")){
+        const suffix = url.split("/MapServer")[0];
+        return suffix.split("/").pop();
+      }
       break;
   }
 }
@@ -216,7 +256,7 @@ function addS3M(s3mLayerUrl: string) {
   const s3mPromise = viewer.scene.addS3MTilesLayerByScp(s3mLayerUrl);
   SuperMap3D.when(s3mPromise, function (s3mLayer) {
     if (s3mLayer && (s3mLayer instanceof SuperMap3D.S3MTilesLayer)) {
-      if(state.layerName && state.layerName.length>0) s3mLayer.customName = state.layerName;
+      if(state.layerName != "") s3mLayer.customName = state.layerName;
       viewer.flyTo(s3mLayer);
       s3mLayer.residentRootTile = (window.customConfig && window.customConfig.s3mLayer_residentRootTile) ? true : false;
       // s3mLayer.selectColorType = SuperMap3D.SelectColorType.SILHOUETTE_EDGE; // 通过自定义服务打开的S3M图层设置选中效果
@@ -247,7 +287,7 @@ function addImage(imageryUrl: string) {
     })
   );
   if (imageLayer) {
-    if(state.layerName && state.layerName.length>0) imageLayer.customName = state.layerName;
+    if(state.layerName != "") imageLayer.customName = state.layerName;
     viewer.flyTo(imageLayer);
     if (window.iEarthCustomFunc && window.iEarthCustomFunc.afterImageLayerAdd) {
       window.iEarthCustomFunc.afterImageLayerAdd(imageLayer);
@@ -269,7 +309,7 @@ function addTerrain(terrainURL: string) {
     url: terrainURL,
     isSct: isSctFlag, // 是否为iServer发布的TIN地形服务,如果是STK地形设置为false
   });
-  if(state.layerName && state.layerName.length>0) viewer.terrainProvider.customName = state.layerName;
+  if(state.layerName != "") viewer.terrainProvider.customName = state.layerName;
 
   //飞行定位到地形范围
   let terrainProvider = viewer.terrainProvider;
@@ -299,7 +339,7 @@ function addArcgis(argisUrl: string) {
   });
   const imageLayer = viewer.imageryLayers.addImageryProvider(imageryProvider);
   if(imageLayer){
-    if(state.layerName && state.layerName.length>0) imageLayer.customName = state.layerName;
+    if(state.layerName != "") imageLayer.customName = state.layerName;
     viewer.flyTo(imageLayer);
     if(window.iEarthCustomFunc && window.iEarthCustomFunc.afterImageLayerAdd){
       window.iEarthCustomFunc.afterImageLayerAdd(imageLayer);
@@ -653,20 +693,23 @@ watch(
   (val: string) => {
     clear();
     switch (val) {
-      case "S3M":
+      case LayerTypeEnum.S3M:
         state.urlTip = `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`;
         break;
-      case "Imagery":
+      case LayerTypeEnum.Image:
         state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
         break;
-      case "MVT":
+      case LayerTypeEnum.MVT:
         state.urlTip = `http://<server>:<port>/iserver/services/<component>/restjsr/v1/vectortile/maps/<layerName>`;
         break;
-      case "Terrain":
+      case LayerTypeEnum.Terrain:
         state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
         break;
-      case "WMTS":
+      case LayerTypeEnum.WMTS:
         state.urlTip = `http://<server>:<port>/iserver/services/{serviceName}`;
+        break;
+      case LayerTypeEnum.Arcgis:
+        state.urlTip = `http://<server>:<port>/arcgis/rest/services/<layerName>/MapServer`;
         break;
       default:
         break;

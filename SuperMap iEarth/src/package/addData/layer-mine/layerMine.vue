@@ -1,9 +1,7 @@
 <template>
   <div class="layer-terrain-container">
 
-    <div>
-        <n-checkbox v-model:checked="state.useFileter">{{ $t("isOpenFileter") }}</n-checkbox>
-    </div>
+    <n-checkbox v-model:checked="state.useFileter">{{ $t("isOpenFileter") }}</n-checkbox>
 
     <div v-if="state.useFileter">
       <div class="row-item">
@@ -12,6 +10,7 @@
           style="width: 1.96rem"
           v-model:value="state.filter_type"
           :options="serviceTypeOption"
+          @update:value="handleTypeChange" 
         >
         </n-select>
       </div>
@@ -53,17 +52,24 @@
       />
     </n-scrollbar>
 
-    <!-- 场景名称 -->
-    <div style="margin-top: 0.1rem;" v-if="state.selectItem.resourceSubType == 'REALSPACE'">
-        <n-checkbox v-model:checked="state.useSenceName">{{ $t("appointSceneName") }}</n-checkbox>
-    </div>
-    <div class="row-item-mine" v-if="state.useSenceName">
-      <span>{{ $t("appointSceneName") }}</span>
-      <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
+    <!-- 场景服务 存在的场景名称 -->
+    <div v-if="state.selectItem.resourceSubType == ServiceTypeEnum.Scene">
+      <div class="row-item-mine" v-if="state.sceneNameOptions.length>0">
+        <span>{{ $t("sceneName") }}</span>
+        <n-select style="width: 2.4rem" v-model:value="state.sceneName" :options="state.sceneNameOptions" />
+      </div>
     </div>
     
+    <!-- 地图服务 可选的地图名称 -->
+    <div v-if="state.selectItem.resourceSubType == ServiceTypeEnum.Map">
+      <div class="row-item-mine" v-if="state.mapNameOptions.length>0">
+        <span>{{ $t("mapName") }}</span>
+        <n-select style="width: 2.4rem" v-model:value="state.mapName" :options="state.mapNameOptions" />
+      </div>
+    </div>
+
     <!-- 数据服务 数据源:数据集 -->
-    <div v-if="state.selectItem.resourceSubType == 'DATA'">
+    <div v-if="state.selectItem.resourceSubType == ServiceTypeEnum.Data">
       <div class="row-item-mine" v-if="state.dataSourceOptions.length>0">
         <span>{{ $t("dataSourceName") }}</span>
         <n-select style="width: 2.4rem" v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
@@ -92,12 +98,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, onMounted, onBeforeUnmount, reactive } from "vue";
-import { IportalStoreCreate } from "@/store/iportalManage/index";
-import {
-  getRootUrl,
-  isIportalProxyServiceUrl,
-  getHostName,
-} from "@/tools/iportal/portalTools";
+import { getRootUrl } from "@/tools/iportal/portalTools";
 import tool from "@/tools/tool";
 import CustomBubble from "@/lib/CustomBubble";
 
@@ -106,7 +107,6 @@ const customBubble = new CustomBubble(viewer,{
 });
 customBubble.start();
 
-const IportalStore = IportalStoreCreate();
 let entityCollection = new SuperMap3D.EntityCollection();
 
 // let testHeader = 'http://172.16.168.74:8190/iportal/'; 
@@ -126,6 +126,14 @@ onBeforeUnmount(()=>{
   entityCollection = null;
   customBubble.destroy();
 })
+
+// 服务类型枚举
+enum ServiceTypeEnum {
+  All = 'ALL',
+  Scene = 'REALSPACE',
+  Map = 'MAP',
+  Data = 'DATA',
+}
 
 // 表格列
 const columns = ref([
@@ -166,19 +174,19 @@ const columns = ref([
 const serviceTypeOption = ref([
   {
     label: $t("allTypes"),
-    value: "ALL",
+    value: ServiceTypeEnum.All,
   },
   {
     label: $t("sceneService"),
-    value: "REALSPACE",
+    value: ServiceTypeEnum.Scene,
   },
   {
     label: $t("mapService"),
-    value: "MAP",
+    value: ServiceTypeEnum.Map,
   },
   {
     label: $t("dataService"),
-    value: "DATA",
+    value: ServiceTypeEnum.Data,
   }
 ])
 
@@ -196,30 +204,33 @@ const fieldOption = ref([
     label: $t("serviceAddress"),
     value: "LINKPAGE",
   },
-  {
-    label: $t("proxyAddress"),
-    value: "PROXIEDURL",
-  },
+  // {
+  //   label: $t("proxyAddress"),
+  //   value: "PROXIEDURL",
+  // },
 ])
 
 const state = reactive<any>({
   portalServiceList: [],
-  checkedRowKeys: ["1"],
+  checkedRowKeys: [""],
   currentPage:1,
   pageCount:1,
   selectItem:{},
   useFileter:false,
-  filter_type:'ALL',
+  filter_type:ServiceTypeEnum.All,
   filter_field:'RESTITLE',
   filter_keywords:'',
-  sceneName: '',
   dataSourceName:'',
   dataSourceOptions:[],
   dataSetName:'',
   dataSetOptions:[],
+  mapName:'',
+  mapNameOptions:[],
+  sceneName:'',
+  sceneNameOptions:[],
 });
 
-const supportTypes = ["REALSPACE","MAP","DATA"];
+const supportTypes = [ServiceTypeEnum.Scene, ServiceTypeEnum.Map, ServiceTypeEnum.Data];
 async function getIportalServiceData(searchUrl){
   if(!searchUrl) return;
 
@@ -236,7 +247,7 @@ async function getIportalServiceData(searchUrl){
   let serviceList: any = [];
   if (data.content && data.content.length > 0) {
     data.content.forEach((item: any, index: number) => {
-      const sceneUrl = item.proxiedUrl || item.linkPage;
+      const serviceUrl = item.linkPage || item.proxiedUrl; // 使用proxiedUrl会导致401权限问题 
       const isSupport = supportTypes.includes(item.type); // 限定支持的服务类型
       const updateTime = tool.dateDiff(item.updateTime);
       serviceList.push({
@@ -244,7 +255,7 @@ async function getIportalServiceData(searchUrl){
         name: item.resTitle || '',
         resourceSubType: item.type,
         updateTime: updateTime,
-        url: sceneUrl,
+        url: serviceUrl,
         disabled: isSupport ? false : true,
       });
     })
@@ -258,8 +269,7 @@ async function getIportalServiceData(searchUrl){
 let baseUrl = getRootUrl() + 'web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
 // let baseUrl = getRootUrl() + 'web/services.json' + `?token=${window.iEarthBindData.iPortalToken}` + '&pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
 function computedSearchUrl(pageNumber?:number){
-  const isUseFileter = state.useFileter;
-  const filter_type = state.filter_type == 'ALL' ? false : state.filter_type;
+  const filter_type = state.filter_type == ServiceTypeEnum.All ? false : state.filter_type;
   const filter_field = state.filter_field;
   const keywords = state.filter_keywords == '' ? false : state.filter_keywords;
 
@@ -276,7 +286,7 @@ function computedSearchUrl(pageNumber?:number){
     const filterFieldsQuery = encodeURIComponent(JSON.stringify([filter_field]));
     const keywordsQuery = encodeURIComponent(JSON.stringify([keywords]));
     currentSearchUrl = `${baseUrl}&types=${sourceTypeQuery}&filterFields=${filterFieldsQuery}&keywords=${keywordsQuery}`;
-  }else if(!isUseFileter){ // 未开启过滤
+  }else { // 未开启过滤 || 类型和关键字都不过滤
     currentSearchUrl = baseUrl;
   }
 
@@ -285,24 +295,32 @@ function computedSearchUrl(pageNumber?:number){
 }
 
 // 处理过滤服务
-function handleFileter(){
+const handleFileter = function(){
   let searchUrl = computedSearchUrl();
   getIportalServiceData(searchUrl);
 }
 
+// 服务类型切换时执行过滤并重置选择项
+const handleTypeChange = function(){
+  handleFileter();
+  state.selectItem = {}; // 重置选择项目
+  state.checkedRowKeys = [""]; // 取消表格中的选择项
+}
+
 // 还原数据
-function resetData() {
+ const resetData = function() {
   state.useFileter = false;
-  state.filter_type = "ALL";
+  state.filter_type = ServiceTypeEnum.All;
   state.filter_keywords = '';
   state.selectItem = {};
+  state.checkedRowKeys = [""];
   let searchUrl = computedSearchUrl(1);
   getIportalServiceData(searchUrl);
 }
 
 
 // 打开保存的服务
-function addService() {
+const addService = function() {
   const selecteditems = state.portalServiceList.filter((item: any) => {
     return item.key === state.checkedRowKeys[0];
   });
@@ -310,12 +328,13 @@ function addService() {
   if(window.iEarthConsole) console.log("我的服务选择项目:",selecteditems);
 
   selecteditems.forEach((item) => {
-    if (item.resourceSubType == 'REALSPACE') {
+    if (item.resourceSubType == ServiceTypeEnum.Scene) {
       handleRealSpace(item);
-    } else if (item.resourceSubType == 'MAP') {
+    } else if (item.resourceSubType == ServiceTypeEnum.Map) {
       handleMapService(item);
-    }else if(item.resourceSubType == 'DATA'){
-      handleDataServiceByMVT(item);
+    }else if(item.resourceSubType == ServiceTypeEnum.Data){
+      handleDataServiceByMVT(item); // GeoJson+MVT方式
+      // handleDataServiceByEntity(item); // Entity方式
     }
   });
 }
@@ -323,7 +342,6 @@ function addService() {
 // 处理场景服务类型
 function handleRealSpace(item) {
   let url = item.url + "/realspace";
-  setTrustedServers(url);
 
   let sceneName = state.sceneName == '' ? undefined : state.sceneName;
   const promise = viewer.scene.open(url, sceneName, { autoSetView: true });
@@ -332,45 +350,27 @@ function handleRealSpace(item) {
       viewer.flyTo(layers[0]);
     }
   })
-
-  // 检查请求是否带cookie
-  function setTrustedServers(url: string) {
-    if (IportalStore.isPortal) {
-      if (IportalStore.portalConfig) {
-        let serviceProxy = IportalStore.portalConfig.serviceProxy;
-        let withCredentials = isIportalProxyServiceUrl(url, serviceProxy);
-        if (withCredentials) {
-          let ip = getHostName(url);
-          if (
-            !SuperMap3D.TrustedServers.contains(
-              "http://" + ip + "/" + serviceProxy.port
-            )
-          ) {
-            SuperMap3D.TrustedServers.add(ip, serviceProxy.port);
-          }
-        }
-      }
-    }
-  }
 }
 
 // 处理地图服务类型
 function handleMapService(item) {
-  let url = item.url + '/maps.rjson';
-  window.axios.get(url).then(function (response) {
-    if (response && response.data && response.data.length > 0) {
-      let imageUrl = response.data[0].path;
-      const imageLayer = viewer.imageryLayers.addImageryProvider(
-        new SuperMap3D.SuperMapImageryProvider({
-          url: imageUrl,
-        })
-      );
-      viewer.flyTo(imageLayer);
-    }
-  })
+  if (!item.url || state.mapName == "") return;
+
+  const mapName = state.mapName;
+  let mapUrl = mapName.includes("rest/maps") ? mapName : `${item.url}/maps/${mapName}`;
+  const imageLayer = viewer.imageryLayers.addImageryProvider(
+    new SuperMap3D.SuperMapImageryProvider({
+      url: mapUrl,
+    })
+  );
+
+  // 给影像图层设置别名
+  const layerName = mapUrl.split("rest/maps/")[1];
+  if(layerName && layerName!='') imageLayer.customName = layerName;
+  viewer.flyTo(imageLayer);
 }
 
-// 处理数据服务类型
+// 处理数据服务类型:通过Entity方式添加
 function handleDataServiceByEntity(item) {
   if (state.dataSourceName == "" || state.dataSetName == "") {
     window["$message"].warning($t("sourceAndSetNameIsNeed"));
@@ -482,10 +482,18 @@ function handleDataServiceByEntity(item) {
   }
 }
 
-// 处理数据服务类型 
-function handleDataServiceByMVT(item) {
+// 处理数据服务类型:通过GeoJson生成MVT方式添加 
+async function handleDataServiceByMVT(item) {
   if (state.dataSourceName == "" || state.dataSetName == "") {
     window["$message"].warning($t("sourceAndSetNameIsNeed"));
+    return;
+  }
+
+  // 限制坐标系
+  const epsgCode:any = await tool.computedDataSourceEpsgCode(item.url, state.dataSourceName);
+  if(!["4490", "4326"].includes(epsgCode)) {
+    console.log("mvt-geojson-epsgCode:",epsgCode);
+    window["$message"].warning($t("mvtGeojsonEpsgCodeTip"));
     return;
   }
 
@@ -534,6 +542,7 @@ function handleDataServiceByMVT(item) {
     const type = geojson.features[0].geometry.type; // 默认所有的feature类型一致
     let sourceID: any = undefined;
     let styleLayer: any = undefined;
+    let customPosition: any = undefined;
     if (type == 'Point') {
       sourceID = `Point-${new Date().getTime()}`;
       styleLayer = {
@@ -547,6 +556,7 @@ function handleDataServiceByMVT(item) {
           'text-color': 'black'
         }
       }
+      customPosition = geojson?.features[0]?.geometry?.coordinates;
     } else if (type == 'LineString') {
       sourceID = `Polyline-${new Date().getTime()}`;
       styleLayer = {
@@ -558,7 +568,8 @@ function handleDataServiceByMVT(item) {
           'line-width': 5,
         }
       }
-    } else if (type == 'MultiPolygon') {
+      customPosition = geojson?.features[0]?.geometry?.coordinates[0];
+    } else if (type == 'Polygon') {
       sourceID = `Polygone-${new Date().getTime()}`;
       styleLayer = {
         id: sourceID,
@@ -576,8 +587,28 @@ function handleDataServiceByMVT(item) {
           'fill-opacity': .9
         }
       }
+      customPosition = geojson?.features[0]?.geometry?.coordinates[0][0];
+    }else if(type == 'MultiPolygon'){
+      sourceID = `MultiPolygon-${new Date().getTime()}`;
+      styleLayer = {
+        id: sourceID,
+        type: 'fill',
+        source: sourceID,
+        paint: {
+          'fill-color': [
+            'match',
+            // 默认颜色
+            '#d0eacd'
+          ],
+          'fill-opacity': .9
+        },
+      }
+      customPosition = geojson?.features[0]?.geometry?.coordinates[0][0][0];
     }
 
+    // 从第一个feature的geometry获取的坐标信息用来图层列表定位
+    mvtMap.customPosition = customPosition; 
+    mvtMap.customFirstGeometry = geojson?.features[0]?.geometry;
     SuperMap3D.when(mvtMap.readyPromise, function () {
       if (sourceID && styleLayer) {
         mvtMap.addSource(sourceID, {
@@ -587,10 +618,54 @@ function handleDataServiceByMVT(item) {
 
         mvtMap.addLayer(styleLayer);
       }
+
+      window["$message"].success($t("addSuccess"));
     });
   }
 }
 
+// 选中项切换时变更底部内容
+function handleSelectedItemChange(selecteditem) {
+  state.selectItem = selecteditem;
+
+  const serviceType = state.selectItem.resourceSubType
+  if (serviceType == ServiceTypeEnum.Data) {
+    state.dataSourceName = "";
+    state.dataSetName = "";
+    state.dataSourceOptions = [];
+    state.dataSetOptions = [];
+
+    let dataUrl = selecteditem.url;
+    if (!dataUrl.endsWith("/data")) dataUrl += "/data";
+    tool.computedDataSourceOptions(dataUrl).then(result => {
+      if (result && result.length > 0) {
+        state.dataSourceOptions = result;
+      }
+    });
+  } else if (serviceType == ServiceTypeEnum.Map) {
+    state.mapName = "";
+    state.mapNameOptions = [];
+
+    let mapUrl = selecteditem.url;
+    tool.computedMapNameOptions(mapUrl).then(result => {
+      if (result && result.length > 0) {
+        state.mapName = result[0].value;
+        state.mapNameOptions = result;
+      }
+    });
+  } else if (serviceType == ServiceTypeEnum.Scene) {
+    state.sceneName = "";
+    state.sceneNameOptions = [];
+
+    let sceneUrl = selecteditem.url;
+    tool.computedSceneNameOptions(sceneUrl).then(result => {
+      if (result && result.length > 0) {
+        state.sceneName = result[0].value;
+        state.sceneNameOptions = result;
+      }
+    });
+  }
+}
 
 watch(
   () => state.currentPage,
@@ -609,22 +684,7 @@ watch(
     });
     if(selecteditems && selecteditems.length>0){
       const selecteditem = selecteditems[0];
-      state.selectItem = selecteditem;
-
-      if(state.selectItem.resourceSubType == 'DATA'){
-        state.dataSourceName = "";
-        state.dataSetName = "";
-        state.dataSourceOptions = [];
-        state.dataSetOptions = [];
-
-        let dataUrl = selecteditem.url;
-        if(!dataUrl.endsWith("/data")) dataUrl += "/data";
-        tool.computedDataSourceOptions(dataUrl).then(result=>{
-          if (result && result.length > 0) {
-            state.dataSourceOptions = result;
-          }
-        });
-      }
+      handleSelectedItemChange(selecteditem)
     }
   }
 );
@@ -640,6 +700,13 @@ watch(
         state.dataSetOptions = result;
       }
     });
+  }
+);
+
+watch(
+  () => state.useFileter,
+  (val) => {
+    if(!val) resetData()
   }
 );
 </script>

@@ -108,6 +108,13 @@ export const usePanelStore = defineStore({
                     isSelected: false,
                     panelName: "mvtStyle"
                 },
+                {
+                    id: PanelNameEnum.LayerTheme,
+                    iconName: "iconhuizhi",
+                    title: "thematicMap",
+                    isSelected: false,
+                    panelName: "thematicMap"
+                },
             ]
         },
         rightTooPanel: false,

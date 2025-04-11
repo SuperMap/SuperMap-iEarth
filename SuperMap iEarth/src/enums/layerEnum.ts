@@ -27,6 +27,7 @@ export enum PanelNameEnum {
   LayerAttribute = 'LayerAttribute',
   LayerStyle = 'LayerStyle',
   LayerQuery = 'LayerQuery',
+  LayerTheme = 'LayerTheme',
   ImageMapQuery = 'MapQuery',
   ImageMapCover = 'MapCover',
   QXSingle = 'QXSingle',
