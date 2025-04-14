@@ -321,10 +321,27 @@ async function computedDataSourceEpsgCode(dataUrl, dataSourceName) {
   const result = await window.axios.get(sourceJsonUrl);
   
   if(!result || !result.data) return;
-  const sourceData = result.data;
+  const data = result.data;
 
-  if(sourceData && sourceData.datasourceInfo && sourceData.datasourceInfo.prjCoordSys){
-    const prjCoordSys = sourceData.datasourceInfo.prjCoordSys;
+  if(data && data.datasourceInfo && data.datasourceInfo.prjCoordSys){
+    const prjCoordSys = data.datasourceInfo.prjCoordSys;
+    return String(prjCoordSys.epsgCode);
+  }
+}
+
+// 获取指定数据源中数据集的坐标系
+async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName) {
+  if (!dataUrl || !dataSourceName || !datasetName) return;
+  dataUrl = dataUrl.trim().replace(/\/+$/, "");
+
+  const dataSetJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}/datasets/${datasetName}.json`;
+  const result = await window.axios.get(dataSetJsonUrl);
+  
+  if(!result || !result.data) return;
+  const data = result.data;
+
+  if(data && data.datasetInfo && data.datasetInfo.prjCoordSys){
+    const prjCoordSys = data.datasetInfo.prjCoordSys;
     return String(prjCoordSys.epsgCode);
   }
 }
@@ -341,4 +358,5 @@ export default {
   computedMapNameOptions,
   computedSceneNameOptions,
   computedDataSourceEpsgCode,
+  computedDataSetEpsgCode,
 }

@@ -156,6 +156,25 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
         }
       )
     ]);
+  }else if(option.type==LayerEnum.MvtRoot){ // MVT图层
+    return h("div", {}, [
+      h(
+        NButton,
+        {
+          bordered: false,
+          text: true,
+          title: $t("removeAllMVT"),
+          style: "margin-right:0.04rem",
+          focusable: false, // 取消focus效果
+          onClick: () => {
+            removeAllMVTLayer(option);
+          },
+        },
+        {
+          icon: () => h("i", { class: "iconfont iconshanchu", style: "color: #DC5849" }, ""),
+        }
+      )
+    ]);
   }else if(option.type==LayerEnum.Collection){
     return h("div", {}, [
       h(
@@ -869,6 +888,19 @@ function setDropdownAction(option: any, key: any) {
   }else if( key === OperationEnum.RemoveCollection){
     delCollection(option);
   }
+}
+
+// 删除所有MVT图层
+function removeAllMVTLayer(option){
+  const mvtLayerList:any = [];
+  viewer.scene._vectorTileMaps._layerQueue.forEach(mvtLayer => {
+    if(mvtLayer) mvtLayerList.push(mvtLayer);
+  });
+  mvtLayerList.forEach(mvtLayer => {
+    viewer.scene.removeVectorTilesMap(mvtLayer.name);
+  });
+  mvtLayerList.length = 0;
+  option.children = [];
 }
 
 // 可拖拽

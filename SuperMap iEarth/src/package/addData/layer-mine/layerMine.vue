@@ -387,7 +387,7 @@ function handleDataServiceByEntity(item) {
     queryParameter: {
       attributeFilter: "smid>=0"
     },
-    maxFeatures: 1000000000
+    maxFeatures: 12000
   };
   const queryData = JSON.stringify(sqlParameter);
 
@@ -395,6 +395,12 @@ function handleDataServiceByEntity(item) {
     console.log("数据服务-result:", result);
     if (result && result.data && result.data.features) {
       const features = result.data.features;
+
+      if(features.length > 10000) { // 数据量太大时做限制，不再加载
+        window["$message"].warning($t("dataTooLargrTip"));
+        return;
+      } 
+       
       features.forEach(feature => {
         if (!feature.geometry) return;
         const description = computedFeatureDescription(feature);
@@ -490,7 +496,7 @@ async function handleDataServiceByMVT(item) {
   }
 
   // 限制坐标系
-  const epsgCode:any = await tool.computedDataSourceEpsgCode(item.url, state.dataSourceName);
+  const epsgCode:any = await tool.computedDataSetEpsgCode(item.url, state.dataSourceName, state.dataSetName);
   if(!["4490", "4326"].includes(epsgCode)) {
     console.log("mvt-geojson-epsgCode:",epsgCode);
     window["$message"].warning($t("mvtGeojsonEpsgCodeTip"));
@@ -507,7 +513,7 @@ async function handleDataServiceByMVT(item) {
     queryParameter: {
       attributeFilter: "smid>=0"
     },
-    maxFeatures: 1000000000
+    maxFeatures: 12000
   };
   const queryData = JSON.stringify(sqlParameter);
 
@@ -525,6 +531,11 @@ async function handleDataServiceByMVT(item) {
       geojson["features"] = data.features;
       console.log("geojson:", geojson);
       if (geojson.features.length == 0) return;
+
+      if(geojson.features.length > 10000) { // 数据量太大时做限制，不再加载
+        window["$message"].warning($t("dataTooLargrTip"));
+        return;
+      } 
 
       const mvtName = sourceAndSetName;
       addMvtByGeoJSON(geojson, mvtName);

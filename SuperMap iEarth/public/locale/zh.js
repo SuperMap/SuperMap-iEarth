@@ -853,6 +853,8 @@ const local_zh = {
         mvtGeojsonEpsgCodeTip:"仅支持添加坐标系为EPSG:4490和EPSG:4326的数据服务",
         isMergeLayer:"合并数据集",
         addSuccess:"添加成功",
+        dataTooLargrTip:"数据量太大，暂不支持加载",
+        removeAllMVT:"移除所有MVT图层",
 }
 
 window.local_zh = local_zh;
