@@ -237,8 +237,8 @@ function panelCloseHandle(leftOrRght: any) {
 .zst1 {
   @include setBackground(0.45rem, 0.11rem, "@/assets/panelbg/zst1.png");
   position: absolute;
-  top: 0rem;
-  left: 1.4rem;
+  top: 0.12rem;
+  left: 0.9rem;
 }
 
 .zst2 {

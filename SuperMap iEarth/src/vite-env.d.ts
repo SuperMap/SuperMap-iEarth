@@ -15,6 +15,9 @@ declare interface Window {
   scene: any,
   axios: any,
 
+  // 打开场景
+  OpenConfig:any,
+
   // 在public/config下绑定的配置项
   layerServiceData: any,
   tokenConfig: any,
@@ -67,3 +70,4 @@ declare var skitConfig : window.skitConfig;
 declare var initViewerConfig : window.initViewerConfig;
 declare var customConfig : window.customConfig;
 declare var iEarthCustomFunc : window.iEarthCustomFunc;
+declare var OpenConfig : window.OpenConfig;

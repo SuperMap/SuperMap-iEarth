@@ -44,214 +44,101 @@ class OpenConfig {
 
   }
 
-  // 计算layerTreeData
-  computedTreeData(data) {
-    if (!data || !data.s3mTreeData) return;
-    const LayerEnum = {
-      S3M: 's3m',
-      Imagery: "imagery",
-      MVT: "mvt",
-      Terrain: "terrain",
-      Collection: 'collection',
-      Group: "group",
-      S3MROOT: "s3mRoot",
-      ImgRoot: "imgRoot",
-      MvtRoot: "mvtRoot",
-      TinRoot: "tinRoot",
+  // 将之前老版本iEarth保存的数据转为新版可用的场景数据
+  oldSceneDataToNewSceneInfo(content) {
+    let sceneInfo = {};
+    sceneInfo.SceneMode = content.environmentState.sceneMode;
+    sceneInfo.Camera = content.camera;
+
+    // 各类图层
+    // TODO:支持MVT
+    sceneInfo.LayerOptions = {
+      s3mLayers: content.layers.s3mLayer,
+      imgLayers: content.layers.imageryLayer,
+      mvtLayers: content.layers.MVTLayer,
+      tinLayer: content.layers.terrainLayer[0]
     }
-    
-    let s3mTreeList = [];
-    let count = 0;
-    let jsonTreeVersionIsOld = false;
 
-    // version2.0：基于type，最新版本
-    data.s3mTreeData.forEach((collection, index_c) => {
-      let obj = undefined;
-      if(!collection.type){ // 新版jsonTree每个项目都有type属性，如果没有说明是历史版本
-        jsonTreeVersionIsOld = true;
-        return;
-      }
-      if (collection.type == LayerEnum.S3M) {
-        let child = collection;
-        obj = {
-          label: child.label,
-          id: child.name,
-          key: `1-${index_c}`,
-          type: LayerEnum.S3M,
-          isShow: undefined,
-          layer: undefined,
-        };
-      } else if (collection.type == LayerEnum.Group) {
-        let group = collection;
-        if (group.children && group.children.length > 0) {
-          obj = {
-            label: group.label,
-            id: `${LayerEnum.Group}-${count}`,
-            key: `1-${index_c}`,
-            "type": LayerEnum.Group,
-            "isEdit": false,
-            "isShow": true,
-            "children": []
-          }; count++;
-          group.children.forEach((child, index) => {
-            obj.children.push({
-              label: child.label,
-              id: child.name,
-              key: `${obj.key}-${index}`,
-              type: LayerEnum.S3M,
-              isShow: undefined,
-              layer: undefined,
-            })
-          })
+    // 场景调节
+    const sceneAttrState = content.layers.sceneAttrState;
+    sceneInfo.SceneAdjust = {
+      GlobalAttr: {
+        earthShow: sceneAttrState.earthShow,
+        depthInspection: sceneAttrState.depthInspection,
+        atomsphereRender: sceneAttrState.atomsphereRender,
+        timeAxis: sceneAttrState.timeAxis,
+        displayFrame: sceneAttrState.displayFrame,
+      },
+      VisualEffect: {
+        shadow: {
+          isOpen: sceneAttrState.shadow,
+        },
+        underGround: {
+          isOpen: sceneAttrState.showUnderground,
+          globeAlpha: sceneAttrState.surfaceTransparency
+        },
+        sceneColor: {
+          isOpen: true,
+          brightness: sceneAttrState.brightness,
+          contrast: sceneAttrState.contrast,
+          hue: sceneAttrState.hue,
+          saturation: sceneAttrState.saturation
         }
-      } else if (collection.type == LayerEnum.Collection) {
-        if (collection.children && collection.children.length > 0) {
-          obj = {
-            label: collection.label,
-            id: `${LayerEnum.Collection}-${count}`,
-            key: `1-${index_c}`,
-            "type": LayerEnum.Collection,
-            "isEdit": false,
-            "isShow": true,
-            "children": []
-          }; count++;
-          collection.children.forEach((group, index_g) => {
-            if (group.type == LayerEnum.Group) {
-              if (group.children && group.children.length > 0) {
-                let obj_group = {
-                  label: group.label,
-                  id: `${LayerEnum.Group}-${count}`,
-                  key: `${obj.key}-${index_g}`,
-                  "type": LayerEnum.Group,
-                  "isEdit": false,
-                  "isShow": true,
-                  "children": []
-                }; count++;
-                group.children.forEach((child, index) => {
-                  obj_group.children.push({
-                    label: child.label,
-                    id: child.name,
-                    key: `${obj_group.key}-${index}`,
-                    type: LayerEnum.S3M,
-                    isShow: undefined,
-                    layer: undefined,
-                  })
-                })
-                obj.children.push(obj_group);
-              }
-            } else if (group.type == LayerEnum.S3M) {
-              let child = group;
-              obj.children.push({
-                label: child.label,
-                id: child.name,
-                key: `${obj.key}-${index_g}`,
-                type: LayerEnum.S3M,
-                isShow: undefined,
-                layer: undefined,
-              })
-            }
-          })
+      },
+      SceneFeature: {
+        cloudLayer: {
+          isOpen: sceneAttrState.cloudLayer
+        },
+        skyBox: {
+          isOpen: sceneAttrState.skyBoxShow
         }
       }
+    }
 
-      if (!obj) {
-        console.log('该项数据不满足要求请检查:', collection);
-      } else if (obj.type == LayerEnum.S3M) {
-        s3mTreeList.push(obj);
-      } else if (obj.type == LayerEnum.Collection || obj.type == LayerEnum.Group) {
-        if (obj.children && obj.children.length > 0) {
-          s3mTreeList.push(obj);
-        }
+    // 图层风格
+    // TODO:新版暂无selectColorMode,暂不考虑LODScale
+    const layerStyleOptions = content.layers.layerStyleOptions;
+    if (layerStyleOptions && Object.keys(layerStyleOptions).length > 0) {
+      sceneInfo.LayerStyles = {
+        s3mLayerStyles: []
       }
-    });
-
-    // version1.0：基于children，用来兼容之前二级目录
-    if (jsonTreeVersionIsOld) {
-      count = 0;
-      s3mTreeList = [];
-      console.log('当前json中的layerTree为老版本，采用兼容方式进行解析处理')
-      data.s3mTreeData.forEach((collection, index_c) => {
-        let obj = {};
-        if (collection.children) {
-          obj = {
-            label: collection.label,
-            id: `${LayerEnum.Collection}-${count}`,
-            key: `1-${index_c}`,
-            "type": LayerEnum.Collection,
-            "isEdit": false,
-            "isShow": true,
-            "children": []
-          };count++;
-          collection.children.forEach((group, index_g) => {
-            if(group.children && group.children.length>0){
-              let objGroup = {
-                label: group.label,
-                id: `${LayerEnum.Group}-${count}`,
-                key: `${obj.key}-${index_g}`,
-                "type": LayerEnum.Group,
-                "isEdit": false,
-                "isShow": true,
-                "children": []
-              };count++;
-              group.children.forEach((child,index)=>{
-                objGroup.children.push({
-                  label: child.label,
-                  id: child.name,
-                  key: `${objGroup.key}-${index}`,
-                  type: LayerEnum.S3M,
-                  isShow: undefined,
-                  layer: undefined,
-                })
-              })
-              if(objGroup.children && objGroup.children.length>0){
-                obj.children.push(objGroup);
-              }
-            }else{
-              let child = group;
-              // if(child.type == LayerEnum.S3M){
-              if(child.name){
-                let objChild = {
-                  label: child.label,
-                  id: child.name,
-                  key: `${obj.key}-${index_g}`,
-                  type: LayerEnum.S3M,
-                  isShow: undefined,
-                  layer: undefined,
-                };
-                obj.children.push(objChild)
-              }
-            }
-  
-          });
-        } else {
-          let child = collection;
-          obj = {
-            label: child.label,
-            id: child.name,
-            key: `1-${index_c}`,
-            type: LayerEnum.S3M,
-            isShow: undefined,
-            layer: undefined,
-          };
-        }
-  
-        if(obj.type == LayerEnum.S3M){
-          s3mTreeList.push(obj);
-        }else if(obj.type == LayerEnum.Collection){
-          if(obj.children && obj.children.length>0){
-            s3mTreeList.push(obj);
+      Object.keys(layerStyleOptions).forEach(layerName => {
+        const item = layerStyleOptions[layerName];
+        const obj = {
+          name: layerName,
+          style: {
+            selectedColor: item.selectedColor,
+            style3D: {
+              fillStyle: item.fillStyle,
+              lineColor: item.lineColor,
+              fillForeColor: item.foreColor,
+              bottomAltitude: item.bottomAltitude,
+              alpha: item.layerTrans,
+            },
           }
         }
-      });
+        sceneInfo.LayerStyles.s3mLayerStyles.push(obj);
+      })
     }
 
-    return s3mTreeList;
+    // 粒子系统
+    if (content.layers && content.layers.particleOptions) {
+      sceneInfo.ParticleSystem = content.layers.particleOptions;
+    }
+
+    return sceneInfo;
   }
 
   // 打开本地场景
   async openScene(data){
     if(!this.viewer || !(this.viewer instanceof SuperMap3D.Viewer)) return;
-    const SceneConfigData = data.sceneInfo ? data.sceneInfo : data;
+    data = data.content ? data.content : data;
+    let SceneConfigData = data.sceneInfo ? data.sceneInfo : data;
+
+    // 兼容打开之前版本保存的场景：environmentState为特征字段，为历史版本保存的场景所特有的，
+    // 需要使用oldSceneDataToNewSceneInfo函数转成新版本iEarth可用的
+    if (SceneConfigData.environmentState) SceneConfigData = this.oldSceneDataToNewSceneInfo(SceneConfigData);
+
     if(!SceneConfigData || !SceneConfigData.Camera) return;
     // if(!SceneConfigData.SceneMode || SceneConfigData.SceneMode !== 3) return; // 目前只管球面场景
 
@@ -590,12 +477,15 @@ class OpenConfig {
   openTIN(option){
     if (!option || !option.type) return;
     const tinOption = option;
-    const type = tinOption.type;
+    let type = tinOption.type;
+    if(type == 'StkTerrain') type = "SuperMapTerrainProvider"; // 兼容老版本iEarth保存地形类型
     switch (type) {
       case "SuperMapTerrainProvider":
+        const tinUrl = tinOption.url;
+        const isSct = tinUrl.includes('info/data/path') ? false : true;  // STK地形，需要设置isSct为false
         this.viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
-          url: tinOption.url,
-          isSct: tinOption.isSct,
+          url: tinUrl,
+          isSct: isSct,
         });
         break;
       case "SCTTerrainProvider":
@@ -764,7 +654,9 @@ class OpenConfig {
     this.openSunLight(options.sunLight);
     // this.openAmbientLight(options.ambientLight); // 不再设置环境光，环境光使用默认值
     this.openCustomLight(options.customLights);
-    window.customConfig.lightModelSize = Number(options.lightModelSize) || 5; // 获取当前场景使用时的一些自定义参数
+    if(window.customConfig){ // 获取当前场景使用时的一些自定义参数
+      window.customConfig.lightModelSize = Number(options.lightModelSize) || 5; 
+    }
   }
   // 视觉效果: 太阳光
   openSunLight(option){
@@ -844,6 +736,7 @@ class OpenConfig {
 
   // 设置图层风格
   openLayerStyles(options){
+    if(!options) return;
     this.openS3MStyleList(options.s3mLayerStyles);
     // this.openImgStyleList(); to do...
     // this.openTINStyleList(); to do...
@@ -998,7 +891,10 @@ class OpenConfig {
   // 添加粒子系统
   setParticle(particleOptions) {
     if(!particleOptions) return;
-    window.iEarthBindData['ParticleOptions'] = particleOptions;
+    if(window.iEarthBindData) {
+      window.iEarthBindData['ParticleOptions'] = particleOptions;
+    }
+
     if (particleOptions['fire'] != null) {
       let fireOption = particleOptions['fire'];
       this.addParticleFile(fireOption, 'fire');
@@ -1021,7 +917,7 @@ class OpenConfig {
   // 加载粒子文件
   loadParticleFile(url, modelMatrix, type, option) {
     let particle = {};
-    let scene = window.viewer.scene;
+    let scene = this.viewer.scene;
     SuperMap3D.ParticleHelper.fromJsonUrl(url, scene).then(function (particleSystem) {
       particle = particleSystem;
       particle.modelMatrix = modelMatrix;
@@ -1088,14 +984,16 @@ class OpenConfig {
         }
       }
 
-      window.iEarthBindData['Particle'][type] = particle;
+      if(window.iEarthBindData) {
+        window.iEarthBindData['Particle'][type] = particle;
+      }
     });
   }
   // 添加烟花
   addFireWork(fireWorkOption) {
     let modelMatrix = new SuperMap3D.Matrix4();
-    let clickHandle, setIntervalList = [], particleSystemList = [];
-    let scene = window.viewer.scene;
+    let setIntervalList = [];
+    let scene = this.viewer.scene;
     scene.skyAtmosphere = new SuperMap3D.SkyAtmosphere();
     scene.globe.show = false
     scene.skyAtmosphere.show = false; //关闭大气
@@ -1150,7 +1048,9 @@ class OpenConfig {
       scene.primitives.add(particleSystem);
       setIntervalList.push(setIntervalFlag);
 
-      window.iEarthBindData['Particle']["fireWork"] = setIntervalList;
+      if(window.iEarthBindData) {
+        window.iEarthBindData['Particle']["fireWork"] = setIntervalList;
+      }
     }
 
     function addSpark(centerPosition) {
@@ -1162,4 +1062,4 @@ class OpenConfig {
   }
 }
 
-export default OpenConfig;
+window.OpenConfig = OpenConfig;

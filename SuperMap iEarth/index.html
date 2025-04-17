@@ -9,11 +9,6 @@
 
   <!-- 导入SuperMap3D -->
   <link rel="stylesheet" href="/SuperMap3D/Widgets/widgets.css">
-  
-  <!-- 请根据SuperMap3D类型选择对应的资源引入方式： -->
-  <!-- 主版本新版打包方式请使用这种方式引入 -->
-  <!-- <script src="./load-supermap3d-es6.js" type="module"></script> -->
-   <!-- 之前打包方式引入 -->
   <script type="text/javascript"  src="/SuperMap3D/SuperMap3D.js"></script>
 
   <!-- 导入二维地图库：iclient-leaflet -->
@@ -53,7 +48,9 @@
   <!-- 用于打包后，在Viewer初始化或者自定义服务中打开场景、单个S3M图层、影像图层后执行指定代码来进行项目调试-->
   <script type="text/javascript" src="/config/iEarthCustomFunc.js"></script>
 
-  <!-- 如果是主版本新版打包方式，请在该下方script标签下插入 defer -->
+  <!-- 打开保存的场景:方便地图大屏打包后能拿到相关代码 -->
+  <script type="text/javascript"  src="/lib/OpenConfig.js"></script>
+
 </head>
 
 <body>

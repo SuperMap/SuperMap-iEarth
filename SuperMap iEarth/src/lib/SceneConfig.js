@@ -254,7 +254,7 @@ class SceneConfig {
     if(terrainProvider instanceof SuperMap3D.SuperMapTerrainProvider){
       tinOption["type"] = "SuperMapTerrainProvider";
       tinOption["url"] = terrainProvider.baseUrl || terrainProvider._baseUrl;
-      tinOption["isSct"] = tinOption["url"].includes('info/data/path') ? false : true; // 如果URL包含info..说明该服务为STK地形，将isSct设置为false；否则为正常地形默认为true
+      // tinOption["isSct"] = tinOption["url"].includes('info/data/path') ? false : true; // 如果URL包含info..说明该服务为STK地形，将isSct设置为false；否则为正常地形默认为true
     }else if(terrainProvider instanceof SuperMap3D.SCTTerrainProvider){
       tinOption["type"] = "SCTTerrainProvider";
       tinOption["url"] = terrainProvider.urls || terrainProvider._urls;

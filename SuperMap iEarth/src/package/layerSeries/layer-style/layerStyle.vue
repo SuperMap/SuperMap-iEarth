@@ -107,11 +107,14 @@
 
       <div class="row-item">
           <div>{{ $t("setMaterial") }}</div>
-          <div>
-            <n-input-group>
-              <n-input style="width: 1.4rem" :placeholder="$t('localFilePathJson')"
-                v-model:value="state.fileSrc" />
-              <n-button type="tertiary" @click="chooseFile" style="width: 0.6rem">{{ $t("import") }}</n-button>
+          <div class="check-color-pick">
+            <n-checkbox
+              v-model:checked="state.usePbrJson"
+            ></n-checkbox>
+            <n-input-group style="margin-left: 0.17rem;">
+              <n-input style="width: 1.2rem" :placeholder="$t('localFilePathJson')"
+                v-model:value="state.fileSrc" :disabled="!state.usePbrJson"/>
+              <n-button type="tertiary" @click="chooseFile" style="width: 0.5rem" :disabled="!state.usePbrJson">{{ $t("import") }}</n-button>
             </n-input-group>
           </div>
       </div>
@@ -151,6 +154,7 @@ type StateType = {
   fillColor: string; //前景色
   lineWidth: number;// 线宽
   fileSrc: "", //文件地址
+  usePbrJson: boolean, // 是否使用PBR JSON材质
 };
 
 // 开启地下
@@ -175,6 +179,7 @@ const state = reactive<StateType>({
   fillColor: "rgba(255, 255, 255, 1)", //前景色
   lineWidth: 2,
   fileSrc: "", //文件地址
+  usePbrJson: false
 })
 
 const hasWaterParameter = ref(false);
@@ -233,6 +238,7 @@ function updateStateValue(selectLayer){
     state.bottomAltitude = Number(selectLayer.style3D.bottomAltitude);
     state.layerTrans = Number(selectLayer.style3D.fillForeColor.alpha);
     state.LODScale = Number(selectLayer.lodRangeScale);
+    state.usePbrJson = selectLayer.pbrJsonDataSave ? true : false;
   }else{
     state.fillStyle = 2;
     state.lineWidth = 2;
@@ -241,6 +247,7 @@ function updateStateValue(selectLayer){
     state.bottomAltitude = 0;
     state.layerTrans = 1;
     state.LODScale = 1;
+    state.usePbrJson = false;
   }
 }
 
@@ -319,6 +326,8 @@ function reSetting(){
 
     // 删除PBR材质
     selectLayer.removePBRMaterial();
+    delete selectLayer.pbrJsonDataSave;
+    state.usePbrJson = false;
 
     // 重置时恢复S3M图层默认的选中效果,因为state.selectedColor有watch效果，所以这里做一下延迟
     setTimeout(() => {
@@ -427,6 +436,19 @@ watch(
   (val) => {
     if (selectLayer) {
       selectLayer.style3D.fillForeColor.alpha = Number(val);
+    }
+  }
+);
+
+watch(
+  () => state.usePbrJson,
+  (val) => {
+    if (!selectLayer) return;
+    if(val && selectLayer.pbrJsonDataSave){
+      let pbrObj = JSON.parse(selectLayer.pbrJsonDataSave);
+      selectLayer.setPBRMaterialFromJSON(pbrObj);
+    }else{
+      selectLayer.removePBRMaterial();
     }
   }
 );
