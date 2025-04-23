@@ -218,7 +218,7 @@ export const useLayerStore = defineStore({
 
 			// 基于mapboxStyle子图层计算图层列表
 			const mvtMapFirst = viewer.scene._vectorTileMaps._layerQueue[0];
-			if(mvtMapFirst){ // MVT底层styleLayer共用,所以只需要第一个MVT图层即可获取所有的子图层
+			if(mvtMapFirst && mvtMapFirst.mapboxStyle && mvtMapFirst.mapboxStyle.layers.length>0){ // MVT底层styleLayer共用,所以只需要第一个MVT图层即可获取所有的子图层
 				mvtMapFirst.mapboxStyle.layers.forEach((styleLayer: any, index: string) => {
 					if(styleLayer.source){
 						if(!styleLayer.customName) styleLayer.customName = styleLayer.id;

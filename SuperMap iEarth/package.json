@@ -23,7 +23,8 @@
     "vue-i18n": "9.1.9",
     "vue-json-pretty": "^2.2.3",
     "vue-router": "^4.1.5",
-    "vuedraggable": "4.1.0"
+    "vuedraggable": "4.1.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@vicons/ionicons5": "~0.11.0",

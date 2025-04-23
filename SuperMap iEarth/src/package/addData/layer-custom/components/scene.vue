@@ -15,13 +15,11 @@
     <n-input class="add-input-border" v-model:value="state.subdomains" placeholder="t0,t1,t2,t3" type="text" style="width: 2.4rem"/>
   </div>
 
-  <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
-    <n-checkbox v-model:checked="state.useSenceName">{{ $t("appointSceneName") }}</n-checkbox>
-  </div>
 
-  <div class="row-item" v-if="state.useSenceName">
-    <span>{{ $t("name") }}</span>
-    <n-input class="add-input-border" v-model:value="state.sceneName" type="text" style="width: 2.4rem"/>
+  <!-- 选择场景名称 -->
+  <div class="row-item" v-if="state.sceneNameOptions.length>0">
+    <span>{{ $t("sceneName") }}</span>
+    <n-select style="width: 2.4rem" v-model:value="state.sceneName" :options="state.sceneNameOptions" />
   </div>
 
   <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
@@ -39,6 +37,7 @@
 
 <script lang="ts" setup>
 import { reactive } from "vue";
+import tool from "@/tools/tool";
 
 const state = reactive({
   urlTip: "http://<server>:<port>/realspace/services/<component>/rest/realspace",
@@ -46,15 +45,21 @@ const state = reactive({
   sceneName: '',
   sceneToken: '',
   token: false,
-  useSenceName:false,
-  subdomains:''
+  subdomains:'',
+  sceneNameOptions:[]
 })
 
 //检查场景服务地址是否合规
-let reg = /rest\/realspace$/g;
 function handleChange(){
   state.sceneUrl = state.sceneUrl.trim();
-  if (!reg.test(state.sceneUrl)) {
+  if(state.sceneUrl.endsWith("/realspace")) {
+    tool.computedSceneNameOptions(state.sceneUrl).then(result => {
+      if (result && result.length > 0) {
+        state.sceneName = result[0].value;
+        state.sceneNameOptions = result;
+      }
+    });
+  }else{
     window["$message"].warning($t("urlChecedFail"));
   }
 }
@@ -132,6 +137,8 @@ function clear() {
   state.sceneUrl = "";
   state.sceneToken = "";
   state.token = false;
+  state.sceneName = '';
+  state.sceneNameOptions = [];
 }
 </script>
 

@@ -289,6 +289,7 @@ async function computedSceneNameOptions(sceneUrl) {
   if (!sceneUrl) return;
 
   sceneUrl = sceneUrl.trim().replace(/\/+$/, "");
+  if(sceneUrl.includes("/realspace")) sceneUrl = sceneUrl.replace("/realspace", "");
   const sceneJsonUrl = sceneUrl + '/realspace/scenes.json';
   const isAccess = await checkURLAccess(sceneJsonUrl);
   if(!isAccess) return;

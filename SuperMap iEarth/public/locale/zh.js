@@ -855,6 +855,14 @@ const local_zh = {
         addSuccess:"添加成功",
         dataTooLargrTip:"数据量太大，暂不支持加载",
         removeAllMVT:"移除所有MVT图层",
+        arcgisService:"ArcGIS服务",
+        tileMatrixSet:"瓦片矩阵集",
+        wmtsNotSupportTip:"暂时仅支持坐标系为EPSG:4490和EPSG:4326和EPSG3857的WMTS服务",
+        wmtsiServerTip:"暂时仅支持SuperMap iServer 发布的 WMTS 服务",
+        wmtsFilter:"图层过滤",
+        wmtsFilterTip:"请输入关键字",
+        wmtsLayerName:'图层名称',
+        wmtsNoLayerOrTilesetIDTip:"请选择WMTS图层和对应的瓦片数据集"
 }
 
 window.local_zh = local_zh;

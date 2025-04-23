@@ -150,6 +150,18 @@ const overridesTheme = {
   Switch: {
     railColorActive: "#3499E5",
   },
+  // DataTable: {
+  //   // 表格背景色
+  //   tdColor: 'rgba(18, 26, 37, 1)',
+  //   thColor: 'rgba(18, 26, 37, 1)',
+  //   // 边框颜色
+  //   borderColor: 'rgba(255, 255, 255, 0.12)',
+  //   // 行悬停颜色
+  //   tdColorHover: 'rgba(52, 153, 229, 0.15)',
+  //   // 文字颜色
+  //   thTextColor: 'rgba(255, 255, 255, 0.82)',
+  //   tdTextColor: 'rgba(255, 255, 255, 0.82)',
+  // }
 };
 </script>
 
