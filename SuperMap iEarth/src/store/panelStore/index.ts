@@ -9,18 +9,16 @@ export const usePanelStore = defineStore({
         panelList: {
             leftToolBarList: [
                 {
-                    id: PanelNameEnum.LayerList,
+                    id: PanelNameEnum.LayerTree,
                     iconName: "icontuceng",
-                    title: "t_layerList",
-                    isSelected: false,
-                    panelName: "LayerList"
+                    title: "layerList",
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.AddData,
                     iconName: "icontianjia",
-                    title: "t_addData",
-                    isSelected: false,
-                    panelName: "AddLayerData"
+                    title: "addData",
+                    isSelected: false
                 },
             ],
             rightToolBarList: [
@@ -28,96 +26,89 @@ export const usePanelStore = defineStore({
                     id: PanelNameEnum.Analyse3D,
                     iconName: "iconsanweifenxi",
                     title: "analyseSeries",
-                    isSelected: false,
-                    panelName: "Analyse3D"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.Measure,
                     iconName: "iconliangsuan",
                     title: "measure",
-                    isSelected: false,
-                    panelName: "Measure"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.SceneSet,
                     iconName: "iconkapianshi",
                     title: "sceneProperties",
-                    isSelected: false,
-                    panelName: "SceneSet"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.ObjectPainting,
                     iconName: "iconduixianghuizhi",
                     title: "objectPainting",
-                    isSelected: false,
-                    panelName: "ObjectPainting"
+                    isSelected: false
+                },
+                {
+                    id: PanelNameEnum.QuerySeries,
+                    iconName: "iconsousuo",
+                    title: "query",
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.LayerOpration,
                     iconName: "iconhuizhi",
                     title: "layerOpration",
-                    isSelected: false,
-                    panelName: "layerOpration"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.LayerAttribute,
                     iconName: "iconhuizhi",
                     title: "layerAttribute",
-                    isSelected: false,
-                    panelName: "layerAttr"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.LayerStyle,
                     iconName: "iconhuizhi",
                     title: "layerStyle",
-                    isSelected: false,
-                    panelName: "layerStyle"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.LayerQuery,
                     iconName: "iconhuizhi",
                     title: "layerQuery",
-                    isSelected: false,
-                    panelName: "layerQuery"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.ImageMapQuery,
                     iconName: "iconhuizhi",
                     title: "mapQuery",
-                    isSelected: false,
-                    panelName: "mapQuery"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.QXSingle,
                     iconName: "iconhuizhi",
                     title: "qxSingle",
-                    isSelected: false,
-                    panelName: "qxSingle"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.ImageMapCover,
                     iconName: "iconhuizhi",
                     title: "mapCover",
-                    isSelected: false,
-                    panelName: "mapCover"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.MVTStyle,
                     iconName: "iconhuizhi",
                     title: "mvtStyle",
-                    isSelected: false,
-                    panelName: "mvtStyle"
+                    isSelected: false
                 },
                 {
                     id: PanelNameEnum.LayerTheme,
                     iconName: "iconhuizhi",
                     title: "thematicMap",
-                    isSelected: false,
-                    panelName: "thematicMap"
+                    isSelected: false
                 },
             ]
         },
-        rightTooPanel: false,
+        rightToolPanel: false,
         leftTooPanel: false,
         showSavePanel: false, // 保存面板是否显示
         myDataPanleShow: false,// 我的数据面板
@@ -147,7 +138,7 @@ export const usePanelStore = defineStore({
             // 确保所有面板能全部刷新
             setTimeout(() => {
                 this.isFold = false; // 取消面板的折叠状态
-                this.rightTooPanel = true;
+                this.rightToolPanel = true;
                 this.panelList.rightToolBarList.map((item: any) => {
                     if (item.id == iconItem.id) {
                         item.isSelected = true;
@@ -165,7 +156,7 @@ export const usePanelStore = defineStore({
                     item.isSelected = false;
                 })
             } else {
-                this.rightTooPanel = false;
+                this.rightToolPanel = false;
                 this.panelList.rightToolBarList.map((item) => {
                     item.isSelected = false;
                 })

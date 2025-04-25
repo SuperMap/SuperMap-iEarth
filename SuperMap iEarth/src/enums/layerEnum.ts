@@ -13,7 +13,7 @@ export enum LayerEnum {
 
 export enum PanelNameEnum {
   // 左侧面板
-  LayerList = 'LayerList',
+  LayerTree = 'LayerTree',
   AddData = 'AddData',
 
   // 右侧面板
@@ -21,6 +21,7 @@ export enum PanelNameEnum {
   Measure = 'Measure',
   SceneSet = 'SceneSet',
   ObjectPainting = 'ObjectPainting',
+  QuerySeries = "QuerySeries",
 
   // 图层列表
   LayerOpration = 'LayerOpration',

@@ -25,9 +25,6 @@
       <n-gi>
         <n-checkbox v-model:checked="state.hdrEnabled" label="HDR" />
       </n-gi>
-      <n-gi>
-        <n-checkbox v-model:checked="state.useDBQuery" :label="$t('layerQuery')" />
-      </n-gi>
     </n-grid>
 
     <n-divider />
@@ -94,24 +91,8 @@
         </template>
       </n-collapse-item>
     </n-collapse>
-
-    <n-divider />
-
-    <div class="row-item" style="margin-bottom: 0px; margin-right: 0.1rem">
-      <span>{{ $t("coordinateQuery") }}</span>
-      <n-input
-        class="coordinateQueryBox"
-        disabled
-        :placeholder="$t('displayCoordinateTip')"
-        v-model:value="coordinate"
-        autosize
-        style="width: 1.96rem"
-      />
-    </div>
   </n-scrollbar>
 
-  <!-- DB属性查询 -->
-  <DBQuery v-if="state.useDBQuery"></DBQuery>
 </template>
 
 <script lang="ts" setup>
@@ -126,13 +107,10 @@ import EnvMap from "./coms/envMap.vue";
 import MsaaLevel from "./coms/msaaLevel.vue";
 import SceneDepth from "./coms/sceneDepth.vue";
 import MouseMode from "./coms/mouseMode.vue";
-import DBQuery from "./coms/DBQuery.vue";
 
 const viewer = window.viewer;
 const scene = viewer.scene;
 const triggerAreas = computed(()=>['arrow','main']);
-let coordinate = ref("");
-let handlerSearch = new SuperMap3D.ScreenSpaceEventHandler(viewer.scene.canvas);
 
 // 云层
 const cloudBoxUrl = "./images/cloudLayer/clouds1.png";
@@ -152,7 +130,6 @@ const state = reactive({
   displayFrame: viewer.scene.debugShowFramesPerSecond,//显示帧率
   cloudLayer: viewer.scene.cloudBox ? true : false, // 云层
   hdrEnabled: viewer.scene.hdrEnabled, // HDR
-  useDBQuery: false,
 
   // 子组件
   bloomEffect: viewer.scene.bloomEffect.show, // 后处理
@@ -166,21 +143,6 @@ const state = reactive({
   isDepthSet: viewer.scene.depthOfFieldEffect.show, // 设置景深
   isMouseMode: viewer.scene.screenSpaceCameraController.customMouseMode ? true : false, // 该属性为自定义绑定，并无此API
 });
-
-onMounted(() => {
-  queryCoordinate();
-});
-
-// 场景中拾取查询坐标
-function queryCoordinate() {
-  handlerSearch.setInputAction(function (click) {
-    let position = viewer.scene.pickPosition(click.position);
-    let result = window.iEarthTool.Cartesian3ToDegreeArray(position);
-    coordinate.value = `${Number(result[0]).toFixed(4)},${Number(
-      result[1]
-    ).toFixed(4)},${Number(result[2]).toFixed(2)}`;
-  }, SuperMap3D.ScreenSpaceEventType.LEFT_CLICK);
-}
 
 // 监听单个属性
 watch(() => state.earthShow, (val) => { 

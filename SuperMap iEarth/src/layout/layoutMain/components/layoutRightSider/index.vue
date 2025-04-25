@@ -13,6 +13,7 @@
         <i class="iconfont iconfuwei" :title="$t('w_reset')"></i>
       </span>
     </div>
+
     <!-- 缩放 -->
     <div class="too-bar two-tool-bar">
       <span class="icon-container">
@@ -34,8 +35,9 @@
         ></i>
       </span>
     </div>
-    <!-- 分析等弹窗 -->
-    <div class="too-bar four-tool-bar">
+
+    <!-- 分析功能面板 -->
+    <div class="too-bar five-tool-bar">
       <span
         class="icon-container"
         v-for="iconItem in state.rightToolBarList"
@@ -51,7 +53,7 @@
       </span>
     </div>
 
-    <!-- iportal：首页和保存场景 -->
+    <!-- iportal：保存和首页 -->
     <div class="too-bar two-tool-bar" v-if="showIPortalToolBar">
       <span class="icon-container">
         <i
@@ -65,7 +67,7 @@
       </span>
     </div>
 
-    <!-- 本地保存 -->
+    <!-- locate：保存和打开 -->
     <div class="too-bar two-tool-bar" v-else>
       <openLocalSence></openLocalSence>
       <span class="icon-container" @click="saveScene">
@@ -73,6 +75,7 @@
       </span>
     </div>
 
+    <!-- 场景保存弹窗 -->
     <saveLocalScene></saveLocalScene>
   </div>
 </template>
@@ -100,7 +103,7 @@ const showIPortalToolBar = computed(() => {
 });
 
 let state = reactive({
-  rightToolBarList: panelStore.panelList.rightToolBarList.slice(0, 4),
+  rightToolBarList: panelStore.panelList.rightToolBarList.slice(0, 5), // 前五个
 });
 
 // 初始化
@@ -285,15 +288,15 @@ function outputSceneToFile() {
     );
   }
 
-  .four-tool-bar {
+  .five-tool-bar {
     box-sizing: border-box;
     padding-top: 0.08rem;
     margin-top: 0.4rem;
     margin-bottom: 0.1rem;
     @include setBackground(
       0.32rem,
-      1.48rem,
-      "@/assets/images/right-tool-four-bar.png"
+      1.78rem,
+      "@/assets/images/right-tool-five-bar.png"
     );
   }
 

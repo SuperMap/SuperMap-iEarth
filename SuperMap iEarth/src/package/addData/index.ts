@@ -1,2 +1,2 @@
-import AddLayerData from "./index.vue"
-export default AddLayerData;
+import AddData from "./index.vue"
+export default AddData;

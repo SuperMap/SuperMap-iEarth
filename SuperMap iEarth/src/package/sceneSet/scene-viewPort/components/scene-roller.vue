@@ -42,7 +42,7 @@
   </div>
 
   <div class="row-item no-center" v-if="state.selectedType != 'noRoller'">
-    <span>{{ $t("t_layerList") }}</span>
+    <span>{{ $t("layerList") }}</span>
     <div class="comLayerTreeBox" style="width: 1.96rem">
       <n-scrollbar style="max-height:3rem" trigger="none">
         <n-tree 

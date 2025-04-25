@@ -1,18 +1,11 @@
 <template>
   <div class="too-panel">
+
+    <!-- 左侧面板 -->
     <div class="left-panel" v-if="panelStore.leftTooPanel">
-      <!-- 左侧面板header -->
+      <!-- header -->
       <div class="panle-header">
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.leftToolBarList[0].isSelected"
-          >{{ $t("t_layerList") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.leftToolBarList[1].isSelected"
-          >{{ $t("t_addData") }}</span
-        >
+        <span class="panle-title">{{ $t(leftPanleTitle) }}</span>
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close" @click="panelCloseHandle(1)">
@@ -20,7 +13,7 @@
         </div>
       </div>
 
-      <!-- 左侧面板content -->
+      <!-- content -->
       <div
         class="panle-container"
         :style="{
@@ -29,86 +22,18 @@
             : 'hidden',
         }"
       >
-        <LayerTree
-          v-if="panelStore.panelList.leftToolBarList[0].isSelected"
-        ></LayerTree>
-        <AddLayerData
-          v-if="panelStore.panelList.leftToolBarList[1].isSelected"
-        ></AddLayerData>
+        <component :is="currentLeftCom"></component>
       </div>
 
-      <!-- 左侧面板footer -->
+      <!-- footer -->
       <div class="panle-footer"></div>
     </div>
 
-    <div class="right-panel" v-if="panelStore.rightTooPanel">
-      <!-- 右侧面板header -->
+    <!-- 右侧面板 -->
+    <div class="right-panel" v-if="panelStore.rightToolPanel">
+      <!-- header -->
       <div class="panle-header panle-header-right" v-show="!isFold">
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[0].isSelected"
-          >{{ $t("t_analyse3d") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[1].isSelected"
-          >{{ $t("t_measure") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[2].isSelected"
-          >{{ $t("t_sceneProperties") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[3].isSelected"
-          >{{ $t("t_objectPainting") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[4].isSelected"
-          >{{ $t("layerOpration") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[5].isSelected"
-          >{{ $t("layerAttribute") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[6].isSelected"
-          >{{ $t("layerStyle") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[7].isSelected"
-          >{{ $t("layerQuery") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[8].isSelected"
-          >{{ $t("mapQuery") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[9].isSelected"
-          >{{ $t("qxSingle") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[10].isSelected"
-          >{{ $t("mapCover") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[11].isSelected"
-          >{{ $t("mvtStyle") }}</span
-        >
-        <span
-          class="panle-title"
-          v-if="panelStore.panelList.rightToolBarList[12].isSelected"
-          >{{ $t("thematicMap") }}</span
-        >
+        <span class="panle-title">{{ $t(rightPanleTitle) }}</span>
         <span class="zst1"></span>
         <span class="zst2"></span>
         <div class="panel-close">
@@ -117,7 +42,7 @@
         </div>
       </div>
 
-      <!-- 右侧面板header-折叠 -->
+      <!-- header-折叠 -->
       <div class="panel-header-fold">
         <div class="one-tool-bar" v-show="isFold" @click="isFold = false" :title="$t('expandPanel')">
           <span class="icon-container">
@@ -126,69 +51,28 @@
         </div>
       </div>
 
-      <!-- 右侧面板content -->
+      <!-- content -->
       <div class="panle-container panle-container-right" v-show="!isFold">
-        <Analyse3D
-          v-if="panelStore.panelList.rightToolBarList[0].isSelected"
-        ></Analyse3D>
-        <Measure
-          v-if="panelStore.panelList.rightToolBarList[1].isSelected"
-        ></Measure>
-        <SceneSet
-          v-if="panelStore.panelList.rightToolBarList[2].isSelected"
-        ></SceneSet>
-        <ObjectPainting
-          v-if="panelStore.panelList.rightToolBarList[3].isSelected"
-        ></ObjectPainting>
-
-        <LayerOpration
-          v-if="panelStore.panelList.rightToolBarList[4].isSelected"
-        ></LayerOpration>
-        <LayerAttribute
-          v-if="panelStore.panelList.rightToolBarList[5].isSelected"
-        ></LayerAttribute>
-        <LayerStyle
-          v-if="panelStore.panelList.rightToolBarList[6].isSelected"
-        ></LayerStyle>
-        <LayerQuery
-          v-if="panelStore.panelList.rightToolBarList[7].isSelected"
-        ></LayerQuery>
-        <MapQuery
-          v-if="panelStore.panelList.rightToolBarList[8].isSelected"
-        ></MapQuery>
-        <QxSingle
-          v-if="panelStore.panelList.rightToolBarList[9].isSelected"
-        ></QxSingle>
-        <QxCover
-          v-if="panelStore.panelList.rightToolBarList[10].isSelected"
-        ></QxCover>
-        <MvtStyle
-          v-if="panelStore.panelList.rightToolBarList[11].isSelected"
-        ></MvtStyle>
-        <LayerTheme
-          v-if="panelStore.panelList.rightToolBarList[12].isSelected"
-        ></LayerTheme>
+        <component :is="currentRightCom"></component>
       </div>
 
-      <!-- 右侧面板footer -->
+      <!-- footer -->
       <div class="panle-footer panle-footer-right" v-show="!isFold"></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// 图层列表
+// 左侧面板
 import LayerTree from "@/package/layerTree/index";
-// 添加服务
-import AddLayerData from "@/package/addData/index";
-// 三维分析
+import AddData from "@/package/addData/index";
+
+// 右侧面板
 import Analyse3D from "@/package/analyse3d/index";
-// 量算
 import Measure from "@/package/measure/index";
-// 场景属性
 import SceneSet from "@/package/sceneSet/index";
-// 对象绘制
 import ObjectPainting from "@/package/objectPainting/index";
+import QuerySeries from "@/package/querySeries/index";
 
 // 图层系列操作
 import LayerOpration from "@/package/layerSeries/layer-opration/index";
@@ -203,6 +87,8 @@ import LayerTheme from "@/package/layerSeries/layer-theme/index";
 
 import { storeToRefs } from 'pinia'
 import { usePanelStore } from "@/store/index";
+import { reactive, markRaw, computed } from "vue";
+import { PanelNameEnum } from "@/enums/layerEnum";
 
 const panelStore = usePanelStore();
 const { isFold } = storeToRefs(panelStore);
@@ -211,6 +97,108 @@ const { isFold } = storeToRefs(panelStore);
 function panelCloseHandle(leftOrRght: any) {
   panelStore.closeRightToolPanel(leftOrRght);
 }
+
+// 左侧面板标题
+const leftPanleTitle = computed(() => {
+  const target = panelStore.panelList.leftToolBarList.find(item => item.isSelected)
+  return target ? target.title : "";
+});
+
+// 右侧面板标题
+const rightPanleTitle = computed(() => {
+  const target = panelStore.panelList.rightToolBarList.find(item => item.isSelected)
+  return target ? target.title : "";
+});
+
+
+// 左侧面板组件列表
+const comLeftList = reactive([
+  {
+    name: PanelNameEnum.LayerTree,
+    com: markRaw(LayerTree)
+  },
+  {
+    name: PanelNameEnum.AddData,
+    com: markRaw(AddData)
+  }
+]);
+
+// 右侧面板组件列表
+const comRightList = reactive([
+  {
+    name: PanelNameEnum.Analyse3D,
+    com: markRaw(Analyse3D)
+  },
+  {
+    name: PanelNameEnum.Measure,
+    com: markRaw(Measure)
+  },
+  {
+    name: PanelNameEnum.SceneSet,
+    com: markRaw(SceneSet)
+  },
+  {
+    name: PanelNameEnum.ObjectPainting,
+    com: markRaw(ObjectPainting)
+  },
+  {
+    name: PanelNameEnum.QuerySeries,
+    com: markRaw(QuerySeries)
+  },
+  {
+    name: PanelNameEnum.LayerOpration,
+    com: markRaw(LayerOpration)
+  },
+  {
+    name: PanelNameEnum.LayerAttribute,
+    com: markRaw(LayerAttribute)
+  },
+  {
+    name: PanelNameEnum.LayerStyle,
+    com: markRaw(LayerStyle)
+  },
+  {
+    name: PanelNameEnum.LayerQuery,
+    com: markRaw(LayerQuery)
+  },
+  {
+    name: PanelNameEnum.ImageMapQuery,
+    com: markRaw(MapQuery)
+  },
+  {
+    name: PanelNameEnum.QXSingle,
+    com: markRaw(QxSingle)
+  },
+  {
+    name: PanelNameEnum.ImageMapCover,
+    com: markRaw(QxCover)
+  },
+  {
+    name: PanelNameEnum.MVTStyle,
+    com: markRaw(MvtStyle)
+  },
+  {
+    name: PanelNameEnum.LayerTheme,
+    com: markRaw(LayerTheme)
+  },
+]);
+
+// 计算左侧面板当前组件
+const currentLeftCom = computed(() => {
+  const targetItem = panelStore.panelList.leftToolBarList.find(item => item.isSelected)
+  if(!targetItem) return;
+  const targetCom = comLeftList.find(item => item.name === targetItem.id)
+  if(targetCom) return targetCom.com;
+});
+
+// 计算右侧面板当前组件
+const currentRightCom = computed(() => {
+  const targetItem = panelStore.panelList.rightToolBarList.find(item => item.isSelected)
+  if(!targetItem) return;
+  const targetCom = comRightList.find(item => item.name === targetItem.id)
+  if(targetCom) return targetCom.com;
+});
+
 </script>
 
 <style lang="scss" scoped>

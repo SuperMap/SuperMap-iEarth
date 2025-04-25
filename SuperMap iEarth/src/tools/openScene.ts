@@ -144,7 +144,10 @@ function handleSceneContent(config) {
 
   // 打开场景
   if(!window.OpenConfig) return
-  const openConfig = new window.OpenConfig(viewer);
+  const openConfig = new window.OpenConfig(viewer,{
+    tiandituKey: window?.tokenConfig?.tiandituKey,
+    bingMapkey: window?.tokenConfig?.bingMapsKey
+  });
   openConfig.openScene(sceneInfo);
 
   // 计算图层树

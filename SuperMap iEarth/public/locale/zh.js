@@ -793,7 +793,7 @@ const local_zh = {
         useDBQuery:'使用DB属性查询',
         fieldName:'字段名',
         fieldValue:'字段值',
-        openDBTip:'当前开启DB属性查询，左键点击选中模型，右键关闭查询',
+        openDBTip:'左键点击模型查询信息',
         closeDBtip:'DB属性查询已关闭',
         passIDsToHiding:'指定ID列表隐藏',
         objectIDs:'对象ID列表',
@@ -862,7 +862,11 @@ const local_zh = {
         wmtsFilter:"图层过滤",
         wmtsFilterTip:"请输入关键字",
         wmtsLayerName:'图层名称',
-        wmtsNoLayerOrTilesetIDTip:"请选择WMTS图层和对应的瓦片数据集"
+        wmtsNoLayerOrTilesetIDTip:"请选择WMTS图层和对应的瓦片数据集",
+        openIndexDBQuery:"开启属性查询",
+        spatialQuery:"空间查询",
+        openCoordinateQuery:"开启坐标查询",
+        coordinateQueryTip:"鼠标点击任意处，返回结果"
 }
 
 window.local_zh = local_zh;

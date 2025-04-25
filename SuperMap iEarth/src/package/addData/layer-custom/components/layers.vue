@@ -439,7 +439,8 @@ function addWMTS(url: string) {
   wmtsOptions.tilingScheme = tilingScheme;
   //* 计算添加wmts服务时需要传入的Option == end == */
 
-  scene.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider(wmtsOptions));
+  const imageLayer = scene.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider(wmtsOptions));
+  viewer.flyTo(imageLayer);
 }
 
 // 过滤wmts图层
