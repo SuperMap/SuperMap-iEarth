@@ -237,6 +237,7 @@ async function saveScene(){
     bindiEarthData:bindiEarthData
   }
   const saveData = { // 场景保存参数设置
+    version: "2.1",
     name: name || '',
     tags: tagsArray || '',
     userName: userName || '',

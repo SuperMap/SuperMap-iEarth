@@ -1,7 +1,8 @@
 {
-	"name": "原版CBD",
+	"version": "2.1",
+	"name": "CBD预设场景",
 	"tags": [
-		"预设场景"
+		"CBD"
 	],
 	"userName": "",
 	"description": "",
@@ -18,16 +19,16 @@
 					"z": 4068994.4237822248
 				},
 				"heading": 0.05424499862642396,
-				"pitch": -0.3649937322480856,
+				"pitch": -0.36499373224808584,
 				"roll": 1.4775898726782088e-8
 			},
-			"SaveTime": "2025/3/27-10:22:25",
+			"SaveTime": "2025/4/27-09:46:02",
 			"SceneClockTime": "2025-03-27T02:21:53.4170000000012806Z",
 			"LayerOptions": {
 				"s3mLayers": [
 					{
 						"type": "S3MTilesLayer",
-						"name": "Ground@CBD",
+						"name": "Building@CBD",
 						"visible": true,
 						"lodRangeScale": 1,
 						"cullEnabled": false,
@@ -36,9 +37,8 @@
 						"minTransparentAlpha": 0.1,
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
 						"LoadingPriority": 3,
-						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Ground%40CBD/config",
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building%40CBD/config",
 						"residentRootTile": false
 					},
 					{
@@ -52,25 +52,8 @@
 						"minTransparentAlpha": 0.1,
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Bridge%40CBD/config",
-						"residentRootTile": false
-					},
-					{
-						"type": "S3MTilesLayer",
-						"name": "Building@CBD",
-						"visible": true,
-						"lodRangeScale": 1,
-						"cullEnabled": false,
-						"ignoreNormal": true,
-						"ignoreVertexColor": false,
-						"minTransparentAlpha": 0.1,
-						"visibleDistanceMin": 0,
-						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
-						"LoadingPriority": 3,
-						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building%40CBD/config",
 						"residentRootTile": false
 					},
 					{
@@ -84,7 +67,6 @@
 						"minTransparentAlpha": 0.1,
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Tree%40CBD/config",
 						"residentRootTile": false
@@ -100,7 +82,6 @@
 						"minTransparentAlpha": 0.1,
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Ground2%40CBD/config",
 						"residentRootTile": false
@@ -116,7 +97,6 @@
 						"minTransparentAlpha": 0.1,
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Xiaopin%40CBD/config",
 						"residentRootTile": false
@@ -132,9 +112,23 @@
 						"minTransparentAlpha": 0.1,
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
-						"subdomainsUrlScheme": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace",
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Lake%40CBD/config",
+						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Ground@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Ground%40CBD/config",
 						"residentRootTile": false
 					}
 				],
