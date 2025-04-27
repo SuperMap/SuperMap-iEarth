@@ -444,7 +444,7 @@ class OpenConfig {
         case "SingleTileImageryProvider":
           // 针对默认球皮底图，先确认当前场景添加过没有，避免再次添加
           if (imgLayerUrl.includes("earth-skin2.jpg")) {
-            const result = viewer.imageryLayers._layers.filter((imgLayer) => {
+            const result = this.viewer.imageryLayers._layers.filter((imgLayer) => {
               if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
                 return imgLayer._imageryProvider.url.includes("earth-skin2.jpg");
               }
