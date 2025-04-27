@@ -232,12 +232,12 @@ async function saveScene(){
   const layerTreeData = computedLayerTreeData(); // 图层列表数据
   const bindiEarthData = computedBindData(); // 绑定在window上iEarth需要的数据
   const sceneContent = {
+    version: "2.1",
     sceneInfo:sceneInfo,
     layerTreeData:layerTreeData,
     bindiEarthData:bindiEarthData
   }
   const saveData = { // 场景保存参数设置
-    version: "2.1",
     name: name || '',
     tags: tagsArray || '',
     userName: userName || '',
