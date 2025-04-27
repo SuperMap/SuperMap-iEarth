@@ -1,0 +1,1 @@
+function defined(_0x4dedf5){return _0x4dedf5!==undefined&&_0x4dedf5!==null;}
