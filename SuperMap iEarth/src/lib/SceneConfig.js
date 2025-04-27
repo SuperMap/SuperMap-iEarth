@@ -187,7 +187,6 @@ class SceneConfig {
     this.viewer.imageryLayers._layers.forEach((imageryLayer, index) => {
       const imageryProvider = imageryLayer.imageryProvider || imageryLayer._imageryProvider;
       if(!imageryProvider) return;
-      if(imageryProvider.url && imageryProvider.url.includes('earth-skin2.jpg')) return; // 默认底图不管
 
       let imgLayerOption = {};
       imgLayerOption["show"] = imageryLayer.show || imageryLayer._show;

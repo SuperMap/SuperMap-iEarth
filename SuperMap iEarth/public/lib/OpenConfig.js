@@ -442,9 +442,23 @@ class OpenConfig {
           });
           break;
         case "SingleTileImageryProvider":
-          imageryProvider = new SuperMap3D.SingleTileImageryProvider({
-            url: imgLayerUrl,
-          });
+          // 针对默认球皮底图，先确认当前场景添加过没有，避免再次添加
+          if (imgLayerUrl.includes("earth-skin2.jpg")) {
+            const result = viewer.imageryLayers._layers.filter((imgLayer) => {
+              if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
+                return imgLayer._imageryProvider.url.includes("earth-skin2.jpg");
+              }
+            })
+            if (result && result.length == 0) {
+              imageryProvider = new SuperMap3D.SingleTileImageryProvider({
+                url: imgLayerUrl,
+              });
+            }
+          } else { // 非默认球皮直接添加
+            imageryProvider = new SuperMap3D.SingleTileImageryProvider({
+              url: imgLayerUrl,
+            });
+          }
           break;
         case "TileCoordinatesImageryProvider":
           imageryProvider = new SuperMap3D.TileCoordinatesImageryProvider();
@@ -459,6 +473,12 @@ class OpenConfig {
         if (imgOption.customName) imgLayer.customName = imgOption.customName;
         if (window.iEarthCustomFunc && window.iEarthCustomFunc.afterImageLayerAdd) {
           window.iEarthCustomFunc.afterImageLayerAdd(imgLayer);
+        }
+
+        // 默认球皮影像图层还需要设置效果
+        if (imgLayerUrl.includes("earth-skin2.jpg")) {
+          imgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
+          imgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
         }
       }
     });
