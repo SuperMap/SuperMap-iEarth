@@ -53,7 +53,7 @@ class OpenConfig {
   // 将之前老版本iEarth保存的数据转为新版可用的场景数据
   oldSceneDataToNewSceneInfo(content) {
     let sceneInfo = {};
-    sceneInfo.SceneMode = content.environmentState.sceneMode;
+    sceneInfo.SceneMode = content.environmentState.sceneMode || 3;
     sceneInfo.Camera = content.camera;
 
     // 各类图层
