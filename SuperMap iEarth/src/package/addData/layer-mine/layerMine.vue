@@ -630,6 +630,13 @@ async function handleDataServiceByMVT(item) {
         mvtMap.addLayer(styleLayer);
       }
 
+      // 添加后定位过去
+      const mvtPosition = customPosition;
+      if (mvtPosition && mvtPosition.length >= 2 && Math.abs(mvtPosition[0]) <= 180) {
+        viewer.scene.camera.setView({
+          destination: new SuperMap3D.Cartesian3.fromDegrees(mvtPosition[0], mvtPosition[1], 500)
+        });
+      }
       window["$message"].success($t("addSuccess"));
     });
   }
@@ -637,6 +644,15 @@ async function handleDataServiceByMVT(item) {
 
 // 选中项切换时变更底部内容
 function handleSelectedItemChange(selecteditem) {
+  // iPortal代理服务暂时不支持加载
+  if(selecteditem && selecteditem.url){
+    if(selecteditem.url.includes("/portalproxy/")){
+      window["$message"].warning($t("portalproxyServiceTip"));
+      state.selectItem = {};
+      return;
+    }
+  }
+
   state.selectItem = selecteditem;
 
   const serviceType = state.selectItem.resourceSubType

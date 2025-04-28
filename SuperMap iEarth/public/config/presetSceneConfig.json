@@ -1,12 +1,12 @@
 {
-	"version": "2.1",
-	"name": "CBD预设场景",
+	"name": "CBD场景保存",
 	"tags": [
 		"CBD"
 	],
 	"userName": "",
 	"description": "",
 	"content": {
+		"version": "2.1",
 		"sceneInfo": {
 			"SceneMode": 3,
 			"MouseOption": {
@@ -19,16 +19,16 @@
 					"z": 4068994.4237822248
 				},
 				"heading": 0.05424499862642396,
-				"pitch": -0.36499373224808584,
+				"pitch": -0.36499373224808607,
 				"roll": 1.4775898726782088e-8
 			},
-			"SaveTime": "2025/4/27-09:46:02",
+			"SaveTime": "2025/4/28-10:32:44",
 			"SceneClockTime": "2025-03-27T02:21:53.4170000000012806Z",
 			"LayerOptions": {
 				"s3mLayers": [
 					{
 						"type": "S3MTilesLayer",
-						"name": "Building@CBD",
+						"name": "Tree@CBD",
 						"visible": true,
 						"lodRangeScale": 1,
 						"cullEnabled": false,
@@ -38,7 +38,7 @@
 						"visibleDistanceMin": 0,
 						"visibleDistanceMax": 47836027.5,
 						"LoadingPriority": 3,
-						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building%40CBD/config",
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Tree%40CBD/config",
 						"residentRootTile": false
 					},
 					{
@@ -54,21 +54,6 @@
 						"visibleDistanceMax": 47836027.5,
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Bridge%40CBD/config",
-						"residentRootTile": false
-					},
-					{
-						"type": "S3MTilesLayer",
-						"name": "Tree@CBD",
-						"visible": true,
-						"lodRangeScale": 1,
-						"cullEnabled": false,
-						"ignoreNormal": true,
-						"ignoreVertexColor": false,
-						"minTransparentAlpha": 0.1,
-						"visibleDistanceMin": 0,
-						"visibleDistanceMax": 47836027.5,
-						"LoadingPriority": 3,
-						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Tree%40CBD/config",
 						"residentRootTile": false
 					},
 					{
@@ -130,9 +115,30 @@
 						"LoadingPriority": 3,
 						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Ground%40CBD/config",
 						"residentRootTile": false
+					},
+					{
+						"type": "S3MTilesLayer",
+						"name": "Building@CBD",
+						"visible": true,
+						"lodRangeScale": 1,
+						"cullEnabled": false,
+						"ignoreNormal": true,
+						"ignoreVertexColor": false,
+						"minTransparentAlpha": 0.1,
+						"visibleDistanceMin": 0,
+						"visibleDistanceMax": 47836027.5,
+						"LoadingPriority": 3,
+						"url": "https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building%40CBD/config",
+						"residentRootTile": false
 					}
 				],
-				"imgLayers": [],
+				"imgLayers": [
+					{
+						"show": true,
+						"type": "SingleTileImageryProvider",
+						"url": "./images/earth-skin2.jpg"
+					}
+				],
 				"mvtLayers": [],
 				"tinLayer": {}
 			},
