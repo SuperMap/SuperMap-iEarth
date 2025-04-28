@@ -25,9 +25,9 @@
       <span> {{ $t("selectedColor") }} </span>
       <div class="color-pick-box" style="width: 2.1rem">
         <n-color-picker :show-alpha="false" v-model:value="state.entityColor" :render-label="() => {
-          return '';
-        }
-          " size="small"></n-color-picker>
+        return '';
+                }
+        " size="small"></n-color-picker>
       </div>
     </div>
 
@@ -41,10 +41,9 @@
     </div>
 
     <div class="row-item">
-        <span>{{ $t("queryMode") }}</span>
-        <n-select style="width: 2.1rem" v-model:value="state.queryMode"
-          :options="state.queryModeOption" />
-      </div>
+      <span>{{ $t("queryMode") }}</span>
+      <n-select style="width: 2.1rem" v-model:value="state.queryMode" :options="state.queryModeOption" />
+    </div>
 
     <div class="btn-row-item" style="margin-left: 0.93rem">
       <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="singleQuery">{{ $t("query") }}
@@ -56,43 +55,39 @@
     <!-- 添加媒体字段 -->
     <div class="btn-row-item" style="margin-left: 0.93rem" v-if="mediaState.isDisplayBtn">
       <n-button style="width:1.3rem;margin-top: 0.1rem;" type="info" color="#3499E5" text-color="#fff" class="ans-btn"
-        @click="mediaState.mediaFieldPanleShow = true">{{ $t("bindMediaField") }}
+        @click="openMediaPanle">{{ $t("addField") }}
       </n-button>
     </div>
     <div v-if="mediaState.mediaFieldPanleShow">
-      <n-modal v-model:show="mediaState.mediaFieldPanleShow" preset="dialog" :title="$t('bindMediaField')"
+      <n-modal v-model:show="mediaState.mediaFieldPanleShow" preset="dialog" :title="mediaPanleTitle"
         :mask-closable="false">
         <n-card style="width: auto" :bordered="false" size="huge" role="dialog" aria-modal="true">
 
-          <div class="row-item" style="margin-bottom: 0.1rem">
-            <span>{{ $t("type") }}</span>
-            <n-select class="add-input-border" v-model:value="mediaState.mediaType"
-              :options="mediaState.mediaTypeOptions" style="width: 2.4rem; margin-bottom: 0.1rem" />
-          </div>
+          <n-collapse :trigger-areas="triggerAreas" display-directive="show">
+            <n-collapse-item v-for="(item, index) in mediaState.mediaFieldOptions" :key="index" :title="$t(item.type)"
+              :name=item.type>
+              <div class="row-item" style="margin-bottom: 0.1rem">
+                <span>{{ $t("resouceName") }}</span>
+                <n-input class="add-input-border" style="width: 75%" v-model:value="item.name" type="text" />
+              </div>
+              <div class="row-item" style="margin-bottom: 0.1rem">
+                <span>{{ $t("resouceLink") }}</span>
+                <n-input class="add-input-border" v-model:value="item.link"
+                  :placeholder="$t('inputOnlineResourceLink_iportal')" style="width: 75%" type="text">
+                </n-input>
+              </div>
+              <template #header-extra>
+                <i class="iconfont iconguanbi" style="font-size: 0.14rem" @click="removeItem(item)"
+                  :title="$t('deleteMediaField')"></i>
+              </template>
+            </n-collapse-item>
+          </n-collapse>
 
-          <div class="row-item" style="margin-bottom: 0.1rem">
-            <span>{{ $t("featureID") }}</span>
-            <n-input class="add-input-border" style="width: 2.4rem" v-model:value="mediaState.currentFeatureID"
-              type="text" />
-          </div>
-
-          <div class="row-item" style="margin-bottom: 0.1rem">
-            <span>{{ $t("resouceName") }}</span>
-            <n-input class="add-input-border" style="width: 2.4rem" v-model:value="mediaState.resouceName"
-              type="text" />
-          </div>
-          <div class="row-item" style="margin-bottom: 0.1rem">
-            <span>{{ $t("resouceLink") }}</span>
-            <n-input class="add-input-border" v-model:value="mediaState.resouceLink"
-              :placeholder="$t('inputOnlineResourceLink_iportal')" style="width: 2.4rem" type="text">
-            </n-input>
-          </div>
-
-          <div class="btn-row-item" style="margin-left: 0.8rem">
+          <div class="btn-row-item" style="margin-top: 0.2rem">
             <n-button type="info" class="ans-btn" color="#3499E5" text-color="#fff" :focusable="false"
               @click="saveMediaField">{{ $t("sure") }}</n-button>
-            <n-button :focusable="false" @click="clearMediaField">{{
-              $t("cancle")
+            <n-button :focusable="false" @click="closeMediaField">{{
+            $t("cancle")
             }}</n-button>
           </div>
         </n-card>
@@ -102,7 +97,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, onBeforeUnmount, watch } from "vue";
+import { ref, computed, reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import CustomBubble from "@/lib/CustomBubble";
 import tool from "@/tools/tool";
 
@@ -118,8 +113,8 @@ type StateType = {
   dataSetOptions: any;
   entityColor: string; //设置实体颜色
   transparency: number; //实体透明度
-  queryModeOption:any; // 单体化查询模式选项
-  queryMode:string; // 查询模式
+  queryModeOption: any; // 单体化查询模式选项
+  queryMode: string; // 查询模式
 };
 
 // 倾斜图层URL:http://www.supermapol.com/realspace/services/3D-dynamicDTH-2/rest/realspace/datas/Config%20-%201/config
@@ -137,7 +132,7 @@ const state = reactive<StateType>({
   dataSetOptions: [],
   entityColor: "rgb(166,252,252)",
   transparency: 0.6,
-  queryModeOption:[    
+  queryModeOption: [
     {
       label: () => $t('queryPoint'),
       value: "point",
@@ -151,35 +146,43 @@ const state = reactive<StateType>({
       value: "door",
     }
   ],
-  queryMode:'point',
+  queryMode: 'point',
 });
 
 const mediaState = reactive({
   isDisplayBtn: false,
   mediaFieldPanleShow: false,
   currentFeatureID: '',
-  resouceName: '',
-  resouceLink: '',
-  mediaType: "image",
-  mediaTypeOptions: [
+  mediaFieldOptions: [
     {
-      label: $t("picture"),
-      value: "image",
+      type: "image",
+      name: '',
+      link: ''
     },
     {
-      label: $t("video"),
-      value: "video",
+      type: "video",
+      name: '',
+      link: ''
     },
     {
-      label: $t("aLink"),
-      value: "link",
+      type: "link",
+      name: '',
+      link: ''
     },
     {
-      label: "PDF",
-      value: "pdf",
-    }
-  ],
+      type: "pdf",
+      name: '',
+      link: ''
+    },
+  ]
 })
+
+// 添加媒体字段相关
+const triggerAreas = computed(() => ['arrow', 'main']);
+const mediaPanleTitle = computed(() => {
+  const featureID = mediaState.currentFeatureID;
+  return `模型ID：${featureID}/添加字段`;
+});
 
 const urlTip = ref("http://<server>:<port>/iserver/services/<component>/rest/data");
 const currentS3MLayerName = window.iEarthBindData.CurrentS3MLayerName;
@@ -212,7 +215,7 @@ function singleQuery() {
 
   handler.setInputAction(function (e: any) {
     viewer.entities.removeById("identify-area"); // 首先移除之前添加标识实体
-    
+
     const position = viewer.scene.pickPosition(e.position); // pickPositionAsync.then 异步接口
     if (position && position instanceof SuperMap3D.Cartesian3) {
       const degree = window.iEarthTool.Cartesian3ToDegreeObjs(position)[0];
@@ -322,7 +325,7 @@ function queryByDivision(searchUrl, datasetNames, sqlString) {
   getFeatureBySQLService.processAsync(getFeatureBySQLParams);
 
   function onQueryComplete(queryEventArgs) {
-    console.log("倾斜分层分户查询:",queryEventArgs);
+    console.log("倾斜分层分户查询:", queryEventArgs);
     // 处理entity
     viewer.entities.removeById("identify-area"); // 首先移除之前添加标识实体
 
@@ -444,71 +447,86 @@ function clear() {
   mediaState.isDisplayBtn = false;
 }
 
-async function saveMediaField() {
+// 打开媒体字段面板，打开前计算当前ID是否绑定了媒体字段
+function openMediaPanle() {
   const featureID = mediaState.currentFeatureID;
-  const mediaType = mediaState.mediaType;
-  const resouceName = mediaState.resouceName;
-  const resouceLink = mediaState.resouceLink.trim().replace(/\/+$/, "");
-  if (featureID == '' || resouceLink == '') {
-    window["$message"].warning($t("mediaResouceInputTip"));
-    return;
+  mediaState.mediaFieldOptions = [
+    { type: "image", name: '', link: '' },
+    { type: "video", name: '', link: '' },
+    { type: "link", name: '', link: '' },
+    { type: "pdf", name: '', link: '' },
+  ];
+
+  if (window.iEarthBindData.mediaResourceOptions[currentS3MLayerName]) {
+    const s3mLayerMediaOptions = window.iEarthBindData.mediaResourceOptions[currentS3MLayerName];
+
+    const targetOption = s3mLayerMediaOptions.find((option) => option.featureID == featureID);
+    if (targetOption && targetOption.content) {
+      targetOption.content.forEach(item => {
+        if (item.link == '') return;
+        let mediaIndex: any = undefined;
+        if (item.type == 'image') {
+          mediaIndex = 0;
+        } else if (item.type == 'video') {
+          mediaIndex = 1;
+        } else if (item.type == 'link') {
+          mediaIndex = 2;
+        } else if (item.type == 'pdf') {
+          mediaIndex = 3;
+        } else {
+          console.log('该类型不支持');
+          return;
+        }
+
+        mediaState.mediaFieldOptions[mediaIndex].name = item.name;
+        mediaState.mediaFieldOptions[mediaIndex].link = item.link;
+      });
+    }
   }
 
-  // const isAccess = await tool.checkURLAccess(resouceLink);
-  // if(!isAccess) {
-  //   window["$message"].warning($t("mediaResouceUrlAccessTip"));
-  //   return;
-  // }
+  mediaState.mediaFieldPanleShow = true;
+}
 
-  let mediaOption = {
-    featureID: featureID,
-    type: mediaType,
-    name: resouceName,
-    link: resouceLink,
-  };
+async function saveMediaField() {
+  const currentMeidaOptions = mediaState.mediaFieldOptions;
+  const featureID = mediaState.currentFeatureID;
 
-  // 保存媒体字段
-  if (!currentS3MLayerName) return;
+  // 计算媒体字段内容，过滤未填写的
+  const mediaContent: any = [];
+  currentMeidaOptions.forEach(item => {
+    if (item.link != '') {
+      mediaContent.push(item);
+    }
+  })
+
+  // 将媒体字段绑定在window上以便后面可以保存
   if (!window.iEarthBindData.mediaResourceOptions[currentS3MLayerName]) {
     window.iEarthBindData.mediaResourceOptions[currentS3MLayerName] = [];
   }
   const s3mLayerMediaOptions = window.iEarthBindData.mediaResourceOptions[currentS3MLayerName];
-
-  // 寻找绑定的媒体字段：如果有就更新，没有就添加绑定
-  const targetOption = s3mLayerMediaOptions.find((option) => option.featureID == mediaOption.featureID);
+  const targetOption = s3mLayerMediaOptions.find((option) => option.featureID == featureID);
   if (targetOption) {
-    const targetItem = targetOption.content.find((item) => {
-      return item.type == mediaOption.type && item.name == mediaOption.name;
-    });
-    if (targetItem) { // 已保存项目，更新链接
-      targetItem.link = mediaOption.link;
-      window["$message"].success(`要素ID：${targetOption.featureID}-更新${mediaOption.type}类型链接成功`);
-    } else { // 新增项目
-      targetOption.content.push({
-        type: mediaOption.type,
-        name: mediaOption.name,
-        link: mediaOption.link,
-      })
-      window["$message"].success(`要素ID：${targetOption.featureID}-添加${mediaOption.type}类型资源成功`);
-    }
-  } else { // 绑定媒体字段内容
+    targetOption.content = mediaContent;
+    window["$message"].success(`模型ID：${featureID}-更新媒体资源成功`);
+  } else {
     s3mLayerMediaOptions.push({
-      featureID: mediaOption.featureID,
-      content: [
-        {
-          type: mediaOption.type,
-          name: mediaOption.name,
-          link: mediaOption.link,
-        }
-      ]
+      featureID: featureID,
+      content: mediaContent
     });
-    window["$message"].success(`要素ID：${mediaOption.featureID}-绑定媒体资源成功`);
+    window["$message"].success(`模型ID：${featureID}-绑定媒体资源成功`);
+  }
+
+  mediaState.mediaFieldPanleShow = false;
+}
+
+function removeItem(item) {
+  if (item) {
+    item.name = '';
+    item.link = '';
   }
 }
 
-function clearMediaField() {
-  mediaState.resouceName = "";
-  mediaState.resouceLink = "";
+function closeMediaField() {
   mediaState.mediaFieldPanleShow = false;
 }
 

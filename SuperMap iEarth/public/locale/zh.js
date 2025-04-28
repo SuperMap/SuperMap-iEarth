@@ -867,7 +867,11 @@ const local_zh = {
         spatialQuery:"空间查询",
         openCoordinateQuery:"开启坐标查询",
         coordinateQueryTip:"鼠标点击任意处，返回结果",
-        portalproxyServiceTip:"iPortal代理服务暂时不支持加载，请选择其他服务"
+        portalproxyServiceTip:"iPortal代理服务暂时不支持加载，请选择其他服务",
+        addField:"添加字段",
+        pdf:'PDF文档',
+        image:"图片",
+        deleteMediaField:"删除字段"
 }
 
 window.local_zh = local_zh;

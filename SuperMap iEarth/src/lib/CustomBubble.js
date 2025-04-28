@@ -62,8 +62,9 @@ class CustomBubble {
             link: config => {
                 const a = document.createElement('a');
                 a.href = config.url;
-                a.textContent = config.text;
+                a.textContent = config.text != '' ? config.text : config.url;
                 a.target = '_blank';
+                a.title =  `在浏览器新标签页中打开文档：${config.url}`;
                 return a;
             }
         };
@@ -145,7 +146,7 @@ class CustomBubble {
                 const link = document.createElement('a');
                 link.className = 'media-name';
                 link.href = item.data;
-                link.title = item.data;
+                link.title = `在浏览器新标签页中打开链接:${item.data}`;
                 link.textContent = itemName;
                 link.target = '_blank';
                 section.appendChild(link);
