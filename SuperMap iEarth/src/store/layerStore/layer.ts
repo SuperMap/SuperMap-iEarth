@@ -222,13 +222,19 @@ export const useLayerStore = defineStore({
 				mvtMapFirst.mapboxStyle.layers.forEach((styleLayer: any, index: string) => {
 					if(styleLayer.source){
 						if(!styleLayer.customName) styleLayer.customName = styleLayer.id;
+
+						// 计算显隐
+						const visibleValue = mvtMapFirst.getLayoutProperty(styleLayer.id, 'visibility');
+						let mvtLayerVisible = visibleValue == "visible" ? true : false ; // 返回值：undefined visible none
+						if(visibleValue == undefined) mvtLayerVisible = true; // 第一次获取值为undefined
+
 						this.layerTreeData[2].children.push({
 							label: styleLayer.customName,
 							id: styleLayer.id,
 							key: '3-' + String(index),
 							type: 'mvt',
 							children: undefined,
-							isShow: mvtMapFirst.getLayoutProperty(styleLayer.id, 'visibility') === "visible" ? true : false,
+							isShow: mvtLayerVisible,
 							layer: styleLayer,
 							source: styleLayer.source,
 						});

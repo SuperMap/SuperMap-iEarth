@@ -556,15 +556,29 @@ async function handleDataServiceByMVT(item) {
     let customPosition: any = undefined;
     if (type == 'Point') {
       sourceID = `Point-${new Date().getTime()}`;
+      // 显示文字标签
+      // styleLayer = {
+      //   id: sourceID,
+      //   type: 'symbol',
+      //   source: sourceID,
+      //   layout: {
+      //     'text-field': '{NAME}',
+      //   },
+      //   paint: {
+      //     'text-color': 'white'
+      //   }
+      // }
+
+      // 圆圈显示
       styleLayer = {
         id: sourceID,
-        type: 'symbol',
+        type: 'circle',
         source: sourceID,
-        layout: {
-          'text-field': '{NAME}',
-        },
         paint: {
-          'text-color': 'black'
+          'circle-radius': 8,       // 圆圈半径
+          'circle-color': '#FF0000', // 填充颜色
+          'circle-stroke-width': 2, // 边框宽度
+          'circle-stroke-color': '#000' // 边框颜色
         }
       }
       customPosition = geojson?.features[0]?.geometry?.coordinates;
