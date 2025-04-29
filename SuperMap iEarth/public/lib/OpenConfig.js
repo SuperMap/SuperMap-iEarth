@@ -67,36 +67,38 @@ class OpenConfig {
 
     // 场景调节
     const sceneAttrState = content.layers.sceneAttrState;
-    sceneInfo.SceneAdjust = {
-      GlobalAttr: {
-        earthShow: sceneAttrState.earthShow,
-        depthInspection: sceneAttrState.depthInspection,
-        atomsphereRender: sceneAttrState.atomsphereRender,
-        timeAxis: sceneAttrState.timeAxis,
-        displayFrame: sceneAttrState.displayFrame,
-      },
-      VisualEffect: {
-        shadow: {
-          isOpen: sceneAttrState.shadow,
+    if (sceneAttrState) {
+      sceneInfo.SceneAdjust = {
+        GlobalAttr: {
+          earthShow: sceneAttrState.earthShow,
+          depthInspection: sceneAttrState.depthInspection,
+          atomsphereRender: sceneAttrState.atomsphereRender,
+          timeAxis: sceneAttrState.timeAxis,
+          displayFrame: sceneAttrState.displayFrame,
         },
-        underGround: {
-          isOpen: sceneAttrState.showUnderground,
-          globeAlpha: sceneAttrState.surfaceTransparency
+        VisualEffect: {
+          shadow: {
+            isOpen: sceneAttrState.shadow,
+          },
+          underGround: {
+            isOpen: sceneAttrState.showUnderground,
+            globeAlpha: sceneAttrState.surfaceTransparency
+          },
+          sceneColor: {
+            isOpen: true,
+            brightness: sceneAttrState.brightness,
+            contrast: sceneAttrState.contrast,
+            hue: sceneAttrState.hue,
+            saturation: sceneAttrState.saturation
+          }
         },
-        sceneColor: {
-          isOpen: true,
-          brightness: sceneAttrState.brightness,
-          contrast: sceneAttrState.contrast,
-          hue: sceneAttrState.hue,
-          saturation: sceneAttrState.saturation
-        }
-      },
-      SceneFeature: {
-        cloudLayer: {
-          isOpen: sceneAttrState.cloudLayer
-        },
-        skyBox: {
-          isOpen: sceneAttrState.skyBoxShow
+        SceneFeature: {
+          cloudLayer: {
+            isOpen: sceneAttrState.cloudLayer
+          },
+          skyBox: {
+            isOpen: sceneAttrState.skyBoxShow
+          }
         }
       }
     }
@@ -143,7 +145,28 @@ class OpenConfig {
 
     // 兼容打开之前版本保存的场景：environmentState为特征字段，为历史版本保存的场景所特有的，
     // 需要使用oldSceneDataToNewSceneInfo函数转成新版本iEarth可用的
-    if (SceneConfigData.environmentState) SceneConfigData = this.oldSceneDataToNewSceneInfo(SceneConfigData);
+    if (SceneConfigData.environmentState) {
+      if (Array.isArray(SceneConfigData.layers)) {
+        let temp = {
+          s3mLayer: [],
+          imageryLayer: [
+          ],
+          MVTLayer: [],
+          terrainLayer: []
+        };
+        SceneConfigData.layers.forEach((layerInfo) => {
+          if (layerInfo.type === 'S3M') {
+            temp.s3mLayer.push({
+              type: 'S3MTilesLayer',
+              name: layerInfo.name,
+              url: layerInfo.url
+            });
+          }
+        });
+        SceneConfigData.layers = temp;
+      }
+      SceneConfigData = this.oldSceneDataToNewSceneInfo(SceneConfigData);
+    }
 
     if (!SceneConfigData || !SceneConfigData.Camera) return;
     // if(!SceneConfigData.SceneMode || SceneConfigData.SceneMode !== 3) return; // 目前只管球面场景
@@ -161,7 +184,7 @@ class OpenConfig {
           window.iEarthCustomFunc.afterSceneOpen(results);
         }
         this.openLayerStyles(SceneConfigData.LayerStyles); // 打开S3M图层之后在设置图层风格和阴影  
-        this.openShadow(SceneConfigData.SceneAdjust.VisualEffect.shadow);
+        SceneConfigData.SceneAdjust && this.openShadow(SceneConfigData.SceneAdjust.VisualEffect.shadow);
       }).catch(error => {
         console.error(error);
       });
@@ -175,12 +198,12 @@ class OpenConfig {
       } else {
         if (SceneConfigData.LayerOptions.s3mLayers.length > 0) console.log('部分S3M图层服务无法访问,请排查JSON文件');
         this.openLayerStyles(SceneConfigData.LayerStyles); // 打开S3M图层之后在设置图层风格和阴影  
-        this.openShadow(SceneConfigData.SceneAdjust.VisualEffect.shadow);
+        SceneConfigData.SceneAdjust && this.openShadow(SceneConfigData.SceneAdjust.VisualEffect.shadow);
         this.isAllS3MAdded = true;
       }
     }, 8000)
 
-    this.openSceneAdjust(SceneConfigData.SceneAdjust); // 打开场景属性参数
+    SceneConfigData.SceneAdjust && this.openSceneAdjust(SceneConfigData.SceneAdjust); // 打开场景属性参数
 
     // 这里不能用SuperMap3D，来操作Promise，因为这里调用栈执行环境会导致this为undefined
     // SuperMap3D.when.all(S3MPromises,function(layers){
@@ -444,7 +467,7 @@ class OpenConfig {
         case "SingleTileImageryProvider":
           // 针对默认球皮底图，先确认当前场景添加过没有，避免再次添加
           if (imgLayerUrl.includes("earth-skin2.jpg")) {
-            const result = viewer.imageryLayers._layers.filter((imgLayer) => {
+            const result = this.viewer.imageryLayers._layers.filter((imgLayer) => {
               if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
                 return imgLayer._imageryProvider.url.includes("earth-skin2.jpg");
               }
@@ -526,8 +549,8 @@ class OpenConfig {
 
   // 打开场景属性
   openSceneAdjust(param) {
-    this.openGlobalAttr(param.GlobalAttr);
-    this.openVisualEffect(param.VisualEffect);
+    param.GlobalAttr && this.openGlobalAttr(param.GlobalAttr);
+    param.VisualEffect && this.openVisualEffect(param.VisualEffect);
     this.openSceneFeature(param.SceneFeature);
     this.openSpecialBuff(param.SpecialBuff);
   }
