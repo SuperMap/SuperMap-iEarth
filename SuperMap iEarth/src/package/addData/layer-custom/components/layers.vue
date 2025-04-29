@@ -293,10 +293,17 @@ async function getWmtsLayerOption(wmtsUrl: string) {
 
 // 添加s3m
 function addS3M(s3mLayerUrl: string) {
-  const s3mPromise = scene.addS3MTilesLayerByScp(s3mLayerUrl);
+
+  // 计算当前S3M图层的名称, 使用addS3MTilesLayerByScp接口必须传入name
+  let s3mName = state.layerName;
+  if(!s3mName || s3mName == ''){
+    const suffix = s3mLayerUrl.split("/config")[0];
+    s3mName = suffix.split("/").pop();
+  }
+  const s3mPromise = scene.addS3MTilesLayerByScp(s3mLayerUrl, {name: s3mName});
   SuperMap3D.when(s3mPromise, function (s3mLayer) {
     if (s3mLayer && (s3mLayer instanceof SuperMap3D.S3MTilesLayer)) {
-      if (state.layerName != "") s3mLayer.customName = state.layerName;
+      s3mLayer.customName = s3mName;
       viewer.flyTo(s3mLayer);
       s3mLayer.residentRootTile = (window.customConfig && window.customConfig.s3mLayer_residentRootTile) ? true : false;
       // s3mLayer.selectColorType = SuperMap3D.SelectColorType.SILHOUETTE_EDGE; // 通过自定义服务打开的S3M图层设置选中效果
