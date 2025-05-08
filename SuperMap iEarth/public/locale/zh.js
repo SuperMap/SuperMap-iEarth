@@ -706,7 +706,7 @@ const local_zh = {
         envMap: '环境光贴图',
         shadow: '阴影',
         sunLight: '太阳光',
-        colorAdjust: '颜色校正',
+        colorAdjust: '颜色调整',
         chooseTexture: '选择贴图',
         envIntensity: '强度',
         customResource: '自定义资源',

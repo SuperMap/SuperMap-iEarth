@@ -4,7 +4,7 @@
       <div class="row-item">
         <span>{{ $t("chooseLayer") }}</span>
         <n-select
-          style="width: 62%"
+          style="width: 66%"
           v-model:value="state.selectedName"
           :options="state.s3mlayers"
           disabled="true"
@@ -28,7 +28,7 @@
         <n-switch
           v-model:value="state.shadowMode"
           size="small"
-          style="width: 62%; justify-content: left"
+          style="width: 66%; justify-content: left"
         />
       </div>
 
@@ -37,13 +37,13 @@
         <n-switch
           v-model:value="state.isKeepRootTile"
           size="small"
-          style="width: 62%; justify-content: left"
+          style="width: 66%; justify-content: left"
         />
       </div>
 
       <div class="row-item">
         <span>{{ $t("shadowBrightness") }}</span>
-        <div class="slider-box">
+        <div class="slider-box" style="width: 58%;">
           <n-slider
             v-model:value="state.shadowDarkness"
             style="width: 70%"
@@ -69,12 +69,12 @@
         <span>{{ $t("objectHiding") }}</span>
         <n-select
           v-model:value="state.visibility"
-          style="width: 65%"
+          style="width: 66%"
           :options="state.visibilityMode"
         />
       </div>
 
-      <div class="row-item" style="justify-content: left; margin-left: 38%">
+      <div class="row-item" style="justify-content: left; margin-left: 34%">
         <n-checkbox v-model:checked="state.multiChoose">{{
           $t("multiple")
         }}</n-checkbox>
@@ -96,7 +96,7 @@
         </n-input>
       </div>
 
-      <div class="row-item" style="justify-content: left; margin-left: 38%">
+      <div class="row-item" style="justify-content: left; margin-left: 34%">
         <n-checkbox v-model:checked="state.isOpenPassIds"  @update:checked="computedObjsVisible">{{
           $t("passIDsToHiding")
         }}</n-checkbox>

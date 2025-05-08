@@ -222,11 +222,17 @@ const currentRightCom = computed(() => {
   width: 3.38rem;
 }
 
-.zst1 {
+.left-panel .zst1 {
   @include setBackground(0.45rem, 0.11rem, "@/assets/panelbg/zst1.png");
   position: absolute;
-  top: 0.12rem;
-  left: 0.9rem;
+  top: 0rem;
+  left: 1.6rem;
+}
+.right-panel .zst1 {
+  @include setBackground(0.45rem, 0.11rem, "@/assets/panelbg/zst1.png");
+  position: absolute;
+  top: 0rem;
+  left: 1.4rem;
 }
 
 .zst2 {

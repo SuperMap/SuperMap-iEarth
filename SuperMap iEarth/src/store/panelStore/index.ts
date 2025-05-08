@@ -48,7 +48,7 @@ export const usePanelStore = defineStore({
                 },
                 {
                     id: PanelNameEnum.QuerySeries,
-                    iconName: "iconsousuo",
+                    iconName: "icondituchaxun",
                     title: "query",
                     isSelected: false
                 },

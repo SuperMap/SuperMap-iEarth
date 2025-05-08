@@ -295,7 +295,7 @@ function outputSceneToFile() {
     margin-bottom: 0.1rem;
     @include setBackground(
       0.32rem,
-      1.78rem,
+      1.75rem,
       "@/assets/images/right-tool-five-bar.png"
     );
   }
