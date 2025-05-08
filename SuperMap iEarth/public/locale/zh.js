@@ -871,7 +871,8 @@ const local_zh = {
         addField:"添加字段",
         pdf:'PDF文档',
         image:"图片",
-        deleteMediaField:"删除字段"
+        deleteMediaField:"删除字段",
+        qxUnsupportedQuery:"倾斜图层暂不支持属性查询"
 }
 
 window.local_zh = local_zh;

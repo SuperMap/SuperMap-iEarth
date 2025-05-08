@@ -63,6 +63,10 @@
         >{{ $t("clear") }}</n-button
       >
     </div>
+
+    <div class="stktip">
+      <span>{{ $t("qxUnsupportedQuery") }}</span>
+    </div>
   </div>
 </template>
 
@@ -255,3 +259,18 @@ watch(
   }
 );
 </script>
+
+
+<style lang="scss" scoped>
+  .stktip {
+    color: rgba(255, 255, 255, 0.45);
+    span {
+      font-family: "Microsoft JhengHe", sans-serif; // Microsoft Yahei
+      font-size: 0.14rem;
+    }
+  
+    margin-top: 0.04rem;
+    margin-bottom: -0.03rem;
+    margin-left: 1.05rem;
+  }
+  </style>

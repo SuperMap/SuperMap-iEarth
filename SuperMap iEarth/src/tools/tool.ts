@@ -334,7 +334,10 @@ async function computedDataSourceEpsgCode(dataUrl, dataSourceName) {
 async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName) {
   if (!dataUrl || !dataSourceName || !datasetName) return;
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
-
+  if (dataUrl.includes('/rest/data')) { // 去除末尾的/data，防止URL路径不对
+    dataUrl = dataUrl.replace('/rest/data', '/rest');
+  }
+  
   const dataSetJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}/datasets/${datasetName}.json`;
   const result = await window.axios.get(dataSetJsonUrl);
   
