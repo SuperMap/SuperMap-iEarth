@@ -45,7 +45,6 @@ declare interface Window {
 
   // 待后续剔除
   editHandler: any,
-  L: any, // 二维地图库：iclient-leaflet
 }
 
 //全局声明Cesium和viewer
@@ -55,7 +54,6 @@ declare var viewer : Window.viewer;
 declare var scene : Window.scene;
 declare var axios : Window.axios;
 declare var editHandler : Window.editHandler;
-declare var L : Window.L;
 declare var iEarthConsole : Window.iEarthConsole;
 declare var lang_support_list : Window.lang_support_list;
 declare var lang_default : Window.lang_default;
