@@ -507,4 +507,4 @@ class AIFunction {
     }
 }
 
-export default AIFunction;
+window.AIFunction = AIFunction;

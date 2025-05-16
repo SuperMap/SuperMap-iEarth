@@ -111,9 +111,11 @@ function initViewer() {
     creditContainer: document.createElement("div"), //去掉底部logo
   });
 
-  // // iEarth打通AI,监听iFrame元素的postMessage事件
-  // const aiFunction = new AIFunction(viewer);
-  // aiFunction.startListenIFramePostMessage();
+  // iEarth打通AI,监听iFrame元素的postMessage事件
+  if (window.AIFunction) {
+    const aiFunction = new window.AIFunction(viewer);
+    aiFunction.startListenIFramePostMessage();
+  }
 
   // 其他设置
   window["viewer"] = viewer; //绑定到window

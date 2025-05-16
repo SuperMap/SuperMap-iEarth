@@ -45,6 +45,9 @@ declare interface Window {
 
   // 待后续剔除
   editHandler: any,
+
+  // 对接AI
+  AIFunction: any,
 }
 
 //全局声明Cesium和viewer
@@ -69,3 +72,4 @@ declare var initViewerConfig : window.initViewerConfig;
 declare var customConfig : window.customConfig;
 declare var iEarthCustomFunc : window.iEarthCustomFunc;
 declare var OpenConfig : window.OpenConfig;
+declare var AIFunction : window.AIFunction;
