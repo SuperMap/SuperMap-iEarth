@@ -62,17 +62,8 @@
             :label="$t('sceneLable')"
             path="scenePortalTages"
             :rule="{
-              required: true,
+              required: false,
               trigger: ['input', 'blur'],
-              renderMessage: () => {
-                if (language == 'zh') {
-                  return '必选项';
-                } else if (language == 'ja') {
-                  return '必須オプション';
-                } else {
-                  return 'Must Option';
-                }
-              },
             }"
           >
             <n-input
@@ -207,11 +198,6 @@ async function saveScene(){
     return;
   }
 
-  if (!fromData.scenePortalTages || fromData.scenePortalTages == "") {
-    window["$message"].warning($t("sceneSaveLableCannotBeNull"));
-    return;
-  }
-
   if (window.location.href.includes("/apps")) {
     let iportaluserName = IportalStore.userInfo.userName;
     if (iportaluserName === "GUEST") {
@@ -223,7 +209,11 @@ async function saveScene(){
   state.isloading = true;
 
   let name = fromData.scenePortalName;
-  let tagsArray = fromData.scenePortalTages.replace("，", ",").split(",");
+  let tagsArray = [""];
+  if (fromData.scenePortalTages && fromData.scenePortalTages != "") {
+    tagsArray = fromData.scenePortalTages.replace("，", ",").split(",")
+  }
+  
   let userName = fromData.scenePortalUser;
   let description = fromData.scenePortalDescription;
 
