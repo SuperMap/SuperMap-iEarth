@@ -11,7 +11,6 @@ import { useLayerStore } from "@/store/layerStore/layer";
 import EventManager from "@/tools/ScreenEventManage/EventManager.js";
 import openScene from "@/tools/openScene";
 import iEarthTool from "@/lib/iEarthTool";
-// import AIFunction from "@/lib/AIFunction";
 
 // 导入配置
 import getConfig from "@/tools/getConfig";

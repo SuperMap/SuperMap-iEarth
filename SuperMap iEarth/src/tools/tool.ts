@@ -212,24 +212,28 @@ async function computedDataSourceOptions(dataUrl) {
 
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
   const dataSourceUrl = dataUrl + '/datasources.json';
-  const isAccess = await checkURLAccess(dataSourceUrl);
-  if(!isAccess) return;
-  const result = await window.axios.get(dataSourceUrl);
+
+  try {
+    const result = await window.axios.get(dataSourceUrl);
   
-  if(!result || !result.data) return;
-  const datasourceNames = result.data.datasourceNames;
-  if(!datasourceNames || datasourceNames.length==0) return;
+    if(!result || !result.data) return;
+    const datasourceNames = result.data.datasourceNames;
+    if(!datasourceNames || datasourceNames.length==0) return;
 
-  const options:any = [];
-  datasourceNames.forEach(sourceName => {
-      const obj = {
-          label: sourceName,
-          value: sourceName,
-      }
-      options.push(obj);
-  });
+    const options:any = [];
+    datasourceNames.forEach(sourceName => {
+        const obj = {
+            label: sourceName,
+            value: sourceName,
+        }
+        options.push(obj);
+    });
 
-  return options;
+    return options;
+  } catch (error:any) {
+    console.log('请求服务失败:', error);
+    if(error.response) return error.response.status;
+  }
 }
 
 // 获取数据服务中指定数据源下的数据集
@@ -238,24 +242,28 @@ async function computedDataSetOptions(dataUrl, sourceName) {
 
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
   const dataSetUrl = dataUrl + '/datasources/' + sourceName + '/datasets.json';
-  const isAccess = await checkURLAccess(dataSetUrl);
-  if(!isAccess) return;
-  const result = await window.axios.get(dataSetUrl);
-  
-  if(!result || !result.data) return;
-  const datasetNames = result.data.datasetNames;
-  if(!datasetNames || datasetNames.length==0) return;
 
-  const options:any = [];
-  datasetNames.forEach(datasetName => {
-      const obj = {
-          label: datasetName,
-          value: datasetName,
-      }
-      options.push(obj);
-  });
+  try {
+    const result = await window.axios.get(dataSetUrl);
+    
+    if(!result || !result.data) return;
+    const datasetNames = result.data.datasetNames;
+    if(!datasetNames || datasetNames.length==0) return;
 
-  return options;
+    const options:any = [];
+    datasetNames.forEach(datasetName => {
+        const obj = {
+            label: datasetName,
+            value: datasetName,
+        }
+        options.push(obj);
+    });
+
+    return options;
+  } catch (error:any) {
+    console.log('请求服务失败:', error);
+    if(error.response) return error.response.status;
+  }
 }
 
 // 获取地图服务中地图名称
@@ -264,24 +272,28 @@ async function computedMapNameOptions(mapUrl) {
 
   mapUrl = mapUrl.trim().replace(/\/+$/, "");
   const mapJsonUrl = mapUrl + '/maps.json';
-  const isAccess = await checkURLAccess(mapJsonUrl);
-  if(!isAccess) return;
-  const result = await window.axios.get(mapJsonUrl);
+
+  try {
+    const result = await window.axios.get(mapJsonUrl);
   
-  if(!result || !result.data) return;
-  const mapData = result.data;
-  if(!mapData || mapData.length==0) return;
+    if(!result || !result.data) return;
+    const mapData = result.data;
+    if(!mapData || mapData.length==0) return;
 
-  const options:any = [];
-  mapData.forEach((item) => {
-      const obj = {
-          label: item.name,
-          value: item.path || item.name,
-      }
-      options.push(obj);
-  });
+    const options:any = [];
+    mapData.forEach((item) => {
+        const obj = {
+            label: item.name,
+            value: item.path || item.name,
+        }
+        options.push(obj);
+    });
 
-  return options;
+    return options;
+  } catch (error:any) {
+    console.log('请求服务失败:', error);
+    if(error.response) return error.response.status;
+  }
 }
 
 // 获取场景服务中存在的场景名称
@@ -291,24 +303,27 @@ async function computedSceneNameOptions(sceneUrl) {
   sceneUrl = sceneUrl.trim().replace(/\/+$/, "");
   if(sceneUrl.includes("/realspace")) sceneUrl = sceneUrl.replace("/realspace", "");
   const sceneJsonUrl = sceneUrl + '/realspace/scenes.json';
-  const isAccess = await checkURLAccess(sceneJsonUrl);
-  if(!isAccess) return;
-  const result = await window.axios.get(sceneJsonUrl);
-  
-  if(!result || !result.data) return;
-  const sceneData = result.data;
-  if(!sceneData || sceneData.length==0) return;
 
-  const options:any = [];
-  sceneData.forEach((item) => {
+  try {
+    const result = await window.axios.get(sceneJsonUrl);
+    if (!result || !result.data) return;
+    const sceneData = result.data;
+    if (!sceneData || sceneData.length == 0) return;
+
+    const options: any = [];
+    sceneData.forEach((item) => {
       const obj = {
-          label: item.name,
-          value: item.name,
+        label: item.name,
+        value: item.name,
       }
       options.push(obj);
-  });
+    });
 
-  return options;
+    return options;
+  } catch (error:any) {
+    console.log('请求服务失败:', error);
+    if(error.response) return error.response.status;
+  }
 }
 
 // 获取指定数据源的坐标系
@@ -317,8 +332,6 @@ async function computedDataSourceEpsgCode(dataUrl, dataSourceName) {
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
 
   const sourceJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}.json`;
-  const isAccess = await checkURLAccess(sourceJsonUrl);
-  if(!isAccess) return;
   const result = await window.axios.get(sourceJsonUrl);
   
   if(!result || !result.data) return;

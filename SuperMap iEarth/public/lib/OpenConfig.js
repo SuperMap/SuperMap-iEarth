@@ -227,13 +227,13 @@ class OpenConfig {
 
   // 设置鼠标操作模式
   setMouseOption(param) {
-    if (!param || !param.mode) return;
+    if (!param) return;
     if (param.mode == 'ArcGIS') {
       this.scene.screenSpaceCameraController.customMouseMode = 'ArcGIS';
       this.scene.screenSpaceCameraController.zoomEventTypes = [SuperMap3D.CameraEventType.WHEEL, SuperMap3D.CameraEventType.MIDDLE_DRAG];
       this.scene.screenSpaceCameraController.tiltEventTypes = [SuperMap3D.CameraEventType.RIGHT_DRAG];
       this.scene.screenSpaceCameraController.inverseTilt = true;
-    } else {
+    } else if(param.mode == 'SuperMap3D') {
       this.scene.screenSpaceCameraController.customMouseMode = 'SuperMap3D';
       this.scene.screenSpaceCameraController.inverseTilt = false;
       // 这是默认的不需要重新设置
@@ -598,12 +598,15 @@ class OpenConfig {
     this.openSceneDepth(options.sceneDepth);
     this.openSceneColor(options.sceneColor);
     // this.openShadow(options.shadow); // 设置阴影也需要等S3M图层加载完成后再设置
-    this.openLightSource(options.lightSource)
+    this.openLightSource(options.lightSource);
+    this.openLightShaft(options.lightShaft);
   }
   // 场景属性：场景要素
   openSceneFeature(options) {
     this.openCloudLayer(options.cloudLayer);
     this.openSkyBox(options.skyBox);
+    this.openVolumetricCloud(options.volumetricCloud);
+    this.openHighAltitudeFog(options.highAltitudeFog);
   }
   // 场景属性：特殊加持
   openSpecialBuff(options) {
@@ -688,7 +691,6 @@ class OpenConfig {
       //设置阴影的出现距离
       if (option.maximumDistance) this.scene.shadowMap.maximumDistance = option.maximumDistance;
       //设置阴影的浓度，值越高，阴影越淡
-      // this.viewer.shadowMap.darkness = option.darkness;
       if (option.darkness) this.viewer.shadowMap.darkness = option.darkness; // 从json里面读取的值就是其真实值，无需取反
       //默认值是0.1，值越小越清晰
       if (option.penumbraRatio) this.viewer.shadowMap.penumbraRatio = option.penumbraRatio;
@@ -706,6 +708,11 @@ class OpenConfig {
     if (window.customConfig) { // 获取当前场景使用时的一些自定义参数
       window.customConfig.lightModelSize = Number(options.lightModelSize) || 5;
     }
+  }
+  openLightShaft(options){
+    if (!options) return;
+    if(this.viewer.scene.postProcessStages.lightShaft == undefined) return;
+    this.viewer.scene.postProcessStages.lightShaft.enabled = options.isOpen;
   }
   // 视觉效果: 太阳光
   openSunLight(option) {
@@ -767,6 +774,29 @@ class OpenConfig {
       this.scene.skyBox = defaultSkyBox;
       this.scene.skyAtmosphere.show = true;
     }
+  }
+  // 场景要素：体积云
+  openVolumetricCloud(option) {
+    if (!option) return;
+    if(this.viewer.scene.volumetricClouds == undefined) return;
+    const volumetricClouds = this.viewer.scene.volumetricClouds;
+    volumetricClouds.enabled = option.isOpen; // 是否开启体积云
+    volumetricClouds.cirrusEnabled = option.cirrusEnabled; // 是否显示高层云
+    volumetricClouds.quality = option.quality; // 渲染质量
+    volumetricClouds.thickness = option.thickness; // 云层厚度
+    volumetricClouds.shapeCoverage = option.shapeCoverage; // 云层覆盖度
+    volumetricClouds.windSpeed = option.windSpeed; // 风速
+    volumetricClouds.windHeading = option.windHeading; // 风向
+  }
+  // 场景要素：高度雾
+  openHighAltitudeFog(option) {
+    if (!option) return;
+    if(this.viewer.scene.fog.advanced == undefined) return;
+    const scene = this.viewer.scene;
+    scene.fog.advanced = option.isOpen; // 是否开启高度雾
+    scene.fog.density = option.density; // 雾气密度
+    scene.fog.heightFalloff = option.heightFalloff; // 衰减系数
+    scene.fog.color = option.color; // 雾气颜色
   }
 
   // 特殊加持：环境光贴图

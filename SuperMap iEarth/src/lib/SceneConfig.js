@@ -289,7 +289,7 @@ class SceneConfig {
       timeAxis: (timeline && timeline.style.visibility === "visible") ? true : false,//时间轴
       displayFrame: this.viewer.scene.debugShowFramesPerSecond,//显示帧率
       hdrEnabled: this.viewer.scene.hdrEnabled,//是否开启HDR
-      // fogEffect: this.viewer.scene.fog.enabled, //雾化效果
+      fogEffect: this.viewer.scene.fog.enabled, //雾化效果
     }
 
     return GlobalAttr;
@@ -304,6 +304,7 @@ class SceneConfig {
       lightSource: this.getLightSource(),
       msaaLevel: this.getMsaaLevel(),
       sceneDepth: this.getSceneDepth(),
+      lightShaft: this.getLightShaft(),
     };
     return VisualEffect;
   }
@@ -342,6 +343,14 @@ class SceneConfig {
       blurRadius: viewer.scene.depthOfFieldEffect.blurRadius,
     }
     return SceneDepth;
+  }
+  // 视觉效果：光束 => 丁达尔效应
+  getLightShaft(){
+    if(viewer.scene.postProcessStages.lightShaft == undefined) return;
+    const LightShaft = {
+      isOpen: viewer.scene.postProcessStages.lightShaft.enabled, // 是否开启景深
+    }
+    return LightShaft;
   }
   // 视觉效果：场景颜色调节
   getSceneColor(){
@@ -461,7 +470,9 @@ class SceneConfig {
   getSceneFeature(){
     const SceneFeature = {
       cloudLayer: this.getCloudLayer(),
-      skyBox: this.getSkyBox()
+      skyBox: this.getSkyBox(),
+      volumetricCloud: this.getVolumetricCloud(),
+      highAltitudeFog: this.getHighAltitudeFog(),
     }
     return SceneFeature;
   }
@@ -485,6 +496,33 @@ class SceneConfig {
     }
     return Skybox;
   }
+  // 场景要素：体积云
+  getVolumetricCloud(){
+    if(this.viewer.scene.volumetricClouds == undefined) return;
+    const volumetricClouds = this.viewer.scene.volumetricClouds;
+    const VolumeCloud = {
+      isOpen: viewer.scene.volumetricClouds.enabled, 
+      cirrusEnabled: volumetricClouds.cirrusEnabled, // 是否显示高层云
+      quality: volumetricClouds.quality, // 渲染质量
+      thickness: volumetricClouds.thickness, // 云层厚度
+      shapeCoverage: volumetricClouds.shapeCoverage, // 云层覆盖度
+      windSpeed: volumetricClouds.windSpeed, // 风速
+      windHeading: volumetricClouds.windHeading, // 风向
+    }
+    return VolumeCloud;
+  }
+  // 场景要素：高度雾
+  getHighAltitudeFog(){
+    if(viewer.scene.fog.advanced == undefined) return;
+    const HighAltitudeFog = {
+      isOpen: viewer.scene.fog.advanced,  // 是否开启高度雾
+      density: viewer.scene.fog.density, // 雾气密度
+      heightFalloff: viewer.scene.fog.heightFalloff, // 衰减系数
+      color: viewer.scene.fog.color, // 雾气颜色
+    }
+    return HighAltitudeFog;
+  }
+
   // 特殊加持：环境光贴图
   getSpecialBuff(){
     const SpecialBuff = {

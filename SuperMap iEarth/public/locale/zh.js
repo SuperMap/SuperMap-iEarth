@@ -162,7 +162,7 @@ const local_zh = {
         sun: '太阳',
         depthInspection: '深度检测',
         atomsphereRender: '大气渲染',
-        fogEffect: '雾化效果',
+        fogEffect: '开启雾气',
         cloudLayer: '云层',
         skyBox: '天空盒',
         timeAxis: '时间轴',
@@ -872,7 +872,22 @@ const local_zh = {
         pdf:'PDF文档',
         image:"图片",
         deleteMediaField:"删除字段",
-        qxUnsupportedQuery:"倾斜图层暂不支持属性查询"
+        qxUnsupportedQuery:"倾斜图层暂不支持属性查询",
+        lightShaft:"光束效果",
+        volumetricCloud:"体积云",
+        renderQualityType: "渲染质量",
+        advance:'高等',
+        middle:'普通',
+        low:'低等',
+        cloudThickness: "云层厚度",
+        cloudCoverage: "云层覆盖度",
+        cloudSpeed: "风速（km/h）",
+        cloudDirection: "风向",
+        showHighCloud: "显示高层云",
+        highAltitudeFog:"高度雾",
+        useAdvancedAtmosphere:"启用高级大气",
+        fogdecay:"衰减系数",
+        iportalService401:"我的服务暂不支持需要填写Token的服务，请在自定义服务中添加"
 }
 
 window.local_zh = local_zh;

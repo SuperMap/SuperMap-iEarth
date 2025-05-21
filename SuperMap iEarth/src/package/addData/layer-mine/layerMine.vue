@@ -679,6 +679,10 @@ function handleSelectedItemChange(selecteditem) {
     let dataUrl = selecteditem.url;
     if (!dataUrl.endsWith("/data")) dataUrl += "/data";
     tool.computedDataSourceOptions(dataUrl).then(result => {
+      if(result == 401) {
+        window["$message"].warning($t("iportalService401"));
+        return;
+      }
       if (result && result.length > 0) {
         state.dataSourceOptions = result;
       }
@@ -689,6 +693,10 @@ function handleSelectedItemChange(selecteditem) {
 
     let mapUrl = selecteditem.url;
     tool.computedMapNameOptions(mapUrl).then(result => {
+      if(result == 401) {
+        window["$message"].warning($t("iportalService401"));
+        return;
+      }
       if (result && result.length > 0) {
         state.mapName = result[0].value;
         state.mapNameOptions = result;
@@ -700,6 +708,10 @@ function handleSelectedItemChange(selecteditem) {
 
     let sceneUrl = selecteditem.url;
     tool.computedSceneNameOptions(sceneUrl).then(result => {
+      if(result == 401) {
+        window["$message"].warning($t("iportalService401"));
+        return;
+      }
       if (result && result.length > 0) {
         state.sceneName = result[0].value;
         state.sceneNameOptions = result;

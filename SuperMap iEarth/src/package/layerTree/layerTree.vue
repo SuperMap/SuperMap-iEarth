@@ -654,7 +654,8 @@ function delLayerOption(option, isDelLayer=true){
       // viewer.scene.imageryLayers.remove(targetLayer); // 这里直接删除似乎不起作用,还是采用index方式删除
       let delImagelayer = viewer.imageryLayers._layers[layerIndex];
       if(isDelLayer && delImagelayer) viewer.scene.imageryLayers.remove(delImagelayer);
-      layerTreeData[1].children = layerTreeData[1].children.filter(item=>item.id != targetID);
+      // layerTreeData[1].children = layerTreeData[1].children.filter(item=>item.id != targetID); // 会导致同名图层被误删
+      layerStore.updateLayer({ type: "imagery" });
     }else if (type === LayerEnum.MVT) {
       if(!targetID) return;
       if(isDelLayer) viewer.scene.mapboxMap.removeLayer(targetID);

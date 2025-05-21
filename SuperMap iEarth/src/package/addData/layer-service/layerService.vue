@@ -63,7 +63,10 @@ function computedServiceChooseType(publicServiceList) {
   // 含S3M图层的场景
   viewer.scene.layers._layerQueue.forEach(s3mLayer => {
     if (!s3mLayer._baseUri) return;
-    const s3mBaseUriPath = s3mLayer._baseUri.path;
+    let s3mBaseUriPath = s3mLayer._baseUri.path;
+    if(typeof s3mBaseUriPath != 'string'){ // 11.3和主版本这里不一致，用于兼容主版本
+      s3mBaseUriPath = s3mLayer._baseUri._string;
+    }
     publicServiceList.forEach(item => {
       const sceneUrl = item.proxiedUrl;
       if (sceneUrl.includes('/rest/realspace')) {

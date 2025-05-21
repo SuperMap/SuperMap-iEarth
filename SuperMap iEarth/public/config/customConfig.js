@@ -4,7 +4,7 @@ const customConfig = {
     dbQuery_special_field:'ModelName', // DB属性查询中展示表格里面特殊指定的字段名称
     s3mLayer_visibleDistanceMax:9000000, // S3M图层的最大可见距离
     orderIndependentTranslucency:true, // 设置场景OIT-老版本
-    useSuperMapOIT:false, // 设置场景OIT-新版本 - 新版设为false，老版本才起效果
+    useSuperMapOIT:true, // 设置场景OIT-新版本 - 新版设为false，老版本才起效果 // 体积云要起作用，需要设置 useSuperMapOIT 为true
     f2_cameaPosition: {  // 点击F2调整相机到指定位置
         "position": {
             "longitude": 0.00046569024418889355,

@@ -426,11 +426,14 @@ function addWMTS(url: string) {
   const { lowerCorner, upperCorner } = targetLayerInfo.boundingBox;
   const scaleDenominators = targetTileSetInfo.scaleDenominators;
   let tilingScheme: any = undefined;
+  let isUseOrigin = targetTileSetInfo.topLeftCorner == '90.0 -180.0' ? true : false; 
   if (crs_epsg.includes("4326") || crs_epsg.includes("4490")) {
     tilingScheme = new SuperMap3D.GeographicTilingScheme({
       rectangle: SuperMap3D.Rectangle.fromDegrees(lowerCorner[0], lowerCorner[1], upperCorner[0], upperCorner[1]),
       scaleDenominators: scaleDenominators,
       customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
+      // 不是动态原点切的瓦片, 需要添加origin
+      origin: isUseOrigin ? new SuperMap3D.Cartographic.fromDegrees(-180, 90, 0.0) : undefined, 
     })
   } else if (crs_epsg.includes("3857")) {
     tilingScheme = new SuperMap3D.WebMercatorTilingScheme({

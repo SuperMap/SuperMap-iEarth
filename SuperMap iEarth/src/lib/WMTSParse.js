@@ -175,7 +175,9 @@ class WMTSParse {
             info.crs = tileSet['ows:SupportedCRS'][0]
             // info.tileMatrixLabels = tileSet.TileMatrix.map(s => s['ows:Identifier'])
             info.scaleDenominators = tileSet.TileMatrix.map(s => s['ScaleDenominator'][0])
-
+            if(tileSet["TileMatrix"] && tileSet["TileMatrix"].length>0){
+                info.topLeftCorner = tileSet["TileMatrix"][0].TopLeftCorner;
+            }
             infoList.push(info);
         });
 
