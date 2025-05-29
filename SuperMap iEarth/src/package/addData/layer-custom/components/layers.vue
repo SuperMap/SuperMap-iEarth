@@ -68,11 +68,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onBeforeUnmount } from "vue";
 import layerManagement from "@/tools/layerManagement";
 import WMTSParse from "@/lib/WMTSParse";
 import axios from 'axios';
 import xml2js from 'xml2js';
+
+onBeforeUnmount(()=>{
+  // 移除token
+  SuperMap3D.Credential.CREDENTIAL = null;
+})
 
 // 自定义图层类型枚举
 enum LayerTypeEnum {
@@ -293,6 +298,11 @@ async function getWmtsLayerOption(wmtsUrl: string) {
 
 // 添加s3m
 function addS3M(s3mLayerUrl: string) {
+  if (!s3mLayerUrl || s3mLayerUrl == '') return;
+  if (!s3mLayerUrl.endsWith("/config")) {
+    window["$message"].warning($t("addressNotformat"));
+    return;
+  }
 
   // 计算当前S3M图层的名称, 使用addS3MTilesLayerByScp接口必须传入name
   let s3mName = state.layerName;
@@ -326,6 +336,12 @@ function addS3M(s3mLayerUrl: string) {
 
 // 添加影像图层 - 目前只支持超图我们自己的影像
 function addImage(imageryUrl: string) {
+  if (!imageryUrl || imageryUrl == '') return;
+  if (!imageryUrl.includes("/realspace/")) {
+    window["$message"].warning($t("addressNotformat"));
+    return;
+  }
+
   const window_maximumLevel = window.customConfig && window.customConfig.superMapImageryProvider_maximumLevel;
   let imageLayer = viewer.imageryLayers.addImageryProvider(
     new SuperMap3D.SuperMapImageryProvider({
@@ -344,12 +360,24 @@ function addImage(imageryUrl: string) {
 
 // 添加MVT
 function addMVT(mvtUrl) {
+  if (!mvtUrl || mvtUrl == '') return;
+  if (!mvtUrl.includes("/restjsr/v1/vectortile/maps/")) {
+    window["$message"].warning($t("addressNotformat"));
+    return;
+  }
+
   const mvtName = state.layerName != '' ? state.layerName : `MVT-${new Date().getTime()}`;
   layerManagement.addMvtLayer(mvtUrl, mvtName);
 }
 
 // 添加地形
 function addTerrain(terrainURL: string) {
+  if (!terrainURL || terrainURL == '') return;
+  if (!terrainURL.includes("/realspace/datas/")) {
+    window["$message"].warning($t("addressNotformat"));
+    return;
+  }
+
   let isSctFlag = true;
   if (terrainURL.includes('info/data/path')) isSctFlag = false; // STK地形，需要设置isSct为false
   viewer.terrainProvider = new SuperMap3D.SuperMapTerrainProvider({
@@ -381,6 +409,11 @@ function addTerrain(terrainURL: string) {
 function addArcgis(argisUrl: string) {
   if (!argisUrl || argisUrl == '') return;
 
+  if(!argisUrl.endsWith("/MapServer")) {
+     window["$message"].warning($t("addressNotformat"));
+     return;
+  }
+
   const imageryProvider = new SuperMap3D.CGCS2000MapServerImageryProvider({
     url: argisUrl
   });
@@ -396,7 +429,15 @@ function addArcgis(argisUrl: string) {
 
 // 添加WMTS服务
 function addWMTS(url: string) {
+  if (!url || url == '') return;
+  if(!url.endsWith("/wmts100")) {
+     window["$message"].warning($t("addressNotformat"));
+     return;
+  }
+
   if (!wmtsInfo) return;
+
+
   if(state.wmtsLayer=='' || state.tileSetID==''){
     window["$message"].warning($t("wmtsNoLayerOrTilesetIDTip"));
     return;

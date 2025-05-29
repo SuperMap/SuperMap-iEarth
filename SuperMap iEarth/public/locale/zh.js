@@ -887,7 +887,8 @@ const local_zh = {
         highAltitudeFog:"高度雾",
         useAdvancedAtmosphere:"启用高级大气",
         fogdecay:"衰减系数",
-        iportalService401:"我的服务暂不支持需要填写Token的服务，请在自定义服务中添加"
+        iportalService401:"我的服务暂不支持需要填写Token的服务，请在自定义服务中添加",
+        addressNotformat:"输入的地址不满足格式",
 }
 
 window.local_zh = local_zh;
