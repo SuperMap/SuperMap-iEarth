@@ -4,14 +4,14 @@
     <n-tooltip placement="top-end" trigger="hover">
       <template #trigger>
         <n-input class="add-input-border" v-model:value="state.sceneUrl" type="text" style="width: 2.4rem"
-          :title="state.sceneUrl" @change="handleChange"/>
+          :title="state.sceneUrl" @input="handleUrlChange" :status='state.inputUrlStatus'/>
       </template>
-      {{ state.urlTip }}
+      {{ state.urlFormatTip }}
     </n-tooltip>
   </div>
 
   <div class="row-item">
-    <span>多子域</span>
+    <span>{{ $t("subdomains") }}</span>
     <n-input class="add-input-border" v-model:value="state.subdomains" placeholder="t0,t1,t2,t3" type="text" style="width: 2.4rem"/>
   </div>
 
@@ -36,11 +36,18 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, onBeforeUnmount } from "vue";
 import tool from "@/tools/tool";
+import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
 
-const state = reactive({
-  urlTip: "http://<server>:<port>/realspace/services/<component>/rest/realspace",
+onBeforeUnmount(()=>{
+  // 移除token
+  SuperMap3D.Credential.CREDENTIAL = null;
+})
+
+const state = reactive<any>({
+  urlFormatTip: UrlFormatEnum.RealSpace,
+  inputUrlStatus: undefined,
   sceneUrl: '',
   sceneName: '',
   sceneToken: '',
@@ -50,31 +57,42 @@ const state = reactive({
 })
 
 //检查场景服务地址是否合规
-function handleChange(){
-  state.sceneUrl = state.sceneUrl.trim();
-  if(state.sceneUrl.endsWith("/realspace")) {
-    tool.computedSceneNameOptions(state.sceneUrl).then(result => {
+function handleUrlChange(){
+  state.sceneUrl = state.sceneUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  if(state.sceneUrl == '') {
+    state.inputUrlStatus = undefined;
+    state.sceneName = "";
+    state.sceneNameOptions = [];
+    return;
+  }
+
+  // 使用正则校验URL
+  const sceneUrl = state.sceneUrl;
+  const regexResult = tool.checkUrlByRegex(sceneUrl, UrlRegexEnum.RealSpace);
+  if(regexResult && regexResult.isPass && regexResult.matchInfo){
+    state.inputUrlStatus = undefined;
+    tool.computedSceneNameOptions(sceneUrl).then(result => {
       if (result && result.length > 0) {
         state.sceneName = result[0].value;
         state.sceneNameOptions = result;
       }
     });
   }else{
-    window["$message"].warning($t("urlChecedFail"));
+    state.inputUrlStatus = "error";
+    state.sceneName = "";
+    state.sceneNameOptions = [];
   }
 }
 
 // 打开场景服务
 function openScene() {
-  if (state.sceneUrl == null || state.sceneUrl == "") {
+  const sceneUrl = state.sceneUrl;
+  const regexResult = tool.checkUrlByRegex(sceneUrl, UrlRegexEnum.RealSpace);
+  if(!regexResult || !regexResult.isPass){
+    window["$message"].warning($t("addressNotformat"));
     return;
   }
 
-  //去引号
-  if (state.sceneUrl.charAt(0) == '"' || state.sceneUrl.charAt(0) == "'") {
-    let reg = /^['|"](.*)['|"]$/;
-    state.sceneUrl = state.sceneUrl.replace(reg, "$1");
-  }
   if (state.token) {
     SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
       state.sceneToken
@@ -88,11 +106,14 @@ function openScene() {
       subdomains.push(item);
     }
   })
-  if(subdomains.length == 0) subdomains = undefined;
+  if(subdomains.length == 0) {
+    subdomains = undefined;
+  }else{
+    console.log("subdomains:",subdomains);
+  }
 
-  console.log("subdomains:",subdomains);
   let sceneName = state.sceneName == '' ? undefined : state.sceneName;
-  const promise = window.viewer.scene.open(state.sceneUrl, sceneName, { 
+  const promise = window.viewer.scene.open(sceneUrl, sceneName, { 
     subdomains: subdomains,
     autoSetView: true 
   });

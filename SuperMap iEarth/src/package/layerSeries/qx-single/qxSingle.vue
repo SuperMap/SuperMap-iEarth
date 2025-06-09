@@ -5,9 +5,9 @@
       <n-tooltip placement="top-end" trigger="hover">
         <template #trigger>
           <n-input class="add-input-border" style="width: 2.1rem" v-model:value="state.dataServiceUrl" type="text"
-            :placeholder="$t('qxLayerDataUrl')" @change="handleChange" />
+            :placeholder="$t('qxLayerDataUrl')" @input="handleUrlChange" :status='state.inputUrlStatus' />
         </template>
-        {{ urlTip }}
+        {{ state.urlFormatTip }}
       </n-tooltip>
     </div>
 
@@ -42,7 +42,7 @@
 
     <div class="row-item">
       <span>{{ $t("queryMode") }}</span>
-      <n-select style="width: 2.1rem" v-model:value="state.queryMode" :options="state.queryModeOption" />
+      <n-select style="width: 2.1rem" v-model:value="state.queryMode" :options="queryModeOption" />
     </div>
 
     <div class="btn-row-item" style="margin-left: 0.93rem">
@@ -100,6 +100,7 @@
 import { ref, computed, reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import CustomBubble from "@/lib/CustomBubble";
 import tool from "@/tools/tool";
+import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
 
 const scene = viewer.scene;
 const customBubble = new CustomBubble(viewer);
@@ -113,8 +114,9 @@ type StateType = {
   dataSetOptions: any;
   entityColor: string; //设置实体颜色
   transparency: number; //实体透明度
-  queryModeOption: any; // 单体化查询模式选项
   queryMode: string; // 查询模式
+  inputUrlStatus:any;
+  urlFormatTip:string;
 };
 
 // 倾斜图层URL:http://www.supermapol.com/realspace/services/3D-dynamicDTH-2/rest/realspace/datas/Config%20-%201/config
@@ -132,21 +134,9 @@ const state = reactive<StateType>({
   dataSetOptions: [],
   entityColor: "rgb(166,252,252)",
   transparency: 0.6,
-  queryModeOption: [
-    {
-      label: () => $t('queryPoint'),
-      value: "point",
-    },
-    {
-      label: () => $t('queryFloor'),
-      value: "floor",
-    },
-    {
-      label: () => $t('queryDoor'),
-      value: "door",
-    }
-  ],
   queryMode: 'point',
+  inputUrlStatus:undefined,
+  urlFormatTip: UrlFormatEnum.DataService,
 });
 
 const mediaState = reactive({
@@ -177,6 +167,22 @@ const mediaState = reactive({
   ]
 })
 
+// 单体化查询模式选项
+const queryModeOption = ref([
+  {
+    label: () => $t('queryPoint'),
+    value: "point",
+  },
+  {
+    label: () => $t('queryFloor'),
+    value: "floor",
+  },
+  {
+    label: () => $t('queryDoor'),
+    value: "door",
+  }
+])
+
 // 添加媒体字段相关
 const triggerAreas = computed(() => ['arrow', 'main']);
 const mediaPanleTitle = computed(() => {
@@ -184,7 +190,6 @@ const mediaPanleTitle = computed(() => {
   return `模型ID：${featureID}/添加字段`;
 });
 
-const urlTip = ref("http://<server>:<port>/iserver/services/<component>/rest/data");
 const currentS3MLayerName = window.iEarthBindData.CurrentS3MLayerName;
 
 let handler = new SuperMap3D.ScreenSpaceEventHandler(scene.canvas);
@@ -197,11 +202,32 @@ onBeforeUnmount(() => {
   if (handler) handler.destroy();
 });
 
-async function handleChange() {
-  state.dataServiceUrl = state.dataServiceUrl.trim();
-  const result = await tool.computedDataSourceOptions(state.dataServiceUrl);
-  if (result && result.length > 0) {
-    state.dataSourceOptions = result;
+async function handleUrlChange() {
+  state.dataServiceUrl = state.dataServiceUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  if(state.dataServiceUrl == '') {
+    state.inputUrlStatus = undefined;
+    state.dataSourceName = "";
+    state.dataSourceOptions = [];
+    state.dataSetName = "";
+    state.dataSetOptions = [];
+    return;
+  }
+
+  // 使用正则校验URL
+  const dataServiceUrl = state.dataServiceUrl;
+  const regexResult = tool.checkUrlByRegex(dataServiceUrl, UrlRegexEnum.DataService);
+  if(regexResult && regexResult.isPass && regexResult.matchInfo){
+    state.inputUrlStatus = undefined;
+    const result = await tool.computedDataSourceOptions(dataServiceUrl);
+    if (result && result.length > 0) {
+      state.dataSourceOptions = result;
+    }
+  }else{
+    state.inputUrlStatus = "error";
+    state.dataSourceName = "";
+    state.dataSourceOptions = [];
+    state.dataSetName = "";
+    state.dataSetOptions = [];
   }
 }
 

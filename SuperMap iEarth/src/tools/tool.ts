@@ -363,6 +363,18 @@ async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName) {
   }
 }
 
+// 使用正则校验URL并匹配提取信息作为图层名称
+function checkUrlByRegex(url, regex){
+  if(!url || !regex) return;
+
+  const isPass = regex.test(url);
+  const matchInfo = url.match(regex);
+  return {
+    isPass: isPass,
+    matchInfo: matchInfo
+  }
+}
+
 export default {
   gradientColors,
   setMouseCursor,
@@ -376,4 +388,5 @@ export default {
   computedSceneNameOptions,
   computedDataSourceEpsgCode,
   computedDataSetEpsgCode,
+  checkUrlByRegex
 }

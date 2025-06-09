@@ -8,9 +8,9 @@
     <n-tooltip placement="top-end" trigger="hover">
       <template #trigger>
         <n-input class="add-input-border" style="width: 2.4rem" v-model:value="state.layerUrl" type="text"
-          :placeholder="$t('layerUrl')" @input="handleChange" />
+          :placeholder="$t('layerUrl')" @input="handleUrlChange" :status='state.inputUrlStatus'/>
       </template>
-      {{ state.urlTip }}
+      {{ state.urlFormatTip }}
     </n-tooltip>
   </div>
 
@@ -22,8 +22,8 @@
   </div>
 
   <div style="margin-left: 0.95rem; margin-bottom: 0.1rem" v-show="state.layerType != LayerTypeEnum.WMTS">
-    <n-checkbox v-model:checked="state.token" :label="$t('addToken')" />
-    <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.token" v-model:value="state.layerToken" type="text"
+    <n-checkbox v-model:checked="state.useToken" :label="$t('addToken')" />
+    <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.useToken" v-model:value="state.sceneToken" type="text"
       placeholder="token..." />
   </div>
 
@@ -73,6 +73,8 @@ import layerManagement from "@/tools/layerManagement";
 import WMTSParse from "@/lib/WMTSParse";
 import axios from 'axios';
 import xml2js from 'xml2js';
+import tool from "@/tools/tool";
+import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
 
 onBeforeUnmount(()=>{
   // 移除token
@@ -85,9 +87,27 @@ enum LayerTypeEnum {
   Image = 'Image',
   MVT = 'MVT',
   Terrain = 'Terrain',
+  ArcGIS = 'ArcGIS',
   WMTS = 'WMTS',
-  Arcgis = 'ArcGIS',
 }
+
+// http://172.16.120.191:8090/iserver/services/3D-CBDCache20200416/rest/realspace/datas/Building@CBD/config
+// https://www.supermapol.com/realspace/services/3D-CBD/rest/realspace/datas/Building@CBD/config
+
+// http://172.16.120.191:8090/iserver/services/map-WorkSpace/rest/maps/Country_R%40model
+// http://172.16.120.191:8090/iserver/services/3D-ZhuFengDiXingYingXiang/rest/realspace/datas/image
+// http://www.supermapol.com/realspace/services/3D-dixingyingxiang/rest/realspace/datas/MosaicResult
+
+// http://172.16.120.191:8090/iserver/services/map-mvt-std_mvt_jingjin/restjsr/v1/vectortile/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE
+// https://www.supermapol.com/realspace/services/map-mvt-JingJinDiQuDiTu/restjsr/v1/vectortile/maps/%E4%BA%AC%E6%B4%A5%E5%9C%B0%E5%8C%BA%E5%9C%B0%E5%9B%BE,
+
+// http://172.16.120.191:8090/iserver/services/3D-ZhuFengDiXingYingXiang/rest/realspace/datas/srtm_54_07@zhufeng
+
+// http://172.16.120.103:6080/arcgis/rest/services/beijing2000/MapServer
+
+// http://172.16.120.191:8090/iserver/services/map-ugcv5-worldMap/wmts100
+
+
 
 // 图层类型选项
 const typeOptions = ref([
@@ -109,7 +129,7 @@ const typeOptions = ref([
   },
   {
     label: $t("arcgisService"),
-    value: LayerTypeEnum.Arcgis,
+    value: LayerTypeEnum.ArcGIS,
   },
   {
     label: $t("wmtsLayer"),
@@ -136,17 +156,18 @@ const columns = ref([
 
 const state = reactive<any>({
   layerType: LayerTypeEnum.S3M,
-  token: false,
-  layerToken: "",
+  useToken: false,
+  sceneToken: "",
   layerUrl: "",
   layerName: "",
-  wmtsLayer: "",
+  inputUrlStatus: undefined,
   wmtsLayerOptions: [],
+  checkedRowKeys:[],
+  wmtsLayerName: "",
   tileSetID: "",
   tileSetOptions: [],
   wmtsFilterKey:'',
-  checkedRowKeys:[],
-  urlTip: `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`,
+  urlFormatTip: UrlFormatEnum.S3M,
 });
 
 const scene = viewer.scene;
@@ -163,10 +184,10 @@ let wmtsOriginLayerOptions:any = ref([]);
 function clear() {
   state.layerUrl = "";
   state.layerName = "";
-  state.token = false;
-  state.layerToken = "";
+  state.useToken = false;
+  state.sceneToken = "";
 
-  state.wmtsLayer = "";
+  state.wmtsLayerName = "";
   state.wmtsLayerOptions = [];
   state.tileSetID = "";
   state.tileSetOptions = [];
@@ -176,19 +197,21 @@ function clear() {
 
 // 打开自定义图层
 function openLayer() {
-  if (state.layerUrl === null || state.layerUrl === "") {
+  const layerUrl = state.layerUrl;
+  const layerType = state.layerType;
+
+  if (layerUrl == "") {
     window["$message"].warning($t("urlIsNull"));
     return;
   }
-  if (state.token) {
+  if (state.useToken) {
     SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-      state.layerToken
+      state.sceneToken
     );
   }
 
-  const layerUrl = state.layerUrl;
 
-  switch (state.layerType) {
+  switch (layerType) {
     case LayerTypeEnum.S3M:
       addS3M(layerUrl);
       break;
@@ -204,7 +227,7 @@ function openLayer() {
     case LayerTypeEnum.WMTS:
       addWMTS(layerUrl);
       break;
-    case LayerTypeEnum.Arcgis:
+    case LayerTypeEnum.ArcGIS:
       addArcgis(layerUrl);
       break;
     default:
@@ -213,44 +236,29 @@ function openLayer() {
 }
 
 // 针对S3M、影像、地形，通过输入的url，自动获取图层名
-function handleChange() {
+function handleUrlChange() {
   state.layerUrl = state.layerUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
-
-  //检测地址正确性 - 之后会换成正则表达式做严格校验
-  const layerType = state.layerType
-  const layerName = getNameFromUrl(layerType, state.layerUrl);
-  state.layerName = layerName ? layerName : "";
-
-  if (layerType == LayerTypeEnum.WMTS) {
-    getWmtsLayerOption(state.layerUrl)
+  if(state.layerUrl == '') {
+    state.inputUrlStatus = undefined;
+    state.layerName = '';
+    return;
   }
-}
 
-// 从URL中获取图层的名称
-function getNameFromUrl(type, url) {
-  switch (type) {
-    case LayerTypeEnum.S3M:
-      if (url.endsWith("/config")) {
-        const suffix = url.split("/config")[0];
-        return suffix.split("/").pop();
-      }
-      break;
-    case LayerTypeEnum.Image:
-      if (url.includes("/realspace/datas/")) {
-        return url.split("/realspace/datas/")[1];
-      }
-      break;
-    case LayerTypeEnum.Terrain:
-      if (url.includes("/realspace/datas/")) {
-        return url.split("/realspace/datas/")[1];
-      }
-      break;
-    case LayerTypeEnum.Arcgis:
-      if (url.endsWith("/MapServer")) {
-        const suffix = url.split("/MapServer")[0];
-        return suffix.split("/").pop();
-      }
-      break;
+  // 使用正则校验URL
+  const layerUrl = state.layerUrl;
+  const layerType = state.layerType;
+  const regexResult = tool.checkUrlByRegex(layerUrl, UrlRegexEnum[layerType]);
+  if(regexResult && regexResult.isPass && regexResult.matchInfo){
+    state.inputUrlStatus = undefined;
+    state.layerName = regexResult.matchInfo[regexResult.matchInfo.length-1]; 
+
+    // 如果是WMTS服务，需要提前解析XML
+    if (layerType == LayerTypeEnum.WMTS) {
+      getWmtsLayerOption(layerUrl)
+    }
+  }else{
+    state.inputUrlStatus = "error";
+    state.layerName = '';
   }
 }
 
@@ -298,8 +306,8 @@ async function getWmtsLayerOption(wmtsUrl: string) {
 
 // 添加s3m
 function addS3M(s3mLayerUrl: string) {
-  if (!s3mLayerUrl || s3mLayerUrl == '') return;
-  if (!s3mLayerUrl.endsWith("/config")) {
+  const regexResult = tool.checkUrlByRegex(s3mLayerUrl, UrlRegexEnum.S3M);
+  if(!regexResult || !regexResult.isPass){
     window["$message"].warning($t("addressNotformat"));
     return;
   }
@@ -336,8 +344,8 @@ function addS3M(s3mLayerUrl: string) {
 
 // 添加影像图层 - 目前只支持超图我们自己的影像
 function addImage(imageryUrl: string) {
-  if (!imageryUrl || imageryUrl == '') return;
-  if (!imageryUrl.includes("/realspace/")) {
+  const regexResult = tool.checkUrlByRegex(imageryUrl, UrlRegexEnum.Image);
+  if(!regexResult || !regexResult.isPass){
     window["$message"].warning($t("addressNotformat"));
     return;
   }
@@ -360,8 +368,8 @@ function addImage(imageryUrl: string) {
 
 // 添加MVT
 function addMVT(mvtUrl) {
-  if (!mvtUrl || mvtUrl == '') return;
-  if (!mvtUrl.includes("/restjsr/v1/vectortile/maps/")) {
+  const regexResult = tool.checkUrlByRegex(mvtUrl, UrlRegexEnum.MVT);
+  if(!regexResult || !regexResult.isPass){
     window["$message"].warning($t("addressNotformat"));
     return;
   }
@@ -372,8 +380,8 @@ function addMVT(mvtUrl) {
 
 // 添加地形
 function addTerrain(terrainURL: string) {
-  if (!terrainURL || terrainURL == '') return;
-  if (!terrainURL.includes("/realspace/datas/")) {
+  const regexResult = tool.checkUrlByRegex(terrainURL, UrlRegexEnum.Terrain);
+  if(!regexResult || !regexResult.isPass){
     window["$message"].warning($t("addressNotformat"));
     return;
   }
@@ -407,11 +415,10 @@ function addTerrain(terrainURL: string) {
 
 // 添加Arcgis Rest Map服务
 function addArcgis(argisUrl: string) {
-  if (!argisUrl || argisUrl == '') return;
-
-  if(!argisUrl.endsWith("/MapServer")) {
-     window["$message"].warning($t("addressNotformat"));
-     return;
+  const regexResult = tool.checkUrlByRegex(argisUrl, UrlRegexEnum.ArcGIS);
+  if(!regexResult || !regexResult.isPass){
+    window["$message"].warning($t("addressNotformat"));
+    return;
   }
 
   const imageryProvider = new SuperMap3D.CGCS2000MapServerImageryProvider({
@@ -428,23 +435,22 @@ function addArcgis(argisUrl: string) {
 }
 
 // 添加WMTS服务
-function addWMTS(url: string) {
-  if (!url || url == '') return;
-  if(!url.endsWith("/wmts100")) {
-     window["$message"].warning($t("addressNotformat"));
-     return;
+function addWMTS(wmtsUrl: string) {
+  const regexResult = tool.checkUrlByRegex(wmtsUrl, UrlRegexEnum.WMTS);
+  if(!regexResult || !regexResult.isPass){
+    window["$message"].warning($t("addressNotformat"));
+    return;
   }
 
   if (!wmtsInfo) return;
 
 
-  if(state.wmtsLayer=='' || state.tileSetID==''){
+  if(state.wmtsLayerName=='' || state.tileSetID==''){
     window["$message"].warning($t("wmtsNoLayerOrTilesetIDTip"));
     return;
   }
 
-  const wmtsUrl = url;
-  const layerName = state.wmtsLayer;
+  const layerName = state.wmtsLayerName;
   const tileSetID = state.tileSetID;
   const targetLayerInfo = wmtsInfo.layerList.find(layerInfo => layerInfo.layer == layerName);
   const targetTileSetInfo = wmtsInfo.tileSetList.find(tileSetInfo => tileSetInfo.tileMatrixSetID == tileSetID);
@@ -521,7 +527,7 @@ watch(
     if(selecteditems.length === 0) return;
 
     const layerName = selecteditems[0].name;
-    state.wmtsLayer = layerName;
+    state.wmtsLayerName = layerName;
     const targetLayerInfo = wmtsInfo.layerList.find(layerInfo => layerInfo.layer == layerName);
     if (targetLayerInfo && targetLayerInfo.tileMatrixSetIDs) {
       state.tileSetOptions = []
@@ -542,28 +548,8 @@ watch(
   () => state.layerType,
   (val: string) => {
     clear();
-    switch (val) {
-      case LayerTypeEnum.S3M:
-        state.urlTip = `http://<server>:<port>/iserver/services/<component>/rest/realspace/datas/<layerName>/config`;
-        break;
-      case LayerTypeEnum.Image:
-        state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
-        break;
-      case LayerTypeEnum.MVT:
-        state.urlTip = `http://<server>:<port>/iserver/services/<component>/restjsr/v1/vectortile/maps/<layerName>`;
-        break;
-      case LayerTypeEnum.Terrain:
-        state.urlTip = `http://<server>:<port>/realspace/services/<component>/rest/realspace/datas/<layerName>`;
-        break;
-      case LayerTypeEnum.WMTS:
-        state.urlTip = `http://<server>:<port>/iserver/services/{serviceName}/wmts100`;
-        break;
-      case LayerTypeEnum.Arcgis:
-        state.urlTip = `http://<server>:<port>/arcgis/rest/services/<layerName>/MapServer`;
-        break;
-      default:
-        break;
-    }
+    state.urlFormatTip = UrlFormatEnum[val];
+    state.inputUrlStatus = undefined;
   }
 );
 </script>

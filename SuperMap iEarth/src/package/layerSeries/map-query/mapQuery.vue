@@ -10,11 +10,11 @@
             style="width: 2.2rem"
             v-model:value="state.dataUrl"
             type="text"
-            @change="handleDataUrlChange"
+            @input="handleUrlChange" :status='state.inputUrlStatus'
             :placeholder="$t('inputServerUrl')"
           />
         </template>
-        {{ state.dataUrlTip }}
+        {{ state.urlFormatTip }}
       </n-tooltip>
     </div>
 
@@ -238,6 +238,7 @@ import {
 import ColumnSetting from "./coms/column-setting.vue";
 import CustomBubble from "@/lib/CustomBubble";
 import tool from "@/tools/tool";
+import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
 
 const customBubble = new CustomBubble(viewer);
 customBubble.start();
@@ -256,7 +257,7 @@ type StateType = {
   itemCount: number;
   isFilter: boolean;
   isClickQuery: boolean;
-  dataUrlTip: string;
+  urlFormatTip: string;
   isloading_filter: boolean;
   isloading_table: boolean;
   dataSourceName:string;
@@ -265,6 +266,7 @@ type StateType = {
   queryField:string;
   fieldOptions:any;
   dataSetEPSG:any;
+  inputUrlStatus:any;
 };
 
 // 初始化变量
@@ -300,7 +302,8 @@ const state = reactive<StateType>({
   isloading_table: false, // 等待属性表查询
 
   // 输入提示
-  dataUrlTip: `http://<server>:<port>/iserver/services/{dataProvider}/rest/data`,
+  urlFormatTip: UrlFormatEnum.DataService,
+  inputUrlStatus:undefined
 });
 
 const datasetNamesQuery = computed(() => { // 请求参数需要数据源和数据集以固定形式共同构造
@@ -564,7 +567,7 @@ function setQueryInfo() {
   });
   if (targetItem) {
     state.dataUrl = targetItem.dataUrl;
-    handleDataUrlChange(); // 获取数据服务中数据源选项
+    handleUrlChange(); // 获取数据服务中数据源选项
     state.dataSourceName = targetItem.dataSourceName;
     state.dataSetName = targetItem.dataSetName;
   }
@@ -807,16 +810,41 @@ let tableCount = computed(() => {
 
 
 // 处理数据服务输入，获取数据源选项
-function handleDataUrlChange() {
-  if (!state.dataUrl || state.dataUrl == '') return;
-  state.showQueryTable = false; // 当数据服务出现更改时，关闭表格显示
-  state.dataSourceName = "";
-  state.dataSetName = "";
-  state.queryField = "";
-  state.dataSourceOptions = [];
-  state.dataSetOptions = [];
-  state.fieldOptions = [];
-  computedDataSourceOptions(state.dataUrl);
+function handleUrlChange() {
+  state.dataUrl = state.dataUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  if(state.dataUrl == '') {
+    state.inputUrlStatus = undefined;
+    state.dataSourceName = "";
+    state.dataSetName = "";
+    state.queryField = "";
+    state.dataSourceOptions = [];
+    state.dataSetOptions = [];
+    state.fieldOptions = [];
+    return;
+  }
+
+  // 使用正则校验URL
+  const dataUrl = state.dataUrl;
+  const regexResult = tool.checkUrlByRegex(dataUrl, UrlRegexEnum.DataService);
+  if(regexResult && regexResult.isPass && regexResult.matchInfo){
+    state.inputUrlStatus = undefined;
+    state.showQueryTable = false; // 当数据服务出现更改时，关闭表格显示
+    state.dataSourceName = "";
+    state.dataSetName = "";
+    state.queryField = "";
+    state.dataSourceOptions = [];
+    state.dataSetOptions = [];
+    state.fieldOptions = [];
+    computedDataSourceOptions(dataUrl);
+  }else{
+    state.inputUrlStatus = "error";
+    state.dataSourceName = "";
+    state.dataSetName = "";
+    state.queryField = "";
+    state.dataSourceOptions = [];
+    state.dataSetOptions = [];
+    state.fieldOptions = [];
+  }
 }
 
 // 基于数据服务URL计算数据源选项

@@ -14,10 +14,10 @@
       <n-tooltip placement="top-end" trigger="hover">
         <template #trigger>
           <n-input class="add-input-border" style="width: 1.96rem" v-model:value="state.dataUrl" type="text"
-            @change="handleDataUrlChange"
-            :placeholder="$t('inputServerUrl')" />
+            @input="handleUrlChange"
+            :placeholder="$t('inputServerUrl')" :status='state.inputUrlStatus'/>
         </template>
-        {{ state.urlTip }}
+        {{ state.urlFormatTip }}
       </n-tooltip>
     </div>
 
@@ -75,6 +75,7 @@ import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
 import layerManagement from "@/tools/layerManagement";
 import CustomBubble from "@/lib/CustomBubble";
 import tool from "@/tools/tool";
+import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
 
 const customBubble = new CustomBubble(viewer);
 customBubble.start();
@@ -87,8 +88,9 @@ type StateType = {
   dataSourceOptions: any;
   dataSetName: string;
   dataSetOptions: any;
-  urlTip: string;
+  urlFormatTip: string;
   isMerge: boolean;
+  inputUrlStatus:any;
 };
 
 // http://www.supermapol.com/realspace/services/data-cbd/rest/data  -  二维数据
@@ -103,7 +105,8 @@ const state = reactive<StateType>({
   dataSourceOptions:[],
   dataSetName: "",
   dataSetOptions:[],
-  urlTip:`http://<server>:<port>/iserver/services/<component>/rest/data`,
+  urlFormatTip:UrlFormatEnum.DataService,
+  inputUrlStatus: undefined,
   isMerge:false
 });
 let currentS3MLayer:any = undefined;
@@ -125,11 +128,32 @@ onBeforeUnmount(() => {
   customBubble.destroy();
 });
 
-async function handleDataUrlChange(){
+async function handleUrlChange(){
+  state.dataUrl = state.dataUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  if(state.dataUrl == '') {
+    state.inputUrlStatus = undefined;
+    state.dataSourceName = "";
+    state.dataSourceOptions = [];
+    state.dataSetName = "";
+    state.dataSetOptions = [];
+    return;
+  }
+
+  // 使用正则校验URL
   const dataUrl = state.dataUrl;
-  const options = await tool.computedDataSourceOptions(dataUrl);
-  if(options && options.length>0){
-    state.dataSourceOptions = options;
+  const regexResult = tool.checkUrlByRegex(dataUrl, UrlRegexEnum.DataService);
+  if(regexResult && regexResult.isPass && regexResult.matchInfo){
+    state.inputUrlStatus = undefined;
+    const options = await tool.computedDataSourceOptions(dataUrl);
+    if(options && options.length>0){
+      state.dataSourceOptions = options;
+    }
+  }else{
+    state.inputUrlStatus = "error";
+    state.dataSourceName = "";
+    state.dataSourceOptions = [];
+    state.dataSetName = "";
+    state.dataSetOptions = [];
   }
 }
 

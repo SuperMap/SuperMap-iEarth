@@ -880,6 +880,8 @@ const local_zh = {
         middle:'普通',
         low:'低等',
         cloudThickness: "云层厚度",
+        cloudAltitude: "云层高度",
+        cloudDensity:"云层密度",
         cloudCoverage: "云层覆盖度",
         cloudSpeed: "风速（km/h）",
         cloudDirection: "风向",
@@ -887,8 +889,15 @@ const local_zh = {
         highAltitudeFog:"高度雾",
         useAdvancedAtmosphere:"启用高级大气",
         fogdecay:"衰减系数",
-        iportalService401:"我的服务暂不支持需要填写Token的服务，请在自定义服务中添加",
-        addressNotformat:"输入的地址不满足格式",
+        iportalService401:"暂无权限,请添加Token后重试",
+        iportalTokenTip:"请填写iPortal的令牌",
+        addTokenSuccess:"添加Token成功",
+        addTokenExits:"当前token已存在",
+        intensity: '强度',
+        maxBrightness: '最大亮度',
+        addressNotformat:"输入的地址不符合格式",
+        resetOrigin:"恢复至默认值",
+        subdomains:"多子域",
 }
 
 window.local_zh = local_zh;
