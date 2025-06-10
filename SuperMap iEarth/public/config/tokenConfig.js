@@ -1,5 +1,5 @@
 const tokenConfig = {
-    "tiandituKey":"97d2d09de3e54939dd20123859260bf9", 
+    "tiandituKey":"bd404cfc4271223b0ba2b6057c8af9c2", 
     "bingMapsKey":"AkNh5OpOWgi_CnmMMlh1pCEv7OGqHKnsK4XU1mxPbUSVq21ncmnZm4kf-lBh2hxw"
 }
 
