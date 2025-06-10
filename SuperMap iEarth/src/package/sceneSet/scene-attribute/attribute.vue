@@ -22,9 +22,6 @@
       <n-gi>
         <n-checkbox v-model:checked="state.hdrEnabled" label="HDR" />
       </n-gi>
-      <n-gi v-if="haveLightShaft">
-        <n-checkbox v-model:checked="state.lightShaft" :label="$t('lightShaft')" />
-      </n-gi>
     </n-grid>
 
     <n-divider />
@@ -90,6 +87,12 @@
           <n-switch v-model:value="state.isMouseMode" size="small" />
         </template>
       </n-collapse-item>
+      <n-collapse-item :title="$t('lightShaft')" name="lightShaft" v-if="haveLightShaft">
+        <LightShaft v-if="state.lightShaft"></LightShaft>
+        <template #header-extra>
+          <n-switch v-model:value="state.lightShaft" size="small" />
+        </template>
+      </n-collapse-item>
       <n-collapse-item :title="$t('volumetricCloud')" name="volumetricCloud" v-if="haveVolumetricClouds">
         <VolumetricCloud v-if="state.isVolumetricCloud"></VolumetricCloud>
         <template #header-extra>
@@ -119,6 +122,7 @@ import EnvMap from "./coms/envMap.vue";
 import MsaaLevel from "./coms/msaaLevel.vue";
 import SceneDepth from "./coms/sceneDepth.vue";
 import MouseMode from "./coms/mouseMode.vue";
+import LightShaft from "./coms/lightShaft.vue";
 import VolumetricCloud from "./coms/volumetricCloud.vue";
 import HighAltitudeFog from "./coms/highAltitudeFog.vue";
 
@@ -148,7 +152,6 @@ const state = reactive({
   displayFrame: viewer.scene.debugShowFramesPerSecond,//显示帧率
   cloudLayer: viewer.scene.cloudBox ? true : false, // 云层
   hdrEnabled: viewer.scene.hdrEnabled, // HDR
-  lightShaft: haveLightShaft.value ? scene.postProcessStages.lightShaft.enabled : false, // 光束泛光 丁达尔效应
 
   // 子组件
   bloomEffect: viewer.scene.bloomEffect.show, // 后处理
@@ -161,6 +164,7 @@ const state = reactive({
   isMsaaLevel: viewer.scene._msaaSamples <= 1.1 ? false : true, // 反走样
   isDepthSet: viewer.scene.depthOfFieldEffect.show, // 设置景深
   isMouseMode: viewer.scene.screenSpaceCameraController.customMouseMode ? true : false, // 该属性为自定义绑定，并无此API
+  lightShaft: haveLightShaft.value ? scene.postProcessStages.lightShaft.enabled : false, // 光束泛光 丁达尔效应
   isVolumetricCloud: haveVolumetricClouds.value ? scene.volumetricClouds.enabled : false, // 体积云
   isHighAltitudeFog: haveHighAltitudeFog.value ? (scene.fog.enabled && scene.fog.advanced) : false, // 高度雾
 });
@@ -187,19 +191,6 @@ watch(() => state.cloudLayer, (val) => {
 });
 watch(() => state.hdrEnabled,(val) => {
   viewer.scene.hdrEnabled = val;
-});
-watch(() => state.lightShaft, (val) => {
-  viewer.scene.postProcessStages.lightShaft.enabled = val;
-
-  // // CBD场景：当前视角光束效果最明显
-  // scene.camera.setView({
-  //   destination: new SuperMap3D.Cartesian3(-2181311.692013047, 4386615.148870063, 4070583.4526216155),
-  //   orientation: {
-  //     heading: 1.5628543758427744,
-  //     pitch: 0.028640358057069992,
-  //     roll: 7.784426436785452e-9
-  //   }
-  // });
 });
 
 
@@ -239,6 +230,21 @@ watch(() => state.isMsaaLevel,(val) => {
 });
 watch(() => state.isDepthSet,(val) => { // 监听景深
   viewer.scene.depthOfFieldEffect.show = val;
+});
+watch(() => state.lightShaft, (val) => { // 光束泛光
+  viewer.scene.postProcessStages.lightShaft.enabled = val;
+
+  /**
+   * CBD场景：当前视角光束效果最明显
+    scene.camera.setView({
+      destination: new SuperMap3D.Cartesian3(-2181311.692013047, 4386615.148870063, 4070583.4526216155),
+      orientation: {
+        heading: 1.5628543758427744,
+        pitch: 0.028640358057069992,
+        roll: 7.784426436785452e-9
+      }
+    });
+   */
 });
 watch(() => state.isVolumetricCloud,(val) => {  // 体积云要起作用，需要设置 useSuperMapOIT 为true
   viewer.scene.volumetricClouds.enabled = val;

@@ -32,12 +32,7 @@ export const useLayerStore = defineStore({
 				type:'tinRoot',
 				children: []
 			},
-		],
-		mediaFeildOptions: { // 地图查询-媒体字段保存
-			"img": {},
-			"video": {}
-		},
-		wmtsLayerOption: [], // Wmts图层保存
+		]
 	}),
 	getters: {},
 	actions: {
@@ -433,44 +428,6 @@ export const useLayerStore = defineStore({
 			} else {
 				return;
 			}
-		},
-
-		/**
-		 * 从这里往下都是待移除代码
-		 */
-
-		// 设置wmts服务
-		setWmts(wmtsLayerOptionList: any) {
-			if (wmtsLayerOptionList.length == 0) return;
-			wmtsLayerOptionList.forEach((item: any) => {
-				let wmtsLayer = viewer.imageryLayers.addImageryProvider(new SuperMap3D.WebMapTileServiceImageryProvider({
-					url: item.wmtsLayerUrl,
-					style: "default",
-					format: 'image/png',
-					layer: item.layerName,
-					tileMatrixSetID: item.tileMatrixSetID,
-					tilingScheme: new SuperMap3D.GeographicTilingScheme({
-						rectangle: item.wmtsRectangle,
-						scaleDenominators: item.scaleDenominatorsList,
-						customDPI: new SuperMap3D.Cartesian2(90.7142857142857, 90.7142857142857),
-					}),
-					tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]  // 设置加载的层级，一般是从0级开始加载，但是有的特殊数据是从1级开始加的
-				}));
-				if (!item.wmtsImageLayerPosition) {
-					viewer.flyTo(wmtsLayer);
-				} else {
-					let wmtsImageLayerPosition = item.wmtsImageLayerPosition;
-					wmtsLayer.wmtsImageLayerPosition = wmtsImageLayerPosition;
-					viewer.scene.camera.flyTo({
-						destination: new SuperMap3D.Cartesian3.fromDegrees(wmtsImageLayerPosition.lng, wmtsImageLayerPosition.lat, wmtsImageLayerPosition.height),
-						duration: 1,
-						orientation: {
-							heading: 0,
-							roll: 0,
-						},
-					});
-				}
-			})
-		},
+		}
 	}
 })

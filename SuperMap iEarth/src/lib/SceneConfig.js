@@ -348,7 +348,9 @@ class SceneConfig {
   getLightShaft(){
     if(viewer.scene.postProcessStages.lightShaft == undefined) return;
     const LightShaft = {
-      isOpen: viewer.scene.postProcessStages.lightShaft.enabled, // 是否开启景深
+      isOpen: viewer.scene.postProcessStages.lightShaft.enabled, // 是否开启光束泛光效果
+      bloomScale: viewer.scene.postProcessStages.lightShaft.bloomScale, // 控制光束泛光强度
+      maxBrightness: viewer.scene.postProcessStages.lightShaft.maxBrightness, // 控制光束泛光最大亮度
     }
     return LightShaft;
   }
@@ -505,6 +507,8 @@ class SceneConfig {
       cirrusEnabled: volumetricClouds.cirrusEnabled, // 是否显示高层云
       quality: volumetricClouds.quality, // 渲染质量
       thickness: volumetricClouds.thickness, // 云层厚度
+      densityMultiplier: volumetricClouds.densityMultiplier, // 云层密度
+      lowestCloudAltitude: volumetricClouds.lowestCloudAltitude, // 云层底部高度
       shapeCoverage: volumetricClouds.shapeCoverage, // 云层覆盖度
       windSpeed: volumetricClouds.windSpeed, // 风速
       windHeading: volumetricClouds.windHeading, // 风向

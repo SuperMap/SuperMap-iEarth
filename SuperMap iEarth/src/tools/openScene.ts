@@ -168,15 +168,6 @@ function handleSceneContent(config) {
     if (bindiEarthData.mapQueryOptions) {
       window.iEarthBindData.mapQueryOptions = bindiEarthData.mapQueryOptions;
     }
-    // 将mediaFeildOptions传入
-    if (bindiEarthData.mediaFeildOptions) {
-      layerStore.mediaFeildOptions = bindiEarthData.mediaFeildOptions;
-    }
-    // 将wmtsLayerOption传入 
-    if (bindiEarthData.wmtsLayerOption) {
-      layerStore.wmtsLayerOption = bindiEarthData.wmtsLayerOption;
-      layerStore.setWmts(bindiEarthData.wmtsLayerOption)
-    }
     // 将baseMapOption传入 
     if (bindiEarthData.baseMapOption) {
       window.iEarthBindData.BaseMapOption = bindiEarthData.baseMapOption;
@@ -194,6 +185,10 @@ function handleSceneContent(config) {
     // 将DB查询过滤字段传入
     if (bindiEarthData.bubbleFields) {
       window.iEarthBindData.bubbleFields = bindiEarthData.bubbleFields;
+    }
+    // 将iPortal token令牌传入
+    if (bindiEarthData.iPortalToken) {
+      window.iEarthBindData.iPortalToken = bindiEarthData.iPortalToken;
     }
   }
 }
@@ -448,8 +443,6 @@ function oldSceneDataToBindData(content){
   const bindData = {};
   bindData["layerQueryOptions"] = content.layers.layerQueryOptions; // s3m图层绑定的查询数据源信息
   bindData["mapQueryOptions"] = content.layers.mapQueryOptions; // 地图查询绑定的数据源信息
-  bindData["mediaFeildOptions"] = content.layers.mediaFeildOptions; // 地图查询中媒体字段的绑定信息
-  bindData["wmtsLayerOption"] = content.layers.wmtsLayerOption; // wmts服务
   bindData["baseMapOption"] = content.layers.baseMapOption; // 默认底图选项
   return bindData;
 }

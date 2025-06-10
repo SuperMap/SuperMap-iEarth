@@ -33,8 +33,10 @@ window.iEarthBindData = {
   EnvironmentMode:'Normal', // iEarth当前所处的环境模式：Normal普通环境，iPortal环境
   mediaResourceOptions:{},
   bubbleFields:undefined, // DB属性查询过滤字段 
-  // iPortalToken: "qywM11WA_H5Tr8f0WPl0ZmOXsTeri-nxJmRql84AzxvR7-q7zGgM3pvIC0m-HexA5oGXEo_PjFUkQ5tl59co0hXx", // 模拟本机iPortal开发: 支持中心的iPortal，令牌一年
-  // iPortalToken: "JT6D6c6Tz7YtzaloPJANS5ywaHC798uPuElCw4ZbsoTDu9mltSwhU0c19iIYtboGo0Wh5n4lTqmvrFkU-hIRQfYgymiNTQd-fYxzHT2T", // 模拟本机iPortal开发: 我的iPortal，令牌一年
+  originParam:{},
+  iPortalToken:'', // 在iPortal中申请的Token令牌
+  // iPortalTokenLocal: "qywM11WA_H5Tr8f0WPl0ZmOXsTeri-nxJmRql84AzxvR7-q7zGgM3pvIC0m-HexA5oGXEo_PjFUkQ5tl59co0hXx", // 模拟本机iPortal开发: 支持中心的iPortal，令牌一年
+  // iPortalTokenLocal: "JT6D6c6Tz7YtzaloPJANS5ywaHC798uPuElCw4ZbsoTDu9mltSwhU0c19iIYtboGo0Wh5n4lTqmvrFkU-hIRQfYgymiNTQd-fYxzHT2T", // 模拟本机iPortal开发: 我的iPortal，令牌一年
 };
 
 let viewer: any;
@@ -142,7 +144,33 @@ function initViewer() {
   );
   earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
   earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
-  
+
+  // 设置雾气初始化颜色: 默认为黑色(0,0,0,1),iEarth初始化时改完白色
+  viewer.scene.fog.color = SuperMap3D.Color.fromCssColorString("rgba(255,255,255,1)");
+
+  // 帧率控件
+  viewer.scene.debugShowFramesPerSecond = window.customConfig.isDisplayFrameRate ? true : false;
+
+  // 获取场景参数默认值
+  getOriginParam(viewer, window.iEarthBindData.originParam)
+  function getOriginParam(viewer, originParam){
+    if(!(viewer instanceof SuperMap3D.Viewer)) return;
+    const scene = viewer.scene;
+    // 获取体积云初始化默认值
+    if(scene.volumetricClouds){
+      const volumetricClouds = scene.volumetricClouds;
+      originParam.volumetricCloud = {
+        cirrusEnabled: volumetricClouds.cirrusEnabled, // 是否显示高层云
+        quality: volumetricClouds.quality, // 渲染质量
+        thickness: volumetricClouds.thickness, // 云层厚度
+        densityMultiplier: volumetricClouds.densityMultiplier, // 云层密度
+        lowestCloudAltitude: volumetricClouds.lowestCloudAltitude, // 云层底部高度
+        shapeCoverage: volumetricClouds.shapeCoverage, // 云层覆盖度
+        windSpeed: volumetricClouds.windSpeed, // 风速
+        windHeading: volumetricClouds.windHeading, // 风向
+      }
+    }
+  }
   // 监听键盘按键
   document.addEventListener("keyup", function (event) {
     let char = String.fromCharCode(event.which);
@@ -156,9 +184,6 @@ function initViewer() {
       });
     }
   });
-
-  // 帧率控件
-  viewer.scene.debugShowFramesPerSecond = window.customConfig.isDisplayFrameRate ? true : false;
 
   // 支持初始化时打开预设场景配置文件
   window.layerTreeData = layerStore.layerTreeData; // 避免保存场景时报错

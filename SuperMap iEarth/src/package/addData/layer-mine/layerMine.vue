@@ -1,9 +1,29 @@
 <template>
   <div class="layer-terrain-container">
 
-    <n-checkbox v-model:checked="state.useFileter">{{ $t("isOpenFileter") }}</n-checkbox>
+    <!-- 添加token -->
+    <!-- <div class="row-item-mine" style="margin-bottom:0.1rem">
+      <span>{{ $t("addToken") }}</span>
+      <div style="width: 76%; display: flex;justify-content: space-between;">
+        <n-input style="width: 2.1rem"  v-model:value="state.sceneToken" type="text"
+        :placeholder="$t('iportalTokenTip')" :title="state.sceneToken" :disabled="!state.useToken"/>
+        <div class="btn-row-item opration" style="margin-left:0.1rem;margin-top:0px;">
+          <n-button
+            type="info"
+            class="ans-btn"
+            color="#3499E5"
+            text-color="#fff"
+            :focusable="false"
+            @click="addToken"
+            >{{ $t("add") }}</n-button
+          >
+        </div>
+      </div>
+    </div> -->
 
-    <div v-if="state.useFileter">
+    <n-checkbox v-model:checked="state.useFileter" style="margin-bottom:0.1rem">{{ $t("isOpenFileter") }}</n-checkbox>
+
+    <div v-if="state.useFileter" style="margin-bottom:0.1rem">
       <div class="row-item">
         <span>{{ $t("resourceSubType") }}</span>
         <n-select
@@ -113,10 +133,37 @@ let entityCollection = new SuperMap3D.EntityCollection();
 // http://172.16.168.74:8190/iportal/web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ&currentPage=1
 // 用户名/密码：admin supermap.12 by 易桂全
 
+// 测试cooike
+// 同源自动携带cooike - ok
+// await window.axios.get("http://localhost:8190/iportal/web/services.json")
+// 跨域没有携带cooike - error
+// await window.axios.get("http://localhost:8195/portalproxy/b4bdca783147d07b/iserver/services/3D-GuanWangTu3D-2/rest/realspace/scenes.json")
+// 跨域但设置withCredentials为true,携带cooike - error
+// await window.axios.get("http://localhost:8195/portalproxy/b4bdca783147d07b/iserver/services/3D-GuanWangTu3D-2/rest/realspace/scenes.json",{ withCredentials: true })
+// 通过iPortal密钥来处理 - ok
+// await window.axios.get("http://localhost:8195/portalproxy/b4bdca783147d07b/iserver/services/3D-GuanWangTu3D-2/rest/realspace/scenes.json?key=VhmX56LhuRiR4xlSXl7b0php")
+
+// 测试TrustedServers
+// SuperMap3D.TrustedServers.add('localhost', "8195");
+// SuperMap3D.TrustedServers.contains("http://localhost:8195/portalproxy/b4bdca783147d07b/iserver/services/3D-GuanWangTu3D-2/rest/realspace/scenes.json")
+// SuperMap3D.TrustedServers.contains("http://localhost:8195/portalproxy/b4bdca783147d07b/iserver/services/3D-GuanWangTu3D-2/rest/realspace")
+// viewer.scene.open("http://localhost:8195/portalproxy/b4bdca783147d07b/iserver/services/3D-GuanWangTu3D-2/rest/realspace")
+
+// 测试数据服务
+// http://172.16.120.103:8090/iserver/services/data-DLTB4490/rest/data
+// http://localhost:8195/portalproxy/85a7dd3b6dfc3d02/iserver/services/data-DLTB4490/rest/data
+// await window.axios.post("http://localhost:8195/portalproxy/85a7dd3b6dfc3d02/iserver/services/data-DLTB4490/rest/data/featureResults.geojson?returnContent=true",JSON.stringify({"toIndex":-1,"datasetNames":["DLTB:DLTB_4490"],"getFeatureMode":"SQL","queryParameter":{"attributeFilter":"smid>=0"},"maxFeatures":12000}),{ withCredentials: true })
+
 onMounted(() => {
   let searchUrl = computedSearchUrl();
   getIportalServiceData(searchUrl);
   window["$message"].success($t("getData"));
+
+  // 添加token
+  if(window.iEarthBindData.iPortalToken != ''){
+    state.sceneToken = window.iEarthBindData.iPortalToken;
+    SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(window.iEarthBindData.iPortalToken);
+  }
 });
 
 onBeforeUnmount(()=>{
@@ -125,6 +172,9 @@ onBeforeUnmount(()=>{
   });
   entityCollection = null;
   customBubble.destroy();
+
+  // 移除token
+  SuperMap3D.Credential.CREDENTIAL = null;
 })
 
 // 服务类型枚举
@@ -228,7 +278,30 @@ const state = reactive<any>({
   mapNameOptions:[],
   sceneName:'',
   sceneNameOptions:[],
+  useToken: true,
+  sceneToken: '',
 });
+
+function addToken(){
+  if(state.sceneToken == ''){
+    window["$message"].warning($t("iportalTokenTip"));
+    return;
+  }
+
+  const tokenString = state.sceneToken;
+
+  if(SuperMap3D.Credential.CREDENTIAL && SuperMap3D.Credential.CREDENTIAL.value == tokenString){
+    window["$message"].warning($t("addTokenExits"));
+    return;
+  }
+
+  SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(tokenString);
+  window.iEarthBindData.iPortalToken = SuperMap3D.Credential.CREDENTIAL?.value;
+
+  if(SuperMap3D.Credential.CREDENTIAL){
+    window["$message"].success($t("addTokenSuccess"));
+  }
+}
 
 const supportTypes = [ServiceTypeEnum.Scene, ServiceTypeEnum.Map, ServiceTypeEnum.Data];
 async function getIportalServiceData(searchUrl){
@@ -247,7 +320,8 @@ async function getIportalServiceData(searchUrl){
   let serviceList: any = [];
   if (data.content && data.content.length > 0) {
     data.content.forEach((item: any, index: number) => {
-      const serviceUrl = item.linkPage || item.proxiedUrl; // 使用proxiedUrl会导致401权限问题 
+      // const serviceUrl = item.linkPage || item.proxiedUrl; // 使用proxiedUrl会导致401权限问题 
+      const serviceUrl = item.proxiedUrl || item.linkPage; // 还是使用proxiedUrl,不然会有其他问题
       const isSupport = supportTypes.includes(item.type); // 限定支持的服务类型
       const updateTime = tool.dateDiff(item.updateTime);
       serviceList.push({
@@ -267,7 +341,7 @@ async function getIportalServiceData(searchUrl){
 
 // 模拟本机iPortal开发
 let baseUrl = getRootUrl() + 'web/services.json?pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
-// let baseUrl = getRootUrl() + 'web/services.json' + `?token=${window.iEarthBindData.iPortalToken}` + '&pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
+// let baseUrl = getRootUrl() + 'web/services.json' + `?token=${window.iEarthBindData.iPortalTokenLocal}` + '&pageSize=10&orderBy=UPDATETIME&orderType=DESC&permissionType=READ';
 function computedSearchUrl(pageNumber?:number){
   const filter_type = state.filter_type == ServiceTypeEnum.All ? false : state.filter_type;
   const filter_field = state.filter_field;
@@ -379,7 +453,7 @@ function handleDataServiceByEntity(item) {
 
   const sourceAndSetName = `${state.dataSourceName}:${state.dataSetName}`;
   // item.url = "http://172.16.112.34:8090/iserver/services/data-China_4326_Core/rest"; // 这个本地可以访问
-  const featureUrl = item.url + "/data/featureResults.rjson?returnContent=true";
+  let featureUrl = item.url + "/data/featureResults.rjson?returnContent=true";
   const sqlParameter = {
     toIndex: -1,
     datasetNames: [sourceAndSetName],
@@ -391,7 +465,12 @@ function handleDataServiceByEntity(item) {
   };
   const queryData = JSON.stringify(sqlParameter);
 
-  window.axios.post(featureUrl, queryData).then((result) => {
+  // 加上token
+  if (state.sceneToken != '') {
+    featureUrl = featureUrl + '&token=' + state.sceneToken;
+  }
+
+  window.axios.post(featureUrl, queryData, { withCredentials: true }).then((result) => {
     console.log("数据服务-result:", result);
     if (result && result.data && result.data.features) {
       const features = result.data.features;
@@ -496,7 +575,7 @@ async function handleDataServiceByMVT(item) {
   }
 
   // 限制坐标系
-  const epsgCode:any = await tool.computedDataSetEpsgCode(item.url, state.dataSourceName, state.dataSetName);
+  const epsgCode:any = await tool.computedDataSetEpsgCode(item.url, state.dataSourceName, state.dataSetName, state.sceneToken, true);
   if(!["4490", "4326"].includes(epsgCode)) {
     console.log("mvt-geojson-epsgCode:",epsgCode);
     window["$message"].warning($t("mvtGeojsonEpsgCodeTip"));
@@ -505,7 +584,7 @@ async function handleDataServiceByMVT(item) {
 
   const sourceAndSetName = `${state.dataSourceName}:${state.dataSetName}`;
   // item.url = "http://172.16.112.34:8090/iserver/services/data-China_4326_Core/rest"; // 这个本地可以访问
-  const featureUrl = item.url + "/data/featureResults.geojson?returnContent=true"; // geojson表述，返回geojson格式
+  let featureUrl = item.url + "/data/featureResults.geojson?returnContent=true"; // geojson表述，返回geojson格式
   const sqlParameter = {
     toIndex: -1,
     datasetNames: [sourceAndSetName],
@@ -517,7 +596,12 @@ async function handleDataServiceByMVT(item) {
   };
   const queryData = JSON.stringify(sqlParameter);
 
-  window.axios.post(featureUrl, queryData).then((result) => {
+  // 加上token
+  if (state.sceneToken != '') {
+    featureUrl = featureUrl + '&token=' + state.sceneToken;
+  }
+
+  window.axios.post(featureUrl, queryData, { withCredentials: true }).then((result) => {
     console.log("数据服务-result:", result);
 
     if (result && result.data && result.data.features) {
@@ -658,12 +742,10 @@ async function handleDataServiceByMVT(item) {
 
 // 选中项切换时变更底部内容
 function handleSelectedItemChange(selecteditem) {
-  // iPortal代理服务暂时不支持加载
+  // iPortal代理服务需要纳入SuperMap3D.TrustedServers,方能开启withCredentials: true,从而跨域请求时自动携带cooike
   if(selecteditem && selecteditem.url){
     if(selecteditem.url.includes("/portalproxy/")){
-      window["$message"].warning($t("portalproxyServiceTip"));
-      state.selectItem = {};
-      return;
+      tool.setTrustedServers(selecteditem.url);
     }
   }
 
@@ -678,7 +760,7 @@ function handleSelectedItemChange(selecteditem) {
 
     let dataUrl = selecteditem.url;
     if (!dataUrl.endsWith("/data")) dataUrl += "/data";
-    tool.computedDataSourceOptions(dataUrl).then(result => {
+    tool.computedDataSourceOptions(dataUrl, state.sceneToken, true).then(result => {
       if(result == 401) {
         window["$message"].warning($t("iportalService401"));
         return;
@@ -692,7 +774,7 @@ function handleSelectedItemChange(selecteditem) {
     state.mapNameOptions = [];
 
     let mapUrl = selecteditem.url;
-    tool.computedMapNameOptions(mapUrl).then(result => {
+    tool.computedMapNameOptions(mapUrl, state.sceneToken, true).then(result => {
       if(result == 401) {
         window["$message"].warning($t("iportalService401"));
         return;
@@ -707,7 +789,7 @@ function handleSelectedItemChange(selecteditem) {
     state.sceneNameOptions = [];
 
     let sceneUrl = selecteditem.url;
-    tool.computedSceneNameOptions(sceneUrl).then(result => {
+    tool.computedSceneNameOptions(sceneUrl, state.sceneToken, true).then(result => {
       if(result == 401) {
         window["$message"].warning($t("iportalService401"));
         return;
@@ -748,7 +830,7 @@ watch(
     if (!val || val == '') return;
     let dataUrl = state.selectItem.url;
     if(!dataUrl.endsWith("/data")) dataUrl += "/data";
-    tool.computedDataSetOptions(dataUrl, val).then(result => {
+    tool.computedDataSetOptions(dataUrl, val, state.sceneToken, true).then(result => {
       if (result && result.length > 0) {
         state.dataSetOptions = result;
       }

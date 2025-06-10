@@ -105,7 +105,7 @@ const checkURLAccess = (url) => {
 // rgba => css string
 const rgbaToCssString = (color) => {
   let rgba = SuperMap3D.clone(color);
-  if (rgba.red && rgba.green && rgba.blue && rgba.alpha) { // 标准rgba
+  if (rgba.red != undefined && rgba.green != undefined && rgba.blue != undefined && rgba.alpha != undefined) { // 标准rgba
     if (rgba.alpha > 1) { // 当alpha大于1时，需要各分量除以alpha,才能得到真实值
       rgba = SuperMap3D.Color.divideByScalar(rgba, rgba.alpha, new SuperMap3D.Color())
     }
@@ -115,7 +115,7 @@ const rgbaToCssString = (color) => {
     const alpha = (rgba.alpha > 1 || rgba.alpha < 0) ? 1 : rgba.alpha;
 
     return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-  } else if (rgba.x && rgba.y && rgba.z && rgba.w) { // 水面参数
+  } else if (rgba.x != undefined && rgba.y != undefined && rgba.z != undefined && rgba.w != undefined) { // 水面参数
     if (rgba.w > 1) { // 当alpha大于1时，需要各分量除以alpha,才能得到真实值
       rgba = SuperMap3D.Color.divideByScalar(rgba, rgba.w, new SuperMap3D.Color())
     }
@@ -207,14 +207,20 @@ function dateDiff(timestamp) {
 }
 
 // 获取数据服务中的数据源
-async function computedDataSourceOptions(dataUrl) {
+async function computedDataSourceOptions(dataUrl, tokenString=undefined, useWithCredentials=false) {
   if (!dataUrl) return;
 
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
-  const dataSourceUrl = dataUrl + '/datasources.json';
+  let dataSourceUrl = dataUrl + '/datasources.json';
+
+  // 请求时加上Token
+  if (tokenString && tokenString != '') {
+    dataSourceUrl = dataSourceUrl + '?token=' + tokenString;
+  }
 
   try {
-    const result = await window.axios.get(dataSourceUrl);
+    const axiosParam =  useWithCredentials ? { withCredentials:true } : undefined;
+    const result = await window.axios.get(dataSourceUrl, axiosParam);
   
     if(!result || !result.data) return;
     const datasourceNames = result.data.datasourceNames;
@@ -237,14 +243,20 @@ async function computedDataSourceOptions(dataUrl) {
 }
 
 // 获取数据服务中指定数据源下的数据集
-async function computedDataSetOptions(dataUrl, sourceName) {
+async function computedDataSetOptions(dataUrl, sourceName, tokenString=undefined, useWithCredentials=false) {
   if (!dataUrl || !sourceName) return;
 
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
-  const dataSetUrl = dataUrl + '/datasources/' + sourceName + '/datasets.json';
+  let dataSetUrl = dataUrl + '/datasources/' + sourceName + '/datasets.json';
+
+  // 请求时加上Token
+  if (tokenString && tokenString != '') {
+    dataSetUrl = dataSetUrl + '?token=' + tokenString;
+  }
 
   try {
-    const result = await window.axios.get(dataSetUrl);
+    const axiosParam =  useWithCredentials ? { withCredentials:true } : undefined;
+    const result = await window.axios.get(dataSetUrl, axiosParam);
     
     if(!result || !result.data) return;
     const datasetNames = result.data.datasetNames;
@@ -267,14 +279,20 @@ async function computedDataSetOptions(dataUrl, sourceName) {
 }
 
 // 获取地图服务中地图名称
-async function computedMapNameOptions(mapUrl) {
+async function computedMapNameOptions(mapUrl, tokenString=undefined, useWithCredentials=false) {
   if (!mapUrl) return;
 
   mapUrl = mapUrl.trim().replace(/\/+$/, "");
-  const mapJsonUrl = mapUrl + '/maps.json';
+  let mapJsonUrl = mapUrl + '/maps.json';
+
+  // 请求时加上Token
+  if (tokenString && tokenString != '') {
+    mapJsonUrl = mapJsonUrl + '?token=' + tokenString;
+  }
 
   try {
-    const result = await window.axios.get(mapJsonUrl);
+    const axiosParam =  useWithCredentials ? { withCredentials:true } : undefined;
+    const result = await window.axios.get(mapJsonUrl, axiosParam);
   
     if(!result || !result.data) return;
     const mapData = result.data;
@@ -297,15 +315,21 @@ async function computedMapNameOptions(mapUrl) {
 }
 
 // 获取场景服务中存在的场景名称
-async function computedSceneNameOptions(sceneUrl) {
+async function computedSceneNameOptions(sceneUrl, tokenString=undefined, useWithCredentials=false) {
   if (!sceneUrl) return;
 
   sceneUrl = sceneUrl.trim().replace(/\/+$/, "");
   if(sceneUrl.includes("/realspace")) sceneUrl = sceneUrl.replace("/realspace", "");
-  const sceneJsonUrl = sceneUrl + '/realspace/scenes.json';
+  let sceneJsonUrl = sceneUrl + '/realspace/scenes.json';
+
+  // 请求时加上Token
+  if (tokenString && tokenString != '') {
+    sceneJsonUrl = sceneJsonUrl + '?token=' + tokenString;
+  }
 
   try {
-    const result = await window.axios.get(sceneJsonUrl);
+    const axiosParam =  useWithCredentials ? { withCredentials:true } : undefined;
+    const result = await window.axios.get(sceneJsonUrl, axiosParam);
     if (!result || !result.data) return;
     const sceneData = result.data;
     if (!sceneData || sceneData.length == 0) return;
@@ -327,12 +351,19 @@ async function computedSceneNameOptions(sceneUrl) {
 }
 
 // 获取指定数据源的坐标系
-async function computedDataSourceEpsgCode(dataUrl, dataSourceName) {
+async function computedDataSourceEpsgCode(dataUrl, dataSourceName, tokenString=undefined, useWithCredentials=false) {
   if (!dataUrl || !dataSourceName) return;
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
 
-  const sourceJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}.json`;
-  const result = await window.axios.get(sourceJsonUrl);
+  let sourceJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}.json`;
+
+  // 请求时加上Token
+  if (tokenString && tokenString != '') {
+    sourceJsonUrl = sourceJsonUrl + '?token=' + tokenString;
+  }
+
+  const axiosParam =  useWithCredentials ? { withCredentials:true } : undefined;
+  const result = await window.axios.get(sourceJsonUrl, axiosParam);
   
   if(!result || !result.data) return;
   const data = result.data;
@@ -344,15 +375,22 @@ async function computedDataSourceEpsgCode(dataUrl, dataSourceName) {
 }
 
 // 获取指定数据源中数据集的坐标系
-async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName) {
+async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName, tokenString=undefined, useWithCredentials=false) {
   if (!dataUrl || !dataSourceName || !datasetName) return;
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
   if (dataUrl.includes('/rest/data')) { // 去除末尾的/data，防止URL路径不对
     dataUrl = dataUrl.replace('/rest/data', '/rest');
   }
   
-  const dataSetJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}/datasets/${datasetName}.json`;
-  const result = await window.axios.get(dataSetJsonUrl);
+  let dataSetJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}/datasets/${datasetName}.json`;
+
+  // 请求时加上Token
+  if (tokenString && tokenString != '') {
+    dataSetJsonUrl = dataSetJsonUrl + '?token=' + tokenString;
+  }
+
+  const axiosParam =  useWithCredentials ? { withCredentials:true } : undefined;
+  const result = await window.axios.get(dataSetJsonUrl, axiosParam);
   
   if(!result || !result.data) return;
   const data = result.data;
@@ -360,6 +398,36 @@ async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName) {
   if(data && data.datasetInfo && data.datasetInfo.prjCoordSys){
     const prjCoordSys = data.datasetInfo.prjCoordSys;
     return String(prjCoordSys.epsgCode);
+  }
+}
+
+/**
+ * 检测服务可用性并返回状态码
+ * @param {string} url 待检测的服务地址
+ * @returns {Promise<number|boolean>} 返回状态码（如404/401），网络错误返回false
+ */
+async function checkServiceStatus(url) {
+  if(!window.axios) return 'no axios';
+  try {
+    const response = await window.axios.get(url,  {
+      validateStatus: (status) => status < 500 // 允许接收400+状态码而非直接报错
+    });
+
+    // 服务被重定向了，说明当前服务需要token才能加载
+    if(response.data.disableRememberMe || response.request.responseURL.includes('/security/login')){
+      // return '302-Redirect'
+      return 302;
+    }
+
+    return response.status;  // 正常状态码（如200）
+  } catch (error:any) {
+    if (error.response)  {
+      // 服务返回明确状态码（如401、404）
+      return error.response.status;  
+    } else {
+      // 网络错误或无响应（如跨域阻断）
+      return false;
+    }
   }
 }
 
@@ -375,6 +443,35 @@ function checkUrlByRegex(url, regex){
   }
 }
 
+// 解析地址: 从URL中获取IP和端口号
+function parseURL(urlString) {
+  try {
+      const url = new URL(urlString);
+      return {
+          protocol: url.protocol,  // 协议（如 "http:"）
+          hostname: url.hostname,  // 主机名（如 "192.168.1.1" 或 "example.com" ）
+          port: url.port || (url.protocol === "https:" ? "443" : "80"), // 端口（自动补默认值）
+          path: url.pathname  // 路径（如 "/api/data"）
+      };
+  } catch (e) {
+      console.error("URL  解析失败:", e);
+      return null;
+  }
+}
+
+// 涉及到代理服务,需要跨域请求,再请求时携带cooike
+// 例子:iPortal-三维地球中我的服务需要请求iPortal的一个代理服务,从URL中获取IP+Port,纳入TrustedServers
+// 再之后scene.open(IP+Port),就能正常加载场景了
+function setTrustedServers(url) {
+  const result:any = parseURL(url);
+  if(SuperMap3D.TrustedServers.contains(url)) return;
+
+  if(result.hostname && result.port){
+    SuperMap3D.TrustedServers.add(result.hostname, result.port);
+  }
+}
+
+
 export default {
   gradientColors,
   setMouseCursor,
@@ -388,5 +485,8 @@ export default {
   computedSceneNameOptions,
   computedDataSourceEpsgCode,
   computedDataSetEpsgCode,
-  checkUrlByRegex
+  checkServiceStatus,
+  checkUrlByRegex,
+  parseURL,
+  setTrustedServers,
 }

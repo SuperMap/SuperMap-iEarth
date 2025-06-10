@@ -23,6 +23,7 @@ export const IportalStoreCreate = defineStore({
             isSuperAdmin: false, // 是否是超级管理员,
             saveInfo: {}, // 保存场景时的相关信息
             SceneName:'', // 保存场景时自定义名称
+            iportalToken: '', // iPortal token令牌
         };
     },
     getters: {

@@ -359,15 +359,13 @@ function computedBindData(){
 
   bindData["mapQueryOptions"] = window.iEarthBindData.mapQueryOptions; // 地图查询绑定的数据源信息
 
-  bindData["mediaFeildOptions"] = layerStore.mediaFeildOptions; // 地图查询中媒体字段的绑定信息
-
-  bindData["wmtsLayerOption"] = layerStore.wmtsLayerOption; // wmts服务
-
   bindData["baseMapOption"] = window.iEarthBindData.BaseMapOption; // 默认底图选项
 
   bindData["mediaResourceOptions"] = window.iEarthBindData.mediaResourceOptions; // 弹窗媒体资源
 
   bindData["bubbleFields"] = window.iEarthBindData.bubbleFields; // DB属性查询过滤字段 
+
+  bindData["iPortalToken"] = window.iEarthBindData.iPortalToken; // iPortal申请的Token
 
   return bindData;
 }

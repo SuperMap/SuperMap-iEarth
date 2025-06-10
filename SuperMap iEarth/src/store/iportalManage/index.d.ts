@@ -19,7 +19,8 @@ interface IportalStoreStateType {
     isSuperAdmin: boolean, // 是否为超级管理员
     userInfo: userInfoType,
     saveInfo: any,
-    SceneName: String
+    SceneName: String,
+    iportalToken: String,
 }
 
 export {

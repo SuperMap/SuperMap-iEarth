@@ -137,6 +137,31 @@ class OpenConfig {
     return sceneInfo;
   }
 
+  // 使得跨域请求当前URL时携带上Cooike,仅用于iPortal我的服务保存场景
+  setTrustedServers(url) {
+    const result = parseURL(url);
+    if(SuperMap3D.TrustedServers.contains(url)) return;
+  
+    if(result.hostname && result.port){
+      SuperMap3D.TrustedServers.add(result.hostname, result.port);
+    }
+
+    function parseURL(urlString) {
+      try {
+          const url = new URL(urlString);
+          return {
+              protocol: url.protocol,  // 协议（如 "http:"）
+              hostname: url.hostname,  // 主机名（如 "192.168.1.1" 或 "example.com" ）
+              port: url.port || (url.protocol === "https:" ? "443" : "80"), // 端口（自动补默认值）
+              path: url.pathname  // 路径（如 "/api/data"）
+          };
+      } catch (e) {
+          console.error("URL  解析失败:", e);
+          return null;
+      }
+    }
+  }
+
   // 打开本地场景
   async openScene(data) {
     if (!this.viewer || !(this.viewer instanceof SuperMap3D.Viewer)) return;
@@ -300,7 +325,8 @@ class OpenConfig {
 
   // 检测当前URL服务是否能够被访问
   checkURLAccess(url) {
-    return fetch(url)
+    const fetchParam = url.includes("/portalproxy/") ? {credentials:"include"} : undefined;
+    return fetch(url,fetchParam)
       .then(response => {
         // console.log(`URL ${url} 可以访问`);
         return true;
@@ -338,6 +364,11 @@ class OpenConfig {
           SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
             s3mOption.token
           );
+        }
+
+        // 判断是否为iPortal代理服务,需要跨域请求,必须携带Cooike
+        if (url.includes("/portalproxy/")) {
+          this.setTrustedServers(url);
         }
 
         if (s3mOption.isAccess && !isExist) {
@@ -434,6 +465,12 @@ class OpenConfig {
       let imageryProvider = null;
       const type = imgOption.type;
       const imgLayerUrl = imgOption.url;
+
+      // 判断是否为iPortal代理服务,需要跨域请求,必须携带Cooike
+      if (imgLayerUrl.includes("/portalproxy/")) {
+        this.setTrustedServers(imgLayerUrl);
+      }
+
       switch (type) {
         case "SuperMapImageryProvider":
           imageryProvider = new SuperMap3D.SuperMapImageryProvider({
@@ -713,6 +750,8 @@ class OpenConfig {
     if (!options) return;
     if(this.viewer.scene.postProcessStages.lightShaft == undefined) return;
     this.viewer.scene.postProcessStages.lightShaft.enabled = options.isOpen;
+    this.viewer.scene.postProcessStages.lightShaft.bloomScale = options.bloomScale;
+    this.viewer.scene.postProcessStages.lightShaft.maxBrightness = options.maxBrightness;
   }
   // 视觉效果: 太阳光
   openSunLight(option) {
@@ -784,6 +823,8 @@ class OpenConfig {
     volumetricClouds.cirrusEnabled = option.cirrusEnabled; // 是否显示高层云
     volumetricClouds.quality = option.quality; // 渲染质量
     volumetricClouds.thickness = option.thickness; // 云层厚度
+    volumetricClouds.densityMultiplier = option.densityMultiplier; // 云层密度
+    volumetricClouds.lowestCloudAltitude = option.lowestCloudAltitude; // 云层底部高度
     volumetricClouds.shapeCoverage = option.shapeCoverage; // 云层覆盖度
     volumetricClouds.windSpeed = option.windSpeed; // 风速
     volumetricClouds.windHeading = option.windHeading; // 风向

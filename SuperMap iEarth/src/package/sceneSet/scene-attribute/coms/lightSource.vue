@@ -17,7 +17,7 @@
       <n-slider 
         style="width: 1.5rem" 
         v-model:value="state.intensity" 
-        :step="0.1" :min="0" :max="10" 
+        :step="0.1" :min="0.1" :max="10" 
         @update:value="watchSunIntensity"
         />
       <n-input-number 
@@ -26,7 +26,7 @@
         :update-value-on-input="false"
         :bordered="false" 
         :show-button="false" 
-        :min="0" :max="10" 
+        :min="0.1" :max="10" 
         placeholder="" 
         size="small" 
         @update:value="watchSunIntensity"
