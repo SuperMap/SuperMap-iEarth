@@ -851,6 +851,7 @@ const local_zh = {
         removeChildCondition:"移除子条件",
         mapName:"地图名称",
         mvtGeojsonEpsgCodeTip:"仅支持添加坐标系为EPSG:4490和EPSG:4326的数据服务",
+        mvtGeojsonDataSetTypeTip:"仅支持添加数据集类型为点、线、面的数据服务,当前类型：",
         isMergeLayer:"合并数据集",
         addSuccess:"添加成功",
         dataTooLargrTip:"数据量太大，暂不支持加载",

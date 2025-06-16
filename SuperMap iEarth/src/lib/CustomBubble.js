@@ -93,7 +93,7 @@ class CustomBubble {
         this.scenePosition = viewer.scene.pickPosition(e.position);
 
         let pickedObject = this.scene.pick(e.position);
-        console.log("自定义弹窗拾取对象:", pickedObject);
+        if (window.iEarthConsole) console.log("自定义弹窗拾取对象:", pickedObject);
         if (pickedObject && this.isDesplayPickedEntityInfo) {
             this.handlerPickedEntity(pickedObject.id);
         } else {

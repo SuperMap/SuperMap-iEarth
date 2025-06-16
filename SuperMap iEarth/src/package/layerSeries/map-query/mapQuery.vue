@@ -403,9 +403,11 @@ async function startQuery() {
   }
 
   // 计算当前数据集坐标系
-  const epsgCode:any = await tool.computedDataSetEpsgCode(state.dataUrl, state.dataSourceName, state.dataSetName);
-  state.dataSetEPSG = epsgCode;
-  console.log("数据集坐标系:", epsgCode)
+  const dataSetInfo:any = await tool.computedDataSetInfo(state.dataUrl, state.dataSourceName, state.dataSetName);
+  console.log("数据集信息:", dataSetInfo)
+  if(dataSetInfo){
+    state.dataSetEPSG = dataSetInfo.epsgCode;
+  }
 
   clear(false);
   state.selectFiled = "chooseFeild";

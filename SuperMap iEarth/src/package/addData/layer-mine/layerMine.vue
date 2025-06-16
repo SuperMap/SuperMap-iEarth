@@ -568,18 +568,30 @@ function handleDataServiceByEntity(item) {
 }
 
 // 处理数据服务类型:通过GeoJson生成MVT方式添加 
+const supportEPSG = ["4490", "4326"];
+const supportDataSetType = ["POINT","LINE","REGION"]; // "IMAGE"不支持
 async function handleDataServiceByMVT(item) {
   if (state.dataSourceName == "" || state.dataSetName == "") {
     window["$message"].warning($t("sourceAndSetNameIsNeed"));
     return;
   }
 
-  // 限制坐标系
-  const epsgCode:any = await tool.computedDataSetEpsgCode(item.url, state.dataSourceName, state.dataSetName, state.sceneToken, true);
-  if(!["4490", "4326"].includes(epsgCode)) {
-    console.log("mvt-geojson-epsgCode:",epsgCode);
-    window["$message"].warning($t("mvtGeojsonEpsgCodeTip"));
-    return;
+  // 限制坐标系和数据集类型
+  const dataSetInfo: any = await tool.computedDataSetInfo(item.url, state.dataSourceName, state.dataSetName, state.sceneToken, true);
+  if (dataSetInfo) {
+    const epsgCode = dataSetInfo.epsgCode;
+    const dataSetType = dataSetInfo.dataSetType;
+
+    if (window.iEarthConsole) console.log("数据集信息:", dataSetInfo);
+    if (epsgCode && !supportEPSG.includes(epsgCode)) {
+      window["$message"].warning($t("mvtGeojsonEpsgCodeTip"));
+      return;
+    }
+    if (dataSetType && !supportDataSetType.includes(dataSetType)) {
+      const typeString = $t("mvtGeojsonDataSetTypeTip") + `${dataSetType}`;
+      window["$message"].warning(typeString);
+      return;
+    }
   }
 
   const sourceAndSetName = `${state.dataSourceName}:${state.dataSetName}`;

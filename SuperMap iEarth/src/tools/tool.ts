@@ -375,14 +375,14 @@ async function computedDataSourceEpsgCode(dataUrl, dataSourceName, tokenString=u
 }
 
 // 获取指定数据源中数据集的坐标系
-async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName, tokenString=undefined, useWithCredentials=false) {
-  if (!dataUrl || !dataSourceName || !datasetName) return;
+async function computedDataSetInfo(dataUrl, dataSourceName, dataSetName, tokenString=undefined, useWithCredentials=false) {
+  if (!dataUrl || !dataSourceName || !dataSetName) return;
   dataUrl = dataUrl.trim().replace(/\/+$/, "");
   if (dataUrl.includes('/rest/data')) { // 去除末尾的/data，防止URL路径不对
     dataUrl = dataUrl.replace('/rest/data', '/rest');
   }
   
-  let dataSetJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}/datasets/${datasetName}.json`;
+  let dataSetJsonUrl = `${dataUrl}/data/datasources/${dataSourceName}/datasets/${dataSetName}.json`;
 
   // 请求时加上Token
   if (tokenString && tokenString != '') {
@@ -397,7 +397,12 @@ async function computedDataSetEpsgCode(dataUrl, dataSourceName, datasetName, tok
 
   if(data && data.datasetInfo && data.datasetInfo.prjCoordSys){
     const prjCoordSys = data.datasetInfo.prjCoordSys;
-    return String(prjCoordSys.epsgCode);
+    const dataSetType = data.datasetInfo.type;
+    return {
+      dataSetName: dataSetName,
+      epsgCode: String(prjCoordSys.epsgCode),
+      dataSetType: String(dataSetType)
+    }
   }
 }
 
@@ -484,7 +489,7 @@ export default {
   computedMapNameOptions,
   computedSceneNameOptions,
   computedDataSourceEpsgCode,
-  computedDataSetEpsgCode,
+  computedDataSetInfo,
   checkServiceStatus,
   checkUrlByRegex,
   parseURL,
