@@ -490,4 +490,15 @@ const overridesTheme = {
 .bable-hander .n-button .n-button__border {
   border: none;
 }
+
+// 解决切换对象绘制面板时突然出现滚动条问题
+html::-webkit-scrollbar {
+  background: none;
+  display: none;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: none;
+  display: none;
+}
 </style>
