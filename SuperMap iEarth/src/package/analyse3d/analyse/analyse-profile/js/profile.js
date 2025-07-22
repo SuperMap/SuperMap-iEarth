@@ -214,16 +214,16 @@ class ProfileAnalysis {
                     let index = param[0].dataIndex;
                     this.entityPosition = this.clampedCartesians[index];
                     return [
-                        "当前位置: " + '<hr size=1 style="margin: 3px 0">',
-                        "经度: " +
+                        // "当前位置: " + '<hr size=1 style="margin: 3px 0">',
+                        `${$t("longitude")}:` +
                         this.LatAndLons[index].longitude.toFixed(6) +
                         "<br/>",
-                        "纬度: " +
+                        `${$t("latitude")}:` +
                         this.LatAndLons[index].latitude.toFixed(6) +
                         "<br/>",
-                        "海拔: " +
+                        `${$t("elevation")}:` +
                         this.LatAndLons[index].height.toFixed(2) +
-                        "米" +
+                        `${$t("meter")}` +
                         "<br/>",
                     ].join("");
                 },
@@ -235,7 +235,7 @@ class ProfileAnalysis {
                     //     title:'刷新'
                     //   },
                     saveAsImage: {
-                        title: "下载"
+                        title: $t("downLoad")
                     }
                 },
                 right: "3%",
