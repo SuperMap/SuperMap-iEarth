@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build:cyclone": "npm run build && node build/oem.js",
     "preview": "vite preview"
   },
   "dependencies": {

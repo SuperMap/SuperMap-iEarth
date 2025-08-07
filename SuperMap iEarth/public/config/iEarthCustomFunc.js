@@ -3,6 +3,9 @@
  * 从而实现：在打包后能在指定时机执行指定代码，进行自定义修改，方便项目调试效果
  */
 
+// 自定义JS代码：设置cookie语言
+// custom javascript code
+
 window.iEarthCustomFunc = {};
 
 // 在viewer初始化后调用：可以根据需要设置比如锁帧、根节点驻留等其他全局属性
@@ -25,6 +28,9 @@ window.iEarthCustomFunc.afterViewerInit = function (viewer) {
 
   // 设置环境光
   viewer.scene.lightSource.ambientLightColor = new SuperMap3D.Color(0.65,0.65,0.65,1);
+
+  // 开启性能统计工具
+  // viewer.scene.showDebugPerformanceInfo = false; 
 }
 
 // 在自定义服务中打开场景或S3M图层后调用：可以根据需要对S3M图层设置属性
