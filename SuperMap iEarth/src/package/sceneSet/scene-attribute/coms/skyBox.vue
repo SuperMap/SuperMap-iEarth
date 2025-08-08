@@ -110,7 +110,7 @@ async function checkSkyBoxImageUrl(jpgUrl) {
     if(resourceRootUrl.includes('?id')){
       resourceRootUrl = resourceRootUrl.split("?id")[0];
     }
-    
+
     imageUrl = `${resourceRootUrl}Resource/skybox/${jpgUrl}`; // 还有问题
     result.url = jpgUrl;
     result.type = 'relative';
