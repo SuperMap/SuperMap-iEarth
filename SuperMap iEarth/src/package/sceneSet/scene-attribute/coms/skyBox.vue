@@ -105,6 +105,12 @@ async function checkSkyBoxImageUrl(jpgUrl) {
   } else {
     // if (!jpgUrl.includes('.jpg')) jpgUrl = jpgUrl + '.jpg';
     let resourceRootUrl = window.location.href.replace('index.html',''); // 这里需要处理一下路径拼接的问题
+
+    // iportal打开保存的场景href会带?id=
+    if(resourceRootUrl.includes('?id')){
+      resourceRootUrl = resourceRootUrl.split("?id")[0];
+    }
+
     imageUrl = `${resourceRootUrl}Resource/skybox/${jpgUrl}`; // 还有问题
     result.url = jpgUrl;
     result.type = 'relative';
