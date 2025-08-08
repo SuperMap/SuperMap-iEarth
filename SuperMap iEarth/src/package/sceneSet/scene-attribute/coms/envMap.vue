@@ -83,6 +83,12 @@ async function checkEnvMapImageUrl(hdrUrl) {
     result.type = 'absolute';
   } else {
     let resourceRootUrl = window.location.href.replace('index.html',''); // 这里需要处理一下路径拼接的问题
+    
+    // iportal打开保存的场景href会带?id=
+    if(resourceRootUrl.includes('?id')){
+      resourceRootUrl = resourceRootUrl.split("?id")[0];
+    }
+    
     envMapUrl = `${resourceRootUrl}Resource/hdr/${hdrUrl}`; // 还有问题
     result.url = hdrUrl;
     result.type = 'relative';
