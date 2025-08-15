@@ -231,7 +231,7 @@ class ProfileAnalysis {
                     //     title:'刷新'
                     //   },
                     saveAsImage: {
-                        title: "下载"
+                        title: $t("downLoad")
                     }
                 },
                 right: "3%",

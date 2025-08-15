@@ -1,184 +1,123 @@
+<!-- 可视域分析 -->
 <template>
-  <!-- 可视域 -->
-  <n-scrollbar style="max-height: 3.8rem">
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("longitude") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="longitude"
-        :show-button="false"
-        disabled
-        placeholder="0"
-      >
-        <template #suffix>°</template>
-      </n-input-number>
+  <n-scrollbar style="max-height: 3.8rem;padding-right: 0.1rem;" trigger="none">
+    <div class="row-wrap">
+      <div class="label">{{ $t("longitude") }}</div>
+      <div class="content">
+        <n-input-number v-model:value="longitude" :show-button="false" disabled>
+          <template #suffix>°</template>
+        </n-input-number>
+      </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("latitude") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="latitude"
-        :show-button="false"
-        disabled
-        placeholder="0"
-      >
-        <template #suffix>°</template>
-      </n-input-number>
+    <div class="row-wrap">
+      <div class="label">{{ $t("latitude") }}</div>
+      <div class="content">
+        <n-input-number v-model:value="latitude" :show-button="false" disabled>
+          <template #suffix>°</template>
+        </n-input-number>
+      </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("elevation") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="altitude"
-        :show-button="false"
-        disabled
-        placeholder="0"
-      >
-        <template #suffix>{{ $t("meter") }}</template>
-      </n-input-number>
+    <div class="row-wrap">
+      <div class="label">{{ $t("elevation") }}</div>
+      <div class="content">
+        <n-input-number v-model:value="altitude" :show-button="false" disabled>
+          <template #suffix>{{ $t("meter") }}</template>
+        </n-input-number>
+      </div>
     </div>
 
     <n-divider />
 
     <!-- 附加高度：待修改点 -->
-    <div
-      class="row-item"
-      style="margin-right: 0.1rem"
-      v-show="!state.viewshedAnimation"
-    >
-      <span>{{ $t("additionalHeight") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.2rem"
-          v-model:value="state.addheight"
-          :step="0.1"
-          :min="1"
-          :max="100"
-        />
-        <n-input-number
-          v-model:value="state.addheight"
-          :update-value-on-input="false"
-          class="slider-input-number"
-          :bordered="false"
-          :show-button="false"
-          placeholder=""
-          size="small"
-        />
-        <span class="slider-unit">{{ $t("meter") }}</span>
+    <div class="row-wrap" v-show="!state.viewshedAnimation">
+      <div class="label">{{ $t("additionalHeight") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.addheight" :step="0.1" :min="1" :max="100" />
+          <n-input-number v-model:value="state.addheight" :update-value-on-input="false" :bordered="false"
+            :show-button="false" placeholder="" size="small" />
+          <span class="unit">{{ $t("meter") }}</span>
+        </div>
       </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("horizontalFov") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="state.horizontalFov"
-        :min="1"
-        :max="179"
-        :show-button="false"
-      >
-        <template #suffix>°</template>
-      </n-input-number>
+    <!-- 水平视角 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("horizontalFov") }}</div>
+      <div class="content">
+        <n-input-number v-model:value="state.horizontalFov" :min="1" :max="179" :show-button="false">
+          <template #suffix>°</template>
+        </n-input-number>
+      </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("verticalFov") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="state.verticalFov"
-        :min="1"
-        :max="180"
-        :show-button="false"
-      >
-        <template #suffix>°</template>
-      </n-input-number>
+    <!-- 垂直视角 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("verticalFov") }}</div>
+      <div class="content">
+        <n-input-number v-model:value="state.verticalFov" :min="1" :max="180" :show-button="false">
+          <template #suffix>°</template>
+        </n-input-number>
+      </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("hintLineColor") }}</span>
-      <div class="color-pick-box color-pick-box-full">
-        <n-color-picker
-          v-model:value="state.hintLineColor"
-          :render-label="
+    <!-- 提示线颜色 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("hintLineColor") }}</div>
+      <div class="content">
+        <n-color-picker v-model:value="state.hintLineColor" :render-label="
+          () => {
+            return '';
+          }
+        " size="small"></n-color-picker>
+      </div>
+    </div>
+
+    <!-- 显示可视体 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("visibleBody") }}</div>
+      <div class="content">
+        <div class="check-box-new">
+          <n-checkbox v-model:checked="state.visibleBody" :disabled="state.viewshedAnimation"></n-checkbox>
+          <n-color-picker v-model:value="state.visibleAreaColor" :render-label="
             () => {
               return '';
             }
-          "
-          size="small"
-        ></n-color-picker>
-      </div>
-    </div>
-
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("visibleBody") }}</span>
-      <div class="check-color-pick">
-        <n-checkbox
-          v-model:checked="state.visibleBody"
-          :disabled="state.viewshedAnimation"
-        ></n-checkbox>
-        <div class="color-pick-box">
-          <n-color-picker
-            v-model:value="state.visibleAreaColor"
-            :render-label="
-              () => {
-                return '';
-              }
-            "
-            :disabled="!state.visibleBody"
-            size="small"
-          ></n-color-picker>
+          " :disabled="!state.visibleBody" size="small"></n-color-picker>
         </div>
       </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("invisibleBody") }}</span>
-      <div class="check-color-pick">
-        <n-checkbox
-          v-model:checked="state.invisibleBody"
-          :disabled="state.viewshedAnimation"
-        ></n-checkbox>
-        <div class="color-pick-box">
-          <n-color-picker
-            v-model:value="state.hiddenAreaColor"
-            :render-label="
-              () => {
-                return '';
-              }
-            "
-            :disabled="!state.invisibleBody"
-            size="small"
-          ></n-color-picker>
+    <!-- 显示不可视体 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("invisibleBody") }}</div>
+      <div class="content">
+        <div class="check-box-new">
+          <n-checkbox v-model:checked="state.invisibleBody" :disabled="state.viewshedAnimation"></n-checkbox>
+          <n-color-picker v-model:value="state.hiddenAreaColor" :render-label="
+            () => {
+              return '';
+            }
+          " :disabled="!state.invisibleBody" size="small"></n-color-picker>
         </div>
       </div>
     </div>
 
-    <div class="row-item" style="margin-right: 0.1rem">
-      <span>{{ $t("viewshedAnimation") }}</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.viewshedAnimation"></n-checkbox>
+    <!-- 动态可视域 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.viewshedAnimation" :label="$t('viewshedAnimation')" />
       </div>
     </div>
+
   </n-scrollbar>
 
-  <div class="btn-row-item" style="margin-right: 0.1rem; margin-top: 0.12rem">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      class="ans-btn"
-      @click="analysis"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="analysis" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

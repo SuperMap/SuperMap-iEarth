@@ -1,6 +1,6 @@
 <template>
   <n-scrollbar style="max-height: 5rem">
-    <div class="layerSeries-box">
+    <div class="right-panel-container-not-tabs">
       <div class="theme-box" v-for="(item, index) in state.conditionList" :key="index">
         <div class="condition-box">
           <div class="base-condition-box">
@@ -11,7 +11,7 @@
               :options="state.themeFieldOption" />
             <n-select style="width: 30%" v-model:value="item.operation" :options="operatorTypeOption"
               :placeholder="$t('operator')" :title="$t('operator')" />
-            <n-input style="width: 25%" class="add-input-border" v-model:value="item.value" type="text" placeholder=""
+            <n-input style="width: 25%" v-model:value="item.value" type="text" placeholder=""
               :title="item.value" />
             <i class="iconfont iconSize icontianjia" :title="$t('addChildCondition')"
               @click="addChildCondition(item)"></i>
@@ -22,7 +22,7 @@
               :title="child.linkType" />
             <n-select style="width: 30%" v-model:value="child.operation" :options="operatorTypeOption"
               :placeholder="$t('operator')" :title="$t('operator')" />
-            <n-input style="width: 25%" class="add-input-border" v-model:value="child.value" type="text" placeholder=""
+            <n-input style="width: 25%" v-model:value="child.value" type="text" placeholder=""
               :title="child.value" />
             <i class="iconfont iconSize iconyichu" :title="$t('removeChildCondition')"
               @click="removeChildCondition(item, child_index)"></i>
@@ -37,11 +37,10 @@
         </div>
       </div>
 
-      <div class="btn-row-item" style="margin-left: 1.1rem">
-        <n-button type="info" color="#3499E5" text-color="#fff" @click="setTheme" style="margin-right: 0.1rem">{{
+      <div class="row-btns">
+        <n-button @click="setTheme" class="operate" type="info" :focusable="false">{{
         $t("add") }}</n-button>
-        <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("clear") }}
-        </n-button>
+        <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
       </div>
     </div>
   </n-scrollbar>

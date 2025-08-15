@@ -1,39 +1,21 @@
+<!-- BOX裁剪 -->
 <template>
-  <!-- box裁剪 -->
-  <div class="row-item">
-    <span>{{ $t("clipMode") }}</span>
-    <n-radio-group
-      v-model:value="state.clipMode"
-      name="radiogroup"
-      class="radio-group"
-      style="margin-right: 0.3rem; width: 1.65rem"
-    >
-      <n-radio
-        v-for="item in state.modeOptions"
-        :key="item.value"
-        :value="item.value"
-      >
-        {{ item.label }}
-      </n-radio>
-    </n-radio-group>
+  <!-- 裁剪模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("clipMode") }}</div>
+    <div class="content">
+      <n-radio-group v-model:value="state.clipMode" name="radiogroup">
+        <n-radio v-for="item in state.modeOptions" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </n-radio>
+      </n-radio-group>
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="startBoxClipByEitor"
-      style="margin-right: 0.1rem"
-      >{{ $t("clip") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clearBoxClipByEitor"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="startBoxClipByEitor" class="operate" type="info" :focusable="false">{{
+    $t("clip") }}</n-button>
+    <n-button @click="clearBoxClipByEitor" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
-  <n-scrollbar style="max-height: 5rem;">
-    <div class="btn-list">
+  <n-scrollbar style="max-height: 5rem; padding-right: 0.15rem;" trigger="none">
+    <div class="btn-list-box">
       <div
         class="btn"
         v-for="(item, index) in comList"
@@ -15,10 +15,8 @@
     <KeepAlive>
       <component :is="currentItem.com"></component>
     </KeepAlive>
-    <!-- <n-divider /> -->
     <rotate></rotate>
-    <!-- <n-divider />
-    <flyPosition></flyPosition> -->
+    <!-- <flyPosition></flyPosition>  -->
 
     <!-- <n-button @click="getLocate">获取</n-button>
     <n-button @click="setLocate">定位</n-button> -->
@@ -96,17 +94,3 @@ function changeItem(item: any) {
   });
 }
 </script>
-
-<style lang="scss" scoped>
-.btn-list {
-  margin-left: 0.1rem;
-  width: 2.7rem;
-  margin-bottom: 0.15rem;
-  justify-content: space-evenly;
-
-  .btn {
-    width: fit-content;
-    padding: 0 0.1rem;
-  }
-}
-</style>

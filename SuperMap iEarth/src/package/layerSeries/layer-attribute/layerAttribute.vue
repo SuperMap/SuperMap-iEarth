@@ -1,157 +1,119 @@
+<!-- 图层属性 -->
 <template>
   <n-scrollbar style="max-height: 6rem">
-    <div class="layerSeries-box">
-      <div class="row-item">
-        <span>{{ $t("chooseLayer") }}</span>
-        <n-select
-          style="width: 66%"
-          v-model:value="state.selectedName"
-          :options="state.s3mlayers"
-          disabled="true"
-        />
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("renderMode") }}</span>
-        <n-radio-group
-          v-model:value="state.cullEnabled"
-          name="operationType"
-          class="radio-group"
-        >
-          <n-radio :value="true">{{ $t("singleRender") }}</n-radio>
-          <n-radio :value="false">{{ $t("doubleRender") }}</n-radio>
-        </n-radio-group>
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("showShadow") }}</span>
-        <n-switch
-          v-model:value="state.shadowMode"
-          size="small"
-          style="width: 66%; justify-content: left"
-        />
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("residentRootTile") }}</span>
-        <n-switch
-          v-model:value="state.isKeepRootTile"
-          size="small"
-          style="width: 66%; justify-content: left"
-        />
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("shadowBrightness") }}</span>
-        <div class="slider-box" style="width: 58%;">
-          <n-slider
-            v-model:value="state.shadowDarkness"
-            style="width: 70%"
-            :step="0.05"
-            :min="0"
-            :max="1"
-          />
-          <n-input-number
-            v-model:value="state.shadowDarkness"
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false"
-            :show-button="false"
-            :min="0"
-            :max="1"
-            placeholder=""
-            size="small"
-          />
+    <div class="right-panel-container-not-tabs">
+      <!-- 选择图层 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("chooseLayer") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.selectedName" :options="state.s3mlayers" disabled="true" />
         </div>
       </div>
 
-      <div class="row-item">
-        <span>{{ $t("objectHiding") }}</span>
-        <n-select
-          v-model:value="state.visibility"
-          style="width: 66%"
-          :options="state.visibilityMode"
-        />
-      </div>
-
-      <div class="row-item" style="justify-content: left; margin-left: 34%">
-        <n-checkbox v-model:checked="state.multiChoose">{{
-          $t("multiple")
-        }}</n-checkbox>
-        <!-- <n-checkbox v-model:checked="state.selectEnabled">是否可选</n-checkbox> -->
-        <!-- <n-checkbox v-model:checked="state.cullEnabled">双面渲染</n-checkbox> -->
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("objectIDs") }}</span>
-        <n-input
-          style="width: 1.96rem"
-          v-model:value="state.passIDs"
-          :update-value-on-input="false"
-          type="textarea"
-          placeholder="1,2,3..."
-          :title="state.passIDs"
-          @input="handlePassIDs"
-        >
-        </n-input>
-      </div>
-
-      <div class="row-item" style="justify-content: left; margin-left: 34%">
-        <n-checkbox v-model:checked="state.isOpenPassIds"  @update:checked="computedObjsVisible">{{
-          $t("passIDsToHiding")
-        }}</n-checkbox>
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("MinVisibleDistance") }}</span>
-        <div class="slider-box">
-          <n-slider
-            style="width: 1rem"
-            v-model:value="state.visibleDistanceMin"
-            :step="10"
-            :min="-100"
-            :max="state.visibleDistanceMax-1"
-          />
-          <n-input-number
-            v-model:value="state.visibleDistanceMin"
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false"
-            :show-button="false"
-            :min="-100"
-            :max="state.visibleDistanceMax-1"
-            placeholder=""
-            size="small"
-          />
-          <span class="slider-unit">{{ $t("meter") }}</span>
-        </div>
-
-      </div>
-
-      <div class="row-item" style="margin-bottom: 0px">
-        <span>{{ $t("MaxVisibleDistance") }}</span>
-        <div class="slider-box">
-          <n-slider
-            style="width: 1rem"
-            v-model:value="state.visibleDistanceMax"
-            :step="10"
-            :min="-100"
-            :max="s3mLayer_visibleDistanceMax"
-          />
-          <n-input-number
-            v-model:value="state.visibleDistanceMax"
-            class="slider-input-number"
-            :update-value-on-input="false"
-            :bordered="false"
-            :show-button="false"
-            :min="-100"
-            :max="s3mLayer_visibleDistanceMax"
-            placeholder=""
-            size="small"
-          />
-          <span class="slider-unit">{{ $t("meter") }}</span>
+      <!-- 渲染模式 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("renderMode") }}</div>
+        <div class="content">
+          <n-radio-group v-model:value="state.cullEnabled" name="operationType">
+            <n-radio :value="true">{{ $t("singleRender") }}</n-radio>
+            <n-radio :value="false">{{ $t("doubleRender") }}</n-radio>
+          </n-radio-group>
         </div>
       </div>
+
+      <!-- 开启阴影 -->
+      <div class="row-wrap">
+        <div class="content">
+          <div class="switch-box">
+            <div class="text">{{ $t("showShadow") }}</div>
+            <n-switch v-model:value="state.shadowMode" size="small" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 根节点驻留 -->
+      <div class="row-wrap">
+        <div class="content">
+          <div class="switch-box">
+            <div class="text">{{ $t("residentRootTile") }}</div>
+            <n-switch v-model:value="state.isKeepRootTile" size="small" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 阴影明暗度 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("shadowBrightness") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.shadowDarkness" :step="0.05" :min="0" :max="1" />
+            <n-input-number v-model:value="state.shadowDarkness" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 对象显隐 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("objectHiding") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.visibility" :options="state.visibilityMode" />
+        </div>
+      </div>
+
+      <!-- 多选 -->
+      <div class="row-wrap">
+        <div class="content">
+          <n-checkbox v-model:checked="state.multiChoose" :label="$t('multiple')" />
+        </div>
+      </div>
+
+      <!-- 对象ID列表 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("objectIDs") }}</div>
+        <div class="content">
+          <n-input v-model:value="state.passIDs" :update-value-on-input="false" type="text" placeholder="1,2,3..."
+            :title="state.passIDs" @input="handlePassIDs">
+          </n-input>
+        </div>
+      </div>
+
+      <!-- 指定ID列表隐藏 -->
+      <div class="row-wrap">
+        <div class="content">
+          <n-checkbox v-model:checked="state.isOpenPassIds" @update:checked="computedObjsVisible"
+            :label="$t('passIDsToHiding')" />
+        </div>
+      </div>
+
+      <!-- 最小可见距离 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("MinVisibleDistance") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider class="shorter" v-model:value="state.visibleDistanceMin" :step="10" :min="-100"
+              :max="state.visibleDistanceMax-1" />
+            <n-input-number v-model:value="state.visibleDistanceMin" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="-100" :max="state.visibleDistanceMax-1" placeholder="" size="small" />
+            <span class="unit">{{ $t("meter") }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 最大可见距离 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("MaxVisibleDistance") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider class="shorter" v-model:value="state.visibleDistanceMax" :step="10" :min="-100"
+              :max="s3mLayer_visibleDistanceMax" />
+            <n-input-number v-model:value="state.visibleDistanceMax" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="-100" :max="s3mLayer_visibleDistanceMax" placeholder="" size="small" />
+            <span class="unit">{{ $t("meter") }}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </n-scrollbar>
 </template>
@@ -481,10 +443,20 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.layerSeries-box {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0 0.2rem;
+  // radio单选框组合样式
+:deep(.n-radio) .n-radio__label {
+  width: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:deep(.n-radio):first-child {
+  margin-right: 0rem !important;
+}
+
+// 最大最小可见距离滑动条长度
+:deep(.shorter) .n-slider-rail {
+  width: 2.0rem !important;
 }
 </style>

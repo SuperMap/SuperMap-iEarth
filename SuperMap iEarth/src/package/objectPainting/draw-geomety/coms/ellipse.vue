@@ -1,80 +1,99 @@
+<!-- 圆柱体 -->
 <template>
-  <!-- 圆柱体 -->
-  <div class="row-item">
-    <span>{{ $t("semiMinorAxis") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.5rem" v-model:value="state.semiMinorAxis" :step="1" :min="5" :max="100" />
-      <n-input-number v-model:value="state.semiMinorAxis" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="5" :max="100" placeholder="" size="small" />
+  <!-- 短半轴 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("semiMinorAxis") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.semiMinorAxis" :step="1" :min="5" :max="100" />
+        <n-input-number v-model:value="state.semiMinorAxis" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="5" :max="100" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("semiMajorAxis") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.5rem" v-model:value="state.semiMajorAxis" :step="1" :min="5" :max="200" />
-      <n-input-number v-model:value="state.semiMajorAxis" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="5" :max="200" placeholder="" size="small" />
+  <!-- 长半轴 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("semiMajorAxis") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.semiMajorAxis" :step="1" :min="5" :max="200" />
+        <n-input-number v-model:value="state.semiMajorAxis" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="5" :max="200" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("stretchingHeight") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.5rem" v-model:value="state.extrudedHeight" :step="1" :min="10" :max="100" />
-      <n-input-number v-model:value="state.extrudedHeight" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="10" :max="100" placeholder="" size="small" />
+  <!-- 拉伸高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("stretchingHeight") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.extrudedHeight" :step="1" :min="10" :max="100" />
+        <n-input-number v-model:value="state.extrudedHeight" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="10" :max="100" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("granularity") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.5rem" v-model:value="state.granularity" :step="0.1" :min="0.5" :max="2" />
-      <n-input-number v-model:value="state.granularity" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.5" :max="2" placeholder="" size="small" />
+  <!-- 粒度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("granularity") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.granularity" :step="0.1" :min="0.5" :max="2" />
+        <n-input-number v-model:value="state.granularity" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.5" :max="2" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("rotate") }}</span>
-    <div class="slider-box">
-      <!-- 旋转没起作用 -->
-      <n-slider style="width: 1.5rem" v-model:value="state.rotation" :step="0" :min="0" :max="90" />
-      <n-input-number v-model:value="state.rotation" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="90" placeholder="" size="small" />
+  <!-- 旋转: 没起作用 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("rotate") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.rotation" :step="0" :min="0" :max="90" />
+        <n-input-number v-model:value="state.rotation" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="90" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item" v-show="state.displayMode != 'Outline'">
-    <span>{{ $t("fillColor") }}</span>
-    <div class="color-pick-box">
+  <!-- 填充颜色 -->
+  <div class="row-wrap" v-show="state.displayMode != 'Outline'">
+    <div class="label">{{ $t("fillColor") }}</div>
+    <div class="content">
       <n-color-picker v-model:value="state.geometryColor" :render-label="() => {
-          return '';
-        }
-        " size="small"></n-color-picker>
+        return '';
+      }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item" v-show="state.displayMode != 'Fill'">
-    <span>{{ $t("wireframeColor") }}</span>
-    <div class="color-pick-box">
+  <!-- 边框颜色 -->
+  <div class="row-wrap" v-show="state.displayMode != 'Fill'">
+    <div class="label">{{ $t("wireframeColor") }}</div>
+    <div class="content">
       <n-color-picker v-model:value="state.wireframeColor" :render-label="() => {
-          return '';
-        }
-        " size="small"></n-color-picker>
+        return '';
+      }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("drawMode") }}</span>
-    <n-select style="width: 1.96rem" v-model:value="state.displayMode" :options="state.optionsMode" />
+  <!-- 绘制模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("drawMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.displayMode" :options="state.optionsMode" />
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{ $t("Draw") }}
-    </n-button>
-    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("clear") }}</n-button>
+  <div class="row-btns">
+    <n-button @click="add" class="operate" type="info" :focusable="false">{{
+    $t("Draw") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

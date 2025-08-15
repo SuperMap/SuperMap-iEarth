@@ -1,29 +1,40 @@
+<!-- 阴影 -->
 <template>
   <div class="sence-config-container">
-    <div class="row-item">
-      <span>{{ $t("shadowDensity") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.darkness" :step="0.1" :min="0" :max="1" />
-        <n-input-number v-model:value="state.darkness" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+    <!-- 阴影浓度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("shadowDensity") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.darkness" :step="0.1" :min="0" :max="1" />
+          <n-input-number v-model:value="state.darkness"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("visibleDistance") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.2rem" v-model:value="state.maximumDistance" :step="10" :min="1" :max="5000" />
-        <n-input-number v-model:value="state.maximumDistance" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="1" :max="5000" placeholder="" size="small" />
+    <!-- 可见距离 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("visibleDistance") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.maximumDistance" :step="10" :min="1" :max="5000" />
+          <n-input-number v-model:value="state.maximumDistance" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="1" :max="5000" placeholder=""
+            size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("boundaryClarity") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.penumbraRatio" :step="0.05" :min="0" :max="1" />
-        <n-input-number v-model:value="state.penumbraRatio" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+    <!-- 边界清晰度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("boundaryClarity") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.penumbraRatio" :step="0.05" :min="0" :max="1" />
+          <n-input-number v-model:value="state.penumbraRatio"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+        </div>
       </div>
     </div>
   </div>

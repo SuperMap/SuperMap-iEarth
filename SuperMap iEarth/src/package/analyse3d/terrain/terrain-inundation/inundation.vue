@@ -1,108 +1,64 @@
+<!-- 淹没分析 -->
 <template>
-  <!-- 淹没分析 -->
-  <div class="row-item">
-    <span>{{ $t("maximumVisibleElevation") }}</span>
-    <n-input-number
-      v-model:value="state.maxHeight"
-      style="width: 1.96rem"
-      :show-button="false"
-      :min="1"
-      :max="10000"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
+  <!-- 最大可见高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("maximumVisibleElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.maxHeight" :show-button="false" :min="1" :max="10000">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
-
-  <div class="row-item">
-    <span>{{ $t("minimumVisibleElevation") }}</span>
-    <n-input-number
-      v-model:value="state.minHeight"
-      style="width: 1.96rem"
-      :bordered="false"
-      :min="1"
-      :max="10000"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
+  
+  <!-- 最小可见高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("minimumVisibleElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.minHeight" :bordered="false" :min="1" :max="10000" :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
-
-  <div class="row-item">
-    <span>{{ $t("currentElevation") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="state.currentHeight"
-      :bordered="false"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("transparency") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.floodTrans"
-        :step="0.01"
-        :min="0"
-        :max="1"
-      />
-      <n-input-number
-        v-model:value="state.floodTrans"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="100"
-        placeholder=""
-        size="small"
-      />
+  
+  <!-- 当前高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("currentElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.currentHeight" :bordered="false" :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("inundationSpeed") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1rem"
-        v-model:value="state.floodSpeed"
-        :step="10"
-        :min="1"
-        :max="2000"
-      />
-      <n-input-number
-        v-model:value="state.floodSpeed"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        placeholder=""
-        size="small"
-        style="width: 31%"
-      />
-      <span style="width: 0.4rem">{{ $t("meterSecond") }}</span>
+  <!-- 透明度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("transparency") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.floodTrans" :step="0.01" :min="0" :max="1" />
+        <n-input-number v-model:value="state.floodTrans" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="100" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="floodBegin"
-      style="margin-right: 0.1rem"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 淹没速度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("inundationSpeed") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider class="shorter" v-model:value="state.floodSpeed" :step="10" :min="1" :max="2000" />
+        <n-input-number v-model:value="state.floodSpeed" :update-value-on-input="false"
+          :bordered="false" :show-button="false" placeholder="" size="small" style="width: 31%" />
+        <span style="width: 0.6rem">{{ $t("meterSecond") }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row-btns">
+    <n-button @click="floodBegin" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -345,3 +301,10 @@ watch(
   }
 );
 </script>
+
+<!-- 处理标准: 指定类名滑块与文字间距过长 -->
+<style lang="scss" scoped>
+:deep(.shorter) .n-slider-rail {
+  width: 2rem !important;
+}
+</style>

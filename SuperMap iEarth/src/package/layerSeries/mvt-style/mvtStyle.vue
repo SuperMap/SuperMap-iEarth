@@ -1,36 +1,23 @@
+<!-- MVT图层风格 -->
 <template>
-  <div class="layerSeries-box" style="padding: 1px 0.16rem;">
-    <div class="row-item">
-      <span>{{ $t("selectMVTLayer") }}</span>
-      <n-select
-        style="width: 2.1rem"
-        v-model:value="state.selectMVTStyleName"
-        :options="state.mvtStyleLayers"
-      />
+  <div class="right-panel-container-not-tabs">
+    <!-- 选择MVT图层 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("selectMVTLayer") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.selectMVTStyleName" :options="state.mvtStyleLayers" />
+      </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("transparency") }}</span>
-      <div class="slider-box" style="width: 1.9rem">
-        <n-slider
-          style="width: 2.2rem"
-          v-model:value="state.alpha"
-          :step="0.1"
-          :min="0"
-          :max="1"
-        />
-        <n-input-number
-          v-model:value="state.alpha"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="1"
-          :step="0.1"
-          placeholder=""
-          size="small"
-        />
+    <!-- 透明度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("transparency") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.alpha" :step="0.1" :min="0" :max="1" />
+          <n-input-number v-model:value="state.alpha" :update-value-on-input="false" :bordered="false"
+            :show-button="false" :min="0" :max="1" :step="0.1" placeholder="" size="small" />
+        </div>
       </div>
     </div>
   </div>

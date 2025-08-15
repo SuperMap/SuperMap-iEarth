@@ -1,5 +1,5 @@
 <template>
-  <div class="clip-box">
+  <div class="right-panel-container">
     <n-tabs type="line" animated justify-content="space-between">
       <!-- box裁剪 -->
       <n-tab-pane name="boxclip" :tab="$t('boxClip')">
@@ -27,12 +27,3 @@ import SmClipCross from "./clip-cross/index";
 import SmClipPlane from "./clip-plane/index";
 import SmClipPolygon from "./clip-polygon/index";
 </script>
-
-<style lang="scss" scoped>
-.clip-box {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0 0.12rem;
-}
-</style>

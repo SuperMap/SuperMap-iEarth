@@ -1,31 +1,43 @@
 <template>
-  <n-space justify="end">
-    <n-select v-model:value="state.layerType" :options="typeOptions" style="width: 2.4rem; margin-bottom: 0.1rem" />
-  </n-space>
-
-  <div class="row-item" style="margin-bottom: 0.1rem">
-    <span>{{ $t("address") }}</span>
-    <n-tooltip placement="top-end" trigger="hover">
-      <template #trigger>
-        <n-input class="add-input-border" style="width: 2.4rem" v-model:value="state.layerUrl" type="text"
-          :placeholder="$t('layerUrl')" @input="handleUrlChange" :status='state.inputUrlStatus'/>
-      </template>
-      {{ state.urlFormatTip }}
-    </n-tooltip>
+  <!-- 选择类型 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-select v-model:value="state.layerType" :options="typeOptions" />
+    </div>
   </div>
 
-  <div class="row-item" style="margin-bottom: 0.1rem"
-    v-show="![LayerTypeEnum.WMTS, LayerTypeEnum.MVT].includes(state.layerType)">
-    <span>{{ $t("name") }}</span>
-    <n-input class="add-input-border" style="width: 2.4rem" v-model:value="state.layerName" type="text"
-      :placeholder="$t('layerName')" :title="state.layerName" />
+  <!-- 图层地址 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("address") }}</div>
+    <div class="content">
+      <n-tooltip placement="top-end" trigger="hover">
+        <template #trigger>
+          <n-input v-model:value="state.layerUrl" type="text" :placeholder="$t('layerUrl')" @input="handleUrlChange"
+            :status='state.inputUrlStatus' />
+        </template>
+        {{ state.urlFormatTip }}
+      </n-tooltip>
+    </div>
   </div>
 
-  <div style="margin-left: 0.95rem; margin-bottom: 0.1rem" v-show="state.layerType != LayerTypeEnum.WMTS">
-    <n-checkbox v-model:checked="state.useToken" :label="$t('addToken')" />
-    <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.useToken" v-model:value="state.sceneToken" type="text"
-      placeholder="token..." />
+  <!-- 图层名称 -->
+  <div class="row-wrap" v-show="![LayerTypeEnum.WMTS, LayerTypeEnum.MVT].includes(state.layerType)">
+    <div class="label">{{ $t("name") }}</div>
+    <div class="content">
+      <n-input v-model:value="state.layerName" type="text" :placeholder="$t('layerName')" :title="state.layerName" />
+    </div>
   </div>
+
+  <!-- 添加Token -->
+  <div class="row-wrap" v-show="state.layerType != LayerTypeEnum.WMTS">
+    <div class="content">
+      <n-checkbox v-model:checked="state.useToken" :label="$t('addToken')" />
+    </div>
+    <div class="content">
+      <n-input v-if="state.useToken" v-model:value="state.sceneToken" type="text" placeholder="token..." />
+    </div>
+  </div>
+
 
   <!-- WMTS图层过滤 -->
   <div class="filter-box" v-show="state.layerType === LayerTypeEnum.WMTS && wmtsOriginLayerOptions.length > 0">
@@ -34,36 +46,31 @@
         <i class="iconfont iconSize iconsousuo" @click="handleWmtsFilter" :title="$t('filter')"></i>
       </template>
     </n-input>
-    <n-button class="btn-single-normal" @click="handleWmtsReset" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("reset") }}</n-button>
+    <n-button class="btn-single-normal" @click="handleWmtsReset" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("reset")
+    }}</n-button>
   </div>
 
   <!-- WMTS可选图层 -->
   <div v-show="state.layerType === LayerTypeEnum.WMTS && wmtsOriginLayerOptions.length > 0">
-  <div class="wmtsLayerTable">
-      <n-data-table
-          size="small"
-          :columns="columns"
-          :data="state.wmtsLayerOptions"
-          :row-class-name="(row)=> row.disabled ? 'myService-disabled-item' : ''"
-          flex-height
-          class="flex-1-hidden"
-          v-model:checked-row-keys="state.checkedRowKeys"
-      />
-  </div>
+    <div class="wmtsLayerTable">
+      <n-data-table size="small" :columns="columns" :data="state.wmtsLayerOptions"
+        :row-class-name="(row)=> row.disabled ? 'disabled-item' : ''" flex-height
+        v-model:checked-row-keys="state.checkedRowKeys" />
+    </div>
   </div>
 
-  <!-- TileMatrixSetID -->
-  <div class="row-item" style="margin: 0.1rem 0rem"
-    v-show="state.layerType === LayerTypeEnum.WMTS">
-    <span>{{ $t("tileMatrixSet") }}</span>
-    <n-select class="add-input-border" v-model:value="state.tileSetID" :options="state.tileSetOptions"
-      style="width: 2.4rem" />
+  <!-- WMTS瓦片矩阵集:TileMatrixSetID -->
+  <div class="row-wrap" v-show="state.layerType === LayerTypeEnum.WMTS">
+    <div class="label">{{ $t("tileMatrixSet") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.tileSetID" :options="state.tileSetOptions" />
+    </div>
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.95rem">
-    <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="openLayer">{{ $t("sure") }}
-    </n-button>
-    <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("clear") }}</n-button>
+  <div class="row-btns">
+    <n-button @click="openLayer" class="operate" type="info" :focusable="false">{{
+    $t("sure") }}</n-button>
+    <n-button @click="clear" :focusable="false" ghost>{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -566,7 +573,7 @@ watch(
   z-index: 999999;
 }
 
-.flex-1-hidden {
+.n-data-table {
   flex: 1 1 0% !important;
   overflow: hidden;
 }

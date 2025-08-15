@@ -1,78 +1,38 @@
+<!-- 立面图 -->
 <template>
-  <!-- 立面图 -->
-  <div class="row-item">
-    <span>{{ $t("maxHeight") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.maxHeight"
-        :step="10"
-        :min="1"
-        :max="1000"
-      />
-      <n-input-number
-        v-model:value="state.maxHeight"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        placeholder=""
-        size="small"
-      />
-      <span class="slider-unit">{{ $t("meter") }}</span>
+  <!-- 最大高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("maxHeight") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider class="shorter" v-model:value="state.maxHeight" :step="10" :min="1" :max="1000" />
+        <n-input-number v-model:value="state.maxHeight" :update-value-on-input="false"
+          :bordered="false" :show-button="false" placeholder="" size="small" />
+        <span class="unit">{{ $t("meter") }}</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("maxDistence") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.maxDistence"
-        :step="10"
-        :min="1"
-        :max="1000"
-      />
-      <n-input-number
-        v-model:value="state.maxDistence"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        placeholder=""
-        size="small"
-      />
-      <span class="slider-unit">{{ $t("meter") }}</span>
+  <!-- 最远距离 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("maxDistence") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider class="shorter" v-model:value="state.maxDistence" :step="10" :min="1" :max="1000" />
+        <n-input-number v-model:value="state.maxDistence" :update-value-on-input="false"
+          :bordered="false" :show-button="false" placeholder="" size="small" />
+        <span class="unit">{{ $t("meter") }}</span>
+      </div>
     </div>
   </div>
 
-  <div class="btn-row-item2">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="drawRegion"
-      style="margin-right: 0.1rem"
-      :title="$t('Draw')"
-      >{{ $t("Draw") }}</n-button
-    >
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="executeImage"
-      style="margin-right: 0.1rem"
-      :title="$t('Plot')"
-      >{{ $t("Plot") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      :title="$t('clear')"
-      >{{ $t("clear") }}</n-button
-    >
+
+  <div class="row-btns">
+    <n-button @click="drawRegion" class="operate" type="info" :focusable="false">{{
+    $t("Draw") }}</n-button>
+    <n-button @click="executeImage" class="operate" type="info" :focusable="false">{{
+    $t("Plot") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -177,3 +137,9 @@ watch(
   }
 );
 </script>
+
+<style lang="scss" scoped>
+:deep(.shorter) .n-slider-rail {
+  width: 2.2rem !important;
+}
+</style>

@@ -1,115 +1,133 @@
+<!-- 绘制小品 -->
 <template>
-  <!-- 小品 -->
   <div id="add-skit-container">
     <n-scrollbar style="max-height: 4.8rem;padding-right: 0.1rem;" trigger="none">
       <!-- 符号类型 -->
-      <div class="row-item">
-        <span>{{ $t("symbolType") }}</span>
-        <n-select style="width: 2.2rem" v-model:value="state.selectedTypeId" :options="state.symbolClassOptions" />
+      <div class="row-wrap">
+        <div class="label">{{ $t("symbolType") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.selectedTypeId" :options="state.symbolClassOptions" />
+        </div>
       </div>
 
       <!-- 符号库 -->
-      <div class="row-item no-center">
-        <span class="name">{{ $t("symbolLibrary") }}</span>
-        <div class="icon-list-space" style="width: 2.2rem">
-          <n-scrollbar style="max-height: 1.6rem">
-            <div style="display: flex;flex-wrap: wrap;">
-              <div v-for="(model, index) in state.symbolOptionsList.data"
-                :class="model.isSelect ? 'selected-img' : 'normal-img'"
-                style="width: 0.4rem; height: 0.4rem; margin: 0.04rem 0.04rem">
-                <img :key="index" :src="model.thumbnail" :title="model.name" v-show="model.name" class="draw-img"
-                  @click="changleIconItem(model)" @dblclick="cancleIconItem(model)" />
+      <div class="row-wrap">
+        <div class="label">{{ $t("symbolLibrary") }}</div>
+        <div class="content">
+          <div class="icon-list-box" style="height: fit-content;">
+            <n-scrollbar style="max-height: 1.6rem">
+              <div style="display: flex;flex-wrap: wrap;">
+                <div v-for="(model, index) in state.symbolOptionsList.data"
+                  :class="model.isSelect ? 'selected-img' : 'normal-img'"
+                  style="width: 0.4rem; height: 0.4rem; margin: 0.04rem 0.04rem">
+                  <img :key="index" :src="model.thumbnail" :title="model.name" v-show="model.name" class="draw-img"
+                    @click="changleIconItem(model)" @dblclick="cancleIconItem(model)" />
+                </div>
               </div>
-            </div>
-          </n-scrollbar>
+            </n-scrollbar>
+          </div>
         </div>
       </div>
 
       <!-- 添加模式 -->
-      <div class="row-item">
-        <span>{{ $t("addMode") }}</span>
-        <n-select v-model:value="state.addType" :options="state.addWayOptions" style="width: 2.2rem" />
-      </div>
-      <div class="row-item" v-if="state.addType === 'face'">
-        <span></span>
-        <n-checkbox v-model:checked="state.multiSelection" style="margin-bottom: 0.1rem;margin-right: 1.26rem;" :focusable="false">
-          {{ $t("multiSelection") }}
-        </n-checkbox>
+      <div class="row-wrap">
+        <div class="label">{{ $t("addMode") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.addType" :options="state.addWayOptions" />
+        </div>
       </div>
 
+      <!-- 种类多选 -->
+      <div class="row-wrap" v-if="state.addType === 'face'">
+        <div class="content">
+          <n-checkbox v-model:checked="state.multiSelection" :label="$t('multiSelection')" />
+        </div>
+      </div>
 
       <!-- 线：间隔 -->
-      <div class="row-item" v-if="state.addType === 'line'">
-        <span>{{ $t("spacing") }}</span>
-        <n-input-number v-model:value="state.space" style="width: 2.2rem" :min="1" :max="1000"></n-input-number>
+      <div class="row-wrap" v-if="state.addType === 'line'">
+        <div class="label">{{ $t("spacing") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.space" :step="1" :min="1" :max="1000" />
+            <n-input-number v-model:value="state.space" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="1" :max="1000" placeholder="" size="small" />
+          </div>
+        </div>
       </div>
 
       <!-- 面：密度 -->
-      <div class="row-item" v-if="state.addType === 'face'">
-        <span>{{ $t("density") }}</span>
-        <n-input-number v-model:value="state.density" style="width: 2.2rem" :min="0" :max="1"
-          :step="0.01"></n-input-number>
+      <div class="row-wrap" v-if="state.addType === 'face'">
+        <div class="label">{{ $t("density") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.density" :step="0.01" :min="0.01" :max="1" />
+            <n-input-number v-model:value="state.density" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="0.01" :max="1" placeholder="" size="small" />
+          </div>
+        </div>
       </div>
 
       <!-- 随机大小 -->
-      <div class="row-item" style="margin-right: 0.1rem">
-        <span>{{ $t('randomScale') }}</span>
-        <div class="check-color-pick">
-          <n-checkbox v-model:checked="state.isRandomScale" :focusable="false"
-            style="margin-left: -0.12rem;margin-right: 0.1rem;"></n-checkbox>
-          <div class="slider-box">
-            <span>{{ state.scaleRange[0] }}</span>
-            <n-slider style="width: 1.5rem" v-model:value="state.scaleRange" :step="0.1" range :min="0.1" :max="5.0"
-              :disabled="!state.isRandomScale" />
-            <span>{{ state.scaleRange[1] }}</span>
+      <div class="row-wrap">
+        <div class="label">{{ $t("randomScale") }}</div>
+        <div class="content">
+          <div class="check-box-new">
+            <n-checkbox v-model:checked="state.isRandomScale" :focusable="false" style="margin-right:0.2rem;">
+            </n-checkbox>
+            <div class="slider-box-new">
+              <span>{{ state.scaleRange[0] }}</span>
+              <n-slider class="range" style="width:2.0rem" v-model:value="state.scaleRange" :step="0.1" range :min="0.1" :max="5.0"
+                :disabled="!state.isRandomScale" />
+              <span>{{ state.scaleRange[1] }}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- 随机角度 -->
-      <div class="row-item" style="margin-right: 0.1rem">
-        <span>{{ $t('randomRotate') }}</span>
-        <div class="check-color-pick">
-          <n-checkbox v-model:checked="state.isRandomRotate" :focusable="false"
-            style="margin-left: -0.12rem;margin-right: 0.1rem;"></n-checkbox>
-          <div class="slider-box">
-            <span>{{ state.rotateRange[0] }}</span>
-            <n-slider style="width: 1.5rem" v-model:value="state.rotateRange" :step="1" range :min="1" :max="360"
-              :disabled="!state.isRandomRotate" />
-            <span>{{ state.rotateRange[1] }}</span>
+      <div class="row-wrap">
+        <div class="label">{{ $t("randomRotate") }}</div>
+        <div class="content">
+          <div class="check-box-new">
+            <n-checkbox v-model:checked="state.isRandomRotate" :focusable="false" style="margin-right:0.2rem;">
+            </n-checkbox>
+            <div class="slider-box-new">
+              <span>{{ state.rotateRange[0] }}</span>
+              <n-slider class="range" style="width: 2.0rem" v-model:value="state.rotateRange" :step="1" range :min="1" :max="360"
+                :disabled="!state.isRandomRotate" />
+              <span>{{ state.rotateRange[1] }}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- 符号编辑 -->
-      <div class="row-item">
-        <span>{{$t('symbolEdit')}}</span>
-        <n-checkbox v-model:checked="state.openDrag" style="margin-bottom: 0.1rem" :focusable="false">
-          {{ $t("dragEdit") }}
-        </n-checkbox>
-        <n-checkbox v-model:checked="state.selectDel" style="margin-bottom: 0.1rem" :focusable="false">
-          {{ $t("clickDel") }}
-        </n-checkbox>
+      <div class="row-wrap">
+        <div class="label">{{ $t("symbolEdit") }}</div>
+        <div class="content">
+          <n-checkbox v-model:checked="state.openDrag" :label="$t('dragEdit')" />
+        </div>
+        <div class="content">
+          <n-checkbox v-model:checked="state.selectDel" :label="$t('clickDel')" />
+        </div>
       </div>
 
       <!-- 小品列表 -->
-      <span style="font-size: 0.14rem;">{{$t('skitList')}}</span>
-      <div class="icon-list-space" style="margin-left: 0.86rem; margin-bottom: 0.1rem; margin-top: -0.3rem;">
-        <n-scrollbar x-scrollable style="max-height:3.6rem" trigger="none">
-          <n-tree 
-            block-line 
-            :data="treeData" 
-            :render-suffix="renderSuffix" 
-            :default-expanded-keys="['0','2','3']"
-          />
-        </n-scrollbar>
+      <div class="row-wrap">
+        <div class="label">{{ $t("skitList") }}</div>
+        <div class="content">
+            <n-scrollbar x-scrollable style="max-height:3.6rem" trigger="none">
+              <n-tree block-line :data="treeData" :render-suffix="renderSuffix" :default-expanded-keys="['0','2','3']" />
+            </n-scrollbar>
+        </div>
       </div>
 
       <!-- 绘制和关闭 -->
-      <div class="btn-row-item" style="margin-left: 0.86rem;">
-        <n-button type="info" color="#3499E5" text-color="#fff" :focusable="false" @click="add"
-          style="margin-right: 0.1rem">{{ $t("Draw") }}</n-button>
-        <n-button :focusable="false" @click="finishAllDraw">{{ $t("finish") }}</n-button>
+      <div class="row-btns">
+        <n-button @click="add" class="operate" type="info" :focusable="false">{{
+        $t("Draw") }}</n-button>
+        <n-button @click="finishAllDraw" :focusable="false">{{ $t("finish") }}</n-button>
       </div>
     </n-scrollbar>
   </div>
@@ -453,7 +471,8 @@ function downLoadTree(){
   treeJsonData = skitCollection.hprAndScaleToModelMatrix(treeJsonData);
   console.log("保存的小品列表:",treeJsonData);
 
-  window.iEarthTool.saveObjToJsonFile(JSON.stringify(treeJsonData, null, '\t'), '全部小品'); // 保存为json存到本地
+  const jsonFileName =  $t("allSkits");
+  window.iEarthTool.saveObjToJsonFile(JSON.stringify(treeJsonData, null, '\t'), jsonFileName); // 保存为json存到本地
   setTimeout(() => {
     window["$message"].success($t('skitSaveSuccess'));
   }, 1000);
@@ -805,11 +824,6 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.icon-list-space {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .selected-img {
   border: 3px solid #3499e5;
 }
@@ -826,24 +840,11 @@ watch(
   margin-left: -0.27rem;
 }
 
-.btn-row-item2{
-  margin-right:0.2rem;
-}
-
 // 通过深度选择器来进行绑定：n-tree小品后缀按钮
-.icon-list-space :deep(.n-tree) .n-tree-node-content .n-tree-node-content__suffix{
+:deep(.n-tree) .n-tree-node-content .n-tree-node-content__suffix{
   margin-right:0.24rem;
 }
-.icon-list-space :deep(.n-tree) .n-tree-node-switcher.n-tree-node-switcher--hide{
+:deep(.n-tree) .n-tree-node-switcher.n-tree-node-switcher--hide{
   width: 0.1rem !important;
-}
-
-// 使用:deep强制设置图层列表后缀button颜色
-:deep(.n-button) {
-  color: rgba(255, 255, 255, 0.65);
-}
-:deep(.n-button):hover {
-  // hover颜色
-  color: rgba(255, 255, 255, 0.85);
 }
 </style>

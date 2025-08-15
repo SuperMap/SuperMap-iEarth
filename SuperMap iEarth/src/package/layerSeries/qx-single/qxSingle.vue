@@ -1,29 +1,40 @@
+<!-- 倾斜单体化 -->
 <template>
-  <div class="layerSeries-box">
-    <div class="row-item">
-      <span>{{ $t("dataServerUrl") }}</span>
-      <n-tooltip placement="top-end" trigger="hover">
-        <template #trigger>
-          <n-input class="add-input-border" style="width: 2.1rem" v-model:value="state.dataServiceUrl" type="text"
-            :placeholder="$t('qxLayerDataUrl')" @input="handleUrlChange" :status='state.inputUrlStatus' />
-        </template>
-        {{ state.urlFormatTip }}
-      </n-tooltip>
+  <div class="right-panel-container-not-tabs">
+    <!-- 数据服务 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("dataServerUrl") }}</div>
+      <div class="content">
+        <n-tooltip placement="top-end" trigger="hover">
+          <template #trigger>
+            <n-input v-model:value="state.dataServiceUrl" type="text"
+              :placeholder="$t('qxLayerDataUrl')" @input="handleUrlChange" :status='state.inputUrlStatus' />
+          </template>
+          {{ state.urlFormatTip }}
+        </n-tooltip>
+      </div>
     </div>
 
-    <div class="row-item" v-if="state.dataSourceOptions.length > 0">
-      <span>{{ $t("dataSourceName") }}</span>
-      <n-select style="width: 2.1rem" v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+    <!-- 数据源 -->
+    <div class="row-wrap" v-if="state.dataSourceOptions.length > 0">
+      <div class="label">{{ $t("dataSourceName") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+      </div>
     </div>
 
-    <div class="row-item" v-if="state.dataSetOptions.length > 0">
-      <span>{{ $t("datasetName") }}</span>
-      <n-select style="width: 2.1rem" v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+    <!-- 数据集 -->
+    <div class="row-wrap" v-if="state.dataSetOptions.length > 0">
+      <div class="label">{{ $t("datasetName") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+      </div>
     </div>
 
-    <div class="row-item">
-      <span> {{ $t("selectedColor") }} </span>
-      <div class="color-pick-box" style="width: 2.1rem">
+    <!-- 选中颜色 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("selectedColor") }}</div>
+      <div class="content">
         <n-color-picker :show-alpha="false" v-model:value="state.entityColor" :render-label="() => {
         return '';
                 }
@@ -31,33 +42,41 @@
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("transparency") }}</span>
-      <div class="slider-box" style="width: 1.9rem">
-        <n-slider style="width: 2.2rem" v-model:value="state.transparency" :step="0.1" :min="0.1" :max="1" />
-        <n-input-number v-model:value="state.transparency" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0.1" :max="1" :step="0.1" placeholder="" size="small" />
+    <!-- 透明度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("transparency") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.transparency" :step="0.1" :min="0.1" :max="1" />
+          <n-input-number v-model:value="state.transparency" :update-value-on-input="false" :bordered="false"
+            :show-button="false" :min="0.1" :max="1" :step="0.1" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("queryMode") }}</span>
-      <n-select style="width: 2.1rem" v-model:value="state.queryMode" :options="queryModeOption" />
+    <!-- 查询模式 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("queryMode") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.queryMode" :options="queryModeOption" />
+      </div>
     </div>
 
-    <div class="btn-row-item" style="margin-left: 0.93rem">
-      <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" @click="singleQuery">{{ $t("query") }}
-      </n-button>
-      <n-button class="btn-secondary" @click="clear" color="rgba(255, 255, 255, 0.65)" ghost>{{ $t("clear") }}
-      </n-button>
+    <div class="row-btns">
+      <n-button @click="singleQuery" class="operate" type="info" :focusable="false">{{
+      $t("query") }}</n-button>
+      <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
     </div>
+
 
     <!-- 添加媒体字段 -->
-    <div class="btn-row-item" style="margin-left: 0.93rem" v-if="mediaState.isDisplayBtn">
-      <n-button style="width:1.3rem;margin-top: 0.1rem;" type="info" color="#3499E5" text-color="#fff" class="ans-btn"
-        @click="openMediaPanle">{{ $t("addField") }}
-      </n-button>
+    <div class="row-btns" v-if="mediaState.isDisplayBtn">
+      <n-button @click="openMediaPanle" class="operate" type="info" :focusable="false"
+        style="width:0.8rem;margin-top:0.2rem;">{{
+        $t("addField") }}</n-button>
     </div>
+
+    <!-- 媒体字段面板 -->
     <div v-if="mediaState.mediaFieldPanleShow">
       <n-modal v-model:show="mediaState.mediaFieldPanleShow" preset="dialog" :title="mediaPanleTitle"
         :mask-closable="false">
@@ -66,16 +85,22 @@
           <n-collapse :trigger-areas="triggerAreas" display-directive="show">
             <n-collapse-item v-for="(item, index) in mediaState.mediaFieldOptions" :key="index" :title="$t(item.type)"
               :name=item.type>
-              <div class="row-item" style="margin-bottom: 0.1rem">
-                <span>{{ $t("resouceName") }}</span>
-                <n-input class="add-input-border" style="width: 75%" v-model:value="item.name" type="text" />
+              <!-- 资源名称 -->
+              <div class="row-wrap">
+                <div class="label">{{ $t("resouceName") }}</div>
+                <div class="content">
+                  <n-input v-model:value="item.name" type="text" />
+                </div>
               </div>
-              <div class="row-item" style="margin-bottom: 0.1rem">
-                <span>{{ $t("resouceLink") }}</span>
-                <n-input class="add-input-border" v-model:value="item.link"
-                  :placeholder="$t('inputOnlineResourceLink_iportal')" style="width: 75%" type="text">
-                </n-input>
+              <!-- 资源链接 -->
+              <div class="row-wrap">
+                <div class="label">{{ $t("resouceLink") }}</div>
+                <div class="content">
+                  <n-input v-model:value="item.link" :placeholder="$t('inputOnlineResourceLink_iportal')" type="text">
+                  </n-input>
+                </div>
               </div>
+              <!-- 清除按钮 -->
               <template #header-extra>
                 <i class="iconfont iconguanbi" style="font-size: 0.14rem" @click="removeItem(item)"
                   :title="$t('deleteMediaField')"></i>
@@ -83,12 +108,10 @@
             </n-collapse-item>
           </n-collapse>
 
-          <div class="btn-row-item" style="margin-top: 0.2rem">
-            <n-button type="info" class="ans-btn" color="#3499E5" text-color="#fff" :focusable="false"
-              @click="saveMediaField">{{ $t("sure") }}</n-button>
-            <n-button :focusable="false" @click="closeMediaField">{{
-            $t("cancle")
-            }}</n-button>
+          <div class="row-btns">
+            <n-button @click="saveMediaField" class="operate" type="info" :focusable="false">{{
+            $t("sure") }}</n-button>
+            <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
           </div>
         </n-card>
       </n-modal>

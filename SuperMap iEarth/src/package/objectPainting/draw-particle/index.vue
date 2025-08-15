@@ -1,28 +1,23 @@
+<!-- 粒子系统 -->
 <template>
-  <!-- 粒子 -->
-  <div class="row-item">
-    <span class="name">{{ $t("symbolLibrary") }}</span>
-    <div class="icon-list">
-      <span
-        v-for="(item, index) in comList"
-        :key="index"
-        class="icon-span"
-        :title="item.name"
-        :class="item.isSelect ? 'selected-icon' : ''"
-        @click="changleIconItem(item)"
-      >
-        <i
-          class="iconfont iconSize"
-          :class="item.iconName"
-          style="margin-top: 0px"
-        ></i>
-      </span>
+  <n-scrollbar style="max-height: 4.6rem;padding-right: 0.1rem;" trigger="none">
+    <!-- 符号库 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("symbolLibrary") }}</div>
+      <div class="content">
+        <div class="icon-list-box">
+          <span v-for="(item, index) in comList" :key="index" class="icon-span" :title="item.name"
+            :class="item.isSelect ? 'selected-icon' : ''" @click="changleIconItem(item)">
+            <i class="iconfont iconSize" :class="item.iconName" style="margin-top: 0px"></i>
+          </span>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <KeepAlive>
-    <component :is="currentItem.com"></component>
-  </KeepAlive>
+    <KeepAlive>
+      <component :is="currentItem.com"></component>
+    </KeepAlive>
+  </n-scrollbar>
 </template>
 
 <script lang="ts" setup>

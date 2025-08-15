@@ -1,42 +1,55 @@
+<!-- 景深 -->
 <template>
-    <div class="sence-config-container">
-      <div class="row-item">
-        <span :title="$t('fStopTitle')">{{ $t("fStop") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.fStop" :step="1" :min="1" :max="32" />
-          <n-input-number v-model:value="state.fStop" class="slider-input-number" :update-value-on-input="false"
+  <div class="sence-config-container">
+    <!-- 相机F值 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("fStop") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.fStop" :step="1" :min="1" :max="32" />
+          <n-input-number v-model:value="state.fStop"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="1" :max="32" placeholder="" size="small" />
         </div>
       </div>
+    </div>
 
-      <div class="row-item">
-        <span>{{ $t("focalDistance") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.focalDistance" :step="1" :min="1" :max="500" />
-          <n-input-number v-model:value="state.focalDistance" class="slider-input-number" :update-value-on-input="false"
+    <!-- 焦距 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("focalDistance") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.focalDistance" :step="1" :min="1" :max="500" />
+          <n-input-number v-model:value="state.focalDistance"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="1" :max="500" placeholder="" size="small" />
         </div>
       </div>
+    </div>
 
-      <div class="row-item">
-        <span :title="$t('focalRangeTitle')">{{ $t("focalRange") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.focalRange" :step="1" :min="1" :max="5000" />
-          <n-input-number v-model:value="state.focalRange" class="slider-input-number" :update-value-on-input="false"
+    <!-- 对焦范围 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("focalRange") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.focalRange" :step="1" :min="1" :max="5000" />
+          <n-input-number v-model:value="state.focalRange"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="1" :max="5000" placeholder="" size="small" />
         </div>
       </div>
+    </div>
 
-      <div class="row-item">
-        <span :title="$t('blurRadiusTitle')">{{ $t("blurRadius") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.blurRadius" :step="1" :min="-10" :max="100" />
-          <n-input-number v-model:value="state.blurRadius" class="slider-input-number" :update-value-on-input="false"
+    <!-- 模糊半径 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("blurRadius") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.blurRadius" :step="1" :min="-10" :max="100" />
+          <n-input-number v-model:value="state.blurRadius"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="-10" :max="100" placeholder="" size="small" />
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
 <script lang="ts" setup>
 import { reactive, onMounted, watch } from "vue";

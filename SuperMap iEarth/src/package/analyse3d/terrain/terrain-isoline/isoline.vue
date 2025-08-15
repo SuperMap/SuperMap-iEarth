@@ -1,92 +1,67 @@
+<!-- 等值线 -->
 <template>
-  <!-- 等值线 -->
-  <div class="row-item">
-    <span>{{ $t("maximumVisibleElevation") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="state.fillMaxHeight"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("minimumVisibleElevation") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="state.fillMinHeight"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("equivalentIsoline") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="state.equivalentIsoline"
-      :bordered="false"
-      :min="1"
-      :max="10000"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
-  </div>
-
-  <div
-    class="row-item"
-    v-show="state.fillOptionsSelected == 2 || state.fillOptionsSelected == 3"
-  >
-    <span>{{ $t("contourColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.lineColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 最大可见高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("maximumVisibleElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.fillMaxHeight" :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("displayMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.fillOptionsSelected"
-      :options="state.options"
-    />
+  <!-- 最小可见高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("minimumVisibleElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.fillMinHeight" :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("editArea") }}</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.isEdit"
-    ></n-checkbox>
+  <!-- 等值距 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("equivalentIsoline") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.equivalentIsoline" :bordered="false" :min="1" :max="10000"
+        :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="isoLineAnalysis"
-      style="margin-right: 0.1rem"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 等高线颜色 -->
+  <div class="row-wrap" v-show="state.fillOptionsSelected == 2 || state.fillOptionsSelected == 3">
+    <div class="label">{{ $t("contourColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.lineColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
+    </div>
+  </div>
+
+  <!-- 显示模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("displayMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.fillOptionsSelected" :options="state.options" />
+    </div>
+  </div>
+
+  <!-- 编辑区域 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.isEdit" :label="$t('editArea')" />
+    </div>
+  </div>
+
+  <div class="row-btns">
+    <n-button @click="isoLineAnalysis" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

@@ -1,12 +1,16 @@
+<!-- 开启地下 -->
 <template>
   <div class="sence-config-container">
-    <div class="row-item">
-      <span>{{ $t("surfaceTransparency") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.surfaceTransparency" :step="0.1" :min="0" :max="1" />
-        <n-input-number v-model:value="state.surfaceTransparency" class="slider-input-number"
-          :update-value-on-input="false" :bordered="false" :show-button="false" :min="0" :max="1" placeholder=""
-          size="small" />
+    <!-- 地表透明度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("surfaceTransparency") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.surfaceTransparency" :step="0.1" :min="0" :max="1" />
+          <n-input-number v-model:value="state.surfaceTransparency" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="0" :max="1" placeholder=""
+            size="small" />
+        </div>
       </div>
     </div>
   </div>

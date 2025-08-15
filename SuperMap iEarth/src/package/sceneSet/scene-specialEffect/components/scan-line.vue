@@ -1,7 +1,9 @@
+<!-- 扫描线 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("scanMode") }}</span>
-    <div style="width: 1.96rem">
+  <!-- 扫描模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("scanMode") }}</div>
+    <div class="content">
       <n-radio-group v-model:value="state.scanMode" name="scanMode">
         <n-radio :value="0">{{ $t("lineShape") }}</n-radio>
         <n-radio :value="1">{{ $t("circleShape") }}</n-radio>
@@ -9,134 +11,82 @@
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("scanColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem">
-      <n-color-picker
-        v-model:value="state.scanColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 扫描颜色 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("scanColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.scanColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("scanTexture") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.selectedTexture"
-      :options="state.scanTextures"
-    />
-  </div>
-
-  <div class="row-item" v-if="state.scanMode == 0">
-    <span>{{ $t("scanWidth") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.lineWidth"
-        style="width: 70%"
-        :step="1"
-        :min="1"
-        :max="1000"
-      />
-      <n-input-number
-        v-model:value="state.lineWidth"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="1000"
-        placeholder=""
-        size="small"
-      />
+  <!-- 扫描纹理 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("scanTexture") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.selectedTexture" :options="state.scanTextures" />
     </div>
   </div>
 
-  <div class="row-item" v-if="state.scanMode == 0">
-    <span>{{ $t("scanSpeed") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.speed"
-        style="width: 70%"
-        :step="1"
-        :min="1"
-        :max="200"
-      />
-      <n-input-number
-        v-model:value="state.speed"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="200"
-        placeholder=""
-        size="small"
-      />
+  <!-- 扫描线宽度 -->
+  <div class="row-wrap" v-if="state.scanMode == 0">
+    <div class="label">{{ $t("scanWidth") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.lineWidth" :step="1" :min="1" :max="1000" />
+        <n-input-number v-model:value="state.lineWidth"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="1000" placeholder="" size="small" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 扫描速度 -->
+  <div class="row-wrap" v-if="state.scanMode == 0">
+    <div class="label">{{ $t("scanSpeed") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.speed" style="width: 70%" :step="1" :min="1" :max="200" />
+        <n-input-number v-model:value="state.speed"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="200" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
   <!-- 扫描周期 or 持续时间 -->
-  <!-- <div class="row-item">
-    <span>{{ $t("scanPeriod") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.period"
-        style="width: 70%"
-        :step="1"
-        :min="1"
-        :max="20"
-      />
-      <n-input-number
-        v-model:value="state.period"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="20"
-        placeholder=""
-        size="small"
-      />
+  <!-- 
+  <div class="row-wrap" v-if="state.scanMode == 0">
+    <div class="label">{{ $t("scanPeriod") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.period" style="width: 70%" :step="1" :min="1" :max="20" />
+        <n-input-number v-model:value="state.period"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="20" placeholder="" size="small" />
+      </div>
     </div>
   </div> -->
 
-  <div class="row-item" v-show="state.scanMode === 0">
-    <span>{{ $t("customScanDirection") }}</span>
-    <div class="check-box" style="width: 1.96rem">
-      <n-checkbox v-model:checked="state.customDirection"></n-checkbox>
+  <!-- 自定义扫描方向 -->
+  <div class="row-wrap" v-show="state.scanMode === 0">
+    <div class="content">
+      <n-checkbox v-model:checked="state.customDirection" :label="$t('customScanDirection')" />
     </div>
   </div>
 
-  <div class="row-item" v-show="state.scanMode === 1">
-    <span>{{ $t("customScanCenter") }}</span>
-    <div class="check-box" style="width: 1.96rem">
-      <n-checkbox v-model:checked="state.customCenter"></n-checkbox>
+  <!-- 自定义扫描中心 -->
+  <div class="row-wrap" v-show="state.scanMode === 1">
+    <div class="content">
+      <n-checkbox v-model:checked="state.customCenter" :label="$t('customScanCenter')" />
     </div>
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.96rem">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="addScans"
-      style="margin-right: 0.1rem"
-      :disabled="isPlane"
-      >{{ $t("add") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 操作按钮 -->
+  <div class="row-btns">
+    <n-button @click="addScans" class="operate" type="info" :focusable="false" :disabled="isPlane">{{
+    $t("add") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

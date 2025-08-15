@@ -1,23 +1,22 @@
+<!-- S3M图层开挖与压平 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("clipMode") }}</span>
-    <n-radio-group
-      v-model:value="state.operationType"
-      name="operationType"
-      class="radio-group"
-    >
-      <n-radio :value="1">{{ $t("flatten2") }}</n-radio>
-      <n-radio :value="0">{{ $t("excavate") }}</n-radio>
-    </n-radio-group>
+  <div class="row-wrap">
+    <div class="label">{{ $t("clipMode") }}</div>
+    <div class="content">
+      <n-radio-group
+        v-model:value="state.operationType"
+        name="operationType"
+        class="radio-group"
+      >
+        <n-radio :value="1">{{ $t("flatten2") }}</n-radio>
+        <n-radio :value="0">{{ $t("excavate") }}</n-radio>
+      </n-radio-group>
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="start" style="margin-right: 0.1rem">
-      {{ state.actionName }}
-    </n-button>
-    <n-button class="btn-secondary" @click="clear">{{
-      $t("clear")
-    }}</n-button>
+  <div class="row-btns">
+    <n-button @click="start" class="operate" type="info" :focusable="false">{{ state.actionName }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -115,10 +114,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.row-item .radio-group {
-  width: 1.5rem;
-  margin-right: 0.35rem;
-}
-</style>

@@ -1,65 +1,42 @@
+<!-- S3M图层淹没分析 -->
 <template>
-  <!-- 淹没分析 -->
-  <div class="row-item">
-    <div>{{ $t("maximumVisibleElevation") }}</div>
-    <n-input-number
-      v-model:value="state.maxHeight"
-      style="width: 1.96rem"
-      :show-button="false"
-      :min="1"
-      :max="10000"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
+  <!-- 最大可见高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("maximumVisibleElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.maxHeight" :show-button="false" :min="1" :max="10000">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="row-item">
-    <div>{{ $t("minimumVisibleElevation") }}</div>
-    <n-input-number
-      v-model:value="state.minHeight"
-      style="width: 1.96rem"
-      :bordered="false"
-      :min="-20"
-      :max="10000"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
+  <!-- 最小可见高程 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("minimumVisibleElevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.minHeight" :bordered="false" :min="-20" :max="10000" :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("inundationSpeed") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 70%"
-        v-model:value="state.floodSpeed"
-        :step="1"
-        :min="1"
-        :max="100"
-      />
-      <div class="row-slider-num" style="width: 0.6rem">
-        <span>{{ state.floodSpeed }}</span
-        ><span>{{ $t("meterSecond") }}</span>
+  <!-- 淹没速度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("inundationSpeed") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider class="shorter" v-model:value="state.floodSpeed" :step="1" :min="1" :max="100" />
+        <n-input-number v-model:value="state.floodSpeed" :update-value-on-input="false" :bordered="false"
+          :show-button="false" placeholder="" size="small" style="width: 31%" />
+        <span style="width: 0.6rem">{{ $t("meterSecond") }}</span>
       </div>
     </div>
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.83rem">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="floodBegin"
-      style="margin-right: 0.1rem"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="floodBegin" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -223,3 +200,9 @@ watch(
   }
 );
 </script>
+
+<style lang="scss" scoped>
+:deep(.shorter) .n-slider-rail {
+  width: 2rem !important;
+}
+</style>

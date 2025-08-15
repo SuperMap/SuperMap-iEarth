@@ -1,45 +1,43 @@
+<!-- 坐标查询 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("openCoordinateQuery") }}</span>
-    <div style="width: 1.8rem">
-      <n-switch v-model:value="state.useQuery" size="small" />
+  <!-- 开启 -->
+  <div class="row-wrap">
+    <div class="content">
+      <div class="switch-box">
+        <div class="text">{{ $t("openCoordinateQuery") }}</div>
+        <n-switch v-model:value="state.useQuery" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("longitude") }}</span>
-    <n-input
-      style="width: 2.2rem"
-      v-model:value="state.longitude"
-      :placeholder="$t('coordinateQueryTip')"
-      disabled
-    >
-      <template #suffix>°</template>
-    </n-input>
+  <!-- 经度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("longitude") }}</div>
+    <div class="content">
+      <n-input v-model:value="state.longitude" :placeholder="$t('coordinateQueryTip')" disabled>
+        <template #suffix>°</template>
+      </n-input>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("latitude") }}</span>
-    <n-input
-      style="width: 2.2rem"
-      v-model:value="state.latitude"
-      :placeholder="$t('coordinateQueryTip')"
-      disabled
-    >
-      <template #suffix>°</template>
-    </n-input>
+  <!-- 纬度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("latitude") }}</div>
+    <div class="content">
+      <n-input v-model:value="state.latitude" :placeholder="$t('coordinateQueryTip')" disabled>
+        <template #suffix>°</template>
+      </n-input>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("elevation") }}</span>
-    <n-input
-      style="width: 2.2rem; margin-bottom: 0.1rem"
-      v-model:value="state.altitude"
-      :placeholder="$t('coordinateQueryTip')"
-      disabled
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input>
+  <!-- 海拔 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("elevation") }}</div>
+    <div class="content">
+      <n-input v-model:value="state.altitude" :placeholder="$t('coordinateQueryTip')" disabled>
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input>
+    </div>
   </div>
 </template>
 

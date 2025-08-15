@@ -1,0 +1,177 @@
+// NaiveUI组件全局样式
+.n-config-provider {
+  height: 100%;
+}
+
+.n-layout.n-layout--static-positioned {
+  height: 100%;
+}
+
+
+/** ==========================================NaiveUI组件自定义样式==Start====================================================== */
+// 整个页面右边的滚动条
+.n-layout .n-layout-scroll-container {
+  overflow: visible;
+}
+
+// Tab标签
+.n-tabs .n-tabs-bar {
+  // 下划线颜色
+  background-color: #3499e5 !important;
+}
+
+.n-tabs-tab__label {
+  // 文字颜色
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.n-tabs-tab__label {
+  // 文字大小
+  font-size: 0.14rem;
+}
+
+.n-tabs-tab--active .n-tabs-tab__label {
+  // 激活时文字颜色
+  color: rgba(255, 255, 255, 0.85);
+}
+
+// 颜色选择器
+.n-color-picker-trigger {
+  // 边框
+  border: none;
+}
+
+.n-color-picker-trigger__fill {
+  // 色带固定尺寸
+  height: 0.08rem;
+  top: 0.1rem !important;
+  bottom: 0.1rem !important;
+  margin: 0rem 0.1rem;
+}
+
+// n-input等文字居中
+.n-input .n-input__input-el {
+  height: 100%;
+}
+
+// 按钮样式
+.n-button .n-button__content {
+  height: fit-content;
+  max-height: 0.2rem;
+  // 所有超限的button内容都隐藏掉
+  // overflow: hidden;
+}
+
+.n-button__content {
+  // 文字大小
+  font-size: 0.14rem;
+}
+
+// input输入框高度
+.n-input {
+  height: 0.32rem;
+}
+// input输入框
+.n-input__suffix {
+  // 后缀单位文字大小
+  font-size: 0.12rem;
+}
+// 输入内容文字大小
+.n-input__input {
+  font-size: 0.14rem;
+}
+// 提示文字大小
+.n-input:not(.n-input--textarea) .n-input__placeholder {
+  font-size: 0.14rem;
+}
+
+
+// // Radio单选框的标签
+.n-radio__label {
+  // 文字大小：太小了就会没有对齐
+  font-size: 0.16rem;
+}
+
+.n-radio .n-radio__dot {
+  // 图形大小
+  width: 0.14rem;
+  height: 0.14rem;
+}
+
+.n-radio .n-radio__dot-wrapper {
+  // 图形和文字间隔
+  width: 0.2rem;
+}
+
+// n-select选择框
+.n-base-selection {
+  // 容器高度
+  min-height: 0.32rem;
+}
+
+.n-base-selection .n-base-selection-label {
+  // 选择框高度 
+  height: 0.32rem;
+}
+
+.n-base-selection-input__content {
+  // 文字大小
+  font-size: 0.14rem;
+}
+
+// 分割线
+.n-divider:not(.n-divider--vertical) {
+  margin: 0.24rem 0rem 0rem 0rem;
+}
+
+// 滑动条的那个球
+.n-slider .n-slider-handles .n-slider-handle-wrapper .n-slider-handle {
+  width: 0.12rem;
+  height: 0.12rem;
+  background-color: #414141 !important;
+  border: 1.5px solid #3499E5 !important;
+}
+
+// 阴影分析刻度节点
+.n-slider .n-slider-dots .n-slider-dot {
+  width: 0.1rem;
+  height: 0.1rem;
+}
+
+
+// checkBox选择框
+.n-checkbox .n-checkbox-box {
+  // 框大小
+  width: 0.16rem;
+  height: 0.16rem;
+}
+
+.n-checkbox .n-checkbox__label {
+  // 标签样式
+  margin-left: 0.1rem;
+  font-size: 0.14rem;
+  height: 0.16rem;
+}
+
+.n-checkbox .n-checkbox-box-wrapper {
+  // 框和标签间距
+  width: 0.1rem;
+}
+
+// Table表格内容
+.n-data-table .n-data-table-th {
+  // 标题大小
+  font-size: 0.14rem;
+}
+
+.n-data-table .n-data-table-td {
+  // 内容大小
+  font-size: 0.12rem;
+}
+
+.disabled-item td {
+  // 不可用服务行文字颜色，与可用服务区分开
+  color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/** ==========================================NaiveUI组件自定义样式==End====================================================== */

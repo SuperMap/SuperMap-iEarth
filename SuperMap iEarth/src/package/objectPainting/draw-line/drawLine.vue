@@ -1,138 +1,92 @@
+<!-- 绘制线 -->
 <template>
-  <!-- 绘制线 -->
-  <div class="row-item">
-    <span>{{ $t("drawMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.selectedType"
-      :options="state.optionMode"
-    />
-  </div>
-
-  <div class="row-item no-center">
-    <span class="name">{{ $t("symbolLibrary") }}</span>
-    <div class="icon-list-space" style="width: 1.96rem">
-      <span
-        v-for="(line, index) in state.lineOptions"
-        :key="index"
-        class="icon-span"
-        :title="line.name"
-        :class="line.isSelect ? 'selected-icon' : ''"
-        @click="changleIconItem(line)"
-      >
-        <i class="iconfont iconSize" :class="line.iconName"></i>
-      </span>
+  <!-- 绘制模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("drawMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.selectedType" :options="state.optionMode" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("lineColor") }}</span>
-    <div class="color-pick-box">
-      <n-color-picker
-        v-model:value="state.lineColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 绘制模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("symbolLibrary") }}</div>
+    <div class="content">
+      <div class="icon-list-box">
+        <span v-for="(line, index) in state.lineOptions" :key="index" class="icon-span" :title="line.name"
+          :class="line.isSelect ? 'selected-icon' : ''" @click="changleIconItem(line)">
+          <i class="iconfont iconSize" :class="line.iconName"></i>
+        </span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("lineWidth") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.lineWidth"
-        :step="0.1"
-        :min="1"
-        :max="50"
-      />
-      <n-input-number
-        v-model:value="state.lineWidth"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="50"
-        placeholder=""
-        size="small"
-      />
+  <!-- 线颜色 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("lineColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.lineColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item" v-show="state.selectedId === 2">
-    <span>{{ $t("outLineColor") }}</span>
-    <div class="color-pick-box">
-      <n-color-picker
-        v-model:value="state.outLineColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 线宽度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("lineWidth") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.lineWidth" :step="0.1" :min="1" :max="50" />
+        <n-input-number v-model:value="state.lineWidth" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="50" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item" v-show="state.selectedId === 2">
-    <span>{{ $t("outLineWidth") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.outLineWidth"
-        :step="0.1"
-        :min="1"
-        :max="50"
-      />
-      <n-input-number
-        v-model:value="state.outLineWidth"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="50"
-        placeholder=""
-        size="small"
-      />
+  <!-- 轮廓线颜色 -->
+  <div class="row-wrap" v-show="state.selectedId === 2">
+    <div class="label">{{ $t("outLineColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.outLineColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("editLine") }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.isEdit"></n-checkbox>
+  <!-- 轮廓线宽度 -->
+  <div class="row-wrap" v-show="state.selectedId === 2">
+    <div class="label">{{ $t("outLineWidth") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.outLineWidth" :step="0.1" :min="1" :max="50" />
+        <n-input-number v-model:value="state.outLineWidth" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="50" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("editLineZ") }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.isEditZ"></n-checkbox>
+  <!-- 编辑线 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.isEdit" :label="$t('editLine')" />
     </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >{{ $t("Draw") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 编辑Z轴 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.isEditZ" :label="$t('editLineZ')" />
+    </div>
+  </div>
+
+  <div class="row-btns">
+    <n-button @click="add" class="operate" type="info" :focusable="false">{{
+    $t("Draw") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

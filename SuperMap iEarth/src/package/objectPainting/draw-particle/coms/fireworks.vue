@@ -1,8 +1,9 @@
+<!-- 烟花 -->
 <template>
-  <div class="btn-row-item">
-    <n-button type="info" color="#3499E5" text-color="#fff" @click="add" style="margin-right: 0.1rem">{{ $t("add") }}
-    </n-button>
-    <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button>
+  <div class="row-btns">
+    <n-button @click="add" class="operate" type="info" :focusable="false">{{
+    $t("add") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -132,10 +133,3 @@ function clear(flag = true) {
   if (flag) window.iEarthBindData['ParticleOptions']["fireWork"] = null;
 }
 </script>
-
-<style lang="scss" scoped>
-:deep(.n-slider-handle) {
-  background-color: #414141 !important;
-  border: 1.5px solid #3499e5 !important;
-}
-</style>

@@ -1,62 +1,61 @@
+<!-- 视口卷帘 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("viewMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.selectedType"
-      :options="state.options"
-    />
-  </div>
-
-  <div class="row-item" v-if="state.selectedType === 'lrRoller'">
-    <span>{{ $t("shieldDirection") }}</span>
-    <div style="width: 1.96rem">
-      <n-radio-group v-model:value="state.lrRoller" name="radiogroup">
-        <n-radio :value="1">{{ $t("left") }}</n-radio>
-        <n-radio :value="2">{{ $t("right") }}</n-radio>
-      </n-radio-group>
+  <n-scrollbar style="max-height: 5rem; padding-right: 0.1rem;" trigger="none">
+    <!-- 视图模式 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("viewMode") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.selectedType" :options="state.options" />
+      </div>
     </div>
-  </div>
 
-  <div class="row-item" v-if="state.selectedType === 'tbRoller'">
-    <span>{{ $t("shieldDirection") }}</span>
-    <div style="width: 1.96rem">
-      <n-radio-group v-model:value="state.tbRoller" name="radiogroup">
-        <n-radio :value="4">{{ $t("up") }}</n-radio>
-        <n-radio :value="8">{{ $t("down") }}</n-radio>
-      </n-radio-group>
+    <!-- 屏蔽方向 -->
+    <div class="row-wrap" v-if="state.selectedType === 'lrRoller'">
+      <div class="label">{{ $t("shieldDirection") }}</div>
+      <div class="content">
+        <n-radio-group v-model:value="state.lrRoller" name="radiogroup">
+          <n-radio :value="1">{{ $t("left") }}</n-radio>
+          <n-radio :value="2">{{ $t("right") }}</n-radio>
+        </n-radio-group>
+      </div>
     </div>
-  </div>
 
-  <div class="row-item" v-if="state.selectedType === 'customRoller'">
-    <span>{{ $t("shieldDirection") }}</span>
-    <div style="width: 1.96rem">
-      <n-radio-group v-model:value="state.customRoller" name="radiogroup">
-        <n-radio :value="1">{{ $t("left") }}</n-radio>
-        <n-radio :value="2">{{ $t("right") }}</n-radio>
-        <br />
-        <n-radio :value="4">{{ $t("up") }}</n-radio>
-        <n-radio :value="8">{{ $t("down") }}</n-radio>
-      </n-radio-group>
+    <!-- 屏蔽方向 -->
+    <div class="row-wrap" v-if="state.selectedType === 'tbRoller'">
+      <div class="label">{{ $t("shieldDirection") }}</div>
+      <div class="content">
+        <n-radio-group v-model:value="state.tbRoller" name="radiogroup">
+          <n-radio :value="4">{{ $t("up") }}</n-radio>
+          <n-radio :value="8">{{ $t("down") }}</n-radio>
+        </n-radio-group>
+      </div>
     </div>
-  </div>
 
-  <div class="row-item no-center" v-if="state.selectedType != 'noRoller'">
-    <span>{{ $t("layerList") }}</span>
-    <div class="comLayerTreeBox" style="width: 1.96rem">
-      <n-scrollbar style="max-height:3rem" trigger="none">
-        <n-tree 
-          block-line 
-          checkable
-          cascade 
-          :data="treeDataRoller" 
-          :selectable="true" 
-          :default-checked-keys="['1','2']"
-          @update:checked-keys="getCheckedKeys" 
-        />
-      </n-scrollbar>
+    <!-- 屏蔽方向 -->
+    <div class="row-wrap radio-groups" v-if="state.selectedType === 'customRoller'">
+      <div class="label">{{ $t("shieldDirection") }}</div>
+      <div class="content">
+        <n-radio-group v-model:value="state.customRoller" name="radiogroup">
+          <n-radio :value="1" style="margin-right:0rem;">{{ $t("left") }}</n-radio>
+          <n-radio :value="2">{{ $t("right") }}</n-radio>
+          <br />
+          <n-radio :value="4">{{ $t("up") }}</n-radio>
+          <n-radio :value="8">{{ $t("down") }}</n-radio>
+        </n-radio-group>
+      </div>
     </div>
-  </div>
+
+    <!-- 图层树 -->
+    <div class="row-wrap" v-if="state.selectedType != 'noRoller'">
+      <div class="label">{{ $t("layerList") }}</div>
+      <div class="content">
+        <n-scrollbar style="max-height:3rem" trigger="none">
+          <n-tree block-line checkable cascade :data="treeDataRoller" :selectable="true"
+            :default-checked-keys="['1','2']" @update:checked-keys="getCheckedKeys" />
+        </n-scrollbar>
+      </div>
+    </div>
+  </n-scrollbar>
 </template>
 
 <script lang="ts" setup>
@@ -434,11 +433,7 @@ watch(
 );
 </script>
 
-<style lang="scss">
-.comLayerTreeBox {
-  border: 0.01rem solid $--SM--BgColor-15;
-}
-
+<style lang="scss" scoped>
 // 卷帘
 #verticalSlider {
   position: absolute;

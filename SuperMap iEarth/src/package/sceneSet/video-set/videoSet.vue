@@ -1,187 +1,97 @@
+<!-- 视频投放 -->
 <template>
-  <div class="row-item">
-    <div>{{ $t("videoPath") }}</div>
-    <div>
+  <!-- 选择本地视频 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("videoPath") }}</div>
+    <div class="content">
       <n-input-group>
-        <n-input
-          style="width: 1.4rem"
-          class="add-input-border"
-          :placeholder="$t('localVideoPath')"
-          v-model:value="state.fileText"
-        />
-        <n-button type="tertiary" @click="chooseFile" style="width: 0.6rem">{{
-          $t("chooseFile")
+        <n-input v-model:value="state.fileText" :placeholder="$t('localVideoPath')" />
+        <n-button @click="chooseFile" type="tertiary">{{
+        $t("chooseFile")
         }}</n-button>
       </n-input-group>
     </div>
-    <input
-      type="file"
-      accept="*.mp4"
-      id="vedioFile"
-      style="display: none"
-      ref="vedioFile_dom"
-    />
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("width") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.horizontal"
-        :step="1"
-        :min="1"
-        :max="60"
-      />
-      <n-input-number
-        v-model:value="state.horizontal"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="60"
-        placeholder=""
-        size="small"
-      />
+  <!-- 宽度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("width") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.horizontal" :step="1" :min="1" :max="60" />
+        <n-input-number v-model:value="state.horizontal"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="60" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("height") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.vertical"
-        :step="1"
-        :min="1"
-        :max="60"
-      />
-      <n-input-number
-        v-model:value="state.vertical"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="60"
-        placeholder=""
-        size="small"
-      />
+  <!-- 高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("height") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.vertical" :step="1" :min="1" :max="60" />
+        <n-input-number v-model:value="state.vertical"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="60" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("distencePlace") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.distance"
-        :step="1"
-        :min="1"
-        :max="500"
-      />
-      <n-input-number
-        v-model:value="state.distance"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="1"
-        :max="500"
-        placeholder=""
-        size="small"
-      />
+  <!-- 投放距离 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("distencePlace") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.distance" :step="1" :min="1" :max="500" />
+        <n-input-number v-model:value="state.distance"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="500" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("MaxVisibleDistance") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.2rem"
-        v-model:value="state.visibleDistanceMax"
-        :step="1"
-        :min="300"
-        :max="2000"
-      />
-      <n-input-number
-        v-model:value="state.visibleDistanceMax"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="300"
-        :max="2000"
-        placeholder=""
-        size="small"
-      />
+  <!-- 最大可见距离 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("MaxVisibleDistance") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.visibleDistanceMax" :step="1" :min="300" :max="2000" />
+        <n-input-number v-model:value="state.visibleDistanceMax" 
+          :update-value-on-input="false" :bordered="false" :show-button="false" :min="300" :max="2000" placeholder=""
+          size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("clipMode") }}</span>
-    <n-radio-group
-      v-model:value="state.clipMode"
-      name="radiogroup"
-      class="radio-group"
-    >
-      <n-radio
-        v-for="item in state.modeOptions"
-        :key="item.value"
-        :value="item.value"
-      >
-        {{ item.label }}
-      </n-radio>
-    </n-radio-group>
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("visibleVideoLine") }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.visibleLine"></n-checkbox>
+  <!-- 裁剪模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("clipMode") }}</div>
+    <div class="content">
+      <n-radio-group v-model:value="state.clipMode" name="radiogroup">
+        <n-radio v-for="item in state.modeOptions" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </n-radio>
+      </n-radio-group>
     </div>
   </div>
 
-  <div class="btn-row-item2">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="startProjection"
-      style="margin-right: 0.1rem"
-      :title="$t('videoSet')"
-      >{{ $t("videoSet") }}</n-button
-    >
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="clipProjectImg"
-      style="margin-right: 0.1rem"
-      :title="$t('clip')"
-      >{{ $t("clip") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      :title="$t('clear')"
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 视频投放线 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.visibleLine" :label="$t('visibleVideoLine')" />
+    </div>
   </div>
+
+  <div class="row-btns">
+    <n-button @click="startProjection" class="operate" type="info" :focusable="false">{{
+    $t("videoSet") }}</n-button>
+    <n-button @click="clipProjectImg" class="operate" type="info" :focusable="false">{{
+    $t("clip") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
+  </div>
+
 
   <div id="videoContain" style="width: 0; height: 0">
-    <video
-      id="trailer-0"
-      style="visibility: hidden"
-      autoplay
-      loop
-      controls
-      muted
-      multiple
-    >
+    <video id="trailer-0" style="visibility: hidden" autoplay loop controls muted multiple>
       <source src="" type="video/mp4" />
     </video>
   </div>
@@ -227,7 +137,6 @@ let state = reactive<stateType>({
 });
 
 // 初始化变量
-let vedioFile_dom = ref();
 let modelIdProjectPairs = new Map(); // 模型id和视频投放对象对象的键值对
 let reader = new FileReader();
 
@@ -248,34 +157,29 @@ function init() {
 
 onMounted(() => {
   init();
-  fileChange();
   currntVideoDom = document.getElementById("trailer-0");
 });
 
 onBeforeUnmount(() => {});
 
 // 点击选择文件函数
-function chooseFile() {
-  vedioFile_dom.value.click();
+async function chooseFile() {
+  const file: any = await tool.openLocalFile('.mp4', true);
+  if (!file || !(file instanceof File)) return;
+
+  state.fileText = file.name;
+
+  const blob = new Blob([file], { type: "video/mp4" });
+  reader.readAsDataURL(blob);
+  reader.onload = function (e: any) {
+    let vedio = e.target.result;
+    let index = document.querySelectorAll("#videoContain>video").length;
+    creatVideo_dom(vedio, index).then((res) => {
+      currntVideoDom = document.getElementById("trailer-" + index);
+    });
+  };
 }
 
-// 文件夹改变文件触发
-function fileChange() {
-  vedioFile_dom.value.addEventListener("change", (evt) => {
-    let file = evt.target.files[0];
-    if (!file) return;
-    state.fileText = vedioFile_dom.value.value;
-    const aBlob = new Blob([file], { type: "video/mp4" });
-    reader.readAsDataURL(aBlob);
-    reader.onload = function (e: any) {
-      let vedio = e.target.result;
-      let index = document.querySelectorAll("#videoContain>video").length;
-      creatVideo_dom(vedio, index).then((res) => {
-        currntVideoDom = document.getElementById("trailer-" + index);
-      });
-    };
-  });
-}
 
 // 创建Video-html元素
 function creatVideo_dom(src, index) {

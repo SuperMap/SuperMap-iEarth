@@ -1,27 +1,39 @@
+<!-- 鼠标操作习惯 -->
 <template>
-    <div class="sence-config-container">
-    <div class="row-item">
-      <span>{{$t('defaultMouseMode')}}</span>
-      <div style="width: 1.46rem">
-        <n-switch v-model:value="state.isSuperMap3DMode" size="small" @update:value="handleSuperMapChange"/>
+  <div class="sence-config-container">
+    <!-- 右键缩放 -->
+    <div class="row-wrap">
+      <div class="content">
+        <div class="switch-box">
+          <div class="text">{{ $t("defaultMouseMode") }}</div>
+          <n-switch v-model:value="state.isSuperMap3DMode" size="small" @update:value="handleSuperMapChange" />
+        </div>
       </div>
     </div>
-    <div class="row-item">
-      <span>{{$t('arcgisMouseMode')}}</span>
-      <div style="width: 1.46rem">
-        <n-switch v-model:value="state.isArcGISMode" size="small" @update:value="handleArcGISChange"/>
+
+    <!-- 右键俯仰 -->
+    <div class="row-wrap">
+      <div class="content">
+        <div class="switch-box">
+          <div class="text">{{ $t("arcgisMouseMode") }}</div>
+          <n-switch v-model:value="state.isArcGISMode" size="small" @update:value="handleArcGISChange" />
+        </div>
       </div>
     </div>
-      <div class="row-item">
-        <span>{{$t('zoomScale')}}</span>
-        <div class="slider-box" style="width: 1.2rem">
+
+    <!-- 缩放速度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("zoomScale") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
           <n-slider v-model:value="state.zoomFactor" :step="1" :min="1" :max="30" />
-          <n-input-number v-model:value="state.zoomFactor" class="slider-input-number" :update-value-on-input="false"
+          <n-input-number v-model:value="state.zoomFactor"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="1" :max="30" placeholder="" size="small" />
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
 <script lang="ts" setup>
 import { reactive, onMounted, watch } from "vue";

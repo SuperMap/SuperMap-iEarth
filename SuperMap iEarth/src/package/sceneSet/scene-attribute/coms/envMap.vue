@@ -1,29 +1,40 @@
+<!-- 环境光贴图 -->
 <template>
   <div class="sence-config-container">
-    <div class="row-item">
-      <span>{{ $t("chooseTexture") }}</span>
-      <n-select style="width: 1.96rem" v-model:value="state.hdrName" @update:value="handlePresetEnvMap"
-        :options="state.hdrOptions" />
-    </div>
-
-    <div class="row-item">
-      <span>{{ $t("envIntensity") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.intensity" :step="0.1" :min="0" :max="3" />
-        <n-input-number v-model:value="state.intensity" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+    <!-- 选择贴图 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("chooseTexture") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.hdrName" @update:value="handlePresetEnvMap" :options="state.hdrOptions" />
       </div>
     </div>
 
-    <div style="margin-left: 0.96rem; margin-bottom: 0.1rem;">
-      <n-checkbox v-model:checked="state.isCustom">{{ $t("customResource") }}</n-checkbox>
+    <!-- 环境光强度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("envIntensity") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.intensity" :step="0.1" :min="0" :max="3" />
+          <n-input-number v-model:value="state.intensity"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+        </div>
+      </div>
     </div>
 
-    <div class="row-item" v-if="state.isCustom">
-      <span>{{ $t("resourcePath") }}</span>
-      <n-input class="add-input-border" v-model:value="state.customUrl" @change="handleCustomEnvMap" type="text"
-        :title="state.customUrl"
-        style="width: 2rem" />
+    <!-- 自定义资源 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isCustom" :label="$t('customResource')" />
+      </div>
+    </div>
+
+    <!-- 选择贴图 -->
+    <div class="row-wrap" v-if="state.isCustom">
+      <div class="label">{{ $t("resourcePath") }}</div>
+      <div class="content">
+        <n-input v-model:value="state.customUrl" @change="handleCustomEnvMap" type="text"
+          :title="state.customUrl" />
+      </div>
     </div>
   </div>
 </template>

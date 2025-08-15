@@ -1,41 +1,50 @@
 <template>
-    <div class="row-item">
-        <span>相机定位</span>
-        <div style="width: 1.96rem">
+    <!-- 相机定位 -->
+    <div class="row-wrap">
+      <div class="content">
+        <div class="switch-box">
+            <div class="text">{{ $t("cameraLocate") }}</div>
             <n-switch v-model:value="state.flyShow" size="small" />
         </div>
+      </div>
     </div>
 
     <!-- 相机定位 -->
     <div v-show="state.flyShow">
-        <div class="row-item">
-            <span>{{ $t("longitude") }}</span>
-            <n-input-number style="width: 1.96rem" v-model:value="state.longitude" :min="-180" :max="180" :show-button="false" 
-                placeholder="0">
-                <template #suffix>°</template>
-            </n-input-number>
+        <div class="row-wrap">
+            <div class="label">{{ $t("longitude") }}</div>
+            <div class="content">
+                <n-input-number v-model:value="state.longitude" :min="-180" :max="180"
+                    :show-button="false" placeholder="0">
+                    <template #suffix>°</template>
+                </n-input-number>
+            </div>
         </div>
 
-        <div class="row-item">
-            <span>{{ $t("latitude") }}</span>
-            <n-input-number style="width: 1.96rem" v-model:value="state.latitude" :min="-90" :max="90" :show-button="false" 
-                placeholder="0">
-                <template #suffix>°</template>
-            </n-input-number>
+        <div class="row-wrap">
+            <div class="label">{{ $t("latitude") }}</div>
+            <div class="content">
+                <n-input-number v-model:value="state.latitude" :min="-90" :max="90" :show-button="false" 
+                    placeholder="0">
+                    <template #suffix>°</template>
+                </n-input-number>
+            </div>
         </div>
 
-        <div class="row-item">
-            <span>{{ $t("elevation") }}</span>
-            <n-input-number style="width: 1.96rem" v-model:value="state.altitude" :min="-1000" :max="1000000" :show-button="false" 
-                placeholder="0">
-                <template #suffix>{{ $t("meter") }}</template>
-            </n-input-number>
+        <div class="row-wrap">
+            <div class="label">{{ $t("elevation") }}</div>
+            <div class="content">
+                <n-input-number v-model:value="state.altitude" :min="-1000" :max="1000000" :show-button="false" 
+                    placeholder="0">
+                    <template #suffix>{{ $t("meter") }}</template>
+                </n-input-number>
+            </div>
         </div>
 
-        <div class="btn-row-item" style="margin-left: 0.96rem">
-            <n-button type="info" color="#3499E5" text-color="#fff" :focusable="false" @click="flyPosition"
-                style="margin-right: 0.1rem">{{ $t("locate") }}</n-button>
-            <n-button :focusable="false" @click="cancle">{{ $t("cancle") }}</n-button>
+        <div class="row-btns">
+            <n-button @click="flyPosition" class="operate" type="info" :focusable="false">{{
+            $t("locate") }}</n-button>
+            <n-button @click="cancle" :focusable="false">{{ $t("cancle") }}</n-button>
         </div>
     </div>
 

@@ -1,106 +1,84 @@
+<!-- 地形操作 -->
 <template>
-  <!-- 地形操作 -->
-  <div class="btn-list">
-    <div
-      class="btn"
-      :class="item.isSelect ? 'select-btn' : ''"
-      v-for="(item, index) in comList"
-      :key="index"
-      @click="changeItem(item)"
-    >
+  <div class="btn-list-box">
+    <div class="btn" :class="item.isSelect ? 'select-btn' : ''" v-for="(item, index) in comList" :key="index"
+      @click="changeItem(item)">
       {{ item.name }}
     </div>
   </div>
 
+  <!-- 地形开挖 -->
   <div v-if="state.operationType === 'dig'">
-    <div class="row-item">
-      <span>{{ $t("excavationDepth") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        :update-value-on-input="false"
-        v-model:value="state.digDepth"
-        :show-button="false"
-      >
-        <template #suffix>{{ $t("meter") }}</template>
-      </n-input-number>
-    </div>
-
-    <div class="row-item">
-      <span>{{ $t("excavateAreaOffsetUp") }}</span>
-      <div style="width: 1.96rem">
-        <n-switch v-model:value="state.isPullOut" size="small" />
+    <!-- 开挖深度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("excavationDepth") }}</div>
+      <div class="content">
+        <n-input-number :update-value-on-input="false" v-model:value="state.digDepth" :show-button="false">
+          <template #suffix>{{ $t("meter") }}</template>
+        </n-input-number>
       </div>
     </div>
 
-    <div class="row-item" v-if="state.isPullOut">
-      <span>{{ $t("upHeight") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="state.upHeight"
-        :update-value-on-input="false"
-        :show-button="false"
-      >
-        <template #suffix>{{ $t("meter") }}</template>
-      </n-input-number>
+    <!-- 开挖区域上移 -->
+    <div class="row-wrap">
+      <div class="content">
+        <div class="switch-box">
+          <div class="text">{{ $t("excavateAreaOffsetUp") }}</div>
+          <n-switch v-model:value="state.isPullOut" size="small" />
+        </div>
+      </div>
     </div>
 
-    <div class="row-item" v-show="!state.isPullOut">
-      <span>{{ $t("editArea") }}</span>
-      <n-checkbox
-        style="width: 1.96rem"
-        v-model:checked="state.isEdit"
-      ></n-checkbox>
+    <!-- 上移高度 -->
+    <div class="row-wrap" v-if="state.isPullOut">
+      <div class="label">{{ $t("upHeight") }}</div>
+      <div class="content">
+        <n-input-number v-model:value="state.upHeight" :update-value-on-input="false" :show-button="false">
+          <template #suffix>{{ $t("meter") }}</template>
+        </n-input-number>
+      </div>
     </div>
 
-    <div class="row-item" v-show="!state.isPullOut && state.isEdit">
-      <span>{{ $t("editAreaZ") }}</span>
-      <n-checkbox
-        style="width: 1.96rem"
-        v-model:checked="state.isEditZ"
-      ></n-checkbox>
+    <!-- 编辑区域 -->
+    <div class="row-wrap" v-show="!state.isPullOut">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isEdit" :label="$t('editArea')" />
+      </div>
+    </div>
+
+    <!-- 编辑区域Z轴 -->
+    <div class="row-wrap" v-show="!state.isPullOut && state.isEdit">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isEditZ" :label="$t('editAreaZ')" />
+      </div>
     </div>
   </div>
 
+  <!-- 地形修改 -->
   <div v-if="state.operationType === 'modify'">
-    <div class="row-item">
-      <span>{{ $t("editArea") }}</span>
-      <n-checkbox
-        style="width: 1.96rem"
-        v-model:checked="state.isEdit"
-      ></n-checkbox>
+    <!-- 编辑区域 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isEdit" :label="$t('editArea')" />
+      </div>
     </div>
-
-    <div class="row-item" v-show="state.isEdit">
-      <span>{{ $t("editAreaZ") }}</span>
-      <n-checkbox
-        style="width: 1.96rem"
-        v-model:checked="state.isEditZ"
-      ></n-checkbox>
+    <!-- 编辑区域 -->
+    <div class="row-wrap" v-show="state.isEdit">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isEditZ" :label="$t('editAreaZ')" />
+      </div>
     </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="Analyze"
-      style="margin-right: 0.1rem"
-      >{{
-        state.operationType == "dig" ? $t("excavate") : $t("flatten")
-      }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="Analyze" class="operate" type="info" :focusable="false">{{
+    state.operationType == "dig" ? $t("excavate") : $t("flatten")
+    }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
-  <div class="stktip">
-    <span>{{ $t("stkUnsupported") }}</span>
-  </div>
+
+  <!-- 辅助提示 -->
+  <div class="panel-footer-tip-box"> {{ $t("stkUnsupported") }} </div>
 </template>
 
 <script lang="ts" setup>
@@ -297,28 +275,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.btn-list {
-  width: 3.4rem;
-  justify-content: space-evenly;
-  margin-bottom: 0.15rem;
-
-  .btn {
-    width: fit-content;
-    padding: 0 0.08rem;
-  }
-}
-
-.stktip {
-  color: rgba(255, 255, 255, 0.45);
-  span {
-    font-family: "Microsoft JhengHe", sans-serif; // Microsoft Yahei
-    font-size: 0.14rem;
-  }
-
-  margin-top: 0.04rem;
-  margin-bottom: -0.03rem;
-  margin-left: 1.15rem;
-}
-</style>

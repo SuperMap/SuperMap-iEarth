@@ -1,24 +1,31 @@
+<!-- 光束效果 -->
 <template>
-    <div class="sence-config-container">
-      <div class="row-item">
-        <span>{{ $t("intensity") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.bloomScale" :step="0.1" :min="0" :max="5" />
-          <n-input-number v-model:value="state.bloomScale" class="slider-input-number" :update-value-on-input="false"
+  <div class="sence-config-container">
+    <!-- 强度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("intensity") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.bloomScale" :step="0.1" :min="0" :max="5" />
+          <n-input-number v-model:value="state.bloomScale"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
         </div>
       </div>
+    </div>
 
-      <div class="row-item">
-        <span>{{ $t("maxBrightness") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.maxBrightness" :step="0.1" :min="0" :max="20" />
-          <n-input-number v-model:value="state.maxBrightness" class="slider-input-number" :update-value-on-input="false"
+    <!-- 最大亮度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("maxBrightness") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.maxBrightness" :step="0.1" :min="0" :max="20" />
+          <n-input-number v-model:value="state.maxBrightness"  :update-value-on-input="false"
             :bordered="false" :show-button="false" :min="0" :max="20" placeholder="" size="small" />
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
 <script lang="ts" setup>
 import { reactive, onMounted, watch } from "vue";

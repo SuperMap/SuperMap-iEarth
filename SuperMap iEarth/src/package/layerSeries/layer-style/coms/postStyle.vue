@@ -1,46 +1,62 @@
+<!-- S3M图层后处理 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("brightness") }}</span>
-    <div class="slider-box">
-      <n-slider v-model:value="state.brightness" style="width: 70%" :step="0.05" :min="0" :max="3" />
-      <n-input-number v-model:value="state.brightness" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+  <!-- 亮度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("brightness") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.brightness" :step="0.05" :min="0" :max="3" />
+        <n-input-number v-model:value="state.brightness" :update-value-on-input="false" :bordered="false"
+          :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("contrastRatio") }}</span>
-    <div class="slider-box">
-      <n-slider v-model:value="state.contrast" style="width: 70%" :step="0.05" :min="0" :max="3" />
-      <n-input-number v-model:value="state.contrast" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+  <!-- 对比度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("contrastRatio") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.contrast" :step="0.05" :min="0" :max="3" />
+        <n-input-number v-model:value="state.contrast" :update-value-on-input="false" :bordered="false"
+          :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("colorTone") }}</span>
-    <div class="slider-box">
-      <n-slider v-model:value="state.hue" style="width: 70%" :step="0.05" :min="-1" :max="1" />
-      <n-input-number v-model:value="state.hue" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="-1" :max="1" placeholder="" size="small" />
+  <!-- 色调 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("colorTone") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.hue" :step="0.05" :min="-1" :max="1" />
+        <n-input-number v-model:value="state.hue" :update-value-on-input="false" :bordered="false" :show-button="false"
+          :min="-1" :max="1" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("saturation") }}</span>
-    <div class="slider-box">
-      <n-slider v-model:value="state.saturation" style="width: 70%" :step="0.05" :min="0" :max="3" />
-      <n-input-number v-model:value="state.saturation" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+  <!-- 饱和度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("saturation") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.saturation" :step="0.05" :min="0" :max="3" />
+        <n-input-number v-model:value="state.saturation" :update-value-on-input="false" :bordered="false"
+          :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("gamma") }}</span>
-    <div class="slider-box">
-      <n-slider v-model:value="state.gamma" style="width: 70%" :step="0.05" :min="0" :max="3" />
-      <n-input-number v-model:value="state.gamma" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+  <!-- 伽马 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("gamma") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.gamma" :step="0.05" :min="0" :max="3" />
+        <n-input-number v-model:value="state.gamma" :update-value-on-input="false" :bordered="false"
+          :show-button="false" :min="0" :max="3" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 </template>

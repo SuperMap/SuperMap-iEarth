@@ -1,57 +1,36 @@
+<!-- 通视分析 -->
 <template>
-  <!-- 通视分析 -->
-  <div class="row-item">
-    <span>{{ $t("longitude") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="longitude"
-      :show-button="false"
-      disabled
-    >
-      <template #suffix>°</template>
-    </n-input-number>
+  <div class="row-wrap">
+    <div class="label">{{ $t("longitude") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="longitude" :show-button="false" disabled>
+        <template #suffix>°</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("latitude") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="latitude"
-      :show-button="false"
-      disabled
-    >
-      <template #suffix>°</template>
-    </n-input-number>
+  <div class="row-wrap">
+    <div class="label">{{ $t("latitude") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="latitude" :show-button="false" disabled>
+        <template #suffix>°</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("elevation") }}</span>
-    <n-input-number
-      style="width: 1.96rem; margin-bottom: 0.1rem"
-      v-model:value="altitude"
-      :show-button="false"
-      disabled
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
+  <div class="row-wrap">
+    <div class="label">{{ $t("elevation") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="altitude" :show-button="false" disabled>
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      class="ans-btn"
-      @click="analysis"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="analysis" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

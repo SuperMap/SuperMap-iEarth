@@ -1,70 +1,54 @@
 <template>
-  <div class="layerSeries-box">
-    <!-- 打开面板 -->
-    <div class="row-item" style="margin-bottom: 0.1rem">
-      <span>{{ $t("mapDataUrl") }}</span>
-      <n-tooltip placement="top-end" trigger="hover">
-        <template #trigger>
-          <n-input
-            class="add-input-border"
-            style="width: 2.2rem"
-            v-model:value="state.dataUrl"
-            type="text"
-            @input="handleUrlChange" :status='state.inputUrlStatus'
-            :placeholder="$t('inputServerUrl')"
-          />
-        </template>
-        {{ state.urlFormatTip }}
-      </n-tooltip>
+  <div class="right-panel-container-not-tabs">
+    <!-- 数据服务URL -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("mapDataUrl") }}</div>
+      <div class="content">
+        <n-tooltip placement="top-end" trigger="hover">
+          <template #trigger>
+            <n-input
+              type="text"
+              v-model:value="state.dataUrl"
+              @input="handleUrlChange" :status='state.inputUrlStatus'
+              :placeholder="$t('inputServerUrl')"
+            />
+          </template>
+          {{ state.urlFormatTip }}
+        </n-tooltip>
+      </div>
     </div>
 
     <!-- 数据源 -->
-    <div class="row-item" v-show="state.dataSourceOptions.length > 0">
-      <span>{{ $t("dataSourceName") }}</span>
-      <n-select
-        style="width: 2.2rem"
-        v-model:value="state.dataSourceName"
-        :options="state.dataSourceOptions"
-      />
+    <div class="row-wrap" v-show="state.dataSourceOptions.length > 0">
+      <div class="label">{{ $t("dataSourceName") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+      </div>
     </div>
 
     <!-- 数据集 -->
-    <div class="row-item" v-show="state.dataSetOptions.length > 0">
-      <span>{{ $t("datasetName") }}</span>
-      <n-select
-        style="width: 2.2rem"
-        v-model:value="state.dataSetName"
-        :options="state.dataSetOptions"
-      />
+    <div class="row-wrap" v-show="state.dataSetOptions.length > 0">
+      <div class="label">{{ $t("datasetName") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+      </div>
     </div>
 
     <!-- 查询字段 -->
-    <div class="row-item" v-show="state.fieldOptions.length > 0">
-      <span>{{ $t("queryField") }}</span>
-      <n-select
-        style="width: 2.2rem"
-        v-model:value="state.queryField"
-        :options="state.fieldOptions"
-      />
+    <div class="row-wrap" v-show="state.fieldOptions.length > 0">
+      <div class="label">{{ $t("queryField") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.queryField" :options="state.fieldOptions" />
+      </div>
     </div>
 
     <!-- 查询打开属性表+清除 -->
-    <div class="btn-row-item" style="margin-left: 0.83rem">
-        <n-button
-          type="info"
-          color="#3499E5"
-          text-color="#fff"
-          :loading="state.isloading_table"
-          :focusable="false"
-          @click="startQuery"
-          style="margin-right: 0.1rem; width: 0.8rem;"
-          >{{ $t("attributeList") }}</n-button
-        >
-        <n-button
-          :focusable="false" @click="clear"
-        >{{ $t("clear") }}</n-button
-        >
+    <div class="row-btns">
+      <n-button @click="startQuery" class="operate" type="info" :focusable="false" :loading="state.isloading_table">{{
+        $t("attributeList") }}</n-button>
+      <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
     </div>
+
 
     <!-- 属性表-->
     <div class="table-container" v-if="state.showQueryTable">
@@ -81,7 +65,6 @@
           <n-input-group>
             <!-- 输入关键字 -->
             <n-input
-              class="add-input-border"
               style="margin-bottom: 0.1rem; width: 1.8rem"
               :placeholder="$t('queryPlaceHolder')"
               v-model:value="state.sqlString"
@@ -137,7 +120,7 @@
 
         <!-- 操作按钮 -->
         <div class="items">
-          <div class="btn-list-box" style="width: 2.2rem">
+          <div class="operate-list">
             <!-- 字段筛选 -->
             <span class="icon-span-three">
               <column-setting v-model:columns="columns" />
@@ -969,8 +952,8 @@ watch(
       margin-top: 0.1rem;
       margin-right: -4rem;
     }
-
-    .btn-list-box {
+    
+    .operate-list {
       display: flex;
       width: 2.2rem;
       height: auto;

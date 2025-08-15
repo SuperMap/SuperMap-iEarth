@@ -1,0 +1,54 @@
+@font-face {
+    font-family: OptimizationTitle;
+    src: url("@/assets/fonts/OptimizationTitleBlack.TTF");
+    font-display: fallback;
+}
+
+// 使用通配符，避免界面上的文字被选中
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+// 解决切换对象绘制面板时突然出现滚动条问题
+html::-webkit-scrollbar {
+    background: none;
+    display: none;
+}
+
+// 绘制图标
+.drawCur {
+    cursor: url(../public/Resource/cur/draw.cur), auto;
+}
+
+.measureCur {
+    cursor: url(../public/Resource/cur/measure.cur), auto;
+}
+
+// 界面上引用图标的大小-基于font-size
+.iconfont {
+    font-size: 0.18rem;
+}
+
+// 单独控制一些特殊的图标
+.iconSize {
+    display: block;
+    margin: 0.02rem;
+    font-size: 0.2rem;
+}
+
+// 鼠标提示添加了twipsy right元素追加到页面末尾,导致出现底部滚动条
+.twipsy {
+    display: none;
+}

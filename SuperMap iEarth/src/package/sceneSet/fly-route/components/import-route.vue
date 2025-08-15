@@ -1,79 +1,56 @@
 <template>
-  <div class="row-item">
-    <span>{{ $t("flyRoute") }}</span>
-    <div class="row-content">
+  <!-- 选择本地飞行路线文件 -->
+  <div class="row-wrap">
+    <div class="label"> {{ $t("flyRoute") }} </div>
+    <div class="content">
       <n-input-group>
-        <n-input
-          class="add-input-border"
-          size="medium"
-          style="width: 2rem"
-          :placeholder="$t('localFilePathFly')"
-          v-model:value="state.fileSrc"
-        />
-        <n-button type="tertiary" @click="chooseFile">{{
-          $t("import")
+        <n-input v-model:value="state.fileSrc" :placeholder="$t('localFilePathFly')" />
+        <n-button @click="chooseFile" type="tertiary">{{
+        $t("import")
         }}</n-button>
-        <input
-          type="file"
-          accept=".fpf"
-          id="flyFile"
-          style="display: none"
-          ref="flyFile_dom"
-        />
       </n-input-group>
     </div>
   </div>
 
-  <!-- <div class="row-item" style="margin-bottom: 0px">
-    <span></span>
-    <div class="row-content" style="display: flex">
-      <n-checkbox v-model:checked="state.showRoute" /><span
-        class="checkbox-lable" :title="$t('displayRoute')"
-        >{{ $t("displayRoute") }}</span
-      >
-      <n-checkbox v-model:checked="state.showStop" /><span
-        class="checkbox-lable"  :title="$t('displayStation')"
-        >{{ $t("displayStation") }}</span
-      >
-    </div>
-  </div> -->
-
-  <div class="row-item">
-    <span></span>
-    <div class="icon-container">
-      <div class="icon-list">
-        <span
-          v-for="(item, index) in state.actionOptions"
-          :key="index"
-          class="icon-span"
-          :title="item.lable"
-          :class="item.isSelect ? 'selected-icon' : ''"
-          @click="changleIconItem(item)"
-        >
-          <i
-            class="iconfont iconSize"
-            :class="item.iconName"
-            style="margin-top: 0px"
-          ></i>
-        </span>
-      </div>
+  <!-- 显示路线 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.showRoute" :label="$t('displayRoute')" />
     </div>
   </div>
 
-  <div class="row-item" v-show="state.isExistRoute">
-    <span>{{ $t("selectStation") }}</span>
-    <div class="row-content">
-      <n-select
-        v-model:value="state.selectedStopIndex"
-        :options="state.currentStopNames"
-      />
+  <!-- 显示站点 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.showStop" :label="$t('displayStation')" />
     </div>
-    <!-- @update:value="handleStopUpdate" -->
+  </div>
+
+  <!-- 操作按钮 -->
+  <div class="row-wrap">
+    <div class="content">
+      <div class="icon-list-box">
+          <span v-for="(item, index) in state.actionOptions" :key="index" class="icon-span" :title="item.lable"
+            :class="item.isSelect ? 'selected-icon' : ''" @click="changleIconItem(item)">
+            <i class="iconfont iconSize" :class="item.iconName" style="margin-top: 0px"></i>
+          </span>
+        </div>
+    </div>
+  </div>
+
+  <!-- 空间模式 -->
+  <div class="row-wrap" v-show="state.isExistRoute">
+    <div class="label">{{ $t("selectStation") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.selectedStopIndex" :options="state.currentStopNames" />
+      <!-- @update:value="handleStopUpdate" -->
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onBeforeUnmount, watch, reactive, onMounted } from "vue";
+import tool from "@/tools/tool";
 
 type stateType = {
   fileSrc: string; //文件地址
@@ -115,7 +92,6 @@ let state = reactive<stateType>({
   ],
 });
 
-let flyFile_dom = ref();
 let flyManager: any, routeCollection: any; //创建飞行路线集合对象类
 let currentStops; //当前路线所有站点集合
 let reader = new FileReader();
@@ -127,7 +103,6 @@ function init() {
 
 onMounted(() => {
   init();
-  fileChange();
 });
 
 // 销毁
@@ -181,28 +156,24 @@ function initFlyManager() {
 }
 
 // 点击选择文件函数
-function chooseFile() {
-  flyFile_dom.value.click();
-}
+async function chooseFile() {
+  const file: any = await tool.openLocalFile('.fpf', true);
+  if (!file || !(file instanceof File)) return;
 
-//文件夹改变文件触发
-function fileChange() {
-  flyFile_dom.value.addEventListener("change", (evt) => {
-    flyManager.stop();
-    let route = flyManager.currentRoute;
-    if (route) route.clear(); //清除之前的
-    routeCollection = new SuperMap3D.RouteCollection(viewer.entities); //飞行路线底层默认第一条路线，所以重新new
-    let file = evt.target.files[0];
-    if (!file) return;
-    state.fileSrc = flyFile_dom.value.value;
-    reader.onload = function (e: any) {
-      // 读取操作完成时出发
-      let XMLContent = e.target.result;
-      routeCollection.fromXML(XMLContent);
-    };
-    reader.readAsBinaryString(file);
-    readyPromise();
-  });
+  state.fileSrc = file.name;
+
+  flyManager.stop();
+  let route = flyManager.currentRoute;
+  if (route) route.clear(); //清除之前的
+  routeCollection = new SuperMap3D.RouteCollection(viewer.entities); //飞行路线底层默认第一条路线，所以重新new
+
+  reader.onload = function (e: any) {
+    // 读取操作完成时出发
+    let XMLContent = e.target.result;
+    routeCollection.fromXML(XMLContent);
+  };
+  reader.readAsBinaryString(file);
+  readyPromise();
 }
 
 // 异步飞行管理准备就绪函数
@@ -287,20 +258,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.row-content .checkbox-lable {
-  width: auto;
-  height: 0.24rem;
-  line-height: 0.24rem;
-  margin-right: 0.1rem;
-  margin-left: 0.16rem;
-}
-
-.checkbox-lable {
-  width: 1.2rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-</style>

@@ -7,19 +7,19 @@ export const useSkitTreeStore = defineStore({
       InstanceCollection: [
         {
           sceneMode: viewer.scene.mode,
-          label: '全部小品',
+          label: $t("allSkits"),
           key: '0',
           children: [
             {
-              label: '单个添加',
+              label: $t("singleAdd"),
               key: '1',
               children: []
             }, {
-              label: '沿线添加',
+              label: $t("lineAdd"),
               key: '2',
               children: []
             }, {
-              label: '区域添加',
+              label: $t("AreaAdd"),
               key: '3',
               children: []
             }

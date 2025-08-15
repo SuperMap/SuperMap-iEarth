@@ -1,126 +1,74 @@
+<!-- 坡度坡向 -->
 <template>
-  <!-- 坡度坡向 -->
-  <div class="row-item">
-    <span>{{ $t("analysisArea") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.analysisArea"
-      :options="state.options_region"
-    />
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("minSlope") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.wideMinR"
-        style="width: 70%"
-        :min="0"
-        :max="90"
-        :step="1"
-      />
-      <n-input-number
-        v-model:value="state.wideMinR"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="90"
-        placeholder=""
-        size="small"
-      />
-      <span> °</span>
+  <!-- 分析区域 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("analysisArea") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.analysisArea" :options="state.options_region" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("maxSlope") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.wideMaxR"
-        style="width: 70%"
-        :min="0"
-        :max="90"
-        :step="1"
-      />
-      <n-input-number
-        v-model:value="state.wideMaxR"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="90"
-        placeholder=""
-        size="small"
-      />
-      <span> °</span>
+  <!-- 最小坡度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("minSlope") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.wideMinR" :min="0" :max="90" :step="1" />
+        <n-input-number v-model:value="state.wideMinR" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="90" placeholder="" size="small" />
+        <span class="unit">°</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("displayMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.displayMode"
-      :options="state.options_display"
-    />
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("transparency") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.trans"
-        style="width: 70%"
-        :min="0"
-        :max="1"
-        :step="0.01"
-      />
-      <n-input-number
-        v-model:value="state.trans"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="1"
-        placeholder=""
-        size="small"
-      />
+  <!-- 最大坡度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("maxSlope") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.wideMaxR" :min="0" :max="90" :step="1" />
+        <n-input-number v-model:value="state.wideMaxR" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="90" placeholder="" size="small" />
+        <span class="unit">°</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("editArea") }}</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.isEdit"
-    ></n-checkbox>
+  <!-- 显示模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("displayMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.displayMode" :options="state.options_display" />
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="startSlope"
-      style="margin-right: 0.1rem"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 透明度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("transparency") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.trans" :min="0" :max="1" :step="0.01" />
+        <n-input-number v-model:value="state.trans" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+      </div>
+    </div>
   </div>
 
-  <div class="stktip">
-    <span>{{ $t("stkUnsupported") }}</span>
+  <!-- 编辑区域 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.isEdit" :label="$t('editArea')" />
+    </div>
   </div>
+
+  <div class="row-btns">
+    <n-button @click="startSlope" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
+  </div>
+
+  <!-- 辅助提示 -->
+  <div class="panel-footer-tip-box"> {{ $t("stkUnsupported") }} </div>
 </template>
 
 <script lang="ts" setup>
@@ -474,17 +422,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.stktip {
-  color: rgba(255, 255, 255, 0.45);
-  span {
-    font-family: "Microsoft JhengHe", sans-serif; // Microsoft Yahei
-    font-size: 0.14rem;
-  }
-  
-  margin-top: 0.04rem;
-  margin-bottom: -0.03rem;
-  margin-left: 1.15rem;
-}
-</style>

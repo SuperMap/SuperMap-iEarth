@@ -1,38 +1,51 @@
+<!-- 场景颜色 -->
 <template>
   <div class="sence-config-container">
-    <div class="row-item">
-      <span>{{ $t("brightness") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.brightness" :step="0.1" :min="0" :max="5" />
-        <n-input-number v-model:value="state.brightness" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+    <!-- 亮度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("brightness") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.brightness" :step="0.1" :min="0" :max="5" />
+          <n-input-number v-model:value="state.brightness"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("contrastRatio") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.contrast" :step="0.1" :min="0" :max="5" />
-        <n-input-number v-model:value="state.contrast" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+    <!-- 对比度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("contrastRatio") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.contrast" :step="0.1" :min="0" :max="5" />
+          <n-input-number v-model:value="state.contrast"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("colorTone") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.hue" :step="0.05" :min="-1" :max="1" />
-        <n-input-number v-model:value="state.hue" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="-1" :max="1" placeholder="" size="small" />
+    <!-- 色调 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("colorTone") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.hue" :step="0.05" :min="-1" :max="1" />
+          <n-input-number v-model:value="state.hue"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="-1" :max="1" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("saturation") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.saturation" :step="0.1" :min="0" :max="5" />
-        <n-input-number v-model:value="state.saturation" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+    <!-- 饱和度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("saturation") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.saturation" :step="0.1" :min="0" :max="5" />
+          <n-input-number v-model:value="state.saturation"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+        </div>
       </div>
     </div>
   </div>

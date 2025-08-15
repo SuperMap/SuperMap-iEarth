@@ -20,15 +20,6 @@
     font-size: $fontSize;
 }
 
-// 设置面板位置
-@mixin setPanelPosition($top: 10%, $left: 10%, $right: 10%) {
-    position: fixed;
-    z-index: 2;
-    left: $left;
-    top: $top;
-    right: $right;
-}
-
 // 设置头部标题
 @mixin setPanelTitle() {
     box-sizing: border-box;
@@ -58,19 +49,8 @@
     }
 }
 
-// 设置底部按钮margn指
-@mixin setBtnRowItem($marginLeft: .95rem) {
-    // margin-left: $marginLeft;
-    margin-left: $marginLeft;
-
-    .ans-btn {
-        margin-right: .2rem;
-    }
-}
-
 // 去除滚动条
 @mixin setsSrollbar {
-
     /* 移除滚动条 */
     &::-webkit-scrollbar {
         background: none;
@@ -82,42 +62,3 @@
         display: none;
     }
 }
-
-// // 符号集
-// @mixin iconContainer($marginLeft: 0rem, $width: 1.96rem, $marginbottom: 0rem, $height: 0.32rem) {
-//     .name {
-//         width: 1rem;
-//     }
-
-//     .icon-container {
-//         width: $width;
-//         height: $height;
-//         background: rgba(255, 255, 255, 0.04);
-//         margin-left: $marginLeft;
-//         margin-bottom: $marginbottom;
-
-//         .icon-size {
-//             font-size: 0.23rem;
-//         }
-
-//         .icon-list {
-//             display: flex;
-//             // justify-content: space-between;
-//             align-items: center;
-//             padding: 0 0.1rem;
-//             box-sizing: border-box;
-//             border: 0.01rem solid rgba(255, 255, 255, 0.15);
-//             border-radius: 0.04rem;
-
-//             .icon-span {
-//                 display: flex;
-//                 align-items: center;
-//             }
-//         }
-
-//         .selected-icon {
-//             border: 1px solid #3499e5;
-//             // background: #3499E5;
-//         }
-//     }
-// }

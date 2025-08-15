@@ -1,6 +1,5 @@
 <template>
-  <div class="object-pain-box">
-    <!-- <n-tabs type="line" animated :on-update:value="tabsChange" justify-content="left"> -->
+  <div class="right-panel-container">
     <n-tabs type="line" animated justify-content="left">
       <!-- 绘制线 -->
       <n-tab-pane name="draw-line" :tab="$t('drawLine')">
@@ -32,29 +31,4 @@ import SmDrawSurface from "./draw-surface/index";
 import SmDrawParticle from "./draw-particle/index";
 import SmDrawSkit from "./draw-skit/index";
 import SmDrawGeomety from "./draw-geomety/index";
-
-// function tabsChange(value) { }
 </script>
-
-<style lang="scss" scoped>
-.object-pain-box {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  // padding: 0 0.05rem;
-}
-
-:deep(.n-tabs-tab-wrapper) {
-  margin-right: 0.3rem;
-}
-
-:deep(.n-tabs-nav) {
-  padding: 0 0.12rem;
-}
-
-:deep(.n-tab-pane) {
-  box-sizing: border-box;
-  padding-left: 0.12rem;
-  padding-right: 0.12rem;
-}
-</style>

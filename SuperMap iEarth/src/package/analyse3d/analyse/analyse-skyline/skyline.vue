@@ -1,138 +1,103 @@
+
+<!-- 天际线 -->
 <template>
-  <!-- 天际线 -->
-  <div class="row-item">
-    <span>{{ $t("DisplayMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.skylineMode"
-      :options="state.options"
-    />
-  </div>
 
-  <div class="row-item">
-    <span>{{ $t("AnalysisRadius") }}</span>
-    <n-input-number
-      style="width: 1.96rem"
-      v-model:value="state.skylineRadius"
-      :show-button="false"
-    >
-      <template #suffix>{{ $t("meter") }}</template>
-    </n-input-number>
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("LineWidth") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.lineWidth"
-        :step="1"
-        :min="1"
-        :max="10"
-      />
-      <span>{{ state.lineWidth }}</span>
+  <!-- 显示模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("DisplayMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.skylineMode" :options="state.options" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("SkylineColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.skylineColor"
-        :render-label="
+  <!-- 分析半径 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("AnalysisRadius") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.skylineRadius" :show-button="false">
+        <template #suffix>{{ $t("meter") }}</template>
+      </n-input-number>
+    </div>
+  </div>
+
+  <!-- 线宽度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("LineWidth") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.lineWidth" :step="1" :min="1" :max="10" />
+        <n-input-number v-model:value="state.lineWidth" :update-value-on-input="false" :bordered="false"
+          :show-button="false" placeholder="" size="small" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 天际线颜色 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("SkylineColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.skylineColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
+    </div>
+  </div>
+
+  <!-- 天际体颜色 -->
+  <div class="row-wrap" v-show="state.skylineMode === 'BODY'">
+    <div class="label">{{ $t("SkylineBodyColor") }}</div>
+    <div class="content">
+      <div class="check-box-new">
+        <n-checkbox v-model:checked="state.displaySkyBody"></n-checkbox>
+        <n-color-picker v-model:value="state.skyBodyColor" :render-label="
           () => {
             return '';
           }
-        "
-        size="small"
-      ></n-color-picker>
-    </div>
-  </div>
-
-  <div class="row-item" v-show="state.skylineMode === 'BODY'">
-    <span>{{ $t("SkylineBodyColor") }}</span>
-    <div class="check-color-pick">
-      <n-checkbox v-model:checked="state.displaySkyBody"></n-checkbox>
-      <div class="color-pick-box">
-        <n-color-picker
-          v-model:value="state.skyBodyColor"
-          :render-label="
-            () => {
-              return '';
-            }
-          "
-          :disabled="!state.displaySkyBody"
-          size="small"
-        ></n-color-picker>
+        " :disabled="!state.displaySkyBody" size="small"></n-color-picker>
       </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span style="overflow: hidden;" :title="$t('HighlightObstacles')">{{ $t("HighlightObstacles") }}</span>
-    <div class="check-color-pick">
-      <n-checkbox v-model:checked="state.highlightBarrier"></n-checkbox>
-      <div class="color-pick-box" style="margin-left: 0.1rem">
-        <n-color-picker
-          v-model:value="state.barrierColor"
-          :render-label="
-            () => {
-              return '';
-            }
-          "
-          :disabled="!state.highlightBarrier"
-          size="small"
-        ></n-color-picker>
+  <!-- 高亮障碍物 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("HighlightObstacles") }}</div>
+    <div class="content">
+      <div class="check-box-new">
+        <n-checkbox v-model:checked="state.highlightBarrier"></n-checkbox>
+        <n-color-picker v-model:value="state.barrierColor" :render-label="
+          () => {
+            return '';
+          }
+        " :disabled="!state.highlightBarrier" size="small"></n-color-picker>
       </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("Display2D") }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.getSkyline2d"></n-checkbox>
+  <!-- 二维天际线展示 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.getSkyline2d" :label="$t('Display2D')" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("GlobeNoAnalysis") }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.ignoreGlobe"></n-checkbox>
+  <!-- 地表不参与分析 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.ignoreGlobe" :label="$t('GlobeNoAnalysis')" />
     </div>
   </div>
 
-  <div class="btn-row-item2">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="analysis"
-      style="margin-right: 0.1rem"
-      :title="$t('analysis')"
-      >{{ $t("analysis") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="analysis" class="operate" type="info" :focusable="false">{{
+      $t("analysis") }}</n-button>
     <!-- 这里由于限高体字数太多显示不全，专门给他设置了padding-right: 0.05rem; -->
-    <n-button
-      type="info"
-      class="limitingBody"
-      color="#3499E5"
-      text-color="#fff"
-      @click="setLimitBody"
-      style="margin-right: 0.1rem;padding-right: 0.05rem;"
-      :title="$t('limitingBody')"
-      >{{ $t("limitingBody") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      :title="$t('clear')"
-      >{{ $t("clear") }}</n-button
-    >
+    <n-button @click="setLimitBody" class="operate overflow-skyline-body" type="info" :focusable="false" :title="$t('limitingBody')">{{
+      $t("limitingBody") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 
-  <div id="echartsSkyLine" v-show="state.getSkyline2d"></div>
+  <div id="echartsSkyLine" class="analyse-echarts-box" v-show="state.getSkyline2d"></div>
 </template>
 
 <script lang="ts" setup>
@@ -455,21 +420,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-#echartsSkyLine {
-  position: fixed !important;
-  bottom: 0.3rem;
-  left: 32vw;
-  width: 36vw;
-  height: 30vh;
-  background-color: rgba(0, 8, 23, 0.7);
-  opacity: 0.7;
-  padding: 0.05rem 0.1rem 0.1rem 0.05rem;
-  z-index: 99;
-}
-
-.limitingBody {
-  padding-left: 0.1rem;
-}
-</style>

@@ -51,7 +51,7 @@ function setMouseCursor(type: string) {
 }
 
 // 打开文件管理获取选定文件内容
-function openLocalFile(fileType = '.json'){
+function openLocalFile(fileType = '.json', isReturnFile=false){
   return new Promise((resolve, reject) => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -62,6 +62,7 @@ function openLocalFile(fileType = '.json'){
     input.addEventListener('change', function (event:any) {
       const file = event.target.files[0]; // 获取文件引用
       if (!file) return;
+      if (isReturnFile) resolve(file);
 
       const reader = new FileReader();
       reader.onload = function (e:any) {

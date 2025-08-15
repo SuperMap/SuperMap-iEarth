@@ -1,37 +1,47 @@
 <template>
-  <div class="row-item">
-    <span>{{ $t("address") }}</span>
-    <n-tooltip placement="top-end" trigger="hover">
-      <template #trigger>
-        <n-input class="add-input-border" v-model:value="state.sceneUrl" type="text" style="width: 2.4rem"
-          :title="state.sceneUrl" @input="handleUrlChange" :status='state.inputUrlStatus'/>
-      </template>
-      {{ state.urlFormatTip }}
-    </n-tooltip>
+  <div class="row-wrap">
+    <div class="label">{{ $t("address") }}</div>
+    <div class="content">
+      <n-tooltip placement="top-end" trigger="hover">
+        <template #trigger>
+          <n-input v-model:value="state.sceneUrl" type="text" :title="state.sceneUrl" @input="handleUrlChange"
+            :status='state.inputUrlStatus' />
+        </template>
+        {{ state.urlFormatTip }}
+      </n-tooltip>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("subdomains") }}</span>
-    <n-input class="add-input-border" v-model:value="state.subdomains" placeholder="t0,t1,t2,t3" type="text" style="width: 2.4rem"/>
+  <!-- 多子域 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("subdomains") }}</div>
+    <div class="content">
+      <n-input v-model:value="state.subdomains" placeholder="t0,t1,t2,t3" type="text" />
+    </div>
   </div>
 
-
-  <!-- 选择场景名称 -->
-  <div class="row-item" v-if="state.sceneNameOptions.length>0">
-    <span>{{ $t("sceneName") }}</span>
-    <n-select style="width: 2.4rem" v-model:value="state.sceneName" :options="state.sceneNameOptions" />
+  <!-- 场景名称 -->
+  <div class="row-wrap" v-if="state.sceneNameOptions.length>0">
+    <div class="label">{{ $t("sceneName") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.sceneName" :options="state.sceneNameOptions" />
+    </div>
   </div>
 
-  <div style="margin-left: 0.95rem; margin-bottom: 0.1rem">
-    <n-checkbox v-model:checked="state.token"> {{ $t("addToken") }} </n-checkbox>
-    <n-input style="margin-top: 0.1rem; width: 2.4rem" v-if="state.token" v-model:value="state.sceneToken" type="text"
-      placeholder="token..." />
+  <!-- 添加Token -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.token"> {{ $t("addToken") }} </n-checkbox>
+    </div>
+    <div class="content">
+      <n-input v-if="state.token" v-model:value="state.sceneToken" type="text" placeholder="token..." />
+    </div>
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.95rem">
-    <n-button type="info" class="ans-btn" color="#3499E5" text-color="#fff" :focusable="false" @click="openScene">{{
+  <div class="row-btns">
+    <n-button @click="openScene" class="operate" type="info" :focusable="false">{{
       $t("sure") }}</n-button>
-    <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -162,4 +172,3 @@ function clear() {
   state.sceneNameOptions = [];
 }
 </script>
-

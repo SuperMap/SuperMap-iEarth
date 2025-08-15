@@ -1,40 +1,30 @@
-<template><div class="sence-config-container">
-  <!-- 太阳光 -->
-  <div class="row-item">
-    <span>{{ $t("sunColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker 
-        v-model:value="state.color" 
-        :render-label="() => {return '';}" 
-        @update:value="watchSunColor"
-        size="small">
-      </n-color-picker>
+<!-- 太阳光 -->
+<template>
+  <div class="sence-config-container">
+    <!-- 太阳光颜色 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("sunColor") }}</div>
+      <div class="content">
+        <n-color-picker v-model:value="state.color" :render-label="() => {return '';}" @update:value="watchSunColor"
+          size="small">
+        </n-color-picker>
+      </div>
     </div>
-  </div>
-  <div class="row-item">
-    <span>{{ $t("sunIntensity") }}</span>
-    <div class="slider-box">
-      <n-slider 
-        style="width: 1.5rem" 
-        v-model:value="state.intensity" 
-        :step="0.1" :min="0.1" :max="10" 
-        @update:value="watchSunIntensity"
-        />
-      <n-input-number 
-        class="slider-input-number" 
-        v-model:value="state.intensity" 
-        :update-value-on-input="false"
-        :bordered="false" 
-        :show-button="false" 
-        :min="0.1" :max="10" 
-        placeholder="" 
-        size="small" 
-        @update:value="watchSunIntensity"
-        />
-    </div>
-  </div>
-</div>
 
+    <!-- 太阳光强度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("sunIntensity") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.intensity" :step="0.1" :min="0.1" :max="10"
+            @update:value="watchSunIntensity" />
+          <n-input-number  v-model:value="state.intensity" :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0.1" :max="10" placeholder="" size="small"
+            @update:value="watchSunIntensity" />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -1,0 +1,227 @@
+/** ==========================================布局样式==Start====================================================== */
+
+/**================行内布局==Start===================*/
+.row-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.1rem 0rem;
+  font-size: 0.14rem;
+
+  .label {
+    width: 0.7rem;
+    text-align: left;
+    white-space: nowrap; // 禁止换行
+    overflow: hidden;
+    text-overflow: ellipsis; // 文字过长后使用省略号
+  }
+
+  .content {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+
+    .btn {
+      padding: 0.03rem 0.1rem;
+    }
+
+    .btn:hover {
+      border-radius: 0.02rem;
+      color: #3499e5;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn.selected {
+      border-radius: 0.02rem;
+      color: #3499e5;
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
+
+/**================行内布局==End===================*/
+
+
+/**================上下布局：参数设置==Start===================*/
+.row-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.1rem 0rem;
+  font-size: 0.14rem;
+
+  .label {
+    width: 100%;
+    text-align: left;
+    white-space: nowrap; // 禁止换行
+    overflow: hidden;
+    text-overflow: ellipsis; // 文字过长后使用省略号
+
+    margin: 0.05rem 0rem;
+  }
+
+  .content {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+
+    .n-input {
+      height: 0.32rem;
+      border: 0.01rem solid rgba(255, 255, 255, 0.15);
+      border-radius: 0.04rem;
+    }
+
+    .n-button {
+      height: 0.32rem;
+      width: 0.6rem;
+      padding: 0.06rem 0.1rem;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    // 树组件中的按钮
+    .n-tree .n-button {
+      width: 0.2rem;
+      padding: 0px 0px;
+    }
+
+    .n-checkbox {
+      font-size: 0.14rem;
+    }
+
+    .n-input-number {
+      width: 100%;
+    }
+
+    // 色带
+    .n-color-picker {
+      width: 100%;
+      height: 0.32rem;
+      line-height: 0.32rem;
+      border-radius: 0.04rem;
+      background: rgba(255, 255, 255, 0.04);
+      box-sizing: border-box;
+      border: 0.01rem solid rgba(255, 255, 255, 0.15);
+      padding: 0 0.12rem;
+    }
+
+    // 选择框
+    .check-box-new {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+
+      .n-checkbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .n-color-picker {
+        margin-left: 0.2rem;
+      }
+    }
+
+    // 单选组合框
+    .n-radio-group {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+
+      .n-radio:first-child {
+        margin-right: 0.6rem;
+      }
+    }
+
+    // 滚动条组件
+    .slider-box-new {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 0.32rem;
+      width: 100%;
+      padding: 0 .1rem;
+      border-radius: 0.04rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 0.01rem solid rgba(255, 255, 255, 0.15);
+
+      .n-input-number {
+        width: 27%;
+        margin: 0rem -0.1rem 0rem 0.08rem;
+        border: none;
+        height: auto;
+        outline: medium;
+        text-align: center;
+      }
+
+      .n-input-number .n-input {
+        background-color: transparent;
+        border: none;
+
+        .n-input-wrapper {
+          padding-left: 0rem;
+        }
+      }
+
+      .unit {
+        font-size: 0.12rem;
+      }
+
+      // 处理标准:有些地方滑动条与文字间距太大,延长滑动条
+      // :deep(.n-slider) .n-slider-rail{}
+      // :deep(.longer) .n-slider-rail{}
+      .n-slider-rail {
+        width: 2.4rem;
+      }
+
+      // 处理标准:有些是双向滑动条,长度需要缩短,对应标签上加class="range"即可
+      .range .n-slider-rail{
+        width: 2.0rem;
+      }
+    }
+
+    // 切换开关组件
+    .switch-box {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+/**================上下布局：参数设置==End===================*/
+
+
+/**================底部布局：操作按钮==Start===================*/
+.row-btns {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  .n-button {
+    height: fit-content;
+    max-height: 0.4rem;
+    width: fit-content;
+    max-width: 1.4rem;
+    padding: 0.08rem 0.1rem;
+    margin-right: 0.1rem;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .operate:not(.n-button--disabled):hover{
+    color: #fff;
+    background-color:#5EB7F2;
+  }
+
+  .n-button:last-child {
+    margin-right: 0rem;
+  }
+
+  .operate {
+    color: #fff;
+    background-color: #3499E5;
+  }
+}
+
+/**================底部布局：操作按钮==End===================*/
+
+/** ==========================================布局样式==End====================================================== */

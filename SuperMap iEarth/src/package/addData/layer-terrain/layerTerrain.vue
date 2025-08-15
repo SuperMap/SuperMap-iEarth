@@ -1,16 +1,17 @@
+<!-- 在线地形 -->
 <template>
-  <div class="addData-data-container">
+  <div class="add-image-container">
     <div
       v-for="(item, index) in onlineTerrainLayerList"
       :key="index"
-      class="ItemBox"
-      :class="item.chooseType ? 'isSelect' : ''"
+      class="item-container"
+      :class="item.chooseType ? 'item-selected' : ''"
       @click="addTerrainLayer(item)"
     >
       <div class="img-box">
-        <img :src="item.thumbnail" class="img" alt="" />
+        <img class="img" :src="item.thumbnail" :alt="item.name" />
       </div>
-      <div class="img-box-text">{{ $t(item.name) }}</div>
+      <div class="text-box" :title="$t(item.name)">{{ $t(item.name) }}</div>
     </div>
   </div>
 </template>
@@ -67,14 +68,3 @@ function addTerrainLayer(item: any) {
   panelStore.closeRightToolPanel(1); // 1为关闭左侧面板
 }
 </script>
-
-<style lang="scss" scoped>
-.img-box-text {
-  text-align: center;
-  font-size: 0.14rem;
-}
-
-.addData-data-container {
-  margin-bottom: -0.1rem;
-}
-</style>

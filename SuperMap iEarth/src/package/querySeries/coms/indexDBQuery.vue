@@ -1,8 +1,11 @@
+<!-- 属性查询 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("openIndexDBQuery") }}</span>
-    <div style="width: 1.96rem">
-      <n-switch v-model:value="state.useDBQuery" size="small" />
+  <div class="row-wrap">
+    <div class="content">
+      <div class="switch-box">
+        <div class="text">{{ $t("openIndexDBQuery") }}</div>
+        <n-switch v-model:value="state.useDBQuery" size="small" />
+      </div>
     </div>
   </div>
 </template>

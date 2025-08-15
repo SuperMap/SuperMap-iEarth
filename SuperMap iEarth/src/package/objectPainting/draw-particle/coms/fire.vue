@@ -1,197 +1,95 @@
+<!-- 火焰 -->
 <template>
-  <!-- <n-checkbox
-    v-model:checked="state.showEditCheck"
-    style="margin-left: 1.2rem; margin-bottom: 0.1rem"
-  >
-    {{ $t("displayEdit") }}
-  </n-checkbox> -->
-
-  <!-- <div class="row-item" v-show="state.showEditCheck"> -->
-  <div class="row-item">
-    <span>{{ $t("parameterSet") }}</span>
-    <div style="width: 1.96rem">
-      <n-switch v-model:value="state.setParam" size="small" />
-    </div>
-  </div>
-
   <!-- 参数设置 -->
+  <div class="row-wrap">
+    <div class="content">
+      <div class="switch-box">
+        <div class="text">{{ $t("parameterSet") }}</div>
+        <n-switch v-model:value="state.setParam" size="small" />
+      </div>
+    </div>
+  </div>
+
   <div v-show="state.setParam">
-    <div class="row-item">
-      <span>{{ $t("emitSpeed") }}</span>
-      <div class="slider-box">
-        <n-slider
-          v-model:value="state.emitRate"
-          style="width: 70%"
-          :min="10"
-          :max="2500"
-          :step="10"
-        />
-        <n-input-number
-          v-model:value="state.emitRate"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="10"
-          :max="2500"
-          placeholder=""
-          size="small"
-        />
+    <!-- 发射速度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("emitSpeed") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.emitRate" :min="10" :max="2500" :step="10" />
+          <n-input-number v-model:value="state.emitRate"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="10" :max="2500" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("lifeCycle") }}</span>
-      <div class="slider-box">
-        <n-input-number
-          v-model:value="state.lifeRange[0]"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0.1"
-          :max="1.0"
-          placeholder=""
-          size="small"
-        />
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.lifeRange"
-          :step="0.1"
-          range
-          :min="0.1"
-          :max="1.0"
-        />
-        <n-input-number
-          v-model:value="state.lifeRange[1]"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0.1"
-          :max="1.0"
-          placeholder=""
-          size="small"
-        />
+    <!-- 生命周期 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("lifeCycle") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-input-number style="width: 0.3rem" v-model:value="state.lifeRange[0]" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="0.1" :max="1.0" placeholder=""
+            size="small" />
+          <n-slider class="range" style="width: 2.0rem" v-model:value="state.lifeRange" :step="0.1" range :min="0.1" :max="1.0" />
+          <n-input-number style="width: 0.3rem" v-model:value="state.lifeRange[1]" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="0.1" :max="1.0" placeholder=""
+            size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("speedRange") }}</span>
-      <div class="slider-box">
-        <n-input-number
-          v-model:value="state.speedRange[0]"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="1"
-          :max="100"
-          placeholder=""
-          size="small"
-        />
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.speedRange"
-          :step="1"
-          range
-          :min="1"
-          :max="100"
-        />
-        <n-input-number
-          v-model:value="state.speedRange[1]"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="1"
-          :max="100"
-          placeholder=""
-          size="small"
-        />
+    <!-- 速度范围 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("speedRange") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-input-number style="width: 0.3rem" v-model:value="state.speedRange[0]" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="1" :max="100" placeholder=""
+            size="small" />
+          <n-slider class="range" style="width: 2.0rem" v-model:value="state.speedRange" :step="1" range :min="1" :max="100" />
+          <n-input-number style="width: 0.3rem" v-model:value="state.speedRange[1]" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="1" :max="100" placeholder=""
+            size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("scaleRange") }}</span>
-      <div class="slider-box">
-        <n-input-number
-          v-model:value="state.scaleRange[0]"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="1"
-          :max="100"
-          placeholder=""
-          size="small"
-        />
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.scaleRange"
-          :step="1"
-          range
-          :min="1"
-          :max="100"
-        />
-        <n-input-number
-          v-model:value="state.scaleRange[1]"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="1"
-          :max="100"
-          placeholder=""
-          size="small"
-        />
+    <!-- 比例范围 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("scaleRange") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-input-number style="width: 0.3rem" v-model:value="state.scaleRange[0]" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="1" :max="100" placeholder=""
+            size="small" />
+          <n-slider class="range" style="width: 2.0rem" v-model:value="state.scaleRange" :step="1" range :min="1" :max="100" />
+          <n-input-number style="width: 0.3rem" v-model:value="state.scaleRange[1]" 
+            :update-value-on-input="false" :bordered="false" :show-button="false" :min="1" :max="100" placeholder=""
+            size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("gravity") }}</span>
-      <div class="slider-box">
-        <n-slider
-          v-model:value="state.gravity"
-          style="width: 70%"
-          :min="-20"
-          :max="20"
-          :step="1"
-        />
-        <n-input-number
-          v-model:value="state.gravity"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :step="1"
-          :min="-20"
-          :max="20"
-          placeholder=""
-          size="small"
-        />
+    <!-- 重力 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("gravity") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.gravity" :min="-20" :max="20" :step="1" />
+          <n-input-number v-model:value="state.gravity"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :step="1" :min="-20" :max="20" placeholder="" size="small" />
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >{{ $t("add") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
-    <!-- <n-button class="btn-secondary" @click="clear">{{ $t("clear") }}</n-button> -->
+  <div class="row-btns">
+    <n-button @click="add" class="operate" type="info" :focusable="false">{{
+    $t("add") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -400,9 +298,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.slider-input-number {
-  margin: 0px -0.1rem 0px 0px;
-}
-</style>

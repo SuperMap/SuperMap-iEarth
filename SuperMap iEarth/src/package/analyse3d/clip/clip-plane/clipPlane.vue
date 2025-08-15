@@ -1,45 +1,37 @@
+<!-- 平面裁剪 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("clipMode") }}</span>
-    <n-radio-group
-      v-model:value="state.directionByNormal"
-      name="radiogroup"
-      class="radio-group"
-    >
-      <n-radio
-        v-for="item in state.modeOptions"
-        :key="item.value"
-        :value="item.value"
+    <!-- 裁剪模式 -->
+    <div class="row-wrap">
+    <div class="label">{{ $t("clipMode") }}</div>
+    <div class="content">
+      <n-radio-group
+        v-model:value="state.directionByNormal"
+        name="radiogroup"
       >
-        {{ item.label }}
-      </n-radio>
-    </n-radio-group>
+        <n-radio
+          v-for="item in state.modeOptions"
+          :key="item.value"
+          :value="item.value"
+          :title="item.label"
+        >
+          {{ item.label }}
+        </n-radio>
+      </n-radio-group>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("displayCilpPlane") }}</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.clipFaceShow"
-    ></n-checkbox>
+  <!-- 显示裁剪面 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.clipFaceShow" :label="$t('displayCilpPlane')" />
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="clipPlaneStart"
-      style="margin-right: 0.1rem"
-      >{{ $t("clip") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+
+  <div class="row-btns">
+    <n-button @click="clipPlaneStart" class="operate" type="info" :focusable="false">{{
+    $t("clip") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -174,3 +166,17 @@ watch(
   }
 );
 </script>
+
+<!-- 处理标准:radio单选框组合，文字太长导致换行 -->
+<style lang="scss" scoped>
+:deep(.n-radio) .n-radio__label {
+  width: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:deep(.n-radio):first-child {
+  margin-right: 0rem !important;
+}
+</style>

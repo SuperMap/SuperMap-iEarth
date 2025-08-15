@@ -1,18 +1,18 @@
-<template>
-  <!-- 公共服务 -->
-  <n-scrollbar style="max-height: 3.42rem">
-    <div class="addData-data-container">
+<!-- 公共服务 -->
+<template>  
+  <n-scrollbar style="max-height: 3.42rem; padding-right: 0.1rem;" trigger="none">
+    <div class="add-image-container">
       <div
         v-for="(item, index) in publicServiceList"
-        class="ItemBox"
-        :class="item.chooseType ? 'isSelect' : ''"
+        class="item-container"
+        :class="item.chooseType ? 'item-selected' : ''"
         :key="index"
         @click="addPublicService(item)"
       >
         <div class="img-box">
-          <img class="img" :src="item.thumbnail" alt="" />
+          <img class="img" :src="item.thumbnail" :alt="item.name" />
         </div>
-        <div class="img-box-text">{{ $t(item.name) }}</div>
+        <div class="text-box" :title="$t(item.name)">{{ $t(item.name) }}</div>
       </div>
     </div>
   </n-scrollbar>
@@ -549,10 +549,3 @@ function addBDZ(url: string) {
   loadLight(true);
 }
 </script>
-
-<style lang="scss" scoped>
-.img-box-text {
-  text-align: center;
-  font-size: 0.14rem;
-}
-</style>

@@ -1,34 +1,45 @@
+<!-- S3M图层水面效果 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("waterRange") }}</span>
-    <n-select style="width: 1.96rem" @update:value="handleSelectSize" v-model:value="state.sizeValue"
-      :options="state.sizeOptions" />
-  </div>
-  <div class="row-item">
-    <span>{{ $t("waterIntensity") }}</span>
-    <n-select style="width: 1.96rem" @update:value="handleSelectWave" v-model:value="state.waveValue"
-      :options="state.waveOptions" />
-  </div>
-
-  <div class="row-item" style="margin-right: 0.1rem">
-    <span>{{ $t("waterDirection") }}</span>
-    <n-checkbox v-model:checked="state.openwaveDirection" style="margin-right: -0.4rem;"></n-checkbox>
-    <div class="slider-box" style="margin-right: -0.1rem; width: 1.5rem;">
-      <n-slider style="width: 1.5rem" v-model:value="state.direction" :step="1" :min="0" :max="360"
-        :disabled="!state.openwaveDirection" />
-      <n-input-number v-model:value="state.direction" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="360" placeholder="" :disabled="!state.openwaveDirection"
-        size="small" />
+  <!-- 水域范围 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("waterRange") }}</div>
+    <div class="content">
+      <n-select @update:value="handleSelectSize" v-model:value="state.sizeValue" :options="state.sizeOptions" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("waterColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
+  <!-- 波纹强度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("waterIntensity") }}</div>
+    <div class="content">
+      <n-select @update:value="handleSelectWave" v-model:value="state.waveValue" :options="state.waveOptions" />
+    </div>
+  </div>
+
+  <!-- 水流方向 -->
+  <div class="row-wrap">
+    <div class="label"> {{ $t("waterDirection") }} </div>
+    <div class="content">
+      <div class="check-box-new">
+        <n-checkbox v-model:checked="state.openwaveDirection" style="margin-right:0.2rem"></n-checkbox>
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.direction" :step="1" :min="0" :max="360"
+            :disabled="!state.openwaveDirection" />
+          <n-input-number v-model:value="state.direction" :update-value-on-input="false" :bordered="false"
+            :show-button="false" :min="0" :max="360" placeholder="" :disabled="!state.openwaveDirection" size="small" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 水面颜色 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("waterColor") }}</div>
+    <div class="content">
       <n-color-picker v-model:value="state.color" :render-label="() => {
-        return '';
-      }
-        " size="small"></n-color-picker>
+      return '';
+            }
+      " size="small"></n-color-picker>
     </div>
   </div>
 </template>

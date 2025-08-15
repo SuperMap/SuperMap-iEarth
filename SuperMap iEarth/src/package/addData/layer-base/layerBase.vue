@@ -1,17 +1,17 @@
-<template>
-  <!-- 在线底图 -->
-  <div class="addData-data-container">
+<!-- 在线底图 -->
+<template>  
+  <div class="add-image-container">
     <div
       v-for="(item, index) in onlineBaseLayerList"
-      class="ItemBox"
-      :class="item.chooseType ? 'isSelect' : ''"
+      class="item-container"
+      :class="item.chooseType ? 'item-selected' : ''"
       :key="index"
       @click="addBaseLayer(item)"
     >
       <div class="img-box">
-        <img :src="item.thumbnail" class="img" style="object-fit: none" />
+        <img class="img" :src="item.thumbnail" style="object-fit: none" :alt="item.name" />
       </div>
-      <div class="img-box-text">{{ $t(item.name) }}</div>
+      <div class="text-box" :title="$t(item.name)">{{ $t(item.name) }}</div>
     </div>
   </div>
 </template>
@@ -84,6 +84,8 @@ function addBaseLayer(item: any) {
     case "UrlTemplateImageryProvider":
       imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
         url: layerUrl,
+        minimumLevel: 3,
+        maximumLevel: 18,
       });
       break;
     default:
@@ -96,16 +98,7 @@ function addBaseLayer(item: any) {
 </script>
 
 <style lang="scss" scoped>
-.img-box-text {
-  text-align: center;
-  font-size: 0.14rem;
-}
-
-.addData-data-container {
-  margin-bottom: -0.1rem;
-}
-
-// 黑色背景
+// 图片背景改为黑色
 .img-box {
   background-color: #000;
   border: 0.02rem solid #3498e500;

@@ -13,10 +13,10 @@
         <n-form
           ref="formRef"
           :model="fromData"
-          label-placement="left"
-          require-mark-placement="right-hanging"
           :style="{ maxWidth: '4.5rem' }"
         >
+
+          <!-- 存储日期 -->
           <n-form-item
             label-width="0.8rem"
             :label="$t('saveDate')"
@@ -32,6 +32,7 @@
             />
           </n-form-item>
 
+          <!-- 场景名称 -->
           <n-form-item
             label-width="0.8rem"
             :label="$t('sceneName')"
@@ -57,6 +58,7 @@
             />
           </n-form-item>
 
+          <!-- 场景标签 -->
           <n-form-item
             label-width="0.8rem"
             :label="$t('sceneLable')"
@@ -73,6 +75,7 @@
             />
           </n-form-item>
 
+          <!-- 作者名称 -->
           <n-form-item
             label-width="0.8rem"
             :label="$t('authorName')"
@@ -89,6 +92,7 @@
             />
           </n-form-item>
 
+          <!-- 场景描述 -->
           <n-form-item
             label-width="0.8rem"
             :label="$t('sceneDescribe')"
@@ -105,23 +109,16 @@
             />
           </n-form-item>
 
+          <!-- 保存和取消 -->
           <n-form-item>
-            <n-space justify="space-between">
-              <n-button
-                type="info"
-                color="#3499E5"
-                :loading="state.isloading"
-                text-color="#fff"
-                attr-type="button"
-                @click="saveScene"
-              >
-                {{ $t("save") }}
-              </n-button>
-              <n-button attr-type="button" @click="close">
-                {{ $t("cancle") }}
-              </n-button>
-            </n-space>
+            <div class="row-btns">
+              <n-button @click="saveScene" class="operate" type="info" :focusable="false" :loading="state.isloading"
+                attr-type="button">{{
+                $t("save") }}</n-button>
+              <n-button @click="close" :focusable="false" attr-type="button">{{ $t("cancle") }}</n-button>
+            </div>
           </n-form-item>
+
         </n-form>
       </div>
     </n-card>
@@ -494,5 +491,10 @@ watch(
 .save-scene-container {
   padding: 0 0.1rem;
   box-sizing: border-box;
+}
+
+// 最后一个表单项间距
+.n-form-item.n-form-item--top-labelled:last-child {
+  grid-template-rows: 0px 1fr
 }
 </style>

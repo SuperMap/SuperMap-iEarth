@@ -1,24 +1,18 @@
+<!-- 自定义服务 -->
 <template>
-  <!-- 自定义服务 -->
-  <div class="custom-content">
-    <div class="row-item">
-      <span class="">{{ $t("type") }}</span>
-      <div class="btn-list">
-        <div
-          class="btn"
-          :class="item.isSelect ? 'select-btn' : ''"
-          v-for="(item, index) in comList"
-          :key="index"
-          @click="changeItem(item)"
-        >
-          {{ item.name }}
-        </div>
+  <div class="row-inline">
+    <div class="label" :title="$t('type')">{{ $t("type") }}</div>
+    <div class="content">
+      <div class="btn" :class="item.isSelect ? 'selected' : ''" v-for="(item, index) in comList" :key="index"
+        @click="changeItem(item)">
+        {{ item.name }}
       </div>
     </div>
-    <KeepAlive>
-      <component :is="currentItem.com"></component>
-    </KeepAlive>
   </div>
+  
+  <KeepAlive>
+    <component :is="currentItem.com"></component>
+  </KeepAlive>
 </template>
 
 <script lang="ts" setup>
@@ -65,18 +59,3 @@ function changeItem(item: any) {
 
 // 切换菜单
 </script>
-
-<style lang="scss" scoped>
-.custom-content {
-  padding-right: 0.12rem;
-  box-sizing: border-box;
-
-  .btn-row-item {
-    margin-left: 0.75rem;
-  }
-
-  .btn {
-    padding: 0.03rem 0.1rem;
-  }
-}
-</style>

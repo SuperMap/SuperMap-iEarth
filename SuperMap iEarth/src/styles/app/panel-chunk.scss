@@ -1,0 +1,142 @@
+/** ==========================================面板小组件样式==Start====================================================== */
+// 添加数据面板
+.add-image-container {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.14rem;
+    margin-right: 0.07rem;
+
+    .item-container {
+        width: 30%;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 0.07rem;
+        margin-right: 0.12rem;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        .img-box {
+            width: 1.06rem;
+            height: 0.85rem;
+            border-radius: 0.05rem;
+            overflow: hidden;
+            margin-bottom: 0.04rem;
+
+            .img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; // 图片不被挤压
+            }
+        }
+
+        .text-box {
+            text-align: left;
+            font-size: 0.14rem;
+            white-space: nowrap; // 禁止换行
+            overflow: hidden;
+            text-overflow: ellipsis; // 文字过长后使用省略号
+        }
+    }
+
+    .item-container:nth-child(3n) {
+        margin-right: 0;
+    }
+
+    .item-selected .img-box {
+        border: 0.02rem solid #3499e5;
+    }
+}
+
+// Echarts图表样式：天际线和剖面分析
+.analyse-echarts-box {
+    position: fixed !important;
+    bottom: 0.3rem;
+    left: 32vw;
+    width: 36vw;
+    height: 30vh;
+    background-color: rgba(0, 8, 23, 0.7);
+    opacity: 0.7;
+    padding: 0.1rem;
+    z-index: 99;
+}
+
+.analyse-echarts-box>div:first-child {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.analyse-echarts-box>div>canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+// 没有Tabs标签页的右侧面板布局
+.right-panel-container-not-tabs {
+    width: 100%;
+    height: 100%;
+    padding: 0 0.16rem;
+    box-sizing: border-box;
+}
+
+// 每个面板的第一个row-warp项目上间距
+.panle-container .row-wrap:first-child {
+    margin-top: 0px;
+}
+
+// 面板底部的提示内容：比如坡度坡向不支持STK地形
+.panel-footer-tip-box {
+    font-family: "Microsoft JhengHe", sans-serif; // Microsoft Yahei
+    font-size: 0.14rem;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    margin-top: 0.04rem;
+    margin-bottom: -0.03rem;
+}
+
+// 图标容器: 水平排列
+.icon-list-box {
+    width: 100%;
+    height: 0.32rem;
+    line-height: 0.32rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 0.01rem solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.04rem;
+
+    display: flex;
+    justify-content: space-evenly;
+
+    .selected-icon {
+        color: #3499e5;
+    }
+
+    // 图标大小
+    .iconfont {
+        font-size: 0.24rem;
+    }
+}
+
+// 按钮容器: 水平排列
+.btn-list-box {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 0.14rem;
+    margin-bottom: 0.15rem;
+
+    cursor: pointer;
+
+    .btn {
+        flex: 1;
+        height: 0.26rem;
+        line-height: 0.26rem;
+        text-align: center;
+    }
+
+    .select-btn {
+        color: #3499e5;
+        border-radius: 0.02rem;
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/** ==========================================面板小组件样式==End====================================================== */

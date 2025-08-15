@@ -1,6 +1,6 @@
+<!-- 阴影分析 -->
 <template>
-  <!-- 阴影分析 -->
-  <n-scrollbar style="max-height: 3.8rem">
+  <n-scrollbar style="max-height: 3.8rem; padding-right: 0.1rem;" trigger="none">
     <div class="shadow-time">
       <!-- 24小时光照 -->
       <div class="itemBox-shadow">
@@ -54,75 +54,68 @@
 
     <n-divider />
 
-    <div class="row-item">
-      <span>{{ $t("bottomHeight") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="state.bottomHeight"
-        :update-value-on-input="false"
-        :show-button="false"
-      >
-        <template #suffix>{{ $t("meter") }}</template>
-      </n-input-number>
+    <!-- 底部高程 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("bottomHeight") }}</div>
+      <div class="content">
+        <n-input-number
+          v-model:value="state.bottomHeight"
+          :update-value-on-input="false"
+          :show-button="false"
+        >
+          <template #suffix>{{ $t("meter") }}</template>
+        </n-input-number>
+      </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("stretchingHeight") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="state.extrudeHeight"
-        :update-value-on-input="false"
-        :show-button="false"
-      >
-        <template #suffix>{{ $t("meter") }}</template></n-input-number
-      >
+    <!-- 拉伸高度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("stretchingHeight") }}</div>
+      <div class="content">
+        <n-input-number
+          v-model:value="state.extrudeHeight"
+          :update-value-on-input="false"
+          :show-button="false"
+        >
+          <template #suffix>{{ $t("meter") }}</template></n-input-number
+        >
+      </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("space") }}</span>
-      <n-input-number
-        style="width: 1.96rem"
-        v-model:value="state.spacing"
-        :update-value-on-input="false"
-        :show-button="false"
-      >
-        <template #suffix>{{ $t("meter") }}</template>
-      </n-input-number>
+    <!-- 间距 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("space") }}</div>
+      <div class="content">
+        <n-input-number
+          v-model:value="state.spacing"
+          :update-value-on-input="false"
+          :show-button="false"
+        >
+          <template #suffix>{{ $t("meter") }}</template>
+        </n-input-number>
+      </div>
     </div>
+
 
     <!-- TODO:解决阴影分析-体显示场景崩溃，invalid array length -->
-    <!-- <div class="row-item">
-      <span>{{ $t("bodyDisplay") }}</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.shadowBodyShow"></n-checkbox>
+    <!-- <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.shadowBodyShow" :label="$t('bodyDisplay')" />
       </div>
     </div> -->
 
     <!-- 开启阴影 -->
-    <div class="row-item">
-      <span>{{ $t("showShadow") }}</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.shadowShow"></n-checkbox>
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.shadowShow" :label="$t('showShadow')" />
       </div>
     </div>
   </n-scrollbar>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="analysis"
-      class="ans-btn"
-      >{{ $t("analysis") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="analysis" class="operate" type="info" :focusable="false">{{
+    $t("analysis") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -463,52 +456,44 @@ watch(
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.04);
-}
 
-.itemBox-shadow {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.06rem;
-  padding: 0px 10px;
+  .itemBox-shadow {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.06rem;
+    padding: 0px 10px;
 
-  .lable {
-    width: 2rem;
-    font-size: 0.14rem;
-  }
+    .lable {
+      width: 2rem;
+      font-size: 0.14rem;
+    }
 
-  .content {
-    width: 1.4rem;
-  }
+    .content {
+      width: 1.4rem;
+    }
 
-  .shadow-date-picker {
-    width: 2.8rem;
-    text-align: center;
+    .shadow-date-picker {
+      width: 2.8rem;
+      text-align: center;
 
-    :hover {
-      cursor: pointer;
+      :hover {
+        cursor: pointer;
+      }
+    }
+
+    .btnImg {
+      width: 0.22rem;
+      height: 0.22rem;
+      margin: 0rem 0rem 0rem 0.2rem;
+      color: #ffffff;
     }
   }
 
-  .btnImg {
-    width: 0.22rem;
-    height: 0.22rem;
-    margin: 0rem 0rem 0rem 0.2rem;
-    color: #ffffff;
+  .icondown {
+    display: block;
+    margin: 2px;
+    font-size: 0.12rem;
+    transform: rotate(-90deg);
   }
-}
-
-.n-slider .n-slider-dots .n-slider-dot {
-  top: 0.06rem;
-  width: 0.02rem;
-  height: 0.05rem;
-  border-radius: 0;
-}
-
-
-.icondown {
-  display: block;
-  margin: 2px;
-  font-size: 0.12rem;
-  transform: rotate(-90deg);
 }
 </style>

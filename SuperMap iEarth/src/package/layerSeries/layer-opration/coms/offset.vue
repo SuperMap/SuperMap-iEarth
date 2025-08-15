@@ -1,94 +1,65 @@
+<!-- S3M图层偏移 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("chooseLayer") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.selectS3MName"
-      :options="state.s3mlayers"
-    />
+  <!-- 选择图层 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("chooseLayer") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.selectS3MName" :options="state.s3mlayers" />
+    </div>
   </div>
 
-  <!-- <div class="row-item">
-        <span>{{$t('offsetMode')}}</span>
-        <n-radio-group v-model:value="state.offsetMode" name="shadowMode" style="width:1.96rem">
+  <!-- 偏移模式 -->
+  <!-- <div class="row-wrap">
+    <div class="label">{{ $t("offsetMode") }}</div>
+    <div class="content">
+      <n-radio-group v-model:value="state.offsetMode" name="shadowMode">
             <n-radio :value="0"><n-ellipsis >{{$t('selected')}}</n-ellipsis></n-radio>
-            <n-radio :value="1"><n-ellipsis >多边形 </n-ellipsis></n-radio>
+            <n-radio :value="1"><n-ellipsis >{{$t('polygon')}} </n-ellipsis></n-radio>
         </n-radio-group>
-    </div> -->
+    </div>
+  </div> -->
 
   <div v-show="state.offsetMode === 0">
-    <div class="row-item">
-      <span>{{ $t("offsetX") }}</span>
-      <div class="slider-box">
-        <n-slider
-          v-model:value="state.offsetX"
-          style="width: 70%"
-          :min="-50"
-          :max="50"
-        />
-        <n-input-number
-          v-model:value="state.offsetX"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="-50"
-          :max="50"
-          placeholder=""
-          size="small"
-        />
+    <!-- 沿X轴偏移 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("offsetX") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.offsetX" :min="-50" :max="50" />
+          <n-input-number v-model:value="state.offsetX" :update-value-on-input="false" :bordered="false"
+            :show-button="false" :min="-50" :max="50" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("offsetY") }}</span>
-      <div class="slider-box">
-        <n-slider
-          v-model:value="state.offsetY"
-          style="width: 70%"
-          :min="-50"
-          :max="50"
-        />
-        <n-input-number
-          v-model:value="state.offsetY"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="-50"
-          :max="50"
-          placeholder=""
-          size="small"
-        />
+    <!-- 沿Y轴偏移 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("offsetY") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.offsetY" :min="-50" :max="50" />
+          <n-input-number v-model:value="state.offsetY" :update-value-on-input="false" :bordered="false"
+            :show-button="false" :min="-50" :max="50" placeholder="" size="small" />
+        </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("offsetZ") }}</span>
-      <div class="slider-box">
-        <n-slider
-          v-model:value="state.offsetZ"
-          style="width: 70%"
-          :min="-50"
-          :max="50"
-        />
-        <n-input-number
-          v-model:value="state.offsetZ"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="-50"
-          :max="50"
-          placeholder=""
-          size="small"
-        />
+    <!-- 沿Z轴偏移 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("offsetZ") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.offsetZ" :min="-50" :max="50" />
+          <n-input-number v-model:value="state.offsetZ" :update-value-on-input="false" :bordered="false"
+            :show-button="false" :min="-50" :max="50" placeholder="" size="small" />
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.83rem">
-    <n-button @click="reset">{{ $t("reset") }}</n-button>
+  <div class="row-btns">
+    <n-button @click="reset" class="operate" type="info" :focusable="false">{{
+    $t("reset") }}</n-button>
   </div>
 </template>
 

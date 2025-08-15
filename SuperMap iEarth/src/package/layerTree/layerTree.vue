@@ -1,5 +1,5 @@
 <template>
-  <div class="layer-tree-box">
+  <div class="layer-tree-box" style="padding: 0rem 0.06rem;">
     <n-tree
       cascade
       draggable
@@ -1096,16 +1096,12 @@ function changeLayerOrderByDrag(drag_index: number, target_index: number) {
 </script>
 
 <style lang="scss" scoped>
-.layer-tree-box {
-  padding: 0rem 0.06rem;
-}
-
-// 使用:deep强制设置图层列表后缀button颜色
-:deep(.n-button) {
+// 强制修改图层树列表后缀button颜色
+.layer-tree-box :deep(.n-button) {
   color: rgba(255, 255, 255, 0.65);
 }
-:deep(.n-button):hover {
-  // hover颜色
+
+.layer-tree-box :deep(.n-button):hover {
   color: rgba(255, 255, 255, 0.85);
 }
 </style>

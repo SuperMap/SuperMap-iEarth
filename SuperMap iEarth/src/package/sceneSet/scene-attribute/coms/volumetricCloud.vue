@@ -1,73 +1,95 @@
+<!-- 体积云 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("renderQualityType") }}</span>
-    <n-select style="width: 1.96rem" v-model:value="state.renderQualityType" :options="state.renderQualityOption"
-      :focusable="false" />
-  </div>
-
-  <div class="row-item">
-    <span>{{ $t("cloudThickness") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.thickness" :min="2000" :max="20000" :step="10" />
-      <n-input-number v-model:value="state.thickness" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="2000" :max="20000" :step="10" placeholder="" size="small" />
+  <!-- 渲染质量 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("renderQualityType") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.renderQualityType" :options="state.renderQualityOption" :focusable="false" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("cloudAltitude") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.altitude" :min="200" :max="20000" :step="10" />
-      <n-input-number v-model:value="state.altitude" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="200" :max="20000" :step="10" placeholder="" size="small" />
+  <!-- 云层厚度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("cloudThickness") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.thickness" :min="2000" :max="20000" :step="10" />
+        <n-input-number v-model:value="state.thickness"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="2000" :max="20000" :step="10" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("cloudDensity") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.density" :min="0.01" :max="1" :step="0.01" />
-      <n-input-number v-model:value="state.density" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.01" :max="1" :step="0.01" placeholder="" size="small" />
+  <!-- 云层高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("cloudAltitude") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.altitude" :min="200" :max="20000" :step="10" />
+        <n-input-number v-model:value="state.altitude"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="200" :max="20000" :step="10" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("cloudCoverage") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.coverage" :min="0.0" :max="1.0" :step="0.01" />
-      <n-input-number v-model:value="state.coverage" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.0" :max="1.0" :step="0.01" placeholder="" size="small" />
+  <!-- 云层密度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("cloudDensity") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.density" :min="0.01" :max="1" :step="0.01" />
+        <n-input-number v-model:value="state.density"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.01" :max="1" :step="0.01" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("cloudSpeed") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.speed" :min="0.0" :max="200.0" :step="1" />
-      <n-input-number v-model:value="state.speed" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.0" :max="200.0" :step="1" placeholder="" size="small" />
+  <!-- 云层覆盖度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("cloudCoverage") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.coverage" :min="0.0" :max="1.0" :step="0.01" />
+        <n-input-number v-model:value="state.coverage"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.0" :max="1.0" :step="0.01" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("cloudDirection")+"（&deg;）" }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.direction" :min="0.0" :max="360.0" :step="1" />
-      <n-input-number v-model:value="state.direction" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.0" :max="360.0" :step="1" placeholder="" size="small" />
+  <!-- 风速 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("cloudSpeed") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.speed" :min="0.0" :max="200.0" :step="1" />
+        <n-input-number v-model:value="state.speed"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.0" :max="200.0" :step="1" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("showHighCloud") }}</span>
-    <div style="width: 1.96rem">
-      <n-checkbox v-model:checked="state.useHighCloud"></n-checkbox>
+  <!-- 风向 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("cloudDirection")+"（&deg;）" }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.direction" :min="0.0" :max="360.0" :step="1" />
+        <n-input-number v-model:value="state.direction"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.0" :max="360.0" :step="1" placeholder="" size="small" />
+      </div>
     </div>
   </div>
-  
-  <div class="btn-row-item" style="margin-left: 0.95rem;">
-    <n-button type="info" color="#3499E5" text-color="#fff" class="ans-btn" style="width: 1.2rem;" @click="reset"> {{ $t("resetOrigin") }} </n-button>
+
+  <!-- 显示高层云 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.useHighCloud" :label="$t('showHighCloud')" />
+    </div>
+  </div>
+
+  <div class="row-btns">
+    <n-button @click="reset" class="operate" type="info" :focusable="false" style="width: 1.2rem;">{{
+    $t("resetOrigin") }}</n-button>
   </div>
 </template>
   

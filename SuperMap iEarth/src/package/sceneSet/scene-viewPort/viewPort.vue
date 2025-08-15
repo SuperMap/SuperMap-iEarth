@@ -1,29 +1,27 @@
 <template>
   <!-- 视图模式 -->
-  <div class="row-item">
-    <span>{{ $t("viewMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.viewMode"
-      :options="state.options_viewMode"
-    />
+  <div class="row-wrap">
+    <div class="label">{{ $t("viewMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.viewMode" :options="state.options_viewMode" />
+    </div>
   </div>
 
   <!-- 分屏模式 -->
-  <div class="row-item" v-show="!state.rollerShutterShow">
-    <span>{{ $t("splitscreenModel") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.selectedType"
-      :options="state.options_split"
-    />
+  <div class="row-wrap" v-show="!state.rollerShutterShow">
+    <div class="label">{{ $t("splitscreenModel") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.selectedType" :options="state.options_split" />
+    </div>
   </div>
 
   <!-- 卷帘 -->
-  <div class="row-item">
-    <span>{{ $t("openRollershutter") }}</span>
-    <div style="width: 1.96rem">
-      <n-switch v-model:value="state.rollerShutterShow" size="small" />
+  <div class="row-wrap">
+    <div class="content">
+      <div class="switch-box">
+        <div class="text">{{ $t("openRollershutter") }}</div>
+        <n-switch v-model:value="state.rollerShutterShow" size="small" />
+      </div>
     </div>
   </div>
 

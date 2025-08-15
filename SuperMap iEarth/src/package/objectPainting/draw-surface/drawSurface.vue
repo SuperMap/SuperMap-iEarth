@@ -1,177 +1,132 @@
+<!-- 绘制面 -->
 <template>
-  <!-- 绘制面 -->
-  <div class="row-item">
-    <span>{{ $t("drawMode") }}</span>
-    <n-select
-      style="width: 1.96rem; height: 32px"
-      v-model:value="state.selectedType"
-      size="small"
-      :options="state.optionMode"
-    />
+  <!-- 绘制模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("drawMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.selectedType" size="small" :options="state.optionMode" />
+    </div>
   </div>
 
-  <div class="row-item" style="margin-top: 0.15rem">
-    <span class="name">{{ $t("symbolLibrary") }}</span>
-    <div class="icon-list">
-      <span
-        v-for="(surfaces, index) in state.surfaces"
-        :key="index"
-        class="icon-span"
-        :title="surfaces.name"
-        :class="surfaces.isSelect ? 'selected-icon' : ''"
-        @click="changleIconItem(surfaces)"
-      >
-        <i
-          class="iconfont iconSize"
-          :class="surfaces.iconName"
-          :title="surfaces.name"
-          style="margin-top: 0px"
-        ></i>
-      </span>
+  <!-- 符号库 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("symbolLibrary") }}</div>
+    <div class="content">
+      <div class="icon-list-box">
+        <span v-for="(surfaces, index) in state.surfaces" :key="index" class="icon-span" :title="surfaces.name"
+          :class="surfaces.isSelect ? 'selected-icon' : ''" @click="changleIconItem(surfaces)">
+          <i class="iconfont iconSize" :class="surfaces.iconName" :title="surfaces.name" style="margin-top: 0px"></i>
+        </span>
+      </div>
     </div>
   </div>
 
   <!-- 纯色面颜色 -->
-  <div class="row-item" v-if="state.selectedId === 0">
-    <span>{{ $t("polygonColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.solidColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <div class="row-wrap" v-if="state.selectedId === 0">
+    <div class="label">{{ $t("polygonColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.solidColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
   <!-- 网格 -->
-  <div class="row-item" v-if="state.selectedId === 1">
-    <span>{{ $t("polygonColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.gridColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <div class="row-wrap" v-if="state.selectedId === 1">
+    <div class="label">{{ $t("polygonColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.gridColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item" v-if="state.selectedId === 1">
-    <span>{{ $t("gridLineWidth") }}</span>
-    <n-input-number
-      v-model:value="state.gridWidth"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
-  </div>
-
-  <div class="row-item" v-if="state.selectedId === 1">
-    <span>{{ $t("gridLineNumber") }}</span>
-    <n-input-number
-      v-model:value="state.gridCount"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
-  </div>
-
-  <div class="row-item" v-if="state.selectedId === 1">
-    <span>{{ $t("unitTransparency") }}</span>
-    <n-input-number
-      v-model:value="state.gridCellAlpha"
-      style="width: 1.96rem"
-      :step="0.1"
-      :show-button="false"
-    ></n-input-number>
-  </div>
-
-  <!-- 条纹-->
-  <div class="row-item" v-if="state.selectedId === 2">
-    <span>{{ $t("evenStripColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.stripeEvenColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 网格线宽 -->
+  <div class="row-wrap" v-if="state.selectedId === 1">
+    <div class="label">{{ $t("gridLineWidth") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.gridWidth" :show-button="false"></n-input-number>
     </div>
   </div>
 
-  <div class="row-item" v-if="state.selectedId === 2">
-    <span>{{ $t("oddStripColor") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-      <n-color-picker
-        v-model:value="state.stripeOddColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 网格线数 -->
+  <div class="row-wrap" v-if="state.selectedId === 1">
+    <div class="label">{{ $t("gridLineNumber") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.gridCount" :show-button="false"></n-input-number>
     </div>
   </div>
 
-  <div class="row-item" v-if="state.selectedId === 2">
-    <span>{{ $t("stripRepetition") }}</span>
-    <n-input-number
-      v-model:value="state.stripeRepeat"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
+  <!-- 单元透明度 -->
+  <div class="row-wrap" v-if="state.selectedId === 1">
+    <div class="label">{{ $t("unitTransparency") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.gridCellAlpha" :step="0.1" :show-button="false"></n-input-number>
+    </div>
   </div>
 
-  <div class="row-item" v-if="state.selectedId === 2">
-    <span>{{ $t("stripOffset") }}</span>
-    <n-input-number
-      v-model:value="state.stripeOffset"
-      style="width: 1.96rem"
-      :show-button="false"
-    ></n-input-number>
+  <!-- 偶数带颜色 -->
+  <div class="row-wrap" v-if="state.selectedId === 2">
+    <div class="label">{{ $t("evenStripColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.stripeEvenColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
+    </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("edit") }}</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.isEdit"
-    ></n-checkbox>
+  <!-- 奇数带颜色 -->
+  <div class="row-wrap" v-if="state.selectedId === 2">
+    <div class="label">{{ $t("oddStripColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.stripeOddColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
+    </div>
   </div>
 
-  <div class="row-item" v-show="state.isEdit">
-    <span>{{ $t("editZaxis") }}</span>
-    <n-checkbox
-      style="width: 1.96rem"
-      v-model:checked="state.isEditZ"
-    ></n-checkbox>
+  <!-- 条带重复数 -->
+  <div class="row-wrap" v-if="state.selectedId === 2">
+    <div class="label">{{ $t("stripRepetition") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.stripeRepeat" :show-button="false"></n-input-number>
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >{{ $t("Draw") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <!-- 条带偏移量 -->
+  <div class="row-wrap" v-if="state.selectedId === 2">
+    <div class="label">{{ $t("stripOffset") }}</div>
+    <div class="content">
+      <n-input-number v-model:value="state.stripeOffset" :show-button="false"></n-input-number>
+    </div>
+  </div>
+
+  <!-- 编辑 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.isEdit" :label="$t('edit')" />
+    </div>
+  </div>
+
+  <!-- 编辑Z轴 -->
+  <div class="row-wrap" v-show="state.isEdit">
+    <div class="content">
+      <n-checkbox v-model:checked="state.isEditZ" :label="$t('editZaxis')" />
+    </div>
+  </div>
+
+  <div class="row-btns">
+    <n-button @click="add" class="operate" type="info" :focusable="false">{{
+    $t("Draw") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

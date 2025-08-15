@@ -1,158 +1,94 @@
+<!-- Cross裁剪 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("clipWidth") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.clipWidth"
-        style="width: 1.6rem"
-        :min="0"
-        :max="90"
-        :step="10"
-      />
-      <n-input-number
-        v-model:value="state.clipWidth"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        placeholder=""
-        size="small"
-      />
-      <span>{{ $t("meter") }}</span>
+  <!-- 裁剪宽度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("clipWidth") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.clipWidth" :min="0" :max="90" :step="10" />
+        <n-input-number v-model:value="state.clipWidth" :update-value-on-input="false"
+          :bordered="false" :show-button="false" placeholder="" size="small" />
+        <span class="unit">{{ $t("meter") }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 裁剪高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("clipHeight") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.clipHeight" :min="0" :max="90" :step="10" />
+        <n-input-number v-model:value="state.clipHeight" :update-value-on-input="false"
+          :bordered="false" :show-button="false" placeholder="" size="small" />
+        <span class="unit">{{ $t("meter") }}</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("clipHeight") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.clipHeight"
-        style="width: 1.6rem"
-        :min="0"
-        :max="90"
-        :step="10"
-      />
-      <n-input-number
-        v-model:value="state.clipHeight"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        placeholder=""
-        size="small"
-      />
-      <span>{{ $t("meter") }}</span>
+  <!-- 拉伸高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("stretchingHeight") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.extrude" :min="0" :max="90" :step="1"/>
+        <n-input-number
+          v-model:value="state.extrude"
+          :update-value-on-input="false"
+          :bordered="false"
+          :show-button="false"
+          placeholder=""
+          size="small"
+        />
+        <span class="unit">{{ $t("meter") }}</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("stretchingHeight") }}</span>
-    <div class="slider-box">
-      <n-slider v-model:value="state.extrude" style="width: 1.6rem" />
-      <n-input-number
-        v-model:value="state.extrude"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        placeholder=""
-        size="small"
-      />
-      <span> {{ $t("meter") }}</span>
+  <!-- 绕X轴旋转 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("rotateX") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.heading" :min="0" :max="360" :step="1" />
+        <n-input-number v-model:value="state.heading" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="360" placeholder="" size="small" />
+        <span class="unit">°</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("rotateX") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.heading"
-        style="width: 1.4rem"
-        :min="0"
-        :max="360"
-        :step="1"
-      />
-      <n-input-number
-        v-model:value="state.heading"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="360"
-        placeholder=""
-        size="small"
-      />
-      <span>°</span>
+  <!-- 绕Y轴旋转 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("rotateY") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.pitch" :min="0" :max="360" :step="1" />
+        <n-input-number v-model:value="state.pitch" :update-value-on-input="false" :bordered="false"
+          :show-button="false" :min="0" :max="360" placeholder="" size="small" />
+        <span class="unit">°</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 绕Z轴旋转 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("rotateZ") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.roll" :min="0" :max="360" :step="1" />
+        <n-input-number v-model:value="state.roll" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="360" placeholder="" size="small" />
+        <span class="unit">°</span>
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("rotateY") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.pitch"
-        style="width: 1.4rem"
-        :min="0"
-        :max="360"
-        :step="1"
-      />
-      <n-input-number
-        v-model:value="state.pitch"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="360"
-        placeholder=""
-        size="small"
-      />
-      <span> °</span>
-    </div>
-  </div>
 
-  <div class="row-item">
-    <span>{{ $t("rotateZ") }}</span>
-    <div class="slider-box">
-      <n-slider
-        v-model:value="state.roll"
-        style="width: 1.4rem"
-        :min="0"
-        :max="360"
-        :step="1"
-      />
-      <n-input-number
-        v-model:value="state.roll"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="0"
-        :max="360"
-        placeholder=""
-        size="small"
-      />
-      <span> °</span>
-    </div>
-  </div>
-
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="startCross"
-      style="margin-right: 0.1rem"
-      >{{ $t("clip") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clearCross"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+  <div class="row-btns">
+    <n-button @click="startCross" class="operate" type="info" :focusable="false">{{
+    $t("clip") }}</n-button>
+    <n-button @click="clearCross" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

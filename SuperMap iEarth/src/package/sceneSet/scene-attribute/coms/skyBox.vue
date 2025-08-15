@@ -1,43 +1,55 @@
+<!-- 天空盒 -->
 <template>
   <div class="sence-config-container">
-    <div class="row-item">
-      <span>{{ $t("skyboxType") }}</span>
-      <n-select style="width: 1.96rem" v-model:value="state.skyBoxImgNmae" @update:value="handlePresetSkybox"
-        :options="state.skyBoxOptions" />
+    <!-- 天空盒类型 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("skyboxType") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.skyBoxImgNmae" @update:value="handlePresetSkybox"
+          :options="state.skyBoxOptions" />
+      </div>
     </div>
 
     <!-- 旋转速度和旋转角度一起使用会有问题，优先开启旋转角度 -->
-    <!-- <div class="row-item">
-      <span>{{ $t("rotateSpeed") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.WSpeed" :step="0.1" :min="0" :max="5" @update:value="handleSpeed"/>
-        <n-input-number v-model:value="state.WSpeed" class="slider-input-number" :update-value-on-input="false"
+    <!-- <div class="row-wrap">
+      <div class="label">{{ $t("rotateSpeed") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.WSpeed" :step="0.1" :min="0" :max="5" @update:value="handleSpeed"/>
+        <n-input-number v-model:value="state.WSpeed"  :update-value-on-input="false"
           :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" @update:value="handleSpeed"/>
+        </div>
       </div>
     </div> -->
 
-    <div class="row-item">
-      <span>{{ $t("rotateAngle") }}</span>
-      <div class="slider-box">
-        <n-slider style="width: 1.5rem" v-model:value="state.rotateAngle" :step="1" :min="0" :max="359" @update:value="handleAngle"/>
-        <n-input-number v-model:value="state.rotateAngle" class="slider-input-number" :update-value-on-input="false"
-          :bordered="false" :show-button="false" :min="0" :max="359" placeholder="" size="small" @update:value="handleAngle"/>
+    <!-- 旋转角度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("rotateAngle") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.rotateAngle" :step="1" :min="0" :max="359"
+            @update:value="handleAngle" />
+          <n-input-number v-model:value="state.rotateAngle"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="359" placeholder="" size="small"
+            @update:value="handleAngle" />
+        </div>
       </div>
     </div>
 
-    <div style="margin-left: 0.96rem; margin-bottom: 0.1rem;">
-      <n-checkbox v-model:checked="state.isCustom">{{ $t("customResource") }}</n-checkbox>
+    <!-- 自定义资源 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isCustom" :label="$t('customResource')" />
+      </div>
     </div>
 
-    <div class="row-item" v-if="state.isCustom">
-      <span>{{ $t("resourcePath") }}</span>
-      <n-input class="add-input-border" 
-        v-model:value="state.customUrl" 
-        @change="handleCustomSkybox" 
-        type="text"
-        :placeholder="$t('skyBoxCustomUrlTip')"
-        :title="state.customUrl"
-        style="width: 1.96rem" />
+    <!-- 资源路径 -->
+    <div class="row-wrap" v-if="state.isCustom">
+      <div class="label">{{ $t("resourcePath") }}</div>
+      <div class="content">
+        <n-input v-model:value="state.customUrl" @change="handleCustomSkybox" type="text"
+          :placeholder="$t('skyBoxCustomUrlTip')" :title="state.customUrl" />
+      </div>
     </div>
   </div>
 </template>

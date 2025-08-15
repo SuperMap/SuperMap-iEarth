@@ -1,72 +1,59 @@
+<!-- S3M图层属性查询 -->
 <template>
-  <div class="layerSeries-box">
-    <div class="row-item">
-      <span>{{ $t("chooseLayer") }}</span>
-      <n-select
-        style="width: 1.96rem"
-        v-model:value="state.selectS3MName"
-        :options="state.s3mlayers"
-      />
-    </div>
-
-    <div class="row-item" >
-      <span>{{ $t("dataServerUrl") }}</span>
-      <n-tooltip placement="top-end" trigger="hover">
-        <template #trigger>
-          <n-input class="add-input-border" style="width: 1.96rem" v-model:value="state.dataUrl" type="text"
-            @input="handleUrlChange"
-            :placeholder="$t('inputServerUrl')" :status='state.inputUrlStatus'/>
-        </template>
-        {{ state.urlFormatTip }}
-      </n-tooltip>
-    </div>
-
-    <div class="row-item" v-if="state.dataSourceOptions.length>0">
-      <span>{{ $t("dataSourceName") }}</span>
-      <n-select
-        style="width: 1.96rem"
-        v-model:value="state.dataSourceName"
-        :options="state.dataSourceOptions"
-      />
-    </div>
-
-    <div class="row-item">
-      <span>{{ $t("isMergeLayer") }}</span>
-      <div class="check-box">
-        <n-checkbox v-model:checked="state.isMerge"></n-checkbox>
+  <div class="right-panel-container-not-tabs">
+    <!-- 选择图层 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("chooseLayer") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.selectS3MName" :options="state.s3mlayers" />
       </div>
     </div>
 
-    <div class="row-item" v-if="state.dataSetOptions.length>0 && !state.isMerge">
-      <span>{{ $t("datasetName") }}</span>
-      <n-select
-        style="width: 1.96rem"
-        v-model:value="state.dataSetName"
-        :options="state.dataSetOptions"
-      />
+    <!-- 数据服务URL -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("dataServerUrl") }}</div>
+      <div class="content">
+        <n-tooltip placement="top-end" trigger="hover">
+          <template #trigger>
+            <n-input v-model:value="state.dataUrl" type="text"
+              @input="handleUrlChange" :placeholder="$t('inputServerUrl')" :status='state.inputUrlStatus' />
+          </template>
+          {{ state.urlFormatTip }}
+        </n-tooltip>
+      </div>
     </div>
 
-    <div class="btn-row-item" style="margin-left: 1.05rem; margin-top: 0.12rem">
-      <n-button
-        type="info"
-        color="#3499E5"
-        text-color="#fff"
-        class="ans-btn"
-        @click="startQuery"
-        >{{ $t("query") }}</n-button
-      >
-      <n-button
-        class="btn-secondary"
-        @click="clear"
-        color="rgba(255, 255, 255, 0.65)"
-        ghost
-        >{{ $t("clear") }}</n-button
-      >
+    <!-- 数据源 -->
+    <div class="row-wrap" v-if="state.dataSourceOptions.length>0">
+      <div class="label">{{ $t("dataSourceName") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+      </div>
     </div>
 
-    <div class="stktip">
-      <span>{{ $t("qxUnsupportedQuery") }}</span>
+    <!-- 合并数据集 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.isMerge" :label="$t('isMergeLayer')" />
+      </div>
     </div>
+
+    <!-- 数据集 -->
+    <div class="row-wrap" v-if="state.dataSetOptions.length>0 && !state.isMerge">
+      <div class="label">{{ $t("datasetName") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+      </div>
+    </div>
+
+    <div class="row-btns">
+      <n-button @click="startQuery" class="operate" type="info" :focusable="false">{{
+      $t("query") }}</n-button>
+      <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
+    </div>
+
+    <!-- 辅助提示 -->
+    <div class="panel-footer-tip-box"> {{ $t("qxUnsupportedQuery") }} </div>
   </div>
 </template>
 
@@ -283,18 +270,3 @@ watch(
   }
 );
 </script>
-
-
-<style lang="scss" scoped>
-  .stktip {
-    color: rgba(255, 255, 255, 0.45);
-    span {
-      font-family: "Microsoft JhengHe", sans-serif; // Microsoft Yahei
-      font-size: 0.14rem;
-    }
-  
-    margin-top: 0.04rem;
-    margin-bottom: -0.03rem;
-    margin-left: 1.05rem;
-  }
-  </style>

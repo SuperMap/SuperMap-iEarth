@@ -1,64 +1,43 @@
 <template>
-  <div class="row-item">
-    <span>{{ $t("rotateByPoint") }}</span>
-    <div style="width: 1.96rem">
-      <n-switch v-model:value="state.rotateShow" size="small" />
+  <!-- 绕点旋转 -->
+  <div class="row-wrap">
+    <div class="content">
+      <div class="switch-box">
+        <div class="text">{{ $t("rotateByPoint") }}</div>
+        <n-switch v-model:value="state.rotateShow" size="small" />
+      </div>
     </div>
   </div>
 
+  <!-- 操作按钮 -->
   <div v-show="state.rotateShow">
-    <div class="row-item">
-      <span></span>
-      <div class="icon-container">
-        <div class="icon-list">
-          <span
-            v-for="(item, index) in state.itemOptions"
-            :key="index"
-            class="icon-span"
-            :title="item.lable"
-            :class="item.isSelect ? 'selected-icon' : ''"
-            @click="changleIconItem(item)"
-          >
-            <i
-              class="iconfont iconSize"
-              :class="item.iconName"
-              style="margin-top: 0px"
-            ></i>
-          </span>
+    <div class="row-wrap">
+      <div class="content">
+        <div class="icon-list-box">
+            <span v-for="(item, index) in state.itemOptions" :key="index" class="icon-span" :title="item.lable"
+              :class="item.isSelect ? 'selected-icon' : ''" @click="changleIconItem(item)">
+              <i class="iconfont iconSize" :class="item.iconName" style="margin-top: 0px"></i>
+            </span>
+          </div>
+      </div>
+    </div>
+
+    <!-- 旋转速度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("rotateSpeed") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.speedRatio" :step="0.1" :min="0" :max="20" />
+          <n-input-number v-model:value="state.speedRatio"  :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="20" placeholder="" size="small" />
         </div>
       </div>
     </div>
 
-    <div class="row-item">
-      <span>{{ $t("rotateSpeed") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.speedRatio"
-          :step="0.1"
-          :min="0"
-          :max="20"
-        />
-        <n-input-number
-          v-model:value="state.speedRatio"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="20"
-          placeholder=""
-          size="small"
-        />
-      </div>
-    </div>
-
-    <div class="row-item" style="margin-bottom: -0.1rem">
-      <span></span>
-      <div class="row-content">
-        <n-checkbox v-model:checked="state.flyCircleLoop">{{
-          $t("rotateRepeat")
-        }}</n-checkbox>
+    <!-- 循环旋转 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.flyCircleLoop" :label="$t('rotateRepeat')" />
       </div>
     </div>
   </div>

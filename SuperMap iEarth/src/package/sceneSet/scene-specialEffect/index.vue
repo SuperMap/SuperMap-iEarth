@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="btn-list">
+    <div class="btn-list-box">
       <div
         class="btn"
         :class="item.isSelect ? 'select-btn' : ''"
@@ -60,17 +60,3 @@ function changeItem(item: any) {
   currentItem.com = item.com;
 }
 </script>
-
-<style lang="scss" scoped>
-.btn-list {
-  width: 2.7rem;
-  margin-left: 0.1rem;
-  margin-bottom: 0.2rem;
-  justify-content: space-evenly;
-
-  .btn {
-    width: fit-content;
-    padding: 0 0.08rem;
-  }
-}
-</style>

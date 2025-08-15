@@ -1,82 +1,100 @@
+<!-- 灯光 -->
 <template>
-  <div class="row-item">
-    <span>{{ $t("symbolLibrary") }}</span>
-    <div class="icon-container">
-      <div class="icon-list">
+  <!-- 符号库 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("symbolLibrary") }}</div>
+    <div class="content">
+      <div class="icon-list-box">
         <span v-for="(item, index) in state.itemOptions" :key="index" :bordered="false" :title="item.lable"
-          @click="changleIconItem(item)" class="icon-span" :class="item.isSelect ? 'is-select' : ''">
+          @click="changleIconItem(item)" class="icon-span" :class="item.isSelect ? 'selected-icon' : ''">
           <i class="iconfont iconSize" :class="item.iconName" :title="item.lable" style="margin-top: 0px"></i>
         </span>
       </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("lightsourceColor") }}</span>
-    <div class="color-pick-box">
+  <!-- 灯光颜色 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("lightsourceColor") }}</div>
+    <div class="content">
       <n-color-picker v-model:value="state.lightColor" :render-label="() => {
-        return '';
-      }
-        " size="small"></n-color-picker>
+      return '';
+              }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item" v-if="state.lightSelectId != 3">
-    <span>{{ $t("diffusionDistance") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.cutoffDistance" :step="1" :min="0" :max="500" />
-      <n-input-number v-model:value="state.cutoffDistance" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="500" placeholder="" size="small" />
+  <!-- 扩散距离 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("diffusionDistance") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.cutoffDistance" :step="1" :min="0" :max="500" />
+        <n-input-number v-model:value="state.cutoffDistance"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="500" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item" v-if="state.lightSelectId != 3">
-    <span>{{ $t("lightDecay") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.lightDecay" :step="0.1" :min="0" :max="10" />
-      <n-input-number v-model:value="state.lightDecay" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="10" placeholder="" size="small" />
+  <!-- 衰减因子 -->
+  <div class="row-wrap" v-if="state.lightSelectId != 3">
+    <div class="label">{{ $t("lightDecay") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.lightDecay" :step="0.1" :min="0" :max="10" />
+        <n-input-number v-model:value="state.lightDecay"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="10" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("lightsourceIntensity") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.lightIntensity" :step="0.1" :min="0" :max="10" />
-      <n-input-number v-model:value="state.lightIntensity" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0" :max="10" placeholder="" size="small" />
+  <!-- 光源强度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("lightsourceIntensity") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.lightIntensity" :step="0.1" :min="0" :max="10" />
+        <n-input-number v-model:value="state.lightIntensity"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0" :max="10" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item" v-if="state.lightSelectId === 2">
-    <span>{{ $t("spotlightRange") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.spotLightAngle" :step="1" :min="1" :max="90" />
-      <n-input-number v-model:value="state.spotLightAngle" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="1" :max="90" placeholder="" size="small" />
+  <!-- 聚光范围 -->
+  <div class="row-wrap" v-if="state.lightSelectId === 2">
+    <div class="label">{{ $t("spotlightRange") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.spotLightAngle" :step="1" :min="1" :max="90" />
+        <n-input-number v-model:value="state.spotLightAngle"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="90" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("displayLightmodel") }}</span>
-    <div class="check-box">
-      <n-checkbox v-model:checked="state.visibleModel"></n-checkbox>
+  <!-- 显示光源模型 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.visibleModel" :label="$t('displayLightmodel')" />
     </div>
   </div>
 
-  <div class="row-item" v-show="state.visibleModel">
-    <span>{{ $t("modelSize") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.modelSize" :step="1" :min="1" :max="100" />
-      <n-input-number v-model:value="state.modelSize" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="1" :max="100" placeholder="" size="small" />
+  <!-- 模型大小 -->
+  <div class="row-wrap" v-show="state.visibleModel">
+    <div class="label">{{ $t("modelSize") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.modelSize" :step="1" :min="1" :max="100" />
+        <n-input-number v-model:value="state.modelSize"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="100" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="btn-row-item" style="margin-left: 0.96rem">
-    <n-button type="info" color="#3499E5" text-color="#fff" :focusable="false" @click="addLight"
-      style="margin-right: 0.1rem">{{ $t("add") }}</n-button>
-    <n-button :focusable="false" @click="clear">{{ $t("clear") }}</n-button>
+  <div class="row-btns">
+    <n-button @click="addLight" class="operate" type="info" :focusable="false">{{
+    $t("add") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 
@@ -502,30 +520,3 @@ watch(
 }
 );
 </script>
-
-<style lang="scss" scoped>
-.is-select {
-color: #3499e5;
-}
-
-.bableLight {
-position: fixed;
-top: 2rem;
-left: 5rem;
-background-color: #383838;
-opacity: 0.8;
-height: 1.8rem;
-width: 2.28rem;
-z-index: 200000;
-
-.light-anaylse-pop-titie {
-  font-size: 0.12rem;
-  line-height: 0.2rem;
-  margin-left: 0.12rem;
-}
-
-span {
-  font-size: 0.12rem;
-}
-}
-</style>

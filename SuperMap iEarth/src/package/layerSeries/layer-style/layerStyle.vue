@@ -1,127 +1,154 @@
+<!-- S3M图层风格 -->
 <template>
   <n-scrollbar style="max-height: 5rem">
-    <div class="layerSeries-box">
-      <div class="row-item">
-        <span>{{ $t("chooseLayer") }}</span>
-        <n-select style="width: 1.96rem" @update:value="handleSelectLayer" v-model:value="state.selectedName"
-          :options="state.s3mlayers" />
+    <div class="right-panel-container-not-tabs">
+      <!-- 选择图层 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("chooseLayer") }}</div>
+        <div class="content">
+          <n-select @update:value="handleSelectLayer" v-model:value="state.selectedName" :options="state.s3mlayers" />
+        </div>
       </div>
 
-      <div class="row-item">
-        <span>{{ $t("fillStyle") }}</span>
-        <n-select style="width: 1.96rem" v-model:value="state.fillStyle"
-          :options="state.fillStyleMode" />
+      <!-- 填充风格 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("fillStyle") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.fillStyle" :options="state.fillStyleMode" />
+        </div>
       </div>
-      <div class="row-item" v-show="state.fillStyle != 1">
-        <span>{{ $t("fillColor") }}</span>
-        <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
+
+      <!-- 填充颜色 -->
+      <div class="row-wrap" v-show="state.fillStyle != 1">
+        <div class="label">{{ $t("fillColor") }}</div>
+        <div class="content">
           <n-color-picker v-model:value="state.fillColor" :render-label="() => {
-            return '';
-          }
-            " size="small"></n-color-picker>
+          return '';
+                    }
+          " size="small"></n-color-picker>
         </div>
       </div>
 
-      <div class="row-item" v-show="state.fillStyle != 0">
-        <span>{{ $t('wireframeColor') }}</span>
-        <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
+      <!-- 线框颜色 -->
+      <div class="row-wrap" v-show="state.fillStyle != 0">
+        <div class="label">{{ $t("wireframeColor") }}</div>
+        <div class="content">
           <n-color-picker v-model:value="state.lineColor" :render-label="() => {
+          return '';
+                    }
+          " size="small"></n-color-picker>
+        </div>
+      </div>
+
+      <!-- 线框宽度 -->
+      <div class="row-wrap" v-show="state.fillStyle != 0">
+        <div class="label">{{ $t("wireWidth") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.lineWidth" style="width: 70%" :step="0.1" :min="0.1" :max="10" />
+            <n-input-number v-model:value="state.lineWidth" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="0.1" :max="10" placeholder="" size="small" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 选中颜色 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("selectedColor") }}</div>
+        <div class="content">
+          <n-color-picker v-model:value="state.selectedColor" :render-label="() => {
             return '';
           }
-            " size="small"></n-color-picker>
+          " size="small"></n-color-picker>
         </div>
       </div>
 
-      <div class="row-item" v-show="state.fillStyle != 0">
-        <span>{{ $t('wireWidth') }}</span>
-        <div class="slider-box">
-          <n-slider v-model:value="state.lineWidth" style="width: 70%" :step="0.1" :min="0.1" :max="10" />
-          <n-input-number v-model:value="state.lineWidth" class="slider-input-number" :update-value-on-input="false"
-            :bordered="false" :show-button="false" :min="0.1" :max="10" placeholder="" size="small" />
+      <!-- 选中颜色模式 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("selectColorMode") }}</div>
+        <div class="content">
+          <n-radio-group v-model:value="state.selectColorMode" name="shadowMode">
+            <n-radio :value="0"> {{ $t("colorMix") }} </n-radio>
+            <n-radio :value="1"> {{ $t("colorReplace") }} </n-radio>
+          </n-radio-group>
         </div>
       </div>
 
-      <div class="row-item">
-        <span>{{ $t("selectedColor") }}</span>
-        <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
-          <n-color-picker v-model:value="state.selectedColor" :render-label="() => {
-              return '';
-            }
-            " size="small"></n-color-picker>
+      <!-- 底部高程 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("bottomHeight") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.bottomAltitude" :step="1" :min="-100" :max="100" />
+            <n-input-number v-model:value="state.bottomAltitude" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="-100" :max="100" placeholder="" size="small" />
+          </div>
         </div>
       </div>
 
-      <div class="row-item">
-        <span>{{ $t("selectColorMode") }}</span>
-        <n-radio-group v-model:value="state.selectColorMode" name="shadowMode" style="width: 1.96rem">
-          <n-radio :value="0" style="margin-right: 0.2rem"><n-ellipsis>{{ $t("colorMix") }}</n-ellipsis></n-radio>
-          <n-radio :value="1"><n-ellipsis>{{ $t("colorReplace") }} </n-ellipsis></n-radio>
-        </n-radio-group>
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("bottomHeight") }}</span>
-        <div class="slider-box">
-          <n-slider v-model:value="state.bottomAltitude" style="width: 70%" :step="1" :min="-100" :max="100" />
-          <n-input-number v-model:value="state.bottomAltitude" class="slider-input-number"
-            :update-value-on-input="false" :bordered="false" :show-button="false" :min="-100" :max="100" placeholder=""
-            size="small" />
+      <!-- LOD -->
+      <div class="row-wrap">
+        <div class="label"> LOD </div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.LODScale" :step="0.1" :min="0" :max="10" />
+            <n-input-number v-model:value="state.LODScale" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="0" :max="10" placeholder="" size="small" />
+          </div>
         </div>
       </div>
 
-      <div class="row-item">
-        <span>LOD</span>
-        <div class="slider-box">
-          <n-slider v-model:value="state.LODScale" style="width: 70%" :step="0.1" :min="0" :max="10" />
-          <n-input-number v-model:value="state.LODScale" class="slider-input-number" :update-value-on-input="false"
-            :bordered="false" :show-button="false" :min="0" :max="10" placeholder="" size="small" />
-        </div>
-      </div>
-
-      <div class="row-item">
-        <span>{{ $t("transparency") }}</span>
-        <div class="slider-box">
-          <n-slider v-model:value="state.layerTrans" style="width: 70%" :step="0.05" :min="0" :max="1" />
-          <n-input-number v-model:value="state.layerTrans" class="slider-input-number" :update-value-on-input="false"
-            :bordered="false" :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+      <!-- 透明度 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("transparency") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider v-model:value="state.layerTrans" :step="0.05" :min="0" :max="1" />
+            <n-input-number v-model:value="state.layerTrans" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="0" :max="1" placeholder="" size="small" />
+          </div>
         </div>
       </div>
 
       <!-- 水面风格 -->
-      <div class="row-item" v-show="hasWaterParameter">
-        <span>{{ $t("waterEffect") }}</span>
-        <div style="width: 1.96rem">
-          <n-switch v-model:value="state.showWater" size="small" />
+      <div class="row-wrap" v-show="hasWaterParameter">
+        <div class="content">
+          <div class="switch-box">
+            <div class="text">{{ $t("waterEffect") }}</div>
+            <n-switch v-model:value="state.showWater" size="small" />
+          </div>
         </div>
       </div>
       <WaterStyle v-if="state.showWater" :selectS3MLayerName="selectS3MLayerName"></WaterStyle>
 
       <!-- 图层后处理 -->
-      <div class="row-item">
-        <span>{{ $t("colorAdjust") }}</span>
-        <div style="width: 1.96rem">
-          <n-switch v-model:value="state.showPost" size="small" />
+      <div class="row-wrap">
+        <div class="content">
+          <div class="switch-box">
+            <div class="text">{{ $t("colorAdjust") }}</div>
+            <n-switch v-model:value="state.showPost" size="small" />
+          </div>
         </div>
       </div>
       <PostStyle v-if="state.showPost" :selectS3MLayerName="selectS3MLayerName"></PostStyle>
 
-      <div class="row-item">
-          <div>{{ $t("setMaterial") }}</div>
-          <div class="check-color-pick">
-            <n-checkbox
-              v-model:checked="state.usePbrJson"
-            ></n-checkbox>
-            <n-input-group style="margin-left: 0.17rem;">
-              <n-input style="width: 1.2rem" :placeholder="$t('localFilePathJson')"
-                v-model:value="state.fileSrc" :disabled="!state.usePbrJson"/>
-              <n-button type="tertiary" @click="chooseFile" style="width: 0.5rem" :disabled="!state.usePbrJson">{{ $t("import") }}</n-button>
+      <!-- 设置材质 -->
+      <div class="row-wrap">
+        <div class="label"> {{ $t("setMaterial") }} </div>
+        <div class="content">
+          <div class="check-box-new">
+            <n-checkbox style="margin-right:0.2rem" v-model:checked="state.usePbrJson"></n-checkbox>
+            <n-input-group>
+              <n-input :placeholder="$t('localFilePathJson')" v-model:value="state.fileSrc"
+                :disabled="!state.usePbrJson" />
+              <n-button type="tertiary" @click="chooseFile" :disabled="!state.usePbrJson">{{ $t("import") }}</n-button>
             </n-input-group>
           </div>
+        </div>
       </div>
 
-
-      <div class="btn-row-item" style="margin-left: 1.06rem;">
-          <n-button :focusable="false" @click="reSetting">{{ $t("reset") }}</n-button>
+      <div class="row-btns">
+        <n-button @click="reSetting" :focusable="false">{{ $t("reset") }}</n-button>
       </div>
     </div>
   </n-scrollbar>
@@ -453,13 +480,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.n-radio-group {
-  display: flex;
-}
-
-.n-radio .n-radio__label {
-  padding-right: 0.1rem;
-}
-</style>

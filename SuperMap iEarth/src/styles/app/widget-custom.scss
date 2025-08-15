@@ -1,0 +1,23 @@
+/** ==========================================SuperMap3D控件自定义样式==Start====================================================== */
+// 帧率控件位置
+.supermap3d-performanceDisplay-defaultContainer {
+    top: 10px;
+}
+
+// 底部时间线控件位置，避免和底部信息条重叠
+.supermap3d-viewer-timelineContainer {
+    visibility: visible;
+    width: 100%;
+    left: 0rem;
+    right: 0rem;
+    bottom: 25px;
+}
+
+// 性能控制面板位置
+.supermap3d-performanceDisplay-select-Container,
+.supermap3d-performanceDisplay-outward-Container {
+    right: 50px;
+    color: black;
+}
+
+/** ==========================================SuperMap3D控件自定义样式==End====================================================== */

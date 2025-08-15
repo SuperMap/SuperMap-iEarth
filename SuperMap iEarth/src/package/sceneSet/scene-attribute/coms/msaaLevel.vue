@@ -1,15 +1,16 @@
+<!-- 场景反走样 -->
 <template>
-    <div class="sence-config-container">
-      <div class="row-item">
-        <span>{{ $t("intensityValue") }}</span>
-        <div class="slider-box">
-          <n-slider style="width: 1.2rem" v-model:value="state.mssaIntensity" :step="1" :min="1" :max="8" />
-          <n-input-number v-model:value="state.mssaIntensity" class="slider-input-number" :update-value-on-input="false"
-            :bordered="false" :show-button="false" :min="1" :max="8" placeholder="" size="small" />
-        </div>
+  <div class="row-wrap">
+    <div class="label">{{ $t("intensityValue") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.mssaIntensity" :step="1" :min="1" :max="8" />
+        <n-input-number v-model:value="state.mssaIntensity"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="1" :max="8" placeholder="" size="small" />
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
 <script lang="ts" setup>
 import { reactive, onMounted, watch } from "vue";
@@ -31,4 +32,3 @@ watch(
   }
 );
 </script>
-  

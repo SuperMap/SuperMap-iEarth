@@ -1,0 +1,88 @@
+/** ==========================================图层列表==Start====================================================== */
+.n-tree {
+  // 文字大小
+  font-size: 0.12rem;
+}
+
+.n-tree-node-switcher {
+  // 图层树上的折叠小三角
+  margin-left: 0.06rem;
+}
+
+.n-tree-node-content {
+  // 文字和后缀两端对齐
+  justify-content: space-between;
+}
+
+.n-tree.n-tree--block-line .n-tree-node:not(.n-tree-node--disabled):hover {
+  // 图层列表行悬浮颜色
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.n-tree .n-tree-node-content .n-tree-node-content__text div {
+  // 避免文字内容过长，直接省略
+  overflow: hidden;
+  text-overflow: ellipsis; // 文字过长后使用省略号
+}
+
+// 图层列表下拉菜单样式
+.n-dropdown-menu {
+  // 面板背景
+  background: url("@/assets/panelbg/drop-menu-bg.png") no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+}
+
+.n-dropdown-menu .n-dropdown-option .n-dropdown-option-body {
+  // 面板长度和宽度
+  height: 0.34rem;
+}
+
+.n-dropdown-option-body__label {
+  // 文字颜色
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.12rem;
+}
+
+.n-dropdown-option:hover {
+  // 行悬浮颜色
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+[v-placement="right-start"]>.n-popover-shared {
+  // 下拉菜单整个面板和图层列表的间距
+  margin-left: 0px;
+}
+
+// 媒体查询-解决图层列表浏览器缩小后不显示的问题
+@media screen and (max-width:1300px) {
+  .n-tree .n-tree-node-wrapper {
+    padding: 0rem;
+  }
+
+  .n-tree .n-tree-node-content .n-tree-node-content__text {
+    max-width: 58%
+  }
+}
+
+@media screen and (min-width:1320px) {
+  .n-tree .n-tree-node-wrapper {
+    padding: 0.03rem 0rem;
+  }
+
+  .n-tree .n-tree-node-content .n-tree-node-content__text {
+    max-width: 100%
+  }
+}
+
+@media screen and (max-width:700px) {
+  .n-tree .n-tree-node-content .n-tree-node-content__text div {
+    width: 2.0rem !important;
+  }
+
+  .n-tree .n-tree-node-switcher {
+    width: 0px;
+  }
+}
+
+/** ==========================================图层列表==End====================================================== */

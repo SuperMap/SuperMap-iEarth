@@ -1,90 +1,64 @@
+<!-- 量算 -->
 <template>
-  <div class="measure-box">
-    <div class="row-item">
-      <span>{{ $t("measureMode") }}</span>
-      <n-select
-        style="width: 1.96rem"
-        v-model:value="state.measureMode"
-        :options="state.options"
-        @update:value="update_mode"
-      >
-      </n-select>
+  <div class="right-panel-container-not-tabs">
+    <!-- 空间模式 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("measureMode") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.measureMode" :options="state.options" @update:value="updateEllipsoidMode">
+        </n-select>
+      </div>
     </div>
-
-    <div class="row-item">
-      <span></span>
-      <div class="icon-list">
-        <span
-          v-for="(line, index) in state.currentItemOption"
-          :key="index"
-          class="icon-span"
-          :title="line.lable"
-          :class="line.isSelect ? 'selected-icon' : ''"
-          @click="changleIconItem(line)"
-        >
-          <i
-            class="iconfont iconSize"
-            :class="line.iconName"
-            style="margin-top: 0px"
-          ></i>
-        </span>
+    
+    <!-- 量算模式 -->
+    <div class="row-wrap">
+      <div class="content">
+        <div class="icon-list-box">
+          <span v-for="(line, index) in state.currentItemOption" :key="index" class="icon-span" :title="line.lable"
+            :class="line.isSelect ? 'selected-icon' : ''" @click="changleIconItem(line)">
+            <i class="iconfont iconSize" :class="line.iconName" style="margin-top: 0px"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 连续绘制 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox @update:checked="openContinueDraw" v-model:checked="state.isContinueDraw" :label="$t('continueDraw')" />
+      </div>
+    </div>
+    
+    <!-- 顶点捕捉 -->
+    <div class="row-wrap" v-show="state.measureMode == 'Space'">
+      <div class="content">
+        <n-checkbox @update:checked="openPickPoint" v-model:checked="state.pickPointEnabled" :label="$t('pickPoint')" />
+      </div>
+    </div>
+    
+    <!-- 等高线 -->
+    <div class="row-wrap" v-show="state.currentItemIndex === 2">
+      <div class="content">
+        <n-checkbox @update:checked="showContourLine" v-model:checked="state.isShowLine" :label="$t('contour')" />
       </div>
     </div>
 
-    <div>
-      <div class="btn-row-item" v-show="state.measureMode == 'Space'">
-        <n-checkbox
-          @update:checked="openPickPoint"
-          v-model:checked="state.pickPointEnabled"
-          style="margin-bottom: 0.1rem"
-        >
-          {{ $t("pickPoint") }}
-        </n-checkbox>
-      </div>
-    </div>
-
-    <div v-show="state.currentItemIndex === 2">
-      <div class="btn-row-item">
-        <n-checkbox
-          @update:checked="update_showDVH"
-          v-model:checked="state.isShowLine"
-          style="margin-bottom: 0.1rem"
-        >
-          {{ $t("contour") }}
-        </n-checkbox>
-      </div>
-    </div>
-
-    <div class="btn-row-item">
-      <n-button
-        type="info"
-        color="#3499E5"
-        text-color="#fff"
-        class="ans-btn"
-        @click="StartMeasure"
-        :title="$t('measureAction')"
-        >{{ $t("measureAction") }}</n-button
-      >
-      <n-button
-        class="btn-secondary"
-        @click="clear"
-        color="rgba(255, 255, 255, 0.65)"
-        ghost
-        >{{ $t("clear") }}</n-button
-      >
+    <div class="row-btns">
+      <n-button @click="StartMeasure" class="operate" type="info" :focusable="false">{{
+      $t("measureAction") }}</n-button>
+      <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted, onBeforeUnmount, watch } from "vue";
-import tool from "@/tools/tool";
+import { reactive, onBeforeUnmount, watch } from "vue";
+import SceneMeasure from "@/lib/SceneMeasure";
 
 type stateType = {
   measureMode: string; //测量模式
   clampMode: any; //贴地模式
-  Ellipsoid: any; //椭球选择
-  contourColor: string; //等高线颜色
+  isContinueDraw: boolean; //连续绘制
   isShowLine: boolean; //显示等高线
   pickPointEnabled: boolean; //开启顶点捕捉
   currentItemIndex: number; // 当前索引
@@ -96,8 +70,7 @@ type stateType = {
 let state = reactive<stateType>({
   measureMode: "Space", //测量模式
   clampMode: SuperMap3D.ClampMode.Space, //贴地模式
-  Ellipsoid: null, //椭球选择
-  contourColor: "#ff7d00", //等高线颜色
+  isContinueDraw: true, //连续绘制
   isShowLine: true, //显示等高线
   pickPointEnabled: false, //开启顶点捕捉
   currentItemIndex: 1,
@@ -124,7 +97,7 @@ let state = reactive<stateType>({
     },
     {
       label: () => $t("mode_projection"),
-      value: "null",
+      value: "Projection",
     },
   ],
   itemOptions: {
@@ -168,7 +141,7 @@ let state = reactive<stateType>({
         isSelect: false,
       },
     ],
-    null: [
+    Projection: [
       {
         id: 1,
         lable: $t("measureDistence"),
@@ -211,136 +184,15 @@ let state = reactive<stateType>({
   ],
 });
 
-// 初始化变量
-let layers, handlerDis, handlerArea, handlerHeight, lineHeight, setHypFlag;
-
-// 等高线初始化
-let isoline = new SuperMap3D.HypsometricSetting();
-let colorTable = new SuperMap3D.ColorTable();
-
-onMounted(() => {
-  isoline.DisplayMode = SuperMap3D.HypsometricSettingEnum.DisplayMode.LINE;
-  isoline._lineColor = SuperMap3D.Color.fromCssColorString(state.contourColor);
-  isoline.ColorTable = colorTable;
-  isoline.Opacity = 0.6;
-  isoline.MaxVisibleValue = -100;
-  isoline.MinVisibleValue = -100;
-
-  init();
-});
+const measure = new SceneMeasure(viewer, {
+  isContinuousDrawing: true, // 是否连续绘制 【默认为true】
+  isShowContourLine: true, // 是否显示等高线 【默认为true】【仅适用于测高模式】
+  isPickPoint: false // 是否开启顶点捕捉 【默认为false】
+})
 
 onBeforeUnmount(() => {
-  clear();
-  isoline.destroy();
-  layers = undefined;
+  measure.destroy();
 });
-
-// 初始化
-function init() {
-  if (!viewer) return;
-  viewer.scene.pickPointInterval = 20;
-  layers = viewer.scene.layers.layerQueue;
-  viewer.scene.globe.HypsometricSetting = {
-    hypsometricSetting: isoline,
-    analysisMode: SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-  };
-
-  handlerDis = new SuperMap3D.MeasureHandler(
-    viewer,
-    SuperMap3D.MeasureMode.Distance,
-    state.clampMode
-  );
-  handlerArea = new SuperMap3D.MeasureHandler(
-    viewer,
-    SuperMap3D.MeasureMode.Area,
-    state.clampMode
-  );
-  handlerHeight = new SuperMap3D.MeasureHandler(
-    viewer,
-    SuperMap3D.MeasureMode.DVH
-  );
-
-  //初始化测量距离
-  handlerDis.activeEvt.addEventListener((isActive) => {
-    if (isActive == true) {
-      tool.setMouseCursor("measureCur");
-      viewer.scene.pickPointEnabled = state.pickPointEnabled;
-    } else {
-      tool.setMouseCursor("normal");
-      viewer.scene.pickPointEnabled = false;
-    }
-  });
-
-  //注册测距功能事件
-  handlerDis.measureEvt.addEventListener((result) => {
-    let dis = Number(result.distance);
-    let mode = state.measureMode;
-    if (mode == "CGCS2000" || mode == "XIAN80" || mode == "WGS84") {
-      dis = Number(calcClampDistance(result.positions));
-    }
-    let distance =
-      dis > 1000 ? (dis / 1000).toFixed(2) + "km" : dis.toFixed(2) + "m";
-    handlerDis.disLabel.text = $t("distence_cl") + distance;
-  });
-
-  //初始化测量面积
-  handlerArea.activeEvt.addEventListener((isActive) => {
-    if (isActive == true) {
-      tool.setMouseCursor("measureCur");
-      viewer.scene.pickPointEnabled = state.pickPointEnabled;
-    } else {
-      tool.setMouseCursor("normal");
-      viewer.scene.pickPointEnabled = false;
-    }
-  });
-
-  // 测量面积监听事件
-  handlerArea.measureEvt.addEventListener((result) => {
-    let mj = Number(result.area);
-    let mode = state.measureMode;
-    if (mode == "CGCS2000" || mode == "XIAN80" || mode == "WGS84") {
-      mj = Number(calcClampValue(result.positions));
-    } else if (mode == "6") {
-      mj = Number(calcAreaWithoutHeight(result.positions));
-    }
-    let area =
-      mj > 1000000 ? (mj / 1000000).toFixed(2) + "km²" : mj.toFixed(2) + "㎡";
-    handlerArea.areaLabel.text = $t("area") + area;
-  });
-
-  //初始化测量高度
-  handlerHeight.measureEvt.addEventListener((result) => {
-    let distance =
-      result.distance > 1000
-        ? (result.distance / 1000).toFixed(2) + "km"
-        : result.distance + "m";
-    let vHeight =
-      result.verticalHeight > 1000
-        ? (result.verticalHeight / 1000).toFixed(2) + "km"
-        : result.verticalHeight + "m";
-    let hDistance =
-      result.horizontalDistance > 1000
-        ? (result.horizontalDistance / 1000).toFixed(2) + "km"
-        : result.horizontalDistance + "m";
-    handlerHeight.disLabel.text = $t("spaceDistance") + distance;
-    handlerHeight.vLabel.text = $t("verticalHeight") + vHeight;
-    handlerHeight.hLabel.text = $t("horizontalDistance") + hDistance;
-    //实时等高线显示
-    lineHeight = Number(result.endHeight);
-    if (state.isShowLine) updateContourLine(lineHeight);
-  });
-
-  // 测量高度监听事件
-  handlerHeight.activeEvt.addEventListener((isActive) => {
-    if (isActive == true) {
-      tool.setMouseCursor("measureCur");
-      viewer.scene.pickPointEnabled = state.pickPointEnabled;
-    } else {
-      tool.setMouseCursor("normal");
-      viewer.scene.pickPointEnabled = false;
-    }
-  });
-}
 
 // 改变当前item索引
 function changleIconItem(item: any) {
@@ -367,8 +219,6 @@ function updateIconItem() {
 
 // 开始测量
 function StartMeasure() {
-  deactiveAll();
-
   switch (state.currentItemIndex) {
     case 1:
       MeasureDistance();
@@ -384,188 +234,60 @@ function StartMeasure() {
   }
 }
 
-// 初始化设置图层等高线
-function setHypsometricSetting() {
-  if (!layers) return;
-  for (let i = 0; i < layers.length; i++) {
-    layers[i].hypsometricSetting = {
-      hypsometricSetting: isoline,
-      analysisMode:
-        SuperMap3D.HypsometricSettingEnum.AnalysisRegionMode.ARM_ALL,
-    };
-  }
-  setHypFlag = true;
-}
 
-// 分析
-//椭球贴地距离
-function calcClampDistance(positions: any) {
-  let lonlat: any[] = [];
-  for (let i = 0; i < positions.length; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(positions[i]);
-    let lon = SuperMap3D.Math.toDegrees(cartographic.longitude);
-    let lat = SuperMap3D.Math.toDegrees(cartographic.latitude);
-    lonlat.push(lon, lat);
-  }
-  let gemetry = new SuperMap3D.PolylineGeometry({
-    positions: SuperMap3D.Cartesian3.fromDegreesArray(lonlat),
-  });
-  return viewer.scene.globe.computeSurfaceDistance(gemetry, state.Ellipsoid);
-}
-
-//椭球贴地面积
-function calcClampValue(positions: any) {
-  let lonlat: any[] = [];
-  for (let i = 0; i < positions.length; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(positions[i]);
-    let lon = SuperMap3D.Math.toDegrees(cartographic.longitude);
-    let lat = SuperMap3D.Math.toDegrees(cartographic.latitude);
-    lonlat.push(lon, lat);
-  }
-
-  let gemetry = new SuperMap3D.PolygonGeometry.fromPositions({
-    positions: SuperMap3D.Cartesian3.fromDegreesArray(lonlat),
-  });
-  return viewer.scene.globe.computeSurfaceArea(gemetry, state.Ellipsoid);
-}
-
-//投影面积
-function calcAreaWithoutHeight(positions: any) {
-  let totalLon = 0;
-  for (let i = 0; i < positions.length; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(positions[i]);
-    let lon = SuperMap3D.Math.toDegrees(cartographic.longitude);
-    totalLon += lon;
-  }
-
-  let dh = Math.round((totalLon / positions.length + 6) / 6); //带号
-  let centralMeridian = dh * 6 - 3;
-  //高斯投影
-  let projection = new SuperMap3D.CustomProjection({
-    name: "tmerc",
-    centralMeridian: centralMeridian,
-    primeMeridian: 0,
-    standardParallel_1: 0,
-    standardParallel_2: 0,
-    eastFalse: 500000.0,
-    northFalse: 0.0,
-    semimajorAxis: 6378137,
-    inverseFlattening: 298.257222101,
-  });
-  let cartesians: any[] = [];
-  for (let i = 0; i < positions.length; i++) {
-    let cartographic = SuperMap3D.Cartographic.fromCartesian(positions[i]);
-
-    let cartesian = projection.project(cartographic);
-    cartesians.push(cartesian);
-  }
-
-  cartesians.push(cartesians[0]); //首尾相接
-  let value = SuperMap3D.getPreciseArea(
-    cartesians,
-    "China2000",
-    centralMeridian,
-    dh,
-    1
-  );
-  return value;
-}
-
-// 设置等值线
-function updateContourLine(height: number) {
-  viewer.scene.globe.HypsometricSetting.hypsometricSetting.MaxVisibleValue =
-    height;
-  viewer.scene.globe.HypsometricSetting.hypsometricSetting.MinVisibleValue =
-    height;
-  if (!setHypFlag) return;
-  for (let i = 0; i < layers.length; i++) {
-    if (layers[i].hypsometricSetting.hypsometricSetting) {
-      layers[i].hypsometricSetting.hypsometricSetting.MaxVisibleValue = height;
-      layers[i].hypsometricSetting.hypsometricSetting.MinVisibleValue = height;
-    } else {
-      setHypsometricSetting();
-    }
-  }
-}
 
 // 测量距离
 function MeasureDistance() {
-  deactiveAll();
-  handlerDis && handlerDis.activate();
+  measure.startDistence().then(result => {
+    console.log(result);
+  });
 }
 
 // 测量高度
 function MeasureHeight() {
-  if (!setHypFlag) setHypsometricSetting();
-  clearLine();
-  deactiveAll();
-  handlerHeight && handlerHeight.activate();
+  measure.startHeight().then(result => {
+    console.log(result);
+  });
 }
 
 // 测量面积
 function MeasureArea() {
-  deactiveAll();
-  handlerArea && handlerArea.activate();
+  measure.startArea().then(result => {
+    console.log(result);
+  });
 }
 
 // 更新量算模式
-function update_mode(val: string) {
+function updateEllipsoidMode(val: string) {
+  // 切换坐标系时,传入椭球枚举,量算类内部会根据该枚举值,选择对应椭球计算量算结果
+  measure.setCalculateMode(val);
+
+  // 量算过程中绘制线的风格：0空间模式 1贴地模式
   if (val == "Space") {
-    state.clampMode = SuperMap3D.ClampMode.Space;
-    handlerArea.clampMode = SuperMap3D.ClampMode.Space;
-    handlerDis.clampMode = SuperMap3D.ClampMode.Space;
+    measure.setClampMode(SuperMap3D.ClampMode.Space)
   } else {
-    state.pickPointEnabled = false; // 目前只要是贴地，就关闭顶点捕捉，等包修好后再说
-    state.clampMode = SuperMap3D.ClampMode.Ground;
-    handlerArea.clampMode = SuperMap3D.ClampMode.Ground;
-    handlerDis.clampMode = SuperMap3D.ClampMode.Ground;
-    if (val == "XIAN80") {
-      state.Ellipsoid = SuperMap3D.Ellipsoid.XIAN80;
-    } else if (val == "CGCS2000") {
-      state.Ellipsoid = SuperMap3D.Ellipsoid.CGCS2000;
-    } else if (val == "WGS84") {
-      state.Ellipsoid = SuperMap3D.Ellipsoid.WGS84;
-    } else {
-      state.Ellipsoid = null;
-    }
+    measure.setClampMode(SuperMap3D.ClampMode.Ground)
   }
 }
 
 // 开启等高线
-function update_showDVH(val: boolean) {
-  if (!val) {
-    updateContourLine(-10000);
-  } else {
-    updateContourLine(lineHeight);
-  }
+function showContourLine(val: boolean) {
+  measure.setContourLineEnable(Boolean(val)); // 设置是否显示等高线【仅适用于测高模式】
 }
 
 // 开启顶点捕捉
 function openPickPoint(val: boolean) {
-  state.pickPointEnabled = val;
-  viewer.scene.pickPointEnabled = val;
-  viewer.scene.pickPointInterval = 20;
+  measure.setPickPointEnable(Boolean(val)); // 设置是否开启顶点捕捉
+}
+
+// 开启连续绘制
+function openContinueDraw(val: boolean) {
+  measure.setContinueDrawEnable(Boolean(val)); // 设置是否开启连续绘制
 }
 
 // 清除
 function clear() {
-  deactiveAll();
-  handlerDis && handlerDis.clear();
-  handlerArea && handlerArea.clear();
-  handlerHeight && handlerHeight.clear();
-  clearLine();
-  viewer.scene.pickPointEnabled = false;
-}
-function deactiveAll() {
-  handlerDis && handlerDis.deactivate();
-  handlerArea && handlerArea.deactivate();
-  handlerHeight && handlerHeight.deactivate();
-  state.Ellipsoid = null;
-  lineHeight = -10000;
-}
-// 清除等值线
-function clearLine() {
-  updateContourLine(-10000);
+  measure.clear();
 }
 
 watch(
@@ -578,8 +300,8 @@ watch(
       case "Ground":
         state.currentItemOption = state.itemOptions["Ground"];
         break;
-      case "null":
-        state.currentItemOption = state.itemOptions["null"];
+      case "Projection":
+        state.currentItemOption = state.itemOptions["Projection"];
         break;
       default:
         state.currentItemOption = state.itemOptions["Space"];
@@ -590,12 +312,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.measure-box {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0 0.12rem;
-}
-</style>

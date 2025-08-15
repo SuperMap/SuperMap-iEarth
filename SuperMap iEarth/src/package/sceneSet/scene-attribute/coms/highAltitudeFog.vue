@@ -1,33 +1,40 @@
+<!-- 高度雾 -->
 <template>
-
-  <div class="row-item">
-    <span>{{ $t("fogEffect") }}</span>
-    <div style="width: 1.96rem">
-      <n-checkbox v-model:checked="state.useFog"></n-checkbox>
+  <!-- 开启雾气 -->
+  <div class="row-wrap">
+    <div class="content">
+      <n-checkbox v-model:checked="state.useFog" :label="$t('fogEffect')" />
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("density") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.density" :min="0.0" :max="10.0" :step="0.01" />
-      <n-input-number v-model:value="state.density" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.0" :max="10.0" :step="0.01" placeholder="" size="small" />
+  <!-- 密度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("density") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.density" :min="0.0" :max="10.0" :step="0.01" />
+        <n-input-number v-model:value="state.density"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.0" :max="10.0" :step="0.01" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("fogdecay") }}</span>
-    <div class="slider-box">
-      <n-slider style="width: 1.2rem" v-model:value="state.decay" :min="0.0" :max="10.0" :step="0.01" />
-      <n-input-number v-model:value="state.decay" class="slider-input-number" :update-value-on-input="false"
-        :bordered="false" :show-button="false" :min="0.0" :max="10.0" :step="0.01" placeholder="" size="small" />
+  <!-- 衰减系数 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("fogdecay") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.decay" :min="0.0" :max="10.0" :step="0.01" />
+        <n-input-number v-model:value="state.decay"  :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="0.0" :max="10.0" :step="0.01" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("color") }}</span>
-    <div class="color-pick-box" style="width: 1.96rem; margin-left: 0rem">
+  <!-- 雾气颜色 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("color") }}</div>
+    <div class="content">
       <n-color-picker v-model:value="state.color" :render-label="() => {return '';}" size="small">
       </n-color-picker>
     </div>

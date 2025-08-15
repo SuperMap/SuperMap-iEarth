@@ -1,119 +1,113 @@
+<!-- iPortal我的服务 -->
 <template>
-  <div class="layer-terrain-container">
-
+  <n-scrollbar style="max-height: 5.0rem; padding-right: 0.1rem;" trigger="none">
     <!-- 添加token -->
-    <!-- <div class="row-item-mine" style="margin-bottom:0.1rem">
-      <span>{{ $t("addToken") }}</span>
-      <div style="width: 76%; display: flex;justify-content: space-between;">
-        <n-input style="width: 2.1rem"  v-model:value="state.sceneToken" type="text"
-        :placeholder="$t('iportalTokenTip')" :title="state.sceneToken" :disabled="!state.useToken"/>
-        <div class="btn-row-item opration" style="margin-left:0.1rem;margin-top:0px;">
-          <n-button
-            type="info"
-            class="ans-btn"
-            color="#3499E5"
-            text-color="#fff"
-            :focusable="false"
-            @click="addToken"
-            >{{ $t("add") }}</n-button
-          >
-        </div>
+    <!-- <div class="row-wrap">
+      <div class="label"> {{ $t("addToken") }} </div>
+      <div class="content">
+        <n-input-group>
+          <n-input style="width: 2.6rem" v-model:value="state.sceneToken" type="text" :placeholder="$t('iportalTokenTip')"
+            :title="state.sceneToken" :disabled="!state.useToken" />
+          <n-button @click="addToken" type="tertiary">{{
+            $t("add")
+            }}</n-button>
+        </n-input-group>
       </div>
     </div> -->
 
-    <n-checkbox v-model:checked="state.useFileter" style="margin-bottom:0.1rem">{{ $t("isOpenFileter") }}</n-checkbox>
-
-    <div v-if="state.useFileter" style="margin-bottom:0.1rem">
-      <div class="row-item">
-        <span>{{ $t("resourceSubType") }}</span>
-        <n-select
-          style="width: 1.96rem"
-          v-model:value="state.filter_type"
-          :options="serviceTypeOption"
-          @update:value="handleTypeChange" 
-        >
-        </n-select>
+    <!-- 是否开启过滤 -->
+    <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.useFileter" :label="$t('isOpenFileter')" />
       </div>
-      <div class="row-item-mine" >
-        <n-select style="width: 2.2rem" v-model:value="state.filter_field" :options="fieldOption" />
-        <n-input class="add-input-border" v-model:value="state.filter_keywords" type="text" :placeholder="$t('layerMineFileterTip')"/>
-        <div class="btn-row-item" style="margin-left:0px">
-            <n-button
-              type="info"
-              class="ans-btn"
-              color="#3499E5"
-              text-color="#fff"
-              :focusable="false"
-              @click="handleFileter"
-              >{{ $t("filter") }}</n-button
-            >
+    </div>
+
+    <!-- 过滤项目 -->
+    <div v-if="state.useFileter" style="margin-bottom:0.1rem">
+      <!-- 服务类型 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("resourceSubType") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.filter_type" :options="serviceTypeOption" @update:value="handleTypeChange">
+          </n-select>
+        </div>
+      </div>
+
+      <!-- 过滤关键字 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("filterKeyword") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.filter_field" :options="fieldOption" />
+        </div>
+      </div>
+
+      <!-- 输入关键字并过滤 -->
+      <div class="row-wrap">
+        <div class="content">
+          <n-input v-model:value="state.filter_keywords" type="text" :placeholder="$t('layerMineFileterTip')" />
+          <n-button type="info" class="operate" color="#3499E5" :focusable="false" @click="handleFileter"
+            style="color:#fff">{{
+            $t("filter") }}</n-button>
         </div>
       </div>
     </div>
 
-
+    <!-- 我的服务表格 -->
     <div class="portalServiceTable">
-      <n-data-table
-        size="small"
-        :columns="columns"
-        :data="state.portalServiceList"
-        :row-class-name="(row)=> row.disabled ? 'myService-disabled-item' : ''"
-        flex-height
-        class="flex-1-hidden"
-        v-model:checked-row-keys="state.checkedRowKeys"
-      />
+      <n-data-table size="small" :columns="columns" :data="state.portalServiceList"
+        :row-class-name="(row)=> row.disabled ? 'disabled-item' : ''" flex-height
+        v-model:checked-row-keys="state.checkedRowKeys" />
     </div>
-    
+
+    <!-- 底部页码 -->
     <n-scrollbar x-scrollable>
-      <n-pagination 
-        v-model:page="state.currentPage" 
-        :page-count="state.pageCount" 
-        style="margin-top: 0.1rem;"
-      />
+      <n-pagination v-model:page="state.currentPage" :page-count="state.pageCount" style="margin-top: 0.1rem;" />
     </n-scrollbar>
 
     <!-- 场景服务 存在的场景名称 -->
     <div v-if="state.selectItem.resourceSubType == ServiceTypeEnum.Scene">
-      <div class="row-item-mine" v-if="state.sceneNameOptions.length>0">
-        <span>{{ $t("sceneName") }}</span>
-        <n-select style="width: 2.4rem" v-model:value="state.sceneName" :options="state.sceneNameOptions" />
+      <div class="row-wrap" v-if="state.sceneNameOptions.length>0">
+        <div class="label">{{ $t("sceneName") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.sceneName" :options="state.sceneNameOptions" />
+        </div>
       </div>
     </div>
-    
+
     <!-- 地图服务 可选的地图名称 -->
     <div v-if="state.selectItem.resourceSubType == ServiceTypeEnum.Map">
-      <div class="row-item-mine" v-if="state.mapNameOptions.length>0">
-        <span>{{ $t("mapName") }}</span>
-        <n-select style="width: 2.4rem" v-model:value="state.mapName" :options="state.mapNameOptions" />
+      <div class="row-wrap" v-if="state.mapNameOptions.length>0">
+        <div class="label">{{ $t("mapName") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.mapName" :options="state.mapNameOptions" />
+        </div>
       </div>
     </div>
 
     <!-- 数据服务 数据源:数据集 -->
     <div v-if="state.selectItem.resourceSubType == ServiceTypeEnum.Data">
-      <div class="row-item-mine" v-if="state.dataSourceOptions.length>0">
-        <span>{{ $t("dataSourceName") }}</span>
-        <n-select style="width: 2.4rem" v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+      <div class="row-wrap" v-if="state.dataSourceOptions.length>0">
+        <div class="label">{{ $t("dataSourceName") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.dataSourceName" :options="state.dataSourceOptions" />
+        </div>
       </div>
 
-      <div class="row-item-mine" v-if="state.dataSetOptions.length>0">
-        <span>{{ $t("datasetName") }}</span>
-        <n-select style="width: 2.4rem" v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+      <div class="row-wrap" v-if="state.dataSetOptions.length>0">
+        <div class="label">{{ $t("datasetName") }}</div>
+        <div class="content">
+          <n-select v-model:value="state.dataSetName" :options="state.dataSetOptions" />
+        </div>
       </div>
     </div>
 
-    <div class="btn-row-item opration">
-      <n-button
-        type="info"
-        class="ans-btn"
-        color="#3499E5"
-        text-color="#fff"
-        :focusable="false"
-        @click="addService"
-        >{{ $t("sure") }}</n-button
-      >
-      <n-button :focusable="false" @click="resetData">{{ $t("reset") }}</n-button>
+    <div class="row-btns">
+      <n-button @click="addService" class="operate" type="info" :focusable="false">{{
+      $t("sure") }}</n-button>
+      <n-button @click="resetData" :focusable="false">{{ $t("reset") }}</n-button>
     </div>
-  </div>
+  </n-scrollbar>
+
 </template>
 
 <script lang="ts" setup>
@@ -859,12 +853,6 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.layer-terrain-container {
-  display: flex;
-  flex-wrap: wrap;
-
-}
-
 .portalServiceTable {
   display: flex;
   flex-direction: column;
@@ -875,24 +863,8 @@ watch(
   z-index: 999999;
 }
 
-.flex-1-hidden {
+.n-data-table {
   flex: 1 1 0% !important;
   overflow: hidden;
-}
-
-.opration {
-  margin-top: 0.1rem;
-  margin-left: 60%;
-}
-
-.row-item-mine{
-  span {
-    font-size: 0.14rem;
-  }
-  display: flex;
-  justify-content: space-between;
-  width: 3.4rem;
-  margin-top: 0.1rem;
-  margin-right: 0.1rem;
 }
 </style>

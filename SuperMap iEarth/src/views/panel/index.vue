@@ -1,5 +1,5 @@
 <template>
-  <div class="too-panel">
+  <div class="tool-panel">
 
     <!-- 左侧面板 -->
     <div class="left-panel" v-if="panelStore.leftTooPanel">
@@ -202,7 +202,7 @@ const currentRightCom = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.too-panel {
+.tool-panel {
   z-index: 100;
 }
 

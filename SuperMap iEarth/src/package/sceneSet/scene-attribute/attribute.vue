@@ -1,30 +1,30 @@
 <template>
-  <n-scrollbar style="max-height: 5rem;">
-    <n-grid :y-gap="8" :cols="3" style="padding-top: 0.1rem">
+  <n-scrollbar style="max-height: 5rem; padding-right: 0.2rem;" trigger="none">
+    <n-grid :y-gap="8" :cols="2" style="padding-top: 0.1rem">
       <n-gi>
-        <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" />
+        <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" :title="$t('earth')"/>
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.depthInspection" :label="$t('depthInspection')" />
+        <n-checkbox v-model:checked="state.depthInspection" :label="$t('depthInspection')" :title="$t('depthInspection')"/>
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.atomsphereRender" :label="$t('atomsphereRender')" />
+        <n-checkbox v-model:checked="state.atomsphereRender" :label="$t('atomsphereRender')" :title="$t('atomsphereRender')"/>
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.cloudLayer" :label="$t('cloudLayer')" />
+        <n-checkbox v-model:checked="state.cloudLayer" :label="$t('cloudLayer')" :title="$t('cloudLayer')"/>
       </n-gi>
       <!-- <n-gi>
-        <n-checkbox v-model:checked="state.displayFrame" :label="$t('displayFrame')" />
+        <n-checkbox v-model:checked="state.displayFrame" :label="$t('displayFrame')" :title="$t('displayFrame')"/>
       </n-gi> -->
       <n-gi>
-        <n-checkbox v-model:checked="state.timeAxis" :label="$t('timeAxis')" />
+        <n-checkbox v-model:checked="state.timeAxis" :label="$t('timeAxis')" :title="$t('timeAxis')"/>
       </n-gi>
       <n-gi>
-        <n-checkbox v-model:checked="state.hdrEnabled" label="HDR" />
+        <n-checkbox v-model:checked="state.hdrEnabled" label="HDR" title="HDR"/>
       </n-gi>
     </n-grid>
 
-    <n-divider />
+    <n-divider style="margin-bottom:0.24rem" />
 
     <n-collapse :trigger-areas="triggerAreas" display-directive="show">
       <n-collapse-item :title="$t('skyBox')" name="skybox">
@@ -255,12 +255,12 @@ watch(() => state.isHighAltitudeFog,(val) => {
 });
 </script>
 
+<!-- 处理标准:checkBox复选框组合，文字太长导致换行 -->
 <style lang="scss" scoped>
-.n-input.n-input--autosize .n-input__input-el {
-  color: rgba(255, 255, 255, 0.82) !important;
-}
-
-.n-collapse .n-collapse-item{
-  width: 2.9rem;
+:deep(.n-checkbox) .n-checkbox__label {
+  width: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

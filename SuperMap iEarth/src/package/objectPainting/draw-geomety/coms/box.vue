@@ -1,132 +1,78 @@
+<!-- 长方体 -->
 <template>
-  <!-- 长方体 -->
-  <div class="row-item">
-    <span>{{ $t("length") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.boxLength"
-        :step="1"
-        :min="10"
-        :max="100"
-      />
-      <n-input-number
-        v-model:value="state.boxLength"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="10"
-        :max="100"
-        placeholder=""
-        size="small"
-      />
+  <!-- 长度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("length") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.boxLength" :step="1" :min="10" :max="100" />
+        <n-input-number v-model:value="state.boxLength" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="10" :max="100" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("width") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.boxWidth"
-        :step="1"
-        :min="10"
-        :max="200"
-      />
-      <n-input-number
-        v-model:value="state.boxWidth"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="10"
-        :max="200"
-        placeholder=""
-        size="small"
-      />
+  <!-- 宽度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("width") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.boxWidth" :step="1" :min="10" :max="200" />
+        <n-input-number v-model:value="state.boxWidth" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="10" :max="200" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("height") }}</span>
-    <div class="slider-box">
-      <n-slider
-        style="width: 1.5rem"
-        v-model:value="state.boxHeight"
-        :step="1"
-        :min="10"
-        :max="100"
-      />
-      <n-input-number
-        v-model:value="state.boxHeight"
-        class="slider-input-number"
-        :update-value-on-input="false"
-        :bordered="false"
-        :show-button="false"
-        :min="10"
-        :max="100"
-        placeholder=""
-        size="small"
-      />
+  <!-- 高度 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("height") }}</div>
+    <div class="content">
+      <div class="slider-box-new">
+        <n-slider v-model:value="state.boxHeight" :step="1" :min="10" :max="100" />
+        <n-input-number v-model:value="state.boxHeight" :update-value-on-input="false"
+          :bordered="false" :show-button="false" :min="10" :max="100" placeholder="" size="small" />
+      </div>
     </div>
   </div>
 
-  <div class="row-item" v-show="state.displayMode != 'Outline'">
-    <span>{{ $t("fillColor") }}</span>
-    <div class="color-pick-box row-content">
-      <n-color-picker
-        v-model:value="state.geometryColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 填充颜色 -->
+  <div class="row-wrap" v-show="state.displayMode != 'Outline'">
+    <div class="label">{{ $t("fillColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.geometryColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item" v-show="state.displayMode != 'Fill'">
-    <span>{{ $t("wireframeColor") }}</span>
-    <div class="color-pick-box">
-      <n-color-picker
-        v-model:value="state.wireframeColor"
-        :render-label="
-          () => {
-            return '';
-          }
-        "
-        size="small"
-      ></n-color-picker>
+  <!-- 边框颜色 -->
+  <div class="row-wrap" v-show="state.displayMode != 'Fill'">
+    <div class="label">{{ $t("wireframeColor") }}</div>
+    <div class="content">
+      <n-color-picker v-model:value="state.wireframeColor" :render-label="
+        () => {
+          return '';
+        }
+      " size="small"></n-color-picker>
     </div>
   </div>
 
-  <div class="row-item">
-    <span>{{ $t("drawMode") }}</span>
-    <n-select
-      style="width: 1.96rem"
-      v-model:value="state.displayMode"
-      :options="state.optionsMode"
-    />
+  <!-- 绘制模式 -->
+  <div class="row-wrap">
+    <div class="label">{{ $t("drawMode") }}</div>
+    <div class="content">
+      <n-select v-model:value="state.displayMode" :options="state.optionsMode" />
+    </div>
   </div>
 
-  <div class="btn-row-item">
-    <n-button
-      type="info"
-      color="#3499E5"
-      text-color="#fff"
-      @click="add"
-      style="margin-right: 0.1rem"
-      >{{ $t("Draw") }}</n-button
-    >
-    <n-button
-      class="btn-secondary"
-      @click="clear"
-      color="rgba(255, 255, 255, 0.65)"
-      ghost
-      >{{ $t("clear") }}</n-button
-    >
+
+  <div class="row-btns">
+    <n-button @click="add" class="operate" type="info" :focusable="false">{{
+    $t("Draw") }}</n-button>
+    <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
 </template>
 

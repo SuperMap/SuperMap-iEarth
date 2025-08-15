@@ -1,127 +1,79 @@
+<!-- 创建飞行路线 -->
 <template>
-  <div class="row-item">
-    <span></span>
-    <div class="icon-container">
-      <div class="icon-list" style="width: 1.96rem">
-        <span
-          v-for="(item, index) in state.itemOptions"
-          :key="index"
-          class="icon-span"
-          :title="item.lable"
-          :class="item.isSelect ? 'selected-icon' : ''"
-          @click="changleIconItem(item)"
-        >
-          <i
-            class="iconfont iconSize"
-            :class="item.iconName"
-            style="margin-top: 0px"
-          ></i>
-        </span>
-      </div>
+  <!-- 操作模式 -->
+  <div class="row-wrap">
+    <div class="content">
+      <div class="icon-list-box">
+          <span v-for="(item, index) in state.itemOptions" :key="index" class="icon-span" :title="item.lable"
+            :class="item.isSelect ? 'selected-icon' : ''" @click="changleIconItem(item)">
+            <i class="iconfont iconSize" :class="item.iconName" style="margin-top: 0px"></i>
+          </span>
+        </div>
     </div>
   </div>
 
   <div v-show="state.customRouteNames.length > 0">
-    <div class="row-item">
-      <span>{{ $t("addedStops") }}</span>
-      <div class="row-content">
-        <n-select
-          v-model:value="state.selectedAddedStopIndex"
-          :options="state.routeStops"
-          label-field="stopName"
-          value-field="index"
-        />
+    <!-- 已添站点 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("addedStops") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.selectedAddedStopIndex" :options="state.routeStops" label-field="stopName"
+          value-field="index" />
       </div>
     </div>
 
-    <!-- <div class="row-item">
-      <span>{{$t('flyRoute')}}</span>
-        <div class="row-content">
-          <n-select
-            v-model:value="state.customRouteSelectedIndex"
-            :options="state.customRouteNames"
-          />
-        </div>
-    </div> -->
-
-    <!-- <div class="row-item" style="margin-bottom: 0px">
-      <span></span>
-      <div class="row-content" style="display: flex">
-        <n-checkbox v-model:checked="state.showRoute" /><span
-          class="checkbox-lable" :title="$t('displayRoute')"
-          >{{ $t("displayRoute") }}</span
-        >
-        <n-checkbox v-model:checked="state.showStop" /><span
-          class="checkbox-lable" :title="$t('displayStation')"
-          >{{ $t("displayStation") }}</span
-        >
+    <!-- 选择飞行路线 -->
+    <!-- <div class="row-wrap">
+      <div class="label">{{ $t("flyRoute") }}</div>
+      <div class="content">
+        <n-select v-model:value="state.customRouteSelectedIndex" :options="state.customRouteNames" />
       </div>
     </div> -->
 
-    <div class="row-item">
-      <span>{{ $t("flySpeed") }}</span>
-      <div class="slider-box">
-        <n-slider
-          style="width: 1.5rem"
-          v-model:value="state.routeSpeed"
-          :step="1"
-          :min="0"
-          :max="500"
-        />
-        <n-input-number
-          v-model:value="state.routeSpeed"
-          class="slider-input-number"
-          :update-value-on-input="false"
-          :bordered="false"
-          :show-button="false"
-          :min="0"
-          :max="500"
-          placeholder=""
-          size="small"
-        />
+    <!-- 显示路线 -->
+    <!-- <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.showRoute" :label="$t('displayRoute')" />
       </div>
-    </div>
+    </div> -->
 
-    <div class="row-item">
-      <span></span>
-      <div class="icon-container">
-        <div class="icon-list" style="width: 1.96rem">
-          <span
-            v-for="(item, index) in state.actionOptions"
-            :key="index"
-            class="icon-span"
-            :title="item.lable"
-            :class="item.isSelect ? 'selected-icon' : ''"
-            @click="changleIconItemAction(item)"
-          >
-            <i
-              class="iconfont iconSize"
-              :class="item.iconName"
-              style="margin-top: 0px"
-            ></i>
-          </span>
+    <!-- 显示站点 -->
+    <!-- <div class="row-wrap">
+      <div class="content">
+        <n-checkbox v-model:checked="state.showStop" :label="$t('displayStation')" />
+      </div>
+    </div> -->
+
+    <!-- 飞行速度 -->
+    <div class="row-wrap">
+      <div class="label">{{ $t("flySpeed") }}</div>
+      <div class="content">
+        <div class="slider-box-new">
+          <n-slider v-model:value="state.routeSpeed" :step="1" :min="0" :max="500" />
+          <n-input-number v-model:value="state.routeSpeed" :update-value-on-input="false"
+            :bordered="false" :show-button="false" :min="0" :max="500" placeholder="" size="small" />
         </div>
       </div>
     </div>
 
-    <div class="btn-row-item" style="margin-left: 0.94rem">
-      <n-button
-        type="info"
-        color="#3499E5"
-        text-color="#fff"
-        @click="downLoad"
-        :title="$t('downLoad')"
-        style="margin-right: 0.1rem; margin-left: 0.03rem"
-        >{{ $t("downLoad") }}</n-button
-      >
-      <n-button
-        class="btn-secondary"
-        @click="clearRoute"
-        color="rgba(255, 255, 255, 0.65)"
-        ghost
-        >{{ $t("clear") }}</n-button
-      >
+    <!-- 操作按钮 -->
+    <div class="row-wrap">
+      <div class="content">
+        <div class="icon-list-box">
+            <span v-for="(item, index) in state.actionOptions" :key="index" class="icon-span" :title="item.lable"
+              :class="item.isSelect ? 'selected-icon' : ''" @click="changleIconItemAction(item)">
+              <i class="iconfont iconSize" :class="item.iconName" style="margin-top: 0px"></i>
+            </span>
+          </div>
+      </div>
     </div>
+
+    <div class="row-btns">
+      <n-button @click="downLoad" class="operate" type="info" :focusable="false">{{
+      $t("downLoad") }}</n-button>
+      <n-button @click="clearRoute" :focusable="false">{{ $t("clear") }}</n-button>
+    </div>
+
   </div>
 </template>
 
@@ -613,24 +565,3 @@ watch(
   }
 );
 </script>
-
-<style lang="scss" scoped>
-.row-content .checkbox-lable {
-  width: auto;
-  height: 24px;
-  line-height: 24px;
-  margin-right: 0.1rem;
-  margin-left: 0.16rem;
-}
-
-.checkbox-lable {
-  width: 1.2rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.n-button .n-button__content{
-  overflow: hidden;
-}
-</style>

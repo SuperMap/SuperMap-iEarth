@@ -54,11 +54,7 @@ function headerOpen() {
 }
 </script>
 
-<style lang="scss">
-.head-title {
-  font-family: "OptimizationTitle";
-}
-
+<style lang="scss" scoped>
 .header-container {
   @include setBackground(100%, 0.48rem, "@/assets/images/header-bg.png");
   @include flexLayout(center);
@@ -67,6 +63,7 @@ function headerOpen() {
   background-size: 100% 0.48rem;
 
   .head-title {
+    font-family: "OptimizationTitle";
     font-size: 0.28rem;
     color: rgba(255, 255, 255, 0.85);
     max-width: 4rem;
