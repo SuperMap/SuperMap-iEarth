@@ -244,7 +244,8 @@ function openLayer() {
 
 // 针对S3M、影像、地形，通过输入的url，自动获取图层名
 function handleUrlChange() {
-  state.layerUrl = state.layerUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  // state.layerUrl = state.layerUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  state.layerUrl = state.layerUrl.trim().replaceAll("'", "").replaceAll('"', "");
   if(state.layerUrl == '') {
     state.inputUrlStatus = undefined;
     state.layerName = '';

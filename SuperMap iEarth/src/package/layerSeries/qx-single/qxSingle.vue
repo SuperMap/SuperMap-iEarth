@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
 });
 
 async function handleUrlChange() {
-  state.dataServiceUrl = state.dataServiceUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  state.dataServiceUrl = state.dataServiceUrl.trim().replaceAll("'", "").replaceAll('"', "");
   if(state.dataServiceUrl == '') {
     state.inputUrlStatus = undefined;
     state.dataSourceName = "";
