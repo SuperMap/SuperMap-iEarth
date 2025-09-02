@@ -291,6 +291,10 @@ export const useLayerStore = defineStore({
 				return $t('TIANDITU');
 			} else if (imageryProvider instanceof SuperMap3D.UrlTemplateImageryProvider) {
 				let imgLayerUrl = imageryProvider.url || imageryProvider._url || imageryProvider.tablename;
+				// 高德地图
+				if(imgLayerUrl.includes('autonavi.com')) {
+					return $t('gaodeMap');
+				}
 				return imgLayerUrl; // TODO:精细化处理
 			} else if (imageryProvider instanceof SuperMap3D.SingleTileImageryProvider) {
 				let imgLayerUrl = imageryProvider.url || imageryProvider._url;

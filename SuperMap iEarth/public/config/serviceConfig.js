@@ -79,12 +79,19 @@ const layerServiceData = {
             chooseType: false, // 面板中图片是否选中（默认false即可）
         },
         {
-            url: '//dev.virtualearth.net/',
-            name: "BingMap",
+            url: 'https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
+            name: "gaodeMap",
             thumbnail: './images/baseMap/BingMap.png',
-            type: 'BingMap',
+            type: 'UrlTemplateImageryProvider',
             chooseType: false,
         },
+        // {
+        //     url: '//dev.virtualearth.net/',
+        //     name: "BingMap",
+        //     thumbnail: './images/baseMap/BingMap.png',
+        //     type: 'BingMap',
+        //     chooseType: false,
+        // },
         {
             url: 'https://[subdomain].tianditu.gov.cn/img_w/wmts',
             name: "TIANDITU",

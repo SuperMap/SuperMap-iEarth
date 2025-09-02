@@ -84,6 +84,8 @@ function addBaseLayer(item: any) {
     case "UrlTemplateImageryProvider":
       imageryProvider = new SuperMap3D.UrlTemplateImageryProvider({
         url: layerUrl,
+        minimumLevel: 3,
+        maximumLevel: 18,
       });
       break;
     default:

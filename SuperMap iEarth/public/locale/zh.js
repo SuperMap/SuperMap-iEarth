@@ -899,12 +899,12 @@ const local_zh = {
         addressNotformat:"输入的地址不符合格式",
         resetOrigin:"恢复至默认值",
         subdomains:"多子域",
-        continueDraw: "Continue Draw",
-        cameraLocate: "Camera Locate",
-        polygon: "Polygon",
-        filterKeyword: "Filter Keyword",
-        allSkits: "All Skits",
-        gaodeMap: "GaoDe Map",
+        continueDraw:"连续绘制",
+        cameraLocate:"相机定位",
+        polygon:"多边形",
+        filterKeyword:"过滤关键字",
+        allSkits:"全部小品",
+        gaodeMap:"高德地图"
 }
 
 window.local_zh = local_zh;
