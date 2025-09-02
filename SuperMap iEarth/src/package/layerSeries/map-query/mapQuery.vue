@@ -813,7 +813,7 @@ let tableCount = computed(() => {
 
 // 处理数据服务输入，获取数据源选项
 function handleUrlChange() {
-  state.dataUrl = state.dataUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  state.dataUrl = state.dataUrl.trim().replaceAll("'", "").replaceAll('"', "");
   if(state.dataUrl == '') {
     state.inputUrlStatus = undefined;
     state.dataSourceName = "";

@@ -58,7 +58,7 @@ const state = reactive<any>({
 
 //检查场景服务地址是否合规
 function handleUrlChange(){
-  state.sceneUrl = state.sceneUrl.trim().replaceAll("'", "").replaceAll('"', "").replace(/\/+$/, "");
+  state.sceneUrl = state.sceneUrl.trim().replaceAll("'", "").replaceAll('"', "");
   if(state.sceneUrl == '') {
     state.inputUrlStatus = undefined;
     state.sceneName = "";
