@@ -899,6 +899,12 @@ const local_zh = {
         addressNotformat:"输入的地址不符合格式",
         resetOrigin:"恢复至默认值",
         subdomains:"多子域",
+        continueDraw: "Continue Draw",
+        cameraLocate: "Camera Locate",
+        polygon: "Polygon",
+        filterKeyword: "Filter Keyword",
+        allSkits: "All Skits",
+        gaodeMap: "GaoDe Map",
 }
 
 window.local_zh = local_zh;
