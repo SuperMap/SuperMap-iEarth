@@ -325,6 +325,7 @@ class OpenConfig {
 
   // 检测当前URL服务是否能够被访问
   checkURLAccess(url) {
+    if(!url || (typeof url != 'string')) return false;
     const fetchParam = url.includes("/portalproxy/") ? {credentials:"include"} : undefined;
     return fetch(url,fetchParam)
       .then(response => {
@@ -467,7 +468,7 @@ class OpenConfig {
       const imgLayerUrl = imgOption.url;
 
       // 判断是否为iPortal代理服务,需要跨域请求,必须携带Cooike
-      if (imgLayerUrl.includes("/portalproxy/")) {
+      if (imgLayerUrl && imgLayerUrl.includes("/portalproxy/")) {
         this.setTrustedServers(imgLayerUrl);
       }
 
@@ -503,7 +504,7 @@ class OpenConfig {
           break;
         case "SingleTileImageryProvider":
           // 针对默认球皮底图，先确认当前场景添加过没有，避免再次添加
-          if (imgLayerUrl.includes("earth-skin2.jpg")) {
+          if (imgLayerUrl && imgLayerUrl.includes("earth-skin2.jpg")) {
             const result = this.viewer.imageryLayers._layers.filter((imgLayer) => {
               if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
                 return imgLayer._imageryProvider.url.includes("earth-skin2.jpg");
@@ -536,7 +537,7 @@ class OpenConfig {
         }
 
         // 默认球皮影像图层还需要设置效果
-        if (imgLayerUrl.includes("earth-skin2.jpg")) {
+        if (imgLayerUrl && imgLayerUrl.includes("earth-skin2.jpg")) {
           imgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
           imgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
         }
