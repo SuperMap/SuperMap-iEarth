@@ -20,7 +20,7 @@
   </distributionManagement>
   <packaging>jar</packaging>
   <properties>
-    <jar.finalName>webjar-earth-v2</jar.finalName>
+    <jar.finalName>${project.artifactId}-${project.version}</jar.finalName>
   </properties>
   <profiles>
     <profile>
@@ -32,7 +32,7 @@
     <profile>
       <id>cyclone</id>
       <properties>
-        <jar.finalName>webjar-earth-v2-cyclone</jar.finalName>
+        <jar.finalName>${project.artifactId}-cyclone-${project.version}</jar.finalName>
       </properties>
     </profile>
   </profiles>
