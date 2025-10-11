@@ -19,7 +19,26 @@
     </snapshotRepository>
   </distributionManagement>
   <packaging>jar</packaging>
+  <properties>
+    <jar.finalName>webjar-earth-v2</jar.finalName>
+  </properties>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <id>cyclone</id>
+      <properties>
+        <jar.finalName>webjar-earth-v2-cyclone</jar.finalName>
+      </properties>
+    </profile>
+  </profiles>
+  
   <build>
+    <finalName>${jar.finalName}</finalName>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
