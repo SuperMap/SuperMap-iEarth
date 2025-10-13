@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.supermap.ispeco.apps</groupId>
-  <artifactId>webjar-earth-v2</artifactId>
+  <artifactId>${jar.artifactId}</artifactId>
   <version>12.0.1-SNAPSHOT</version>
   <distributionManagement>
     <!-- use the following if you're not using a snapshot version. -->
@@ -20,7 +20,8 @@
   </distributionManagement>
   <packaging>jar</packaging>
   <properties>
-    <jar.finalName>${project.artifactId}-${project.version}</jar.finalName>
+    <jar.artifactId>webjar-earth-v2</jar.artifactId>
+    <jar.finalName>${jar.artifactId}-${project.version}</jar.finalName>
   </properties>
   <profiles>
     <profile>
@@ -32,7 +33,8 @@
     <profile>
       <id>cyclone</id>
       <properties>
-        <jar.finalName>${project.artifactId}-cyclone-${project.version}</jar.finalName>
+        <jar.artifactId>webjar-earth-v2-cyclone</jar.artifactId>
+        <jar.finalName>${jar.artifactId}-${project.version}</jar.finalName>
       </properties>
     </profile>
   </profiles>
