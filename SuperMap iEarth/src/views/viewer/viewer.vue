@@ -66,6 +66,8 @@ function computedEnvironmentMode() {
       window.iEarthBindData.EnvironmentMode = "iPortal";
     }else if(href.includes("supermapol")){
       window.iEarthBindData.EnvironmentMode = "Online";
+    }else if(href.includes("cyclone")){
+      window.iEarthBindData.EnvironmentMode = "Cyclone";
     }else{
       console.log('未知环境');
       window.iEarthBindData.EnvironmentMode = "Normal";
