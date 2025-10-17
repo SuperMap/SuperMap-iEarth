@@ -147,6 +147,8 @@ class SceneConfig {
         s3mLayerOption["minTransparentAlpha"] = layer._minTransparentAlpha || layer.minTransparentAlpha; // 最小透明度阈值
         s3mLayerOption["visibleDistanceMin"] = layer.visibleDistanceMin || layer._visibleDistanceMin; // 图层最小可见距离
         s3mLayerOption["visibleDistanceMax"] = layer.visibleDistanceMax || layer._visibleDistanceMax; // 图层最大可见距离
+        s3mLayerOption["minVisibleAltitude"] = layer.minVisibleAltitude || layer._minVisibleAltitude; // 图层最小可见距离
+        s3mLayerOption["maxVisibleAltitude"] = layer.maxVisibleAltitude || layer._maxVisibleAltitude; // 图层最大可见距离
         
         // 多子域
         s3mLayerOption["subdomains"] = layer._subdomains;

@@ -904,7 +904,9 @@ const local_zh = {
         polygon:"多边形",
         filterKeyword:"过滤关键字",
         allSkits:"全部小品",
-        gaodeMap:"高德地图"
+        gaodeMap:"高德地图",
+        MinVisibleAltitude: '最小可见高度',
+        MaxVisibleAltitude: '最大可见高度',
 }
 
 window.local_zh = local_zh;

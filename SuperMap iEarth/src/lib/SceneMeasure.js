@@ -155,7 +155,7 @@ class SceneMeasure {
 
   // 清除上一次量算
   clearCurrentHandle() {
-    if (!this.curHandler) return;
+    if (!this.curHandler || this.curHandler.isDestroyed()) return;
     this.curHandler.clear();
     this.curHandler.clearLabelContainer && this.curHandler.clearLabelContainer.remove();
 

@@ -424,6 +424,10 @@ class OpenConfig {
               if (s3mOption.visibleDistanceMin) s3mLayer.visibleDistanceMin = Number(s3mOption.visibleDistanceMin);
               if (s3mOption.visibleDistanceMax) s3mLayer.visibleDistanceMax = Number(s3mOption.visibleDistanceMax);
 
+              // 图层最大最小可见高度
+              if (s3mOption.minVisibleAltitude) s3mLayer.minVisibleAltitude = Number(s3mOption.minVisibleAltitude);
+              if (s3mOption.maxVisibleAltitude) s3mLayer.maxVisibleAltitude = Number(s3mOption.maxVisibleAltitude);
+
               // 设置IDs显隐
               if (s3mOption.customPassIdOptions) {
                 let customPassIdOptions = s3mOption.customPassIdOptions;
