@@ -1,6 +1,6 @@
 <!-- 图层属性 -->
 <template>
-  <n-scrollbar style="max-height: 6rem">
+  <n-scrollbar style="max-height: 5rem">
     <div class="right-panel-container-not-tabs">
       <!-- 选择图层 -->
       <div class="row-wrap">
@@ -114,6 +114,35 @@
         </div>
       </div>
 
+      <!-- 最小可见高度 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("MinVisibleAltitude") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider class="shorter" v-model:value="state.minVisibleAltitude" :step="10" :min="-100"
+              :max="state.maxVisibleAltitude-1" />
+            <n-input-number v-model:value="state.minVisibleAltitude" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="-100" :max="state.maxVisibleAltitude-1" placeholder="" size="small" />
+            <span class="unit">{{ $t("meter") }}</span>
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- 最大可见高度 -->
+      <div class="row-wrap">
+        <div class="label">{{ $t("MaxVisibleAltitude") }}</div>
+        <div class="content">
+          <div class="slider-box-new">
+            <n-slider class="shorter" v-model:value="state.maxVisibleAltitude" :step="10" :min="-100"
+              :max="s3mLayer_visibleAltitudeMax" />
+            <n-input-number v-model:value="state.maxVisibleAltitude" :update-value-on-input="false" :bordered="false"
+              :show-button="false" :min="-100" :max="s3mLayer_visibleAltitudeMax" placeholder="" size="small" />
+            <span class="unit">{{ $t("meter") }}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </n-scrollbar>
 </template>
@@ -139,6 +168,8 @@ type StateType = {
   visibilityMode: any;
   visibleDistanceMin: number; //最小可见距离
   visibleDistanceMax: number; //最大可见距离
+  minVisibleAltitude: number; //最小可见高度
+  maxVisibleAltitude: number; //最大可见高度
   isKeepRootTile:boolean; // 是否开启根节点驻留
   isOpenPassIds:boolean;
   passIDs:any;
@@ -162,6 +193,8 @@ let state = reactive<StateType>({
   visibility: 2,
   visibleDistanceMin: 0, //最小可见距离
   visibleDistanceMax: 12000, //最大可见距离
+  minVisibleAltitude: 0, //最小可见高度
+  maxVisibleAltitude: 12000, //最大可见高度
   visibilityMode: [
     { label: () => $t("disPlayAll"), value: 2 },
     { label: () => $t("disPlaySelected"), value: 0 },
@@ -176,6 +209,7 @@ let state = reactive<StateType>({
 let currentLayer:any = undefined;
 const canvas = document.getElementsByTagName('canvas')[0];
 let s3mLayer_visibleDistanceMax =  window.customConfig.s3mLayer_visibleDistanceMax || 90000
+let s3mLayer_visibleAltitudeMax =  window.customConfig.s3mLayer_visibleAltitudeMax || 90000
 
 function init() {
   state.s3mlayers =  layerManagement.getS3MLayerList();
@@ -217,11 +251,15 @@ function getAttributes(currentLayer) {
   state.visibility = SuperMap3D.defaultValue(currentLayer.visibility, 2);
   state.visibleDistanceMin = SuperMap3D.defaultValue(currentLayer.visibleDistanceMin,0);
   state.visibleDistanceMax = SuperMap3D.defaultValue(currentLayer.visibleDistanceMax,12000);
+  state.minVisibleAltitude = SuperMap3D.defaultValue(currentLayer.minVisibleAltitude,0);
+  state.maxVisibleAltitude = SuperMap3D.defaultValue(currentLayer.maxVisibleAltitude,12000);
 
   state.isKeepRootTile = currentLayer.residentRootTile;
   state.cullEnabled = SuperMap3D.defaultValue(currentLayer._cullEnabled, false);
   state.visibleDistanceMin = currentLayer.visibleDistanceMin;
   state.visibleDistanceMax = currentLayer.visibleDistanceMax;
+  state.minVisibleAltitude = currentLayer.minVisibleAltitude;
+  state.maxVisibleAltitude = currentLayer.maxVisibleAltitude;
 
   if(currentLayer.customPassIdOptions){
     state.passIDs = currentLayer.customPassIdOptions.passIDs;
@@ -413,6 +451,20 @@ watch(
   (val) => {
     if (currentLayer)
       currentLayer.visibleDistanceMax = Number(val);
+  }
+);
+watch(
+  () => state.minVisibleAltitude,
+  (val) => {
+    if (currentLayer)
+      currentLayer.minVisibleAltitude = Number(val);
+  }
+);
+watch(
+  () => state.maxVisibleAltitude,
+  (val) => {
+    if (currentLayer)
+      currentLayer.maxVisibleAltitude = Number(val);
   }
 );
 watch(

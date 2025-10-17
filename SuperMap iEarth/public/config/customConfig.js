@@ -3,6 +3,7 @@ const customConfig = {
     s3mLayer_residentRootTile: false, // 是否开启根节点驻留内存（屏幕区域外不清除根节点内存）
     dbQuery_special_field:'ModelName', // DB属性查询中展示表格里面特殊指定的字段名称
     s3mLayer_visibleDistanceMax:9000000, // S3M图层的最大可见距离
+    s3mLayer_visibleAltitudeMax:9000000, // S3M图层的最大可见距离
     orderIndependentTranslucency:true, // 设置场景OIT-老版本
     useSuperMapOIT:true, // 设置场景OIT-新版本 - 新版设为false，老版本才起效果 // 体积云要起作用，需要设置 useSuperMapOIT 为true
     f2_cameaPosition: {  // 点击F2调整相机到指定位置
