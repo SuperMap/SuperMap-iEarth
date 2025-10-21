@@ -186,6 +186,11 @@ class OpenConfig {
               name: layerInfo.name,
               url: layerInfo.url
             });
+          } else if (layerInfo.type === 'SingleTileImageryProvider' && layerInfo.url.includes('earth-skin')) {
+            temp.imageryLayer.push({
+              type: layerInfo.type,
+              url: layerInfo.url
+            });
           }
         });
         SceneConfigData.layers = temp;
