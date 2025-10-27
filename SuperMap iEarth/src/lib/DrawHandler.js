@@ -78,7 +78,8 @@ class DrawHandler {
           this.isDrawing = false;
           // 对数据做简单处理在返回：直接返回对应坐标
           if(result && result.object && result.object.position){
-            resolve(result.object.position);
+            const newArray = [].concat(result.object.position); // 重新创建一个坐标数组，避免引用清空
+            resolve(newArray[0]);
           }else{
             resolve(undefined);
           }
@@ -132,9 +133,11 @@ class DrawHandler {
 
           // 直接返回坐标
           if(result && result.positions){
-            resolve(result.positions);
+            const newArray = [].concat(result.positions); // 重新创建一个坐标数组，避免引用清空
+            resolve(newArray);
           }else if(result && result.object.positions){
-            resolve(result.object.positions);
+            const newArray = [].concat(result.object.positions);
+            resolve(newArray);
           }else{
             resolve(undefined);
           }
@@ -218,9 +221,11 @@ class DrawHandler {
 
           // 直接返回坐标
           if (result && result.positions) {
-            resolve(result.positions);
+            const newArray = [].concat(result.positions); // 重新创建一个坐标数组，避免引用清空
+            resolve(newArray);
           } else if (result && result.object.positions) {
-            resolve(result.object.positions);
+            const newArray = [].concat(result.object.positions);
+            resolve(newArray);
           } else {
             resolve(undefined);
           }
