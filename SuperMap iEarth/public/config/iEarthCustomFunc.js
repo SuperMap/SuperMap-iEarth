@@ -13,7 +13,7 @@ window.iEarthCustomFunc.afterViewerInit = function (viewer) {
   if (window.iEarthConsole) console.log('viewer初始化完成:', viewer);
   // 平面场景相机设置
   viewer.scene.screenSpaceCameraController._syncPickOnTiltCV = true;
-  viewer.scene.screenSpaceCameraController.zoomFactor = 12;
+  viewer.scene.screenSpaceCameraController.zoomFactor = 4;
   viewer.scene.screenSpaceCameraController.inertiaZoom = 0.9;
 
   // 设置碰撞检测

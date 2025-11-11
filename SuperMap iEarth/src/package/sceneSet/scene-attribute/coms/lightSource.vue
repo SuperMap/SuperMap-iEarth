@@ -16,10 +16,10 @@
       <div class="label">{{ $t("sunIntensity") }}</div>
       <div class="content">
         <div class="slider-box-new">
-          <n-slider v-model:value="state.intensity" :step="0.1" :min="0.1" :max="10"
+          <n-slider v-model:value="state.intensity" :step="0.1" :min="0.1" :max="32"
             @update:value="watchSunIntensity" />
           <n-input-number  v-model:value="state.intensity" :update-value-on-input="false"
-            :bordered="false" :show-button="false" :min="0.1" :max="10" placeholder="" size="small"
+            :bordered="false" :show-button="false" :min="0.1" :max="32" placeholder="" size="small"
             @update:value="watchSunIntensity" />
         </div>
       </div>

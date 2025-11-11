@@ -39,7 +39,7 @@
 import { reactive, onMounted, watch } from "vue";
 
 let state = reactive({
-  zoomFactor: Number(viewer.scene.screenSpaceCameraController.zoomFactor),  // 反走样强度
+  zoomFactor: Number(viewer.scene.screenSpaceCameraController.zoomFactor),  // 鼠标缩放系数
   isSuperMap3DMode: true,
   isArcGISMode: false,
 });

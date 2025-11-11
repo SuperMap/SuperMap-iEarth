@@ -14,9 +14,9 @@
       <div class="label">{{ $t("envIntensity") }}</div>
       <div class="content">
         <div class="slider-box-new">
-          <n-slider v-model:value="state.intensity" :step="0.1" :min="0" :max="3" />
+          <n-slider v-model:value="state.intensity" :step="0.1" :min="0" :max="16" />
           <n-input-number v-model:value="state.intensity"  :update-value-on-input="false"
-            :bordered="false" :show-button="false" :min="0" :max="5" placeholder="" size="small" />
+            :bordered="false" :show-button="false" :min="0" :max="16" placeholder="" size="small" />
         </div>
       </div>
     </div>
