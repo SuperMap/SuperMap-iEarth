@@ -19,7 +19,25 @@ const buildConfig = {
             path: 'dist/config/iEarthCustomFunc.js',
             source: `// custom javascript code`,
             target: `document.cookie = "language=ru;"`
+        },
+        {
+            path: 'dist/config/iEarthCustomFunc.js',
+            source: `// DEFAULT_VIEW_POINT`,
+            target: `
+    viewer.camera.setView({
+        "destination": {
+            "x": 2037090.0089697605,
+            "y": 8821189.472974265,
+            "z": 15384641.594805097
+        },
+        "orientation": {
+            "heading": 6.213207867801102,
+            "pitch": -1.5452900408317864,
+            "roll": 0
         }
+    })
+            `
+        },
     ]
 };
 

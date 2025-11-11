@@ -31,6 +31,9 @@ window.iEarthCustomFunc.afterViewerInit = function (viewer) {
 
   // 开启性能统计工具
   // viewer.scene.showDebugPerformanceInfo = false; 
+
+  // 初始化相机定位
+  // DEFAULT_VIEW_POINT
 }
 
 // 在自定义服务中打开场景或S3M图层后调用：可以根据需要对S3M图层设置属性

@@ -44,6 +44,11 @@ if(i18n.global.locale === 'zh'){
   onlineBaseLayerList = onlineBaseLayerList.filter(item => item.type !== "OSM");
 }
 
+// 俄语环境下，隐藏高德地图和天地图
+if(i18n.global.locale === 'ru'){
+  onlineBaseLayerList = onlineBaseLayerList.filter(item => !["gaodeMap", "TIANDITU"].includes(item.name));
+}
+
 let imageryProvider: any = null;
 
 function addBaseLayer(item: any) {
