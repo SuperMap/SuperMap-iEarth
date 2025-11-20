@@ -263,11 +263,9 @@ export const useLayerStore = defineStore({
 			let imageryProvider = imageryLayer.imageryProvider || imageryLayer._imageryProvider;
 			if (!imageryProvider) return;
 
-			let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
+			let imageUrl = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl || imageryProvider.tablename;
 
-			if (!imageUrl) return $t('lnglatMap');
-
-			if (imageUrl.indexOf("earth-skin2.jpg") != -1) {
+			if (imageUrl && imageUrl.indexOf("earth-skin2.jpg") != -1) {
 				return $t('defaultImage');
 			}
 
@@ -332,6 +330,8 @@ export const useLayerStore = defineStore({
 			}
 
 			if(window.iEarthConsole) console.log('未能通过imageryProvider类型计算出影像图层名称,使用之前的代码计算');
+
+			if (!imageUrl) return $t('lnglatMap');
 
 			if (imageUrl && imageUrl.indexOf("realspace/datas/") != -1) {
 				let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
