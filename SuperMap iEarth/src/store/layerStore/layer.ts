@@ -263,6 +263,22 @@ export const useLayerStore = defineStore({
 			let imageryProvider = imageryLayer.imageryProvider || imageryLayer._imageryProvider;
 			if (!imageryProvider) return;
 
+			let imageUrl = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl || imageryProvider.tablename;
+
+			if (imageUrl && imageUrl.indexOf("earth-skin2.jpg") != -1) {
+				return $t('defaultImage');
+			}
+
+			// 项目底图
+			let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
+			if (targetItem) {
+				if (targetItem.name) {
+					return $t(targetItem.name);
+				} else {
+					return $t(targetItem.type);
+				}
+			}
+
 			// 基于imageryProvider类型计算影像图层名称
 			if (imageryProvider instanceof SuperMap3D.SuperMapImageryProvider) {
 				let imgLayerUrl = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl;
@@ -315,23 +331,7 @@ export const useLayerStore = defineStore({
 
 			if(window.iEarthConsole) console.log('未能通过imageryProvider类型计算出影像图层名称,使用之前的代码计算');
 
-			let imageUrl = imageryLayer._imageryProvider.url || imageryLayer._imageryProvider._url;
-
 			if (!imageUrl) return $t('lnglatMap');
-
-			if (imageUrl.indexOf("earth-skin2.jpg") != -1) {
-				return $t('defaultImage');
-			}
-
-			// 项目底图
-			let targetItem = this.layerServiceData.onlineBaseLayerList.find((item: any) => item.url === imageUrl)
-			if (targetItem) {
-				if (targetItem.name) {
-					return $t(targetItem.name);
-				} else {
-					return $t(targetItem.type);
-				}
-			}
 
 			if (imageUrl && imageUrl.indexOf("realspace/datas/") != -1) {
 				let otherImageLayerName = imageUrl.split('realspace/datas/')[1].replace('/', '');
