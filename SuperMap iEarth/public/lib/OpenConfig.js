@@ -517,10 +517,10 @@ class OpenConfig {
           break;
         case "SingleTileImageryProvider":
           // 针对默认球皮底图，先确认当前场景添加过没有，避免再次添加
-          if (imgLayerUrl && imgLayerUrl.includes("earth-skin2.jpg")) {
+          if (imgLayerUrl && imgLayerUrl.includes("Assets/Textures/GlobalBkLayer.jpg")) {
             const result = this.viewer.imageryLayers._layers.filter((imgLayer) => {
               if (imgLayer._imageryProvider && imgLayer._imageryProvider.url) {
-                return imgLayer._imageryProvider.url.includes("earth-skin2.jpg");
+                return imgLayer._imageryProvider.url.includes("Assets/Textures/GlobalBkLayer.jpg");
               }
             })
             if (result && result.length == 0) {
@@ -549,11 +549,11 @@ class OpenConfig {
           window.iEarthCustomFunc.afterImageLayerAdd(imgLayer);
         }
 
-        // 默认球皮影像图层还需要设置效果
-        if (imgLayerUrl && imgLayerUrl.includes("earth-skin2.jpg")) {
-          imgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
-          imgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
-        }
+        // // 默认球皮影像图层还需要设置效果
+        // if (imgLayerUrl && imgLayerUrl.includes("earth-skin2.jpg")) {
+        //   imgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
+        //   imgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
+        // }
       }
     });
   }

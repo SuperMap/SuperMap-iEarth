@@ -314,7 +314,7 @@ export const useLayerStore = defineStore({
 				return imgLayerUrl; // TODO:精细化处理
 			} else if (imageryProvider instanceof SuperMap3D.SingleTileImageryProvider) {
 				let imgLayerUrl = imageryProvider.url || imageryProvider._url;
-				if(imgLayerUrl.includes('earth-skin2.jpg')){
+				if(imgLayerUrl.includes('Assets/Textures/GlobalBkLayer.jpg')){
 					return $t('defaultImage');
 				}else if(imgLayerUrl.includes('baseImage.jpg')){
 					return $t('LocalImage');

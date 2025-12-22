@@ -104,7 +104,7 @@ function initViewer() {
     targetFrameRate: window.customConfig.targetFrameRate, // 锁帧
     timeline: true,
     baseLayerPicker: false,
-    imageryProvider: false, // 关闭默认球皮
+    // imageryProvider: false, // 关闭默认球皮
     navigation: false, // 罗盘
     animation: false, // 动画小组件
     infoBox: false, // 信息框
@@ -138,14 +138,14 @@ function initViewer() {
   )[0];
   timelineDom.style.visibility = "hidden";
 
-  // 设置影像球皮
-  const earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
-    new SuperMap3D.SingleTileImageryProvider({
-      url: "./images/earth-skin2.jpg",
-    })
-  );
-  earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
-  earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
+  // // 设置影像球皮
+  // const earthSkinImgLayer = viewer.imageryLayers.addImageryProvider(
+  //   new SuperMap3D.SingleTileImageryProvider({
+  //     url: "./images/earth-skin2.jpg",
+  //   })
+  // );
+  // earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
+  // earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
 
   // 设置雾气初始化颜色: 默认为黑色(0,0,0,1),iEarth初始化时改完白色
   viewer.scene.fog.color = SuperMap3D.Color.fromCssColorString("rgba(255,255,255,1)");
