@@ -329,7 +329,11 @@ class OpenConfig {
   }
 
   // 检测当前URL服务是否能够被访问
-  checkURLAccess(url) {
+  checkURLAccess(option) {
+    let url = option.url;
+    if(option.token && (typeof option.token === "string") && option.token.length > 5){ // token的长度肯定大于5
+      url = url + "?token=" + option.token;
+    }
     if(!url || (typeof url != 'string')) return false;
     const fetchParam = url.includes("/portalproxy/") ? {credentials:"include"} : undefined;
     return fetch(url,fetchParam)
@@ -352,7 +356,7 @@ class OpenConfig {
     // 校验URL是否可以访问
     for (let j = 0; j < s3mLayerOptions.length; j++) { // forEach中无法使用await，在这里改为for循环
       let s3mOption = s3mLayerOptions[j];
-      const isAccess = await this.checkURLAccess(s3mOption.url); // 判断当前URL是否可以访问
+      const isAccess = await this.checkURLAccess(s3mOption); // 判断当前URL是否可以访问
       s3mOption.isAccess = isAccess;
     }
 
