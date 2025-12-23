@@ -259,7 +259,15 @@ function openS3M(content: any) {
       let name = s3mlayerOption.name;
       setTrustedServers(url);
       let bindName = s3mlayerOption.bindName || '';
-      if(s3mlayerOption.token) url = url + '?token=' + s3mlayerOption.token; // 加上token
+      
+      // 判断token
+      // if(s3mlayerOption.token) url = url + '?token=' + s3mlayerOption.token; // 加上token
+      if (s3mlayerOption.token && s3mlayerOption.token.length>5) {
+        SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
+          s3mlayerOption.token
+        );
+      }
+
       let promise = viewer.scene.addS3MTilesLayerByScp(url, { name: name });
       SuperMap3D.when(promise, function (layer: any) {
         layer.bindName = bindName;
