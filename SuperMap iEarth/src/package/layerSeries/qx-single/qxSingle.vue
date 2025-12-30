@@ -448,7 +448,7 @@ function addBubble(feature) {
   }
 
   customBubble.open({
-    title: `模型ID:${Number(featureID)}`,
+    title: `${$t("bubble_entityID")}:${Number(featureID)}`,
     content: bubbleContent
   });
 

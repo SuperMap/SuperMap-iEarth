@@ -503,13 +503,13 @@ function clickQuery() {
           const content: any = [
             {
               type: 'table', data: {
-                headers: ['字段', '值'],
+                headers: [$t("bubble_field"), $t("bubble_value")],
                 rows: rowsContent ?? [[1, 2]]
               }
             }
           ];
           customBubble.open({
-            title: '混合内容演示',
+            title: 'Mix Content',
             content: content
           });
         }else{

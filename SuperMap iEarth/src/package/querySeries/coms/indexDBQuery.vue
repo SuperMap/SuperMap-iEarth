@@ -63,11 +63,11 @@ async function updateScenePosition(e: any) {
         }
 
         customBubble.open({
-          title: `模型ID:${ids[0]}`,
+          title: `${$t("bubble_entityID")}:${ids[0]}`,
           content: [
             {
               type: 'table', data: {
-                headers: ['字段', '值'],
+                headers: [$t("bubble_field"), $t("bubble_value")],
                 rows: rowsContent
               }
             }

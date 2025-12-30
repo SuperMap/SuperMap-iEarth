@@ -205,11 +205,11 @@ function getModelInfo(feature: any) {
     }
 
     customBubble.open({
-      title: `模型ID:${feature.SMID}`,
+      title: `${$t("bubble_entityID")}:${feature.SMID}`,
       content: [
         {
           type: 'table', data: {
-            headers: ['字段', '值'],
+            headers: [$t("bubble_field"), $t("bubble_value")],
             rows: rowsContent
           }
         }

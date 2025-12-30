@@ -907,6 +907,16 @@ const local_zh = {
         gaodeMap:"高德地图",
         MinVisibleAltitude: '最小可见高度',
         MaxVisibleAltitude: '最大可见高度',
+        addCollction:"新建集合",
+        CameraListen:"相机监听",
+        bubble_document: "在浏览器新标签页中打开文档",
+        bubble_link: "在浏览器新标签页中打开链接",
+        bubble_title: "信息展示",
+        bubble_filter: "过滤",
+        bubble_selectedField: "选中字段数",
+        bubble_entityID: "实体ID",
+        bubble_field: "字段",
+        bubble_value: "值",
 }
 
 window.local_zh = local_zh;

@@ -905,6 +905,18 @@ const local_en = {
     filterKeyword:"Filter Keyword",
     allSkits:"All Skits",
     gaodeMap:"GaoDe Map",
+    MinVisibleAltitude: "Minimum Visible Altitude",
+    MaxVisibleAltitude: "Maximum Visible Altitude",
+    addCollction: "Create New Collection",
+    CameraListen: "Camera Monitoring",
+    bubble_document: "Open document in a new browser tab",
+    bubble_link: "Open link in a new browser tab",
+    bubble_title: "Information Display",
+    bubble_filter: "Filter",
+    bubble_selectedField: "Selected Fields",
+    bubble_entityID: "Entity ID",
+    bubble_field: "Field",
+    bubble_value: "Value",
 }
 
 window.local_en = local_en;
