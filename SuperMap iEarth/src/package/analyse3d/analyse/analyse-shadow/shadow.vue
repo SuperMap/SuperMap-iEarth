@@ -351,11 +351,11 @@ function LEFT_CLICK(e) {
       rowsContent[2].push(position[1].toFixed(4))
       rowsContent[3].push(position[2].toFixed(4))
       customBubble.open({
-        title: `分析结果`,
+        title:  $t("analyseResult"),
         content: [
           {
             type: 'table', data: {
-              headers: ['字段', '值'],
+              headers: [$t("bubble_field"), $t("bubble_value")],
               rows: rowsContent
             }
           }

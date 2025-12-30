@@ -12,6 +12,9 @@ class CustomBubble {
         this.addPreSetCSS();
         this.addPreSetHTML();
 
+        // 弹窗面板的文字内容
+        this.handlerTextContent();
+
         this.isDesplayPickedEntityInfo = parmas.isDesplayPickedEntityInfo === true ? true : false;
         this.scenePosition = undefined;
         this.container = document.getElementById("customBubbleContainer");
@@ -64,10 +67,23 @@ class CustomBubble {
                 a.href = config.url;
                 a.textContent = config.text != '' ? config.text : config.url;
                 a.target = '_blank';
-                a.title =  `在浏览器新标签页中打开文档：${config.url}`;
+                a.title =  `${this.textContent.document}:${config.url}`;
                 return a;
             }
         };
+    }
+
+    handlerTextContent(){
+        const $t = window.$t;
+        this.textContent = {};
+        this.textContent.document = $t ? $t("bubble_document") : "在浏览器新标签页中打开文档";
+        this.textContent.link = $t ? $t("bubble_link") : "在浏览器新标签页中打开链接";
+        this.textContent.title = $t ? $t("bubble_title")  : "信息展示";
+        this.textContent.filter = $t ? $t("bubble_filter")  : "过滤";
+        this.textContent.selectedField = $t ? $t("bubble_selectedField")  : "选中字段数";
+        this.textContent.entityID = $t ? $t("bubble_entityID")  : "实体ID";
+        this.textContent.field = $t ? $t("bubble_field") : "字段";
+        this.textContent.value = $t ? $t("bubble_value")  : "值";
     }
 
     start() {
@@ -119,7 +135,7 @@ class CustomBubble {
         if (!config || !config.content) return;
         this.config = config;
 
-        this.title.textContent = config.title ?? '信息展示';
+        this.title.textContent = config.title ?? this.textContent.title;
         this.content.innerHTML = '';
 
         config.content.forEach(item => {
@@ -146,7 +162,7 @@ class CustomBubble {
                 const link = document.createElement('a');
                 link.className = 'media-name';
                 link.href = item.data;
-                link.title = `在浏览器新标签页中打开链接:${item.data}`;
+                link.title = `${this.textContent.link}:${item.data}`;
                 link.textContent = itemName;
                 link.target = '_blank';
                 section.appendChild(link);
@@ -196,8 +212,8 @@ class CustomBubble {
         const htmlF = `
             <div class="dropdown">
                 <button class="dropdown-btn">
-                    <span>过滤</span>
-                    <span class="selected-count">选中字段数:${this.fieldFilterOption.length}</span>
+                    <span>${this.textContent.filter}</span>
+                    <span class="selected-count">${this.textContent.selectedField}:${this.fieldFilterOption.length}</span>
                     <span>▼</span>
                 </button>
                 <div class="dropdown-content">
@@ -273,11 +289,11 @@ class CustomBubble {
         if (rowsContent.length == 0) return;
 
         this.open({
-            title: `实体ID:${entity.id}`,
+            title: `${this.textContent.entityID}:${entity.id}`,
             content: [
                 {
                     type: 'table', data: {
-                        headers: ['字段', '值'],
+                        headers: [this.textContent.field, this.textContent.value],
                         rows: rowsContent
                     }
                 }
