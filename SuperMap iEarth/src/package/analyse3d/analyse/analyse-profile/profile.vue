@@ -125,7 +125,7 @@
     <div v-show="!state.gpuDomShow" id="echartsProfile" class="analyse-echarts-box"></div>
     <!-- GPU剖面 -->
     <div v-show="state.gpuDomShow" class="analyse-echarts-box">
-      <div style="font-size: 0.16rem; margin-top: -5px">
+      <div style="font-size: 0.16rem; margin-top: -5px; height: fit-content !important;">
         {{ $t("GPUSection") }}
       </div>
       <canvas id="gpuProfile" style="z-index: 999" height="0" width="0"></canvas>

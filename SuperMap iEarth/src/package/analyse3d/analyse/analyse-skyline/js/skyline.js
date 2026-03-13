@@ -35,7 +35,7 @@ export class SkylineAnalysis {
         this.barrierColor = SuperMap3D.Color.fromCssColorString("rgba(255, 186, 1, 1)");   //障碍物颜色
         this.highlightBarrier = false;   //是否显示高亮障碍物
         this.skylineMode = 'LINE';
-        this.skylineSpatialUrl = 'http://www.supermapol.com/realspace/services/spatialAnalysis-data_all/restjsr/spatialanalyst/geometry/3d/skylinesectorbody.json';
+        this.skylineSpatialUrl = 'https://www.supermapol.com/realspace/services/spatialAnalysis-data_all/restjsr/spatialanalyst/geometry/3d/skylinesectorbody.json';
     }
 
     /**
