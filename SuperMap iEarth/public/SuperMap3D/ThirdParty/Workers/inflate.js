@@ -29,7 +29,7 @@
 /*
  * This program is based on JZlib 1.0.2 ymnk, JCraft,Inc.
  * JZlib is based on zlib-1.1.3, so all credit should go authors
- * Jean-loup Gailly() and Mark Adler
+ * Jean-loup Gailly(jloup@gzip.org) and Mark Adler
  * and contributors of zlib.
  */
 
