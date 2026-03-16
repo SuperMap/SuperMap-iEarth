@@ -997,10 +997,14 @@ function createExportWrapper(name, fixedasm) {
 }
 
 var wasmBinaryFile;
-  wasmBinaryFile = 'ThirdParty/SuModeling.wasm';
-  if (!isDataURI(wasmBinaryFile)) {
-    wasmBinaryFile = locateFile(wasmBinaryFile);
-  }
+wasmBinaryFile = 'ThirdParty/SuModeling.wasm';
+var myself = typeof window === "undefined" ?  self : window;
+if (!isDataURI(wasmBinaryFile)) {
+  wasmBinaryFile = locateFile(wasmBinaryFile);
+}
+if(myself.location.href.endsWith("debug.html") && myself.location.port == '9876') { // 单元测试环境下,指定wasm文件请求路径 [singleRun: true]
+  wasmBinaryFile = 'http://localhost:8899/static/ThirdParty/SuModeling.wasm';
+}
 
 function getBinary(file) {
   try {
@@ -1820,7 +1824,6 @@ var ASM_CONSTS = {
             try {
               new_node = FS.lookupNode(new_dir, new_name);
             } catch (e) {
-              console.log(e)
             }
             if (new_node) {
               for (var i in new_node.contents) {
@@ -2180,7 +2183,6 @@ var ASM_CONSTS = {
           var node = FS.lookupNode(dir, name);
           return 20;
         } catch (e) {
-          console.log(e)
         }
         return FS.nodePermissions(dir, 'wx');
       },mayDelete:(dir, name, isdir) => {
