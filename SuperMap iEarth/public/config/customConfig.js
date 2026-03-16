@@ -20,7 +20,7 @@ const customConfig = {
     enableCollisionDetection: true, // 开启或者关闭相机与地形的碰撞检测【默认开启】
     minimumDetectDistance: 0.5, // 最小室内碰撞检测距离【默认0.5】
     isDisplayFrameRate:false, // 是否开启帧率控件
-    ignoreNormal:true,// 获取或者设置是否在GPU中自动计算法线，默认值为false。值为true时，在GPU中自动计算法线，不使用数据自带的法线。值为false时,在GPU中不自动计算法线，使用数据自带的法线。
+    ignoreNormal:false,// 获取或者设置是否在GPU中自动计算法线，默认值为false。值为true时，在GPU中自动计算法线，不使用数据自带的法线。值为false时,在GPU中不自动计算法线，使用数据自带的法线。
     ignoreVertexColor:false,//是否忽略顶点颜色
     // minTransparentAlpha:0.8,//最小透明度阈值
     // maximumScreenSpaceError:19, // 用于驱动细节级细化的最大屏幕空间误差。较高的值将提供更好的性能，但较低的视觉质量。
