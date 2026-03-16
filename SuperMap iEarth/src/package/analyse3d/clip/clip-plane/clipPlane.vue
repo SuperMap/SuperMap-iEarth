@@ -101,12 +101,16 @@ function clipPlaneStart() {
 
 // 左键点击，确定cross裁剪位置
 function left_click(e: any) {
-  let pickPosition = viewer.scene.pickPosition(e.message.position);
-  let normal = viewer.scene.pickNormal(e.message.position);
-  state.pickPosition = pickPosition;
-  state.normal = normal;
-  if (pickPosition) clipPlane.startClip(pickPosition, normal);
-  clipPlane.setClipPlaneScale(5);
+  try {
+    let pickPosition = viewer.scene.pickPosition(e.message.position);
+    let normal = viewer.scene.pickNormal(e.message.position);
+    state.pickPosition = pickPosition;
+    state.normal = normal;
+    if (pickPosition) clipPlane.startClip(pickPosition, normal);
+    clipPlane.setClipPlaneScale(5);
+  } catch (error) {
+    console.error("clip plane error：", error);
+  }
 
   viewer.eventManager.removeEventListener("CLICK", left_click);
   viewer.eventManager.removeEventListener("MOUSE_MOVE", mouse_move);

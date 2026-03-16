@@ -273,9 +273,9 @@ function cancelLayersRoller(checked) {
     layers[i].swipeEnabled = checked;
     layers[i].swipeRegion = scratchSwipeRegion;
   }
-  for (let i = 1; i < imgLayers.length; i++) {
-    imgLayers[i].swipeEnabled = checked;
-    imgLayers[i].swipeRegion = scratchSwipeRegion;
+  for (let j = 0; j < imgLayers.length; j++) {
+    imgLayers[j].swipeEnabled = checked;
+    imgLayers[j].swipeRegion = scratchSwipeRegion;
   }
   viewer.scene.globe.swipeEnabled = checked;
   viewer.scene.globe.swipeRegion = scratchSwipeRegion;

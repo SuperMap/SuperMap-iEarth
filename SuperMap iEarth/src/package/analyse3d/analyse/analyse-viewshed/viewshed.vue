@@ -155,7 +155,7 @@ type stateType = {
 // 设置默认值数据
 let state = reactive<stateType>({
   viewshedSpatialUrl:
-    "http://www.supermapol.com/realspace/services/spatialAnalysis-data_all/restjsr/spatialanalyst/geometry/3d/viewshedbody.json",
+    "https://www.supermapol.com/realspace/services/spatialAnalysis-data_all/restjsr/spatialanalyst/geometry/3d/viewshedbody.json",
   observerInformation: [0, 0, 0],
   direction: 0.0,
   pitch: 0.0,

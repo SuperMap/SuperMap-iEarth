@@ -1,7 +1,7 @@
 
 <!-- 天际线 -->
 <template>
-
+ <n-scrollbar style="max-height: 3.8rem;padding-right: 0.1rem;" trigger="none">
   <!-- 显示模式 -->
   <div class="row-wrap">
     <div class="label">{{ $t("DisplayMode") }}</div>
@@ -96,6 +96,7 @@
       $t("limitingBody") }}</n-button>
     <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
+ </n-scrollbar>
 
   <div id="echartsSkyLine" class="analyse-echarts-box" v-show="state.getSkyline2d"></div>
 </template>
