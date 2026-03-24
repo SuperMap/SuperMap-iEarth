@@ -162,10 +162,10 @@ class SceneConfig {
           s3mLayerOption["token"] = layer._urlArguments.token;
         }
 
-        let layerUrl = baseUri.scheme + "://" + baseUri.authority + baseUri.path;
-        if(baseUri._string) layerUrl = baseUri._string;
-        layerUrl = getScpUrl(layerUrl);
-        s3mLayerOption["url"] = layerUrl;
+        // 获取S3M图层的SCP config地址
+        const scpUrl = getS3MLayerConfigUrl(baseUri);
+        s3mLayerOption["url"] = scpUrl;
+
         s3mLayerOption["residentRootTile"] = layer.residentRootTile; // 记录该图层是否开启了根节点驻留
         
         if(layer.customPassIdOptions) s3mLayerOption["customPassIdOptions"] = layer.customPassIdOptions;
@@ -175,11 +175,22 @@ class SceneConfig {
 
     return s3mlayerUrlList;
 
-    // 获取s3m图层的ScpUrl
-    function getScpUrl(url) {
-      if(url && !url.includes('/realspace')) return;
+    // 针对不同情况计算S3M图层的SCP Config地址
+    function getS3MLayerConfigUrl(baseUri) {
+      if (!baseUri) return "baseUri is undefined";
 
-      const scpUrl = url.replace("data/path/", "config");
+      let layerUrl;
+      if (baseUri.scheme && baseUri.hostname && baseUri.port && baseUri.path) {
+        const port = baseUri.port();
+        layerUrl = baseUri.scheme() + "://" + baseUri.hostname() + (port.length>0 ? (":" + port) : '') + baseUri.path();
+      } else if (baseUri._parts) {
+        const parts = baseUri._parts;
+        layerUrl = `${parts.protocol}://${parts.hostname}${parts.port ? (":" + parts.port) : ''}${parts.path}`;
+      } else if (baseUri._string && baseUri._string.length > 5) {
+        layerUrl = baseUri._string;
+      }
+
+      const scpUrl = layerUrl.replace("data/path/", "config");
       return scpUrl;
     }
   }
