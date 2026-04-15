@@ -181,6 +181,7 @@ export const useLayerStore = defineStore({
 			viewer.imageryLayers._layers.forEach((imageryLayer: any, index: string) => {
 				let imageryLayerName = this.getImageryLayerName(imageryLayer);
 				if (!imageryLayerName) return;
+				imageryLayerName = decodeURIComponent(imageryLayerName); // 避免从URL中提取的中文名称存在乱码
 				if(!imageryLayer.customName) imageryLayer.customName = imageryLayerName;
 				this.layerTreeData[1].children.unshift({
 					label: imageryLayer.customName,
@@ -282,7 +283,10 @@ export const useLayerStore = defineStore({
 			// 基于imageryProvider类型计算影像图层名称
 			if (imageryProvider instanceof SuperMap3D.SuperMapImageryProvider) {
 				let imgLayerUrl = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl;
-				if(imgLayerUrl.includes('/rest/')){
+				if(imgLayerUrl.includes('/datas/')){
+          let prefix = imgLayerUrl.split('/datas/')[1];
+          return prefix.split('/').shift();
+        }else if(imgLayerUrl.includes('/rest/')){
 					let prefix = imgLayerUrl.split('/rest/')[0];
 					return prefix.split('/').pop();
 				}else if(imgLayerUrl.includes('/services/')){

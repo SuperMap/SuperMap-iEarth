@@ -139,6 +139,7 @@ function getLayerList(){
   // 影像图层
   viewer.imageryLayers._layers.forEach((imageryLayer: any, index: number) => {
     let imageryLayerName = layerStore.getImageryLayerName(imageryLayer);
+    imageryLayerName = decodeURIComponent(imageryLayerName);
     treeDataRoller[1].children.unshift({
       label: imageryLayerName,
       key: `2-${index}`,
