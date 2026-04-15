@@ -258,7 +258,10 @@ function handleUrlChange() {
   const regexResult = tool.checkUrlByRegex(layerUrl, UrlRegexEnum[layerType]);
   if(regexResult && regexResult.isPass && regexResult.matchInfo){
     state.inputUrlStatus = undefined;
-    state.layerName = regexResult.matchInfo[regexResult.matchInfo.length-1]; 
+
+    // 对从URL中提取的内容进行解码，避免中文乱码的出现
+    const layerNameMatched = regexResult.matchInfo[regexResult.matchInfo.length-1]; 
+    state.layerName = decodeURIComponent(layerNameMatched);
 
     // 如果是WMTS服务，需要提前解析XML
     if (layerType == LayerTypeEnum.WMTS) {
