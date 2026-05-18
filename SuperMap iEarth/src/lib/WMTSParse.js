@@ -59,9 +59,11 @@ class WMTSParse {
             const AbstractList = ServiceIdentification["ows:Abstract"]
             if(AbstractList && AbstractList.length>0){
                 const Abstract = AbstractList[0];
-                if(Abstract.includes("SuperMap iServer")){
-                    console.log("SuperMap iServer 发布的 WMTS 服务");
-                }else{return "not iServer release";}
+                console.log("Abstract", Abstract);
+                // 取消这个判断，避免俄语版本发布的iServer WMTS加载不了
+                // if(Abstract.includes("SuperMap iServer")){
+                //     console.log("SuperMap iServer 发布的 WMTS 服务");
+                // }else{return "not iServer release";}
             }else{return "not iServer release";}
         }else{return "not iServer release";}
 
