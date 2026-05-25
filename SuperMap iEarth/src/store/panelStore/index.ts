@@ -111,6 +111,7 @@ export const usePanelStore = defineStore({
         rightToolPanel: false,
         leftTooPanel: false,
         showSavePanel: false, // 保存面板是否显示
+        showWebScenePanel: false, // webScene管理器面板是否显示
         myDataPanleShow: false,// 我的数据面板
         isFold:false, // 面板是否处于折叠状态
     }),

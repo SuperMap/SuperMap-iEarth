@@ -68,15 +68,21 @@
     </div>
 
     <!-- locate：保存和打开 -->
-    <div class="too-bar two-tool-bar" v-else>
+    <div class="too-bar three-tool-bar" v-else>
       <openLocalSence></openLocalSence>
       <span class="icon-container" @click="saveScene">
         <i class="iconfont iconbaocun" title="将场景保存为本地JSON文件"></i>
+      </span>
+      <!-- webScene管理器 -->
+      <span class="icon-container" @click="webScene">
+        <i class="iconfont iconbaocun" title="webScene管理器"></i>
       </span>
     </div>
 
     <!-- 场景保存弹窗 -->
     <saveLocalScene></saveLocalScene>
+    <!-- webScene管理器弹窗 -->
+    <webSceneManager></webSceneManager>
   </div>
 </template>
 
@@ -87,6 +93,7 @@ import { IportalStoreCreate } from "@/store/iportalManage/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import openLocalSence from './coms/openLocalSence.vue';
 import saveLocalScene from './coms/saveLocalScene.vue';
+import webSceneManager from './coms/webSceneManager.vue';
 
 const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
@@ -246,6 +253,11 @@ function saveScene(){
   outputSceneToFile();
 }
 
+// webScene管理器
+function webScene(){
+  panelStore.showWebScenePanel = !panelStore.showWebScenePanel;
+}
+
 // 缩略图
 function outputSceneToFile() {
   let promise = viewer.scene.outputSceneToFile();
@@ -284,6 +296,17 @@ function outputSceneToFile() {
     @include setBackground(
       0.32rem,
       0.72rem,
+      "@/assets/images/right-tool-two-bar.png"
+    );
+  }
+
+    .three-tool-bar {
+    box-sizing: border-box;
+    padding-top: 0.04rem;
+    margin-bottom: 0.1rem;
+    @include setBackground(
+      0.32rem,
+      1.0rem,
       "@/assets/images/right-tool-two-bar.png"
     );
   }

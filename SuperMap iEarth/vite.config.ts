@@ -8,7 +8,13 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [
     vue({
-      reactivityTransform: true
+      reactivityTransform: true,
+      template: {
+        compilerOptions: {
+          // 所有supermap-开头的标签都识别为原生自定义元素
+          isCustomElement: tag => tag.startsWith('supermap-')
+        }
+      }
     }),
   ],
   base: "./",

@@ -1,0 +1,3881 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+      "SceneSetting": {
+        "description": "场景设置",
+        "type": "object",
+        "properties": {
+          "clockSetting": {
+            "description": "场景的事件设置",
+            "$ref": "#/definitions/ClockSetting"
+          },
+          "msaaLevel": {
+            "description": "msaa反走样级别",
+            "type": "number",
+            "default": 1
+          },
+          "sceneMode": {
+            "description": "场景视图模式",
+            "type": "string",
+            "enum": ["COLUMBUS_VIEW", "SCENE2D", "SCENE3D"],
+            "default": "SCENE3D"
+          },
+          "OIT": {
+            "description": "是否开启顺序无关的透明。用于解决复杂交叉半透明物体渲染不对的问题。但会额外消耗一定性能",
+            "type": "string",
+            "enum": ["NONE", "OIT", "SUPERMAP_OIT"],
+            "default": "SUPERMAP_OIT"
+          },
+          "depthOptimizationMethod": {
+            "description": "优化深度精度使用的方法",
+            "type": "string",
+            "enum": ["NONE", "LOG_DEPTH"],
+            "default": "LOG_DEPTH"
+          },
+          "hdrEnabled": {
+            "type": "boolean",
+            "description": "是否开启 HDR（高动态范围）",
+            "default": false
+          },
+          "performancePreferenceMode": {
+            "description": "性能偏好模式",
+            "type": "string",
+            "enum": ["EFFECT", "PERFORMANCE"],
+            "default": "EFFECT"
+          },
+          "globe": {
+            "$ref": "#/definitions/GlobeSetting"
+          },
+          "globeSplitPosition": {
+            "type": "array",
+            "description": "地球卷帘位置（视口内比例，有效值 0.0~1.0）",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2,
+            "examples": [[0.5, 0]]
+          },
+          "imagerySplitPosition": {
+            "type": "number",
+            "description": "影像分隔条位置（视口内比例）",
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "multiViewportMode": {
+            "type": "string",
+            "description": "多视口模式",
+            "enum": [
+              "EIGHT_DIVISIONS",
+              "FIVE_DIVISIONS",
+              "HORIZONTAL",
+              "NINE_DIVISIONS",
+              "NONE",
+              "QUAD",
+              "SEVEN_DIVISIONS",
+              "SIX_DIVISIONS",
+              "TRIPLE",
+              "VERTICAL",
+              "VerticalTrisection"
+            ]
+          },
+          "skyBox": {
+            "$ref": "#/definitions/SkyBox"
+          },
+          "skyAtmosphere": {
+            "$ref": "#/definitions/SkyAtmosphere"
+          },
+          "volumetricClouds": {
+            "$ref": "#/definitions/VolumetricClouds"
+          },
+          "fog": {
+            "$ref": "#/definitions/Fog"
+          },
+          "shadows": {
+            "type": "boolean",
+            "description": "是否产生太阳阴影",
+            "default": false
+          },
+          "enableOcclude": {
+            "type": "boolean",
+            "description": "是否开启遮挡剔除",
+            "default": true
+          },
+          "eyeSeparation": {
+            "type": "number",
+            "description": "眼距（单位：米，适用于纸板或 WebVR）",
+            "default": 0.065
+          },
+          "focalLength": {
+            "type": "number",
+            "description": "焦距（适用于纸板或 WebVR）",
+            "default": 0.05
+          },
+          "frustumTolerance": {
+            "type": "number",
+            "description": "视锥体容限值",
+            "default": 0.0,
+            "minimum": 0.0,
+            "maximum": 0.5
+          },
+          "gamma": {
+            "type": "number",
+            "description": "图层 gamma 值（用于调节颜色）",
+            "default": 2.2
+          },
+          "minimumDisableDepthTestDistance": {
+            "type": "number",
+            "description": "禁止布告板/标签/点对象深度测试的相机距离（0 表示一直有效，负值表示失效）",
+            "default": 0.0
+          },
+          "originOffset": {
+            "description": "度带偏移（用于加载有度带偏移的地图）",
+            "$ref": "#/definitions/Cartesian2"
+          },
+          "overlapDisplayOptions": {
+            "type": "object",
+            "description": "图层避让参数",
+            "properties": {
+              "allowIconWithTextDisplay": {
+                "type": "boolean",
+                "description": "是否开启图标图层跟随文字图层避让",
+                "default": true
+              }
+            }
+          },
+          "pickPointEnabled": {
+            "type": "boolean",
+            "description": "是否开启顶点捕捉功能",
+            "default": false
+          },
+          "pickPointInterval": {
+            "type": "number",
+            "description": "点云捕捉的时间间隔（单位：毫秒）",
+            "default": 200,
+            "minimum": 50
+          },
+          "pickTranslucentDepth": {
+            "type": "boolean",
+            "description": "是否支持拾取半透明几何的深度（需 useDepthPicking 为 true，性能略有下降）",
+            "default": false
+          },
+          "scanEffect": {
+            "type": "object",
+            "description": "场景扫描线效果配置",
+            "$ref": "#/definitions/ScanEffect"
+          },
+          "shadowMapSetting": {
+            "type": "object",
+            "description": "阴影贴图配置（启用后模型、图元、地球可投射/接收阴影，光源默认为太阳）",
+            "$ref": "#/definitions/ShadowMapSetting"
+          },
+          "specularEnvironmentMaps": {
+            "type": "string",
+            "description": "PBR 模型照明的环境光贴图 URL（KTX 格式，包含 mipmap）",
+            "format": "uri-reference"
+          },
+          "sphericalHarmonicCoefficients": {
+            "type": "array",
+            "description": "PBR 模型照明的球谐系数",
+            "items": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Cartesian3" }
+            }
+          },
+          "sunSetting": {
+            "type": "object",
+            "description": "渲染的太阳对象设置",
+            "$ref": "#/definitions/SunSetting"
+          },
+          "lightSource": {
+            "type": "object",
+            "description": "场景使用的光源",
+            "$ref": "#/definitions/LightSource"
+          },
+          "toneMappingEnabled": {
+            "type": "boolean",
+            "description": "是否开启 Tone Mapping（PBR 材质亮度调节）",
+            "default": false
+          },
+          "toneMappingExposure": {
+            "type": "number",
+            "description": "PBR 材质整体亮度（需 toneMappingEnabled 为 true）",
+            "default": 1.0,
+            "minimum": 0.1,
+            "maximum": 10.0
+          },
+          "underGlobeSetting": {
+            "type": "object",
+            "description": "地下场景球设置",
+            "$ref": "#/definitions/UnderGlobeSetting"
+          },
+          "undergroundDepth": {
+            "type": "number",
+            "description": "地下场景深度（单位：米）",
+            "default": 1000.0,
+            "minimum": 100.0
+          },
+          "undergroundMode": {
+            "type": "boolean",
+            "description": "是否开启地下场景",
+            "default": false
+          },
+          "useDepthPicking": {
+            "type": "boolean",
+            "description": "是否启用深度缓冲区拾取",
+            "default": true
+          },
+          "vectorTileMapOrderInImagerLayers": {
+            "type": "number",
+            "description": "MVT 与影像地图的显示顺序（0 最底层，Infinity 最上层）",
+            "default": "Infinity",
+            "minimum": 0
+          },
+          "walkingMode": {
+            "type": "string",
+            "description": "相机行走模式",
+            "default": "NONE",
+            "enum": ["ByKeyboard", "NONE"]
+          },
+          "waterReflectionDistinctQuality": {
+            "type": "number",
+            "description": "水面反射清晰度（值越小越模糊）",
+            "default": 5.0,
+            "minimum": 1.0,
+            "maximum": 10.0
+          },
+          "camera": {
+            "description": "场景相机设置",
+            "$ref": "#/definitions/CameraSetting"
+          },
+          "screenSpaceCameraController": {
+            "type": "object",
+            "description": "相机操作设置",
+            "$ref": "#/definitions/ScreenSpaceCameraControllerSetting"
+          },
+          "postProcessStageCollection": {
+            "type": "object",
+            "description": "相机操作设置",
+            "$ref": "#/definitions/PostProcessStageCollectionSetting"
+          }
+        }
+      },
+      "SceneSettingTemplate": {
+        "description": "场景设置模板",
+        "type": "object",
+        "properties": {
+          "clockSetting": {
+            "description": "场景的事件设置",
+            "$ref": "#/definitions/ClockSetting"
+          },
+          "msaaLevel": {
+            "description": "msaa反走样级别",
+            "type": "number",
+            "default": 1
+          },
+          "sceneMode": {
+            "description": "场景视图模式",
+            "type": "string",
+            "enum": ["COLUMBUS_VIEW", "SCENE2D", "SCENE3D"],
+            "default": "SCENE3D"
+          },
+          "OIT": {
+            "description": "是否开启顺序无关的透明。用于解决复杂交叉半透明物体渲染不对的问题。但会额外消耗一定性能",
+            "type": "string",
+            "enum": ["NONE", "OIT", "SUPERMAP_OIT"],
+            "default": "SUPERMAP_OIT"
+          },
+          "depthOptimizationMethod": {
+            "description": "优化深度精度使用的方法",
+            "type": "string",
+            "enum": ["NONE", "LOG_DEPTH"],
+            "default": "LOG_DEPTH"
+          },
+          "hdrEnabled": {
+            "type": "boolean",
+            "description": "是否开启 HDR（高动态范围）",
+            "default": false
+          },
+          "performancePreferenceMode": {
+            "description": "性能偏好模式",
+            "type": "string",
+            "enum": ["EFFECT", "PERFORMANCE"],
+            "default": "EFFECT"
+          },
+          "globe": {
+            "$ref": "#/definitions/GlobeSettingTemplate"
+          },
+          "skyBox": {
+            "$ref": "#/definitions/SkyBox"
+          },
+          "skyAtmosphere": {
+            "$ref": "#/definitions/SkyAtmosphere"
+          },
+          "volumetricClouds": {
+            "$ref": "#/definitions/VolumetricClouds"
+          },
+          "fog": {
+            "$ref": "#/definitions/Fog"
+          },
+          "shadows": {
+            "type": "boolean",
+            "description": "是否产生太阳阴影",
+            "default": false
+          },
+          "gamma": {
+            "type": "number",
+            "description": "图层 gamma 值（用于调节颜色）",
+            "default": 2.2
+          },
+          "shadowMapSetting": {
+            "type": "object",
+            "description": "阴影贴图配置（启用后模型、图元、地球可投射/接收阴影，光源默认为太阳）",
+            "$ref": "#/definitions/ShadowMapSetting"
+          },
+          "specularEnvironmentMaps": {
+            "type": "string",
+            "description": "PBR 模型照明的环境光贴图 URL（KTX 格式，包含 mipmap）",
+            "format": "uri-reference"
+          },
+          "sphericalHarmonicCoefficients": {
+            "type": "array",
+            "description": "PBR 模型照明的球谐系数",
+            "items": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Cartesian3" }
+            }
+          },
+          "sunSetting": {
+            "type": "object",
+            "description": "渲染的太阳对象设置",
+            "$ref": "#/definitions/SunSetting"
+          },
+          "lightSource": {
+            "type": "object",
+            "description": "场景使用的光源",
+            "$ref": "#/definitions/LightSource"
+          },
+          "toneMappingEnabled": {
+            "type": "boolean",
+            "description": "是否开启 Tone Mapping（PBR 材质亮度调节）",
+            "default": false
+          },
+          "toneMappingExposure": {
+            "type": "number",
+            "description": "PBR 材质整体亮度（需 toneMappingEnabled 为 true）",
+            "default": 1.0,
+            "minimum": 0.1,
+            "maximum": 10.0
+          },
+          "walkingMode": {
+            "type": "string",
+            "description": "相机行走模式",
+            "default": "NONE",
+            "enum": ["ByKeyboard", "NONE"]
+          },
+          "screenSpaceCameraController": {
+            "type": "object",
+            "description": "相机操作设置",
+            "$ref": "#/definitions/ScreenSpaceCameraControllerSetting"
+          },
+          "postProcessStageCollection": {
+            "type": "object",
+            "description": "相机操作设置",
+            "$ref": "#/definitions/PostProcessStageCollectionSetting"
+          }
+        }
+      },
+      "EntitiesSetting": {
+        "type": "array",
+        "description": "Entities 集合（用户添加的标注、模型、几何图形等）",
+        "items": {
+          "$ref": "#/definitions/EntitySetting"
+        }
+      },
+      "EntitySetting" : {
+        "type": "object",
+        "description": "描述Entity的设置内容",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "对象的唯一标识符。如果没有提供，则生成GUID"
+          },
+          "name": {
+            "type": "string",
+            "description": "向用户显示的可读名称，名称可不必唯一"
+          },
+          "description": {
+            "type": "string",
+            "description": "实体的HTML描述"
+          },
+          "position": {
+            "description": "实体的位置",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "orientation": {
+            "description": "实体的方向",
+            "$ref": "#/definitions/Quaternion"
+          },
+          "show": {
+            "type": "boolean",
+            "description": "是否显示实体对象及其子项",
+            "default": true
+          },
+          "billboard": {
+            "description": "与此实体关联的布告板。",
+            "type" : "object"
+          },
+          "box": {
+            "description": "与此实体关联的盒子对象。",
+            "type" : "object"
+          },
+          "corridor": {
+            "description": "与实体关联的走廊对象。",
+            "type" : "object"
+          },
+          "cylinder": {
+            "description": "与实体关联的圆柱体对象。",
+            "type" : "object"
+          },
+          "ellipse": {
+            "description": "与实体关联的椭圆形对象。",
+            "type" : "object"
+          },
+          "ellipsoid": {
+            "description": "与实体关联的椭球体对象。",
+            "type" : "object"
+          },
+          "label": {
+            "description": "与实体关联的标签对象。",
+            "type" : "object"
+          },
+          "model": {
+            "description": "与实体关联的模型对象。",
+            "type" : "object"
+          },
+          "path": {
+            "description": "与实体关联的路径对象。",
+            "type" : "object"
+          },
+          "plane": {
+            "description": "与实体关联的平面对象。",
+            "type" : "object"
+          },
+          "point": {
+            "description": "与实体关联的点对象。",
+            "type" : "object"
+          },
+          "polygon": {
+            "description": "与实体关联的多边形对象。",
+            "type" : "object"
+          },
+          "polyline": {
+            "description": "与实体关联的折线对象",
+            "type" : "object"
+          },
+          "polylineVolume": {
+            "description": "与实体关联的多段线柱体对象。",
+            "type" : "object"
+          },
+          "rectangle": {
+            "description": "与实体关联的矩形对象。",
+            "type" : "object"
+          },
+          "wall": {
+            "description": "与实体关联的围墙对象。",
+            "type" : "object"
+          }
+        }
+      },
+      "AnalysesSetting": {
+        "description": "描述使用的各分析功能",
+        "type": "object",
+        "properties": {
+          "viewshedList": {
+            "description": "可视域分析集合",
+            "type": "array",
+            "items": { "$ref": "#/definitions/ViewShedSetting" }
+          },
+          "facadeList": {
+            "type": "array",
+            "description": "立面图分析集合",
+            "items": { "$ref": "#/definitions/FacadeSetting" }
+          },
+          "profileList": {
+            "type": "array",
+            "description": "剖面分析集合",
+            "items": { "$ref": "#/definitions/ProfileSetting" }
+          },
+          "projectionImageList" : {
+            "type": "array",
+            "description": "视频投放分析集合",
+            "items": { "$ref": "#/definitions/ProjectionImageSetting" }
+          },
+          "sightlineList": {
+            "type": "array",
+            "description": "通视分析集合",
+            "items": { "$ref": "#/definitions/SightlineSetting" }
+          },
+          "skylineList": {
+            "type": "array",
+            "description": "天际线分析集合",
+            "items": { "$ref": "#/definitions/SkylineSetting" }
+          },
+          "viewDomeList": {
+            "type": "array",
+            "description": "开敞度分析集合",
+            "items": { "$ref": "#/definitions/ViewDomeSetting" }
+          },
+          "sunLightAnalysisList": {
+            "type": "array",
+            "description": "日照分析集合",
+            "items": { "$ref": "#/definitions/SunLightAnalysisSetting" },
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "shadowQueryList": {
+            "type": "array",
+            "description": "阴影查询分析集合",
+            "items": { "$ref": "#/definitions/ShadowQuerySetting" }
+          }
+        }
+      },
+      "ViewShedSetting": {
+        "description": "3D可视域分析类，通过设置观察点、视角范围等参数，在场景中生成并显示可视/不可视区域分析结果",
+        "type": "object",
+        "properties": {
+          "direction": {
+            "type": "number",
+            "description": "相机方向与正北方向的夹角（0-360度，顺时针为正）",
+            "minimum": 0,
+            "maximum": 360,
+            "default": 0
+          },
+          "distance": {
+            "type": "number",
+            "description": "可视距离（单位：米，需大于0）",
+            "minimum": 0.1,
+            "default": 1000
+          },
+          "hiddenAreaColor": {
+            "type": "object",
+            "description": "不可见区域的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "hintLineColor": {
+            "type": "object",
+            "description": "不可见区域的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "horizontalFov": {
+            "type": "number",
+            "description": "水平视角范围（0-360度，全角度为360度）",
+            "minimum": 0,
+            "maximum": 360,
+            "default": 90
+          },
+          "name": {
+            "type": "string",
+            "description": "可视域分析名称（用于标识分析实例）",
+            "default": "ViewShed3D"
+          },
+          "pitch": {
+            "type": "number",
+            "description": "相机俯仰角（-90~90度，0度表示与地面平行，正值向上，负值向下）",
+            "minimum": -90,
+            "maximum": 90,
+            "default": 0
+          },
+          "verticalFov": {
+            "type": "number",
+            "description": "垂直视角范围（0-180度，全垂直范围为180度）",
+            "minimum": 0,
+            "maximum": 180,
+            "default": 60
+          },
+          "viewPosition": {
+            "type": "array",
+            "description": "观察点位置（[经度, 纬度, 高程]，经纬度单位：度，高程单位：米）",
+            "items": [
+              {
+                "type": "number"
+              }
+            ],
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "visibleAreaColor": {
+            "type": "object",
+            "description": "不可见区域的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "isShowLine": {
+            "type": "boolean",
+            "description": "可视域体轮廓线是否显示",
+            "default": true
+          },
+          "clipMode": {
+            "description": "可视域体轮廓线是否显示",
+            "$ref": "#/definitions/ClippingType"
+          },
+          "clipRegionList": {
+            "description": "对可视域范围进行裁剪的裁剪区域数组",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name" : {
+                  "description": "裁剪多边形名称",
+                  "type": "string"
+                },
+                "positions" : {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 9,
+                  "multipleOf": 3,
+                  "description": "分层设色生效区域（三维多边形），坐标格式：[x1,y1,z1, x2,y2,z2, ..., xn,yn,zn]"
+                }
+              }
+            }
+          }
+        }
+      },
+      "FacadeSetting": {
+        "description": "立面出图类，用于对场景中的模型输出指定范围的立面图，支持配置出图范围、高度等参数，通过异步对象获取 base64 格式出图结果",
+        "type": "object",
+        "properties": {
+          "endPoint": {
+            "description": "立面出图的终止点（Cartesian3 类型，三维笛卡尔坐标，定义出图范围的结束位置）",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "farDistance": {
+            "type": "number",
+            "description": "立面出图范围的最远距离（单位：米，需大于 0，控制出图的水平范围边界）",
+            "minimum": 0.1,
+            "default": 1000
+          },
+          "maxHeight": {
+            "type": "number",
+            "description": "立面出图的最大高度（单位：米，需大于 0，控制出图的垂直范围上限）",
+            "minimum": 0.1,
+            "default": 500
+          },
+          "startPoint": {
+            "description": "立面出图的起始点（Cartesian3 类型，三维笛卡尔坐标，定义出图范围的起始位置）",
+            "$ref": "#/definitions/Cartesian3"
+          }
+        }
+      },
+      "ProfileSetting": {},
+      "ProjectionImageSetting": {},
+      "SightlineSetting": {},
+      "SkylineSetting": {},
+      "ViewDomeSetting": {},
+      "SunLightAnalysisSetting": {},
+      "ShadowQuerySetting": {},
+      "DataLayersSetting": {
+        "description": "描述使用的各类图层数据",
+        "type": "object",
+        "properties": {
+          "imageryLayers": {
+            "description": "影像图层集合",
+            "type": "array",
+            "items": { "$ref": "#/definitions/ImageryLayerSetting" }
+          },
+          "terrainProviders": {
+            "type": "array",
+            "description": "代表地形数据服务提供者的集合，目前只能支持一个",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": { "$ref": "#/definitions/TerrainProviderSetting" }
+          },
+          "S3MTileslayers": {
+            "type": "array",
+            "description": "代表S3M三维瓦片图层的集合",
+            "items": { "$ref": "#/definitions/S3MTilesLayerSetting" },
+            "uniqueItems": true
+          },
+          "dynamicLayer3Ds": {
+            "type": "array",
+            "description": "三维动态图层的集合",
+            "items": { "$ref": "#/definitions/DynamicLayer3DSetting" },
+            "uniqueItems": true
+          },
+          "instanceLayers": {
+            "type": "array",
+            "description": "实例化图层的集合",
+            "items": { "$ref": "#/definitions/InstanceLayerSetting" },
+            "uniqueItems": true
+          },
+          "fieldLayer3Ds": {
+            "type": "array",
+            "description": "三维场图层的集合",
+            "items": { "$ref": "#/definitions/FieldLayer3DSetting" },
+            "uniqueItems": true
+          },
+          "voxelGridLayer3Ds": {
+            "type": "array",
+            "description": "三维体素网格图层的集合",
+            "items": { "$ref": "#/definitions/VoxelGridLayer3DSetting" },
+            "uniqueItems": true
+          },
+          "vectorTileMaps": {
+            "type": "array",
+            "description": "代表矢量瓦片图层的集合",
+            "items": { "$ref": "#/definitions/VectorTileMapSetting" }
+          },
+          "KMLDatasources": {
+            "type": "array",
+            "description": "代表矢量瓦片图层的集合",
+            "items": { "$ref": "#/definitions/KMLDatasourceSetting" }
+          },
+          "geoJsonDataSource": {
+            "type": "array",
+            "description": "代表矢量瓦片图层的集合",
+            "items": { "$ref": "#/definitions/GeoJsonDataSourceSetting" }
+          },
+          "czmlDatasource": {
+            "type": "array",
+            "description": "代表矢量瓦片图层的集合",
+            "items": { "$ref": "#/definitions/CzmlDatasourceSetting" }
+          }
+        }
+      },
+      "DataLayersTemplate" : {
+        "description": "描述使用的各类图层数据模板",
+        "type": "object",
+        "properties": {
+          "S3MTileslayerTemplates": {
+            "type": "object",
+            "description": "代表各种数据来源的S3M三维瓦片图层模板",
+            "properties": {
+                "RealityMesh": {
+                  "description": "数据类型为倾斜摄影模型的图层设置模板",
+                  "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "BIM": {
+                  "description": "数据类型为BIM的图层设置模板",
+                  "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "PointCloud": {
+                  "description": "数据类型为点云的图层设置模板",
+                  "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "ArtificialModel": {
+                    "description": "数据类型为人工精细模型的图层设置模板",
+                    "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "GaussianSplatting3D": {
+                    "description": "数据类型为高斯泼溅的图层设置模板",
+                    "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "SpatialGrid": {
+                    "description": "数据类型为低空网格的图层设置模板",
+                    "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "Vector": {
+                  "description": "数据类型为矢量的图层设置模板",
+                  "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                },
+                "PipeLine": {
+                  "description": "数据类型为管线的图层设置模板",
+                  "$ref": "#/definitions/S3MTilesLayerSettingTemplate"
+                }
+            }
+          }
+        }
+      },
+      "CameraSetting": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["position", "orientation"],
+        "properties": {
+          "destination": {
+            "type": "object",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Cartographic" 
+              },
+              {
+                "$ref": "#/definitions/Cartesian3"
+              }
+            ]
+          },
+          "heading" : {
+            "type": "number",
+            "description": "相机方向角(弧度)"
+          },
+          "pitch" : {
+            "type": "number",
+            "description": "相机俯仰角(弧度)"
+          },
+          "roll" : {
+            "type": "number",
+            "description": "相机翻滚角(弧度)"
+          }
+        }
+      },
+      "PostProcessStageCollectionSetting" : {
+        "description": "描述使用的场景后处理设置",
+        "type": "object",
+        "properties": {
+          "colorCorrection": {
+            "$ref": "#/definitions/ColorCorrection"
+          },
+          "bloomEffect": {
+            "$ref": "#/definitions/BloomEffect"
+          },
+          "lightShaft": {
+            "$ref": "#/definitions/LightShaft"
+          }
+        }
+      },
+      "GlobeSetting": {
+        "description": "地球配置，管理地球的椭球体、地形、影像、光照、开挖/裁剪/卷帘等功能，是三维场景核心组件",
+        "type": "object",
+        "properties": {
+          "baseColor": {
+            "description": "地球基础颜色（无影像时生效）",
+            "$ref": "#/definitions/Color"
+          },
+          "clippingType": {
+            "description": "地形裁剪（开挖）类型（默认 ClippingType.KeepOutside，开挖内部区域）",
+            "$ref": "#/definitions/ClippingType"
+          },
+          "cullEnabled": {
+            "description": "球皮单双面渲染状态（是否剔除背面，默认 false 单面渲染）",
+            "type": "boolean",
+            "default": false
+          },
+          "depthTestAgainstTerrain": {
+            "description": "布告板/折线/标签等是否针对地形开启深度检测（默认 true，避免被地形遮挡）",
+            "type": "boolean",
+            "default": true
+          },
+          "ellipsoid": {
+            "description": "地球椭球体（默认 Ellipsoid.WGS84，确定地球大小和形状）",
+            "$ref": "#/definitions/Ellipsoid"
+          },
+          "enableLighting": {
+            "description": "是否启用以太阳为光源照亮地球（默认 false）",
+            "type": "boolean",
+            "default": false
+          },
+          "excavationBottomTextureUrl": {
+            "description": "地形开挖底面纹理路径（undefined/null 不使用贴图）",
+            "type": "string"
+          },
+          "excavationSideTextureUrl": {
+            "description": "地形开挖侧面纹理路径（分辨率需为 2 的 N 次方，undefined/null 不使用贴图）",
+            "type": "string"
+          },
+          "globeAlpha": {
+            "description": "地球表面透明度（0 完全透明，1 完全不透明）",
+            "type": "number",
+            "min": 0,
+            "max": 1,
+            "default": 1.0
+          },
+          "HypsometricSetting": {
+            "description": "地球分层设色配置（用于淹没分析、等高线模拟等）",
+            "$ref": "#/definitions/HypsometricSetting"
+          },
+          "imageryLodTolerance": {
+            "description": "影像切换精细层的最小块数（默认 16）",
+            "type": "number",
+            "min": 1,
+            "default": 16
+          },
+          "lightingFadeInDistance": {
+            "description": "照明恢复距离（仅 enableLighting 为 true 时生效，默认 9000000.0 米）",
+            "type": "number",
+            "min": 1000,
+            "default": 9000000.0
+          },
+          "lightingFadeOutDistance": {
+            "description": "照明衰减距离（仅 enableLighting 为 true 时生效，默认 6500000.0 米）",
+            "type": "number",
+            "min": 1000,
+            "default": 6500000.0
+          },
+          "material": {
+            "description": "地球表面材质（Material 实例配置） TODO",
+            "type": "object"
+          },
+          "maximumScreenSpaceError": {
+            "description": "细节级细化的最大屏幕空间误差（值越高性能越好、视觉质量越低，默认 2）",
+            "type": "number",
+            "min": 0.5,
+            "max": 10,
+            "default": 2
+          },
+          "oceanNormalMapUrl": {
+            "description": "海洋波浪法线贴图路径（默认 Assets/Textures/waterNormalsSmall.jpg，需地形provider含水域掩码）",
+            "type": "string",
+            "format": "uri-reference",
+            "default": "buildModuleUrl('Assets/Textures/waterNormalsSmall.jpg')"
+          },
+          "preloadAncestors": {
+            "description": "是否预加载已渲染瓦片的父级（默认 true，优化放大体验）",
+            "type": "boolean",
+            "default": true
+          },
+          "preloadSiblings": {
+            "description": "是否预加载已渲染瓦片的同级（默认 true，优化平移体验）",
+            "type": "boolean",
+            "default": true
+          },
+          "shadows": {
+            "description": "地球阴影模式（默认 ShadowMode.RECEIVE_ONLY，仅接收阴影）",
+            "type": "string",
+            "enum": ["DISABLED", "RECEIVE_ONLY", "CAST_ONLY", "ENABLED"],
+            "default": "RECEIVE_ONLY"
+          },
+          "show": {
+            "description": "是否显示地球（默认 true）",
+            "type": "boolean",
+            "default": true
+          },
+          "showExcavationSide": {
+            "description": "是否显示开挖地形的侧边（默认 true）",
+            "type": "boolean",
+            "default": true
+          },
+          "showWaterEffect": {
+            "description": "是否显示海洋波浪动画效果（默认 true，需地形provider含水域掩码）",
+            "type": "boolean",
+            "default": true
+          },
+          "SlopeSetting": {
+            "description": "地球坡度坡向配置",
+            "$ref": "#/definitions/SlopeSetting"
+          },
+          "splitDirection": {
+            "$ref": "#/definitions/SplitDirection",
+            "description": "卷帘方向"
+          },
+          "swipeEnabled": {
+            "description": "是否开启卷帘功能（默认 false）",
+            "type": "boolean",
+            "default": false
+          },
+          "swipeRegion": {
+            "$ref": "#/definitions/BoundingRectangle",
+            "description": "卷帘的四边形区域（屏幕坐标或地理坐标）"
+          },
+          "terrainProvider": {
+            "description": "地球地形服务提供者（TerrainProvider 实例配置）",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "CesiumTerrainProvider",
+                  "SuperMapTerrainProvider",
+                  "UrlTemplateTerrainProvider"
+                ],
+                "description": "地形提供者类型"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri-reference",
+                "description": "地形服务地址"
+              },
+              "requestWaterMask": {
+                "type": "boolean",
+                "default": false,
+                "description": "是否请求水域掩码"
+              },
+              "requestVertexNormals": {
+                "type": "boolean",
+                "default": false,
+                "description": "是否请求顶点法线"
+              }
+            },
+            "required": ["type", "url"],
+            "additionalProperties": true
+          },
+          "tileCacheSize": {
+            "description": "地形瓦片缓存大小（默认 100 个，越大内存消耗越高、细节显示越快）",
+            "type": "integer",
+            "min": 10,
+            "max": 1000,
+            "default": 100
+          }
+        }
+      },
+      "GlobeSettingTemplate": {
+        "description": "地球配置，管理地球的椭球体、地形、影像、光照、开挖/裁剪/卷帘等功能，是三维场景核心组件",
+        "type": "object",
+        "properties": {
+          "baseColor": {
+            "description": "地球基础颜色（无影像时生效）",
+            "$ref": "#/definitions/Color"
+          },
+          "enableLighting": {
+            "description": "是否启用以太阳为光源照亮地球（默认 false）",
+            "type": "boolean",
+            "default": false
+          },
+          "globeAlpha": {
+            "description": "地球表面透明度（0 完全透明，1 完全不透明）",
+            "type": "number",
+            "min": 0,
+            "max": 1,
+            "default": 1.0
+          },
+          "shadows": {
+            "description": "地球阴影模式（默认 ShadowMode.RECEIVE_ONLY，仅接收阴影）",
+            "type": "string",
+            "enum": ["DISABLED", "RECEIVE_ONLY", "CAST_ONLY", "ENABLED"],
+            "default": "RECEIVE_ONLY"
+          },
+          "show": {
+            "description": "是否显示地球（默认 true）",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "Ellipsoid": {
+        "description": "椭球体配置，由 Cartesian 坐标二次曲面方程定义，用于描述地球、星球等的大小和形状（推荐使用内置常量如 Ellipsoid.WGS84，而非直接构造）",
+        "type": "object",
+        "properties": {
+          "x": {
+            "description": "X 方向的半径值（对应方程中的 a），默认 0",
+            "type": "number"
+          },
+          "y": {
+            "description": "Y 方向的半径值（对应方程中的 b），默认 0",
+            "type": "number"
+          },
+          "z": {
+            "description": "Z 方向的半径值（对应方程中的 c），默认 0",
+            "type": "number"
+          }
+        }
+      },
+      "SkyBox": {
+        "description": "场景周围的天空盒配置，仅在3D场景中生效，2D场景会自动淡出；天空盒大小不得超过 Scene#maximumCubeMapSize",
+        "type": "object",
+        "properties": {
+          "sources": {
+            "type": "object",
+            "description": "立方体贴图六个面的源数据（URL 或影像对象），六个面必须完整配置才能正常渲染",
+            "properties": {
+              "positiveX": {
+                "type": "string",
+                "description": "正X轴方向的贴图源（URL 字符串或影像对象）"
+              },
+              "negativeX": {
+                "type": "string",
+                "description": "负X轴方向的贴图源（URL 字符串或影像对象）"
+              },
+              "positiveY": {
+                "type": "string",
+                "description": "正Y轴方向的贴图源（URL 字符串或影像对象）"
+              },
+              "negativeY": {
+                "type": "string",
+                "description": "负Y轴方向的贴图源（URL 字符串或影像对象）"
+              },
+              "positiveZ": {
+                "type": "string",
+                "description": "正Z轴方向的贴图源（URL 字符串或影像对象）"
+              },
+              "negativeZ": {
+                "type": "string",
+                "description": "负Z轴方向的贴图源（URL 字符串或影像对象）"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "positiveX",
+              "negativeX",
+              "positiveY",
+              "negativeY",
+              "positiveZ",
+              "negativeZ"
+            ]
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "单张图片实现天空盒的源 URL（支持 JPG 或 HDR 格式），与 sources 二选一配置"
+          },
+          "show": {
+            "type": "boolean",
+            "description": "是否显示天空盒",
+            "default": true
+          },
+          "horizontalRotationAngle": {
+            "type": "number",
+            "description": "天空盒独立水平旋转角度（单位：弧度）",
+            "default": 0
+          },
+          "USpeed": {
+            "type": "number",
+            "description": "天空盒绕 X 轴的动画速度（值为1时表示 0.01 弧度/秒）",
+            "default": 0.0
+          },
+          "VSpeed": {
+            "type": "number",
+            "description": "天空盒绕 Y 轴的动画速度（值为1时表示 0.01 弧度/秒）",
+            "default": 0.0
+          },
+          "WSpeed": {
+            "type": "number",
+            "description": "天空盒绕 Z 轴的动画速度（值为1时表示 0.01 弧度/秒）",
+            "default": 0.0
+          }
+        },
+        "additionalProperties": false,
+        "required": [],
+        "oneOf": [
+          { "required": ["sources"] },
+          { "required": ["imageUrl"] },
+          {
+            "not": {
+              "anyOf": [{ "hasKey": "sources" }, { "hasKey": "imageUrl" }]
+            }
+          }
+        ]
+      },
+      "SkyAtmosphere" : {
+        "description": "场景大气效果的设置",
+        "type": "object",
+        "properties": {
+          "show": {
+            "type": "boolean",
+            "description": "是否显示大气",
+            "default": true
+          },
+          "advanced": {
+            "type": "boolean",
+            "description": "是否开启高质量大气",
+            "default": true
+          },
+          "hueShift": {
+            "type": "number",
+            "description": "调整大气的色调。 默认值为 0.0"
+          },
+          "saturationShift": {
+            "type": "number",
+            "description": "调整大气的饱和度。默认值为0.0"
+          },
+          "brightnessShift": {
+            "type": "number",
+            "description": "大气的亮度变化 默认值0.0."
+          }
+        }
+      },
+      "VolumetricClouds" : {
+        "description": "体积云的设置",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "是否启用体积云",
+            "default": true
+          },
+          "quality": {
+            "type": "string",
+            "description": "体积云质量等级",
+            "enum": ["Low", "Middle", "High"]
+          },
+          "cirrusEnabled": {
+            "type": "boolean",
+            "description": "高空卷云是否可见",
+            "default": true
+          },
+          "lowestCloudAltitude": {
+            "type": "number",
+            "description": "云底部高度"
+          },
+          "thickness": {
+            "type": "number",
+            "description": "云厚度"
+          },
+          "windSpeed": {
+            "type": "number",
+            "description": "云流动速度"
+          },
+          "windHeading": {
+            "type": "number",
+            "description": "云流动方向"
+          },
+          "shapeCoverage": {
+            "type": "number",
+            "description": "云的覆盖度"
+          }
+        }
+      },
+      "Fog" : {
+        "description": "场景雾效果设置",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "是否启用雾",
+            "default": false
+          },
+          "advanced": {
+            "type": "boolean",
+            "description": "是否开启高质量雾",
+            "default": true
+          },
+          "color": {
+            "description": "雾的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "heightFalloff": {
+            "type": "number",
+            "description": "高度雾的衰减系数，取值范围（0-10）值越大衰减效果越明显"
+          },
+          "density": {
+            "type": "number",
+            "description": "雾浓度"
+          },
+          "screenSpaceErrorFactor" : {
+            "type": "number",
+            "description": "A factor used to increase the screen space error of terrain tiles when they are partially in fog。适用于advanced为false的情况"
+          },
+          "minimumBrightness" : {
+            "type": "number",
+            "description": "雾在光照下的最小亮度。适用于advanced为false的情况"
+          }
+        }
+      },
+      "spatialReference": {
+        "title": "spatialReference",
+        "type": "object",
+        "description": "The spatialReference object is located at the top level of the JSON hierarchy. In addition to this, it is also available within the operationalLayer and basemap objects.\n\nMany predefined spatial references have already been defined and are available for use. A spatial reference can be defined using a well-known ID (WKID) or well-known text (WKT). The default tolerance and resolution values for the associated coordinate system are used.\n\nA spatial reference can optionally include a definition for a vertical coordinate system (VCS), which is used to interpret the z values of a geometry.",
+        "properties": {
+          "wkid": {
+            "type": "integer",
+            "description": "The well-known ID (WKID) of the coordinate system. Specify either WKID or the well-known text (WKT) of the coordinate system."
+          },
+          "wkt": {
+            "type": "string",
+            "description": "The well-known text (WKT) of the coordinate system. Specify either WKT or WKID of the coordinate system."
+          }
+        },
+        "oneOf": [{ "required": ["wkt"] }, { "required": ["wkid"] }],
+        "additionalProperties": false
+      },
+      "S3MTilesLayerSetting": {
+        "type": "object",
+        "description": "S3MTilesLayer图层的配置",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "图层数据的服务地址"
+          },
+          "name": {
+            "type": "string",
+            "description": "图层在场景中使用的图层名"
+          },
+          "visible": {
+            "type": "boolean",
+            "description": "图层在场景中的可见性",
+            "default": true
+          },
+          "lodRangeScale": {
+            "type": "number",
+            "description": "图层的LOD级别切换距离缩放系数",
+            "default": 1.0
+          },
+          "brightness": {
+            "type": "number",
+            "description": "层亮度值调节颜色",
+            "default": 1.0
+          },
+          "contrast": {
+            "type": "number",
+            "description": "图层对比度值调节颜色",
+            "default": 1.0
+          },
+          "hue": {
+            "type": "number",
+            "description": "色调值调节颜色",
+            "default": 1.0
+          },
+          "saturation": {
+            "type": "number",
+            "description": "图层饱和度值调节颜色",
+            "default": 1.0
+          },
+          "gamma": {
+            "type": "number",
+            "description": "图层gamma值调节颜色",
+            "default": 1.0
+          },
+          "style3D": {
+            "description": "图层显示风格",
+            "$ref": "#/definitions/Style3D"
+          },
+          "clipLineColor": {
+            "description": "S3M图层进行BOX裁剪时裁剪线的颜色",
+            "$ref": "#/definitions/Cartesian4"
+          },
+          "clippingType": {
+            "description": "裁剪模式",
+            "$ref": "#/definitions/ClippingType"
+          },
+          "clipPlaneColor": {
+            "description": "裁剪截面的颜色",
+            "$ref": "#/definitions/Cartesian4"
+          },
+          "computeHeight": {
+            "type": "boolean",
+            "description": "用于指定是否在前端自动计算模型的高度，默认值为false不计算高度。对于不带高度的数据指定为true可以保证淹没分析、设置等高线等操作正常运行",
+            "default": true
+          },
+          "coveredMap": {
+            "type": "string",
+            "description": "(用于贴到倾斜摄影三维模型表面的)覆盖矢量瓦片图层名字",
+            "$default": ""
+          },
+          "coverImageryLayer": {
+            "type": "string",
+            "description": "（用于贴到倾斜摄影三维模型表面的）覆盖影像图层名字",
+            "$default": ""
+          },
+          "cullMode": {
+            "type": "string",
+            "description": "图层使用的三角面顺逆时针渲染模式",
+            "enum": ["CLOCKWISE", "COUNTER_CLOCKWISE", "NONE"],
+            "$default": "NONE"
+          },
+          "customRequestHeaders": {
+            "type": "object",
+            "description": "自定义请求头",
+            "additionalProperties": true
+          },
+          "enableHighlight": {
+            "type": "boolean",
+            "description": "图层是否允许高亮",
+            "default": true
+          },
+          "hasLight": {
+            "type": "boolean",
+            "description": "图层是否开启光照效果",
+            "default": true
+          },
+          "heightScale": {
+            "type": "number",
+            "description": "模型z方向拉升高度值，默认值为1",
+            "default": 1.0
+          },
+          "hypsometricSetting": {
+            "type": "object",
+            "description": "图层的分层设色表达",
+            "$ref": "#/definitions/HypsometricSetting"
+          },
+          "iconRelatedTextLayerID": {
+            "type": "number",
+            "description": "文字图层的ID。该接口根据ID指定一个文字图层，让图标图层跟随该图层进行避让。 注意：只有当overlapDisplayOptions.allowIconWithTextDisplay为true时才会生效"
+          },
+          "ignoreNormal ": {
+            "type": "boolean",
+            "description": "获取或者设置是否在GPU中自动计算法线，默认值为false。值为true时，在GPU中自动计算法线，不使用数据自带的法线。值为false时,在GPU中不自动计算法线，使用数据自带的法线",
+            "default": true
+          },
+          "ignoreVertexColor ": {
+            "type": "boolean",
+            "description": "是否忽略数据本身的顶点颜色",
+            "default": true
+          },
+          "isOverlapDisplayed": {
+            "type": "boolean",
+            "description": "图层重叠的部分是否显示。设为true时，重叠的部分依然显示，即不参与避让。默认值为false",
+            "default": true
+          },
+          "LoadingMode": {
+            "type": "string",
+            "enum": ["LOD_Loading", "All_Loading"],
+            "description": "点云级别切换时的加载模式，分为追加模式和替换模式"
+          },
+          "LoadingPriorityMode": {
+            "type": "string",
+            "enum": [
+              "Child_Priority",
+              "Child_Priority_NonLinear",
+              "Root_Priority",
+              "UsePagedLodInfo "
+            ],
+            "description": "加载的优先级模式，分为深度优先、层优先、空间索引、深度优先非线性切换",
+            "default": "Child_Priority"
+          },
+          "loadVolumeData": {
+            "type": "boolean",
+            "description": "是否加载体数据",
+            "default": true
+          },
+          "maxTransparentAlpha": {
+            "type": "number",
+            "description": "最大透明度阈值（前景色透明度设置为[0,maxTransparentAlpha]之间将被认为同一透明效果，[maxTransparentAlpha,1]之间将会有透明过渡效果）",
+            "default": 0.98
+          },
+          "minTransparentAlpha": {
+            "type": "number",
+            "description": "最小透明度阈值（小于这个值将被过滤掉）",
+            "default": 0.1
+          },
+          "maxVisibleAltitude": {
+            "type": "number",
+            "description": "图层的最大可见高度"
+          },
+          "minVisibleAltitude": {
+            "type": "number",
+            "description": "图层的最小可见高度"
+          },
+          "mipmapEnabled": {
+            "type": "boolean",
+            "description": "指定纹理是否创建mipmap，默认值为true表示创建mipmap；设置为false则表示不创建"
+          },
+          "mixColorType": {
+            "description": "颜色混合模式",
+            "$ref": "#/definitions/MixColorType"
+          },
+          "multiChoose": {
+            "type": "boolean",
+            "description": "图层是否支持多选"
+          },
+          "multiTemporalUseWater": {
+            "type": "boolean",
+            "description": "用于带时序的数据获取或设置水面材质"
+          },
+          "orderIndependentTranslucency": {
+            "type": "boolean",
+            "description": "图层是否使用顺序无关的透明渲染"
+          },
+          "overlapWeightAttributeName": {
+            "type": "string",
+            "description": "避让权重的属性字段名称，可根据该字段区分避让优先级。"
+          },
+          "partlyTransparent": {
+            "type": "boolean",
+            "description": "透明材质在开启OIT时，其显示效果是否优化"
+          },
+          "pointCloudShading": {
+            "$ref": "#/definitions/PointCloudShading",
+            "description": "点云渲染参数对象设置"
+          },
+          "priorityScale": {
+            "type": "number",
+            "description": "更新优先级系数，可以控制多个图层间的更新优先级顺序"
+          },
+          "rasterPerFrame": {
+            "type": "boolean",
+            "default": false,
+            "description": "是否实时绘制栅格化矢量线（确保线粗细在不同级别一致）"
+          },
+          "receiveObjectClamp": {
+            "type": "boolean",
+            "default": true,
+            "description": "图层是否接受贴对象（false时不被贴对象）"
+          },
+          "residentRootTile": {
+            "type": "boolean",
+            "default": false,
+            "description": "根节点是否驻留内存不删除"
+          },
+          "selectBound": {
+            "$ref": "#/definitions/Rectangle",
+            "description": "框选范围（二维矩形边界）"
+          },
+          "selectColorType": {
+            "$ref": "#/definitions/SelectColorType",
+            "description": "选取对象的显示风格（纹理与颜色混合/纯色显示）"
+          },
+          "selectedColor": {
+            "$ref": "#/definitions/Color",
+            "description": "选中图层的高亮颜色（线框模式下为选中轮廓线颜色）"
+          },
+          "selectedLineColor": {
+            "$ref": "#/definitions/Color",
+            "description": "选中对象线框发光轮廓线的高亮颜色"
+          },
+          "selectedSkeletonId": {
+            "type": "number",
+            "description": "子对象ID（选中子对象时生效）"
+          },
+          "selectedTranslate": {
+            "$ref": "#/definitions/Cartesian3",
+            "description": "选中对象的偏移位置（三维坐标）"
+          },
+          "selectEnabled": {
+            "type": "boolean",
+            "description": "图层是否可选"
+          },
+          "selectionFiltrateByTransparency": {
+            "type": "number",
+            "description": "透明选择过滤阈值"
+          },
+          "shadowType": {
+            "$ref": "#/definitions/ShadowType",
+            "description": "图层模型参与显示阴影的范围类型"
+          },
+          "shadowVolumeBottomHeight": {
+            "type": "number",
+            "description": "阴影体向下拉升的最低高度（单位：米）"
+          },
+          "shadowVolumeTopHeight": {
+            "type": "number",
+            "description": "阴影体向上拉升的最大高度（单位：米）"
+          },
+          "showCallout": {
+            "type": "boolean",
+            "description": "是否显示牵引线"
+          },
+          "showIcon": {
+            "type": "boolean",
+            "description": "是否显示图标"
+          },
+          "showLabel": {
+            "type": "boolean",
+            "description": "是否显示标签"
+          },
+          "skeletonSelectedColor": {
+            "$ref": "#/definitions/Color",
+            "description": "子对象选中高亮颜色"
+          },
+          "skeletonSelectEnable": {
+            "type": "boolean",
+            "description": "图层中子对象是否可选择",
+            "examples": [true, false]
+          },
+          "splitDirection": {
+            "$ref": "#/definitions/SplitDirection",
+            "description": "卷帘方向"
+          },
+          "splitPosition": {
+            "type": "number",
+            "description": "卷帘位置（0-1范围，对应屏幕比例）",
+            "examples": [0.3, 0.5]
+          },
+          "subdomains": {
+            "type": "string",
+            "description": "子域名称（用于向指定子域请求数据）"
+          },
+          "swipeEnabled": {
+            "type": "boolean",
+            "description": "是否开启卷帘功能",
+            "examples": [true, false]
+          },
+          "swipeRegion": {
+            "$ref": "#/definitions/BoundingRectangle",
+            "description": "卷帘的四边形区域（屏幕坐标或地理坐标）"
+          },
+          "temporalCount": {
+            "type": "number",
+            "minimum": 1,
+            "description": "多时序帧数",
+            "examples": [10, 24]
+          },
+          "textureUVSpeed": {
+            "type": "number",
+            "description": "模型纹理在UV坐标上的运动速度",
+            "examples": [0.05, -0.1]
+          },
+          "themeStyle": {
+            "type": "object",
+            "description": "TODO"
+          },
+          "translucencyByDistance": {
+            "type": "boolean",
+            "default": false,
+            "description": "是否开启最大可见距离的透明效果（距离越远越透明）"
+          },
+          "transparentBackColor": {
+            "$ref": "#/definitions/Color",
+            "description": "图层透明目标颜色（接近该颜色的像素将透明）"
+          },
+          "transparentBackColorTolerance": {
+            "type": "number",
+            "description": "图层透明容限（控制透明颜色的匹配精度）",
+            "examples": [0.1, 0.2]
+          },
+          "triangleFiltratePixel": {
+            "type": "number",
+            "minimum": 0,
+            "description": "过滤像素的大小（用于优化渲染性能）",
+            "examples": [1, 3]
+          },
+          "urlType": {
+            "$ref": "#/definitions/UrlType",
+            "description": "图层数据的请求形式（如REST、Key-value等）"
+          },
+          "volName": {
+            "type": "string",
+            "description": "体数据名称（体渲染场景下生效）",
+            "examples": ["temperature", "density"]
+          },
+          "waterParameter": {
+            "$ref": "#/definitions/WaterParameter",
+            "description": "水面效果参数（如波纹、反射、折射等）"
+          },
+          "wireFrameMode": {
+            "type": "number",
+            "description": "图层线框模式",
+            "enum": ["EffectOutline", "Quad", "Sketch", "Triangle"]
+          },
+          "wireFrameNearfarRange": {
+            "$ref": "#/definitions/Cartesian2",
+            "description": "线框透明度随距离衰减范围（x=起始距离，y=终止距离，单位：米）"
+          },
+          "colorStyle" : {
+            "$ref": "#/definitions/ColorStyle",
+            "description": "图层使用的颜色风格"
+          }
+        }
+      },
+      "S3MTilesLayerSettingTemplate": {
+        "type": "object",
+        "description": "S3MTilesLayer图层的配置",
+        "properties": {
+          "brightness": {
+            "type": "number",
+            "description": "层亮度值调节颜色",
+            "default": 1.0
+          },
+          "contrast": {
+            "type": "number",
+            "description": "图层对比度值调节颜色",
+            "default": 1.0
+          },
+          "hue": {
+            "type": "number",
+            "description": "色调值调节颜色",
+            "default": 1.0
+          },
+          "saturation": {
+            "type": "number",
+            "description": "图层饱和度值调节颜色",
+            "default": 1.0
+          },
+          "gamma": {
+            "type": "number",
+            "description": "图层gamma值调节颜色",
+            "default": 1.0
+          },
+          "style3D": {
+            "description": "图层显示风格",
+            "$ref": "#/definitions/Style3D"
+          },
+          "hasLight": {
+            "type": "boolean",
+            "description": "图层是否开启光照效果",
+            "default": true
+          },
+          "maxTransparentAlpha": {
+            "type": "number",
+            "description": "最大透明度阈值（前景色透明度设置为[0,maxTransparentAlpha]之间将被认为同一透明效果，[maxTransparentAlpha,1]之间将会有透明过渡效果）",
+            "default": 0.98
+          },
+          "minTransparentAlpha": {
+            "type": "number",
+            "description": "最小透明度阈值（小于这个值将被过滤掉）",
+            "default": 0.1
+          },
+          "mixColorType": {
+            "description": "颜色混合模式",
+            "$ref": "#/definitions/MixColorType"
+          },
+          "orderIndependentTranslucency": {
+            "type": "boolean",
+            "description": "图层是否使用顺序无关的透明渲染"
+          },
+          "partlyTransparent": {
+            "type": "boolean",
+            "description": "透明材质在开启OIT时，其显示效果是否优化"
+          },
+          "pointCloudShading": {
+            "$ref": "#/definitions/PointCloudShading",
+            "description": "点云渲染参数对象设置"
+          },
+          "selectColorType": {
+            "$ref": "#/definitions/SelectColorType",
+            "description": "选取对象的显示风格（纹理与颜色混合/纯色显示）"
+          },
+          "selectedColor": {
+            "$ref": "#/definitions/Color",
+            "description": "选中图层的高亮颜色（线框模式下为选中轮廓线颜色）"
+          },
+          "selectedLineColor": {
+            "$ref": "#/definitions/Color",
+            "description": "选中对象线框发光轮廓线的高亮颜色"
+          },
+          "selectedTranslate": {
+            "$ref": "#/definitions/Cartesian3",
+            "description": "选中对象的偏移位置（三维坐标）"
+          },
+          "selectEnabled": {
+            "type": "boolean",
+            "description": "图层是否可选"
+          },
+          "selectionFiltrateByTransparency": {
+            "type": "number",
+            "description": "透明选择过滤阈值"
+          },
+          "shadowType": {
+            "$ref": "#/definitions/ShadowType",
+            "description": "图层模型参与显示阴影的范围类型"
+          },
+          "showCallout": {
+            "type": "boolean",
+            "description": "是否显示牵引线"
+          },
+          "showIcon": {
+            "type": "boolean",
+            "description": "是否显示图标"
+          },
+          "showLabel": {
+            "type": "boolean",
+            "description": "是否显示标签"
+          },
+          "colorStyle" : {
+            "$ref": "#/definitions/ColorStyle",
+            "description": "图层使用的颜色风格"
+          }
+        }
+      },
+      "HypsometricSetting": {
+        "title": "HypsometricSetting",
+        "description": "分层设色类，用于制定三维模型渲染显示方案，通过颜色映射、显示模式等参数实现三维数据属性可视化",
+        "type": "object",
+        "properties": {
+          "colorModulation": {
+            "description": "点云数据的颜色调整信息（仅支持点云强度值调整）TODO"
+          },
+          "ColorTable": {
+            "$ref": "#/definitions/ColorTable",
+            "description": "颜色映射表，通过「阈值-颜色」键值对定义不同属性范围的显示颜色"
+          },
+          "CoverageArea": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 6,
+            "multipleOf": 2,
+            "description": "分层设色生效区域（二维闭合多边形），坐标格式：[x1,y1,z1, x2,y2,z2, ..., xn,yn,zn]",
+            "examples": [
+              [
+                110.0, 40.03, 110.0, 110.0, 40.001, 110.0, 110.103, 40.001, 110.0,
+                110.103, 40.03, 110.0
+              ]
+            ]
+          },
+          "DisplayMode": {
+            "type": "string",
+            "enum": ["NONE", "FACE", "LINE", "FACE_AND_LINE"],
+            "description": "分层设色显示模式：不显示、面模式、线模式、面+线模式",
+            "examples": ["FACE"]
+          },
+          "LineColor": {
+            "description": "等值线的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "LineInterval": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "description": "等值线的间隔（正数）"
+          },
+          "MaxVisibleValue": {
+            "type": "number",
+            "description": "数据的最大可见属性值（需大于MinVisibleValue）"
+          },
+          "MinVisibleValue": {
+            "type": "number",
+            "description": "数据的最小可见属性值（需小于MaxVisibleValue）"
+          },
+          "noValueColor": {
+            "description": "无效数据（超出阈值/无属性值）的显示颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "Opacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1,
+            "description": "不透明度（0=完全透明，1=完全不透明）"
+          },
+          "visibleDistanceMax": {
+            "type": "number",
+            "minimum": 0,
+            "description": "分层设色的最大相机可见距离（需大于visibleDistanceMin）"
+          },
+          "visibleDistanceMin": {
+            "type": "number",
+            "minimum": 0,
+            "description": "分层设色的最小相机可见距离（需小于visibleDistanceMax）"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SlopeSetting": {
+        "description": "坡度设置配置 schema，用于控制地形坡度的颜色映射、显示范围、透明度及坡向箭头样式等",
+        "type": "object",
+        "properties": {
+          "ColorTable": {
+            "$ref": "#/definitions/ColorTable",
+            "description": "颜色映射表，通过「阈值-颜色」键值对定义不同属性范围的显示颜色"
+          },
+          "ColorTableMaxKey": {
+            "description": "颜色表的最大键值（对应最大坡度值，需大于 ColorTableMinKey）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90,
+            "default": 90.0
+          },
+          "ColorTableMinKey": {
+            "description": "颜色表的最小键值（对应最小坡度值，需小于 ColorTableMaxKey）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90,
+            "default": 0.0
+          },
+          "CoverageArea": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 6,
+            "multipleOf": 2,
+            "description": "分层设色生效区域（二维闭合多边形），坐标格式：[x1,y1,z1, x2,y2,z2, ..., xn,yn,zn]",
+            "examples": [
+              [
+                110.0, 40.03, 110.0, 110.0, 40.001, 110.0, 110.103, 40.001, 110.0,
+                110.103, 40.03, 110.0
+              ]
+            ]
+          },
+          "DisplayMode": {
+            "type": "string",
+            "enum": ["NONE", "FACE", "ARROW", "FACE_AND_ARROW"],
+            "description": "坡度坡向显示模式",
+            "examples": ["FACE"]
+          },
+          "MaxVisibleValue": {
+            "description": "坡度最大可见值（超过该值的坡度不显示，需大于 MinVisibleValue）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90,
+            "default": 90.0
+          },
+          "MinVisibleValue": {
+            "description": "坡度最小可见值（低于该值的坡度不显示，需小于 MaxVisibleValue）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 90,
+            "default": 0.0
+          },
+          "Opacity": {
+            "description": "坡度可视化层的透明度（0.0 完全透明，1.0 完全不透明）",
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 1.0
+          },
+          "SlopeArrowsColor": {
+            "description": "等值线的颜色",
+            "$ref": "#/definitions/Color"
+          }
+        }
+      },
+      "S3MTilesLabelStyle": {},
+      "ShadowType": {
+        "type": "string",
+        "description": "图层在场景中的可见性",
+        "enum": ["ALL", "NONE", "SELECTION"]
+      },
+      "Style3D": {
+        "type": "object",
+        "description": "表示三维对象渲染风格",
+        "properties": {
+          "altitudeMode": {
+            "$ref": "#/definitions/HeightReference"
+          },
+          "billboardMode": {
+            "$ref": "#/definitions/BillboardMode"
+          },
+          "bottomAltitude": {
+            "type": "number",
+            "description": "底部高程",
+            "default": 0.0
+          },
+          "calloutColor": {
+            "description": "牵引线的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "calloutWidth": {
+            "type": "number",
+            "description": "牵引线的宽度",
+            "default": 1.0
+          },
+          "fillForeColor": {
+            "description": "填充前景色",
+            "$ref": "#/definitions/Color"
+          },
+          "fillStyle": {
+            "description": "填充风格",
+            "$ref": "#/definitions/FillStyle"
+          },
+          "image": {
+            "type": "string",
+            "description": "图标的存储路径或数据的网络来源url"
+          },
+          "lineColor": {
+            "description": "线的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "lineWidth": {
+            "type": "number",
+            "description": "线宽",
+            "default": 1.0
+          },
+          "pointColor": {
+            "description": "点的颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "pointSize ": {
+            "type": "number",
+            "description": "点的像素大小",
+            "default": 1.0
+          }
+        }
+      },
+      "Cartographic": {
+        "type": "object",
+        "required": ["longitude", "latitude", "height"],
+        "properties": {
+          "longitude": {
+            "type": "number",
+            "description": "经度（弧度或度，建议统一弧度）"
+          },
+          "latitude": {
+            "type": "number",
+            "description": "纬度（弧度或度，建议统一弧度）"
+          },
+          "height": {
+            "type": "number",
+            "description": "高度（米，相对于 WGS84 椭球面）"
+          }
+        }
+      },
+      "Cartesian2": {
+        "type": "array",
+        "description": "描述二维坐标",
+        "items": { "type": "number" },
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "Cartesian3": {
+        "type": "array",
+        "description": "描述三维坐标",
+        "items": { "type": "number" },
+        "minItems": 3,
+        "maxItems": 3
+      },
+      "Cartesian4": {
+        "type": "array",
+        "description": "描述四维坐标",
+        "items": { "type": "number" },
+        "minItems": 4,
+        "maxItems": 4
+      },
+      "Quaternion" : {
+        "type": "array",
+        "description": "描述旋转的四元素",
+        "items": { "type": "number" },
+        "minItems": 4,
+        "maxItems": 4
+      },
+      "Color": {
+        "type": "object",
+        "description": "描述RGBA模式颜色",
+        "properties": {
+          "red": {
+            "type": "number",
+            "description": "红色部分",
+            "default": 1.0
+          },
+          "green": {
+            "type": "number",
+            "description": "绿色部分",
+            "default": 1.0
+          },
+          "blue": {
+            "type": "number",
+            "description": "蓝色部分",
+            "default": 1.0
+          },
+          "alpha": {
+            "type": "number",
+            "description": "透明度部分",
+            "default": 1.0
+          }
+        }
+      },
+      "ColorTable": {
+        "type": "object",
+        "description": "颜色映射表（阈值-颜色键值对集合）",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "number",
+                  "description": "属性阈值（如高程、强度）"
+                },
+                "color": {
+                  "$ref": "#/definitions/Color",
+                  "description": "对应阈值的颜色"
+                }
+              },
+              "required": ["key", "color"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["entries"]
+      },
+      "HeightReference": {
+        "type": "string",
+        "description": "表示数据相对于地形的高度位置模式",
+        "enum": ["CLAMP_TO_GROUND", "NONE", "RELATIVE_TO_GROUND"],
+        "default": "NONE"
+      },
+      "BillboardMode": {
+        "type": "string",
+        "description": "billboard布告板的模式，目前支持贴地、屏幕对齐和轴对齐模式",
+        "enum": ["NONE", "FixedZ", "FixedXYZ"],
+        "default": "NONE"
+      },
+      "FillStyle": {
+        "type": "string",
+        "description": "S3M图层的填充风格",
+        "enum": ["Fill", "WireFrame", "Fill_And_WireFrame"],
+        "default": "Fill"
+      },
+      "ClippingType": {
+        "type": "string",
+        "description": "裁剪模式",
+        "enum": ["KeepInside", "KeepOutside"]
+      },
+      "MixColorType": {
+        "type": "string",
+        "description": "颜色混合模式",
+        "enum": ["MIX", "REPLACE"]
+      },
+      "SelectColorType": {
+        "type": "string",
+        "description": "选取对象的显示风格",
+        "enum": [
+          "ALWAYS_SHOW_SILHOUETTE",
+          "MIX",
+          "REPLACE",
+          "SILHOUETTE",
+          "SILHOUETTE_EDGE",
+          "WIREFRAME"
+        ]
+      },
+      "ColorStyle": {
+        "type": "string",
+        "description": "颜色风格",
+        "enum": [
+          "OrigialTexture",
+          "PureColor"
+        ]
+      },
+      "UrlType": {
+        "type": "string",
+        "description": "服务请求风格",
+        "enum": ["KEY_VALUE", "REST"]
+      },
+      "SplitDirection": {
+        "type": "string",
+        "description": "卷帘方向模式",
+        "enum": ["BOTTOM", "LEFT", "NONE", "RIGHT", "TOP"]
+      },
+      "Rectangle": {
+        "type": "array",
+        "items": { "type": "number" },
+        "minItems": 4,
+        "maxItems": 4,
+        "description": "以西、南、东、北的坐标顺序指定的二维区域"
+      },
+      "BoundingRectangle": {
+        "description": "由角、宽和高定义的二维包围矩形，用于表示平面范围",
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "矩形左下角的X坐标",
+            "default": 0.0
+          },
+          "y": {
+            "type": "number",
+            "description": "矩形左下角的Y坐标",
+            "default": 0.0
+          },
+          "width": {
+            "type": "number",
+            "description": "矩形的宽度（非负）",
+            "default": 0.0,
+            "minimum": 0.0
+          },
+          "height": {
+            "type": "number",
+            "description": "矩形的高度（非负）",
+            "default": 0.0,
+            "minimum": 0.0
+          }
+        }
+      },
+      "PointCloudShading": {
+        "description": "3D Tiles 点云渲染时基于几何误差执行点衰减的配置选项，包含眼顶照明、背面剔除、法线着色等功能开关",
+        "type": "object",
+        "properties": {
+          "attenuation": {
+            "type": "boolean",
+            "description": "是否根据几何误差进行点衰减",
+            "default": false
+          },
+          "geometricErrorScale": {
+            "type": "number",
+            "description": "应用于每个瓦片几何误差的比例系数",
+            "default": 1.0,
+            "minimum": 0.0
+          },
+          "maximumAttenuation": {
+            "type": "number",
+            "description": "最大衰减（以像素为单位），未定义时默认使用 Cesium3DTileset 的 maximumScreenSpaceError",
+            "minimum": 0.0
+          },
+          "baseResolution": {
+            "type": "number",
+            "description": "数据集的平均基本分辨率（以米为单位），几何误差不可用时作为替代",
+            "minimum": 0.01
+          },
+          "eyeDomeLighting": {
+            "type": "boolean",
+            "description": "是否启用眼顶照明（需 WebGL 1.0 支持 EXT_frag_depth、OES_texture_float 和 WEBGL_draw_buffers 扩展，否则自动忽略）",
+            "default": true
+          },
+          "eyeDomeLightingStrength": {
+            "type": "number",
+            "description": "眼顶照明强度，值越大斜坡和边缘的对比度越高",
+            "default": 1.0,
+            "minimum": 0.0,
+            "maximum": 10.0
+          },
+          "eyeDomeLightingRadius": {
+            "type": "number",
+            "description": "眼顶照明的轮廓厚度",
+            "default": 1.0,
+            "minimum": 0.1,
+            "maximum": 5.0
+          },
+          "backFaceCulling": {
+            "type": "boolean",
+            "description": "是否隐藏背面点（仅当数据包含法线时有效）",
+            "default": false
+          },
+          "normalShading": {
+            "type": "boolean",
+            "description": "包含法线的点云是否被场景的光源着色",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "required": []
+      },
+      "LightSource": {
+        "description": "全局光源配置，统一管理环境光、平行光、点光源、聚光灯及全局光照参数",
+        "type": "object",
+        "properties": {
+          "ambientLightColor": {
+            "description": "环境光颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "directionalLightList": {
+            "type": "array",
+            "description": "方向光源数组",
+            "items": { "$ref": "#/definitions/DirectionalLight" }
+          },
+          "pointLightList": {
+            "type": "array",
+            "description": "点光源数组",
+            "items": { "$ref": "#/definitions/PointLight" }
+          },
+          "spotLightList": {
+            "type": "array",
+            "description": "聚光灯光源数组",
+            "items": { "$ref": "#/definitions/SpotLight" }
+          },
+          "hemisphereLightList": {
+            "type": "array",
+            "description": "半球光源数组",
+            "items": { "$ref": "#/definitions/HemisphereLight" }
+          },
+          "sunLightCameraTrackingEnabled": {
+            "description": "是否自动更新当前时区（使模型在同一时区保持相同明暗效果），默认 true",
+            "type": "boolean",
+            "default": true
+          },
+          "sunLightON": {
+            "description": "光照总开关/强度系数（默认 1.0，0 表示关闭光照，1.0 表示最大强度）",
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 1.0
+          },
+          "visibleDistanceMax": {
+            "description": "灯光最大可见距离（默认 10000.0 米），超出该距离的物体不受灯光影响",
+            "type": "number",
+            "minimum": 0.0,
+            "default": 10000.0
+          }
+        }
+      },
+      "PointLight": {
+        "description": "点光源配置，描述点光源的位置、颜色、照射范围、衰减等属性",
+        "type": "object",
+        "properties": {
+          "position": {
+            "description": "点光源位置",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "color": {
+            "description": "光源颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "cutoffDistance": {
+            "description": "点光源的扩散距离（默认 10 米），超出该距离后光线消失",
+            "type": "number",
+            "minimum": 0,
+            "default": 10
+          },
+          "decay": {
+            "description": "点光源衰减因子（默认 1），值越小衰减越慢、光线越亮",
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 5,
+            "default": 1
+          },
+          "intensity": {
+            "description": "点光源强度（默认 2），值越大光线越亮",
+            "type": "number",
+            "minimum": 0,
+            "default": 2
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpotLight": {
+        "description": "聚光灯配置，描述聚光灯的位置、目标方向、颜色、照射范围、衰减等属性",
+        "type": "object",
+        "required": ["position", "targetPosition"],
+        "properties": {
+          "position": {
+            "description": "聚光灯位置",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "targetPosition": {
+            "description": "聚光灯目标点位置（决定聚光方向）",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "color": {
+            "description": "光源颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "intensity": {
+            "description": "聚光灯强度（默认 2），值越大光线越亮",
+            "type": "number",
+            "minimum": 0,
+            "default": 2
+          },
+          "distance": {
+            "description": "聚光灯能到达的最远距离（默认 100 米），超出后光线消失",
+            "type": "number",
+            "minimum": 0,
+            "default": 100
+          },
+          "decay": {
+            "description": "聚光灯衰减因子（默认 1），值越小衰减越慢、光线越亮",
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 5,
+            "default": 1
+          },
+          "angle": {
+            "description": "聚光范围（默认 Math.PI/6 弧度 ≈ 30°），单位为弧度，值越大照射范围越广",
+            "type": "number",
+            "default": 0.5236
+          }
+        }
+      },
+      "DirectionalLight": {
+        "description": "描述平行光的位置、目标方向、颜色、强度等属性（平行光无衰减和距离限制，光线平行传播）",
+        "type": "object",
+        "properties": {
+          "position": {
+            "description": "平行光源位置",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "targetPosition": {
+            "description": "平行光目标位置（决定光的传播方向，默认 Cartesian3.ZERO 即原点）",
+            "$ref": "#/definitions/Cartesian3"
+          },
+          "color": {
+            "description": "光源颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "intensity": {
+            "description": "平行光强度（默认 1），值越大光线越亮（平行光无衰减，强度直接决定亮度）",
+            "type": "number",
+            "minimum": 0,
+            "default": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "HemisphereLight": {
+        "description": "半球光源配置，模拟天空（上半球）和地面（下半球）的环境光，无明确光源位置，均匀照亮场景",
+        "type": "object",
+        "properties": {
+          "skyColor": {
+            "description": "天空光源颜色（上半球光照颜色）",
+            "$ref": "#/definitions/Color"
+          },
+          "groundColor": {
+            "description": "地面光源颜色（下半球光照颜色，模拟地面反射光",
+            "$ref": "#/definitions/Color"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WaterParameter": {
+        "description": "SuperMap3D 水面效果配置参数，用于设置水面颜色、水域范围、波浪方向和强度",
+        "type": "object",
+        "properties": {
+          "color": {
+            "description": "水面颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "waterbodySize": {
+            "type": "string",
+            "description": "水域范围枚举，控制水面覆盖规模",
+            "default": "MEDIUM",
+            "enum": ["SMALL", "MEDIUM", "LARGE"]
+          },
+          "waveDirection": {
+            "type": "number",
+            "description": "水流方向（以正北为正方向，顺时针旋转），取值范围 0-360 度",
+            "default": 180,
+            "minimum": 0,
+            "maximum": 360
+          },
+          "waveStrength": {
+            "type": "string",
+            "description": "水流强度枚举，控制波浪起伏程度",
+            "default": "MILD",
+            "enum": ["CALM", "MILD", "MODERATE", "SLIGHT"]
+          }
+        },
+        "additionalProperties": false,
+        "required": []
+      },
+      "ScanEffect": {
+        "description": "扫描线效果配置 schema，支持圆环状、线状两种扫描模式，可配置颜色、速度、周期等参数",
+        "type": "object",
+        "properties": {
+          "centerPositionArray": {
+            "description": "扫描线的中心点位置（地理坐标系的 Cartesian3 三维坐标），适用于单条扫描线场景",
+            "type": "array",
+            "items": { "$ref": "#/definitions/Cartesian3" }
+          },
+          "color": {
+            "description": "扫描线颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "lineMoveDirectionArray": {
+            "description": "线状扫描线的运行方向（地理坐标系的 Cartesian3 向量，仅线状模式生效）",
+            "type": "array",
+            "items": { "$ref": "#/definitions/Cartesian3" }
+          },
+          "lineWidth": {
+            "description": "线状扫描线的宽度（单位：米，默认 1000.0 米，仅线状模式生效）",
+            "type": "number",
+            "minimum": 0.1,
+            "default": 1000.0
+          },
+          "mode": {
+            "description": "扫描线效果模式（圆环状扫描模式 / 线状扫描模式）",
+            "type": "string",
+            "enum": ["CIRCLE", "LINE"],
+            "default": "CIRCLE",
+            "examples": ["CIRCLE", "LINE"]
+          },
+          "period": {
+            "description": "扫描线的运行周期（单位：秒，默认 1.0 秒，周期越短扫描越快）",
+            "type": "number",
+            "minimum": 0.1,
+            "default": 1.0
+          },
+          "show": {
+            "description": "是否开启扫描线效果（默认 false 关闭）",
+            "type": "boolean",
+            "default": false
+          },
+          "speed": {
+            "description": "扫描线的运行速度（单位：米/秒，默认 1000.0 米/秒）",
+            "type": "number",
+            "minimum": 0,
+            "default": 1000.0
+          },
+          "textureUrl": {
+            "description": "扫描线上叠加的纹理图片 URL（支持绝对路径或相对路径）",
+            "type": "string",
+            "format": "uri-reference",
+            "examples": [
+              "https://example.com/scan-texture.png",
+              "./textures/scan-line.png"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "ColorCorrection" :{
+        "description": "颜色校正类，用于场景影像的渲染后处理，可以调节影像的亮度、对比度、饱和度及色调",
+        "type": "object",
+        "properties": {
+          "show": {
+            "description": "获取或设置影像的颜色校正效果是否开启",
+            "type": "boolean",
+            "default": false
+          },
+          "brightness" : {
+            "description": "控制场景亮度",
+            "type": "number",
+            "default": 1.0
+          },
+          "contrast" : {
+            "description": "控制场景对比度",
+            "type": "number",
+            "default": 1.0
+          },
+          "saturation" : {
+            "description": "控制场景饱和度",
+            "type": "number",
+            "default": 1.0
+          },
+          "hue" : {
+            "description": "控制场景色调",
+            "type": "number",
+            "default": 0.0
+          }
+        }
+      },
+      "BloomEffect": {
+        "description": "颜色校正类，用于场景影像的渲染后处理，可以调节影像的亮度、对比度、饱和度及色调",
+        "type": "object",
+        "properties": {
+          "show": {
+            "description": "场景是否开启泛光效果",
+            "type": "boolean",
+            "default": false
+          },
+          "intensity" : {
+            "description": "泛光强度值",
+            "type": "number",
+            "default": 1.0
+          },
+          "threshold" : {
+            "description": "泛光亮度阈值。",
+            "type": "number",
+            "default": 1.0
+          }
+        }
+      },
+      "lightShaft": {
+        "description": "光束泛光设置",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "description": "是否启用",
+            "type": "boolean",
+            "default": false
+          },
+          "bloomScale" : {
+            "description": "泛光范围",
+            "type": "number",
+            "default": 1.0
+          },
+          "bloomMaxLuminance" : {
+            "description": "泛光最大亮度",
+            "type": "number",
+            "default": 5.0
+          }
+        }
+      },
+      "ClockSetting" : {
+        "description": "场景使用的时钟设置",
+        "type": "object",
+        "properties": {
+          "currentTime":{
+            "description": "时钟当前时间",
+            "$ref": "#/definitions/JulianDate"
+          },
+          "startTime": {
+            "description": "时钟的开始时间。",
+            "$ref": "#/definitions/JulianDate"
+          },
+          "stopTime" : {
+            "description": "时钟的停止时间。",
+            "$ref": "#/definitions/JulianDate"
+          },
+          "clockRange" : {
+            "description": "确定当达到startTime或stopTime时,时钟应该如何表现",
+            "type": "string",
+            "enum": ["UNBOUNDED", "CLAMPED", "LOOP_STOP"]
+          },
+          "clockStep" : {
+            "description": "确定对Clock的tick事件的调用是帧相关还是系统时钟相关",
+            "type": "string",
+            "enum": ["TICK_DEPENDENT", "SYSTEM_CLOCK_MULTIPLIER", "SYSTEM_CLOCK"]
+          },
+          "shouldAnimate": {
+            "description": "指示Clock的tick事件是否应该尝试提前时间",
+            "type": "boolean"
+          },
+          "canAnimate": {
+            "description": "是否可以提前时间",
+            "type": "boolean"
+          },
+          "multiplier" : {
+            "description": "调用Clock的tick事件时前进的时间。负值允许向后推进",
+            "type": "number",
+            "default": 1.0
+          }
+        }
+      },
+      "JulianDate" : {
+        "description": "ISO 8601格式的表示时间的字符串",
+        "type": "string"
+      },
+      "ShadowMapSetting": {
+        "description": "阴影贴图配置，管理太阳光源的阴影效果（请勿直接构建，通过 Viewer#shadowMap 获取），支持级联阴影、柔和阴影等配置",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "description": "是否启用阴影贴图（默认 true 启用）",
+            "type": "boolean",
+            "default": true
+          },
+          "isPointLight": {
+            "description": "光源是否为点光源（默认 false），点光源阴影不使用级联",
+            "type": "boolean",
+            "default": false
+          },
+          "pointLightRadius": {
+            "description": "点光源的半径（默认 100.0 米，仅 isPointLight 为 true 时生效）",
+            "type": "number",
+            "minimum": 0,
+            "default": 100.0
+          },
+          "cascadesEnabled": {
+            "description": "是否启用级联阴影（默认 true），使用多个阴影贴图覆盖视锥不同部分",
+            "type": "boolean",
+            "default": true
+          },
+          "numberOfCascades": {
+            "description": "级联阴影的级联数目（默认 4，仅支持 1 或 4，否则抛出 DeveloperError）",
+            "type": "number",
+            "enum": [1, 4],
+            "default": 4
+          },
+          "maximumDistance": {
+            "description": "级联阴影的最大距离（默认 5000.0 米，数值越小阴影质量越好，仅级联启用时生效）",
+            "type": "number",
+            "minimum": 10,
+            "default": 5000.0
+          },
+          "size": {
+            "description": "每个阴影贴图的宽度和高度（像素，默认 2048），值越大阴影分辨率越高、性能消耗越大",
+            "type": "number",
+            "enum": [512, 1024, 2048, 4096, 8192],
+            "default": 2048
+          },
+          "softShadows": {
+            "description": "是否启用柔和阴影（默认 false），通过百分比缩小过滤实现，可能影响性能",
+            "type": "boolean",
+            "default": false
+          },
+          "darkness": {
+            "description": "阴影的明暗度（默认 0.3），值越小阴影越暗（0 纯黑，1 无阴影）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 0.3
+          },
+          "normalOffset": {
+            "description": "阴影是否启用正常偏差（默认 true），用于解决阴影 acne（阴影失真）问题",
+            "type": "boolean",
+            "default": true
+          },
+          "fromLightSource": {
+            "description": "阴影图是否来自光源。也有可能来自分析",
+            "type": "boolean",
+            "default": true
+          },
+          "pcss": {
+            "description": "是否使用PCSS阴影",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "SunSetting": {
+        "description": "太阳配置，控制三维场景中太阳的显示状态和耀斑亮度",
+        "type": "object",
+        "properties": {
+          "glowFactor": {
+            "description": "太阳耀斑的亮度系数（0 表示无耀斑，值越大耀斑越亮，默认 1.0）",
+            "type": "number",
+            "default": 1.0
+          },
+          "show": {
+            "description": "是否在三维场景中显示太阳（默认 true 显示）",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "UnderGlobeSetting": {
+        "description": "太阳配置，控制三维场景中太阳的显示状态和耀斑亮度",
+        "type": "object",
+        "properties": {
+          "baseColor": {
+            "description": "地下球颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "show": {
+            "description": "是否在三维场景中显示地下球（默认 true 显示）",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "ImageryLayerSetting": {
+        "title": "SuperMap3D.ImageryLayer",
+        "description": "影像图层类，用于显示影像提供者的瓦片影像数据",
+        "type": "object",
+        "properties": {
+          "imageryProvider": {
+            "description": "指定的影像提供者",
+            "$ref": "#/definitions/ImageryProviderSetting"
+          },
+          "rectangle": {
+            "$ref": "#/definitions/Rectangle",
+            "description": "图层的矩形范围，限制影像可见范围（默认使用 imageryProvider.rectangle）",
+            "optional": true
+          },
+          "alpha": {
+            "type": "number",
+            "description": "图层透明度值，取值范围 0.0~1.0（0.0 完全透明，1.0 完全不透明）",
+            "default": 1.0,
+            "optional": true
+          },
+          "brightness": {
+            "type": "number",
+            "description": "图层亮度值（1.0 为原图，>1.0 变亮，<1.0 变暗）",
+            "default": 1.0,
+            "optional": true
+          },
+          "contrast": {
+            "type": "number",
+            "description": "图层对比度（1.0 为原图，>1.0 增加对比度，<1.0 降低对比度）",
+            "default": 1.0,
+            "optional": true
+          },
+          "hue": {
+            "type": "number",
+            "description": "图层色调（0.0 为原图）",
+            "default": 0.0,
+            "optional": true
+          },
+          "saturation": {
+            "type": "number",
+            "description": "图层饱和度（1.0 为原图，>1.0 增加饱和度，<1.0 降低饱和度）",
+            "default": 1.0,
+            "optional": true
+          },
+          "gamma": {
+            "type": "number",
+            "description": "图层伽马校正（1.0 为原图）",
+            "default": 1.0,
+            "optional": true
+          },
+          "show": {
+            "type": "boolean",
+            "description": "指定图层是否显示（true 显示，false 隐藏）",
+            "default": true,
+            "optional": true
+          },
+          "splitDirection": {
+            "type": "string",
+            "enum": ["NONE", "LEFT", "RIGHT"],
+            "description": "影像图层分割方向（对应 ImagerySplitDirection 枚举）",
+            "default": "NONE",
+            "optional": true
+          },
+          "minimumTerrainLevel": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "最小地形细节层次（level 0 是最小细节层次）",
+            "optional": true
+          },
+          "maximumTerrainLevel": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "最大地形细节层次",
+            "optional": true
+          },
+          "enableUpsample": {
+            "type": "boolean",
+            "description": "子瓦片请求失败时是否采用父瓦片影像（防止影像错乱）",
+            "default": true
+          },
+          "indexedDBSetting": {
+            "description": "IndexedDB瓦片缓存设置（IE不支持）",
+            "type": "boolean",
+            "default": false
+          },
+          "lodOffset": {
+            "type": "integer",
+            "description": "影像细节层次偏移量（整数，值越大越精细，默认 0 不偏移）",
+            "default": 0
+          },
+          "swipeEnabled": {
+            "type": "boolean",
+            "description": "是否开启卷帘功能"
+          },
+          "swipeRegion": {
+            "description": "卷帘的四边形区域（Rectangle 类型）",
+            "$ref": "#/definitions/Rectangle"
+          },
+          "transparentBackColor": {
+            "type": "object",
+            "description": "影像透明色（Color 类型）",
+            "$ref": "#/definitions/Color"
+          },
+          "transparentBackColorTolerance": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "影像透明色容限（0.0 表示不透明）"
+          }
+        }
+      },
+      "TerrainProviderSetting": {
+        "type": "object",
+        "description": "场景的地形数据提供者设置",
+        "oneOf": [
+          { "$ref": "#/definitions/SuperMapTerrainProviderSetting" },
+          { "$ref": "#/definitions/SCTTerrainProviderSetting" },
+          { "$ref": "#/definitions/TiandituTerrainProviderSetting" },
+          { "$ref": "#/definitions/EllipsoidTerrainProviderSetting" }
+        ]
+      },
+      "ImageryProviderSetting": {
+        "type": "object",
+        "description": "影像服务数据提供者设置",
+        "oneOf": [
+          { "$ref": "#/definitions/CGCS2000MapServerImageryProviderSetting" },
+          { "$ref": "#/definitions/ArcGisMapServerImageryProviderSetting" },
+          { "$ref": "#/definitions/SuperMapImageryProviderSetting" },
+          { "$ref": "#/definitions/TiandituImageryProviderSetting" },
+          { "$ref": "#/definitions/WebMapTileServiceImageryProviderSetting" },
+          { "$ref": "#/definitions/WebMapServiceImageryProviderSetting" }
+        ]
+      },
+      "SuperMapTerrainProviderSetting": {
+        "title": "SuperMapTerrainProvider",
+        "description": "地形服务提供者，支持通过STK地形服务或SuperMap iServer REST API加载地形切图，支持法线、水面掩码、地形显隐等功能",
+        "type": "object",
+        "properties": {
+          "url": {
+            "description": "地形服务的URL（必填）",
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "proxy": { "$ref": "#/definitions/Proxy" },
+          "requestVertexNormals": {
+            "description": "是否请求顶点法线（用于光照效果）",
+            "type": "boolean",
+            "default": false
+          },
+          "requestWaterMask": {
+            "description": "是否请求水面标志位（用于水面特效）",
+            "type": "boolean",
+            "default": false
+          },
+          "ellipsoid": { "$ref": "#/definitions/Ellipsoid" },
+          "credit": { "$ref": "#/definitions/Credit" },
+          "isSct": {
+            "description": "是否为SuperMap iServer发布的TIN地形服务（STK地形设为false）",
+            "type": "boolean",
+            "default": true
+          },
+          "isShowGlobe": {
+            "description": "是否剔除无效地形区域（TIN地形专用）",
+            "type": "boolean",
+            "default": true
+          },
+          "invisibility": {
+            "description": "是否开启地形显隐控制功能（开启后可通过visible属性控制）",
+            "type": "boolean",
+            "default": false
+          },
+          "packingRequest": { "$ref": "#/definitions/PackingRequest" },
+          "currentVersion": {
+            "description": "当前使用的地形数据版本（仅支持TIN地形）",
+            "type": "string"
+          },
+          "customRequestHeaders": {
+            "description": "自定义请求头（键值对形式）",
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "indexedDBSetting": {
+            "description": "IndexedDB瓦片缓存设置（IE不支持）",
+            "type": "boolean",
+            "default": false
+          },
+          "isCreateSkirt": {
+            "description": "是否创建地形裙边（规避地形裂缝，默认true）",
+            "type": "boolean",
+            "default": true
+          },
+          "subdomains": {
+            "description": "子域名称（用于向指定子域请求地形数据）",
+            "type": "string"
+          },
+          "visible": {
+            "description": "地形是否可见（需先将invisibility设为true才能生效）",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "SCTTerrainProviderSetting": {
+        "title": "SCTTerrainProvider",
+        "description": "地形服务提供者，用来加载SuperMap生产的栅格地形服务",
+        "type": "object",
+        "properties": {
+          "urls": {
+            "description": "地形服务的URL数组",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri-reference",
+              "pattern": "\\.s3m$",
+              "description": "S3M 模型文件路径（绝对 URL 或相对路径）"
+            },
+            "minItems": 1
+          },
+          "proxy": { "$ref": "#/definitions/Proxy" },
+          "ellipsoid": { "$ref": "#/definitions/Ellipsoid" },
+          "credit": { "$ref": "#/definitions/Credit" },
+          "customRequestHeaders": {
+            "description": "自定义请求头（键值对形式）",
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "isCreateSkirt": {
+            "description": "是否创建地形裙边（规避地形裂缝，默认true）",
+            "type": "boolean",
+            "default": true
+          },
+          "skirtScale": {
+            "description": "是否创建地形裙边（规避地形裂缝，默认true）",
+            "type": "number"
+          }
+        }
+      },
+      "EllipsoidTerrainProviderSetting": {
+        "title": "EllipsoidTerrainProvider",
+        "description": "简单地形提供者，通过镶嵌椭球面生成地形几何体，无真实地形起伏，仅提供基础椭球表面",
+        "type": "object",
+        "properties": {
+          "ellipsoid": { "$ref": "#/definitions/Ellipsoid" }
+        }
+      },
+      "TiandituTerrainProviderSetting": {
+        "title": "TiandituTerrainProvider",
+        "description": "天地图三维地形服务提供者，用于加载天地图服务器发布的三维地形服务，依赖天地图服务密钥",
+        "type": "object",
+        "properties": {
+          "token": {
+            "description": "天地图地形服务的密钥（必填，天地图服务访问凭证）",
+            "type": "string",
+            "minLength": 1
+          },
+          "minimumLevel": {
+            "description": "地形数据的最小级别（天地图地形级别通常为1~18，需符合服务配置）",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 18,
+            "integer": true
+          },
+          "maximumLevel": {
+            "description": "地形数据的最大级别（需大于等于minimumLevel，符合服务配置）",
+            "type": "number",
+            "minimum": 1,
+            "maximum": 18,
+            "integer": true
+          },
+          "url": {
+            "description": "天地图地形服务地址（支持主域名或自定义服务地址）",
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "subdomains": {
+            "description": "天地图多子域配置（支持单个子域字符串或多个子域数组）",
+            "type": ["string", "array"],
+            "items": {
+              "type": "string",
+              "description": "单个子域名称（如 't0'、't1' 等天地图标准子域）"
+            },
+            "minLength": 1
+          }
+        }
+      },
+      "CGCS2000MapServerImageryProviderSetting": {
+        "description": "CGCS2000地图服务影像提供类，用于加载ArcGIS的EPSG4490、4326、3857瓦片服务",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "地图服务的网址（必填）",
+            "minLength": 1
+          },
+          "token": {
+            "type": "string",
+            "description": "服务的认证 token（可选，用于权限校验）",
+            "optional": true
+          }
+        },
+        "required": ["options"],
+        "additionalProperties": false,
+        "examples": [
+          {
+            "options": {
+              "url": "http://localhost:6080/arcgis/rest/services/CGCS2000_Tile/MapServer",
+              "token": "abc123xyz789"
+            }
+          }
+        ]
+      },
+      "ArcGisMapServerImageryProviderSetting": {
+        "description": "提供由 ArcGIS MapServer 托管的切图影像，默认优先使用服务器预缓存瓦片（若可用）",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "ArcGIS MapServer 服务的 URL（必填）"
+          },
+          "token": {
+            "type": "string",
+            "description": "ArcGIS 服务身份验证令牌（可选，用于权限校验）",
+            "optional": true
+          },
+          "proxy": {
+            "type": "object",
+            "description": "请求代理对象（需包含 getURL 函数用于返回代理 URL）",
+            "$ref": "#/definitions/Proxy"
+          },
+          "usePreCachedTilesIfAvailable": {
+            "type": "boolean",
+            "description": "是否优先使用服务器预缓存瓦片（true：使用；false：忽略预缓存，使用 export 服务）",
+            "default": true
+          },
+          "layers": {
+            "type": "string",
+            "description": "要显示的图层列表（多个图层用逗号分隔；undefined 表示显示所有图层）",
+            "optional": true
+          },
+          "enablePickFeatures": {
+            "type": "boolean",
+            "description": "是否启用要素拾取（true：调用 MapServer Identify 服务；false：直接返回 undefined），可通过实例属性动态覆盖",
+            "default": true,
+            "optional": true
+          },
+          "rectangle": {
+            "$ref": "#/definitions/Rectangle",
+            "description": "图层的矩形范围，限制影像可见范围（默认使用 imageryProvider.rectangle）",
+            "optional": true
+          },
+          "tilingScheme": {
+            "type": "object",
+            "description": "全球影像剖分方案（访问切图服务器时此参数被忽略，默认 new GeographicTilingScheme()）",
+            "default": "new GeographicTilingScheme()",
+            "optional": true
+          },
+          "ellipsoid": {
+            "$ref": "#/definitions/Ellipsoid"
+          },
+          "tileWidth": {
+            "type": "integer",
+            "description": "每个瓦片的像素宽度（访问切图服务器时此参数被忽略）",
+            "default": 256,
+            "optional": true
+          },
+          "tileHeight": {
+            "type": "integer",
+            "description": "每个瓦片的像素高度（访问切图服务器时此参数被忽略）",
+            "default": 256,
+            "optional": true
+          },
+          "maximumLevel": {
+            "type": "integer",
+            "description": "请求的最大瓦片级别（undefined 表示无限制；访问切图服务器时此参数被忽略）",
+            "optional": true,
+            "minimum": 0
+          }
+        }
+      },
+      "SuperMapImageryProviderSetting": {
+        "description": "通过 SuperMap iServer REST API 提供影像瓦片的影像提供者类，支持动态投影、瓦片缓存、自定义剖分方式等特性",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "影像服务地址（必填，格式为 SuperMap iServer REST 服务地址，如 http://{ip}:{port}/iserver/services/datas/{serviceName}）",
+            "minLength": 1,
+            "format": "uri-reference"
+          },
+          "name": {
+            "type": "string",
+            "description": "影像图层名称（用于标识图层，可选）",
+            "default": "",
+            "optional": true
+          },
+          "minimumLevel": {
+            "type": "integer",
+            "description": "瓦片最小级别（LOD 调度下限，level 0 为最粗粒度）",
+            "default": 0,
+            "optional": true,
+            "minimum": 0
+          },
+          "maximumLevel": {
+            "type": "integer",
+            "description": "瓦片最大级别（LOD 调度上限，决定影像最大精细度）",
+            "default": 20,
+            "optional": true,
+            "minimum": 0,
+            "maximum": 30
+          },
+          "transparent": {
+            "type": "boolean",
+            "description": "是否请求透明背景的影像瓦片（true 时服务返回带 alpha 通道的瓦片）",
+            "default": true,
+            "optional": true
+          },
+          "credit": { "$ref": "#/definitions/Credit" },
+          "tileFormat": {
+            "type": "string",
+            "description": "影像瓦片图片格式（可选，默认自动适配为 png，支持 SuperMap iServer 支持的图片格式）",
+            "default": "",
+            "optional": true
+          },
+          "cacheKey": {
+            "type": "string",
+            "description": "三维影像瓦片密钥（用于校验瓦片缓存合法性，可选，由 SuperMap iServer 服务配置生成）",
+            "optional": true,
+            "minLength": 0
+          },
+          "layersID": {
+            "type": "string",
+            "description": "影像图层 ID（当服务包含多个图层时，指定要加载的图层 ID，可选，格式为单个 ID 或多个 ID 逗号分隔）",
+            "optional": true,
+            "pattern": "^$|^[0-9,]+$"
+          },
+          "prjCoordSys": {
+            "type": "string",
+            "description": "动态投影坐标系配置（可选，当与服务原坐标系不一致时触发动态投影）",
+            "optional": true
+          },
+          "useGSG": {
+            "type": "boolean",
+            "description": "REST 动态地图服务的剖分方式（false：本地剖分；true：全球剖分，适配大范围影像加载）",
+            "default": false,
+            "optional": true
+          },
+          "tileWidth": {
+            "type": "integer",
+            "description": "影像瓦片宽度（像素，需与 SuperMap iServer 服务配置兼容）",
+            "default": 256,
+            "optional": true
+          },
+          "tileHeight": {
+            "type": "integer",
+            "description": "影像瓦片高度（像素，需与 SuperMap iServer 服务配置兼容）",
+            "default": 256,
+            "optional": true
+          }
+        }
+      },
+      "TiandituImageryProviderSetting": {
+        "description": "天地图影像服务提供者类，用于加载天地图官方影像瓦片服务",
+        "type": "object",
+        "properties": {
+          "mapStyle": {
+            "type": "string",
+            "description": "指定天地图服务类型（对应 TiandituMapsStyle 枚举，涵盖影像、矢量、地形等天地图官方服务）",
+            "enum": [
+              "img_w",
+              "img_c",
+              "vec_w",
+              "vec_c",
+              "ter_w",
+              "ter_c",
+              "img_anno_w",
+              "img_anno_c",
+              "vec_anno_w",
+              "vec_anno_c",
+              "ter_anno_w",
+              "ter_anno_c"
+            ]
+          }
+        }
+      },
+      "WebMapTileServiceImageryProviderSetting": {
+        "description": "提供 WMTS 1.0.0 兼容服务器的切图影像，支持 HTTP KVP 编码和 RESTful GetTile 请求（不支持 SOAP 编码）",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "WMTS GetTile 操作基础 URL（KVP 编码）或瓦片 URL 模板（RESTful 编码）。REST 模板需包含 {style}、{TileMatrixSet}、{TileMatrix}、{TileRow}、{TileCol} 变量（前两个可选），{s} 用于子域占位",
+            "minLength": 1,
+            "format": "uri-reference"
+          },
+          "format": {
+            "type": "string",
+            "description": "影像 MIME 类型（服务器返回格式）",
+            "default": "image/jpeg",
+            "optional": true
+          },
+          "layer": {
+            "type": "string",
+            "description": "WMTS 请求的目标图层名称（必填，与服务器配置一致）",
+            "minLength": 1
+          },
+          "style": {
+            "type": "string",
+            "description": "WMTS 请求的样式名称（必填，与服务器图层样式配置一致）",
+            "minLength": 1
+          },
+          "tileMatrixSetID": {
+            "type": "string",
+            "description": "WMTS TileMatrixSet 标识符（必填，如 'EPSG:4326'、'EPSG:3857'，与服务器 TileMatrixSet 配置一致）",
+            "minLength": 1
+          },
+          "tileMatrixLabels": {
+            "type": "array",
+            "description": "瓦片矩阵级别标识符列表（每个级别对应一个标识符，可选，未指定时使用默认级别命名）",
+            "optional": true,
+            "items": { "type": "string" }
+          },
+          "tileWidth": {
+            "type": "integer",
+            "description": "瓦片宽度（像素）",
+            "default": 256,
+            "optional": true
+          },
+          "tileHeight": {
+            "type": "integer",
+            "description": "瓦片高度（像素）",
+            "default": 256,
+            "optional": true
+          },
+          "tilingScheme": {
+            "type": "object",
+            "description": "切图方案（可选，与服务器 TileMatrixSet 瓦片组织方式对应）",
+            "optional": true
+          },
+          "proxy": {
+            "type": "object",
+            "description": "请求代理对象（需包含 getURL 函数用于返回代理 URL）",
+            "$ref": "#/definitions/Proxy"
+          },
+          "rectangle": {
+            "$ref": "#/definitions/Rectangle",
+            "description": "图层的矩形范围，限制影像可见范围（默认使用 imageryProvider.rectangle）",
+            "optional": true
+          },
+          "minimumLevel": {
+            "type": "integer",
+            "description": "支持的最小细节级别",
+            "default": 0,
+            "optional": true,
+            "minimum": 0
+          },
+          "maximumLevel": {
+            "type": "integer",
+            "description": "支持的最大细节级别（undefined 表示无限制）",
+            "optional": true,
+            "minimum": 0
+          },
+          "ellipsoid": {
+            "description": "地球椭球体（默认 Ellipsoid.WGS84，确定地球大小和形状）",
+            "$ref": "#/definitions/Ellipsoid"
+          },
+          "credit": { "$ref": "#/definitions/Credit" },
+          "subdomains": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "子域字符集合（每个字符为一个子域）"
+              },
+              {
+                "type": "array",
+                "description": "子域数组",
+                "items": { "type": "string" }
+              }
+            ],
+            "description": "URL 模板中 {s} 占位符对应的子域（可选）",
+            "default": "abc",
+            "optional": true
+          }
+        },
+        "required": ["url", "layer", "style", "tileMatrixSetID"]
+      },
+      "WebMapServiceImageryProviderSetting": {
+        "description": "提供由网络地图服务（WMS）服务器托管的切图影像的提供者类",
+        "type": "object",
+        "properties": {
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "WMS 服务的 URL（支持 UrlTemplateImageryProvider 相同关键字占位符）",
+              "minLength": 1
+            },
+            "layers": {
+              "type": "string",
+              "description": "要包含的 WMS 图层，多个图层用逗号分隔"
+            },
+            "parameters": {
+              "type": "object",
+              "description": "GetMap 请求中传递给 WMS 服务器的附加参数",
+              "default": "WebMapServiceImageryProvider.DefaultParameters",
+              "optional": true,
+              "additionalProperties": true
+            },
+            "getFeatureInfoParameters": {
+              "type": "object",
+              "description": "GetFeatureInfo 请求中传递给 WMS 服务器的附加参数",
+              "default": "WebMapServiceImageryProvider.GetFeatureInfoDefaultParameters",
+              "optional": true,
+              "additionalProperties": true
+            },
+            "enablePickFeatures": {
+              "type": "boolean",
+              "description": "是否启用要素拾取（调用 WMS GetFeatureInfo 接口），false 时 pickFeatures 直接返回 undefined",
+              "default": true,
+              "optional": true
+            },
+            "getFeatureInfoFormats": {
+              "type": "array",
+              "description": "尝试的 WMS GetFeatureInfo 请求格式集合（对应 GetFeatureInfoFormat 枚举）",
+              "default": "WebMapServiceImageryProvider.DefaultGetFeatureInfoFormats",
+              "optional": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "text/plain",
+                  "application/json",
+                  "text/xml",
+                  "application/vnd.ogc.gml"
+                ]
+              }
+            },
+            "rectangle": {
+              "$ref": "#/definitions/Rectangle",
+              "description": "图层的矩形范围，限制影像可见范围（默认使用 imageryProvider.rectangle）",
+              "optional": true
+            },
+            "tilingScheme": {
+              "type": "object",
+              "description": "地理剖分的切图方案（如经纬度、墨卡托投影）",
+              "default": "new GeographicTilingScheme()",
+              "optional": true
+            },
+            "ellipsoid": {
+              "description": "地球椭球体（默认 Ellipsoid.WGS84，确定地球大小和形状）",
+              "$ref": "#/definitions/Ellipsoid"
+            },
+            "tileWidth": {
+              "type": "integer",
+              "description": "每个瓦片的宽度（像素）",
+              "default": 256,
+              "optional": true,
+              "minimum": 1
+            },
+            "tileHeight": {
+              "type": "integer",
+              "description": "每个瓦片的高度（像素）",
+              "default": 256,
+              "optional": true,
+              "minimum": 1
+            },
+            "minimumLevel": {
+              "type": "integer",
+              "description": "支持的最小精细级别（建议瓦片数量≤4，避免渲染问题）",
+              "default": 0,
+              "optional": true,
+              "minimum": 0
+            },
+            "maximumLevel": {
+              "type": "integer",
+              "description": "支持的最大精细级别（未指定则无限制）",
+              "optional": true,
+              "minimum": 0
+            },
+            "credit": { "$ref": "#/definitions/Credit" },
+            "proxy": {
+              "type": "object",
+              "description": "请求代理对象（需包含 getURL 函数用于返回代理 URL）",
+              "$ref": "#/definitions/Proxy"
+            },
+            "subdomains": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "description": "子域字符集合（每个字符为一个子域，适配 URL 中 {s} 占位符）"
+                },
+                {
+                  "type": "array",
+                  "description": "子域数组（每个元素为一个子域）",
+                  "items": { "type": "string" }
+                }
+              ],
+              "description": "URL 模板中 {s} 占位符对应的子域配置",
+              "default": "abc",
+              "optional": true
+            }
+          }
+        }
+      },
+      "VectorTileMapSetting": {},
+      "InstanceLayerSetting": {},
+      "DynamicLayer3DSetting": {
+        "description": "SuperMap3D 动态图层配置 schema，支持加载多个 S3M 模型，管理模型实例的动态状态更新、可见性、过滤、阴影等功能，适用于多实例动态可视化场景",
+        "type": "object",
+        "properties": {
+          "urls": {
+            "description": "模型 URL 数组（必选，指定动态图层加载的 S3M 模型资源）",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri-reference",
+              "pattern": "\\.s3m$",
+              "description": "S3M 模型文件路径（绝对 URL 或相对路径）"
+            },
+            "minItems": 1,
+            "examples": [["model1.s3m", "ship.s3m", "car.s3m"]]
+          },
+          "enableLocalOffset": {
+            "description": "是否支持模型局部偏移（使用模型自带偏移矩阵，默认 false）",
+            "type": "boolean",
+            "default": false
+          },
+          "filterMode": {
+            "description": "子对象过滤模式（默认距离模式）",
+            "type": "string",
+            "enum": ["DISTANCE_FROM_EYE_POINT", "PIXEL_SIZE_ON_SCREEN"],
+            "default": "DISTANCE_FROM_EYE_POINT"
+          },
+          "filterPixel": {
+            "description": "子对象过滤像素阈值（默认 0，仅 filterMode 为 PIXEL 时生效）",
+            "type": "number",
+            "minimum": 0,
+            "default": 0
+          },
+          "maxVisibleAltitude": {
+            "description": "动态图层的最大可见高度（单位：米，超过该高度图层不可见）",
+            "type": "number"
+          },
+          "maxVisibleDistance": {
+            "description": "对象过滤的最大可见距离（单位：米，仅 filterMode 为 DISTANCE 时生效）",
+            "type": "number"
+          },
+          "shadowType": {
+            "$ref": "#/definitions/ShadowType",
+            "description": "图层模型参与显示阴影的范围类型"
+          },
+          "updateInterval": {
+            "description": "动态图层的刷新间隔时间（单位：毫秒，控制实例状态更新频率）",
+            "type": "number",
+            "minimum": 10,
+            "default": 100
+          },
+          "visible": {
+            "description": "动态图层的整体可见性（默认 true，显示图层）",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "FieldLayer3DSetting": {},
+      "VoxelGridLayer3DSetting": {},
+      "CzmlDatasourceSetting": {
+        "description": "czml数据源配置",
+        "type": "object",
+        "properties": {
+          "url": {
+            "description": "数据源url",
+            "type": "string"
+          }
+        }
+      },
+      "KMLDatasourceSetting": {
+        "description": "KML（Keyhole Markup Language）数据源，支持加载KML/KMZ文件及S3M、glTF格式三维模型",
+        "type": "object",
+        "properties": {
+          "sourceUri": {
+            "description": "覆盖用于解析相对链接和网络功能的基础URL",
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "clampToGround": {
+            "description": "是否将几何特征（多边形、线串等）固定在地面上",
+            "type": "boolean",
+            "default": false
+          },
+          "show ": {
+            "description": "是否显示",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "GeoJsonDataSourceSetting": {
+        "description": "GeoJSON/TopoJSON 数据源配置 schema，支持加载地理矢量数据，配置点/线/面样式、贴地、聚类等功能，兼容 simplestyle-spec 样式属性",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "数据源名称（可选，未定义则从 GeoJSON 文件名称提取）",
+            "type": "string",
+            "examples": ["US_States", "City_Points"]
+          },
+          "clustering": {
+            "description": "数据源聚类配置（EntityCluster 实例，支持多数据源共享）",
+            "$ref": "#/definitions/EntityClusterSetting"
+          },
+          "show": {
+            "description": "是否显示数据源（默认 true 显示）",
+            "type": "boolean",
+            "default": true
+          },
+          "sourceUri": {
+            "description": "解析相对链接的基准 URL（可选）",
+            "type": "string",
+            "format": "uri-reference",
+            "examples": ["https://example.com/geojson/", "./data/"]
+          },
+          "markerSize": {
+            "description": "点标记大小（单位：像素，默认使用 static_markerSize）",
+            "type": "number",
+            "minimum": 8,
+            "maximum": 256
+          },
+          "markerSymbol": {
+            "description": "点标记符号（默认使用 static_markerSymbol）",
+            "type": "string",
+            "examples": ["school", "B", ""]
+          },
+          "markerColor": {
+            "description": "点标记颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "stroke": {
+            "description": "线/多边形轮廓颜色（",
+            "$ref": "#/definitions/Color"
+          },
+          "strokeWidth": {
+            "description": "线/多边形轮廓宽度（单位：像素，默认使用 static_strokeWidth）",
+            "type": "number",
+            "minimum": 0.5,
+            "maximum": 20
+          },
+          "fill": {
+            "description": "多边形填充颜色",
+            "$ref": "#/definitions/Color"
+          },
+          "clampToGround": {
+            "description": "几何特征是否贴地",
+            "type": "boolean"
+          }
+        }
+      },
+      "EntityClusterSetting": {
+        "description": "配置屏幕空间对象（布告板、点、标签）的聚类方式",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "description": "是否启用聚类",
+            "type": "boolean",
+            "default": false
+          },
+          "pixelRange": {
+            "description": "扩展屏幕空间包围盒的像素范围",
+            "type": "number",
+            "default": 80,
+            "minimum": 0,
+            "description补充": "非负整数，控制聚类的屏幕范围大小"
+          },
+          "minimumClusterSize": {
+            "description": "可聚类的屏幕空间对象的最小数量",
+            "type": "number",
+            "default": 2,
+            "minimum": 1,
+            "description补充": "正整数，小于该数量的对象不会聚类"
+          },
+          "clusterBillboards": {
+            "description": "是否对实体的布告板进行聚类",
+            "type": "boolean",
+            "default": true
+          },
+          "clusterLabels": {
+            "description": "是否对实体的标签进行聚类",
+            "type": "boolean",
+            "default": true
+          },
+          "clusterPoints": {
+            "description": "是否对实体的点进行聚类",
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "ParticleSystemSetting": {},
+      "ScreenSpaceCameraControllerSetting": {
+        "description": "相机操作控制器设置, 控制相机的输入交互（平移/旋转/缩放/倾斜）、惯性、碰撞检测、可见距离等行为",
+        "type": "object",
+        "properties": {
+          "bounceAnimationTime": {
+            "description": "2D 和哥伦布视图中回弹动画的持续时间（单位：秒，默认 3.0 秒）",
+            "type": "number",
+            "minimum": 0,
+            "default": 3.0
+          },
+          "enableCollisionDetection": {
+            "description": "是否启用相机与地形的碰撞检测（默认 true 启用）",
+            "type": "boolean",
+            "default": true
+          },
+          "enableIndoorColliDetection": {
+            "description": "是否开启相机在室内的碰撞检测（默认 false 关闭）",
+            "type": "boolean",
+            "default": false
+          },
+          "enableInputs": {
+            "description": "是否允许相机输入交互（false 禁用所有输入，默认 true 启用）",
+            "type": "boolean",
+            "default": true
+          },
+          "enableLook": {
+            "description": "是否允许自由视角（仅 3D/哥伦布视图生效，默认 true 允许）",
+            "type": "boolean",
+            "default": true
+          },
+          "enableRotate": {
+            "description": "是否允许相机旋转（仅 2D/3D 生效，默认 true 允许）",
+            "type": "boolean",
+            "default": true
+          },
+          "enableTilt": {
+            "description": "是否允许相机倾斜（默认 true 允许）",
+            "type": "boolean",
+            "default": true
+          },
+          "enableTranslate": {
+            "description": "是否允许相机平移（仅 2D/哥伦布视图生效，默认 true 允许）",
+            "type": "boolean",
+            "default": true
+          },
+          "enableZoom": {
+            "description": "是否允许相机缩放（默认 true 允许）",
+            "type": "boolean",
+            "default": true
+          },
+          "inertiaSpin": {
+            "description": "相机旋转惯性系数（0-1 区间，0 无惯性，默认 0.9）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.999,
+            "default": 0.9
+          },
+          "inertiaTranslate": {
+            "description": "相机平移惯性系数（0-1 区间，0 无惯性，默认 0.9）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.999,
+            "default": 0.9
+          },
+          "inertiaZoom": {
+            "description": "相机缩放惯性系数（0-1 区间，0 无惯性，默认 0.8）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.999,
+            "default": 0.8
+          },
+          "lookEventTypes": {
+            "description": "相机观察方向修改的输入事件（仅 3D/哥伦布视图生效）",
+            "$ref": "#/definitions/MouseAndKeyboardEventSetting"
+          },
+          "maximumMovementRatio": {
+            "description": "每帧相机最大移动比例（0-1 区间，基于窗口宽高，默认 0.1）",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.999,
+            "default": 0.1
+          },
+          "maximumZoomDistance": {
+            "description": "相机最大缩放距离（单位：米，默认正无限远）",
+            "type": "number",
+            "minimum": 10
+          },
+          "minimumCollisionTerrainHeight": {
+            "description": "相机与地形碰撞检测的最小高度（单位：米，默认 10000.0 米）",
+            "type": "number",
+            "minimum": 0,
+            "default": 10000.0
+          },
+          "minimumDetectDistance": {
+            "description": "最小碰撞检测距离（单位：米，无默认值，需根据场景配置）",
+            "type": "number",
+            "minimum": 0
+          },
+          "minimumPickingTerrainHeight": {
+            "description": "相机选取地形而非椭球体的最低高度（单位：米，默认 150000.0 米）",
+            "type": "number",
+            "minimum": 0,
+            "default": 150000.0
+          },
+          "minimumTrackBallHeight": {
+            "description": "相机从旋转轨道球切换到自由视角的最低高度（单位：米，默认 7500000.0 米）",
+            "type": "number",
+            "minimum": 0,
+            "default": 7500000.0
+          },
+          "minimumWalkingDetectDistance": {
+            "description": "最小室内碰撞检测距离（单位：米，无默认值，需根据场景配置）",
+            "type": "number",
+            "minimum": 0
+          },
+          "minimumZoomDistance": {
+            "description": "相机最小缩放距离（单位：米，默认 1.0 米）",
+            "type": "number",
+            "minimum": 0.1,
+            "default": 1.0
+          },
+          "rotateEventTypes": {
+            "description": "相机旋转的输入事件（仅 3D/哥伦布视图生效）",
+            "$ref": "#/definitions/MouseAndKeyboardEventSetting"
+          },
+          "tiltEventTypes": {
+            "description": "相机倾斜的输入事件",
+            "$ref": "#/definitions/MouseAndKeyboardEventSetting"
+          },
+          "translateEventTypes": {
+            "description": "相机平移的输入事件（仅 2D/哥伦布视图生效）",
+            "$ref": "#/definitions/MouseAndKeyboardEventSetting"
+          },
+          "walkParameters": {
+            "description": "行走模式参数（速度和高度，默认 { speed: 1, height: 5 }）",
+            "type": "object",
+            "properties": {
+              "speed": {
+                "type": "number",
+                "minimum": 0.1,
+                "description": "行走速度（默认 1）"
+              },
+              "height": {
+                "type": "number",
+                "minimum": 0.1,
+                "description": "行走时相机高度（单位：米，默认 5）"
+              }
+            },
+            "required": ["speed", "height"],
+            "additionalProperties": false,
+            "default": { "speed": 1, "height": 5 }
+          },
+          "zoomEventTypes": {
+            "description": "相机缩放的输入事件",
+            "$ref": "#/definitions/MouseAndKeyboardEventSetting"
+          },
+          "zoomFactor": {
+            "description": "相机缩放速度系数（默认 5.0，值越大缩放越快）",
+            "type": "number",
+            "minimum": 0.1,
+            "default": 5.0
+          }
+        }
+      },
+      "CameraEventType": {
+        "type": "string",
+        "description": "相机交互的枚举",
+        "enum": ["LEFT_DRAG", "RIGHT_DRAG", "MIDDLE_DRAG", "WHEEL", "PINCH"]
+      },
+      "Proxy": {
+        "description": "服务代理对象",
+        "type": "object"
+      },
+      "Credit": {
+        "description": "服务描述信息（凭证）",
+        "type": "object",
+        "properties": {
+          "html": { "type": "string", "description": "凭证文本" },
+          "showOnScreen": {
+            "type": "boolean",
+            "description": "是否在屏幕上显示"
+          }
+        }
+      },
+      "PackingRequest": {
+        "description": "批量请求编码方式",
+        "type": ["string"],
+        "enum": ["None", "QuadKey"]
+      },
+      "KeyboardEventModifier": {
+        "type": "string",
+        "description": "枚举类型用于表示键盘修饰符。除了其他事件类型之外，还可以按下这些键",
+        "enum": ["ALT", "CTRL", "SHIFT"]
+      },
+      "MouseAndKeyboardEventSetting": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/CameraEventType"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "eventType": {
+                "$ref": "#/definitions/KeyboardEventModifier"
+              },
+              "modifier": {
+                "$ref": "#/definitions/CameraEventType"
+              }
+            },
+            "required": ["eventType"],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Presentation": {
+        "title": "演示报告",
+        "type": "object",
+        "description": "一个演示报告由多个幻灯片组成，每个幻灯片会指定到webScene下一个特定的视角",
+        "properties": {
+          "slides": {
+            "type": "array",
+            "description": "幻灯片对象数组",
+            "items": { "$ref": "#/definitions/Slide" }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Slide": {
+        "title": "slide",
+        "type": "object",
+        "description": "A slide object used within a presentation.",
+        "properties": {
+          "description": {
+            "description": "Text description of the individual presentation slide."
+          },
+          "elements": {
+            "description": "The configurations of components set in a slide.",
+            "$ref": "#/definitions/SlideElements"
+          },
+          "hidden": {
+            "type": "boolean",
+            "description": "A boolean used to indicate the visibility of the slide inside a presentation.",
+            "default": false
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique id of a slide within the slides property of a Presentation."
+          },
+          "thumbnail": {
+            "$ref": "#/definitions/SlideThumbnail"
+          },
+          "title": {
+            "$ref": "#/definitions/Title_schema"
+          },
+          "scene": {
+            "type": "object",
+            "description": "描述当前视图的场景设置",
+            "$ref": "#/definitions/SceneSetting"
+          },
+          "dataLayers": {
+            "$ref": "#/definitions/DataLayersSetting"
+          },
+          "analyses": {
+            "type": "object",
+            "description": "描述当前视图的包含的分析对象",
+            "$ref": "#/definitions/AnalysesSetting"
+          },
+          "entities": {
+            "type": "object",
+            "description": "当前场景显示的实体",
+            "$ref": "#/definitions/entities"
+          }
+        },
+        "required": ["id", "thumbnail", "title", "scene"],
+        "additionalProperties": false
+      },
+      "SlideThumbnail": {
+        "title": "thumbnail",
+        "type": "object",
+        "description": "Object containing a thumbnail image.",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The URI pointing to the thumbnail image. Can be a URL or a base64-encoded image."
+          }
+        },
+        "required": ["url"],
+        "additionalProperties": false
+      },
+      "Title_schema": {
+        "title": "title",
+        "type": "object",
+        "description": "Text for the title of the individual slide.",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to display as slide title."
+          }
+        },
+        "required": ["text"],
+        "additionalProperties": false
+      },
+      "SlideElements": {
+        "title": "elements",
+        "type": "object",
+        "description": "The elements object contains configurations for components set in a slide.",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "widgets": {
+        "type": "object",
+        "description": "描述场景视图使用的微件对象 TODO",
+        "properties": {}
+      }
+    }
+  }
