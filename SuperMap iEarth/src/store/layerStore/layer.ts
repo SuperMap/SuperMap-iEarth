@@ -283,10 +283,10 @@ export const useLayerStore = defineStore({
 			// 基于imageryProvider类型计算影像图层名称
 			if (imageryProvider instanceof SuperMap3D.SuperMapImageryProvider) {
 				let imgLayerUrl = imageryProvider.url || imageryProvider._url || imageryProvider._baseUrl;
-				if(imgLayerUrl.includes('/datas/')){
-          let prefix = imgLayerUrl.split('/datas/')[1];
-          return prefix.split('/').shift();
-        }else if(imgLayerUrl.includes('/rest/')){
+				if (imgLayerUrl.includes('/datas/')) {
+					let prefix = imgLayerUrl.split('/datas/')[1];
+					return prefix.split('/').shift();
+				} else if (imgLayerUrl.includes('/rest/')) {
 					let prefix = imgLayerUrl.split('/rest/')[0];
 					return prefix.split('/').pop();
 				}else if(imgLayerUrl.includes('/services/')){
