@@ -132,7 +132,7 @@ import { usePanelStore } from "@/store/panelStore/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useLayerStore } from "@/store/layerStore/layer";
 import i18n from "@/locale/index";
-import SceneConfig from "@/lib/SceneConfig";
+// import SceneConfig from "@/lib/SceneConfig";
 
 const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
@@ -190,6 +190,10 @@ function getNowFormatDate() {
 
 // 保存当前场景（保存为本地JSON文件）
 async function saveScene(){  
+  // 获取SceneConfig类
+  if(!window.SceneConfig) return;
+  const SceneConfig = window.SceneConfig
+
   if (!fromData.scenePortalName || fromData.scenePortalName == "") {
     window["$message"].warning($t("sceneSaveNameCannotBeNull"));
     return;

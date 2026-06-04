@@ -17,6 +17,8 @@ declare interface Window {
 
   // 打开场景
   OpenConfig:any,
+  // 获取场景
+  SceneConfig:any,
 
   // 在public/config下绑定的配置项
   layerServiceData: any,
@@ -72,4 +74,5 @@ declare var initViewerConfig : window.initViewerConfig;
 declare var customConfig : window.customConfig;
 declare var iEarthCustomFunc : window.iEarthCustomFunc;
 declare var OpenConfig : window.OpenConfig;
+declare var SceneConfig : window.SceneConfig;
 declare var AIFunction : window.AIFunction;
