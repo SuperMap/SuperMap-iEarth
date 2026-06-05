@@ -917,6 +917,7 @@ const local_zh = {
         bubble_entityID: "实体ID",
         bubble_field: "字段",
         bubble_value: "值",
+        assistant:"智能助理",
 }
 
 window.local_zh = local_zh;

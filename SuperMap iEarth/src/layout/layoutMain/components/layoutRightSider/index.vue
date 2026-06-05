@@ -75,6 +75,15 @@
       </span>
     </div>
 
+    <!-- 智能助理按钮 -->
+    <div class="too-bar one-tool-bar">
+      <span
+        class="icon-container assistant-icon"
+        @click="useAssistant"
+        :title="$t('assistant')"
+      ></span>
+    </div>
+
     <!-- 场景保存弹窗 -->
     <saveLocalScene></saveLocalScene>
   </div>
@@ -259,6 +268,89 @@ function outputSceneToFile() {
     };
   });
 }
+
+
+// 打开和关闭智能助理
+async function useAssistant(){
+  try {
+    // 隐藏其他面板
+    panelStore.closeRightToolPanel(2);
+    panelStore.panelList.rightToolBarList.map((item: any) => {
+      item.isSelected = false;
+    })
+
+    // 检查viewer是否存在
+    if (!viewer) {
+      console.error('三维场景viewer未初始化，无法启动智能助理');
+      return;
+    }
+
+    // 获取智能助理组件实例
+    let chatApp = window.chatApp;
+    if (!chatApp) {
+      chatApp = document.getElementById('ChatApp');
+      if (!chatApp) {
+        console.error('当前页面未加载智能助理组件');
+        return;
+      }
+      window.chatApp = chatApp;
+    }
+
+    // 首次使用时绑定 viewer，触发内置桥接层实例化
+    if (!chatApp.viewer) {
+      chatApp.viewer = viewer;
+
+      chatApp.addResourceOptions({
+        skybox: [
+          { label: '少云', imageUrl: './resource/skybox/HDR_cloudy_less_4K.jpg' },
+          { label: '多云', imageUrl: './resource/skybox/HDR_cloudy_more_4K.jpg' },
+          { label: '傍晚', imageUrl: './resource/skybox/HDR_evening_4K.jpg' },
+          { label: '清晨', imageUrl: './resource/skybox/HDR_morning_4K.jpg' },
+          { label: '阴天', imageUrl: './resource/skybox/HDR_overcast_4K.jpg' },
+          { label: '纯色', imageUrl: './resource/skybox/HDR_gray_4K.jpg' }
+        ],
+        environmentMap: [
+          { label: '城市建筑', imageUrl: './resource/hdr/EnvironmentMapping_city.hdr' },
+          { label: '自然风光', imageUrl: './resource/hdr/EnvironmentMapping_nature.hdr' },
+          { label: '室内影棚', imageUrl: './resource/hdr/EnvironmentMapping_indoor.hdr' },
+          { label: '灰度纹理', imageUrl: './resource/hdr/EnvironmentMapping_texture.hdr' }
+        ],
+        templates: [
+          { label: '白模线框', filePath: './resource/templates/wireframe.json' },
+          { label: '真实感', filePath: './resource/templates/reality.json' },
+          { label: '科技感', filePath: './resource/templates/technology.json' }
+        ]
+      });
+
+      // 使用方式说明：除了以下通过代码方式配置，还可以右上角设置按钮手动填写 AgentX 智能体地址
+
+      // // 配置智能体
+      // chatApp.agentConfig = {
+      //   type: chatApp.AgentType.COZE,
+      //   agentUrl: 'http://localhost:3000/coze/stream',
+      //   createSessionUrl: 'http://localhost:3000/coze/conversation',
+      // };
+
+      // // 配置智能助理组件使用 AgentX 智能体
+      // chatApp.agentConfig = {
+      //   type: chatApp.AgentType.AGENTX,
+      //   agentUrl: 'http://192.168.13.130:8490/agentx/workflowstudio/api/v1/run/795a97f4-a31d-4c11-9add-85df257027c9'
+      // };
+
+      // // 直接使用已有的会话ID，必须在 init 之前设置
+      // chatApp.currentSessionId = '8a6h5m4r8vcaemfvbxlauu';
+
+      // // 初始化智能助理：内部会自动创建新会话并同步连接状态
+      // await chatApp.init();
+      // console.log('智能助理初始化完成，会话ID:', chatApp.currentSessionId);
+    }
+
+    // 显隐智能组件
+    chatApp.style.display = (chatApp.style.display === 'none') ? 'block' : 'none';
+  } catch (error) {
+    console.error('智能助理启动失败:', error);
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -306,6 +398,12 @@ function outputSceneToFile() {
     height: 0.32rem;
     @include flexLayout(center);
     @include setIconstyle();
+  }
+
+  .assistant-icon {
+    cursor: pointer;
+    background: url("@/assets/images/assistant.png") center center no-repeat;
+    background-size: 0.2rem 0.2rem;
   }
 
   .select-too-bar-bg {

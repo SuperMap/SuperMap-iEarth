@@ -1,0 +1,161 @@
+{
+  "name": "unamed",
+  "extensions": {},
+  "version": "1.0.0",
+  "metadata": {
+    "createdProduct": "SuperMap iClientX",
+    "productVersion": "12.1",
+    "createdAt": "2026/2/2-15:03:01"
+  },
+  "scene": {
+    "msaaLevel": 4,
+    "sceneMode": "SCENE3D",
+    "OIT": "SUPERMAP_OIT",
+    "depthOptimizationMethod": "LOG_DEPTH",
+    "hdrEnabled": true,
+    "performancePreferenceMode": "EFFECT",
+    "clockSetting": {
+      "startTime": "2026-02-02T02:02:42.343Z",
+      "stopTime": "2026-02-03T02:02:42.343Z",
+      "clockRange": "UNBOUNDED",
+      "clockStep": "SYSTEM_CLOCK_MULTIPLIER",
+      "canAnimate": true,
+      "multiplier": 1,
+      "shouldAnimate": true,
+      "currentTime": "2024-08-02T02:00:18.436Z"
+    },
+    "pixelRatio": 1,
+    "toneMappingExposure": 1,
+    "localSceneGeoCenter": {
+      "longitude": 0,
+      "latitude": 0,
+      "height": 0
+    },
+    "terrainExaggeration": 1,
+    "imagerySplitPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "globeSplitPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "multiViewportMode": "NONE",
+    "undergroundMode": false,
+    "undergroundDepth": 10000,
+    "walkingMode": "NONE",
+    "skyBox": {
+      "imageUrl": "./images/SkyBox/SkyDome.jpg",
+      "show": true,
+      "horizontalRotationAngle": 0
+    },
+    "lightSource": {
+      "ambientLightColor": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "sunLightCameraTrackingEnabled": true,
+      "sunLightON": 1,
+      "visibleDistanceMax": 10000,
+      "sunLightIntensity": 1,
+      "sunLightColor": [
+        4,
+        3.7333333333333334,
+        3.403921568627451,
+        1
+      ],
+      "sunLightColorMixType": "REPLACE",
+      "directionalLightList": [],
+      "hemisphereLightList": []
+    },
+    "skyAtmosphere": {
+      "show": false,
+      "advanced": true
+    },
+    "shadowMapSetting": {
+      "enabled": true,
+      "isPointLight": false,
+      "pointLightRadius": 100,
+      "cascadesEnabled": true,
+      "numberOfCascades": 4,
+      "maximumDistance": 2000,
+      "size": 2048,
+      "softShadows": true,
+      "darkness": 0.2,
+      "normalOffset": true,
+      "fromLightSource": true,
+      "pcss": true
+    },
+    "fog": {},
+    "underWaterEffect": {
+      "show": false
+    },
+    "postProcessStageCollection": {
+      "colorCorrection": {
+        "show": true,
+        "brightness": 1.2,
+        "contrast": 1,
+        "saturation": 1,
+        "hue": 0
+      }
+    }
+  },
+  "templateType": "WebScene",
+  "dataLayers": {
+    "S3MTileslayerTemplates": {
+      "ArtificialModel": {
+        "brightness": 1,
+        "contrast": 1,
+        "hue": 0,
+        "saturation": 1,
+        "gamma": 1,
+        "minTransparentAlpha": 0.1,
+        "colorStyle": "PureColor",
+        "hasLight": true,
+        "style3D": {
+          "altitudeMode": "NONE",
+          "billboardMode": "None",
+          "bottomAltitude": 0,
+          "calloutColor": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "calloutWidth": 1,
+          "fillForeColor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "fillStyle": "Fill_And_WireFrame",
+          "lineColor": [
+            0.11764705882352941,
+            0.11764705882352941,
+            0.11764705882352941,
+            1
+          ],
+          "lineWidth": 0.6,
+          "pointColor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "pointSize": 4,
+          "emissionColor": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        "wireFrameMode": "EffectOutline",
+        "shadowType": "NONE"
+      }
+    }
+  }
+}

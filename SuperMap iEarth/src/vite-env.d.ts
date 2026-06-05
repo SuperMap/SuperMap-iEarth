@@ -50,6 +50,9 @@ declare interface Window {
 
   // 对接AI
   AIFunction: any,
+
+  // 对接智能场景助理
+  chatApp: any,
 }
 
 //全局声明Cesium和viewer

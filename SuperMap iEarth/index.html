@@ -52,10 +52,15 @@
   <!-- 对接AI功能:监听iframe页面根据传入的参数执行分析功能 -->
   <script type="text/javascript"  src="/lib/AIFunction.js"></script>
 
+  <!-- 引入智能助理ChatAPP的WebComponent组件 -->
+  <script type="text/javascript"  src="/assistant/supermap-chat-component.browser.global.js"></script>
 </head>
 
 <body>
   <div id="app"></div>
   <script type="module" src="/src/main.ts"></script>
+
+  <!-- 引入AI智能助理组件 -->
+  <supermap-scene-assistant id="ChatApp" style="display: none;"></supermap-scene-assistant>
 </body>
 </html>

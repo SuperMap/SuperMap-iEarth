@@ -147,6 +147,11 @@ export const usePanelStore = defineStore({
                     }
                 })
             }, 10)
+
+            // 隐藏助理组件
+            if (window.chatApp) {
+                window.chatApp.style.display = 'none';
+            }
         },
         // 关闭弹窗面板
         closeRightToolPanel(leftOrRght: any) {
