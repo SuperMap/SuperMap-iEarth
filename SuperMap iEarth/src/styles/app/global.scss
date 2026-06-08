@@ -19,6 +19,19 @@ body,
     width: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+}
+
+// 智能场景助理挂载在 body 下，组件 :host 默认 height:100% 会撑高页面导致整页可滚动
+// height:0 脱离文档流且不遮挡主界面，内部 chat-stack 为 fixed 可正常显示和交互
+supermap-scene-assistant#ChatApp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    overflow: visible;
+    z-index: 10000;
 }
 
 // 解决切换对象绘制面板时突然出现滚动条问题
