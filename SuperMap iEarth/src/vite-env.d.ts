@@ -53,6 +53,9 @@ declare interface Window {
 
   // 对接智能场景助理
   chatApp: any,
+
+  // 用于保存汇报演示的内容
+  pptContentForIPortalSave: any,
 }
 
 //全局声明Cesium和viewer
