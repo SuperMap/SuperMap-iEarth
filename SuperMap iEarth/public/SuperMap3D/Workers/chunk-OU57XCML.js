@@ -1,0 +1,1 @@
+var E={NONE:0,GEODESIC:1,RHUMB_LINE:2},N=[];N[E.NONE]="NONE";N[E.GEODESIC]="GEODESIC";N[E.RHUMB_LINE]="RHUMB_LINE";var n={NONE:E.NONE,GEODESIC:E.GEODESIC,RHUMB_LINE:E.RHUMB_LINE};E.toJSON=function(O){return N[O]};E.fromJSON=function(O){return n[O]};var o=E;export{o as a};
