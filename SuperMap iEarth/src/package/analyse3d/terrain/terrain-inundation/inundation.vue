@@ -50,7 +50,7 @@
         <n-slider class="shorter" v-model:value="state.floodSpeed" :step="10" :min="1" :max="2000" />
         <n-input-number v-model:value="state.floodSpeed" :update-value-on-input="false"
           :bordered="false" :show-button="false" placeholder="" size="small" style="width: 31%" />
-        <span style="width: 0.6rem">{{ $t("meterSecond") }}</span>
+        <span style="width: 0.7rem">{{ $t("meterSecond") }}</span>
       </div>
     </div>
   </div>
@@ -60,6 +60,9 @@
     $t("analysis") }}</n-button>
     <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
   </div>
+
+  <!-- 辅助提示 -->
+  <div class="panel-footer-tip-box"> {{ $t("stkUnsupported") }} </div>
 </template>
 
 <script lang="ts" setup>

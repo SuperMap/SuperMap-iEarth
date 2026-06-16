@@ -257,7 +257,9 @@ function saveScene(){
 
 // 缩略图
 function outputSceneToFile() {
-  let promise = viewer.scene.outputSceneToFile();
+  let promise = viewer.scene.outputSceneToFile({
+    resolutionScale: 1,
+  });
   SuperMap3D.when(promise, function (buffer) {
     let canvas: any = document.getElementById("sceneCanvas");
     let ctx = canvas.getContext("2d");
