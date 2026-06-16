@@ -132,7 +132,7 @@ import { usePanelStore } from "@/store/panelStore/index";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useLayerStore } from "@/store/layerStore/layer";
 import i18n from "@/locale/index";
-import SceneConfig from "@/lib/SceneConfig";
+// import SceneConfig from "@/lib/SceneConfig";
 
 const panelStore = usePanelStore();
 const IportalStore = IportalStoreCreate();
@@ -190,6 +190,10 @@ function getNowFormatDate() {
 
 // 保存当前场景（保存为本地JSON文件）
 async function saveScene(){  
+  // 获取SceneConfig类
+  if(!window.SceneConfig) return;
+  const SceneConfig = window.SceneConfig
+
   if (!fromData.scenePortalName || fromData.scenePortalName == "") {
     window["$message"].warning($t("sceneSaveNameCannotBeNull"));
     return;
@@ -214,8 +218,17 @@ async function saveScene(){
   let userName = fromData.scenePortalUser;
   let description = fromData.scenePortalDescription;
 
-  const sceneConfig = new SceneConfig(viewer);
-  const sceneInfo = await sceneConfig.computedSceneInfo();
+
+  let sceneInfo:any = undefined;
+  if(viewer.webScene){ // 说明SDK支持WebScene，优先走WebScene通道
+    sceneInfo = SuperMap3D.WebScene.toJSON({
+      webScene: viewer.webScene,  // webscene实例
+    });
+  }else{ // SDK不支持WebScene，走iEarth之前的保存方式
+    const sceneConfig = new SceneConfig(viewer);
+    sceneInfo = await sceneConfig.computedSceneInfo();
+  }
+
   const layerTreeData = computedLayerTreeData(); // 图层列表数据
   const bindiEarthData = computedBindData(); // 绑定在window上iEarth需要的数据
   const sceneContent = {
@@ -224,7 +237,7 @@ async function saveScene(){
     layerTreeData:layerTreeData,
     bindiEarthData:bindiEarthData
   }
-  const saveData = { // 场景保存参数设置
+  let saveData = { // 场景保存参数设置
     name: name || '',
     tags: tagsArray || '',
     userName: userName || '',
@@ -232,10 +245,19 @@ async function saveScene(){
     content: JSON.stringify(sceneContent),
   }
 
+  // 当pptContentForIPortalSave存在时，说明这是汇报演示的内容，相当于是使用iEarth来编辑场景，保存时需要替换原本pptContent中的WebScene字段，不可破坏原本结构
+  if(window.pptContentForIPortalSave){
+    let pptContent = window.pptContentForIPortalSave;
+    pptContent.content.sceneInfo.viewerConfig.webScene.jsonData = sceneInfo;
+    saveData = pptContent;
+  }
+
   if (window.iEarthConsole) console.log("保存的场景信息:", saveData);
 
   if(window.iEarthBindData.EnvironmentMode == "Normal"){
-    saveData.content = JSON.parse(saveData.content);
+    if(typeof saveData.content == "string"){
+      saveData.content = JSON.parse(saveData.content);
+    }
     window.iEarthTool.saveObjToJsonFile(saveData,name);
     state.isloading = false;
     window["$message"].success($t("saveSuccess"));

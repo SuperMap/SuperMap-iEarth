@@ -71,9 +71,21 @@ function openExistScene() {
 function openScene(response?: any) {
   if (!response) return;
   if (response && response.data) IportalStore.SceneName = response.data.name; // 获取iPortal保存的场景名称（二次确认:本地测试环境）
-  let content = JSON.parse(response.data.content);
-  if (window.iEarthConsole) console.log("已保存的场景返回内容:", content)
+  const data = (typeof response.data === 'string') ? JSON.parse(response.data) : response.data; 
+  const content = (typeof data.content === 'string') ? JSON.parse(data.content) : data.content;
+  if (window.iEarthConsole) {console.log("已保存的场景返回内容:", content)}
   
+  // 说明这是汇报演示的内容，相当于是使用iEarth来编辑场景，保存时需要替换原本pptContent中的WebScene字段，不可破坏原本结构
+  if(content && content.sceneInfo && content.sceneInfo.slides){
+    window.pptContentForIPortalSave = {
+      name: data.name ?? 'web-presentation',
+      tags: data.tags ?? ['ppt','3D', 'web','presentation'],
+      userName: data.userName ?? '',
+      description: data.description ?? 'web-presentation saved scene',
+      content: content,
+    };
+  }
+
   state.scenePortalName = response.data.name;
   state.scenePortalTages = response.data.tags.join(",");
   state.scenePortalUser = response.data.userName;
@@ -88,27 +100,19 @@ function openScene(response?: any) {
   if (content) {
     let sceneInfo:any = undefined;
     let bindiEarthData:any = undefined;
-    if(content.sceneInfo){
-      sceneInfo = content.sceneInfo;
-      bindiEarthData = content.bindiEarthData;
-    }else{
-      // sceneInfo = oldSceneDataToNewSceneInfo(content); // 该函数统一放置再OpenConfig.js中
+    if(content.sceneInfo){ // 新版iEarth保存的信息
+      const requireInfo = computedRequireInfoFromData({content: content}); // 从iPortal中获取的内容，需要放在content中
+      // 统一处理:打开场景 计算图层树 绑定数据
+      handleSceneContent(requireInfo)
+    }else{ // 老版iEarth保存的信息
       sceneInfo = content;
       bindiEarthData = oldSceneDataToBindData(content);
+      handleSceneContent({
+        sceneInfo: sceneInfo,
+        bindiEarthData: bindiEarthData
+      })
     }
 
-    // 计算layerTreeData
-    let layerTreeData: any = undefined;
-    if (content.layerTreeData) {
-      layerTreeData = content.layerTreeData;
-    }
-
-    // 统一处理:打开场景 计算图层树 绑定数据
-    handleSceneContent({
-      sceneInfo:sceneInfo,
-      layerTreeData: layerTreeData,
-      bindiEarthData:bindiEarthData
-    })
 
     // 兼容老版本iEarth采用Cesium圆球相机定位
     if (content.layer && !content.layers.sceneAttrState) {
@@ -140,15 +144,27 @@ function handleSceneContent(config) {
   const sceneInfo = config.sceneInfo;
   const layerTreeData = config.layerTreeData;
   const bindiEarthData = config.bindiEarthData;
-  if (!sceneInfo) return;
+  const webSceneContent = config.webSceneContent;
+  if (!sceneInfo && !webSceneContent) return;
 
-  // 打开场景
-  if(!window.OpenConfig) return
-  const openConfig = new window.OpenConfig(viewer,{
-    tiandituKey: window?.tokenConfig?.tiandituKey,
-    bingMapkey: window?.tokenConfig?.bingMapsKey
-  });
-  openConfig.openScene(sceneInfo);
+  // 打开场景：走之前iEarth的场景保存逻辑
+  if (sceneInfo) { 
+    if (!window.OpenConfig) return
+    const openConfig = new window.OpenConfig(viewer, {
+      tiandituKey: window?.tokenConfig?.tiandituKey,
+      bingMapkey: window?.tokenConfig?.bingMapsKey
+    });
+    openConfig.openScene(sceneInfo);
+  }
+
+  // 打开场景：走WebScene通道
+  if (webSceneContent) {
+    if (viewer.webScene) {
+      viewer.webScene.fromJSON(webSceneContent);
+    } else {
+      console.warn('iEarth当前依赖的SDK不支持WebScene');
+    }
+  }
 
   // 计算图层树
   if (layerTreeData) {
@@ -446,7 +462,76 @@ function oldSceneDataToBindData(content){
   bindData["baseMapOption"] = content.layers.baseMapOption; // 默认底图选项
   return bindData;
 }
+
+// 检查传入的对象是否为WebScene保存的内容
+function checkInfoIsWebScene(info) {
+  if (info && info.extensions && info.scene && info.metadata) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// 从传入的数据中提取出打开场景所需要的信息
+function computedRequireInfoFromData(data) {
+  if (window.iEarthConsole) console.log("原始信息", data);
+
+  // 获取content字段
+  let content: any = undefined;
+  if (data.content) {
+    content = (typeof data.content === 'string') ? JSON.parse(data.content) : data.content; // iportal中保存的content格式为string
+  }
+
+  // 获取sceneInfo：iEarth和WebScene保存的场景信息统一都放在这个字段，通过里面不同的属性进行区分
+  let sceneInfo = content && content.sceneInfo;
+
+  // 说明这是汇报演示的内容，需要从中截取WebScene内容
+  if (sceneInfo && sceneInfo.slides) {
+    sceneInfo = sceneInfo.viewerConfig?.webScene?.jsonData;
+  }
+
+  // 计算WebScene
+  let webSceneContent: any = undefined;
+  if (checkInfoIsWebScene(data)) { // 这种结构说明是直接导入的webScene
+    webSceneContent = data;
+  } else if (checkInfoIsWebScene(content)) { // 这种结构说明是把WebScene直接放在了content字段里面
+    webSceneContent = content;
+  } else if (checkInfoIsWebScene(sceneInfo)) { // 这种结构说明是把WebScene放在了content中的sceneInfo字段里面
+    webSceneContent = sceneInfo;
+  } else if (checkInfoIsWebScene(data.viewerConfig?.webScene?.jsonData)) { // 这种结构说明是把WebScene放在了汇报演示的JSON里面
+    webSceneContent = data.viewerConfig.webScene.jsonData;
+  } else {
+    webSceneContent = undefined;
+  }
+
+  // 如果之前iEarth保存的场景和webScene都不存在的话，直接返回
+  if (sceneInfo && !sceneInfo.LayerOptions && !webSceneContent) return;
+
+  // 计算layerTreeData
+  let layerTreeData: any = undefined;
+  if (data.content && data.content.layerTreeData) {
+    layerTreeData = data.content.layerTreeData
+  }
+
+  // 计算bindiEarthData
+  let bindiEarthData: any = undefined;
+  if (data.content && data.content.bindiEarthData) {
+    bindiEarthData = data.content.bindiEarthData
+  }
+
+  // 所需的信息
+  const requireInfo = {
+    // 当导入的是WebScene保存的场景时，不走iEarth之前保存的那套，优先走WebScene通道
+    sceneInfo: webSceneContent ? undefined : sceneInfo,
+    webSceneContent: webSceneContent,
+    layerTreeData: layerTreeData,
+    bindiEarthData: bindiEarthData
+  }
+
+  return requireInfo;
+}
 export default {
   openExistScene,
-  handleSceneContent
+  handleSceneContent,
+  computedRequireInfoFromData
 }

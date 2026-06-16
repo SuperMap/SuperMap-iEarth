@@ -639,4 +639,4 @@ class SceneConfig {
   }
 }
 
-export default SceneConfig;
+window.SceneConfig = SceneConfig;

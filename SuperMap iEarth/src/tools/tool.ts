@@ -320,7 +320,7 @@ async function computedSceneNameOptions(sceneUrl, tokenString=undefined, useWith
   if (!sceneUrl) return;
 
   sceneUrl = sceneUrl.trim().replace(/\/+$/, "");
-  if(sceneUrl.includes("/realspace")) sceneUrl = sceneUrl.replace("/realspace", "");
+  if(sceneUrl.includes("/rest/realspace")) sceneUrl = sceneUrl.replace("/rest/realspace", "/rest");
   let sceneJsonUrl = sceneUrl + '/realspace/scenes.json';
 
   // 请求时加上Token
