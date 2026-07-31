@@ -1,1 +1,1 @@
-function defined(_0x59c616){return _0x59c616!==undefined&&_0x59c616!==null;}
+function defined(_0x1ce2c7){return _0x1ce2c7!==undefined&&_0x1ce2c7!==null;}
