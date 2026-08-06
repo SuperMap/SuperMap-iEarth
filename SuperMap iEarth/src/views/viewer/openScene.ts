@@ -108,6 +108,11 @@ function openScene(response?: any) {
         layerStore.setLayerTreeAlias(content.layers.layerTreeAlias);
       }
 
+      // 添加图层前先配置Credential
+      if(content.credentialOptions && content.credentialOptions.length >= 1 && (typeof credentialManager !== 'undefined')){
+        credentialManager.setCredentialOptions(content.credentialOptions)
+      }
+
       //需要改动
       openS3M(content);
       openImagery(content);
@@ -259,14 +264,6 @@ function openS3M(content: any) {
       let name = s3mlayerOption.name;
       setTrustedServers(url);
       let bindName = s3mlayerOption.bindName || '';
-      
-      // 判断token
-      // if(s3mlayerOption.token) url = url + '?token=' + s3mlayerOption.token; // 加上token
-      if (s3mlayerOption.token && s3mlayerOption.token.length>5) {
-        SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-          s3mlayerOption.token
-        );
-      }
 
       let promise = viewer.scene.addS3MTilesLayerByScp(url, { name: name });
       SuperMap3D.when(promise, function (layer: any) {

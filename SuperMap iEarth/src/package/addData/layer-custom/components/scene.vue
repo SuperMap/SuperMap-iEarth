@@ -117,10 +117,12 @@ function openScene() {
     let reg = /^['|"](.*)['|"]$/;
     state.sceneUrl = state.sceneUrl.replace(reg, "$1");
   }
-  if (state.useToken) {
-    SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-      state.sceneToken
-    );
+  if (state.useToken && (typeof credentialManager !== 'undefined')) {
+    credentialManager.addToken({
+      url: state.sceneUrl,
+      token: state.sceneToken,
+      type: "token"
+    });
   }
 
   // 不指定场景名称的情况下，检测当前场景是否已经添加过

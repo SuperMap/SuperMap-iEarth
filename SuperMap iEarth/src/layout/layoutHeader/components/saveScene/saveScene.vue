@@ -442,6 +442,11 @@ function createAndSaveScene() {
   //检查该图层对应于S3M、Terrain、Imagery
   data.layers = checkLayers();
 
+  // 获取当前场景中的token许可信息
+  if(typeof credentialManager !== 'undefined'){
+    data.credentialOptions = credentialManager.getCredentialOptions();
+  }
+
   let canvas: any = document.getElementById("sceneCanvas");
   let base64 = canvas.toDataURL("image/jpeg");
   base64 = base64.split(",")[1];
@@ -564,6 +569,11 @@ function updateScene() {
 
   let data: any = {};
   data.layers = checkLayers();
+
+  // 获取当前场景中的token许可信息
+  if(typeof credentialManager !== 'undefined'){
+    data.credentialOptions = credentialManager.getCredentialOptions();
+  }
 
   let canvas: any = document.getElementById("sceneCanvas");
   let base64 = canvas.toDataURL("image/jpeg");

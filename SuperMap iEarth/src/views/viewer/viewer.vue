@@ -16,6 +16,9 @@ import AIFunction from "@/lib/AIFunction";
 import getConfig from "@/tools/getConfig";
 import getIPortalSceneInfo from "@/tools/getIPortalSceneInfo";
 
+// 导入许可管理器
+import CredentialManager from "@/tools/CredentialManager";
+
 const IportalStore = IportalStoreCreate();
 const GlobalStore = GlobalStoreCreate();
 const layerStore = useLayerStore();
@@ -88,7 +91,7 @@ function initViewer() {
     animation: false, // 动画小组件
     infoBox: false, // 信息框
     shadows: false, //不能开启
-    pcss: true, // UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
+    pcss: false, // UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
     shadowQuality: 0,
     creditContainer: document.createElement("div"), //去掉底部logo
   });
@@ -163,6 +166,10 @@ function initViewer() {
   // 设置皮肤，影像图层的效果
   earthSkinImgLayer.brightness = 0.8; // > 1.0 增加亮度  < 1.0减少亮度
   earthSkinImgLayer.contrast = 1.3; // 图层对比度 > 1 增加   < 1 减少
+
+  // 实例化许可token管理器
+  const credentialManager = new CredentialManager();
+  window.credentialManager = credentialManager;
 
   // 如果设置了底图，则删除默认底图
   setTimeout(() => {

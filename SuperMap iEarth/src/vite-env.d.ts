@@ -23,6 +23,7 @@ declare interface Window {
   layerServiceData:any,
   configToken:any,
   simulateIPortalMode:any,
+  credentialManager:any,
 }
 
 //全局声明Cesium和viewer
@@ -39,3 +40,4 @@ declare var $t : Window.$t
 declare var layerServiceData : window.layerServiceData
 declare var configToken : window.configToken
 declare var simulateIPortalMode : window.simulateIPortalMode
+declare var credentialManager : window.credentialManager

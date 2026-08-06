@@ -218,10 +218,12 @@ function openLayer() {
     message.warning($t("urlIsNull"));
     return;
   }
-  if (state.useToken) {
-    SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-      state.layerToken
-    );
+  if (state.useToken && (typeof credentialManager !== 'undefined')) {
+    credentialManager.addToken({
+      url: state.layerUrl,
+      token: state.layerToken,
+      type: "token"
+    });
   }
 
   switch (state.layerType) {
