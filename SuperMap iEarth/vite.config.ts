@@ -41,7 +41,8 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         javascriptEnabled: true,
-        additionalData: `@import "src/styles/index.scss";`
+        silenceDeprecations: ['legacy-js-api'],
+        additionalData: `@use "src/styles/index.scss" as *;`
       }
     }
   },

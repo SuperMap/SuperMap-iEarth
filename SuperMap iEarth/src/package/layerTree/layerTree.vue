@@ -1,5 +1,5 @@
 <template>
-  <div class="layer-tree-box" style="padding: 0rem 0.06rem;">
+  <div class="layer-tree-box" dir="ltr" style="padding: 0rem 0.06rem;">
     <n-tree
       cascade
       draggable
@@ -66,6 +66,7 @@ onBeforeUnmount(()=>{
   if(intervalID) clearInterval(intervalID);
 })
 
+
 if (window.customConfig && window.customConfig.useLayerTreeAutoUpdate) {
   intervalID = setInterval(() => {
     layerStore.updateLayer({ type: "s3m" });
@@ -128,7 +129,6 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
                 text: true,
                 title: "",
                 focusable: false, // 取消focus效果
-                onClick: (e) => {},
               },
               {
                 icon: () => h("i", { class: "iconfont icongengduo" }, ""),
@@ -229,7 +229,6 @@ function renderSuffix({ option }: { option: TreeOption | any }) {
                 text: true,
                 title: "",
                 focusable: false, // 取消focus效果
-                onClick: (e) => {},
               },
               {
                 icon: () => h("i", { class: "iconfont icongengduo" }, ""),
@@ -477,7 +476,7 @@ function setOptionsByType(type: string) {
 function addLayerCollection(option: any) {
   let time = new Date().getTime();
   let newOption = {
-    "label": `新建集合_${time}`,
+    "label": `${$t("addCollction")}_${time}`,
     "id": `${LayerEnum.Collection}-${time}`,
     "key": `1-${time}`,
     "type": LayerEnum.Collection,
@@ -532,7 +531,7 @@ function delCollection(option:any){
 function addLayerGroup(option: any) {
   let time = new Date().getTime();
   let newOption = {
-    "label": `新建分组_${time}`,
+    "label": `${$t("addGroup")}_${time}`,
     "id": `${LayerEnum.Group}-${time}`,
     "key": `1-${time}`,
     "type": LayerEnum.Group,
@@ -644,7 +643,9 @@ function delLayerOption(option, isDelLayer=true){
     if (type === LayerEnum.S3M) {
       if(!targetLayer) return;
       if(isDelLayer) viewer.scene.layers.remove(targetLayer.name);
-      option.parent.children = option.parent.children.filter(item=>item.id != targetID);
+      // 顶层S3M图层（直接挂在S3M根节点下）在updateS3M新增时未绑定parent，需回退到S3M根节点移除
+      const parentNode = option.parent || layerTreeData[0];
+      parentNode.children = parentNode.children.filter(item=>item.id != targetID);
     }else if (type === LayerEnum.Imagery) {
       if(!targetLayer) return;
       // if (targetLayer._imageryProvider.url == "./images/earth-skin2.jpg") {
@@ -1104,4 +1105,11 @@ function changeLayerOrderByDrag(drag_index: number, target_index: number) {
 .layer-tree-box :deep(.n-button):hover {
   color: rgba(255, 255, 255, 0.85);
 }
+
+// // 阿拉伯语RTL镜像模式下修正NDropdown菜单（v-binder-follower-content）位置
+// // 该容器teleport挂载于body，scoped无法选中需全局规则；:has限定为包含下拉菜单的follower，避免误伤n-tooltip/n-popover等其他弹层
+// :global(html[dir='rtl'] .v-binder-follower-content:has(> .n-dropdown-menu)) {
+//   margin-right: 80%;
+//   margin-top: 0%;
+// }
 </style>

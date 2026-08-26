@@ -150,12 +150,11 @@
   // 标签样式
   margin-left: 0.1rem;
   font-size: 0.14rem;
-  height: 0.16rem;
+  line-height: 0.16rem; // 用line-height替代height，避免固定高度裁剪文字下半部分
 }
 
 .n-checkbox .n-checkbox-box-wrapper {
-  // 框和标签间距
-  width: 0.1rem;
+  // 框和标签间距由 .n-checkbox__label 的 margin-left 控制，此处不设width避免裁剪复选框
 }
 
 // Table表格内容
@@ -172,6 +171,13 @@
 .disabled-item td {
   // 不可用服务行文字颜色，与可用服务区分开
   color: rgba(255, 255, 255, 0.25) !important;
+}
+
+// 阿拉伯语RTL模式下，v-binder-follower-container（Naive UI下拉框/弹出层定位容器）
+// 继承了html的dir="rtl"导致定位异常，强制设为LTR方向修复所有n-select等弹出层定位问题
+html[dir='rtl'] .v-binder-follower-container {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 /** ==========================================NaiveUI组件自定义样式==End====================================================== */

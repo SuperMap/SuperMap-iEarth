@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ispeco/authentication-sdk": "^2.0.34",
+    "@supermapgis/portal-locale": "^1.0.28",
     "axios": "^0.27.2",
     "color": "^4.2.3",
     "crypto-js": "^4.1.1",
@@ -32,7 +33,7 @@
     "@vitejs/plugin-vue": "^3.1.0",
     "lib-flexible": "^0.3.2",
     "lodash": "~4.17.21",
-    "naive-ui": "^2.33.5",
+    "naive-ui": "^2.45.1",
     "sass": "^1.49.11",
     "sass-loader": "^12.6.0",
     "typescript": "^4.8.3",

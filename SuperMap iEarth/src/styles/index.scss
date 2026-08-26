@@ -1,8 +1,8 @@
-@import './app/global.scss';
-@import './app/naiveui-custom.scss';
-@import './app/naiveui-deep.scss';
-@import './app/naiveui-tree.scss';
-@import './app/panel-chunk.scss';
-@import './app/panel-layout.scss';
-@import './app/widget-custom.scss';
-@import './scss/sm-mixin.scss';
+@use './app/global.scss';
+@use './app/naiveui-custom.scss';
+@use './app/naiveui-deep.scss';
+@use './app/naiveui-tree.scss';
+@use './app/panel-chunk.scss';
+@use './app/panel-layout.scss';
+@use './app/widget-custom.scss';
+@forward './scss/sm-mixin.scss';

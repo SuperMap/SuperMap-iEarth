@@ -3,7 +3,7 @@ import { PanelNameEnum } from "@/enums/layerEnum";
 
 export const usePanelStore = defineStore({
     id: 'usePanelStore',
-    state: (): any => ({
+    state: () => ({
         addDataPanel: "layer-service-box", // 添加数据弹窗
         analyse3dPanel: "analyse3d-ts-box", // 三维分析弹窗
         panelList: {

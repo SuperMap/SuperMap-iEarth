@@ -1,6 +1,6 @@
 <!-- 公共服务 -->
 <template>  
-  <n-scrollbar style="max-height: 3.42rem; padding-right: 0.1rem;" trigger="none">
+  <n-scrollbar class="service-scrollbar" trigger="none">
     <div class="add-image-container">
       <div
         v-for="(item, index) in publicServiceList"
@@ -550,3 +550,15 @@ function addBaiMo(url: string, sceneName: string, type: any) {
 //   loadLight(true);
 // }
 </script>
+
+<style scoped lang="scss">
+.service-scrollbar {
+  max-height: 3.42rem;
+  padding-right: 0.1rem;
+}
+
+html[dir='rtl'] .service-scrollbar {
+  padding-right: 0;
+  padding-left: 0.1rem;
+}
+</style>

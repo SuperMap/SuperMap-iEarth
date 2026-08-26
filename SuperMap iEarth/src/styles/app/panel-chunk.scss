@@ -46,6 +46,27 @@
     }
 }
 
+// 阿拉伯语RTL下，flex主轴从右到左，margin-right需镜像为margin-left
+html[dir='rtl'] {
+    .add-image-container {
+        margin-right: 0;
+        margin-left: 0.07rem;
+
+        .item-container {
+            margin-right: 0;
+            margin-left: 0.12rem;
+        }
+
+        .item-container:nth-child(3n) {
+            margin-left: 0;
+        }
+
+        .text-box {
+            text-align: right;
+        }
+    }
+}
+
 // Echarts图表样式：天际线和剖面分析
 .analyse-echarts-box {
     position: fixed !important;

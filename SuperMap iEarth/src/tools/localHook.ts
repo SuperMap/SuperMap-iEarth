@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { zhCN, dateZhCN, enUS, dateEnUS, jaJP, dateJaJP, ruRU, dateRuRU } from 'naive-ui'
+import { zhCN, dateZhCN, enUS, dateEnUS, jaJP, dateJaJP, ruRU, dateRuRU, arDZ, dateArDZ } from 'naive-ui'
 import { useLangStoreCreate } from '@/store/langStore/langStore'
 import { LangEnum } from '@/enums/styleEnum'
 
@@ -10,7 +10,9 @@ export const useLocaleHook = () => {
     return computed(() => (
         langStore.lang == LangEnum.ZH ? { locale: zhCN, dateLocale: dateZhCN } : (
             langStore.lang == LangEnum.JA ? { locale: jaJP, dateLocale: dateJaJP } : (
-                langStore.lang == LangEnum.RU ? { locale: ruRU, dateLocale: dateRuRU } : { locale: enUS, dateLocale: dateEnUS }
+                langStore.lang == LangEnum.RU ? { locale: ruRU, dateLocale: dateRuRU } : (
+                    langStore.lang == LangEnum.AR ? { locale: arDZ, dateLocale: dateArDZ } : { locale: enUS, dateLocale: dateEnUS }
+                )
             )
         )
     ))

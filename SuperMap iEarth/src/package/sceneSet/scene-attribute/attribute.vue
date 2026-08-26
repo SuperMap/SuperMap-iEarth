@@ -1,5 +1,5 @@
 <template>
-  <n-scrollbar style="max-height: 5rem; padding-right: 0.2rem;" trigger="none">
+  <n-scrollbar class="scene-attr-scrollbar" style="max-height: 5rem;" trigger="none">
     <n-grid :y-gap="8" :cols="2" style="padding-top: 0.1rem">
       <n-gi>
         <n-checkbox v-model:checked="state.earthShow" :label="$t('earth')" :title="$t('earth')"/>
@@ -257,6 +257,13 @@ watch(() => state.isHighAltitudeFog,(val) => {
 
 <!-- 处理标准:checkBox复选框组合，文字太长导致换行 -->
 <style lang="scss" scoped>
+:global(html[dir='ltr']) .scene-attr-scrollbar {
+  padding-right: 0.2rem;
+}
+:global(html[dir='rtl']) .scene-attr-scrollbar {
+  padding-left: 0.2rem;
+}
+
 :deep(.n-checkbox) .n-checkbox__label {
   width: 1.2rem;
   white-space: nowrap;

@@ -62,3 +62,82 @@
         display: none;
     }
 }
+
+/**
+ * 以下为RTL(阿拉伯语从右向左)兼容系列mixin
+ * 方案来源：《需求文档/阿拉伯语CSS样式写法注意.md》
+ * 规则：ltr时使用传入方向，rtl时自动镜像到相反方向
+ */
+
+// RTL兼容-水平间距：替代 margin-left / margin-right
+// 2个以上元素并排时，用中间元素控制间距，首尾元素不写水平间距
+@mixin spacing-margin($margin: 16px, $direction: right) {
+    html[dir='ltr'] & {
+        margin-#{$direction}: $margin;
+    }
+
+    $rtl-direction: right;
+    @if $direction == right {
+        $rtl-direction: left;
+    }
+
+    html[dir='rtl'] & {
+        margin-#{$rtl-direction}: $margin;
+    }
+}
+
+// RTL兼容-水平内边距：替代 padding-left / padding-right
+@mixin spacing-padding($padding: 16px, $direction: right) {
+    html[dir='ltr'] & {
+        padding-#{$direction}: $padding;
+    }
+
+    $rtl-direction: right;
+    @if $direction == right {
+        $rtl-direction: left;
+    }
+
+    html[dir='rtl'] & {
+        padding-#{$rtl-direction}: $padding;
+    }
+}
+
+// RTL兼容-间隔竖线：替代 border-left / border-right（竖线优先使用<hr>元素）
+@mixin border-line-style($direction: right, $width: 1px, $style: solid, $color: rgba(255, 255, 255, 0.2)) {
+    $opposite: right;
+    @if $direction == right {
+        $opposite: left;
+    }
+
+    html[dir='ltr'] & {
+        border-#{$direction}: #{$width} #{$style} #{$color};
+    }
+
+    html[dir='rtl'] & {
+        border-#{$opposite}: #{$width} #{$style} #{$color};
+    }
+}
+
+// RTL兼容-水平定位：替代 left / right（优先考虑flex布局：flex-start/flex-end）
+@mixin position-row($direction: left, $value: 0) {
+    $opposite: left;
+    @if $direction == left {
+        $opposite: right;
+    }
+
+    html[dir='ltr'] & {
+        #{$direction}: $value;
+    }
+
+    html[dir='rtl'] & {
+        #{$opposite}: $value;
+    }
+}
+
+// RTL模式专属样式块：阿拉伯语镜像模式下需要覆盖不同值时使用
+// 用法：@include rtl-only { left: 1rem; ... }
+@mixin rtl-only {
+    html[dir='rtl'] & {
+        @content;
+    }
+}

@@ -1,4 +1,4 @@
-import i18n from '@/locale/index';
+import i18n, { setPageDirection } from '@/locale/index';
 import { defineStore } from 'pinia';
 import { getLanguage } from '@/tools/getLanguage';
 
@@ -17,6 +17,8 @@ export const useLangStoreCreate = defineStore({
     changeLang(lang:string): void {
       this.lang = lang;
       i18n.global.locale = lang;
+      // 同步更新页面语言与RTL镜像方向
+      setPageDirection(lang);
     }
   }
 })

@@ -28,7 +28,7 @@
         <n-slider class="shorter" v-model:value="state.floodSpeed" :step="1" :min="1" :max="100" />
         <n-input-number v-model:value="state.floodSpeed" :update-value-on-input="false" :bordered="false"
           :show-button="false" placeholder="" size="small" style="width: 31%" />
-        <span style="width: 0.6rem">{{ $t("meterSecond") }}</span>
+        <span style="width: 0.8rem">{{ $t("meterSecond") }}</span>
       </div>
     </div>
   </div>

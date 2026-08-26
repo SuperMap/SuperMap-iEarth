@@ -4,6 +4,7 @@
     :theme="darkTheme"
     :locale="locale.locale"
     :date-locale="locale.dateLocale"
+    :rtl="rtlConfig"
   >
     <n-loading-bar-provider>
       <n-dialog-provider>
@@ -28,17 +29,98 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive,computed } from "vue";
+import { reactive, computed } from "vue";
 import { I18n } from "@/components/I18n";
 import { MessageContent } from "@/components/Plugins/MessageContent";
 import { DialogContent } from "@/components/Plugins/DialogContent";
 import { LoadingContent } from "@/components/Plugins/LoadingContent";
 import { loadAsyncComponent } from "@/utils/index";
 import { darkTheme } from "naive-ui";
+import {
+  unstableAlertRtl,
+  unstableAvatarGroupRtl,
+  unstableBadgeRtl,
+  unstableButtonGroupRtl,
+  unstableButtonRtl,
+  unstableCardRtl,
+  unstableCheckboxRtl,
+  unstableCollapseRtl,
+  unstableCollapseTransitionRtl,
+  unstableDataTableRtl,
+  unstableDialogRtl,
+  unstableDrawerRtl,
+  unstableDynamicInputRtl,
+  unstableFlexRtl,
+  unstableInputNumberRtl,
+  unstableInputOtpRtl,
+  unstableInputRtl,
+  unstableListRtl,
+  unstableMessageRtl,
+  unstableNotificationRtl,
+  unstablePageHeaderRtl,
+  unstablePaginationRtl,
+  unstablePopoverRtl,
+  unstableRadioRtl,
+  unstableRowRtl,
+  unstableScrollbarRtl,
+  unstableSelectRtl,
+  unstableSpaceRtl,
+  unstableStatisticRtl,
+  unstableStepsRtl,
+  unstableTableRtl,
+  unstableTabsRtl,
+  unstableTagRtl,
+  unstableThingRtl,
+  unstableTreeRtl,
+  unstableTreeSelectRtl,
+  unstableUploadsRtl,
+} from "naive-ui";
 import { useLocaleHook } from "@/tools/localHook";
 import { licenseEnum } from "@/enums/licenseEnum";
 import { getRootUrl } from "@/tools/iportal/portalTools";
 import { useLangStoreCreate } from '@/store/langStore/langStore'
+import { LangEnum } from "@/enums/styleEnum";
+
+// Naive UI RTL样式集合：阿拉伯语镜像模式下启用
+const rtlStyles = [
+  unstableAlertRtl,
+  unstableAvatarGroupRtl,
+  unstableBadgeRtl,
+  unstableButtonGroupRtl,
+  unstableButtonRtl,
+  unstableCardRtl,
+  unstableCheckboxRtl,
+  unstableCollapseRtl,
+  unstableCollapseTransitionRtl,
+  unstableDataTableRtl,
+  unstableDialogRtl,
+  unstableDrawerRtl,
+  unstableDynamicInputRtl,
+  unstableFlexRtl,
+  unstableInputNumberRtl,
+  unstableInputOtpRtl,
+  unstableInputRtl,
+  unstableListRtl,
+  unstableMessageRtl,
+  unstableNotificationRtl,
+  unstablePageHeaderRtl,
+  unstablePaginationRtl,
+  unstablePopoverRtl,
+  unstableRadioRtl,
+  unstableRowRtl,
+  unstableScrollbarRtl,
+  unstableSelectRtl,
+  unstableSpaceRtl,
+  unstableStatisticRtl,
+  unstableStepsRtl,
+  unstableTableRtl,
+  unstableTabsRtl,
+  unstableTagRtl,
+  unstableThingRtl,
+  unstableTreeRtl,
+  unstableTreeSelectRtl,
+  unstableUploadsRtl,
+];
 
 const layout = loadAsyncComponent(() => import("@/layout/index.vue"));
 
@@ -47,6 +129,12 @@ const locale = useLocaleHook(); // 设置naiveUI组件国际化
 // 基于App语言设置样式
 const langStore = useLangStoreCreate();
 const langApp = langStore.getLang;
+
+// 阿拉伯语下启用Naive UI RTL镜像
+// 注意：rtl prop 只接受数组或 undefined，传 false 会因 for...of 迭代报错（rtl is not iterable）
+const rtlConfig = computed<Array<any> | undefined>(() =>
+  langStore.lang === LangEnum.AR ? rtlStyles : undefined
+);
 const btnWidth = computed(() => {
     return langApp == 'zh' ? '0.6rem' : '0.9rem'
 });

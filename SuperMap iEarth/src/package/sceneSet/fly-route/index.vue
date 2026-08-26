@@ -1,5 +1,5 @@
 <template>
-  <n-scrollbar style="max-height: 5rem; padding-right: 0.15rem;" trigger="none">
+  <n-scrollbar class="fly-route-scrollbar" style="max-height: 5rem;" trigger="none">
     <div class="btn-list-box">
       <div
         class="btn"
@@ -94,3 +94,12 @@ function changeItem(item: any) {
   });
 }
 </script>
+
+<style lang="scss" scoped>
+:global(html[dir='ltr']) .fly-route-scrollbar {
+  padding-right: 0.15rem;
+}
+:global(html[dir='rtl']) .fly-route-scrollbar {
+  padding-left: 0.15rem;
+}
+</style>

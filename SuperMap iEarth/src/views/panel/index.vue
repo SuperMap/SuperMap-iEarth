@@ -4,7 +4,7 @@
     <!-- 左侧面板 -->
     <div class="left-panel" v-if="panelStore.leftTooPanel">
       <!-- header -->
-      <div class="panle-header">
+      <div class="panle-header" dir="ltr">
         <span class="panle-title">{{ $t(leftPanleTitle) }}</span>
         <span class="zst1"></span>
         <span class="zst2"></span>
@@ -32,7 +32,7 @@
     <!-- 右侧面板 -->
     <div class="right-panel" v-if="panelStore.rightToolPanel">
       <!-- header -->
-      <div class="panle-header panle-header-right" v-show="!isFold">
+      <div class="panle-header panle-header-right" dir="ltr" v-show="!isFold">
         <span class="panle-title">{{ $t(rightPanleTitle) }}</span>
         <span class="zst1"></span>
         <span class="zst2"></span>
@@ -212,6 +212,11 @@ const currentRightCom = computed(() => {
   top: 0.75rem;
   left: 0.55rem;
   width: 3.37rem;
+
+  // 阿拉伯语RTL镜像模式下调整左侧面板位置
+  @include rtl-only {
+    left: 1.0rem;
+  }
 }
 
 .right-panel {

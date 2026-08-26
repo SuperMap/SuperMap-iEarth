@@ -224,4 +224,39 @@
 
 /**================底部布局：操作按钮==End===================*/
 
+/**================阿拉伯语RTL镜像适配==Start===================*/
+// margin-left/right、padding-left/right 在RTL下需要镜像互换，避免间距错乱或内容被遮挡
+html[dir='rtl'] {
+  // .check-box-new：颜色选择器的左侧间距 -> 右侧
+  .row-wrap .content .check-box-new .n-color-picker {
+    margin-left: 0;
+    margin-right: 0.2rem;
+  }
+
+  // .n-radio-group：首个radio的右侧间距 -> 左侧
+  .row-wrap .content .n-radio-group .n-radio:first-child {
+    margin-right: 0;
+    margin-left: 0.6rem;
+  }
+
+  // .slider-box-new：数字输入框的左右间距镜像
+  .row-wrap .content .slider-box-new .n-input-number {
+    margin: 0rem 0.08rem 0rem -0.1rem;
+  }
+  .row-wrap .content .slider-box-new .n-input-number .n-input .n-input-wrapper {
+    padding-left: 0;
+    padding-right: 0rem;
+  }
+
+  // .row-btns：按钮的右侧间距 -> 左侧
+  .row-btns .n-button {
+    margin-right: 0;
+    margin-left: 0.1rem;
+  }
+  .row-btns .n-button:last-child {
+    margin-left: 0rem;
+  }
+}
+/**================阿拉伯语RTL镜像适配==End===================*/
+
 /** ==========================================布局样式==End====================================================== */
