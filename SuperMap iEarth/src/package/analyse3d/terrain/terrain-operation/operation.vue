@@ -111,10 +111,12 @@ let digPisitions, removeEdit;
 let comList = reactive([
   {
     name: $t("terrainExcavate"),
+    type: "dig",
     isSelect: true,
   },
   {
     name: $t("terrainChange"),
+    type: "modify",
     isSelect: false,
   },
 ]);
@@ -202,18 +204,10 @@ function removeEditHandler() {
 // 点击切换项目
 function changeItem(item: any) {
   comList.map((itemObj) => {
-    if (itemObj.name == item.name) {
-      itemObj.isSelect = true;
-    } else {
-      itemObj.isSelect = false;
-    }
+    itemObj.isSelect = (itemObj.type === item.type);
   });
 
-  if (item.name === "地形开挖") {
-    state.operationType = "dig";
-  } else {
-    state.operationType = "modify";
-  }
+  state.operationType = item.type;
 
   state.isEdit = false;
   state.isEditZ = false;
