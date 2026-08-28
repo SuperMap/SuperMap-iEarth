@@ -145,7 +145,13 @@ function handleSceneContent(config) {
   const layerTreeData = config.layerTreeData;
   const bindiEarthData = config.bindiEarthData;
   const webSceneContent = config.webSceneContent;
+  const credentialOptions = config.credentialOptions;
   if (!sceneInfo && !webSceneContent) return;
+
+  // 添加图层前先配置Credential
+  if (credentialOptions && credentialOptions.length >= 1 && (typeof credentialManager !== 'undefined')) {
+    credentialManager.setCredentialOptions(credentialOptions)
+  }
 
   // 打开场景：走之前iEarth的场景保存逻辑
   if (sceneInfo) { 
@@ -519,13 +525,20 @@ function computedRequireInfoFromData(data) {
     bindiEarthData = data.content.bindiEarthData
   }
 
+  // 获取credentialOptions
+  let credentialOptions: any = undefined;
+  if (data.content && data.content.credentialOptions) {
+    credentialOptions = data.content.credentialOptions
+  }
+
   // 所需的信息
   const requireInfo = {
     // 当导入的是WebScene保存的场景时，不走iEarth之前保存的那套，优先走WebScene通道
     sceneInfo: webSceneContent ? undefined : sceneInfo,
     webSceneContent: webSceneContent,
     layerTreeData: layerTreeData,
-    bindiEarthData: bindiEarthData
+    bindiEarthData: bindiEarthData,
+    credentialOptions: credentialOptions,
   }
 
   return requireInfo;

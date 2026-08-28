@@ -56,6 +56,9 @@ declare interface Window {
 
   // 用于保存汇报演示的内容
   pptContentForIPortalSave: any,
+
+  // token 管理器
+  credentialManager:any,
 }
 
 //全局声明Cesium和viewer
@@ -82,3 +85,6 @@ declare var iEarthCustomFunc : window.iEarthCustomFunc;
 declare var OpenConfig : window.OpenConfig;
 declare var SceneConfig : window.SceneConfig;
 declare var AIFunction : window.AIFunction;
+declare var credentialManager : window.credentialManager
+
+

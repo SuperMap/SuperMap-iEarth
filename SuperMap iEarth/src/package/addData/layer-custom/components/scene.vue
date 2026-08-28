@@ -31,10 +31,10 @@
   <!-- 添加Token -->
   <div class="row-wrap">
     <div class="content">
-      <n-checkbox v-model:checked="state.token"> {{ $t("addToken") }} </n-checkbox>
+      <n-checkbox v-model:checked="state.useToken"> {{ $t("addToken") }} </n-checkbox>
     </div>
     <div class="content">
-      <n-input v-if="state.token" v-model:value="state.sceneToken" type="text" placeholder="token..." />
+      <n-input v-if="state.useToken" v-model:value="state.sceneToken" type="text" placeholder="token..." />
     </div>
   </div>
 
@@ -50,10 +50,6 @@ import { reactive, onBeforeUnmount } from "vue";
 import tool from "@/tools/tool";
 import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
 
-onBeforeUnmount(()=>{
-  // 移除token
-  SuperMap3D.Credential.CREDENTIAL = null;
-})
 
 const state = reactive<any>({
   urlFormatTip: UrlFormatEnum.RealSpace,
@@ -61,7 +57,7 @@ const state = reactive<any>({
   sceneUrl: '',
   sceneName: '',
   sceneToken: '',
-  token: false,
+  useToken: false,
   subdomains:'',
   sceneNameOptions:[]
 })
@@ -103,10 +99,12 @@ function openScene() {
     return;
   }
 
-  if (state.token) {
-    SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-      state.sceneToken
-    );
+  if (state.useToken && (typeof credentialManager !== 'undefined')) {
+    credentialManager.addToken({
+      url: state.sceneUrl,
+      token: state.sceneToken,
+      type: "token"
+    });
   }
 
   let list = state.subdomains.split(',');
@@ -167,7 +165,7 @@ function openScene() {
 function clear() {
   state.sceneUrl = "";
   state.sceneToken = "";
-  state.token = false;
+  state.useToken = false;
   state.sceneName = '';
   state.sceneNameOptions = [];
 }

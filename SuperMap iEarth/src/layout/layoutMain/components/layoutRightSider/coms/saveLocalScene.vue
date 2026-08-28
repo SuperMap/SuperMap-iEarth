@@ -229,13 +229,20 @@ async function saveScene(){
     sceneInfo = await sceneConfig.computedSceneInfo();
   }
 
+  // 获取当前场景中的token许可信息
+  let credentialOptions = undefined;
+  if(typeof credentialManager !== 'undefined'){
+    credentialOptions = credentialManager.getCredentialOptions();
+  }
+
   const layerTreeData = computedLayerTreeData(); // 图层列表数据
   const bindiEarthData = computedBindData(); // 绑定在window上iEarth需要的数据
   const sceneContent = {
     version: "2.1",
     sceneInfo:sceneInfo,
     layerTreeData:layerTreeData,
-    bindiEarthData:bindiEarthData
+    bindiEarthData:bindiEarthData,
+    credentialOptions: credentialOptions
   }
   let saveData = { // 场景保存参数设置
     name: name || '',

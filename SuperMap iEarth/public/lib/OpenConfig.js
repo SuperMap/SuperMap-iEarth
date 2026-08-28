@@ -369,13 +369,6 @@ class OpenConfig {
         const name = s3mOption.name;
         const isExist = this.scene.layers.find(name); // 当前S3M不存在时添加
 
-        // 判断token
-        if (s3mOption.token) {
-          SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-            s3mOption.token
-          );
-        }
-
         // 判断是否为iPortal代理服务,需要跨域请求,必须携带Cooike
         if (url.includes("/portalproxy/")) {
           this.setTrustedServers(url);

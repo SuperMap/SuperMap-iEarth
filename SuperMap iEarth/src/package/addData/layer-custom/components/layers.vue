@@ -34,7 +34,7 @@
       <n-checkbox v-model:checked="state.useToken" :label="$t('addToken')" />
     </div>
     <div class="content">
-      <n-input v-if="state.useToken" v-model:value="state.sceneToken" type="text" placeholder="token..." />
+      <n-input v-if="state.useToken" v-model:value="state.layerToken" type="text" placeholder="token..." />
     </div>
   </div>
 
@@ -82,11 +82,6 @@ import axios from 'axios';
 import xml2js from 'xml2js';
 import tool from "@/tools/tool";
 import { UrlFormatEnum, UrlRegexEnum } from "@/enums/regexEnum";
-
-onBeforeUnmount(()=>{
-  // 移除token
-  SuperMap3D.Credential.CREDENTIAL = null;
-})
 
 // 自定义图层类型枚举
 enum LayerTypeEnum {
@@ -164,7 +159,7 @@ const columns = ref([
 const state = reactive<any>({
   layerType: LayerTypeEnum.S3M,
   useToken: false,
-  sceneToken: "",
+  layerToken: "",
   layerUrl: "",
   layerName: "",
   inputUrlStatus: undefined,
@@ -192,7 +187,7 @@ function clear() {
   state.layerUrl = "";
   state.layerName = "";
   state.useToken = false;
-  state.sceneToken = "";
+  state.layerToken = "";
 
   state.wmtsLayerName = "";
   state.wmtsLayerOptions = [];
@@ -211,10 +206,12 @@ function openLayer() {
     window["$message"].warning($t("urlIsNull"));
     return;
   }
-  if (state.useToken) {
-    SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential(
-      state.sceneToken
-    );
+  if (state.useToken && (typeof credentialManager !== 'undefined')) {
+    credentialManager.addToken({
+      url: state.layerUrl,
+      token: state.layerToken,
+      type: "token"
+    });
   }
 
 
