@@ -1,13 +1,12 @@
 /**
  * 凭证管理器
  * 基于全局 SuperMap3D.Credential.CREDENTIAL 进行增量增删，无需重建实例
+ * 构造时不初始化 CREDENTIAL，addToken 时惰性创建
  */
 class CredentialManager {
   constructor() {
-    // 确保全局凭证实例已初始化
-    if (!SuperMap3D.Credential.CREDENTIAL) {
-      SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential([]);
-    }
+    // 不初始化全局 SuperMap3D.Credential.CREDENTIAL，保持其为 null
+    // addToken 时若 CREDENTIAL 为 null 则惰性创建
   }
 
   /**
@@ -39,6 +38,10 @@ class CredentialManager {
       console.warn('CredentialManager.addToken: option.url 和 option.token 必填');
       return;
     }
+    // CREDENTIAL 为 null 时惰性创建
+    if (!SuperMap3D.Credential.CREDENTIAL) {
+      SuperMap3D.Credential.CREDENTIAL = new SuperMap3D.Credential([]);
+    }
     const credType = type || 'token';
     const key = this._extractKey(url);
     const keymap = SuperMap3D.Credential.CREDENTIAL._keymap;
@@ -63,6 +66,7 @@ class CredentialManager {
    */
   deleteToken(url) {
     if (!url) return;
+    if (!SuperMap3D.Credential.CREDENTIAL) return;
     const key = this._extractKey(url);
     const keymap = SuperMap3D.Credential.CREDENTIAL._keymap;
     delete keymap[key];
@@ -78,6 +82,7 @@ class CredentialManager {
    * @returns {Array} 适合传给 new SuperMap3D.Credential 的配置数组
    */
   getCredentialOptions() {
+    if (!SuperMap3D.Credential.CREDENTIAL) return [];
     const keymap = SuperMap3D.Credential.CREDENTIAL._keymap;
     const options: any = [];
     for (const key in keymap) {
