@@ -1,0 +1,421 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "babylon.js glTF exporter for 3dsmax 2023 v20221031.2"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "nodes": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "translation": [
+        -0.004364282,
+        0.02583599,
+        9.03536034e-7
+      ],
+      "rotation": [
+        7.55897958e-8,
+        -4.387029e-8,
+        -0.00210590637,
+        0.9999978
+      ],
+      "scale": [
+        1.00000048,
+        1,
+        1.00000048
+      ],
+      "name": "Main_Body"
+    },
+    {
+      "mesh": 1,
+      "translation": [
+        -0.004364282,
+        0.02583599,
+        9.03536034e-7
+      ],
+      "rotation": [
+        -4.371139e-8,
+        -4.371139e-8,
+        4.371139e-8,
+        1
+      ],
+      "name": "Main_Body_",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "mesh": 2,
+      "translation": [
+        -0.004364282,
+        0.02583599,
+        9.03536034e-7
+      ],
+      "rotation": [
+        7.55897958e-8,
+        -4.387029e-8,
+        -0.00210590637,
+        0.9999978
+      ],
+      "scale": [
+        1.00000012,
+        1,
+        1.00000012
+      ],
+      "name": "gun"
+    },
+    {
+      "mesh": 3,
+      "translation": [
+        -0.004364282,
+        0.02583599,
+        9.03536034e-7
+      ],
+      "rotation": [
+        -4.371139e-8,
+        -4.371139e-8,
+        4.371139e-8,
+        1
+      ],
+      "name": "Turret",
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 1,
+            "NORMAL": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 0,
+          "material": 0,
+          "mode": 4,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 0,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ],
+      "name": "Main_Body"
+    },
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 5,
+            "NORMAL": 6,
+            "TEXCOORD_0": 7
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 1,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ],
+      "name": "Main_Body_"
+    },
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 9,
+            "NORMAL": 10,
+            "TEXCOORD_0": 11
+          },
+          "indices": 8,
+          "material": 0,
+          "mode": 4,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 2,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ],
+      "name": "gun"
+    },
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 13,
+            "NORMAL": 14,
+            "TEXCOORD_0": 15
+          },
+          "indices": 12,
+          "material": 0,
+          "mode": 4,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 3,
+              "attributes": {
+                "POSITION": 0,
+                "NORMAL": 1,
+                "TEXCOORD_0": 2
+              }
+            }
+          }
+        }
+      ],
+      "name": "Turret"
+    }
+  ],
+  "accessors": [
+    {
+      "componentType": 5123,
+      "count": 4782,
+      "type": "SCALAR",
+      "name": "accessorIndices"
+    },
+    {
+      "componentType": 5126,
+      "count": 4558,
+      "max": [
+        1.0521997070133675,
+        1.3292972898736495,
+        4.164854880058598
+      ],
+      "min": [
+        -1.0497548800585974,
+        0.30014511994140264,
+        -1.6498548800585973
+      ],
+      "type": "VEC3",
+      "name": "accessorPositions"
+    },
+    {
+      "componentType": 5126,
+      "count": 4558,
+      "type": "VEC3",
+      "name": "accessorNormals"
+    },
+    {
+      "componentType": 5126,
+      "count": 4558,
+      "type": "VEC2",
+      "name": "accessorUVs"
+    },
+    {
+      "componentType": 5123,
+      "count": 18540,
+      "type": "SCALAR",
+      "name": "accessorIndices"
+    },
+    {
+      "componentType": 5126,
+      "count": 17650,
+      "max": [
+        1.641641547013978,
+        1.593154380838943,
+        4.732829852974425
+      ],
+      "min": [
+        -1.6327848829744247,
+        -0.0017596861744247085,
+        -2.3034294329744247
+      ],
+      "type": "VEC3",
+      "name": "accessorPositions"
+    },
+    {
+      "componentType": 5126,
+      "count": 17650,
+      "type": "VEC3",
+      "name": "accessorNormals"
+    },
+    {
+      "componentType": 5126,
+      "count": 17650,
+      "type": "VEC2",
+      "name": "accessorUVs"
+    },
+    {
+      "componentType": 5123,
+      "count": 19065,
+      "type": "SCALAR",
+      "name": "accessorIndices"
+    },
+    {
+      "componentType": 5126,
+      "count": 18225,
+      "max": [
+        0.7753524323994385,
+        2.6482712262711345,
+        1.066114875175487
+      ],
+      "min": [
+        0.4921851248245132,
+        2.3363851248245133,
+        -0.8161148751754868
+      ],
+      "type": "VEC3",
+      "name": "accessorPositions"
+    },
+    {
+      "componentType": 5126,
+      "count": 18225,
+      "type": "VEC3",
+      "name": "accessorNormals"
+    },
+    {
+      "componentType": 5126,
+      "count": 18225,
+      "type": "VEC2",
+      "name": "accessorUVs"
+    },
+    {
+      "componentType": 5123,
+      "count": 17595,
+      "type": "SCALAR",
+      "name": "accessorIndices"
+    },
+    {
+      "componentType": 5126,
+      "count": 17191,
+      "max": [
+        1.4967513680260027,
+        3.1106530042696696,
+        3.6740148169834583
+      ],
+      "min": [
+        -1.4806923969834584,
+        0.2958578130165415,
+        -4.732915406983459
+      ],
+      "type": "VEC3",
+      "name": "accessorPositions"
+    },
+    {
+      "componentType": 5126,
+      "count": 17191,
+      "type": "VEC3",
+      "name": "accessorNormals"
+    },
+    {
+      "componentType": 5126,
+      "count": 17191,
+      "type": "VEC2",
+      "name": "accessorUVs"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 11600
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 11600,
+      "byteLength": 36718
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 48320,
+      "byteLength": 46520
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 94840,
+      "byteLength": 36086
+    }
+  ],
+  "buffers": [
+    {
+      "name": "t-90_blue",
+      "byteLength": 130928,
+      "uri": "t-90_blue.bin"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.450053632,
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "name": "Material #4",
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "alphaMode": "OPAQUE",
+      "doubleSided": false
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0,
+      "name": "BlueUV.jpg"
+    }
+  ],
+  "images": [
+    {
+      "name": "BlueUV",
+      "uri": "BlueUV.jpg"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "extensionsRequired": [
+    "KHR_draco_mesh_compression"
+  ],
+  "extensionsUsed": [
+    "KHR_draco_mesh_compression"
+  ]
+}

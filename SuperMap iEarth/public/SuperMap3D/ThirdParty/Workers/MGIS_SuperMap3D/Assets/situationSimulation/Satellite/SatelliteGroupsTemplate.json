@@ -1,0 +1,72 @@
+{
+    "groups":[
+        {
+            "groupName": "DefaultSatellite",
+            "modelPath": "Assets/situationSimulation/Satellite/SatelliteModel/DefaultSatellite/DefaultSatellite.png",
+            "modelScale": 0.3,
+            "visible": false,
+            "orbitsVisible": false,
+            "orbitsWidth": 0.5,
+            "orbitsColor": "rgba(204,204,51,0.39)",
+            "tleFilePaths": [
+            "Assets/situationSimulation/Satellite/DefaultSatellite/Chinese ASAT Test Debris.tle",
+            "Assets/situationSimulation/Satellite/DefaultSatellite/Globalstar.tle",
+            "Assets/situationSimulation/Satellite/DefaultSatellite/Weather.tle",
+            "Assets/situationSimulation/Satellite/DefaultSatellite/Earth Resources.tle"
+            ],
+			"isAutoUpdateOrbits": false
+        },
+        {
+            "groupName": "GPS",
+            "modelPath": "Assets/situationSimulation/Satellite/SatelliteModel/WeiXing4/WeiXing4.gltf",
+            "modelScale": 1800000,
+            "visible": false,
+            "orbitsVisible": false,
+            "orbitsWidth": 0.5,
+            "orbitsColor": "rgba(0,182,239,0.6)",
+            "tleFilePaths": [
+            "Assets/situationSimulation/Satellite/GPS.tle"
+            ],
+			"isAutoUpdateOrbits": true
+        },
+        {
+            "groupName": "BEIDOU",
+            "modelPath": "Assets/situationSimulation/Satellite/SatelliteModel/WeiXing1/WeiXing1.gltf",
+            "modelScale": 900000,
+            "visible": false,
+            "orbitsVisible": false,
+            "orbitsWidth": 0.5,
+            "orbitsColor": "rgba(219,266,242,0.6)",
+            "tleFilePaths": [
+            "Assets/situationSimulation/Satellite/BEIDOU.tle"
+            ],
+			"isAutoUpdateOrbits": true
+        },
+        {
+            "groupName": "GALILEO",
+            "modelPath": "Assets/situationSimulation/Satellite/SatelliteModel/WeiXing2/WeiXing2.gltf",
+            "modelScale": 1800000,
+            "visible": false,
+            "orbitsVisible": false,
+            "orbitsWidth": 0.5,
+            "orbitsColor": "rgba(0,266,266,0.6)",
+            "tleFilePaths": [
+            "Assets/situationSimulation/Satellite/GALILEO.tle"
+            ],
+			"isAutoUpdateOrbits": true
+        },
+        {
+            "groupName": "GLONASS",
+            "modelPath": "Assets/situationSimulation/Satellite/SatelliteModel/WeiXing3/WeiXing3.gltf",
+            "modelScale": 1400000,
+            "visible": false,
+            "orbitsVisible": false,
+            "orbitsWidth": 0.5,
+            "orbitsColor": "rgba(177,137,79,0.6)",
+            "tleFilePaths": [
+            "Assets/situationSimulation/Satellite/GLONASS.tle"
+            ],
+			"isAutoUpdateOrbits": true
+        }
+    ]
+}

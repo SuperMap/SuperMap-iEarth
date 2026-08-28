@@ -1,0 +1,166 @@
+{
+    "name": "particles",
+    "id": "particles",
+    "capacity": 1000,
+    "disposeOnStop": true,
+    "manualEmitCount": -1,
+    "emitter": [
+        0,
+        0,
+        0
+    ],
+    "particleEmitterType": {
+        "type": "ConeParticleEmitter",
+		"radius": 1,
+		"angle": 0.1,
+		"directionRandomizer": 0,
+		"emitFromSpawnPointOnly": true
+    },
+    "texture": {
+        "tags": null,
+        "url": "./texture/fire.png",
+        "uOffset": 0,
+        "vOffset": 0,
+        "uScale": 1,
+        "vScale": 1,
+        "uAng": 0,
+        "vAng": 0,
+        "wAng": 0,
+        "uRotationCenter": 1,
+        "vRotationCenter": 1,
+        "wRotationCenter": 1,
+        "homogeneousRotationInUVTransform": false,
+        "isBlocking": true,
+        "name": "Fire",
+        "hasAlpha": false,
+        "getAlphaFromRGB": false,
+        "level": 1,
+        "coordinatesIndex": 0,
+        "coordinatesMode": 0,
+        "wrapU": 1,
+        "wrapV": 1,
+        "wrapR": 1,
+        "anisotropicFilteringLevel": 4,
+        "isCube": false,
+        "is3D": false,
+        "is2DArray": false,
+        "gammaSpace": true,
+        "invertZ": false,
+        "lodLevelInAlpha": false,
+        "lodGenerationOffset": 0,
+        "lodGenerationScale": 0,
+        "linearSpecularLOD": false,
+        "isRenderTarget": false,
+        "animations": [],
+        "invertY": false,
+        "samplingMode": 3,
+        "_useSRGBBuffer": false
+    },
+    "isLocal": false,
+    "animations": [],
+    "beginAnimationOnStart": false,
+    "beginAnimationFrom": 0,
+    "beginAnimationTo": 0,
+    "beginAnimationLoop": false,
+    "startDelay": 0,
+    "renderingGroupId": 0,
+    "isBillboardBased": true,
+    "billboardMode": 7,
+    "minAngularSpeed": 0,
+    "maxAngularSpeed": 0,
+    "minSize": 1,
+    "maxSize": 1,
+    "minScaleX": 5,
+    "maxScaleX": 5,
+    "minScaleY": 5,
+    "maxScaleY": 5,
+    "minEmitPower": 50,
+    "maxEmitPower": 100,
+    "minLifeTime": 0.1,
+    "maxLifeTime": 0.5,
+    "emitRate": 2000,
+    "gravity": [
+        0,
+        0,
+        0
+    ],
+    "noiseStrength": [
+        0,
+        0,
+        0
+    ],
+    "color1": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "color2": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "colorDead": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "updateSpeed": 0.01,
+    "targetStopDuration": 0,
+    "blendMode": 4,
+    "preWarmCycles": 0,
+    "preWarmStepOffset": 10,
+    "minInitialRotation": -0.1,
+    "maxInitialRotation": 0.1,
+    "startSpriteCellID": 0,
+    "spriteCellLoop": true,
+    "endSpriteCellID": 16,
+    "spriteCellChangeSpeed": 1,
+    "spriteCellWidth": 128,
+    "spriteCellHeight": 128,
+    "spriteRandomStartCell": true,
+    "isAnimationSheetEnabled": true,
+    "colorGradients": [
+        {
+            "gradient": 0,
+            "color1": [
+                0.8,
+                0.8,
+                0.8,
+                0.6
+            ]
+        },
+        {
+            "gradient": 1,
+            "color1": [
+                0.1,
+                0.1,
+                0.1,
+                0.2
+            ]
+        }
+    ],
+	"sizeGradients": [
+		{
+			"gradient": 0,
+			"factor1": 1.2
+		},
+		{
+			"gradient": 1,
+			"factor1": 1.0
+		}
+	],
+	"useRampGradients": false,
+    "rampGradients": [],   
+    "colorRemapGradients": [],
+    "textureMask": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "customShader": null,
+    "preventAutoStart": false
+}

@@ -1,0 +1,166 @@
+{
+    "name": "particles",
+    "id": "particles",
+    "capacity": 600,
+    "disposeOnStop": true,
+    "manualEmitCount": -1,
+    "emitter": [
+        0,
+        0,
+        0
+    ],
+    "particleEmitterType": {
+        "type": "ConeParticleEmitter",
+		"radius": 1,
+		"angle": 0.15,
+		"directionRandomizer": 0
+    },
+    "texture": {
+        "tags": null,
+        "url": "./texture/tailgas.png",
+        "uOffset": 0,
+        "vOffset": 0,
+        "uScale": 1,
+        "vScale": 1,
+        "uAng": 0,
+        "vAng": 0,
+        "wAng": 0,
+        "uRotationCenter": 0,
+        "vRotationCenter": 0,
+        "wRotationCenter": 0,
+        "homogeneousRotationInUVTransform": false,
+        "isBlocking": true,
+        "name": "Tailgas",
+        "hasAlpha": false,
+        "getAlphaFromRGB": false,
+        "level": 1,
+        "coordinatesIndex": 0,
+        "coordinatesMode": 0,
+        "wrapU": 1,
+        "wrapV": 1,
+        "wrapR": 1,
+        "anisotropicFilteringLevel": 4,
+        "isCube": false,
+        "is3D": false,
+        "is2DArray": false,
+        "gammaSpace": true,
+        "invertZ": false,
+        "lodLevelInAlpha": false,
+        "lodGenerationOffset": 0,
+        "lodGenerationScale": 0,
+        "linearSpecularLOD": false,
+        "isRenderTarget": false,
+        "animations": [],
+        "invertY": true,
+        "samplingMode": 3,
+        "_useSRGBBuffer": false
+    },
+    "isLocal": false,
+    "animations": [],
+    "startDelay": 0,
+    "renderingGroupId": 0,
+    "isBillboardBased": true,
+    "billboardMode": 7,
+    "minAngularSpeed": 0,
+    "maxAngularSpeed": 0,
+    "minSize": 1,
+    "maxSize": 1,
+    "minScaleX": 2,
+    "maxScaleX": 2,
+    "minScaleY": 2,
+    "maxScaleY": 2,
+    "minEmitPower": 5,
+    "maxEmitPower": 8,
+    "minLifeTime": 0.3,
+    "maxLifeTime": 6,
+    "emitRate": 300,
+    "gravity": [
+        0,
+        0,
+        0
+    ],
+    "noiseStrength": [
+        0,
+        0,
+        0
+    ],
+    "color1": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "color2": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "colorDead": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "updateSpeed": 0.01,
+    "targetStopDuration": 0,
+    "blendMode": 1,
+    "preWarmCycles": 50,
+    "preWarmStepOffset": 1,
+    "minInitialRotation": 0,
+    "maxInitialRotation": 0,
+    "startSpriteCellID": 0,
+    "spriteCellLoop": true,
+    "endSpriteCellID": 1,
+    "spriteCellChangeSpeed": 0,
+    "spriteCellWidth": 256,
+    "spriteCellHeight": 256,
+    "spriteRandomStartCell": true,
+    "isAnimationSheetEnabled": false,
+    "colorGradients": [
+        {
+            "gradient": 0,
+            "color1": [
+                1,
+                1,
+                1,
+                1
+            ]
+        },
+        {
+            "gradient": 1,
+            "color1": [
+                0.86,
+                0.86,
+                0.86,
+                0.3
+            ]
+        }
+    ],
+	"sizeGradients": [
+		{
+			"gradient": 0,
+			"factor1": 1
+		},
+		{
+			"gradient": 0.1,
+			"factor1": 3
+		},
+		{
+			"gradient": 0.3,
+			"factor1": 3
+		},
+		{
+			"gradient": 1,
+			"factor1": 8
+		}
+	],
+    "textureMask": [
+        1,
+        1,
+        1,
+        1
+    ],
+    "customShader": null,
+    "preventAutoStart": true
+}
