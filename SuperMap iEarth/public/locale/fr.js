@@ -26,6 +26,8 @@ const local_fr = {
   "w_zoomIn": "agrandir",
   "w_fullScreen": "plein écran",
   "w_home": "première page",
+  "w_saveToIPortal": "Enregistrer la scène dans iPortal",
+  "w_saveToLocalJSON": "Enregistrer la scène sous forme de fichier JSON local",
   "t_layerList": "Liste des calques",
   "t_addData": "Ajouter des données",
   "t_analyse3d": "Analyse 3D",

@@ -63,7 +63,10 @@
         ></i>
       </span>
       <span class="icon-container" @click="saveScene">
-        <i class="iconfont iconbaocun" title="将场景保存至iPortal中"></i>
+        <i
+          class="iconfont iconbaocun"
+          :title="$t('w_saveToIPortal')"
+        ></i>
       </span>
     </div>
 
@@ -71,7 +74,10 @@
     <div class="too-bar two-tool-bar" v-else>
       <openLocalSence></openLocalSence>
       <span class="icon-container" @click="saveScene">
-        <i class="iconfont iconbaocun" title="将场景保存为本地JSON文件"></i>
+        <i
+          class="iconfont iconbaocun"
+          :title="$t('w_saveToLocalJSON')"
+        ></i>
       </span>
     </div>
 

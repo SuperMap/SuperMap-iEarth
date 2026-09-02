@@ -26,6 +26,8 @@ const local_es = {
   "w_zoomIn": "agrandar",
   "w_fullScreen": "pantalla completa",
   "w_home": "página delantera",
+  "w_saveToIPortal": "Guardar la escena en iPortal",
+  "w_saveToLocalJSON": "Guardar la escena como archivo JSON local",
   "t_layerList": "Lista de capas",
   "t_addData": "Agregar datos",
   "t_analyse3d": "análisis 3D",
