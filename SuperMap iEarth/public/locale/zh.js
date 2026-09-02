@@ -35,6 +35,8 @@ const local_zh = {
         w_zoomIn: '放大',
         w_fullScreen: '全屏',
         w_home: '首页',
+        w_saveToIPortal: '将场景保存至iPortal中',
+        w_saveToLocalJSON: '将场景保存为本地JSON文件',
 
         // toolBar 侧边栏
         t_layerList: '图层列表',

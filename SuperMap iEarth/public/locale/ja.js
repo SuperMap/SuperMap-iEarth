@@ -35,6 +35,8 @@ const local_ja = {
     w_zoomIn: '拡大',
     w_fullScreen: '全画面',
     w_home: 'ホームページ',
+    w_saveToIPortal: 'シーンをiPortalに保存',
+    w_saveToLocalJSON: 'シーンをローカルJSONファイルとして保存',
 
     // toolBar 侧边栏
     t_layerList: 'レイヤーリスト',

@@ -26,6 +26,8 @@ const local_ar = {
     "w_zoomIn": "تكبير",
     "w_fullScreen": "ملء الشاشة",
     "w_home": "الرئيسية",
+    "w_saveToIPortal": "حفظ المشهد في iPortal",
+    "w_saveToLocalJSON": "حفظ المشهد كملف JSON محلي",
     "t_layerList": "قائمة الطبقات",
     "t_addData": "إضافة بيانات",
     "t_analyse3d": "تحليل ثلاثي الأبعاد",
