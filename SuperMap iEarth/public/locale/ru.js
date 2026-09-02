@@ -26,6 +26,8 @@ const local_ru = {
   "w_zoomIn": "Приблизить",
   "w_fullScreen": "Полный экран",
   "w_home": "На главную",
+  "w_saveToIPortal": "Сохранить сцену в ЦИКЛОН ГИС-портал",
+  "w_saveToLocalJSON": "Сохранить сцену как локальный файл JSON",
   "t_layerList": "Список слоёв",
   "t_addData": "Добавить данные",
   "t_analyse3d": "3D-анализ",

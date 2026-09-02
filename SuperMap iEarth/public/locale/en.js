@@ -35,6 +35,8 @@ const local_en = {
     w_zoomIn: 'Zoom In',
     w_fullScreen: 'Full Screen',
     w_home: 'Home',
+    w_saveToIPortal: 'Save scene to iPortal',
+    w_saveToLocalJSON: 'Save scene as a local JSON file',
 
     // toolBar 侧边栏
     t_layerList: 'Layer List',
