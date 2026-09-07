@@ -382,6 +382,8 @@ function computedBindData(){
 
   bindData["mediaResourceOptions"] = window.iEarthBindData.mediaResourceOptions; // 弹窗媒体资源
 
+  bindData["qxSingleOptions"] = window.iEarthBindData.qxSingleOptions; // 倾斜单体化配置
+
   bindData["bubbleFields"] = window.iEarthBindData.bubbleFields; // DB属性查询过滤字段 
 
   bindData["iPortalToken"] = window.iEarthBindData.iPortalToken; // iPortal申请的Token

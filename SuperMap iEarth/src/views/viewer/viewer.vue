@@ -32,6 +32,7 @@ window.iEarthBindData = {
   mapQueryOptions:[],// 地图查询相关资源相关保存
   EnvironmentMode:'Normal', // iEarth当前所处的环境模式：Normal普通环境，iPortal环境
   mediaResourceOptions:{},
+  qxSingleOptions:[], // 倾斜单体化配置（以S3M图层名为键保存）
   bubbleFields:undefined, // DB属性查询过滤字段 
   originParam:{},
   iPortalToken:'', // 在iPortal中申请的Token令牌
@@ -109,7 +110,7 @@ function initViewer() {
     animation: false, // 动画小组件
     infoBox: false, // 信息框
     shadows: false, //不能开启
-    pcss: true, // UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
+    pcss: false, // UE阴影 设置为false，使用原来的软阴影效果；设置为true，实现了新的阴影算法，可以大幅度提升阴影边界的质量，看起来会非常柔和，没有锯齿。这个设置webgl2.0默认开启了。
     shadowQuality: 0,
     creditContainer: document.createElement("div"), //去掉底部logo
   });

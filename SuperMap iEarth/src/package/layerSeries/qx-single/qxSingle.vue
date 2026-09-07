@@ -65,7 +65,7 @@
     <div class="row-btns">
       <n-button @click="singleQuery" class="operate" type="info" :focusable="false">{{
       $t("query") }}</n-button>
-      <n-button @click="clear" :focusable="false">{{ $t("clear") }}</n-button>
+      <n-button @click="handleClear" :focusable="false">{{ $t("clear") }}</n-button>
     </div>
 
 
@@ -142,14 +142,30 @@ type StateType = {
   urlFormatTip:string;
 };
 
-// 倾斜图层URL:http://www.supermapol.com/realspace/services/3D-dynamicDTH-2/rest/realspace/datas/Config%20-%201/config
+// 外网测试服务相机定位
+/**
+  viewer.camera.setView({
+      "destination": {
+          "x": -2627054.763625151,
+          "y": 3933770.921498471,
+          "z": 4265341.9219124345
+      },
+      "orientation": {
+          "heading": 0.00008688477693308272,
+          "pitch": -1.2812944766272527,
+          "roll": 0.000001028588609841563
+      }
+  })
+ */
+
+// 倾斜图层URL:https://www.supermapol.com/realspace/services/3D-dynamicDTH-2/rest/realspace/datas/Config%20-%201/config
 const state = reactive<StateType>({
-  // dataServiceUrl: 'http://172.16.120.103:8090/iserver/services/data-dynamicDTH/rest/data',
+  // dataServiceUrl: 'https://172.16.120.103:8090/iserver/services/data-dynamicDTH/rest/data',
   // dataSourceName: '铁岭矢量面',
   // dataSetName: 'New_Region3D_1',
-  // dataServiceUrl: 'http://www.supermapol.com/realspace/services/data-FCFH_Shangdong/rest/data',
-  // dataSourceName: 'mian',
-  // dataSetName: 'mian',
+  // dataServiceUrl: "https://www.supermapol.com/realspace/services/data-dynamicDTH-2/rest/data",
+  // dataSourceName: '铁岭矢量面',
+  // dataSetName: 'New_Region3D_1',
   dataServiceUrl: "",
   dataSourceName: "",
   dataSetName: "",
@@ -215,9 +231,87 @@ const mediaPanleTitle = computed(() => {
 
 const currentS3MLayerName = window.iEarthBindData.CurrentS3MLayerName;
 
+// 根据当前倾斜图层名称，从配置中匹配并填充数据服务参数
+async function fillQxSingleConfig() {
+  if (!currentS3MLayerName) return;
+  const qxSingleOptions = window.iEarthBindData?.qxSingleOptions;
+  if (qxSingleOptions && Array.isArray(qxSingleOptions)) {
+    const matched = qxSingleOptions.find(
+      (item: any) => item.name === currentS3MLayerName
+    );
+    if (matched) {
+      const url = matched.dataServiceUrl || '';
+      state.dataServiceUrl = url;
+
+      // 根据配置的URL计算数据源选项
+      if (url) {
+        const regexResult = tool.checkUrlByRegex(url, UrlRegexEnum.DataService);
+        if (regexResult && regexResult.isPass && regexResult.matchInfo) {
+          const result = await tool.computedDataSourceOptions(url);
+          if (result && result.length > 0) {
+            state.dataSourceOptions = result;
+          }
+        }
+      }
+
+      // 设置数据源名称，watch会自动触发数据集选项的计算
+      state.dataSourceName = matched.dataSourceName || '';
+      state.dataSetName = matched.dataSetName || '';
+      return;
+    }
+  }
+  // 未匹配到配置，使用默认值让用户自行输入
+  state.dataServiceUrl = '';
+  state.dataSourceName = '';
+  state.dataSetName = '';
+}
+
+// 将当前单体化配置保存到window.iEarthBindData（以当前倾斜图层名称为键，已存在则更新）
+function saveQxSingleOptions() {
+  if (!currentS3MLayerName) return;
+  if (!Array.isArray(window.iEarthBindData.qxSingleOptions)) {
+    window.iEarthBindData.qxSingleOptions = [];
+  }
+  const config = {
+    name: currentS3MLayerName,
+    dataServiceUrl: state.dataServiceUrl,
+    dataSourceName: state.dataSourceName,
+    dataSetName: state.dataSetName,
+  };
+  const matched = window.iEarthBindData.qxSingleOptions.find(
+    (item: any) => item.name === currentS3MLayerName
+  );
+  if (matched) {
+    Object.assign(matched, config); // 用户更新了参数，更新已有配置
+  } else {
+    window.iEarthBindData.qxSingleOptions.push(config);
+  }
+}
+
+// 从window.iEarthBindData.qxSingleOptions中删除当前倾斜图层的配置
+function removeQxSingleOptions() {
+  if (!currentS3MLayerName) return;
+  const qxSingleOptions = window.iEarthBindData.qxSingleOptions;
+  if (!Array.isArray(qxSingleOptions)) return;
+  const index = qxSingleOptions.findIndex(
+    (item: any) => item.name === currentS3MLayerName
+  );
+  if (index > -1) {
+    qxSingleOptions.splice(index, 1);
+  }
+}
+
+// 点击清除按钮：删除已保存的单体化配置并清除面板参数
+function handleClear() {
+  removeQxSingleOptions();
+  clear();
+}
+
 let handler = new SuperMap3D.ScreenSpaceEventHandler(scene.canvas);
 
-onMounted(() => { });
+onMounted(() => {
+  fillQxSingleConfig();
+});
 
 onBeforeUnmount(() => {
   clear();
@@ -261,6 +355,8 @@ function singleQuery() {
     return;
   }
   window["$message"].success($t("singleTip_success"));
+
+  saveQxSingleOptions(); // 将当前单体化配置保存到window.iEarthBindData
 
   handler.setInputAction(function (e: any) {
     viewer.entities.removeById("identify-area"); // 首先移除之前添加标识实体
