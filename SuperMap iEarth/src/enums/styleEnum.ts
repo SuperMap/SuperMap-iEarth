@@ -11,4 +11,5 @@ export enum LangEnum {
   JA = 'ja',
   RU = 'ru',
   AR = 'ar',
+  ZH_MO = 'zh-MO',
 }

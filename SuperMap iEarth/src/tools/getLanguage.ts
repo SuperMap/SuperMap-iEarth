@@ -9,7 +9,7 @@ export const getLanguage = () =>{
 
   // 检查当前浏览器语言是否在支持的列表中，如果不在则使用默认的语言设置
   let language = lang;
-  let supportLanguage = ['zh', 'en', 'ja', 'ru'];
+  let supportLanguage = ['zh', 'en', 'ja', 'ru', 'zh-MO'];
   if (lang_support_list && lang_support_list.length > 1) {
     supportLanguage = lang_support_list;
   }

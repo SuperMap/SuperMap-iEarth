@@ -1,4 +1,4 @@
-const lang_support_list = ["zh", "en", "ja", "ru", "es", "fr", "ar"]; // 支持浏览器自动识别的语言列表
+const lang_support_list = ["zh", "en", "ja", "ru", "es", "fr", "ar", "zh-MO"]; // 支持浏览器自动识别的语言列表（zh-HK、zh-MO、zh-TW统一视为zh-MO）
 
 const lang_data = {  // vue-i18n：createI18n中的messages
     zh:local_zh,
@@ -8,6 +8,7 @@ const lang_data = {  // vue-i18n：createI18n中的messages
     es:local_es,
     fr:local_fr,
     ar:local_ar,
+    "zh-MO":local_zh_mo,
 }
 
 const lang_default = 'en'; // 当前浏览器语言不在支持列表时的默认语言

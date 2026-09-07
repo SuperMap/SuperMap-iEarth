@@ -3,6 +3,7 @@ import { createI18n } from 'vue-i18n';
 import { getLanguage } from '@/tools/getLanguage';
 import { getRootUrl } from '@/tools/iportal/portalTools';
 import { getLocale } from '@supermapgis/portal-locale';
+import { isTraditionalChinese } from '@/utils';
 
 // 获取index.html通过<script>标签引入的语言资源文件
 const lang_data = window.lang_data;
@@ -36,8 +37,11 @@ export const initPortalLocale = async (): Promise<string | null> => {
   const uiLocale = config?.uiLocale;
   if (!uiLocale) return null;
 
+  // 繁体中文统一处理：zh-HK、zh-MO、zh-TW均视为zh-MO
+  const normalizedLocale = isTraditionalChinese(uiLocale) ? 'zh-MO' : uiLocale;
+
   // 服务端语言不在本地支持列表时（如iPortal配置了本地无资源的语言），使用默认语言
-  const target = lang_support_list.indexOf(uiLocale) !== -1 ? uiLocale : lang_default;
+  const target = lang_support_list.indexOf(normalizedLocale) !== -1 ? normalizedLocale : lang_default;
 
   if (target !== i18n.global.locale) {
     i18n.global.locale = target;

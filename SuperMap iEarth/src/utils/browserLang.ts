@@ -1,4 +1,12 @@
 /**
+ * * 判断是否为繁体中文语言（zh-HK、zh-MO、zh-TW均视为zh-MO）
+ */
+export const isTraditionalChinese = (langstr: string): boolean => {
+    const lang = (langstr || '').toLowerCase().trim();
+    return lang === 'zh-hk' || lang === 'zh-mo' || lang === 'zh-tw';
+};
+
+/**
  * * 获取当前浏览器真实的语言环境（两位字母简写）：中文 英文 日语 俄语
  */
 export const getBrowserLanguageSub = () => {
@@ -19,8 +27,11 @@ export const getBrowserLanguageSub = () => {
         });
     }
 
-    // 将浏览器语言字符串统一，返回两位：['zh', 'en', 'ja', 'ru'];
+    // 繁体中文统一处理：zh-HK、zh-MO、zh-TW均视为zh-MO
     function computedLang(langstr):string{
+        if (isTraditionalChinese(langstr)) {
+            return 'zh-MO';
+        }
         let result:string = '';
         if (langstr.indexOf('-') != -1) {
             result = langstr.split('-')[0];
