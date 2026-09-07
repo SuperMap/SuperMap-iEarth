@@ -35,6 +35,7 @@ window.iEarthBindData = {
   mapQueryOptions:[],// 地图查询相关资源相关保存
   EnvironmentMode:'Normal', // iEarth当前所处的环境模式：Normal普通环境，iPortal环境
   mediaResourceOptions:{},
+  qxSingleOptions:[], // 倾斜单体化配置（以S3M图层名为键保存）
   bubbleFields:undefined, // DB属性查询过滤字段 
   originParam:{},
   iPortalToken:'', // 在iPortal中申请的Token令牌
