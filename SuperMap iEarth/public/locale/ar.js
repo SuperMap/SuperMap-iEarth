@@ -815,6 +815,7 @@ const local_ar = {
     "bubble_entityID": "معرّف الكيان",
     "bubble_field": "حقل",
     "bubble_value": "القيمة",
+    "assistant": "المساعد الذكي",
 };
 
 window.local_ar = local_ar;

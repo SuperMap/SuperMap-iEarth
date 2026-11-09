@@ -26,6 +26,8 @@ const local_zh_mo = {
   "w_zoomIn": "放大 ",
   "w_fullScreen": "全屏 ",
   "w_home": "首頁 ",
+  "w_saveToIPortal": "將場景保存至iPortal中 ",
+  "w_saveToLocalJSON": "將場景保存為本地JSON文件 ",
   "t_layerList": "圖層列表 ",
   "t_addData": "添加數據 ",
   "t_analyse3d": "三維分析 ",

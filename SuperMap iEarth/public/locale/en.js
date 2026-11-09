@@ -685,7 +685,7 @@ const local_en = {
     lowerOne: 'Move Down One Level',
     raiseToTop: 'Move to Top',
     lowerToBottom: 'Move to Bottom',
-    qxCover: 'Map Overlay on Oblique',
+    mapCover: 'Map Overlay on Oblique',
     mvtCover: 'MCT Overlay on Oblique',
     selectQxLayer: 'Select Oblique Layer',
     cover: 'Overlay',
@@ -701,7 +701,7 @@ const local_en = {
     foldPanel:'Collapse Panel',
     closePanel:'Close Panel',
     expandPanel:'Expand Panel',
-    qxCoverTip:'Note: Not supported in EPSG:3857. Ensure oblique model and imagery overlap.',
+    mapCoverTip:'Note: Not supported in EPSG:3857. Ensure oblique model and imagery overlap.',
     setAsBaseMap:'Set as Default Basemap',
     noSupportBaseMap:'Layer cannot be set as basemap',
     baseMapSetSuccess:'Set as basemap',
@@ -729,7 +729,6 @@ const local_en = {
     visibleDistance: 'Visible Distance',
     boundaryClarity: 'Boundary Sharpness',
     skyboxType: 'Skybox Type',
-    rotateSpeed: 'Rotarion Speed',
     wireWidth: 'Wire Width',
     setMaterial: 'Set Material',
     localFilePathJson: 'Select local JSON file',
@@ -854,6 +853,7 @@ const local_en = {
     removeChildCondition: "Remove Sub-condition",
     mapName: "Map Name",
     mvtGeojsonEpsgCodeTip: "Only supports EPSG:4490/4326 data services",
+    mvtGeojsonDataSetTypeTip: "Only supports point, line and polygon dataset data services. Current type: ",
     isMergeLayer: "Merge Datasets",
     addSuccess: "Added successfully",
     dataTooLargrTip: "Data too large to load",
@@ -919,6 +919,7 @@ const local_en = {
     bubble_entityID: "Entity ID",
     bubble_field: "Field",
     bubble_value: "Value",
+    assistant: "Smart Assistant",
 }
 
 window.local_en = local_en;

@@ -802,7 +802,20 @@ const local_ru = {
   "polygon": "Полигон",
   "filterKeyword": "Ключевое слово фильтра",
   "allSkits": "Все виньетки",
-  "gaodeMap": "Карта 1"
+  "gaodeMap": "Карта 1",
+  "MinVisibleAltitude": "Минимальная видимая высота",
+  "MaxVisibleAltitude": "Максимальная видимая высота",
+  "addCollction": "Создать новую коллекцию",
+  "CameraListen": "Мониторинг камеры",
+  "bubble_document": "Открыть документ в новой вкладке браузера",
+  "bubble_link": "Открыть ссылку в новой вкладке браузера",
+  "bubble_title": "Отображение информации",
+  "bubble_filter": "Фильтр",
+  "bubble_selectedField": "Выбрано полей",
+  "bubble_entityID": "ID объекта",
+  "bubble_field": "Поле",
+  "bubble_value": "Значение",
+  "assistant": "Умный помощник"
 }
 
 window.local_ru = local_ru;

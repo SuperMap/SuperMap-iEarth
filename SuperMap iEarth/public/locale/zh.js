@@ -728,7 +728,6 @@ const local_zh = {
         visibleDistance: '可见距离',
         boundaryClarity: '边界清晰度',
         skyboxType: '天空盒类型',
-        rotateSpeed: '旋转速度',
         wireWidth: '线框宽度',
         setMaterial: '设置材质',
         localFilePathJson: '请选择本地JSON文件',
